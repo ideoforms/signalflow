@@ -26,6 +26,7 @@ namespace signum
 			Unit();
 
 			virtual void next(int count);
+			virtual sample next();
 			virtual void route(Unit &other);
 			virtual void add_input(Unit &other);
 

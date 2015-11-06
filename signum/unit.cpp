@@ -20,6 +20,12 @@ void Unit::next(int count)
 	exit(1);
 }
 
+sample Unit::next()
+{
+	this->next(1);
+	return this->output->data[0][0];
+}
+
 void Unit::route(Unit &other)
 {
 	other.add_input(*this);
