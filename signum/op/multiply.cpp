@@ -1,5 +1,7 @@
 #include "multiply.h"
 
+#include "../gen/constant.h"
+
 namespace signum::op
 {
 
@@ -7,6 +9,12 @@ Multiply::Multiply(Unit &a, Unit &b)
 {
 	this->a = &a;
 	this->b = &b;
+}
+
+Multiply::Multiply(Unit &a, sample b)
+{
+	this->a = &a;
+	this->b = new gen::Constant(b);
 }
 
 void Multiply::next(int count)

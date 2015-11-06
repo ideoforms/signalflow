@@ -6,6 +6,8 @@
 namespace signum
 {
 
+class Multiply;
+
 class Unit
 {
 	public:
@@ -13,6 +15,9 @@ class Unit
 		Unit();
 		virtual void next(int count);
 		Buffer *output;
+
+		Unit operator* (Unit& other);
+		Unit operator* (sample value);
 };
 
 }

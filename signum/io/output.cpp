@@ -16,7 +16,6 @@ void write_callback(struct SoundIoOutStream *outstream,
         int frame_count_min, int frame_count_max)
 {
     const struct SoundIoChannelLayout *layout = &outstream->layout;
-    float sample_rate = outstream->sample_rate;
     struct SoundIoChannelArea *areas;
     int frame_count = frame_count_max;
 	int err;

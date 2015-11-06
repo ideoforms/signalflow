@@ -10,6 +10,8 @@ class Multiply : public Unit
 public:
 
 	Multiply(Unit &a, Unit &b);
+	Multiply(Unit &a, sample b);
+	Multiply(sample a, Unit &b);
 
 	Unit *a;
 	Unit *b;
