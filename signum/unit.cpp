@@ -10,7 +10,6 @@ namespace signum
 
 Unit::Unit()
 {
-	printf("CREATING UNIT\n");
 	this->output = new Buffer(1, 2048);
 }
 

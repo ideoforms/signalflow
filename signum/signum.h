@@ -20,6 +20,7 @@
 #include "gen/constant.h"
 #include "gen/sine.h"
 #include "gen/square.h"
+#include "gen/sampler.h"
 
 /*------------------------------------------------------------------------
  * Envelopes
