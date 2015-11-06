@@ -6,8 +6,11 @@
 namespace signum::gen
 {
 
-Sampler::Sampler(const char *filename)
+Sampler::Sampler(const char *filename, float rate, bool loop)
 {
+	this->rate = rate;
+	this->loop = loop;
+
     SF_INFO info;
     SNDFILE *sndfile = sf_open(filename, SFM_READ, &info);
 
@@ -39,12 +42,25 @@ void Sampler::next(int count)
 	for (int i = 0; i < count; i++)
 	{
 		sample s;
-		if (this->phase < this->num_frames)
-			s = this->buffer[this->phase++];
+		if ((int) this->phase < this->num_frames)
+		{
+			s = this->buffer[(int) this->phase];
+		}
 		else
-			s = 0.0;
+		{
+			if (loop)
+			{
+				this->phase = 0;
+				s = this->buffer[(int) this->phase];
+			}
+			else
+			{
+				s = 0.0;
+			}
+		}
 
 		this->output->data[0][i] = s;
+		this->phase += this->rate;
 	}
 }
 
