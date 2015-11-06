@@ -7,7 +7,7 @@ namespace signum::gen
 	class SquareWave : public Unit
 	{
 	public:
-		SquareWave(int frequency, float width);
+		SquareWave(int frequency, float width = 0.5);
 
 		int frequency;
 		float phase;
