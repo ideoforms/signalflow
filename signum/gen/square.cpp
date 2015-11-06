@@ -6,14 +6,14 @@
 namespace signum::gen
 {
 
-SquareWave::SquareWave(int frequency, float width) : Unit()
+Square::Square(float frequency, float width) : Unit()
 {
 	this->frequency = frequency;
 	this->width = width;
 	this->phase = 0.0;
 }
 
-void SquareWave::next(int count)
+void Square::next(int count)
 {
 	for (int i = 0; i < count; i++)
 	{

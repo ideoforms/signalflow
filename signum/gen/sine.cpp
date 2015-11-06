@@ -6,13 +6,13 @@
 namespace signum::gen
 {
 
-SineWave::SineWave(int frequency) : Unit()
+Sine::Sine(float frequency) : Unit()
 {
 	this->frequency = frequency;
 	this->phase = 0;
 }
 
-void SineWave::next(int count)
+void Sine::next(int count)
 {
 	for (int i = 0; i < count; i++)
 	{

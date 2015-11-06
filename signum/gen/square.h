@@ -4,12 +4,12 @@
 
 namespace signum::gen
 {
-	class SquareWave : public Unit
+	class Square : public Unit
 	{
 	public:
-		SquareWave(int frequency, float width = 0.5);
+		Square(float frequency, float width = 0.5);
 
-		int frequency;
+		float frequency;
 		float phase;
 		float width;
 

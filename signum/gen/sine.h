@@ -4,12 +4,12 @@
 
 namespace signum::gen
 {
-	class SineWave : public Unit
+	class Sine : public Unit
 	{
 	public:
-		SineWave(int frequency);
+		Sine(float frequency);
 
-		int frequency;
+		float frequency;
 		int phase;
 
 		virtual void next(int count);
