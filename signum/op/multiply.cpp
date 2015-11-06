@@ -2,6 +2,8 @@
 
 #include "../gen/constant.h"
 
+#include <memory>
+
 namespace signum::op
 {
 
@@ -14,6 +16,7 @@ Multiply::Multiply(Unit &a, Unit &b)
 Multiply::Multiply(Unit &a, sample b)
 {
 	this->a = &a;
+	// this->b = std::make_shared<gen::Constant>(gen::Constant(b));
 	this->b = new gen::Constant(b);
 }
 

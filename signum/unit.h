@@ -6,18 +6,27 @@
 namespace signum
 {
 
-class Multiply;
+	/*------------------------------------------------------------------------
+	 * Forward-declare our operator classes to avoid interdependencies.
+	 *-----------------------------------------------------------------------*/
+	namespace op
+	{
+		class Multiply;
+		class Add;
+		class Subtract;
+		class Divide;
+	}
 
-class Unit
-{
-	public:
+	class Unit
+	{
+		public:
 
-		Unit();
-		virtual void next(int count);
-		Buffer *output;
+			Unit();
+			virtual void next(int count);
+			Buffer *output;
 
-		Unit operator* (Unit& other);
-		Unit operator* (sample value);
-};
+			op::Multiply operator* (Unit& other);
+			op::Multiply operator* (sample value);
+	};
 
 }

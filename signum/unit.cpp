@@ -1,6 +1,7 @@
 #include "unit.h"
 
 #include "op/multiply.h"
+#include "gen/constant.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -19,9 +20,14 @@ void Unit::next(int count)
 	exit(1);
 }
 
-Unit Unit::operator* (Unit &other)
+op::Multiply Unit::operator* (Unit &other)
 {
 	return op::Multiply(*this, other);
+}
+
+op::Multiply Unit::operator* (sample value)
+{
+	return op::Multiply(*this, value);
 }
 
 }
