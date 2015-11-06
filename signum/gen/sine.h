@@ -12,6 +12,6 @@ namespace signum::gen
 		int frequency;
 		int phase;
 
-		virtual void next(Buffer &buffer, int count);
+		virtual void next(int count);
 	};
 }

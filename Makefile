@@ -2,7 +2,7 @@ INCLUDE_PATHS=/usr/local/include
 LIBRARY_PATHS=/usr/local/lib
 LIBRARIES=soundio
 
-SOURCE_FILES=signum/*.cpp signum/io/*.cpp signum/gen/*.cpp signum/env/*.cpp
+SOURCE_FILES=signum/*.cpp signum/op/*.cpp signum/io/*.cpp signum/gen/*.cpp signum/env/*.cpp
 FLAGS=-std=c++1z
 
 all:

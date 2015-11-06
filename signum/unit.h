@@ -10,8 +10,9 @@ class Unit
 {
 	public:
 
-		virtual void next(Buffer &buffer, int count);
-		int connect(Unit output);
+		Unit();
+		virtual void next(int count);
+		Buffer *output;
 };
 
 }

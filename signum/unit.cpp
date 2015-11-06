@@ -6,16 +6,16 @@
 namespace signum
 {
 
-void Unit::next(Buffer &buffer, int count)
+Unit::Unit()
+{
+	this->output = new Buffer(1, 2048);
+}
+
+void Unit::next(int count)
 {
 	printf("Unit::next (should never be called)\n");
 	exit(1);
 }
 
-int connect(Unit output)
-{
-	// output.add_input(*this);
-	return 0;
-}
 
 }

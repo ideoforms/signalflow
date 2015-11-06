@@ -11,7 +11,6 @@ namespace signum::io
 {
 
 static AudioOut *shared_out = NULL;
-Buffer shared_buffer(1, 1024);
 
 void write_callback(struct SoundIoOutStream *outstream,
         int frame_count_min, int frame_count_max)
@@ -29,13 +28,16 @@ void write_callback(struct SoundIoOutStream *outstream,
 		exit(1);
 	}
 
-	shared_out->next(shared_buffer, frame_count_max);
+	shared_out->next(frame_count_max);
 	for (int channel = 0; channel < layout->channel_count; channel += 1)
 	{
 		for (int frame = 0; frame < frame_count; frame++)
 		{
 			float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
-			*ptr = shared_buffer.data[0][frame];
+			*ptr = shared_out->output->data[0][frame];
+
+			if (*ptr > 1.0) *ptr = 1.0;
+			if (*ptr < -1.0) *ptr = -1.0;
 		}
 	}
 
@@ -130,21 +132,21 @@ int AudioOut::close()
 int AudioOut::add_input(Unit &unit)
 {
 	this->inputs.push_back(&unit);
-	this->input_buffers.push_back(new Buffer(1, 1024));
 
 	return 0;
 }
 
-void AudioOut::next(Buffer &buffer, int count)
+void AudioOut::next(int count)
 {
+	memset(this->output->data[0], 0, sizeof(sample) * count);
+
 	for (int index = 0; index < this->inputs.size(); index++)
 	{
 		Unit *unit = this->inputs[index];
-		Buffer *input_buffer = this->input_buffers[index];
-		unit->next(*input_buffer, count);
-		memset(buffer.data[0], 0, sizeof(sample) * count);
+		unit->next(count);
+
 		for (int frame = 0; frame < count; frame++)
-			buffer.data[0][frame] += input_buffer->data[0][frame];
+			this->output->data[0][frame] += unit->output->data[0][frame];
 	}
 }
 

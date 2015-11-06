@@ -15,7 +15,7 @@ class ASR : public Unit
 		float phase;
 
 		virtual void trigger();
-		virtual void next(Buffer &buffer, int count);
+		virtual void next(int count);
 };
 
 }

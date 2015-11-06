@@ -12,11 +12,11 @@ SineWave::SineWave(int frequency) : Unit()
 	this->phase = 0;
 }
 
-void SineWave::next(Buffer &buffer, int count)
+void SineWave::next(int count)
 {
 	for (int i = 0; i < count; i++)
 	{
-		buffer.data[0][i] = sin(this->phase++ * this->frequency * M_PI * 2.0 / 44100.0);
+		this->output->data[0][i] = sin(this->phase++ * this->frequency * M_PI * 2.0 / 44100.0);
 	}
 }
 

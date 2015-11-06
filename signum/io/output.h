@@ -15,7 +15,7 @@ namespace signum::io
 		int start();
 		int close();
 		int add_input(Unit &unit);
-		void next(Buffer &buffer, int count);
+		void next(int count);
 
 		struct SoundIo *soundio;
 		struct SoundIoDevice *device;
