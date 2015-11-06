@@ -127,13 +127,6 @@ int AudioOut::close()
 	return 0;
 }
 
-int AudioOut::add_input(Unit &unit)
-{
-	this->inputs.push_back(&unit);
-
-	return 0;
-}
-
 void AudioOut::next(int count)
 {
 	memset(this->output->data[0], 0, sizeof(sample) * count);

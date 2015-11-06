@@ -14,14 +14,12 @@ namespace signum::io
 		int init();
 		int start();
 		int close();
-		int add_input(Unit &unit);
 		void next(int count);
 
 		struct SoundIo *soundio;
 		struct SoundIoDevice *device;
 		struct SoundIoOutStream *outstream;
 
-		std::vector <Unit *> inputs;
 		std::vector <Buffer *> input_buffers;
 	};
 }

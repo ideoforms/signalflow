@@ -20,6 +20,17 @@ void Unit::next(int count)
 	exit(1);
 }
 
+void Unit::route(Unit &other)
+{
+	other.add_input(*this);
+}
+
+void Unit::add_input(Unit &unit)
+{
+	this->inputs.push_back(&unit);
+}
+
+
 op::Multiply Unit::operator* (Unit &other)
 {
 	return op::Multiply(*this, other);
