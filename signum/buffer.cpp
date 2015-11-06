@@ -1,6 +1,8 @@
-#import "buffer.h"
+#include <sndfile.h>
+#include "buffer.h"
 
-#import <stdlib.h>
+#include <stdlib.h>
+#include <string.h>
 
 namespace signum
 {
@@ -15,6 +17,47 @@ Buffer::Buffer(int num_channels, int num_frames)
 	{
 		this->data[channel] = (sample *) malloc(sizeof(sample) * this->num_frames);
 	}
+}
+
+Buffer::Buffer(const char *filename)
+{
+	this->open(filename);
+}
+
+void Buffer::open(const char *filename)
+{
+    SF_INFO info;
+    SNDFILE *sndfile = sf_open(filename, SFM_READ, &info);
+
+    if (!sndfile)
+    {
+        printf("Failed to read soundfile\n");
+        exit(1);
+    }
+
+	printf("Read %d channels, %lld frames\n", info.channels, info.frames);
+    this->data = (sample **) malloc(sizeof(void *) * info.channels);
+	for (int channel = 0; channel < info.channels; channel++)
+	{
+		long long length = sizeof(sample) * info.frames;
+		this->data[channel] = (sample *) malloc(length);
+		memset(this->data[channel], 0, length);
+	}
+
+    int ptr = 0;
+
+    while (true)
+    {
+        int count = sf_readf_float(sndfile, (float *) this->data[0] + ptr, 2048);
+		// printf("read %d\n", count);
+        if (count == 0)
+            break;
+
+        ptr += count;
+    }
+
+	this->num_channels = info.channels;
+	this->num_frames = info.frames;
 }
 
 }

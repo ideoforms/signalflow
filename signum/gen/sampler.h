@@ -7,11 +7,11 @@ namespace signum::gen
 	{
 		public:
 			Sampler(const char *filename, float rate = 1.0, bool loop = false);
+			Sampler(Buffer &buffer, float rate = 1.0, bool loop = false);
 
-			float *buffer;
-			long long num_frames;
+			Buffer *buffer;
 
-			float rate;
+			Unit *rate;
 			float phase;
 			bool loop;
 

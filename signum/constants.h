@@ -1,1 +1,1 @@
-typedef double sample;
+typedef float sample;
