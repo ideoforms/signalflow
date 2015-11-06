@@ -4,8 +4,8 @@ using namespace signum;
 
 int main()
 {
-	io::AudioOut output = io::AudioOut();
-	gen::SineWave sine = gen::SineWave(440.0);
-	output.add_input(sine);
+	io::AudioOut output;
+	gen::SquareWave square(440.0, 0.7);
+	output.add_input(square);
 	output.start();
 }
