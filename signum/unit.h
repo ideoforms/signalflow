@@ -3,6 +3,8 @@
 #include "constants.h"
 #include "buffer.h"
 
+#include <vector>
+
 namespace signum
 {
 
@@ -22,11 +24,17 @@ namespace signum
 		public:
 
 			Unit();
+
 			virtual void next(int count);
+			virtual void route(Unit &other);
+			virtual void add_input(Unit &other);
+
 			Buffer *output;
 
 			op::Multiply operator* (Unit& other);
 			op::Multiply operator* (sample value);
+
+			std::vector <Unit *> inputs;
 	};
 
 }
