@@ -2,6 +2,8 @@
 
 #include "stdlib.h"
 
+#include "../util.h"
+
 namespace signum::rnd
 {
 
@@ -17,7 +19,7 @@ void Dust::next(int count)
 	{
 		if (this->steps_remaining <= 0)
 		{
-			this->steps_remaining = rand() % (int) (44100.0 / this->frequency);
+			this->steps_remaining = rng_randint(0, 44100.0 / (this->frequency / 2.0));
 		}
 
 		this->steps_remaining--;

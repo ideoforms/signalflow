@@ -3,8 +3,6 @@
 #include "stdlib.h"
 #include "../util.h"
 
-using namespace signum;
-
 namespace signum::rnd
 {
 
@@ -32,7 +30,7 @@ void Noise::next(int count)
 
 			if (this->frequency > 0)
 			{
-				this->steps_remaining = rand() % (int) (44100.0 / this->frequency);
+				this->steps_remaining = rng_randint(0, 44100.0 / (this->frequency / 2.0));
 				if (this->steps_remaining == 0)
 					this->steps_remaining = 1;
 				this->step_change = (target - value) / this->steps_remaining;
