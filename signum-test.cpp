@@ -7,46 +7,17 @@ using namespace signum;
 
 int main()
 {
+	signum_init();
+
 	io::AudioOut output;
-	// gen::SquareWave sine(440);
 
-	// gen::Sampler sampler("gliss.aif");
+	Buffer *buffer = new Buffer("gliss.aif");
+	rnd::Dust *dust = new rnd::Dust(25);
+	rnd::Noise *pos = new rnd::Noise(0.05, true, 0, buffer->duration);
 
-	gen::Sampler *sampler = new gen::Sampler("gliss.aif");
-	sampler->loop = true;
-	// sampler->rate = new Scale(new gen::Noise(0.3, true), 0.5, 5);
-	sampler->rate = new gen::Noise(0.3, true);
+	gen::Granulator *granulator = new gen::Granulator(*buffer, *dust, *pos, 0.3);
 
-	// sampler->loop = true;
+	granulator->route(output);
 
-	// Unit *sine = new gen::Sine(0.3);
-
-	// env::ASR env(0.01, 0.1, 0.05);
-
-	// op::Multiply mult(sampler, env);
-	// op::Multiply attenuated(mult, 0.1);
-
-	// output.add_input(attenuated);
-	
-	// op::Multiply mult = sampler * env;
-	// op::Multiply mult2 = mult * 0.1;
-
-	// op::Multiply mult = sampler * sinewave;
-	
-	// Unit *mult = new op::Multiply(*sampler, *sine);
-	// Unit *mult = &(sampler * sine);
-
-	sampler->route(output);
-
-	gen::Noise *noise = new gen::Noise(50, true);
-	noise->route(output);
-
-	while (true)
-	{
-		// env.trigger();
-		// sampler->trigger();
-		// printf("beep\n");
-		usleep(100000 * (1 + rand() % 4));
-		// sine.frequency = 200 + rand() % 1000;
-	}
+	output.start();
 }
