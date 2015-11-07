@@ -23,10 +23,12 @@ void Granulator::next(int count)
 
 	for (int i = 0; i < count; i++)
 	{
+		float pos = this->pos->output->data[0][i];
+
 		sample clock_value = this->clock->output->data[0][i];
 		if (clock_value > clock_last)
 		{
-			Grain *grain = new Grain(*buffer, 0, grain_length * 44100.0);
+			Grain *grain = new Grain(*buffer, pos * 44100.0, grain_length * 44100.0);
 			this->grains.push_back(grain);
 		}
 		clock_last = clock_value;
