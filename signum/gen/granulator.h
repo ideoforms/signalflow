@@ -13,11 +13,6 @@ namespace signum::gen
 				this->samples_done = 0;
 			}
 
-			sample next()
-			{
-				if (samples_done < sample_length)
-					return 
-			}
 			bool finished()
 			{
 				return this->samples_done >= this->sample_length;
@@ -44,11 +39,8 @@ namespace signum::gen
 
 		private:
 			sample clock_last;
-			int grain_buffer_sample_start;
-			int grain_samples_done;
-			int grain_samples_total;
 
-			std::vector <Grain> grains;
+			std::vector <Grain *> grains;
 	};
 
 }
