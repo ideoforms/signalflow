@@ -1,6 +1,7 @@
 .DS_Store
 *.build/
 build/
+dev/
 *.swp
 *.aif
 *.wav
