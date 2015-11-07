@@ -16,5 +16,7 @@ namespace signum
 		int num_channels;
 		int num_frames;
 		sample **data;
+
+		float duration;
 	};
 }
