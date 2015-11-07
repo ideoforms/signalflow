@@ -40,17 +40,17 @@ void Buffer::open(const char *filename)
 	for (int channel = 0; channel < info.channels; channel++)
 	{
 		long long length = sizeof(sample) * info.frames;
-		this->data[channel] = (sample *) malloc(length);
+		this->data[channel] = (sample *) malloc(length + 1024);
 		memset(this->data[channel], 0, length);
 	}
 
     int ptr = 0;
+	int samples_per_read = 2048;
 
     while (true)
     {
-        int count = sf_readf_float(sndfile, (float *) this->data[0] + ptr, 2048);
-		// printf("read %d\n", count);
-        if (count == 0)
+        int count = sf_readf_float(sndfile, (float *) this->data[0] + ptr, samples_per_read);
+        if (count < samples_per_read)
             break;
 
         ptr += count;
