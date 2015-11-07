@@ -21,7 +21,12 @@
 #include "gen/sine.h"
 #include "gen/square.h"
 #include "gen/sampler.h"
-#include "gen/noise.h"
+
+/*------------------------------------------------------------------------
+ * Random processes
+ *-----------------------------------------------------------------------*/
+#include "rnd/noise.h"
+#include "rnd/dust.h"
 
 /*------------------------------------------------------------------------
  * Envelopes
