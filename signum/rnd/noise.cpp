@@ -1,7 +1,9 @@
 #include "noise.h"
 
 #include "stdlib.h"
+#include "../util.h"
 
+using namespace signum;
 
 namespace signum::rnd
 {
@@ -10,10 +12,10 @@ Noise::Noise(float frequency, bool interpolate, float min, float max)
 {
 	this->frequency = frequency;
 	this->interpolate = interpolate;
-	this->value = (float) rand() / RAND_MAX;
-
 	this->min = min;
 	this->max = max;
+
+	this->value = rng_uniform(min, max);
 
 	this->steps_remaining = 0;
 }
@@ -25,7 +27,8 @@ void Noise::next(int count)
 		if (this->steps_remaining <= 0)
 		{
 			// pick a new target value
-			float target = this->min + this->max * (float) rand() / RAND_MAX;
+			float target = rng_uniform(min, max);
+			printf("new target: %f\n", target);
 
 			if (this->frequency > 0)
 			{
