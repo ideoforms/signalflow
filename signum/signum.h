@@ -21,6 +21,7 @@
 #include "gen/sine.h"
 #include "gen/square.h"
 #include "gen/sampler.h"
+#include "gen/granulator.h"
 
 /*------------------------------------------------------------------------
  * Random processes
