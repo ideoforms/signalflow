@@ -3,7 +3,7 @@
 #include "stdlib.h"
 
 
-namespace signum::gen
+namespace signum::rnd
 {
 
 Noise::Noise(float frequency, bool interpolate)

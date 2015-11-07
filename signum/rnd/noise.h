@@ -2,7 +2,7 @@
 
 #include "../unit.h"
 
-namespace signum::gen
+namespace signum::rnd
 {
 	class Noise : public Unit
 	{
