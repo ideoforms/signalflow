@@ -8,6 +8,7 @@ namespace signum
 {
 
 	void rng_init();
+	void rng_seed(long seed);
 
 	double rng_gaussian(double mean, double sd);
 	double rng_gaussian();

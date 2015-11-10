@@ -43,8 +43,12 @@ void rng_init()
 	 * a pretty decent non-correlated seed.
 	 *--------------------------------------------------------------------*/
 	gettimeofday(&tv, 0);
+	rng_seed(tv.tv_sec * tv.tv_usec);
+}
 
-	gsl_rng_set(rng, tv.tv_sec * tv.tv_usec);
+void rng_seed(long seed)
+{
+	gsl_rng_set(rng, seed);
 }
 
 /*--------------------------------------------------------------------*
