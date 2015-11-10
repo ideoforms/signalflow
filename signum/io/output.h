@@ -19,7 +19,5 @@ namespace signum::io
 		struct SoundIo *soundio;
 		struct SoundIoDevice *device;
 		struct SoundIoOutStream *outstream;
-
-		std::vector <Buffer *> input_buffers;
 	};
 }
