@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdlib.h>
 
 template <class T>
@@ -8,6 +10,7 @@ class RingBuffer
 		~RingBuffer();
 
 		void add(T value);
+		void extend(T *ptr, int count);
 		T get(int index);
 		T operator [](int index){ return this->get(index); }
 
@@ -37,6 +40,13 @@ void RingBuffer<T>::add(T value)
 {
 	this->data[this->position] = value;
 	this->position = (this->position + 1) % this->size;
+}
+
+template <class T>
+void RingBuffer<T>::extend(T *ptr, int count)
+{
+	for (int i = 0; i < count; i++)
+		this->add(ptr[i]);
 }
 
 template <class T>
