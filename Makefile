@@ -2,11 +2,11 @@ INCLUDE_PATHS=/usr/local/include
 LIBRARY_PATHS=/usr/local/lib
 LIBRARIES=-lsoundio -lsndfile -lgsl
 
-SOURCE_FILES=signum/*.cpp signum/op/*.cpp signum/io/*.cpp signum/gen/*.cpp signum/env/*.cpp signum/rnd/*.cpp
-FLAGS=-std=c++1z -Wall -O2
+SOURCE_FILES=signum/*.cpp signum/*/*.cpp
+FLAGS=-std=c++1z -Wall -g
 
 all:
-	g++ -I $(INCLUDE_PATHS) -L $(LIBRARY_PATHS) $(LIBRARIES) $(SOURCE_FILES) $(FLAGS) signum-test.cpp -o signum-test
+	g++ -I $(INCLUDE_PATHS) -L $(LIBRARY_PATHS) $(LIBRARIES) $(SOURCE_FILES) $(FLAGS) simpler-test.cpp -o simpler-test
 
 sndfile-test:
 	g++ -I/usr/local/include -L/usr/local/lib sndfile-test.cpp -lsndfile  -o sndfile-test

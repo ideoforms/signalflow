@@ -5,11 +5,14 @@
 namespace signum::gen
 {
 
-Granulator::Granulator(Buffer &buffer, Unit &clock, Unit &pos, float grain_length)
+Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, float grain_length) :
+	buffer(buffer), pos(pos), clock(clock)
 {
-	this->buffer = &buffer;
-	this->clock = &clock;
-	this->pos = &pos;
+	/*
+	this->buffer = buffer;
+	this->clock = clock;
+	this->pos = pos;
+	*/
 
 	this->grain_length = grain_length;
 
@@ -28,7 +31,7 @@ void Granulator::next(int count)
 		sample clock_value = this->clock->output->data[0][i];
 		if (clock_value > clock_last)
 		{
-			Grain *grain = new Grain(*buffer, pos * 44100.0, grain_length * 44100.0);
+			Grain *grain = new Grain(buffer, pos * 44100.0, grain_length * 44100.0);
 			this->grains.push_back(grain);
 		}
 		clock_last = clock_value;

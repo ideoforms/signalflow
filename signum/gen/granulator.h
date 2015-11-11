@@ -8,7 +8,7 @@ namespace signum::gen
 	class Grain
 	{
 		public:
-			Grain(Buffer &buffer, int start, int length) : buffer(&buffer), sample_start(start), sample_length(length)
+			Grain(Buffer *buffer, int start, int length) : buffer(buffer), sample_start(start), sample_length(length)
 			{
 				this->samples_done = 0;
 			}
@@ -27,11 +27,11 @@ namespace signum::gen
 	class Granulator : public Unit
 	{
 		public:
-			Granulator(Buffer &buffer, Unit &clock, Unit &pos, float grain_length = 0.1);
+			Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, float grain_length = 0.1);
 
 			Buffer *buffer;
-			Unit *pos;
-			Unit *clock;
+			UnitRef pos;
+			UnitRef clock;
 
 			float grain_length;
 

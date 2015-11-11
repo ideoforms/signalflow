@@ -26,14 +26,15 @@ sample Unit::next()
 	return this->output->data[0][0];
 }
 
-void Unit::route(Unit &other)
+void Unit::route(UnitRef other)
 {
-	other.add_input(*this);
+	other->add_input(std::shared_ptr <Unit>(this));
 }
 
-void Unit::add_input(Unit &unit)
+void Unit::add_input(UnitRef unit)
 {
-	this->inputs.push_back(&unit);
+	this->inputs.push_back(unit);
+	printf("%p adding input (now got %ld)\n", this, this->inputs.size());
 }
 
 
@@ -46,6 +47,12 @@ op::Multiply Unit::operator* (sample value)
 {
 	return op::Multiply(*this, value);
 }
+
+template<>
+UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr) { }
+
+template<>
+UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x)) {}
 
 }
 

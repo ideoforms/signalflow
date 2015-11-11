@@ -52,6 +52,7 @@ AudioOut::AudioOut()
 
 	err = this->init();
 	shared_out = this;
+	printf("created audioout\n");
 }
 
 int AudioOut::init()
@@ -133,7 +134,7 @@ void AudioOut::next(int count)
 
 	for (int index = 0; index < this->inputs.size(); index++)
 	{
-		Unit *unit = this->inputs[index];
+		UnitRef unit = this->inputs[index];
 		unit->next(count);
 
 		for (int frame = 0; frame < count; frame++)
