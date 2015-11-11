@@ -10,12 +10,12 @@ class Multiply : public Unit
 
 public:
 
-	Multiply(Unit &a, Unit &b);
-	Multiply(Unit &a, sample b);
-	Multiply(sample a, Unit &b);
+	Multiply(UnitRef a, UnitRef b);
+	Multiply(UnitRef a, sample b);
+	Multiply(sample a, UnitRef b);
 
-	Unit *a;
-	Unit *b;
+	UnitRef a;
+	UnitRef b;
 
 	virtual void next(int count);
 };

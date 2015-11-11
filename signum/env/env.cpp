@@ -3,7 +3,7 @@
 namespace signum::env
 {
 
-ASR::ASR(float attack, float sustain, float release)
+ASR::ASR(float attack, float sustain, float release, UnitRef clock) : clock(clock)
 {
 	this->attack = attack;
 	this->sustain = sustain;
@@ -20,8 +20,18 @@ void ASR::next(int count)
 {
 	sample *ptr = this->output->data[0];
 
+	if (this->clock)
+		this->clock->next(count);
+
+	float clock_last = 0.0;
+
 	for (int i = 0; i < count; i++)
 	{
+		sample clock_value = this->clock->output->data[0][i];
+		if (clock_value > clock_last)
+			this->trigger();
+		clock_last = clock_value;
+
 		if (this->phase < this->attack)
 		{
 			*ptr = (this->phase / this->attack);

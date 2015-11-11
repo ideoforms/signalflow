@@ -6,7 +6,7 @@ SOURCE_FILES=signum/*.cpp signum/*/*.cpp
 FLAGS=-std=c++1z -Wall -g
 
 all:
-	g++ -I $(INCLUDE_PATHS) -L $(LIBRARY_PATHS) $(LIBRARIES) $(SOURCE_FILES) $(FLAGS) simpler-test.cpp -o simpler-test
+	g++ -I $(INCLUDE_PATHS) -L $(LIBRARY_PATHS) $(LIBRARIES) $(SOURCE_FILES) $(FLAGS) sine-env-test.cpp -o sine-env-test
 
 sndfile-test:
 	g++ -I/usr/local/include -L/usr/local/lib sndfile-test.cpp -lsndfile  -o sndfile-test

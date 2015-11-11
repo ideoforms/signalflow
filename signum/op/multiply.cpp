@@ -7,17 +7,12 @@
 namespace signum::op
 {
 
-Multiply::Multiply(Unit &a, Unit &b)
+Multiply::Multiply(UnitRef a, UnitRef b) : a(a), b(b)
 {
-	this->a = &a;
-	this->b = &b;
 }
 
-Multiply::Multiply(Unit &a, sample b)
+Multiply::Multiply(UnitRef a, sample b) : a(a), b(new gen::Constant(b))
 {
-	this->a = &a;
-	// this->b = std::make_shared<gen::Constant>(gen::Constant(b));
-	this->b = new gen::Constant(b);
 }
 
 void Multiply::next(int count)

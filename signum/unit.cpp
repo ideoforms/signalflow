@@ -38,21 +38,29 @@ void Unit::add_input(UnitRef unit)
 }
 
 
-op::Multiply Unit::operator* (Unit &other)
+op::Multiply Unit::operator* (UnitRef other)
 {
-	return op::Multiply(*this, other);
+	return op::Multiply(this, other);
 }
 
 op::Multiply Unit::operator* (sample value)
 {
-	return op::Multiply(*this, value);
+	return op::Multiply(this, value);
 }
 
-template<>
-UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr) { }
+template<class T>
+UnitRefT<T>::UnitRefT(Unit *ptr) : std::shared_ptr<T>(ptr) { }
 
+template<class T>
+UnitRefT<T>::UnitRefT(double x) : std::shared_ptr<T>(new gen::Constant(x)) {}
+
+/*
 template<>
-UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x)) {}
+op::Multiply UnitRef::operator* (UnitRef other)
+{
+	return Unit
+}
+*/
 
 }
 

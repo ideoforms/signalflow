@@ -51,7 +51,7 @@ namespace signum
 
 			Buffer *output;
 
-			op::Multiply operator* (Unit& other);
+			op::Multiply operator* (UnitRef other);
 			op::Multiply operator* (sample value);
 
 			std::vector <UnitRef> inputs;
