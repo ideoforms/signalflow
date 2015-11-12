@@ -14,7 +14,7 @@ class ASR : public Unit
 		float release;
 		float phase;
 
-		UnitRef clock;
+		UnitRef clock = nullptr;
 
 		virtual void trigger();
 		virtual void next(int count);

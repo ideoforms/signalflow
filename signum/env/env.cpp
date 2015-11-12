@@ -9,6 +9,8 @@ ASR::ASR(float attack, float sustain, float release, UnitRef clock) : clock(cloc
 	this->sustain = sustain;
 	this->release = release;
 	this->phase = 0.0;
+
+	this->add_param("clock", this->clock);
 }
 
 void ASR::trigger()
@@ -27,10 +29,13 @@ void ASR::next(int count)
 
 	for (int i = 0; i < count; i++)
 	{
-		sample clock_value = this->clock->output->data[0][i];
-		if (clock_value > clock_last)
-			this->trigger();
-		clock_last = clock_value;
+		if (this->clock)
+		{
+			sample clock_value = this->clock->output->data[0][i];
+			if (clock_value > clock_last)
+				this->trigger();
+			clock_last = clock_value;
+		}
 
 		if (this->phase < this->attack)
 		{
