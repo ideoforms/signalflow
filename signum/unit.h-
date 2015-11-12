@@ -3,9 +3,7 @@
 #include "constants.h"
 #include "buffer.h"
 
-#include <string>
 #include <vector>
-#include <unordered_map>
 
 namespace signum
 {
@@ -32,12 +30,8 @@ namespace signum
 	{
 		public:
 			using std::shared_ptr<T>::shared_ptr;
-			UnitRefT();
 			UnitRefT(Unit *ptr); // : std::shared_ptr<Unit>(ptr) {}
 			UnitRefT(double x); // : std::shared_ptr<Unit>(new Unit(x)) {}
-
-			UnitRefT operator* (UnitRefT other); // { return *this; } 
-			UnitRefT operator* (double constant); // { return *this; } 
 	};
 
 	typedef UnitRefT <Unit> UnitRef;
@@ -54,8 +48,6 @@ namespace signum
 			virtual sample next();
 			virtual void route(UnitRef other);
 			virtual void add_input(UnitRef other);
-			virtual void add_param(std::string name, UnitRef &param);
-			virtual void set_param(std::string name, UnitRef param);
 
 			Buffer *output;
 
@@ -63,7 +55,6 @@ namespace signum
 			op::Multiply operator* (sample value);
 
 			std::vector <UnitRef> inputs;
-			std::unordered_map <std::string, UnitRef *> params;
 	};
 
 }

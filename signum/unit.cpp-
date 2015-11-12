@@ -37,16 +37,6 @@ void Unit::add_input(UnitRef unit)
 	printf("%p adding input (now got %ld)\n", this, this->inputs.size());
 }
 
-void Unit::add_param(std::string name, UnitRef &unit)
-{
-	this->params[name] = &unit;
-}
-
-void Unit::set_param(std::string name, UnitRef b)
-{
-	*(this->params[name]) = b;
-}
-
 
 op::Multiply Unit::operator* (UnitRef other)
 {
@@ -58,14 +48,11 @@ op::Multiply Unit::operator* (sample value)
 	return op::Multiply(this, value);
 }
 
-template<class T>
-UnitRefT<T>::UnitRefT() : std::shared_ptr<T>(nullptr) { }
+template<>
+UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr) { }
 
-template<class T>
-UnitRefT<T>::UnitRefT(Unit *ptr) : std::shared_ptr<T>(ptr) { }
-
-template<class T>
-UnitRefT<T>::UnitRefT(double x) : std::shared_ptr<T>(new gen::Constant(x)) {}
+template<>
+UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x)) {}
 
 /*
 template<>
@@ -74,19 +61,6 @@ op::Multiply UnitRef::operator* (UnitRef other)
 	return Unit
 }
 */
-
-template<>
-UnitRef UnitRef::operator* (UnitRef other)
-{
-	return UnitRef(new op::Multiply(*this, other));
-}
-
-template<>
-UnitRef UnitRef::operator* (double constant)
-{
-	return UnitRef(new op::Multiply(*this, constant));
-}
-
 
 }
 
