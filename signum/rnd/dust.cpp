@@ -7,7 +7,7 @@
 namespace signum::rnd
 {
 
-Dust::Dust(float frequency)
+Dust::Dust(UnitRef frequency) // : frequency(frequency)
 {
 	this->frequency = frequency;
 	this->steps_remaining = 0;
@@ -15,11 +15,14 @@ Dust::Dust(float frequency)
 
 void Dust::next(int count)
 {
+	frequency->next(count);
+
 	for (int i = 0; i < count; i++)
 	{
+		float f = this->frequency->output->data[0][i];
 		if (this->steps_remaining <= 0)
 		{
-			this->steps_remaining = rng_randint(0, 44100.0 / (this->frequency / 2.0));
+			this->steps_remaining = rng_randint(0, 44100.0 / (f / 2.0));
 		}
 
 		this->steps_remaining--;

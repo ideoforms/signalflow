@@ -7,9 +7,9 @@ namespace signum::rnd
 	class Dust : public Unit
 	{
 	public:
-		Dust(float frequency);
+		Dust(UnitRef frequency);
 
-		float frequency;
+		UnitRef frequency = nullptr;
 
 		virtual void next(int count);
 	
