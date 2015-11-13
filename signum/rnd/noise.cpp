@@ -26,7 +26,6 @@ void Noise::next(int count)
 		{
 			// pick a new target value
 			float target = rng_uniform(min, max);
-			printf("new target: %f\n", target);
 
 			if (this->frequency > 0)
 			{
