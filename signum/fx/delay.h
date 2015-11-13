@@ -9,13 +9,13 @@ namespace signum::fx
 	class Delay : public Unit
 	{
 		public:
-			Delay(Unit *input, float delaytime, float feedback = 0.0, float maxdelaytime = 10.0) :
+			Delay(UnitRef input, UnitRef delaytime, UnitRef feedback, float maxdelaytime = 10.0) :
 				input(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime), buffer(maxdelaytime * 44100.0)
 				{ }
 
-			Unit *input;
-			float delaytime;
-			float feedback;
+			UnitRef input = nullptr;
+			UnitRef delaytime = nullptr;
+			UnitRef feedback = nullptr;
 			float maxdelaytime;
 
 			RingBuffer <sample> buffer;
