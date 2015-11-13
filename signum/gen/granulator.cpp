@@ -21,48 +21,48 @@ Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, float grain_l
 
 sample Granulator::next()
 {
-		sample pos = this->pos->next();
+	sample pos = this->pos->next();
+	sample clock_value = this->clock->next();
 
-		sample clock_value = this->clock->next();
-		if (clock_value > clock_last)
+	if (clock_value > clock_last)
+	{
+		Grain *grain = new Grain(buffer, pos * 44100.0, grain_length * 44100.0);
+		this->grains.push_back(grain);
+	}
+	clock_last = clock_value;
+
+	float rv = 0.0;
+
+	std::vector<Grain *>::iterator it;
+	for (it = this->grains.begin(); it < this->grains.end(); )
+	{
+		Grain *grain = *it;
+
+		if (!grain->finished())
 		{
-			Grain *grain = new Grain(buffer, pos * 44100.0, grain_length * 44100.0);
-			this->grains.push_back(grain);
-		}
-		clock_last = clock_value;
+			int buffer_index = (grain->sample_start + grain->samples_done) % this->buffer->num_frames;
+			sample s = this->buffer->data[0][(int) buffer_index];
 
-		float rv = 0.0;
-
-		std::vector<Grain *>::iterator it;
-		for (it = this->grains.begin(); it < this->grains.end(); )
-		{
-			Grain *grain = *it;
-
-			if (!grain->finished())
-			{
-				int buffer_index = (grain->sample_start + grain->samples_done) % this->buffer->num_frames;
-				sample s = this->buffer->data[0][(int) buffer_index];
-
-				int half_grain_samples = grain->sample_length / 2;
-				float amp;
-				if (grain->samples_done <= half_grain_samples)
-					amp = (float) grain->samples_done / half_grain_samples;
-				else
-					amp = 1.0 - (float) (grain->samples_done - half_grain_samples) / half_grain_samples;
-
-				grain->samples_done++;
-				rv += s * amp;
-
-				it++;
-			}
+			int half_grain_samples = grain->sample_length / 2;
+			float amp;
+			if (grain->samples_done <= half_grain_samples)
+				amp = (float) grain->samples_done / half_grain_samples;
 			else
-			{
-				delete grain;
-				grains.erase(it);
-			}
-		}
+				amp = 1.0 - (float) (grain->samples_done - half_grain_samples) / half_grain_samples;
 
-		return rv;
+			grain->samples_done++;
+			rv += s * amp;
+
+			it++;
+		}
+		else
+		{
+			delete grain;
+			grains.erase(it);
+		}
+	}
+
+	return rv;
 }
 
 
