@@ -65,6 +65,11 @@ template<>
 UnitRef UnitRef::operator* (double constant)
 	{ return UnitRef(new op::Multiply(*this, constant)); }
 
+template<>
+sample UnitRef::operator[] (int index)
+{
+	return (*this)->output->data[0][index];
+}
 
 }
 
