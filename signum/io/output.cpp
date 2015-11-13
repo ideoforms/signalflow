@@ -52,7 +52,6 @@ AudioOut::AudioOut()
 
 	err = this->init();
 	shared_out = this;
-	printf("created audioout\n");
 }
 
 int AudioOut::init()

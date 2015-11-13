@@ -17,7 +17,7 @@ public:
 	UnitRef a;
 	UnitRef b;
 
-	virtual void next(int count);
+	virtual sample next();
 };
 
 }

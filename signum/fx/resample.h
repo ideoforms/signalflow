@@ -23,6 +23,6 @@ namespace signum::fx
 			float phase_last;
 			float sample_last;
 
-			virtual void next(int count);
+			virtual sample next();
 	};
 }

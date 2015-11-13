@@ -13,13 +13,13 @@ namespace signum::fx
 				input(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime), buffer(maxdelaytime * 44100.0)
 				{ }
 
-			UnitRef input = nullptr;
-			UnitRef delaytime = nullptr;
-			UnitRef feedback = nullptr;
+			UnitRef input;
+			UnitRef delaytime;
+			UnitRef feedback;
 			float maxdelaytime;
 
 			RingBuffer <sample> buffer;
 
-			virtual void next(int count);
+			virtual sample next();
 	};
 }

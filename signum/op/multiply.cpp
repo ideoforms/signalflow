@@ -15,15 +15,9 @@ Multiply::Multiply(UnitRef a, sample b) : a(a), b(new gen::Constant(b))
 {
 }
 
-void Multiply::next(int count)
+sample Multiply::next()
 {
-	this->a->next(count);
-	this->b->next(count);
-
-	for (int i = 0; i < count; i++)
-	{
-		this->output->data[0][i] = this->a->output->data[0][i] * this->b->output->data[0][i];
-	}
+	return this->a->next() * this->b->next();
 }
 
 }

@@ -11,7 +11,7 @@ namespace signum::rnd
 
 		UnitRef frequency = nullptr;
 
-		virtual void next(int count);
+		virtual sample next();
 	
 	private:
 		int steps_remaining;

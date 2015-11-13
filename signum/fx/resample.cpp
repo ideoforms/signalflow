@@ -7,23 +7,18 @@
 namespace signum::fx
 {
 
-void Resample::next(int count)
+sample Resample::next()
 {
-	input->next(count);
-	sample_rate->next(count);
-	bit_rate->next(count);
+	float phase_increment = this->sample_rate->next() / signum_samplerate();
+	float input = this->input->next();
 
-	float phase_increment = this->sample_rate->output->data[0][0] / signum_samplerate();
+	phase += phase_increment;
 
-	for (int i = 0; i < count; i++)
-	{
-		phase += phase_increment;
-		if (int(phase) > int(phase_last))
-			sample_last = this->input->output->data[0][i];
-		phase_last = phase;
+	if (int(phase) > int(phase_last))
+		sample_last = input;
+	phase_last = phase;
 
-		this->output->data[0][i] = sample_last;
-	}
+	return sample_last;
 }
 
 }

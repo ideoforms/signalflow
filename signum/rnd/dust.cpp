@@ -13,21 +13,15 @@ Dust::Dust(UnitRef frequency) // : frequency(frequency)
 	this->steps_remaining = 0;
 }
 
-void Dust::next(int count)
+sample Dust::next()
 {
-	frequency->next(count);
+	float f = this->frequency->next();
 
-	for (int i = 0; i < count; i++)
-	{
-		float f = this->frequency->output->data[0][i];
-		if (this->steps_remaining <= 0)
-		{
-			this->steps_remaining = rng_randint(0, 44100.0 / (f / 2.0));
-		}
+	if (this->steps_remaining <= 0)
+		this->steps_remaining = rng_randint(0, 44100.0 / (f / 2.0));
 
-		this->steps_remaining--;
-		this->output->data[0][i] = (this->steps_remaining == 0) ? 1 : 0;
-	}
+	this->steps_remaining--;
+	return (this->steps_remaining == 0) ? 1 : 0;
 }
 
 }

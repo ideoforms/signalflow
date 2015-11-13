@@ -17,7 +17,7 @@ namespace signum::rnd
 		float min;
 		float max;
 
-		virtual void next(int count);
+		virtual sample next();
 	
 	private:
 		int steps_remaining;

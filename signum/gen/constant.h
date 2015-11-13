@@ -11,6 +11,6 @@ namespace signum::gen
 
 		float value;
 
-		virtual void next(int count);
+		virtual sample next();
 	};
 }

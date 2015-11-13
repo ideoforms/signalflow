@@ -12,19 +12,20 @@ namespace signum
 
 Unit::Unit()
 {
-	this->output = new Buffer(1, 2048);
+	this->output = new Buffer(1, 44100);
 }
 
 void Unit::next(int count)
 {
-	printf("Unit::next (should never be called)\n");
-	exit(1);
+	// printf("Unit::next (should never be called)\n");
+	// exit(1);
+	for (int i = 0; i < count; i++)
+		this->output->data[0][i] = this->next();
 }
 
 sample Unit::next()
 {
-	this->next(1);
-	return this->output->data[0][0];
+	return 0.0;
 }
 
 void Unit::route(UnitRef other)

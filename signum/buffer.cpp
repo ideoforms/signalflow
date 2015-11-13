@@ -14,7 +14,10 @@ Buffer::Buffer(int num_channels, int num_frames)
 
 	this->data = (sample **) malloc(sizeof(void *) * this->num_channels);
 	for (int channel = 0; channel < this->num_channels; channel++)
+	{
 		this->data[channel] = (sample *) malloc(sizeof(sample) * this->num_frames);
+		memset(this->data[channel], 0, sizeof(sample) * this->num_frames);
+	}
 }
 
 Buffer::Buffer(const char *filename)

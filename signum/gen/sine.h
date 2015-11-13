@@ -15,6 +15,6 @@ namespace signum::gen
 		UnitRef frequency;
 		int phase;
 
-		virtual void next(int count);
+		virtual sample next();
 	};
 }

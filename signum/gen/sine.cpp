@@ -6,14 +6,9 @@
 namespace signum::gen
 {
 
-void Sine::next(int count)
+sample Sine::next()
 {
-	this->frequency->next(count);
-
-	for (int i = 0; i < count; i++)
-	{
-		this->output->data[0][i] = sin(this->phase++ * this->frequency[i] * M_PI * 2.0 / 44100.0);
-	}
+	return sin(this->phase++ * this->frequency->next() * M_PI * 2.0 / 44100.0);
 }
 
 }

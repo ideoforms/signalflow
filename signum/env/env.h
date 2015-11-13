@@ -13,11 +13,12 @@ class ASR : public Unit
 		float sustain;
 		float release;
 		float phase;
+		float clock_last;
 
 		UnitRef clock = nullptr;
 
 		virtual void trigger();
-		virtual void next(int count);
+		virtual sample next();
 };
 
 }
