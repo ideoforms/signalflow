@@ -1,7 +1,7 @@
 #pragma once
 
 #include "constants.h"
-#include "buffer.h"
+#include "ringbuffer.h"
 
 #include <string>
 #include <vector>
@@ -58,7 +58,7 @@ namespace signum
 			virtual void add_param(std::string name, UnitRef &param);
 			virtual void set_param(std::string name, UnitRef param);
 
-			Buffer *output;
+			RingBuffer <sample> *output;
 
 			op::Multiply operator* (UnitRef other);
 			op::Multiply operator* (sample value);

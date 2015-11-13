@@ -12,20 +12,19 @@ namespace signum
 
 Unit::Unit()
 {
-	this->output = new Buffer(1, 44100);
+	this->output = new RingBuffer <sample> (44100);
 }
 
 void Unit::next(int count)
 {
-	// printf("Unit::next (should never be called)\n");
-	// exit(1);
 	for (int i = 0; i < count; i++)
-		this->output->data[0][i] = this->next();
+		this->output->append(this->next());
 }
 
 sample Unit::next()
 {
-	return 0.0;
+	printf("Unit::next (should never be called)\n");
+	exit(1);
 }
 
 void Unit::route(UnitRef other)
@@ -70,7 +69,7 @@ UnitRef UnitRef::operator* (double constant)
 template<>
 sample UnitRef::operator[] (int index)
 {
-	return (*this)->output->data[0][index];
+	return (*this)->output->get(index);
 }
 
 }
