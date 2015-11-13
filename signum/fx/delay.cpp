@@ -13,7 +13,10 @@ sample Delay::next()
 	float f = this->feedback->next();
 	int offset = d * signum_samplerate();
 
-	return this->input->next() + f * this->output->data[0][-offset];
+	sample rv = this->input->next() + f * buffer.get(-offset);
+	buffer.append(rv);
+
+	return rv;
 }
 
 /*
