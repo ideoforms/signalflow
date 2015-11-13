@@ -7,9 +7,12 @@ namespace signum::gen
 	class Sine : public Unit
 	{
 	public:
-		Sine(float frequency);
+		Sine(UnitRef frequency) : frequency(frequency)
+		{
+			this->phase = 0;
+		}
 
-		float frequency;
+		UnitRef frequency;
 		int phase;
 
 		virtual void next(int count);
