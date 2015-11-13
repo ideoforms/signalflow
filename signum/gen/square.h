@@ -7,11 +7,16 @@ namespace signum::gen
 	class Square : public Unit
 	{
 	public:
-		Square(float frequency, float width = 0.5);
+		Square(UnitRef frequency, UnitRef width = 0.5) : frequency(frequency), width(width), phase(0)
+		{
+			this->add_param("frequency", this->frequency);
+			this->add_param("width", this->width);
+		};
 
-		float frequency;
+		UnitRef frequency;
+		UnitRef width;
+
 		float phase;
-		float width;
 
 		virtual sample next();
 	};
