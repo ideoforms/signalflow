@@ -26,13 +26,13 @@ void write_callback(struct SoundIoOutStream *outstream,
 		exit(1);
 	}
 
-	shared_out->next(frame_count_max);
-	for (int channel = 0; channel < layout->channel_count; channel += 1)
+	for (int frame = 0; frame < frame_count; frame++)
 	{
-		for (int frame = 0; frame < frame_count; frame++)
+		float sample = shared_out->next();
+		for (int channel = 0; channel < layout->channel_count; channel += 1)
 		{
 			float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
-			*ptr = shared_out->output->data[0][frame];
+			*ptr = sample;
 
 			if (*ptr > 1.0) *ptr = 1.0;
 			if (*ptr < -1.0) *ptr = -1.0;
@@ -127,18 +127,17 @@ int AudioOut::close()
 	return 0;
 }
 
-void AudioOut::next(int count)
+sample AudioOut::next()
 {
-	memset(this->output->data[0], 0, sizeof(sample) * count);
+	sample value = 0.0;
 
 	for (int index = 0; index < this->inputs.size(); index++)
 	{
 		UnitRef unit = this->inputs[index];
-		unit->next(count);
-
-		for (int frame = 0; frame < count; frame++)
-			this->output->data[0][frame] += unit->output->data[0][frame];
+		value += unit->next();
 	}
+
+	return value;
 }
 
 }

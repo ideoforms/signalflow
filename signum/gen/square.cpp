@@ -13,16 +13,15 @@ Square::Square(float frequency, float width) : Unit()
 	this->phase = 0.0;
 }
 
-void Square::next(int count)
+sample Square::next()
 {
-	for (int i = 0; i < count; i++)
-	{
-		this->output->data[0][i] = (this->phase < this->width) ? 1 : -1;
+	float s = (this->phase < this->width) ? 1 : -1;
 
-		this->phase += 1.0 / (44100.0 / this->frequency);
-		if (this->phase >= 1.0)
-			this->phase -= 1.0;
-	}
+	this->phase += 1.0 / (44100.0 / this->frequency);
+	if (this->phase >= 1.0)
+		this->phase -= 1.0;
+
+	return s;
 }
 
 }

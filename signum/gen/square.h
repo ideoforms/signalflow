@@ -13,6 +13,6 @@ namespace signum::gen
 		float phase;
 		float width;
 
-		virtual void next(int count);
+		virtual sample next();
 	};
 }

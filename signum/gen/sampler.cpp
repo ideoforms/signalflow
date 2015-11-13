@@ -17,10 +17,8 @@ Sampler::Sampler(Buffer *buffer, UnitRef rate, bool loop) : rate(rate)
 	this->trigger();
 }
 
-void Sampler::next(int count)
+sample Sampler::next()
 {
-	for (int i = 0; i < count; i++)
-	{
 		sample s;
 		if ((int) this->phase < buffer->num_frames)
 		{
@@ -40,9 +38,9 @@ void Sampler::next(int count)
 		}
 
 		// printf("sample: %f\n", s);
-		this->output->data[0][i] = s;
 		this->phase += this->rate->next();
-	}
+
+		return s;
 }
 
 void Sampler::trigger()

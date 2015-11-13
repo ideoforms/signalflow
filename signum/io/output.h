@@ -16,7 +16,7 @@ namespace signum::io
 		int init();
 		int start();
 		int close();
-		void next(int count);
+		virtual sample next();
 
 		struct SoundIo *soundio;
 		struct SoundIoDevice *device;

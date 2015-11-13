@@ -1,5 +1,6 @@
 #include "../unit.h"
 #include "../constants.h"
+#include "../buffer.h"
 
 #include <vector>
 
@@ -35,7 +36,7 @@ namespace signum::gen
 
 			float grain_length;
 
-			virtual void next(int count);
+			virtual sample next();
 
 		private:
 			sample clock_last;

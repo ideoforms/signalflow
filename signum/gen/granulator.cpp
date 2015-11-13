@@ -19,16 +19,11 @@ Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, float grain_l
 	this->clock_last = 0.0;
 }
 
-void Granulator::next(int count)
+sample Granulator::next()
 {
-	this->clock->next(count);
-	this->pos->next(count);
+		sample pos = this->pos->next();
 
-	for (int i = 0; i < count; i++)
-	{
-		float pos = this->pos->output->data[0][i];
-
-		sample clock_value = this->clock->output->data[0][i];
+		sample clock_value = this->clock->next();
 		if (clock_value > clock_last)
 		{
 			Grain *grain = new Grain(buffer, pos * 44100.0, grain_length * 44100.0);
@@ -36,7 +31,7 @@ void Granulator::next(int count)
 		}
 		clock_last = clock_value;
 
-		this->output->data[0][i] = 0.0;
+		float rv = 0.0;
 
 		std::vector<Grain *>::iterator it;
 		for (it = this->grains.begin(); it < this->grains.end(); )
@@ -56,7 +51,7 @@ void Granulator::next(int count)
 					amp = 1.0 - (float) (grain->samples_done - half_grain_samples) / half_grain_samples;
 
 				grain->samples_done++;
-				this->output->data[0][i] += s * amp;
+				rv += s * amp;
 
 				it++;
 			}
@@ -66,7 +61,8 @@ void Granulator::next(int count)
 				grains.erase(it);
 			}
 		}
-	}
+
+		return rv;
 }
 
 

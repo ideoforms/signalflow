@@ -1,5 +1,6 @@
 #include "../unit.h"
 #include "../constants.h"
+#include "../buffer.h"
 
 namespace signum::gen
 {
@@ -15,6 +16,6 @@ namespace signum::gen
 			bool loop;
 
 			virtual void trigger();
-			virtual void next(int count);
+			virtual sample next();
 	};
 }
