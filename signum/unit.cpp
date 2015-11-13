@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <cassert>
 
 namespace signum
 {
@@ -34,7 +35,6 @@ void Unit::route(UnitRef other)
 void Unit::add_input(UnitRef unit)
 {
 	this->inputs.push_back(unit);
-	printf("%p adding input (now got %ld)\n", this, this->inputs.size());
 }
 
 void Unit::add_param(std::string name, UnitRef &unit)
@@ -44,6 +44,7 @@ void Unit::add_param(std::string name, UnitRef &unit)
 
 void Unit::set_param(std::string name, UnitRef b)
 {
+	assert(this->params[name]);
 	*(this->params[name]) = b;
 }
 
