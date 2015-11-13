@@ -1,6 +1,7 @@
 #include "unit.h"
 
 #include <unistd.h>
+#include "io/output.h"
 
 namespace signum
 {
@@ -11,6 +12,9 @@ namespace signum
 			Graph()
 			{
 				signum_init();
+
+				// input = new io::AudioIn();
+				output = new io::AudioOut();
 			}	
 			void run()
 			{
@@ -20,5 +24,8 @@ namespace signum
 			{
 				return std::shared_ptr<Unit>(unit);
 			}
+
+			UnitRef input = nullptr;
+			UnitRef output = nullptr;
 	};
 }
