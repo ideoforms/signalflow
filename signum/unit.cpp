@@ -48,44 +48,22 @@ void Unit::set_param(std::string name, UnitRef b)
 }
 
 
-op::Multiply Unit::operator* (UnitRef other)
-{
-	return op::Multiply(this, other);
-}
-
-op::Multiply Unit::operator* (sample value)
-{
-	return op::Multiply(this, value);
-}
-
-template<class T>
-UnitRefT<T>::UnitRefT() : std::shared_ptr<T>(nullptr) { }
-
-template<class T>
-UnitRefT<T>::UnitRefT(Unit *ptr) : std::shared_ptr<T>(ptr) { }
-
-template<class T>
-UnitRefT<T>::UnitRefT(double x) : std::shared_ptr<T>(new gen::Constant(x)) {}
-
-/*
 template<>
-op::Multiply UnitRef::operator* (UnitRef other)
-{
-	return Unit
-}
-*/
+UnitRef::UnitRefT() : std::shared_ptr<Unit>(nullptr) { }
+
+template<>
+UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr) { }
+
+template<>
+UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x)) { }
 
 template<>
 UnitRef UnitRef::operator* (UnitRef other)
-{
-	return UnitRef(new op::Multiply(*this, other));
-}
+	{ return UnitRef(new op::Multiply(*this, other)); }
 
 template<>
 UnitRef UnitRef::operator* (double constant)
-{
-	return UnitRef(new op::Multiply(*this, constant));
-}
+	{ return UnitRef(new op::Multiply(*this, constant)); }
 
 
 }
