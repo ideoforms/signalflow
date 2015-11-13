@@ -7,3 +7,4 @@ dev/
 *.wav
 *-test
 *-test.cpp
+*.dSYM
