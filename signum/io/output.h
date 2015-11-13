@@ -1,3 +1,5 @@
+#pragma once
+
 #include <soundio/soundio.h>
 
 #include "../unit.h"
