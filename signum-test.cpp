@@ -27,16 +27,16 @@ void buffer_test()
 void spooky_wobble_test()
 {
 	Buffer *buffer = new Buffer("gliss.aif");
-    UnitRef sampler = new gen::Sampler(buffer, 1, true);
-    sampler->set_param("rate", new rnd::Noise(0.3, true));
+	UnitRef sampler = new gen::Sampler(buffer, 1, true);
+	sampler->set_param("rate", new rnd::Noise(0.3, true));
 
-    sampler->route(graph->output);
+	sampler->route(graph->output);
 
-    UnitRef noise = new rnd::Noise(50, true);
-    noise->route(graph->output);
+	UnitRef noise = new rnd::Noise(50, true);
+	noise->route(graph->output);
 
-    UnitRef dust = new rnd::Dust(1);
-    dust->route(graph->output);
+	UnitRef dust = new rnd::Dust(1);
+	dust->route(graph->output);
 
 	graph->run();
 }
