@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdlib.h>
+#include <string.h>
 
 template <class T>
 class RingBuffer
@@ -9,7 +10,7 @@ class RingBuffer
 		RingBuffer(int size);
 		~RingBuffer();
 
-		void add(T value);
+		void append(T value);
 		void extend(T *ptr, int count);
 		T get(int index);
 		T operator [](int index){ return this->get(index); }
@@ -25,6 +26,7 @@ template <class T>
 RingBuffer<T>::RingBuffer(int size)
 {
 	this->data = (T *) malloc(sizeof(T) * size);
+	memset(this->data, 0, sizeof(T) * size);
 	this->position = 0;
 	this->size = size;
 }
@@ -36,7 +38,7 @@ RingBuffer<T>::~RingBuffer()
 }
 
 template <class T>
-void RingBuffer<T>::add(T value)
+void RingBuffer<T>::append(T value)
 {
 	this->data[this->position] = value;
 	this->position = (this->position + 1) % this->size;
@@ -46,7 +48,7 @@ template <class T>
 void RingBuffer<T>::extend(T *ptr, int count)
 {
 	for (int i = 0; i < count; i++)
-		this->add(ptr[i]);
+		this->append(ptr[i]);
 }
 
 template <class T>
