@@ -10,6 +10,7 @@ namespace signum::gen
 		Sine(UnitRef frequency) : frequency(frequency)
 		{
 			this->phase = 0;
+			this->add_param("frequency", this->frequency);
 		}
 
 		UnitRef frequency;
