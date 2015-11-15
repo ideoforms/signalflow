@@ -2,6 +2,8 @@
 
 #include "output.h"
 
+#include "../graph.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -10,7 +12,7 @@
 namespace signum::io
 {
 
-static AudioOut *shared_out = NULL;
+static Graph *shared_graph = NULL;
 
 void write_callback(struct SoundIoOutStream *outstream,
         int frame_count_min, int frame_count_max)
@@ -26,9 +28,10 @@ void write_callback(struct SoundIoOutStream *outstream,
 		exit(1);
 	}
 
+	float f[32];
 	for (int frame = 0; frame < frame_count; frame++)
 	{
-		float sample = shared_out->next();
+		float sample = shared_graph->output->next();
 		for (int channel = 0; channel < layout->channel_count; channel += 1)
 		{
 			float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
@@ -46,12 +49,13 @@ void write_callback(struct SoundIoOutStream *outstream,
 	}
 }
 
-AudioOut::AudioOut()
+AudioOut::AudioOut(Graph *graph)
 {
     int err;
 
+	this->graph = graph;
 	err = this->init();
-	shared_out = this;
+	shared_graph = graph;
 }
 
 int AudioOut::init()
@@ -133,6 +137,7 @@ sample AudioOut::next()
 
 	for (int index = 0; index < this->inputs.size(); index++)
 	{
+		printf("Out: pulling input %d\n", index);
 		UnitRef unit = this->inputs[index];
 		value += unit->next();
 	}

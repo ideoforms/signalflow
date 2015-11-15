@@ -1,7 +1,8 @@
+#pragma once 
+
 #include "unit.h"
 
 #include <unistd.h>
-#include "io/output.h"
 
 namespace signum
 {
@@ -9,13 +10,7 @@ namespace signum
 	class Graph
 	{
 		public:
-			Graph()
-			{
-				signum_init();
-
-				// input = new io::AudioIn();
-				output = new io::AudioOut();
-			}	
+			Graph();
 			void run()
 			{
 				while (true) { usleep(100000); }

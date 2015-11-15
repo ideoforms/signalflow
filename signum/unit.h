@@ -51,8 +51,10 @@ namespace signum
 			Unit();
 			Unit(double x);
 
+			virtual void next(frame in, frame out);
 			virtual void next(int count);
 			virtual sample next();
+
 			virtual void route(UnitRef other);
 			virtual void add_input(UnitRef other);
 			virtual void add_param(std::string name, UnitRef &param);
@@ -63,8 +65,37 @@ namespace signum
 			op::Multiply operator* (UnitRef other);
 			op::Multiply operator* (sample value);
 
-			std::vector <UnitRef> inputs;
 			std::unordered_map <std::string, UnitRef *> params;
+			std::vector <UnitRef> inputs;
+
+			int channels_in;
+			int channels_out;
 	};
 
+	class GeneratorUnit : public Unit
+	{
+		public:
+			GeneratorUnit() : Unit()
+			{
+				this->channels_in = 0;
+				this->channels_out = 1;
+			}
+	};
+
+	class UnaryOpUnit : public Unit
+	{
+		public:
+			UnitRef input;
+
+			virtual void add_input(UnitRef other);
+	};
+
+	class BinaryOpUnit : public Unit
+	{
+		public:
+			BinaryOpUnit(UnitRef a, UnitRef b); // : Unit(), inputA(a), inputB(b) {};
+			BinaryOpUnit(UnitRef a, sample b); // : Unit(), inputA(a), inputB(new gen::Constant(b)) {};
+
+			// virtual void add_input(UnitRef other);
+	};
 }

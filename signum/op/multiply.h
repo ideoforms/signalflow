@@ -6,21 +6,19 @@
 namespace signum::op
 {
 
-class Multiply : public Unit
+class Multiply : public BinaryOpUnit
 {
 
 public:
 
-	Multiply(UnitRef a, UnitRef b) : a(a), b(b) {};
-	Multiply(UnitRef a, sample b) : a(a), b(new gen::Constant(b)) {};
-	Multiply(sample a, UnitRef b);
-
-	UnitRef a;
-	UnitRef b;
+	Multiply(UnitRef a, UnitRef b) : BinaryOpUnit(a, b) {};
+	Multiply(UnitRef a, sample b) : BinaryOpUnit(a, b) {};
+	// Multiply(UnitRef a, sample b) : inputA(a), inputB(new gen::Constant(b)) {};
+	// Multiply(sample a, UnitRef b) : inputA(new gen::Constant(a)), inputB(b) {};
 
 	virtual sample next()
 	{
-		return this->a->next() * this->b->next();
+		return this->inputs[0]->next() * this->inputs[1]->next();
 	}
 };
 

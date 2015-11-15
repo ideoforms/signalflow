@@ -10,8 +10,8 @@ namespace signum::fx
 			Pan(int channels, UnitRef input, UnitRef pan) :
 				input(input), pan(pan)
 			{
-				this->num_input_channels = 1;
-				this->num_output_channels = channels;
+				this->channels_in = 1;
+				this->channels_out = channels;
 			}
 
 			UnitRef input;

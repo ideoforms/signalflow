@@ -22,6 +22,12 @@ void buffer_test()
 	UnitRef delay = new fx::Delay(granulator, 0.2, 0.5);
 
 	delay->route(graph->output);
+
+	UnitRef losq = new gen::Square(40, new rnd::Noise(0.9, true, 0, 1));
+	losq = losq * 0.1;
+	losq->route(graph->output);
+
+	graph->run();
 }
 
 void spooky_wobble_test()
@@ -44,10 +50,10 @@ void spooky_wobble_test()
 int main()
 {
 	signum_init();
-	spooky_wobble_test();
 	// spooky_wobble_test();
-	// sine_test();
-	buffer_test();
+	// spooky_wobble_test();
+	sine_test();
+	// buffer_test();
 	graph->run();
 }
 
