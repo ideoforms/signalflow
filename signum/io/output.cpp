@@ -35,7 +35,8 @@ void write_callback(struct SoundIoOutStream *outstream,
 		return;
 	}
 
-	/// printf("--- sample --- \n");
+	// printf("--- sample --- \n");
+
 	shared_graph->pull_input(frame_count);
 
 	for (int frame = 0; frame < frame_count; frame++)
@@ -149,6 +150,9 @@ int AudioOut::close()
 
 void AudioOut::next(sample **out, int num_frames)
 {
+	for (int channel = 0; channel < this->channels_out; channel++)
+		memset(out[channel], 0, num_frames * sizeof(sample));
+
 	for (int index = 0; index < this->inputs.size(); index++)
 	{
 		UnitRef unit = this->inputs[index];
@@ -156,7 +160,7 @@ void AudioOut::next(sample **out, int num_frames)
 		{
 			for (int channel = 0; channel < this->channels_out; channel++)
 			{
-				out[channel][frame] = unit->out[channel][frame];
+				out[channel][frame] += unit->out[channel][frame];
 			}
 		}
 	}
