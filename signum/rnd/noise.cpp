@@ -8,6 +8,8 @@ namespace signum::rnd
 
 Noise::Noise(UnitRef frequency, bool interpolate, float min, float max) : frequency(frequency)
 {
+	this->add_param("frequency", this->frequency);
+
 	this->interpolate = interpolate;
 	this->min = min;
 	this->max = max;

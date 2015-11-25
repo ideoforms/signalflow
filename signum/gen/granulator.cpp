@@ -5,16 +5,12 @@
 namespace signum::gen
 {
 
-Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, float grain_length) :
-	buffer(buffer), pos(pos), clock(clock)
+Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain_length) :
+	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length)
 {
-	/*
-	this->buffer = buffer;
-	this->clock = clock;
-	this->pos = pos;
-	*/
-
-	this->grain_length = grain_length;
+	this->add_param("pos", this->pos);
+	this->add_param("clock", this->clock);
+	this->add_param("grain_length", this->grain_length);
 
 	this->clock_last = 0.0;
 }
@@ -25,6 +21,7 @@ void Granulator::next(sample **out, int num_frames)
 	{
 		sample pos = this->pos->out[0][frame];
 		sample clock_value = this->clock->out[0][frame];
+		sample grain_length = this->grain_length->out[0][frame];
 
 		if (clock_value > clock_last)
 		{
@@ -39,7 +36,6 @@ void Granulator::next(sample **out, int num_frames)
 		for (it = this->grains.begin(); it < this->grains.end(); )
 		{
 			Grain *grain = *it;
-
 			if (!grain->finished())
 			{
 				int buffer_index = (grain->sample_start + grain->samples_done) % this->buffer->num_frames;

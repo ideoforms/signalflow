@@ -12,11 +12,16 @@ namespace signum::fx
 	{
 		public:
 			Delay(UnitRef input, UnitRef delaytime, UnitRef feedback, float maxdelaytime = 10.0) :
-				input(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
+				delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 			{
+				this->add_input(input);
+				this->add_param("delay_time", this->delaytime);
+				this->add_param("feedback", this->feedback);
+
 				for (int i = 0; i < input->channels_out; i++)
 					buffers.push_back(SampleRingBuffer(maxdelaytime * 44100.0));
 			}
+
 
 			UnitRef input;
 			UnitRef delaytime;

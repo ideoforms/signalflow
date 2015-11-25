@@ -28,13 +28,13 @@ namespace signum::gen
 	class Granulator : public Unit
 	{
 		public:
-			Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, float grain_length = 0.1);
+			Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain_length = 0.1);
 
 			Buffer *buffer;
+
 			UnitRef pos;
 			UnitRef clock;
-
-			float grain_length;
+			UnitRef grain_length;
 
 			virtual void next(sample **out, int num_frames);
 
