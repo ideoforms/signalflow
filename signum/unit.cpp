@@ -21,8 +21,6 @@ Unit::Unit()
 	this->channels_out = N_CHANNELS;
 	this->channels_in = 1;
 	this->channels_out = 1;
-
-	printf("Unit constructor called\n");
 }
 
 void Unit::next(sample **out, int num_frames)
@@ -46,7 +44,6 @@ void Unit::add_input(UnitRef unit)
 
 void Unit::add_param(std::string name, UnitRef &unit)
 {
-	printf("add_param %s\n", name.c_str());
 	this->params[name] = &unit;
 }
 
@@ -82,12 +79,14 @@ sample UnitRef::operator[] (int index)
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 {
+	printf("add_inputs a, b\n");
 	this->add_input(a);
 	this->add_input(b);
 }
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, sample b) : Unit()
 {
+	printf("add_inputs a, Constant b\n");
 	// inputA(a), inputB(new gen::Constant(b)) {};
 	this->add_input(a);
 	this->add_input(new gen::Constant(b));

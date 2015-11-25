@@ -31,7 +31,7 @@ void write_callback(struct SoundIoOutStream *outstream,
 
 	if (!shared_graph)
 	{
-		printf("No global graph created!\n");
+		fprintf(stderr, "No global graph created!\n");
 		return;
 	}
 
@@ -62,21 +62,17 @@ void write_callback(struct SoundIoOutStream *outstream,
 
 AudioOut::AudioOut(Graph *graph)
 {
-	printf("Creating AudioOut...\n");
-
 	this->graph = graph;
 	shared_graph = graph;
 
 	this->name = "audioout";
 	this->channels_out = 2;
-	int err = this->init();
-	printf("Created AudioOut.\n");
+	this->init();
 }
 
 int AudioOut::init()
 {
 	int err;
-	printf("AudioOut::init\n");
 
     this->soundio = soundio_create();
 
@@ -128,7 +124,6 @@ int AudioOut::init()
         fprintf(stderr, "unable to start device: %s", soundio_strerror(err));
         return 1;
     }
-	printf("AudioOut::init finished\n");
 
     return 0;
 }
