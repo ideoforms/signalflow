@@ -17,30 +17,35 @@ Sampler::Sampler(Buffer *buffer, UnitRef rate, bool loop) : rate(rate)
 	this->trigger();
 }
 
-sample Sampler::next()
+void Sampler::next(sample **out, int num_frames)
 {
+	for (int frame = 0; frame < num_frames; frame++)
+	{
 		sample s;
-		if ((int) this->phase < buffer->num_frames)
+		for (int channel = 0; channel < this->channels_out; channel++)
 		{
-			s = this->buffer->data[0][(int) this->phase];
-		}
-		else
-		{
-			if (loop)
+			if ((int) this->phase < buffer->num_frames)
 			{
-				this->phase = 0;
-				s = this->buffer->data[0][(int) this->phase];
+				s = this->buffer->data[channel][(int) this->phase];
 			}
 			else
 			{
-				s = 0.0;
+				if (loop)
+				{
+					this->phase = 0;
+					s = this->buffer->data[channel][(int) this->phase];
+				}
+				else
+				{
+					s = 0.0;
+				}
 			}
+
+			out[channel][frame] = s;
 		}
 
-		// printf("sample: %f\n", s);
-		this->phase += this->rate->next();
-
-		return s;
+		this->phase += this->rate->out[0][frame];
+	}
 }
 
 void Sampler::trigger()

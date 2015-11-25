@@ -18,7 +18,7 @@ class ASR : public Unit
 		UnitRef clock = nullptr;
 
 		virtual void trigger();
-		virtual sample next();
+		virtual void next(sample **out, int num_frames);
 };
 
 }

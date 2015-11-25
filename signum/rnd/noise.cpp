@@ -6,9 +6,8 @@
 namespace signum::rnd
 {
 
-Noise::Noise(float frequency, bool interpolate, float min, float max)
+Noise::Noise(UnitRef frequency, bool interpolate, float min, float max) : frequency(frequency)
 {
-	this->frequency = frequency;
 	this->interpolate = interpolate;
 	this->min = min;
 	this->max = max;
@@ -18,37 +17,44 @@ Noise::Noise(float frequency, bool interpolate, float min, float max)
 	this->steps_remaining = 0;
 }
 
-sample Noise::next()
+void Noise::next(sample **out, int num_frames)
 {
-	if (this->steps_remaining <= 0)
+	for (int frame = 0; frame < num_frames; frame++)
 	{
-		// pick a new target value
-		float target = rng_uniform(min, max);
+		float frequency = this->frequency->out[0][0];
 
-		if (this->frequency > 0)
+		if (this->steps_remaining <= 0)
 		{
-			this->steps_remaining = rng_randint(0, 44100.0 / (this->frequency / 2.0));
-			if (this->steps_remaining == 0)
-				this->steps_remaining = 1;
-			this->step_change = (target - value) / this->steps_remaining;
-		}
-		else
-		{
-			this->steps_remaining = 0;
-			this->step_change = target - value;
+			// pick a new target value
+			float target = rng_uniform(min, max);
+
+			if (frequency > 0)
+			{
+				this->steps_remaining = rng_randint(0, 44100.0 / (frequency / 2.0));
+				if (this->steps_remaining == 0)
+					this->steps_remaining = 1;
+				this->step_change = (target - value) / this->steps_remaining;
+			}
+			else
+			{
+				this->steps_remaining = 0;
+				this->step_change = target - value;
+			}
+
+			if (!this->interpolate)
+			{
+				this->value = target;
+				this->step_change = 0;
+			}
 		}
 
-		if (!this->interpolate)
-		{
-			this->value = target;
-			this->step_change = 0;
-		}
+		this->value += this->step_change;
+
+		for (int channel = 0; channel < this->channels_out; channel++)
+			out[channel][frame] = this->value;
+
+		this->steps_remaining--;
 	}
-
-	this->value += this->step_change;
-
-	this->steps_remaining--;
-	return this->value;
 }
 
 }

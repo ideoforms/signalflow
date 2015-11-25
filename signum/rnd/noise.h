@@ -7,9 +7,9 @@ namespace signum::rnd
 	class Noise : public Unit
 	{
 	public:
-		Noise(float frequency = 0, bool interpolate = false, float min = 0.0, float max = 1.0);
+		Noise(UnitRef frequency, bool interpolate = false, float min = 0.0, float max = 1.0);
 
-		float frequency;
+		UnitRef frequency;
 		bool interpolate;
 		int phase;
 		sample value;
@@ -17,7 +17,7 @@ namespace signum::rnd
 		float min;
 		float max;
 
-		virtual sample next();
+		virtual void next(sample **out, int num_frames);
 	
 	private:
 		int steps_remaining;

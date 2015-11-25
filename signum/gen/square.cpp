@@ -6,15 +6,23 @@
 namespace signum::gen
 {
 
-sample Square::next()
+void Square::next(sample **out, int num_frames)
 {
-	float s = (this->phase < this->width->next()) ? 1 : -1;
+	for (int frame = 0; frame < num_frames; frame++)
+	{
+		float frequency = this->frequency->out[0][frame];
+		float width = this->width->out[0][frame];
+		float rv = (this->phase < width) ? 1 : -1;
 
-	this->phase += 1.0 / (44100.0 / this->frequency->next());
-	if (this->phase >= 1.0)
-		this->phase -= 1.0;
+		for (int channel = 0; channel < this->channels_out; channel++)
+		{
+			out[channel][frame] = rv;
+		}
 
-	return s;
+		this->phase += 1.0 / (44100.0 / frequency);
+		if (this->phase >= 1.0)
+			this->phase -= 1.0;
+	}
 }
 
 }

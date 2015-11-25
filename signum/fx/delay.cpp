@@ -7,24 +7,20 @@
 namespace signum::fx
 {
 
-sample Delay::next()
+void Delay::next(sample **out, int num_frames)
 {
-	float d = this->delaytime->next();
-	float f = this->feedback->next();
-	int offset = d * signum_samplerate();
+	for (int frame = 0; frame < num_frames; frame++)
+	{
+		sample d = this->delaytime->out[0][frame];
+		sample f = this->feedback->out[0][frame];
+		int offset = d * signum_samplerate();
 
-	sample rv = this->input->next() + f * buffer.get(-offset);
-	buffer.append(rv);
-
-	return rv;
+		for (int channel = 0; channel < this->channels_in; channel++)
+		{
+			sample rv = this->input->out[channel][frame] + f * buffers[frame].get(-offset);
+			out[channel][frame] = rv;
+		}
+	}
 }
-
-/*
-void Delay::_next()
-{
-	int index = this->delaytime * signum_samplerate();
-	sample output = this->input->output[0] + this->feedback * this->output[-index];
-}
-*/
 
 }

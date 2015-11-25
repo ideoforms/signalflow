@@ -18,6 +18,6 @@ namespace signum::gen
 
 		float phase;
 
-		virtual sample next();
+		virtual void next(sample **out, int num_frames);
 	};
 }

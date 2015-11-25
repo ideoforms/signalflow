@@ -4,6 +4,7 @@ int signum_samplerate();
 /*------------------------------------------------------------------------
  * Core
  *-----------------------------------------------------------------------*/
+#include "ringbuffer.h"
 #include "constants.h"
 #include "unit.h"
 #include "graph.h"
@@ -44,4 +45,5 @@ int signum_samplerate();
  *-----------------------------------------------------------------------*/
 #include "fx/delay.h"
 #include "fx/resample.h"
-
+#include "fx/pan.h"
+#include "fx/width.h"

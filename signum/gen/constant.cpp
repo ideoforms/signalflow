@@ -6,11 +6,18 @@ namespace signum::gen
 Constant::Constant(sample value) : Unit()
 {
 	this->value = value;
+	this->name = "constant";
 }
 
-sample Constant::next()
+void Constant::next(sample **out, int num_frames)
 {
-	return this->value;
+	for (int frame = 0; frame < num_frames; frame++)
+	{
+		for (int channel = 0; channel < this->channels_out; channel++)
+		{
+			out[channel][frame] = this->value;
+		}
+	}
 }
 
 }

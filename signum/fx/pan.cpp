@@ -3,20 +3,23 @@
 namespace signum::fx
 {
 
-void Pan::next(frame in, frame out)
+void Pan::next(sample **out, int num_frames)
 {
-	sample pan = this->pan->next();
+	for (int frame = 0; frame < num_frames; frame++)
+	{
+		sample pan = this->pan->out[0][frame];
+		sample in = this->input->out[0][frame];
 
-	if (this->channels_out == 2)
-	{
-		out[0] = in[0] * (1.0 - pan);
-		out[1] = in[0] * pan;
-	}
-	else if (this->channels_out == 4)
-	{
-		// TODO calculate channels frames based on pan as angle in radians
+		if (this->channels_out == 2)
+		{
+			out[0][frame] = in * (1.0 - pan);
+			out[1][frame] = in * pan;
+		}
+		else if (this->channels_out == 4)
+		{
+			// TODO calculate channels frames based on pan as angle in radians
+		}
 	}
 }
-
 
 }

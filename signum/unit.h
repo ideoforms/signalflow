@@ -51,9 +51,7 @@ namespace signum
 			Unit();
 			Unit(double x);
 
-			virtual void next(frame in, frame out);
-			virtual void next(int count);
-			virtual sample next();
+			virtual void next(sample **out, int num_frames);
 
 			virtual void route(UnitRef other);
 			virtual void add_input(UnitRef other);
@@ -65,11 +63,13 @@ namespace signum
 			op::Multiply operator* (UnitRef other);
 			op::Multiply operator* (sample value);
 
+			std::string name;
 			std::unordered_map <std::string, UnitRef *> params;
 			std::vector <UnitRef> inputs;
 
 			int channels_in;
 			int channels_out;
+			sample **out;
 	};
 
 	class GeneratorUnit : public Unit
@@ -97,5 +97,6 @@ namespace signum
 			BinaryOpUnit(UnitRef a, sample b); // : Unit(), inputA(a), inputB(new gen::Constant(b)) {};
 
 			// virtual void add_input(UnitRef other);
+			std::vector <UnitRef> inputs;
 	};
 }

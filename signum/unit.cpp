@@ -12,32 +12,24 @@ namespace signum
 
 Unit::Unit()
 {
-	this->output = new RingBuffer <sample> (44100);
+	// this->out = new RingBuffer <sample> (44100);
+	this->out = (sample **) malloc(32 * sizeof(float*));
+	for (int i = 0; i < 32; i++)
+		this->out[i] = (sample *) malloc(44100 * sizeof(float));
+
 	this->channels_in = N_CHANNELS;
 	this->channels_out = N_CHANNELS;
+	this->channels_in = 1;
+	this->channels_out = 1;
 
 	printf("Unit constructor called\n");
 }
 
-void Unit::next(frame in, frame out)
+void Unit::next(sample **out, int num_frames)
 {
 	// Basic next() loop assumes we are N-in, N-out.
 	// TODO: Assert channel config makes sense? (> 0)
 	
-	for (int i = 0; i < this->channels_out; i++)
-	{
-		out[i] = this->next();
-	}
-}
-
-void Unit::next(int count)
-{
-	for (int i = 0; i < count; i++)
-		this->output->append(this->next());
-}
-
-sample Unit::next()
-{
 	printf("Unit::next (should never be called)\n");
 	exit(1);
 }
@@ -49,18 +41,19 @@ void Unit::route(UnitRef other)
 
 void Unit::add_input(UnitRef unit)
 {
-	// this->inputs.push_back(unit);
+	this->inputs.push_back(unit);
 }
 
 void Unit::add_param(std::string name, UnitRef &unit)
 {
+	printf("add_param %s\n", name.c_str());
 	this->params[name] = &unit;
 }
 
-void Unit::set_param(std::string name, UnitRef b)
+void Unit::set_param(std::string name, UnitRef unit)
 {
 	assert(this->params[name]);
-	*(this->params[name]) = b;
+	*(this->params[name]) = unit;
 }
 
 

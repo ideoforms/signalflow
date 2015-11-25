@@ -36,7 +36,7 @@ namespace signum::gen
 
 			float grain_length;
 
-			virtual sample next();
+			virtual void next(sample **out, int num_frames);
 
 		private:
 			sample clock_last;

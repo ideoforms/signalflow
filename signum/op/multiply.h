@@ -16,9 +16,15 @@ public:
 	// Multiply(UnitRef a, sample b) : inputA(a), inputB(new gen::Constant(b)) {};
 	// Multiply(sample a, UnitRef b) : inputA(new gen::Constant(a)), inputB(b) {};
 
-	virtual sample next()
+	virtual void next(sample **out, int num_frames)
 	{
-		return this->inputs[0]->next() * this->inputs[1]->next();
+		for (int frame = 0; frame < num_frames; frame++)
+		{
+			for (int channel = 0; channel < this->channels_out; channel++)
+			{
+				out[channel][frame] = this->inputs[0]->out[channel][frame] * this->inputs[1]->out[channel][frame];
+			}
+		}
 	}
 };
 

@@ -49,6 +49,7 @@ void spooky_wobble_test()
 
 int main()
 {
+	printf("graph is %p\n", graph);
 	signum_init();
 	// spooky_wobble_test();
 	// spooky_wobble_test();

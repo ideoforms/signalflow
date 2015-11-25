@@ -11,6 +11,6 @@ namespace signum::gen
 
 		float value;
 
-		virtual sample next();
+		virtual void next(sample **out, int num_frames);
 	};
 }

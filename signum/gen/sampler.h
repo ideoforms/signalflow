@@ -16,6 +16,6 @@ namespace signum::gen
 			bool loop;
 
 			virtual void trigger();
-			virtual sample next();
+			virtual void next(sample **out, int num_frames);
 	};
 }

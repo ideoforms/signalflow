@@ -12,11 +12,14 @@ namespace signum::fx
 			{
 				this->channels_in = 1;
 				this->channels_out = channels;
+
+				this->add_param("input", this->input);
+				this->add_param("pan", this->pan);
 			}
 
 			UnitRef input;
 			UnitRef pan;
 
-			virtual void next(sample *in, sample *out);
+			virtual void next(sample **out, int num_frames);
 	};
 }
