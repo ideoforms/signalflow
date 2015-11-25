@@ -12,17 +12,16 @@ class Multiply : public BinaryOpUnit
 public:
 
 	Multiply(UnitRef a, UnitRef b) : BinaryOpUnit(a, b) {};
-	Multiply(UnitRef a, sample b) : BinaryOpUnit(a, b) {};
-	// Multiply(UnitRef a, sample b) : inputA(a), inputB(new gen::Constant(b)) {};
-	// Multiply(sample a, UnitRef b) : inputA(new gen::Constant(a)), inputB(b) {};
 
 	virtual void next(sample **out, int num_frames)
 	{
+		UnitRef a = this->inputs[0];
+		UnitRef b = this->inputs[1];
 		for (int frame = 0; frame < num_frames; frame++)
 		{
 			for (int channel = 0; channel < this->channels_out; channel++)
 			{
-				out[channel][frame] = this->inputs[0]->out[channel][frame] * this->inputs[1]->out[channel][frame];
+				out[channel][frame] = a->out[channel][frame] * b->out[channel][frame];
 			}
 		}
 	}

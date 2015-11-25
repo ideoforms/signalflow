@@ -93,10 +93,6 @@ namespace signum
 	class BinaryOpUnit : public Unit
 	{
 		public:
-			BinaryOpUnit(UnitRef a, UnitRef b); // : Unit(), inputA(a), inputB(b) {};
-			BinaryOpUnit(UnitRef a, sample b); // : Unit(), inputA(a), inputB(new gen::Constant(b)) {};
-
-			// virtual void add_input(UnitRef other);
-			std::vector <UnitRef> inputs;
+			BinaryOpUnit(UnitRef a, UnitRef b);
 	};
 }

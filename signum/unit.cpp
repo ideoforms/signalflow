@@ -79,17 +79,8 @@ sample UnitRef::operator[] (int index)
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 {
-	printf("add_inputs a, b\n");
 	this->add_input(a);
 	this->add_input(b);
-}
-
-BinaryOpUnit::BinaryOpUnit(UnitRef a, sample b) : Unit()
-{
-	printf("add_inputs a, Constant b\n");
-	// inputA(a), inputB(new gen::Constant(b)) {};
-	this->add_input(a);
-	this->add_input(new gen::Constant(b));
 }
 
 void UnaryOpUnit::add_input(UnitRef unit)
