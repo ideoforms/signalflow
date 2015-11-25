@@ -17,6 +17,7 @@ namespace signum::fx
 				phase_last = -1.0;
 				memset(sample_last, 0, sizeof(sample_last));
 
+				this->name = "resample";
 				this->add_input(input);
 				this->add_param("sample_rate", this->sample_rate);
 				this->add_param("bit_rate", this->bit_rate);

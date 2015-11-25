@@ -11,6 +11,7 @@ ASR::ASR(float attack, float sustain, float release, UnitRef clock) : clock(cloc
 	this->phase = 0.0;
 	this->clock_last = 0.0;
 
+	this->name = "env-asr";
 	this->add_param("clock", this->clock);
 }
 
