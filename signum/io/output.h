@@ -19,7 +19,6 @@ namespace signum::io
 		int close();
 		virtual void next(sample **out, int num_samples);
 
-		Graph *graph;
 		struct SoundIo *soundio;
 		struct SoundIoDevice *device;
 		struct SoundIoOutStream *outstream;

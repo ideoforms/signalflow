@@ -8,6 +8,7 @@ namespace signum
 	{
 		signum_init();
 		this->output = new io::AudioOut(this);
+		this->sample_rate = 44100.0;
 	}
 
 	void Graph::run()

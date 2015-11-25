@@ -2,10 +2,13 @@
 
 #include "op/multiply.h"
 #include "gen/constant.h"
+#include "graph.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <cassert>
+
+extern signum::Graph * shared_graph;
 
 namespace signum
 {
@@ -13,6 +16,7 @@ namespace signum
 Unit::Unit()
 {
 	// this->out = new RingBuffer <sample> (44100);
+	this->graph = shared_graph;
 	this->out = (sample **) malloc(32 * sizeof(float*));
 	for (int i = 0; i < 32; i++)
 		this->out[i] = (sample *) malloc(44100 * sizeof(float));
@@ -74,7 +78,8 @@ UnitRef UnitRef::operator* (double constant)
 template<>
 sample UnitRef::operator[] (int index)
 {
-	return (*this)->output->get(index);
+	// unused?
+	return (*this)->out[0][index];
 }
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()

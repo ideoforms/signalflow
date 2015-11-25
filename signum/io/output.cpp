@@ -9,10 +9,11 @@
 #include <string.h>
 #include <math.h>
 
+signum::Graph *shared_graph = NULL;
+
 namespace signum::io
 {
 
-static Graph *shared_graph = NULL;
 int phase = 0;
 
 void write_callback(struct SoundIoOutStream *outstream,

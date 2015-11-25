@@ -15,7 +15,7 @@ void Sine::next(sample **out, int num_frames)
 		float freq = this->frequency->out[0][frame];
 		for (int channel = 0; channel < this->channels_out; channel++)
 		{
-			out[0][frame] = sin(this->phase * freq * M_PI * 2.0 / signum_samplerate()) * 0.3;
+			out[0][frame] = sin(this->phase * freq * M_PI * 2.0 / this->graph->sample_rate) * 0.3;
 		}
 		this->phase++;
 	}

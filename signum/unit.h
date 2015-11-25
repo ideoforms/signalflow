@@ -7,6 +7,7 @@
 #include <vector>
 #include <unordered_map>
 
+
 namespace signum
 {
 
@@ -22,6 +23,8 @@ namespace signum
 	}
 
 	class Unit;
+	class Graph;
+
 
 	/*------------------------------------------------------------------------
 	 * Allows us to use a float (or direct unit ptr) in place of a UnitRef
@@ -58,14 +61,14 @@ namespace signum
 			virtual void add_param(std::string name, UnitRef &param);
 			virtual void set_param(std::string name, UnitRef param);
 
-			RingBuffer <sample> *output;
-
 			op::Multiply operator* (UnitRef other);
 			op::Multiply operator* (sample value);
 
 			std::string name;
 			std::unordered_map <std::string, UnitRef *> params;
 			std::vector <UnitRef> inputs;
+
+			Graph *graph;
 
 			int channels_in;
 			int channels_out;

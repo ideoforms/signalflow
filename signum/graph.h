@@ -18,5 +18,7 @@ namespace signum
 
 			UnitRef input = nullptr;
 			UnitRef output = nullptr;
+
+			float sample_rate;
 	};
 }

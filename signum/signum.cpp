@@ -12,7 +12,3 @@ void signum_init()
 	rng_init();
 }
 
-int signum_samplerate()
-{
-	return 44100.0;
-}

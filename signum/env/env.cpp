@@ -1,4 +1,5 @@
 #include "env.h"
+#include "../graph.h"
 
 namespace signum::env
 {
@@ -51,7 +52,7 @@ void ASR::next(sample **out, int num_frames)
 			rv = 0.0;
 		}
 
-		this->phase += 1.0 / 44100.0;
+		this->phase += 1.0 / this->graph->sample_rate;
 
 		for (int channel = 0; channel < this->channels_out; channel++)
 		{

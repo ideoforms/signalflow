@@ -13,7 +13,7 @@ void Delay::next(sample **out, int num_frames)
 	{
 		sample d = this->delaytime->out[0][frame];
 		sample f = this->feedback->out[0][frame];
-		int offset = d * signum_samplerate();
+		int offset = d * this->graph->sample_rate;
 
 		for (int channel = 0; channel < this->channels_in; channel++)
 		{
