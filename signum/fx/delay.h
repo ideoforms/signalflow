@@ -18,17 +18,20 @@ namespace signum::fx
 				this->add_param("delay_time", this->delaytime);
 				this->add_param("feedback", this->feedback);
 
-				for (int i = 0; i < input->channels_out; i++)
-					buffers.push_back(SampleRingBuffer(maxdelaytime * 44100.0));
+				for (int i = 0; i < 32; i++)
+					buffers.push_back(new SampleRingBuffer(maxdelaytime * 44100.0));
 			}
 
+			~Delay()
+			{
+				// free buffers
+			}
 
-			UnitRef input;
 			UnitRef delaytime;
 			UnitRef feedback;
 			float maxdelaytime;
 
-			std::vector <SampleRingBuffer> buffers;
+			std::vector <SampleRingBuffer *> buffers;
 
 			virtual void next(sample **out, int num_frames);
 	};

@@ -2,12 +2,13 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 template <class T>
 class RingBuffer
 {
 	public:
-		RingBuffer(int size);
+		RingBuffer(int size = 44100);
 		~RingBuffer();
 
 		void append(T value);
@@ -16,7 +17,7 @@ class RingBuffer
 		T operator [](int index){ return this->get(index); }
 
 	private:
-		T *data;
+		T *data = nullptr;
 		int size;
 		int position;
 };
