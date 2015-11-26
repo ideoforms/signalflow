@@ -25,7 +25,7 @@ void Granulator::next(sample **out, int num_frames)
 
 		if (clock_value > clock_last)
 		{
-			Grain *grain = new Grain(buffer, pos * 44100.0, grain_length * 44100.0);
+			Grain *grain = new Grain(buffer, pos * buffer->sample_rate, grain_length * buffer->sample_rate);
 			this->grains.push_back(grain);
 		}
 		clock_last = clock_value;

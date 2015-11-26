@@ -16,6 +16,7 @@ namespace signum
 		sample get(int index) { return this->data[0][index]; }
 		sample operator [](int index){ return this->get(index); }
 
+		int sample_rate;
 		int num_channels;
 		int num_frames;
 		sample **data;
