@@ -9,9 +9,9 @@ namespace signum
 
 Buffer::Buffer(int num_channels, int num_frames)
 {
-	this->sample_rate = 44100;
 	this->num_channels = num_channels;
 	this->num_frames = num_frames;
+	this->sample_rate = 44100.0;
 
 	this->data = (sample **) malloc(sizeof(void *) * this->num_channels);
 	for (int channel = 0; channel < this->num_channels; channel++)
@@ -61,7 +61,8 @@ void Buffer::open(const char *filename)
 
 	this->num_channels = info.channels;
 	this->num_frames = info.frames;
-	this->duration = this->num_frames / 44100.0;
+	this->sample_rate = info.samplerate;
+	this->duration = this->num_frames / this->sample_rate;
 }
 
 }
