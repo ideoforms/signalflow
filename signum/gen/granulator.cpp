@@ -63,8 +63,9 @@ void Granulator::next(sample **out, int num_frames)
 
 				grain->samples_done++;
 
-				for (int channel = 0; channel < this->channels_out; channel++)
-					out[channel][frame] += s * amp;
+				float rv = s * amp;
+				out[0][frame] += rv * (1.0 - grain->pan);
+				out[1][frame] += rv * (grain->pan);
 
 				it++;
 			}
