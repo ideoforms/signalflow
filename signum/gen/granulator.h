@@ -9,7 +9,8 @@ namespace signum::gen
 	class Grain
 	{
 		public:
-			Grain(Buffer *buffer, int start, int length) : buffer(buffer), sample_start(start), sample_length(length)
+			Grain(Buffer *buffer, int start, int length, float pan) :
+				buffer(buffer), sample_start(start), sample_length(length), pan(pan)
 			{
 				this->samples_done = 0;
 			}
@@ -23,6 +24,7 @@ namespace signum::gen
 			int sample_start;
 			int sample_length;
 			int samples_done;
+			float pan;
 	};
 
 	class Granulator : public Unit
@@ -35,8 +37,10 @@ namespace signum::gen
 			UnitRef pos;
 			UnitRef clock;
 			UnitRef grain_length;
+			UnitRef pan;
 
 			virtual void next(sample **out, int num_frames);
+			virtual void set_spatialisation(int num_channels, UnitRef pan);
 
 		private:
 			sample clock_last;
