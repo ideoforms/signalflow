@@ -56,23 +56,68 @@ namespace signum
 
 			virtual void next(sample **out, int num_frames);
 
+			/*------------------------------------------------------------------------
+			 * Register inputs and parameters.
+			 * This is necessary to register connections to form the signal graph.
+			 * TODO: How can we enforce this? Should we abolish fields altogether?
+			 *       sample *frequency = this->get_param_output("frequency");
+			 *-----------------------------------------------------------------------*/
 			virtual void route(UnitRef other);
+
+			/*------------------------------------------------------------------------
+			 * Register inputs and parameters.
+			 * This is necessary to register connections to form the signal graph.
+			 * TODO: How can we enforce this? Should we abolish fields altogether?
+			 *       sample *frequency = this->get_param_output("frequency");
+			 *-----------------------------------------------------------------------*/
 			virtual void add_input(UnitRef other);
 			virtual void add_param(std::string name, UnitRef &param);
 			virtual void set_param(std::string name, UnitRef param);
 
+			/*------------------------------------------------------------------------
+			 * Overloading operators allows us to write
+			 * UnitRef foo = bar * 0.5;
+			 *-----------------------------------------------------------------------*/
 			op::Multiply operator* (UnitRef other);
 			op::Multiply operator* (sample value);
 
+			/*------------------------------------------------------------------------
+			 * General properties:
+			 *  - human-readable name identifier [a-z0-9-]
+			 *  - vector of parameters: (name, pointer to UnitRef)
+			 *    - must be a pointer rather than the UnitRef itself as these
+			 *      params are actually pointers to struct fields (this->frequency)
+			 *  - vector of input units
+			 *-----------------------------------------------------------------------*/
 			std::string name;
 			std::unordered_map <std::string, UnitRef *> params;
 			std::vector <UnitRef> inputs;
 
+			/*------------------------------------------------------------------------
+			 * Pointer to the Graph that this unit is a part of.
+			 * Set automatically in constructor.
+			 *-----------------------------------------------------------------------*/
 			Graph *graph;
 
+			/*------------------------------------------------------------------------
+			 * Number of in/out channels.
+			 *-----------------------------------------------------------------------*/
 			int channels_in;
 			int channels_out;
+
+			/*------------------------------------------------------------------------
+			 * Buffer containing this unit's output.
+			 * TODO: Point this partway through a bigger frame buffer so that
+			 * its history can be read for delay lines etc.
+			 *-----------------------------------------------------------------------*/
 			sample **out;
+
+			/*------------------------------------------------------------------------
+			 * A reference to the UnitRef shared_ptr pointing to this Unit.
+			 * Necessary so that a unit can make outgoing/incoming connections to
+			 * other UnitRefs, increasing its own shared_ptr's reference count.
+			 *-----------------------------------------------------------------------*/
+			UnitRef *ref;
 	};
 
 	class GeneratorUnit : public Unit

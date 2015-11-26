@@ -38,7 +38,9 @@ void Unit::next(sample **out, int num_frames)
 
 void Unit::route(UnitRef other)
 {
-	other->add_input(std::shared_ptr <Unit>(this));
+	// other->add_input(std::shared_ptr <Unit>(this));
+	// other->add_input(std::shared_ptr <Unit>(this));
+	other->add_input(*(this->ref));
 }
 
 void Unit::add_input(UnitRef unit)
@@ -62,10 +64,16 @@ template<>
 UnitRef::UnitRefT() : std::shared_ptr<Unit>(nullptr) { }
 
 template<>
-UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr) { }
+UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr)
+{
+	ptr->ref = this;
+}
 
 template<>
-UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x)) { }
+UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x))
+{
+	(*this)->ref = this;
+}
 
 template<>
 UnitRef UnitRef::operator* (UnitRef other)
