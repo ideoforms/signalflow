@@ -2,6 +2,7 @@
 
 #include "stdlib.h"
 #include "../util.h"
+#include "../graph.h"
 
 namespace signum::rnd
 {
@@ -24,6 +25,8 @@ void Noise::next(sample **out, int num_frames)
 	for (int frame = 0; frame < num_frames; frame++)
 	{
 		float frequency = this->frequency->out[0][0];
+		if (!frequency)
+			frequency = this->graph->sample_rate;
 
 		if (this->steps_remaining <= 0)
 		{

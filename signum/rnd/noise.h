@@ -7,7 +7,7 @@ namespace signum::rnd
 	class Noise : public Unit
 	{
 	public:
-		Noise(UnitRef frequency, bool interpolate = false, float min = 0.0, float max = 1.0);
+		Noise(UnitRef frequency = 0.0, bool interpolate = false, float min = 0.0, float max = 1.0);
 
 		UnitRef frequency;
 		bool interpolate;
