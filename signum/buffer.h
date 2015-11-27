@@ -40,7 +40,8 @@ namespace signum
 				/*-------------------------------------------------------------------------
 				 * Initialise to a flat envelope at maximum amplitude.
 				 *-----------------------------------------------------------------------*/
-				memset(this->data[0], 1.0, sizeof(sample) * SIGNUM_ENVELOPE_BUFFER_LENGTH);
+				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_LENGTH; x++)
+					this->data[0][x] = 1.0;
 			}
 
 			sample get_amplitude(float norm_index)
