@@ -12,8 +12,7 @@ Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain
 	this->add_param("clock", this->clock);
 	this->add_param("grain_length", this->grain_length);
 
-	// this->envelope = new EnvelopeBufferTriangle();
-	this->envelope = new EnvelopeBufferLinearDecay();
+	this->envelope = new EnvelopeBufferTriangle();
 
 	this->channels_out = 2;
 
