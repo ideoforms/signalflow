@@ -102,7 +102,6 @@ sample UnitRef::operator[] (int index)
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 {
-	printf("creating binary op unit...\n");
 	this->add_input(a);
 	this->add_input(b);
 }
