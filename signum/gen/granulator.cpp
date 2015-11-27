@@ -12,6 +12,9 @@ Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain
 	this->add_param("clock", this->clock);
 	this->add_param("grain_length", this->grain_length);
 
+	// this->envelope = new EnvelopeBufferTriangle();
+	this->envelope = new EnvelopeBufferLinearDecay();
+
 	this->channels_out = 2;
 
 	this->pan = 0.5;
@@ -59,15 +62,10 @@ void Granulator::next(sample **out, int num_frames)
 				sample s = this->buffer->data[0][(int) buffer_index];
 
 				/*------------------------------------------------------------------------
-				 * Apply envelope by calculating grain at this point in the sample.
-				 * TODO: Use a proper envelope buffer.
+				 * Apply grain envelope.
 				 *-----------------------------------------------------------------------*/
-				int half_grain_samples = grain->sample_length / 2;
-				float amp;
-				if (grain->samples_done <= half_grain_samples)
-					amp = (float) grain->samples_done / half_grain_samples;
-				else
-					amp = 1.0 - (float) (grain->samples_done - half_grain_samples) / half_grain_samples;
+				float env_phase = (float) (grain->samples_done) / grain->sample_length;
+				float amp = this->envelope->get_amplitude(env_phase);
 
 				grain->samples_done++;
 
