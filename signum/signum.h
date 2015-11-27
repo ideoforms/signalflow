@@ -27,6 +27,7 @@ void signum_init();
 #include "gen/square.h"
 #include "gen/sampler.h"
 #include "gen/granulator.h"
+#include "gen/wavetable.h"
 
 /*------------------------------------------------------------------------
  * Random processes
