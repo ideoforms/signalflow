@@ -11,7 +11,10 @@ class Multiply : public BinaryOpUnit
 
 public:
 
-	Multiply(UnitRef a, UnitRef b) : BinaryOpUnit(a, b) {};
+	Multiply(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
+	{
+		this->name = "multiply";
+	}
 
 	virtual void next(sample **out, int num_frames)
 	{
