@@ -36,8 +36,8 @@ namespace signum
 		public:
 			using std::shared_ptr<T>::shared_ptr;
 			UnitRefT();
-			UnitRefT(Unit *ptr); // : std::shared_ptr<Unit>(ptr) {}
-			UnitRefT(double x); // : std::shared_ptr<Unit>(new Unit(x)) {}
+			UnitRefT(Unit *ptr);
+			UnitRefT(double x);
 
 			UnitRefT operator* (UnitRefT other);
 			UnitRefT operator* (double constant);

@@ -55,7 +55,11 @@ void Unit::add_param(std::string name, UnitRef &unit)
 
 void Unit::set_param(std::string name, UnitRef unit)
 {
-	assert(this->params[name]);
+	if (!this->params[name])
+	{
+		fprintf(stderr, "Unit %s has no such param: %s\n", this->name.c_str(), name.c_str());
+		exit(1);
+	}
 	*(this->params[name]) = unit;
 }
 
@@ -75,13 +79,19 @@ UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x))
 	(*this)->ref = this;
 }
 
+
+/*------------------------------------------------------------------------
+ * Don't explicitly cast to UnitRef here or bad things happen
+ * (shared_ptrs freed too early -- causing SIGSEGV when doing
+ * sine * 0.25)
+ *-----------------------------------------------------------------------*/
 template<>
 UnitRef UnitRef::operator* (UnitRef other)
-	{ return UnitRef(new op::Multiply(*this, other)); }
+	{ return new op::Multiply(*this, other); }
 
 template<>
 UnitRef UnitRef::operator* (double constant)
-	{ return UnitRef(new op::Multiply(*this, constant)); }
+	{ return new op::Multiply(*this, constant); }
 
 template<>
 sample UnitRef::operator[] (int index)
@@ -92,9 +102,12 @@ sample UnitRef::operator[] (int index)
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 {
+	printf("creating binary op unit...\n");
 	this->add_input(a);
 	this->add_input(b);
 }
+
+
 
 void UnaryOpUnit::add_input(UnitRef unit)
 {
