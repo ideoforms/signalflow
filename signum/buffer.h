@@ -2,6 +2,8 @@
 
 #include "constants.h"
 
+#include <math.h>
+
 #define SIGNUM_ENVELOPE_BUFFER_LENGTH 1024
 #define SIGNUM_ENVELOPE_BUFFER_HALF_LENGTH (SIGNUM_ENVELOPE_BUFFER_LENGTH / 2)
 
@@ -74,6 +76,18 @@ namespace signum
 			{
 				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_LENGTH; x++)
 					this->data[0][x] = 1.0 - (float) x / SIGNUM_ENVELOPE_BUFFER_LENGTH;
+			}
+	};
+
+	class EnvelopeBufferHanning : public EnvelopeBuffer
+	{
+		public:
+			EnvelopeBufferHanning() : EnvelopeBuffer()
+			{
+				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_LENGTH; x++)
+				{
+					this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (SIGNUM_ENVELOPE_BUFFER_LENGTH - 1)));
+				}
 			}
 	};
 
