@@ -51,9 +51,17 @@ void Granulator::next(sample **out, int num_frames)
 			Grain *grain = *it;
 			if (!grain->finished())
 			{
+				/*------------------------------------------------------------------------
+				 * Obtain the correct saple from the buffer.
+				 * TODO: Handling of variable rate.
+				 *-----------------------------------------------------------------------*/
 				int buffer_index = (grain->sample_start + grain->samples_done) % this->buffer->num_frames;
 				sample s = this->buffer->data[0][(int) buffer_index];
 
+				/*------------------------------------------------------------------------
+				 * Apply envelope by calculating grain at this point in the sample.
+				 * TODO: Use a proper envelope buffer.
+				 *-----------------------------------------------------------------------*/
 				int half_grain_samples = grain->sample_length / 2;
 				float amp;
 				if (grain->samples_done <= half_grain_samples)
@@ -63,6 +71,10 @@ void Granulator::next(sample **out, int num_frames)
 
 				grain->samples_done++;
 
+				/*------------------------------------------------------------------------
+				 * Calculate pan.
+				 * TODO: Handle >2 channels
+				 *-----------------------------------------------------------------------*/
 				float rv = s * amp;
 				out[0][frame] += rv * (1.0 - grain->pan);
 				out[1][frame] += rv * (grain->pan);
