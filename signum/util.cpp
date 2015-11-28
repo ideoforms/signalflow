@@ -151,4 +151,23 @@ double linexp (double value, double a, double b, double c, double d)
 }
 
 
+float freq_to_midi(float frequency)
+{
+	/*--------------------------------------------------------------------*
+	 * freq_to_midi(): Map a frequency value onto a MIDI note index.
+	 * 440 = A4 = 69
+	 *--------------------------------------------------------------------*/
+	return 69.0 + 12 * log2(frequency / 440.0);
+}
+
+
+float midi_to_freq(float midi)
+{
+	/*--------------------------------------------------------------------*
+	 * midi_to_freq(): Map a MIDI note to a frequency value.
+	 * 440 = A4 = 69
+	 *--------------------------------------------------------------------*/
+	return 440.0 * powf(2, (midi - 69) / 12.0);
+}
+
 } /* namespace signum */
