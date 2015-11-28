@@ -26,7 +26,6 @@ public:
 				float value = this->inputs[0]->out[channel][frame];
 				float midi = freq_to_midi(value);
 				float midi_rounded = roundf(midi);
-				printf("midi rounded: %f\n", midi_rounded);
 				float freq = midi_to_freq(midi_rounded);
 				out[channel][frame] = freq;
 			}
