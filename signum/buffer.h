@@ -37,12 +37,12 @@ namespace signum
 	class EnvelopeBuffer : public Buffer
 	{
 		public:
-			EnvelopeBuffer() : Buffer(1, SIGNUM_ENVELOPE_BUFFER_LENGTH)
+			EnvelopeBuffer(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : Buffer(1, length)
 			{
 				/*-------------------------------------------------------------------------
 				 * Initialise to a flat envelope at maximum amplitude.
 				 *-----------------------------------------------------------------------*/
-				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_LENGTH; x++)
+				for (int x = 0; x < length; x++)
 					this->data[0][x] = 1.0;
 			}
 
@@ -52,7 +52,7 @@ namespace signum
 				 * TODO: Interpolate
 				 * TODO: Should we be more polite about indexes outside of [0,1]?
 				 *-----------------------------------------------------------------------*/
-				int index = norm_index * SIGNUM_ENVELOPE_BUFFER_LENGTH;
+				int index = norm_index * this->num_frames;
 				return this->data[0][index];
 			}
 	};
@@ -60,33 +60,33 @@ namespace signum
 	class EnvelopeBufferTriangle : public EnvelopeBuffer
 	{
 		public:
-			EnvelopeBufferTriangle() : EnvelopeBuffer()
+			EnvelopeBufferTriangle(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
 			{
-				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_HALF_LENGTH; x++)
-					this->data[0][x] = (float) x / SIGNUM_ENVELOPE_BUFFER_HALF_LENGTH;
-				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_HALF_LENGTH; x++)
-					this->data[0][SIGNUM_ENVELOPE_BUFFER_HALF_LENGTH + x] = 1.0 - (float) x / SIGNUM_ENVELOPE_BUFFER_HALF_LENGTH;
+				for (int x = 0; x < length / 2; x++)
+					this->data[0][x] = (float) x / (length / 2);
+				for (int x = 0; x < length / 2; x++)
+					this->data[0][(length / 2) + x] = 1.0 - (float) x / (length / 2);
 			}
 	};
 
 	class EnvelopeBufferLinearDecay : public EnvelopeBuffer
 	{
 		public:
-			EnvelopeBufferLinearDecay() : EnvelopeBuffer()
+			EnvelopeBufferLinearDecay(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
 			{
-				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_LENGTH; x++)
-					this->data[0][x] = 1.0 - (float) x / SIGNUM_ENVELOPE_BUFFER_LENGTH;
+				for (int x = 0; x < length; x++)
+					this->data[0][x] = 1.0 - (float) x / length;
 			}
 	};
 
 	class EnvelopeBufferHanning : public EnvelopeBuffer
 	{
 		public:
-			EnvelopeBufferHanning() : EnvelopeBuffer()
+			EnvelopeBufferHanning(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
 			{
-				for (int x = 0; x < SIGNUM_ENVELOPE_BUFFER_LENGTH; x++)
+				for (int x = 0; x < length; x++)
 				{
-					this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (SIGNUM_ENVELOPE_BUFFER_LENGTH - 1)));
+					this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (length - 1)));
 				}
 			}
 	};
