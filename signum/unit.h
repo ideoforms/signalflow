@@ -133,9 +133,7 @@ namespace signum
 	class UnaryOpUnit : public Unit
 	{
 		public:
-			UnitRef input;
-
-			virtual void add_input(UnitRef other);
+			UnaryOpUnit(UnitRef input);
 	};
 
 	class BinaryOpUnit : public Unit

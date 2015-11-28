@@ -107,11 +107,9 @@ BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 }
 
 
-
-void UnaryOpUnit::add_input(UnitRef unit)
+UnaryOpUnit::UnaryOpUnit(UnitRef a) : Unit()
 {
-	this->inputs.push_back(unit);
-	this->input = unit;
+	this->add_input(a);
 }
 
 }
