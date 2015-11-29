@@ -1,6 +1,8 @@
 #include "unit.h"
 
 #include "op/multiply.h"
+#include "op/add.h"
+
 #include "gen/constant.h"
 #include "graph.h"
 
@@ -92,6 +94,14 @@ UnitRef UnitRef::operator* (UnitRef other)
 template<>
 UnitRef UnitRef::operator* (double constant)
 	{ return new op::Multiply(*this, constant); }
+
+template<>
+UnitRef UnitRef::operator+ (UnitRef other)
+	{ return new op::Add(*this, other); }
+
+template<>
+UnitRef UnitRef::operator+ (double constant)
+	{ return new op::Add(*this, constant); }
 
 template<>
 sample UnitRef::operator[] (int index)

@@ -41,6 +41,8 @@ namespace signum
 
 			UnitRefT operator* (UnitRefT other);
 			UnitRefT operator* (double constant);
+			UnitRefT operator+ (UnitRefT other);
+			UnitRefT operator+ (double constant);
 			sample operator[] (int index);
 	};
 
