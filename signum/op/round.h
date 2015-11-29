@@ -23,7 +23,7 @@ public:
 		{
 			for (int channel = 0; channel < this->channels_out; channel++)
 			{
-				float value = this->inputs[0]->out[channel][frame];
+				float value = this->input->out[channel][frame];
 				float midi = freq_to_midi(value);
 				float midi_rounded = roundf(midi);
 				float freq = midi_to_freq(midi_rounded);

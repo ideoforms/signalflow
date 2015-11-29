@@ -8,13 +8,13 @@
 
 namespace signum::fx
 {
-	class Delay : public Unit
+	class Delay : public UnaryOpUnit
 	{
 		public:
-			Delay(UnitRef input, UnitRef delaytime, UnitRef feedback, float maxdelaytime = 10.0) :
-				delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
+			Delay(UnitRef input = 0.0, UnitRef delaytime = 0.1, UnitRef feedback = 0.5, float maxdelaytime = 10.0) :
+				UnaryOpUnit(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 			{
-				this->add_input(input);
+				this->name = "delay";
 				this->add_param("delay_time", this->delaytime);
 				this->add_param("feedback", this->feedback);
 
@@ -35,4 +35,6 @@ namespace signum::fx
 
 			virtual void next(sample **out, int num_frames);
 	};
+
+	REGISTER(Delay, "delay");
 }

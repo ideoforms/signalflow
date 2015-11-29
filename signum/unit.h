@@ -82,7 +82,7 @@ namespace signum
 			 * TODO: How can we enforce this? Should we abolish fields altogether?
 			 *       sample *frequency = this->get_param_output("frequency");
 			 *-----------------------------------------------------------------------*/
-			virtual void add_input(const UnitRef & other);
+			virtual void add_input(const UnitRef &input);
 			virtual void add_param(std::string name, UnitRef &param);
 			virtual void set_param(std::string name, const UnitRef &param);
 
@@ -103,7 +103,7 @@ namespace signum
 			 *-----------------------------------------------------------------------*/
 			std::string name;
 			std::unordered_map <std::string, UnitRef *> params;
-			std::vector <UnitRef> inputs;
+			// std::vector <UnitRef> inputs;
 
 			/*------------------------------------------------------------------------
 			 * Pointer to the Graph that this unit is a part of.
@@ -123,6 +123,8 @@ namespace signum
 			 * its history can be read for delay lines etc.
 			 *-----------------------------------------------------------------------*/
 			sample **out;
+
+			std::vector <UnitRef> inputs;
 
 			/*------------------------------------------------------------------------
 			 * A reference to the UnitRef shared_ptr pointing to this Unit.
@@ -146,11 +148,16 @@ namespace signum
 	{
 		public:
 			UnaryOpUnit(UnitRef input = 0);
+
+			UnitRef input;
 	};
 
 	class BinaryOpUnit : public Unit
 	{
 		public:
 			BinaryOpUnit(UnitRef a = 0, UnitRef b = 0);
+
+			UnitRef input0;
+			UnitRef input1;
 	};
 }

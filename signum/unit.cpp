@@ -41,6 +41,10 @@ void Unit::next(sample **out, int num_frames)
 	exit(1);
 }
 
+void Unit::add_input(const UnitRef &other)
+{
+}
+
 void Unit::route(const UnitRef &other)
 {
 	// other->add_input(std::shared_ptr <Unit>(this));
@@ -51,14 +55,9 @@ void Unit::route(const UnitRef &other)
 	 * shared_ptr is copied which breaks things (see TODO below).
 	 * Explicitly cast to a const ref.
 	 *-----------------------------------------------------------------------*/
-	printf("looking at this ref\n");
-	const UnitRef &r = *(this->ref);
-	other->add_input(r);
-}
-
-void Unit::add_input(const UnitRef &unit)
-{
-	this->inputs.push_back(unit);
+	printf("ROUTE NO LONGER IMPLEMENTED\n");
+	// const UnitRef &r = *(this->ref);
+	// other->add_input(r);
 }
 
 void Unit::add_param(std::string name, UnitRef &unit)
@@ -161,19 +160,24 @@ sample UnitRef::operator[] (int index)
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 {
-	this->add_input(a);
-	this->add_input(b);
+	// this->add_input(a);
+	// this->add_input(b);
+	
+	this->input0 = a;
+	this->input1 = b;
 
-	this->add_param("input0", this->inputs[0]);
-	this->add_param("input1", this->inputs[1]);
+	this->add_param("input0", this->input0);
+	this->add_param("input1", this->input1);
 }
 
 
 UnaryOpUnit::UnaryOpUnit(UnitRef a) : Unit()
 {
-	this->add_input(a);
+	// this->add_input(a);
 
-	this->add_param("input0", this->inputs[0]);
+	this->input = a;
+
+	this->add_param("input0", this->input);
 }
 
 }

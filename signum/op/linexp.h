@@ -23,7 +23,6 @@ public:
 
 	virtual void next(sample **out, int num_frames)
 	{
-		UnitRef input = this->inputs[0];
 		for (int frame = 0; frame < num_frames; frame++)
 		{
 			for (int channel = 0; channel < this->channels_out; channel++)

@@ -29,17 +29,5 @@ Unit *NodeRegistry::create(std::string name)
 	return object;
 }
 
-Unit *NodeRegistry::create(NodeDefinition def)
-{
-	std::string name = def.name;
-	if (!this->classes[name])
-	{
-		fprintf(stderr, "Could not instantiate object (unknown type: %s)\n", name.c_str());
-		exit(1);
-	}
-	Unit *object = this->classes[name]();
-	return object;
-}
-
 
 }

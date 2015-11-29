@@ -22,5 +22,10 @@ namespace signum::io
 		struct SoundIo *soundio;
 		struct SoundIoDevice *device;
 		struct SoundIoOutStream *outstream;
+
+		virtual void add_input(const UnitRef &input)
+		{
+			inputs.push_back(input);
+		}
 	};
 }

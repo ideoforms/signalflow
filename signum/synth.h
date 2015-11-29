@@ -32,13 +32,11 @@ namespace signum
 			NodeDefinition read_structure()
 			{
 				const UnitRef &r = this->output;
-				std::cout << "read_structure() : " << this->output << std::endl;
 				return this->read_structure(r);
 			}
 
 			NodeDefinition read_structure(const UnitRef &unit)
 			{
-				std::cout << "read_structure: " << unit << std::endl;
 				NodeDefinition def(unit->name);
 				if (unit->name == "constant")
 				{
@@ -47,14 +45,6 @@ namespace signum
 				}
 				else
 				{
-					int index = 0;
-					for (UnitRef input : unit->inputs)
-					{
-						NodeDefinition input_def = this->read_structure(input);
-						char name[] = "input0";
-						name[5] = '0' + index++;
-						def.add_param(name, input_def);
-					}
 					for (auto param : unit->params)
 					{
 						UnitRef param_unit = *(param.second);
@@ -90,10 +80,10 @@ namespace signum
 
 				Unit *u = registry->create(node.name);
 				UnitRef unit = UnitRef(u);
-				printf("node: %s\n", node.name.c_str());
+				// printf("node: %s\n", node.name.c_str());
 				for (auto param : node.params)
 				{
-					printf(" - param: %s\n", param.first.c_str());
+					// printf(" - param: %s\n", param.first.c_str());
 					std::string param_name = param.first;
 					UnitRef param_unit = this->instantiate(param.second);
 					unit->set_param(param_name, param_unit);
@@ -108,12 +98,14 @@ namespace signum
 				return unit;
 			}
 
+			/*
 			void route(const UnitRef &other)
 			{
 				std::cout << "Output is " << this->output << std::endl;
 				// this->output->route(other);
-				other->add_input(this->output);
+				// other->add_input(this->output);
 			}
+			*/
 
 			UnitRef output;
 	};

@@ -7,15 +7,16 @@
 namespace signum::rnd
 {
 
-Noise::Noise(UnitRef frequency, bool interpolate, float min, float max) : frequency(frequency)
+Noise::Noise(UnitRef frequency, bool interpolate, UnitRef min, UnitRef max) : frequency(frequency), min(min), max(max)
 {
+	this->name = "noise";
 	this->add_param("frequency", this->frequency);
+	this->add_param("min", this->min);
+	this->add_param("max", this->max);
 
 	this->interpolate = interpolate;
-	this->min = min;
-	this->max = max;
 
-	this->value = rng_uniform(min, max);
+	this->value = 0;
 
 	this->steps_remaining = 0;
 }
@@ -24,7 +25,9 @@ void Noise::next(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{
-		float frequency = this->frequency->out[0][0];
+		float min = this->min->out[0][frame];
+		float max = this->max->out[0][frame];
+		float frequency = this->frequency->out[0][frame];
 		if (!frequency)
 			frequency = this->graph->sample_rate;
 

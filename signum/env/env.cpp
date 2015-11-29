@@ -4,16 +4,17 @@
 namespace signum::env
 {
 
-ASR::ASR(float attack, float sustain, float release, UnitRef clock) : clock(clock)
+ASR::ASR(UnitRef attack, UnitRef sustain, UnitRef release, UnitRef clock) :
+	attack(attack), sustain(sustain), release(release), clock(clock)
 {
-	this->attack = attack;
-	this->sustain = sustain;
-	this->release = release;
 	this->phase = 0.0;
 	this->clock_last = 0.0;
 
 	this->name = "env-asr";
 	this->add_param("clock", this->clock);
+	this->add_param("attack", this->attack);
+	this->add_param("sustain", this->sustain);
+	this->add_param("release", this->release);
 }
 
 void ASR::trigger()
@@ -35,17 +36,21 @@ void ASR::next(sample **out, int num_frames)
 			this->clock_last = clock_value;
 		}
 
-		if (this->phase < this->attack)
+		float attack = this->attack->out[0][frame];
+		float sustain = this->sustain->out[0][frame];
+		float release = this->release->out[0][frame];
+
+		if (this->phase < attack)
 		{
-			rv = (this->phase / this->attack);
+			rv = (this->phase / attack);
 		}
-		else if (this->phase <= this->attack + this->sustain)
+		else if (this->phase <= attack + sustain)
 		{
 			rv = 1.0;
 		}
-		else if (this->phase < this->attack + this->sustain + this->release)
+		else if (this->phase < attack + sustain + release)
 		{
-			rv = 1.0 - (this->phase - (this->attack + this->sustain)) / this->release;
+			rv = 1.0 - (this->phase - (attack + sustain)) / release;
 		}
 		else
 		{

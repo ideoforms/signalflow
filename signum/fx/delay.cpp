@@ -9,7 +9,6 @@ namespace signum::fx
 
 void Delay::next(sample **out, int num_frames)
 {
-	UnitRef input = this->inputs[0];
 	for (int frame = 0; frame < num_frames; frame++)
 	{
 		sample d = this->delaytime->out[0][frame];

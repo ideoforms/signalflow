@@ -7,7 +7,7 @@ namespace signum::rnd
 	class Dust : public Unit
 	{
 	public:
-		Dust(UnitRef frequency);
+		Dust(UnitRef frequency = 1.0);
 
 		UnitRef frequency = nullptr;
 
@@ -17,4 +17,6 @@ namespace signum::rnd
 		int steps_remaining;
 
 	};
+
+	REGISTER(Dust, "dust");
 }

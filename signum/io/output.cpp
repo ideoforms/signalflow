@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <iostream>
 
 signum::Graph *shared_graph = NULL;
 
@@ -36,7 +37,7 @@ void write_callback(struct SoundIoOutStream *outstream,
 		return;
 	}
 
-	// printf("--- sample --- \n");
+	/// printf("--- sample --- \n");
 
 	shared_graph->pull_input(frame_count);
 

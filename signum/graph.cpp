@@ -22,12 +22,13 @@ namespace signum
 		// or pops will be caused in the output (something to do with phase?)
 		// std::cout << "pull_input: " << unit << std::endl;
 		// std::cout << "pull_input: " << unit->name << std::endl;
-		for (const UnitRef & input : unit->inputs)
+
+		for (auto input_unit : unit->inputs)
 		{
-			// if (!input)
-			//	fprintf(stderr, "Unit %s has a null input\n", unit->name.c_str());
-			this->pull_input(input, num_frames);
+			if (input_unit)
+				this->pull_input(input_unit, num_frames);
 		}
+
 		for (auto param : unit->params)
 		{
 			UnitRef param_unit = *(param.second);
