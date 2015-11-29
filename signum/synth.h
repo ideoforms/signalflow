@@ -83,12 +83,14 @@ namespace signum
 			{
 				NodeRegistry *registry = NodeRegistry::global();
 
-				UnitRef unit = registry->create(node);
+				UnitRef unit = registry->create(node.name);
 				printf("node: %s\n", node.name.c_str());
 				for (auto param : node.params)
 				{
 					printf(" - param: %s\n", param.first.c_str());
+					std::string param_name = param.first;
 					UnitRef param_unit = this->instantiate(param.second);
+					unit->set_param(param_name, param_unit);
 				}
 
 				return unit;
