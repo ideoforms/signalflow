@@ -39,6 +39,7 @@ namespace signum
 			UnitRefT();
 			UnitRefT(Unit *ptr);
 			UnitRefT(double x);
+			UnitRefT(int x);
 
 			UnitRefT operator* (UnitRefT other);
 			UnitRefT operator* (double constant);
@@ -141,12 +142,12 @@ namespace signum
 	class UnaryOpUnit : public Unit
 	{
 		public:
-			UnaryOpUnit(UnitRef input);
+			UnaryOpUnit(UnitRef input = 0);
 	};
 
 	class BinaryOpUnit : public Unit
 	{
 		public:
-			BinaryOpUnit(UnitRef a, UnitRef b);
+			BinaryOpUnit(UnitRef a = 0, UnitRef b = 0);
 	};
 }

@@ -83,6 +83,12 @@ UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x))
 	(*this)->ref = this;
 }
 
+template<>
+UnitRef::UnitRefT(int x) : std::shared_ptr<Unit>(new gen::Constant((float) x))
+{
+	(*this)->ref = this;
+}
+
 
 /*------------------------------------------------------------------------
  * Don't explicitly cast to UnitRef here or bad things happen
