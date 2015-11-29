@@ -13,7 +13,9 @@ void signum_init();
  * Operators
  *-----------------------------------------------------------------------*/
 #include "op/multiply.h"
+#include "op/add.h"
 #include "op/round.h"
+#include "op/linexp.h"
 
 /*------------------------------------------------------------------------
  * I/O
@@ -48,3 +50,4 @@ void signum_init();
 #include "fx/resample.h"
 #include "fx/pan.h"
 #include "fx/width.h"
+
