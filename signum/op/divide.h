@@ -4,14 +4,14 @@
 namespace signum::op
 {
 
-class Multiply : public BinaryOpUnit
+class Divide : public BinaryOpUnit
 {
 
 public:
 
-	Multiply(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
+	Divide(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
 	{
-		this->name = "multiply";
+		this->name = "divide";
 	}
 
 	virtual void next(sample **out, int num_frames)
@@ -22,7 +22,7 @@ public:
 		{
 			for (int channel = 0; channel < this->channels_out; channel++)
 			{
-				out[channel][frame] = a->out[channel][frame] * b->out[channel][frame];
+				out[channel][frame] = a->out[channel][frame] / b->out[channel][frame];
 			}
 		}
 	}

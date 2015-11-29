@@ -104,6 +104,23 @@ UnitRef UnitRef::operator+ (double constant)
 	{ return new op::Add(*this, constant); }
 
 template<>
+UnitRef UnitRef::operator- (UnitRef other)
+	{ return new op::Subtract(*this, other); }
+
+template<>
+UnitRef UnitRef::operator- (double constant)
+	{ return new op::Subtract(*this, constant); }
+
+template<>
+UnitRef UnitRef::operator/ (UnitRef other)
+	{ return new op::Divide(*this, other); }
+
+template<>
+UnitRef UnitRef::operator/ (double constant)
+	{ return new op::Divide(*this, constant); }
+
+
+template<>
 sample UnitRef::operator[] (int index)
 {
 	// unused?

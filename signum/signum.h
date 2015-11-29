@@ -13,7 +13,9 @@ void signum_init();
  * Operators
  *-----------------------------------------------------------------------*/
 #include "op/multiply.h"
+#include "op/divide.h"
 #include "op/add.h"
+#include "op/subtract.h"
 #include "op/round.h"
 #include "op/linexp.h"
 

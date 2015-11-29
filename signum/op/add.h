@@ -1,7 +1,5 @@
 #include "../constants.h"
-
 #include "../unit.h"
-#include "../gen/constant.h"
 
 namespace signum::op
 {
