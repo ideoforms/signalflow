@@ -38,7 +38,11 @@ public:
 	}
 };
 
+
 REGISTER(Multiply, "multiply");
+// NodeRegistry::global()->add<class>(name);
+// static bool Multiply_ok = NodeRegistry::global()->add<Multiply>("multiply");
+
 
 }
 

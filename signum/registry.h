@@ -5,8 +5,9 @@
 #include "nodedef.h"
 
 // #define REGISTER(class, name) (::signum::NodeRegistry::global->add<class>(name))
-//
-#define REGISTER(class, name) static NodeRegistry *reg = NodeRegistry::global(); static bool ok = reg->add<class>(name);
+
+// #define REGISTER(class, name) static NodeRegistry *reg = NodeRegistry::global(); static bool ok = reg->add<class>(name);
+#define REGISTER(class, name) static bool class##OK = NodeRegistry::global()->add<class>(name);
 
 
 namespace signum

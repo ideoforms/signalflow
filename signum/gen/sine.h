@@ -21,5 +21,6 @@ namespace signum::gen
 	};
 
 	REGISTER(Sine, "sine");
+
 }
 

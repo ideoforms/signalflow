@@ -11,7 +11,7 @@ class LinExp : public UnaryOpUnit
 
 public:
 
-	LinExp(UnitRef input, UnitRef a, UnitRef b, UnitRef c, UnitRef d) : UnaryOpUnit(input), a(a), b(b), c(c), d(d)
+	LinExp(UnitRef input = 0, UnitRef a = 0, UnitRef b = 1, UnitRef c = 1, UnitRef d = 10) : UnaryOpUnit(input), a(a), b(b), c(c), d(d)
 	{
 		this->name = "linexp";
 	}
@@ -35,4 +35,8 @@ public:
 	UnitRef d;
 };
 
+
+REGISTER(LinExp, "linexp");
+
 }
+
