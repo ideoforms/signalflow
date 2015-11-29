@@ -14,6 +14,11 @@ public:
 	LinExp(UnitRef input = 0, UnitRef a = 0, UnitRef b = 1, UnitRef c = 1, UnitRef d = 10) : UnaryOpUnit(input), a(a), b(b), c(c), d(d)
 	{
 		this->name = "linexp";
+
+		this->add_param("a", this->a);
+		this->add_param("b", this->b);
+		this->add_param("c", this->c);
+		this->add_param("d", this->d);
 	}
 
 	virtual void next(sample **out, int num_frames)

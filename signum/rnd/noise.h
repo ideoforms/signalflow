@@ -24,4 +24,6 @@ namespace signum::rnd
 		float step_change;
 
 	};
+
+	REGISTER(Noise, "noise");
 }

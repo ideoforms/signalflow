@@ -29,6 +29,7 @@ Unit::Unit()
 	this->channels_out = N_CHANNELS;
 	this->channels_in = 1;
 	this->channels_out = 1;
+	this->ref = NULL;
 }
 
 void Unit::next(sample **out, int num_frames)
@@ -40,14 +41,22 @@ void Unit::next(sample **out, int num_frames)
 	exit(1);
 }
 
-void Unit::route(UnitRef other)
+void Unit::route(const UnitRef &other)
 {
 	// other->add_input(std::shared_ptr <Unit>(this));
 	// other->add_input(std::shared_ptr <Unit>(this));
-	other->add_input(*(this->ref));
+
+	/*------------------------------------------------------------------------
+	 * Care required here -- if we naively do add_input(*(this->ref)), the
+	 * shared_ptr is copied which breaks things (see TODO below).
+	 * Explicitly cast to a const ref.
+	 *-----------------------------------------------------------------------*/
+	printf("looking at this ref\n");
+	const UnitRef &r = *(this->ref);
+	other->add_input(r);
 }
 
-void Unit::add_input(UnitRef unit)
+void Unit::add_input(const UnitRef &unit)
 {
 	this->inputs.push_back(unit);
 }
@@ -57,7 +66,23 @@ void Unit::add_param(std::string name, UnitRef &unit)
 	this->params[name] = &unit;
 }
 
-void Unit::set_param(std::string name, UnitRef unit)
+// TODO: Assignment operator breaks our paradigm as (I think) we need 
+// to update the new object's 'ref' pointer to its shared_ptr container...
+// This might be bad practice. 
+/*
+template<>
+UnitRef UnitRef::operator= (const UnitRef &other)
+{
+	printf("UNITREF ASSIGN, HERE BE DRAGONS\n");
+	// if (this != other)
+	//	(*this)->ref = other->ref;
+	return *this;
+}
+*/
+
+
+
+void Unit::set_param(std::string name, const UnitRef &unit)
 {
 	if (!this->params[name])
 	{
@@ -127,7 +152,6 @@ template<>
 UnitRef UnitRef::operator/ (double constant)
 	{ return new op::Divide(*this, constant); }
 
-
 template<>
 sample UnitRef::operator[] (int index)
 {
@@ -139,12 +163,17 @@ BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 {
 	this->add_input(a);
 	this->add_input(b);
+
+	this->add_param("input0", this->inputs[0]);
+	this->add_param("input1", this->inputs[1]);
 }
 
 
 UnaryOpUnit::UnaryOpUnit(UnitRef a) : Unit()
 {
 	this->add_input(a);
+
+	this->add_param("input0", this->inputs[0]);
 }
 
 }

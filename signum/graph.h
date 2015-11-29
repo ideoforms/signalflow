@@ -12,7 +12,7 @@ namespace signum
 			Graph();
 
 			void run();
-			void pull_input(UnitRef &unit, int num_frames);
+			void pull_input(const UnitRef & unit, int num_frames);
 			void pull_input(int num_frames);
 			UnitRef addUnit(Unit *unit);
 

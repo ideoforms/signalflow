@@ -16,14 +16,16 @@ namespace signum
 		while (true) { usleep(100000); }
 	}
 
-	void Graph::pull_input(UnitRef &unit, int num_frames)
+	void Graph::pull_input(const UnitRef &unit, int num_frames)
 	{
 		// Must pull our input's outputs first,
 		// or pops will be caused in the output (something to do with phase?)
-		for (UnitRef input : unit->inputs)
+		// std::cout << "pull_input: " << unit << std::endl;
+		// std::cout << "pull_input: " << unit->name << std::endl;
+		for (const UnitRef & input : unit->inputs)
 		{
-			if (!input)
-				fprintf(stderr, "Unit %s has a null input\n", unit->name.c_str());
+			// if (!input)
+			//	fprintf(stderr, "Unit %s has a null input\n", unit->name.c_str());
 			this->pull_input(input, num_frames);
 		}
 		for (auto param : unit->params)

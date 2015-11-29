@@ -7,7 +7,7 @@ namespace signum::env
 class ASR : public Unit
 {
 	public:
-		ASR(float attack, float sustain, float release, UnitRef clock = nullptr);
+		ASR(float attack = 0.1, float sustain = 0.5, float release = 0.1, UnitRef clock = nullptr);
 
 		float attack;
 		float sustain;
@@ -20,5 +20,7 @@ class ASR : public Unit
 		virtual void trigger();
 		virtual void next(sample **out, int num_frames);
 };
+
+REGISTER(ASR, "env-asr");
 
 }

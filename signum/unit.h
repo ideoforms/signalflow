@@ -50,6 +50,9 @@ namespace signum
 			UnitRefT operator/ (UnitRefT other);
 			UnitRefT operator/ (double constant);
 			sample operator[] (int index);
+
+			// UnitRefT operator= (const UnitRefT &other);
+
 	};
 
 	typedef UnitRefT <Unit> UnitRef;
@@ -71,7 +74,7 @@ namespace signum
 			 * TODO: How can we enforce this? Should we abolish fields altogether?
 			 *       sample *frequency = this->get_param_output("frequency");
 			 *-----------------------------------------------------------------------*/
-			virtual void route(UnitRef other);
+			virtual void route(const UnitRef &other);
 
 			/*------------------------------------------------------------------------
 			 * Register inputs and parameters.
@@ -79,9 +82,9 @@ namespace signum
 			 * TODO: How can we enforce this? Should we abolish fields altogether?
 			 *       sample *frequency = this->get_param_output("frequency");
 			 *-----------------------------------------------------------------------*/
-			virtual void add_input(UnitRef other);
+			virtual void add_input(const UnitRef & other);
 			virtual void add_param(std::string name, UnitRef &param);
-			virtual void set_param(std::string name, UnitRef param);
+			virtual void set_param(std::string name, const UnitRef &param);
 
 			/*------------------------------------------------------------------------
 			 * Overloading operators allows us to write

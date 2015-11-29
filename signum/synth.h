@@ -1,6 +1,7 @@
 #include "nodedef.h"
 
 #include "gen/constant.h"
+#include <iostream>
 
 namespace signum
 {
@@ -14,9 +15,11 @@ namespace signum
 				return placeholder;
 			}
 
-			void set_output(UnitRef out)
+			void set_output(const UnitRef &out)
 			{
+				std::cout << "set_output : " << out << std::endl;
 				this->output = out;
+				std::cout << "this->output: " << this->output << std::endl;
 			}
 
 			void save(std::string filename)
@@ -28,13 +31,15 @@ namespace signum
 			 *-----------------------------------------------------------------------*/
 			NodeDefinition read_structure()
 			{
-				return this->read_structure(this->output);
+				const UnitRef &r = this->output;
+				std::cout << "read_structure() : " << this->output << std::endl;
+				return this->read_structure(r);
 			}
 
-			NodeDefinition read_structure(UnitRef unit)
+			NodeDefinition read_structure(const UnitRef &unit)
 			{
+				std::cout << "read_structure: " << unit << std::endl;
 				NodeDefinition def(unit->name);
-				printf("making nodedef %s\n", unit->name.c_str());
 				if (unit->name == "constant")
 				{
 					gen::Constant *constant = (gen::Constant *) unit.get();
@@ -76,14 +81,15 @@ namespace signum
 			Synth(SynthDef *def)
 			{
 				NodeDefinition nodedef = def->read_structure();
-				this->instantiate(nodedef);
+				this->output = this->instantiate(nodedef);
 			}
 
 			UnitRef instantiate(NodeDefinition node)
 			{
 				NodeRegistry *registry = NodeRegistry::global();
 
-				UnitRef unit = registry->create(node.name);
+				Unit *u = registry->create(node.name);
+				UnitRef unit = UnitRef(u);
 				printf("node: %s\n", node.name.c_str());
 				for (auto param : node.params)
 				{
@@ -93,11 +99,22 @@ namespace signum
 					unit->set_param(param_name, param_unit);
 				}
 
+				if (node.is_constant)
+				{
+					gen::Constant *constant = (gen::Constant *) u;
+					constant->value = node.value;
+				}
+
 				return unit;
 			}
 
-			void route(UnitRef other)
+			void route(const UnitRef &other)
 			{
+				std::cout << "Output is " << this->output << std::endl;
+				// this->output->route(other);
+				other->add_input(this->output);
 			}
+
+			UnitRef output;
 	};
 }
