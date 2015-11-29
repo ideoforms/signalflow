@@ -3,11 +3,15 @@ void signum_init();
 /*------------------------------------------------------------------------
  * Core
  *-----------------------------------------------------------------------*/
-#include "ringbuffer.h"
 #include "constants.h"
 #include "unit.h"
 #include "graph.h"
 #include "buffer.h"
+#include "ringbuffer.h"
+
+#include "registry.h"
+#include "nodedef.h"
+#include "synth.h"
 
 /*------------------------------------------------------------------------
  * Operators
@@ -33,6 +37,7 @@ void signum_init();
 #include "gen/sampler.h"
 #include "gen/granulator.h"
 #include "gen/wavetable.h"
+#include "gen/tick.h"
 
 /*------------------------------------------------------------------------
  * Random processes

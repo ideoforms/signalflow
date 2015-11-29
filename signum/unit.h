@@ -2,6 +2,7 @@
 
 #include "constants.h"
 #include "ringbuffer.h"
+#include "registry.h"
 
 #include <string>
 #include <vector>
@@ -55,6 +56,7 @@ namespace signum
 
 	class Unit
 	{
+
 		public:
 
 			Unit();

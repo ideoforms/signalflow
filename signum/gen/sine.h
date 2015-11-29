@@ -7,7 +7,7 @@ namespace signum::gen
 	class Sine : public Unit
 	{
 	public:
-		Sine(UnitRef frequency) : frequency(frequency)
+		Sine(UnitRef frequency = 440) : frequency(frequency)
 		{
 			this->phase = 0;
 			this->name = "sine";
@@ -19,4 +19,7 @@ namespace signum::gen
 
 		virtual void next(sample **out, int num_frames);
 	};
+
+	REGISTER(Sine, "sine");
 }
+

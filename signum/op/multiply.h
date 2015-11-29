@@ -1,5 +1,8 @@
+#pragma once
+
 #include "../constants.h"
 #include "../unit.h"
+#include "../registry.h"
 
 namespace signum::op
 {
@@ -9,9 +12,16 @@ class Multiply : public BinaryOpUnit
 
 public:
 
-	Multiply(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
+	Multiply(UnitRef a = 1, UnitRef b = 1) : BinaryOpUnit(a, b)
 	{
 		this->name = "multiply";
+	}
+
+	static bool init()
+	{
+		NodeRegistry *reg = NodeRegistry::global();
+		reg->add<Multiply>("multiply");
+		return false;
 	}
 
 	virtual void next(sample **out, int num_frames)
@@ -28,4 +38,7 @@ public:
 	}
 };
 
+REGISTER(Multiply, "multiply");
+
 }
+

@@ -2,6 +2,8 @@
 
 #include "op/multiply.h"
 #include "op/add.h"
+#include "op/subtract.h"
+#include "op/divide.h"
 
 #include "gen/constant.h"
 #include "graph.h"
