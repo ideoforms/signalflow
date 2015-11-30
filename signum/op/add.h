@@ -4,26 +4,29 @@
 namespace signum::op
 {
 
-class Add : public BinaryOpUnit
-{
-
-public:
-
-	Add(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
+	class Add : public BinaryOpUnit
 	{
-		this->name = "add";
-	}
 
-	virtual void next(sample **out, int num_frames)
-	{
-		for (int frame = 0; frame < num_frames; frame++)
+	public:
+
+		Add(UnitRef a = 0, UnitRef b = 0) : BinaryOpUnit(a, b)
 		{
-			for (int channel = 0; channel < this->channels_out; channel++)
+			this->name = "add";
+		}
+
+		virtual void next(sample **out, int num_frames)
+		{
+			for (int frame = 0; frame < num_frames; frame++)
 			{
-				out[channel][frame] = input0->out[channel][frame] + input1->out[channel][frame];
+				for (int channel = 0; channel < this->channels_out; channel++)
+				{
+					out[channel][frame] = input0->out[channel][frame] + input1->out[channel][frame];
+				}
 			}
 		}
-	}
-};
+
+	};
+
+	REGISTER(Add, "add");
 
 }

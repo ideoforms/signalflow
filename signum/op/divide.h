@@ -4,26 +4,28 @@
 namespace signum::op
 {
 
-class Divide : public BinaryOpUnit
-{
-
-public:
-
-	Divide(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
+	class Divide : public BinaryOpUnit
 	{
-		this->name = "divide";
-	}
 
-	virtual void next(sample **out, int num_frames)
-	{
-		for (int frame = 0; frame < num_frames; frame++)
+	public:
+
+		Divide(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
 		{
-			for (int channel = 0; channel < this->channels_out; channel++)
+			this->name = "divide";
+		}
+
+		virtual void next(sample **out, int num_frames)
+		{
+			for (int frame = 0; frame < num_frames; frame++)
 			{
-				out[channel][frame] = input0->out[channel][frame] / input1->out[channel][frame];
+				for (int channel = 0; channel < this->channels_out; channel++)
+				{
+					out[channel][frame] = input0->out[channel][frame] / input1->out[channel][frame];
+				}
 			}
 		}
-	}
-};
+	};
+
+	REGISTER(Divide, "divide");
 
 }
