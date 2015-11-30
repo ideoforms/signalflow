@@ -55,7 +55,9 @@ void RingBuffer<T>::extend(T *ptr, int count)
 template <class T>
 T RingBuffer<T>::get(int index)
 {
-	int new_index = index + this->position - 1;
+	int new_index = index + this->position;
+	while (new_index < 0)
+		new_index += this->size;
 	new_index = (new_index % this->size);
 	return data[new_index];
 }
