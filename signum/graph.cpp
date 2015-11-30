@@ -34,8 +34,8 @@ namespace signum
 			UnitRef param_unit = *(param.second);
 			if (param_unit)
 				this->pull_input(param_unit, num_frames);
-			else
-				fprintf(stderr, "Unit %s has a null param input (parameter: %s)\n", unit->name.c_str(), param.first.c_str());
+			// else
+			//	fprintf(stderr, "Unit %s has a null param input (parameter: %s)\n", unit->name.c_str(), param.first.c_str());
 		}
 		unit->next(unit->out, num_frames);
 	}
