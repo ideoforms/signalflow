@@ -38,6 +38,7 @@ void signum_init();
 #include "gen/granulator.h"
 #include "gen/wavetable.h"
 #include "gen/tick.h"
+#include "gen/line.h"
 
 /*------------------------------------------------------------------------
  * Random processes
