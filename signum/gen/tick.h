@@ -7,7 +7,7 @@ namespace signum::gen
 	class Tick : public Unit
 	{
 	public:
-		Tick(UnitRef frequency) :
+		Tick(UnitRef frequency = 1.0) :
 			frequency(frequency)
 		{
 			this->steps_remaining = 0;
@@ -40,4 +40,6 @@ namespace signum::gen
 		int steps_remaining;
 
 	};
+
+	REGISTER(Tick, "tick");
 }
