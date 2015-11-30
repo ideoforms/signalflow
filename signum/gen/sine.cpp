@@ -9,15 +9,14 @@ namespace signum::gen
 
 void Sine::next(sample **out, int num_frames)
 {
-	// printf("Sine::next (phase %d, %d, %d)\n", this->phase, num_frames, this->channels_out);
 	for (int frame = 0; frame < num_frames; frame++)
 	{
 		float freq = this->frequency->out[0][frame];
 		for (int channel = 0; channel < this->channels_out; channel++)
 		{
-			out[0][frame] = sin(this->phase * freq * M_PI * 2.0 / this->graph->sample_rate) * 0.3;
+			out[0][frame] = sin(this->phase * M_PI * 2.0);
 		}
-		this->phase++;
+		this->phase += freq / this->graph->sample_rate;
 	}
 }
 

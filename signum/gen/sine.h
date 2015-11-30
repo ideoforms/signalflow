@@ -15,7 +15,7 @@ namespace signum::gen
 		}
 
 		UnitRef frequency;
-		int phase;
+		float phase;
 
 		virtual void next(sample **out, int num_frames);
 	};
