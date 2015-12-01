@@ -6,7 +6,9 @@
 #include "op/divide.h"
 
 #include "gen/constant.h"
+
 #include "graph.h"
+#include "util.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -88,6 +90,7 @@ void Unit::set_param(std::string name, const UnitRef &unit)
 		fprintf(stderr, "Unit %s has no such param: %s\n", this->name.c_str(), name.c_str());
 		exit(1);
 	}
+
 	*(this->params[name]) = unit;
 }
 
@@ -160,24 +163,42 @@ sample UnitRef::operator[] (int index)
 
 BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
 {
-	// this->add_input(a);
-	// this->add_input(b);
-	
 	this->input0 = a;
 	this->input1 = b;
 
 	this->add_param("input0", this->input0);
 	this->add_param("input1", this->input1);
+
+	// upmixing
+	this->channels_out = MAX(input0->channels_out, input1->channels_out);
+}
+
+
+void BinaryOpUnit::set_param(std::string name, const UnitRef &unit)
+{
+	Unit::set_param(name, unit);
+
+	// upmixing
+	this->channels_out = MAX(input0->channels_out, input1->channels_out);
 }
 
 
 UnaryOpUnit::UnaryOpUnit(UnitRef a) : Unit()
 {
-	// this->add_input(a);
-
 	this->input = a;
 
 	this->add_param("input0", this->input);
+
+	// upmixing
+	this->channels_out = this->input->channels_out;
+}
+
+void UnaryOpUnit::set_param(std::string name, const UnitRef &unit)
+{
+	Unit::set_param(name, unit);
+
+	// upmixing
+	this->channels_out = this->input->channels_out;
 }
 
 }

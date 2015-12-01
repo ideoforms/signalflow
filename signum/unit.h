@@ -148,6 +148,7 @@ namespace signum
 	{
 		public:
 			UnaryOpUnit(UnitRef input = 0);
+			virtual void set_param(std::string name, const UnitRef &param);
 
 			UnitRef input;
 	};
@@ -156,6 +157,7 @@ namespace signum
 	{
 		public:
 			BinaryOpUnit(UnitRef a = 0, UnitRef b = 0);
+			virtual void set_param(std::string name, const UnitRef &param);
 
 			UnitRef input0;
 			UnitRef input1;
