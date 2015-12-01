@@ -17,9 +17,7 @@ namespace signum
 
 			void set_output(const UnitRef &out)
 			{
-				std::cout << "set_output : " << out << std::endl;
 				this->output = out;
-				std::cout << "this->output: " << this->output << std::endl;
 			}
 
 			void save(std::string filename)
