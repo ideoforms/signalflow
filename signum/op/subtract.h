@@ -9,7 +9,7 @@ namespace signum::op
 
 	public:
 
-		Subtract(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
+		Subtract(UnitRef a = 0, UnitRef b = 0) : BinaryOpUnit(a, b)
 		{
 			this->name = "subtract";
 		}

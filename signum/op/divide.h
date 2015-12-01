@@ -9,7 +9,7 @@ namespace signum::op
 
 	public:
 
-		Divide(UnitRef a, UnitRef b) : BinaryOpUnit(a, b)
+		Divide(UnitRef a = 1, UnitRef b = 1) : BinaryOpUnit(a, b)
 		{
 			this->name = "divide";
 		}
