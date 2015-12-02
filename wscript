@@ -26,6 +26,11 @@ def configure(conf):
 	conf.env.INCLUDES = ['/usr/local/include']
 
 	#------------------------------------------------------------------------
+	# Check support for c++1z (required right now)
+	#------------------------------------------------------------------------
+	conf.check_cxx(cxxflags = [ '-std=c++1z' ], mandatory = True)
+
+	#------------------------------------------------------------------------
 	# For test applications (before installing in system paths), instruct
 	# binaries to search in their current directory for shared libs.
 	#------------------------------------------------------------------------
