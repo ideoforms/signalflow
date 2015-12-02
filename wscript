@@ -70,7 +70,6 @@ def build(bld):
 	for example in examples:
 		example_path = os.path.join(example_dir, str(example))
 		example_target = os.path.splitext(str(example))[0]
-		print "doing %s" % example_path
 		bld.program(
 			features = 'cxx cxxprogram',
 			source = example_path,
