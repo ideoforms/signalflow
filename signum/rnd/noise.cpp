@@ -4,6 +4,8 @@
 #include "../util.h"
 #include "../graph.h"
 
+#include <limits>
+
 namespace signum::rnd
 {
 
@@ -16,13 +18,20 @@ Noise::Noise(UnitRef frequency, bool interpolate, UnitRef min, UnitRef max) : fr
 
 	this->interpolate = interpolate;
 
-	this->value = 0;
+	this->value = std::numeric_limits<float>::max();
 
 	this->steps_remaining = 0;
 }
 
 void Noise::next(sample **out, int num_frames)
 {
+	if (this->value == std::numeric_limits<float>::max())
+	{
+		// TODO: Put this in an init block that is available to all
+		// units on their first block?
+		this->value = this->min->out[0][0];
+	}
+
 	for (int frame = 0; frame < num_frames; frame++)
 	{
 		float min = this->min->out[0][frame];

@@ -9,7 +9,7 @@ namespace signum::rnd
 	public:
 		Dust(UnitRef frequency = 1.0);
 
-		UnitRef frequency = nullptr;
+		UnitRef frequency;
 
 		virtual void next(sample **out, int num_frames);
 	

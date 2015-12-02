@@ -22,7 +22,9 @@ void Dust::next(sample **out, int num_frames)
 		float freq = this->frequency->out[0][frame];
 
 		if (this->steps_remaining <= 0)
+		{
 			this->steps_remaining = rng_randint(0, 44100.0 / (freq / 2.0));
+		}
 		this->steps_remaining--;
 
 		for (int channel = 0; channel < this->channels_out; channel++)
