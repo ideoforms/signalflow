@@ -5,6 +5,8 @@ APPNAME = 'signum'
 
 import os
 
+# top = "."
+
 #------------------------------------------------------------------------
 # Don't require a manual ./waf configure before build
 #------------------------------------------------------------------------
@@ -57,13 +59,17 @@ def build(bld):
 	#------------------------------------------------------------------------
 	# Build example files.
 	#------------------------------------------------------------------------
-	files = bld.path.ant_glob('test-*.cpp')
+	example_dir = "examples"
+	examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
 
-	for filename in files:
-		target = os.path.splitext(str(filename))[0]
+	for example in examples:
+		example_path = os.path.join(example_dir, str(example))
+		example_target = os.path.splitext(str(example))[0]
+		print "doing %s" % example_path
 		bld.program(
 			features = 'cxx cxxprogram',
-			source = str(filename),
-			target = target,
-			use = libraries + [ 'signum' ]
+			source = example_path,
+			target = example_target,
+			includes = [ ".." ],
+			use = libraries + [ 'signum' ],
 		)
