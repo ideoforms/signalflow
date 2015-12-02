@@ -1,9 +1,5 @@
 #include <signum/signum.h>
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <time.h>
-
 using namespace signum;
 
 int main()
