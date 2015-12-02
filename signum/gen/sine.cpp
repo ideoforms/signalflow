@@ -17,6 +17,9 @@ void Sine::next(sample **out, int num_frames)
 			out[0][frame] = sin(this->phase * M_PI * 2.0);
 		}
 		this->phase += freq / this->graph->sample_rate;
+
+		while (this->phase > 1.0)
+			this->phase -= 1.0;
 	}
 }
 
