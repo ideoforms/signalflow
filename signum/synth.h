@@ -11,8 +11,21 @@ namespace signum
 			UnitRef add_input(std::string name, sample default_value)
 			{
 				UnitRef placeholder(default_value);
-				this->inputs[name] = &placeholder;
+				this->inputs[name] = placeholder.get();
 				return placeholder;
+			}
+
+			std::string get_input_name(const UnitRef &unit)
+			{
+				for (auto input : this->inputs)
+				{
+					std::string name = input.first;
+					Unit *unit_ptr = input.second;
+					if (unit_ptr == unit.get())
+						return name;
+				}
+
+				return "";
 			}
 
 			void set_output(const UnitRef &out)
@@ -54,10 +67,16 @@ namespace signum
 					}
 				}
 
+				std::string input_name = this->get_input_name(unit);
+				if (!input_name.empty())
+				{
+					def.input_name = input_name;
+				}
+
 				return def;
 			}
 
-			std::unordered_map <std::string, UnitRef *> inputs;
+			std::unordered_map <std::string, Unit *> inputs;
 			UnitRef output;
 
 			std::vector <NodeDefinition> nodedefs;
@@ -78,10 +97,9 @@ namespace signum
 
 				Unit *u = registry->create(node.name);
 				UnitRef unit = UnitRef(u);
-				// printf("node: %s\n", node.name.c_str());
+
 				for (auto param : node.params)
 				{
-					// printf(" - param: %s\n", param.first.c_str());
 					std::string param_name = param.first;
 					UnitRef param_unit = this->instantiate(param.second);
 					unit->set_param(param_name, param_unit);
@@ -89,8 +107,14 @@ namespace signum
 
 				if (node.is_constant)
 				{
+					// TODO rewrite
 					gen::Constant *constant = (gen::Constant *) u;
 					constant->value = node.value;
+				}
+
+				if (!node.input_name.empty())
+				{
+					this->inputs[node.input_name] = unit;
 				}
 
 				return unit;
@@ -105,6 +129,15 @@ namespace signum
 			}
 			*/
 
+			void set_param(std::string name, float value)
+			{
+				// TODO: Should support non-constant inputs
+				UnitRef input = this->inputs[name];
+				gen::Constant *constant = (gen::Constant *) input.get();
+				constant->value = value;
+			}
+
 			UnitRef output;
+			std::unordered_map <std::string, UnitRef> inputs;
 	};
 }

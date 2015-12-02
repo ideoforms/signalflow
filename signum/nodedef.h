@@ -42,6 +42,8 @@ class NodeDefinition
 		float value;
 		bool is_constant = false;
 		std::unordered_map <std::string, NodeDefinition> params;
+
+		std::string input_name;
 };
 
 }
