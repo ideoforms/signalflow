@@ -17,13 +17,6 @@ namespace signum::op
 			this->name = "multiply";
 		}
 
-		static bool init()
-		{
-			NodeRegistry *reg = NodeRegistry::global();
-			reg->add<Multiply>("multiply");
-			return false;
-		}
-
 		virtual void next(sample **out, int num_frames)
 		{
 			for (int frame = 0; frame < num_frames; frame++)
