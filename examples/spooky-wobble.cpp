@@ -9,7 +9,7 @@ int main()
 {
 	Graph *graph = new Graph();
 
-	Buffer *buffer = new Buffer("gliss.aif");
+	Buffer *buffer = new Buffer("audio/gliss.aif");
 	UnitRef sampler = new gen::Sampler(buffer, new rnd::Noise(0.3, true), true);
 	UnitRef sampler_pan = new fx::Pan(2, sampler, 0.25);
 	graph->output->add_input(sampler_pan);
