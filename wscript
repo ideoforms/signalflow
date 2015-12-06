@@ -1,15 +1,23 @@
 #! /usr/bin/env python
 
+#------------------------------------------------------------------------
+# waf build script for signum.
+# To run:
+#
+#   ./waf
+#
+#------------------------------------------------------------------------
+
 VERSION = '0.0.1'
 APPNAME = 'signum'
 
 import os
-
-# top = "."
+import shutil
 
 #------------------------------------------------------------------------
 # Don't require a manual ./waf configure before build
 #------------------------------------------------------------------------
+
 import waflib.Configure
 waflib.Configure.autoconfig = True
 
@@ -35,6 +43,12 @@ def configure(conf):
 	# binaries to search in their current directory for shared libs.
 	#------------------------------------------------------------------------
 	conf.env.LINKFLAGS = [ "-rpath", "." ]
+	
+	#------------------------------------------------------------------------
+	# Require Accelerate framework for vectorised FFT and other
+	# optimisations
+	#------------------------------------------------------------------------
+	conf.env.LINKFLAGS += [ "-framework", "Accelerate" ]
 
 	#------------------------------------------------------------------------
 	# Setup library includes
@@ -42,7 +56,6 @@ def configure(conf):
 	conf.check(lib = 'sndfile', define_name = 'HAVE_SNDFILE') 
 	conf.check(lib = 'soundio', define_name = 'HAVE_SOUNDIO') 
 	conf.check(lib = 'gsl', define_name = 'HAVE_GSL') 
-
 
 def build(bld):
 	libraries = [ 'GSL', 'SNDFILE', 'SOUNDIO' ]
@@ -64,6 +77,7 @@ def build(bld):
 	#------------------------------------------------------------------------
 	# Build example files.
 	#------------------------------------------------------------------------
+	build_dir = "build"
 	example_dir = "examples"
 	examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
 
@@ -77,3 +91,10 @@ def build(bld):
 			includes = [ ".." ],
 			use = libraries + [ 'signum' ],
 		)
+	
+	#------------------------------------------------------------------------
+	# Copy example audio to build directory.
+	#------------------------------------------------------------------------
+	if not os.path.exists(os.path.join(build_dir, "audio")):
+		shutil.copytree(os.path.join(example_dir, "audio"), os.path.join(build_dir, "audio"))
+

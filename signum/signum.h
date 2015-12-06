@@ -59,3 +59,9 @@ void signum_init();
 #include "fx/pan.h"
 #include "fx/width.h"
 
+/*------------------------------------------------------------------------
+ * Spectral processing
+ *-----------------------------------------------------------------------*/
+#include "fft/fft.h"
+#include "fft/ifft.h"
+
