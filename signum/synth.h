@@ -28,6 +28,11 @@ namespace signum
 				return "";
 			}
 
+			UnitRef add_node(UnitRef node)
+			{
+				return node;
+			}
+
 			void set_output(const UnitRef &out)
 			{
 				this->output = out;
