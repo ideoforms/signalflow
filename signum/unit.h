@@ -87,6 +87,11 @@ namespace signum
 			virtual void set_param(std::string name, const UnitRef &param);
 
 			/*------------------------------------------------------------------------
+			 * TODO: Generic trigger method. Take named param for trigger ID?
+			 *-----------------------------------------------------------------------*/
+			virtual void trigger();
+
+			/*------------------------------------------------------------------------
 			 * Overloading operators allows us to write
 			 * UnitRef foo = bar * 0.5;
 			 *-----------------------------------------------------------------------*/

@@ -82,6 +82,10 @@ UnitRef UnitRef::operator= (const UnitRef &other)
 */
 
 
+void Unit::trigger()
+{
+	// Placeholder
+}
 
 void Unit::set_param(std::string name, const UnitRef &unit)
 {
