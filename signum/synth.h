@@ -93,31 +93,36 @@ namespace signum
 
 			UnitRef instantiate(NodeDefinition node)
 			{
+				/*------------------------------------------------------------------------
+				 * Recursively instantiate the subgraph specified in NodeDefinition.
+				 * Does not currently support graphs that route one node to multiple
+				 * inputs.
+				 *-----------------------------------------------------------------------*/
 				NodeRegistry *registry = NodeRegistry::global();
 
-				Unit *u = registry->create(node.name);
-				UnitRef unit = UnitRef(u);
+				Unit *unit = registry->create(node.name);
+				UnitRef unitref = UnitRef(unit);
 
 				for (auto param : node.params)
 				{
 					std::string param_name = param.first;
 					UnitRef param_unit = this->instantiate(param.second);
-					unit->set_param(param_name, param_unit);
+					unitref->set_param(param_name, param_unit);
 				}
 
 				if (node.is_constant)
 				{
 					// TODO rewrite
-					gen::Constant *constant = (gen::Constant *) u;
+					gen::Constant *constant = (gen::Constant *) unit;
 					constant->value = node.value;
 				}
 
 				if (!node.input_name.empty())
 				{
-					this->inputs[node.input_name] = unit;
+					this->inputs[node.input_name] = unitref;
 				}
 
-				return unit;
+				return unitref;
 			}
 
 			/*
