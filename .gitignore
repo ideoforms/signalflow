@@ -3,8 +3,6 @@
 build/
 dev/
 *.swp
-*.aif
-*.wav
 *-test
 *-test.cpp
 *.dSYM
