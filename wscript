@@ -21,10 +21,14 @@ import shutil
 import waflib.Configure
 waflib.Configure.autoconfig = True
 
+import waflib.Options
+platform = waflib.Options.platform
+
 def options(opt):
 	opt.load('compiler_cxx')
 
 def configure(conf):
+
 	#------------------------------------------------------------------------
 	# Use C++1z extensions and add general search paths
 	#------------------------------------------------------------------------
@@ -42,7 +46,8 @@ def configure(conf):
 	# For test applications (before installing in system paths), instruct
 	# binaries to search in their current directory for shared libs.
 	#------------------------------------------------------------------------
-	conf.env.LINKFLAGS = [ "-rpath", "." ]
+	if platform == "darwin":
+		conf.env.LINKFLAGS = [ "-rpath", "." ]
 	
 	#------------------------------------------------------------------------
 	# Require Accelerate framework for vectorised FFT and other
