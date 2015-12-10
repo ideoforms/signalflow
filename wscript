@@ -43,17 +43,20 @@ def configure(conf):
 	conf.check_cxx(cxxflags = [ '-std=c++1z' ], mandatory = True)
 
 	#------------------------------------------------------------------------
-	# For test applications (before installing in system paths), instruct
-	# binaries to search in their current directory for shared libs.
+	# OSX platform-specific flags
 	#------------------------------------------------------------------------
 	if platform == "darwin":
+		#------------------------------------------------------------------------
+		# For test applications (before installing in system paths), instruct
+		# binaries to search in their current directory for shared libs.
+		#------------------------------------------------------------------------
 		conf.env.LINKFLAGS = [ "-rpath", "." ]
 	
-	#------------------------------------------------------------------------
-	# Require Accelerate framework for vectorised FFT and other
-	# optimisations
-	#------------------------------------------------------------------------
-	conf.env.LINKFLAGS += [ "-framework", "Accelerate" ]
+		#------------------------------------------------------------------------
+		# Require Accelerate framework for vectorised FFT and other
+		# optimisations
+		#------------------------------------------------------------------------
+		conf.env.LINKFLAGS += [ "-framework", "Accelerate" ]
 
 	#------------------------------------------------------------------------
 	# Setup library includes
