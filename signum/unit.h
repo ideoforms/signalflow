@@ -3,6 +3,7 @@
 #include "constants.h"
 #include "ringbuffer.h"
 #include "registry.h"
+#include "platform.h"
 
 #include <string>
 #include <vector>
