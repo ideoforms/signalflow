@@ -35,6 +35,10 @@ namespace signum::fft
 
 			virtual void next(sample **out, int num_frames)
 			{
+				/*------------------------------------------------------------------------
+				 * TODO: Support FFT of size != hardware buffer size
+				 * TODO: Windowing
+				 *-----------------------------------------------------------------------*/
 				assert(num_frames == N);
 
 				DSPSplitComplex buffer_split = { buffer, buffer + N/2 };
