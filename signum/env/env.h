@@ -1,5 +1,5 @@
-#import "../constants.h"
-#import "../unit.h"
+#include "../constants.h"
+#include "../unit.h"
 
 namespace signum
 {
