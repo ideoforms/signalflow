@@ -1,6 +1,8 @@
 #pragma once
 
 #include <unordered_map>
+#include <functional>
+
 // #include "unit.h"
 #include "nodedef.h"
 
