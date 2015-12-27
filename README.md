@@ -4,7 +4,7 @@ A new C++ audio synthesis engine.
 
 ## Installation
 
-Only OS X build is supported at present.
+### OS X
 
 To build with Homebrew dependencies:
 
@@ -12,6 +12,12 @@ To build with Homebrew dependencies:
 brew install libsndfile libsoundio gsl
 ./waf
 ```
+
+### Linux (Ubuntu 14)
+
+* Install [libsoundio](http://libsound.io/)
+* `apt-get install libgsl0-dev libsndfile1-dev`
+* `./waf`
 
 ## Examples
 

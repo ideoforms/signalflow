@@ -2,9 +2,18 @@
 
 #------------------------------------------------------------------------
 # waf build script for signum.
-# To run:
+#
+# To build in production mode (optimisation flags, strip debug syms):
 #
 #   ./waf
+# 
+# To build in debug mode (no optimisation):
+#
+#   ./waf dev
+#
+# To clean up:
+#
+#   ./waf clean
 #
 #------------------------------------------------------------------------
 
@@ -33,7 +42,7 @@ def configure(conf):
 	# Use C++11 extensions and add general search paths
 	#------------------------------------------------------------------------
 	conf.load('compiler_cxx')
-	conf.env.CXXFLAGS = ['-std=c++11', '-Wall', '-g']
+	conf.env.CXXFLAGS = ['-std=c++11', '-Wall']
 	conf.env.LIBPATH = ['/usr/local/lib']
 	conf.env.INCLUDES = ['/usr/local/include']
 
@@ -68,6 +77,11 @@ def configure(conf):
 def build(bld):
 	libraries = [ 'GSL', 'SNDFILE', 'SOUNDIO' ]
 
+	if bld.cmd == "dev":
+		bld.env.CXXFLAGS += [ "-g" ]
+	else:
+		bld.env.CXXFLAGS += [ "-O3" ]
+
 	#------------------------------------------------------------------------
 	# Build every .cpp file found within signum as a shared library.
 	# Set install_path = "@rpath" sets the internal install_name of the 
@@ -95,7 +109,6 @@ def build(bld):
 		examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
 		for example in examples:
 			example_path = os.path.join(example_dir, str(example))
-			print "build: %s" % example_path
 			example_target = os.path.splitext(str(example))[0]
 			bld.program(
 				features = 'cxx cxxprogram',
@@ -105,11 +118,11 @@ def build(bld):
 				use = libraries + [ 'signum' ],
 			)
 		
-		#------------------------------------------------------------------------
-		# Copy example audio to build directory.
-		#------------------------------------------------------------------------
-		if not os.path.exists(os.path.join(build_dir, "audio")):
-			shutil.copytree(os.path.join(example_dir, "audio"), os.path.join(build_dir, "audio"))
+	#------------------------------------------------------------------------
+	# Copy example audio to build directory.
+	#------------------------------------------------------------------------
+	if not os.path.exists(os.path.join(build_dir, "audio")):
+		shutil.copytree(os.path.join("examples", "audio"), os.path.join(build_dir, "audio"))
 
 class dev(waflib.Build.BuildContext):
 	cmd = 'dev'
