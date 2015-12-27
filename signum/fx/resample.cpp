@@ -4,7 +4,7 @@
 
 #include <stdlib.h>
 
-namespace signum::fx
+namespace signum
 {
 
 void Resample::next(sample **out, int num_frames)

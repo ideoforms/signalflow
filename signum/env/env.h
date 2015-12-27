@@ -1,7 +1,7 @@
 #import "../constants.h"
 #import "../unit.h"
 
-namespace signum::env
+namespace signum
 {
 
 class ASR : public Unit

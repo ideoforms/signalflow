@@ -109,13 +109,13 @@ UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr)
 }
 
 template<>
-UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new gen::Constant(x))
+UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new Constant(x))
 {
 	(*this)->ref = this;
 }
 
 template<>
-UnitRef::UnitRefT(int x) : std::shared_ptr<Unit>(new gen::Constant((float) x))
+UnitRef::UnitRefT(int x) : std::shared_ptr<Unit>(new Constant((float) x))
 {
 	(*this)->ref = this;
 }
@@ -128,35 +128,35 @@ UnitRef::UnitRefT(int x) : std::shared_ptr<Unit>(new gen::Constant((float) x))
  *-----------------------------------------------------------------------*/
 template<>
 UnitRef UnitRef::operator* (UnitRef other)
-	{ return new op::Multiply(*this, other); }
+	{ return new Multiply(*this, other); }
 
 template<>
 UnitRef UnitRef::operator* (double constant)
-	{ return new op::Multiply(*this, constant); }
+	{ return new Multiply(*this, constant); }
 
 template<>
 UnitRef UnitRef::operator+ (UnitRef other)
-	{ return new op::Add(*this, other); }
+	{ return new Add(*this, other); }
 
 template<>
 UnitRef UnitRef::operator+ (double constant)
-	{ return new op::Add(*this, constant); }
+	{ return new Add(*this, constant); }
 
 template<>
 UnitRef UnitRef::operator- (UnitRef other)
-	{ return new op::Subtract(*this, other); }
+	{ return new Subtract(*this, other); }
 
 template<>
 UnitRef UnitRef::operator- (double constant)
-	{ return new op::Subtract(*this, constant); }
+	{ return new Subtract(*this, constant); }
 
 template<>
 UnitRef UnitRef::operator/ (UnitRef other)
-	{ return new op::Divide(*this, other); }
+	{ return new Divide(*this, other); }
 
 template<>
 UnitRef UnitRef::operator/ (double constant)
-	{ return new op::Divide(*this, constant); }
+	{ return new Divide(*this, constant); }
 
 template<>
 sample UnitRef::operator[] (int index)

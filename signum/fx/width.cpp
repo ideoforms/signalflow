@@ -1,6 +1,6 @@
 #include "width.h" 
 
-namespace signum::fx
+namespace signum
 {
 
 void Width::next(sample **out, int num_frames)

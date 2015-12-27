@@ -4,7 +4,7 @@
 #include <math.h>
 #include <stdio.h>
 
-namespace signum::gen
+namespace signum
 {
 
 void Sine::next(sample **out, int num_frames)

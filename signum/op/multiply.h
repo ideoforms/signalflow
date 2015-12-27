@@ -4,7 +4,7 @@
 #include "../unit.h"
 #include "../registry.h"
 
-namespace signum::op
+namespace signum
 {
 
 	class Multiply : public BinaryOpUnit

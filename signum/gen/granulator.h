@@ -4,7 +4,7 @@
 
 #include <vector>
 
-namespace signum::gen
+namespace signum
 {
 	class Grain
 	{

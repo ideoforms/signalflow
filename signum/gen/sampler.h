@@ -2,7 +2,7 @@
 #include "../constants.h"
 #include "../buffer.h"
 
-namespace signum::gen
+namespace signum
 {
 	class Sampler : public Unit
 	{

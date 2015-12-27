@@ -56,7 +56,7 @@ namespace signum
 				NodeDefinition def(unit->name);
 				if (unit->name == "constant")
 				{
-					gen::Constant *constant = (gen::Constant *) unit.get();
+					Constant *constant = (Constant *) unit.get();
 					def.set_value(constant->value);
 				}
 				else
@@ -118,7 +118,7 @@ namespace signum
 				if (node.is_constant)
 				{
 					// TODO rewrite
-					gen::Constant *constant = (gen::Constant *) unit;
+					Constant *constant = (Constant *) unit;
 					constant->value = node.value;
 				}
 
@@ -143,7 +143,7 @@ namespace signum
 			{
 				// TODO: Should support non-constant inputs
 				UnitRef input = this->inputs[name];
-				gen::Constant *constant = (gen::Constant *) input.get();
+				Constant *constant = (Constant *) input.get();
 				constant->value = value;
 			}
 

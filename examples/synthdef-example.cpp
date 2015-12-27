@@ -16,8 +16,8 @@ int main()
 	 * the synth.
 	 *-----------------------------------------------------------------------*/
 	UnitRef base_freq = def->add_input("base_freq", 40.0);
-	UnitRef freq = def->add_node(new rnd::Noise(2.0, true, 40, 160));
-	UnitRef sine = def->add_node(new gen::Sine(freq + base_freq));
+	UnitRef freq = def->add_node(new Noise(2.0, true, 40, 160));
+	UnitRef sine = def->add_node(new Sine(freq + base_freq));
 
 	/*------------------------------------------------------------------------
 	 * Set the output of the synth.

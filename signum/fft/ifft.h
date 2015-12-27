@@ -7,7 +7,7 @@
 
 #include <vector>
 
-namespace signum::fft
+namespace signum
 {
 	class IFFT : public UnaryOpUnit
 	{

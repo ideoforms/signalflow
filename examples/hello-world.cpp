@@ -1,7 +1,7 @@
 #include <signum/signum.h>
 
 /*------------------------------------------------------------------------
- * All objects are in the signum:: namespace.
+ * All objects are in the  namespace.
  * Import this namespace for code brevity.
  *-----------------------------------------------------------------------*/
 using namespace signum;
@@ -16,7 +16,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * 440hz Hello World
 	 *-----------------------------------------------------------------------*/
-	UnitRef sine = new gen::Sine(440);
+	UnitRef sine = new Sine(440);
 
 	/*------------------------------------------------------------------------
 	 * The Graph can have multiple inputs, summed to output.

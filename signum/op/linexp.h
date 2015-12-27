@@ -3,7 +3,7 @@
 #include "../unit.h"
 #include "../gen/constant.h"
 
-namespace signum::op
+namespace signum
 {
 
 class LinExp : public UnaryOpUnit

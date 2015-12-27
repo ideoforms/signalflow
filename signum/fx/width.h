@@ -2,7 +2,7 @@
 
 #include "../unit.h"
 
-namespace signum::fx
+namespace signum
 {
 	class Width : public Unit
 	{

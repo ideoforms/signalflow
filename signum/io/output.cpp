@@ -12,7 +12,7 @@
 
 signum::Graph *shared_graph = NULL;
 
-namespace signum::io
+namespace signum
 {
 
 int phase = 0;

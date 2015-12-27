@@ -15,13 +15,10 @@ namespace signum
 	/*------------------------------------------------------------------------
 	 * Forward-declare our operator classes to avoid interdependencies.
 	 *-----------------------------------------------------------------------*/
-	namespace op
-	{
-		class Multiply;
-		class Add;
-		class Subtract;
-		class Divide;
-	}
+	class Multiply;
+	class Add;
+	class Subtract;
+	class Divide;
 
 	class Unit;
 	class Graph;
@@ -95,8 +92,8 @@ namespace signum
 			 * Overloading operators allows us to write
 			 * UnitRef foo = bar * 0.5;
 			 *-----------------------------------------------------------------------*/
-			op::Multiply operator* (UnitRef other);
-			op::Multiply operator* (sample value);
+			Multiply operator* (UnitRef other);
+			Multiply operator* (sample value);
 
 			/*------------------------------------------------------------------------
 			 * General properties:

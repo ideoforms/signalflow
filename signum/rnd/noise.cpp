@@ -6,7 +6,7 @@
 
 #include <limits>
 
-namespace signum::rnd
+namespace signum
 {
 
 Noise::Noise(UnitRef frequency, bool interpolate, UnitRef min, UnitRef max) : frequency(frequency), min(min), max(max)

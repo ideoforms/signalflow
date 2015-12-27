@@ -1,7 +1,7 @@
 #include "../constants.h"
 #include "../unit.h"
 
-namespace signum::op
+namespace signum
 {
 
 	class Subtract : public BinaryOpUnit

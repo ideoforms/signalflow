@@ -4,10 +4,11 @@
 #include "../constants.h"
 
 #include <Accelerate/Accelerate.h>
+#include <assert.h>
 
 #include <vector>
 
-namespace signum::fft
+namespace signum
 {
 	class FFT : public UnaryOpUnit
 	{

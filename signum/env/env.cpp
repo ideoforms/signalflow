@@ -1,7 +1,7 @@
 #include "env.h"
 #include "../graph.h"
 
-namespace signum::env
+namespace signum
 {
 
 ASR::ASR(UnitRef attack, UnitRef sustain, UnitRef release, UnitRef clock) :

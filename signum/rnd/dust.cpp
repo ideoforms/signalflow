@@ -4,7 +4,7 @@
 
 #include "../util.h"
 
-namespace signum::rnd
+namespace signum
 {
 
 Dust::Dust(UnitRef frequency) : frequency(frequency)

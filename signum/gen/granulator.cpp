@@ -2,7 +2,7 @@
 
 #include "constant.h"
 
-namespace signum::gen
+namespace signum
 {
 
 Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain_length) :

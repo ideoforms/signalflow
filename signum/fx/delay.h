@@ -6,7 +6,7 @@
 
 #include <vector>
 
-namespace signum::fx
+namespace signum
 {
 	class Delay : public UnaryOpUnit
 	{

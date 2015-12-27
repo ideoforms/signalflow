@@ -2,7 +2,7 @@
 
 #include "../unit.h"
 
-namespace signum::rnd
+namespace signum
 {
 	class Dust : public Unit
 	{

@@ -4,7 +4,7 @@
 #include "../util.h"
 #include "../gen/constant.h"
 
-namespace signum::op
+namespace signum
 {
 
 class RoundToScale : public UnaryOpUnit

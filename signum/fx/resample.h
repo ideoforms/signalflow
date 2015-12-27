@@ -3,7 +3,7 @@
 #include "../unit.h"
 #include "../constants.h"
 
-namespace signum::fx
+namespace signum
 {
 	class Resample : public UnaryOpUnit
 	{

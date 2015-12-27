@@ -3,7 +3,7 @@
 
 #include <stdlib.h>
 
-namespace signum::gen
+namespace signum
 {
 
 Sampler::Sampler(Buffer *buffer, UnitRef rate, bool loop) : rate(rate)

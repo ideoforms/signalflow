@@ -8,7 +8,7 @@
 
 #include <vector>
 
-namespace signum::io
+namespace signum
 {
 	class AudioOut : public Unit
 	{

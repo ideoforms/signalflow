@@ -7,7 +7,7 @@ namespace signum
 	Graph::Graph()
 	{
 		signum_init();
-		this->output = new io::AudioOut(this);
+		this->output = new AudioOut(this);
 		this->sample_rate = 44100.0;
 	}
 

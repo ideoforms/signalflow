@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 
-namespace signum::gen
+namespace signum
 {
 
 void Square::next(sample **out, int num_frames)

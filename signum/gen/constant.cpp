@@ -1,6 +1,6 @@
 #include "constant.h"
 
-namespace signum::gen
+namespace signum
 {
 
 Constant::Constant(sample value) : Unit()
