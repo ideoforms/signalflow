@@ -33,7 +33,7 @@ def configure(conf):
 	# Use C++1z extensions and add general search paths
 	#------------------------------------------------------------------------
 	conf.load('compiler_cxx')
-	conf.env.CXXFLAGS = ['-std=c++1z', '-Wall', '-g']
+	conf.env.CXXFLAGS = ['-std=c++11', '-Wall', '-g']
 	conf.env.LIBPATH = ['/usr/local/lib']
 	conf.env.INCLUDES = ['/usr/local/include']
 
