@@ -1,6 +1,5 @@
 void signum_init();
 
-#define VIMAGE_H
 
 /*------------------------------------------------------------------------
  * Core
@@ -13,6 +12,7 @@ void signum_init();
 
 #include "registry.h"
 #include "nodedef.h"
+#include "synthdef.h"
 #include "synth.h"
 
 /*------------------------------------------------------------------------
