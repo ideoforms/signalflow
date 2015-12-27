@@ -58,6 +58,7 @@ void signum_init();
 #include "fx/resample.h"
 #include "fx/pan.h"
 #include "fx/width.h"
+#include "fx/freeze.h"
 
 /*------------------------------------------------------------------------
  * Spectral processing
