@@ -153,12 +153,20 @@ void AudioOut::next(sample **out, int num_frames)
 	for (int index = 0; index < this->inputs.size(); index++)
 	{
 		UnitRef unit = this->inputs[index];
-		for (int frame = 0; frame < num_frames; frame++)
+		for (int channel = 0; channel < this->channels_out; channel++)
 		{
-			for (int channel = 0; channel < this->channels_out; channel++)
+			#ifdef __APPLE__
+
+			vDSP_vadd(unit->out[channel], 1, out[channel], 1, out[channel], 1, num_frames);
+
+			#else
+
+			for (int frame = 0; frame < num_frames; frame++)
 			{
 				out[channel][frame] += unit->out[channel][frame];
 			}
+
+			#endif
 		}
 	}
 }
