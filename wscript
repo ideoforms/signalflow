@@ -30,7 +30,7 @@ def options(opt):
 def configure(conf):
 
 	#------------------------------------------------------------------------
-	# Use C++1z extensions and add general search paths
+	# Use C++11 extensions and add general search paths
 	#------------------------------------------------------------------------
 	conf.load('compiler_cxx')
 	conf.env.CXXFLAGS = ['-std=c++11', '-Wall', '-g']
@@ -38,9 +38,9 @@ def configure(conf):
 	conf.env.INCLUDES = ['/usr/local/include']
 
 	#------------------------------------------------------------------------
-	# Check support for c++1z (required right now)
+	# Check support for c++11 (required right now)
 	#------------------------------------------------------------------------
-	conf.check_cxx(cxxflags = [ '-std=c++1z' ], mandatory = True)
+	conf.check_cxx(cxxflags = [ '-std=c++11' ], mandatory = True)
 
 	#------------------------------------------------------------------------
 	# OSX platform-specific flags
