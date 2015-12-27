@@ -86,23 +86,30 @@ def build(bld):
 	# Build example files.
 	#------------------------------------------------------------------------
 	build_dir = "build"
-	example_dir = "examples"
-	examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
 
-	for example in examples:
-		example_path = os.path.join(example_dir, str(example))
-		example_target = os.path.splitext(str(example))[0]
-		bld.program(
-			features = 'cxx cxxprogram',
-			source = example_path,
-			target = example_target,
-			includes = [ ".." ],
-			use = libraries + [ 'signum' ],
-		)
-	
-	#------------------------------------------------------------------------
-	# Copy example audio to build directory.
-	#------------------------------------------------------------------------
-	if not os.path.exists(os.path.join(build_dir, "audio")):
-		shutil.copytree(os.path.join(example_dir, "audio"), os.path.join(build_dir, "audio"))
+	example_dirs = [ "examples" ]
+	if bld.cmd == "dev":
+		example_dirs += [ "examples-dev" ]
 
+	for example_dir in example_dirs:
+		examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
+		for example in examples:
+			example_path = os.path.join(example_dir, str(example))
+			print "build: %s" % example_path
+			example_target = os.path.splitext(str(example))[0]
+			bld.program(
+				features = 'cxx cxxprogram',
+				source = example_path,
+				target = example_target,
+				includes = [ ".." ],
+				use = libraries + [ 'signum' ],
+			)
+		
+		#------------------------------------------------------------------------
+		# Copy example audio to build directory.
+		#------------------------------------------------------------------------
+		if not os.path.exists(os.path.join(build_dir, "audio")):
+			shutil.copytree(os.path.join(example_dir, "audio"), os.path.join(build_dir, "audio"))
+
+class dev(waflib.Build.BuildContext):
+	cmd = 'dev'
