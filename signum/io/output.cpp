@@ -110,6 +110,8 @@ int AudioOut::init()
 
     this->outstream = soundio_outstream_create(device);
     this->outstream->format = SoundIoFormatFloat32NE;
+    this->outstream->software_latency = 512 / 44100.0;
+    this->outstream->sample_rate = 44100.0;
     this->outstream->write_callback = write_callback;
 
     if ((err = soundio_outstream_open(this->outstream)))
