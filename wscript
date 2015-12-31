@@ -44,7 +44,7 @@ def configure(conf):
 	conf.load('compiler_cxx')
 	conf.env.CXXFLAGS = ['-std=c++11', '-Wall']
 	conf.env.LIBPATH = ['/usr/local/lib']
-	conf.env.INCLUDES = ['/usr/local/include']
+	conf.env.INCLUDES = ['/usr/local/include', 'lib']
 
 	#------------------------------------------------------------------------
 	# Check support for c++11 (required right now)
@@ -78,7 +78,7 @@ def build(bld):
 	libraries = [ 'GSL', 'SNDFILE', 'SOUNDIO' ]
 
 	if bld.cmd == "dev":
-		bld.env.CXXFLAGS += [ "-g" ]
+		bld.env.CXXFLAGS += [ "-g", "-D", "DEBUG" ]
 	else:
 		bld.env.CXXFLAGS += [ "-O3" ]
 
@@ -89,40 +89,58 @@ def build(bld):
 	# compiled against this lib.
 	#------------------------------------------------------------------------
 	bld.shlib(
-		source = bld.path.ant_glob('signum/**/*.cpp'),
+		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('signum/**/*.cpp'),
 		target = 'signum',
 		vnum = VERSION,
 		use = libraries,
 		install_path = '@rpath'
 	)
 
-	#------------------------------------------------------------------------
-	# Build example files.
-	#------------------------------------------------------------------------
 	build_dir = "build"
 
-	example_dirs = [ "examples" ]
-	if bld.cmd == "dev":
-		example_dirs += [ "examples-dev" ]
+	#------------------------------------------------------------------------
+	# Collate source files to build.
+	# If sources are specified on the command line (./waf build foo.cpp),
+	# only these will be built; otherwise, examples will be built.
+	#------------------------------------------------------------------------
+	source_files = []
+	
+	if (waflib.Options.commands):
+		source_files += waflib.Options.commands
+		waflib.Options.commands = []
+	else:
+		#------------------------------------------------------------------------
+		# Collate all source files found within example folders.
+		# If "dev" command is given, also include examples-dev.
+		#------------------------------------------------------------------------
+		example_dirs = [ "examples" ]
+		if bld.cmd == "dev":
+			example_dirs += [ "examples-dev" ]
 
-	for example_dir in example_dirs:
-		examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
-		for example in examples:
-			example_path = os.path.join(example_dir, str(example))
-			example_target = os.path.splitext(str(example))[0]
-			bld.program(
-				features = 'cxx cxxprogram',
-				source = example_path,
-				target = example_target,
-				includes = [ ".." ],
-				use = libraries + [ 'signum' ],
-			)
-		
+		for example_dir in example_dirs:
+			examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
+			for example in examples:
+				example_path = os.path.join(example_dir, str(example))
+				source_files.append(example_path);
+
+	#------------------------------------------------------------------------
+	# Build each source file
+	#------------------------------------------------------------------------
+	for source_file in source_files:
+		target = os.path.splitext(source_file)[0]
+		bld.program(
+			features = 'cxx cxxprogram',
+			source = source_file,
+			target = target,
+			includes = [ ".." ],
+			use = libraries + [ 'signum' ],
+		)
+	
 	#------------------------------------------------------------------------
 	# Copy example audio to build directory.
 	#------------------------------------------------------------------------
-	if not os.path.exists(os.path.join(build_dir, "audio")):
-		shutil.copytree(os.path.join("examples", "audio"), os.path.join(build_dir, "audio"))
+	shutil.rmtree(os.path.join(build_dir, "audio"))
+	shutil.copytree(os.path.join("examples", "audio"), os.path.join(build_dir, "audio"))
 
 class dev(waflib.Build.BuildContext):
 	cmd = 'dev'
