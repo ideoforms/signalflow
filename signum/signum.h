@@ -68,3 +68,11 @@ void signum_init();
 #include "fft/fft.h"
 #include "fft/ifft.h"
 
+
+/*------------------------------------------------------------------------
+ * Development headers (not included in production distribution)
+ *-----------------------------------------------------------------------*/
+#ifdef DEBUG
+#include "signum-dev.h"
+#endif
+
