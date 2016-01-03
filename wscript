@@ -78,7 +78,13 @@ def build(bld):
 	libraries = [ 'GSL', 'SNDFILE', 'SOUNDIO' ]
 
 	if bld.cmd == "dev":
-		bld.env.CXXFLAGS += [ "-g", "-D", "DEBUG" ]
+		bld.env.CXXFLAGS += [ "-g" ]
+		#------------------------------------------------------------------------
+		# Use define rather than adding -D to build flags, as this ensures
+		# that waf correctly refreshes the build when includes within #ifdef
+		# are updated.
+		#------------------------------------------------------------------------
+		bld.define("DEBUG", 1)
 	else:
 		bld.env.CXXFLAGS += [ "-O3" ]
 
@@ -127,7 +133,13 @@ def build(bld):
 	# Build each source file
 	#------------------------------------------------------------------------
 	for source_file in source_files:
-		target = os.path.splitext(source_file)[0]
+		#------------------------------------------------------------------------
+		# Remove path prefixes to ensure that built binaries go directly
+		# in "build".
+		#------------------------------------------------------------------------
+		target = os.path.basename(source_file)
+		target = os.path.splitext(target)[0]
+
 		bld.program(
 			features = 'cxx cxxprogram',
 			source = source_file,

@@ -1,8 +1,5 @@
 #pragma once
 
-#include <stdarg.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <string>
 
-void signum_error(char * msg, ... );
-void signum_exit(int status_code);
+void signum_debug(char const *msg, ...);
