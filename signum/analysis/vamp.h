@@ -6,6 +6,8 @@
 #include <vamp-hostsdk/PluginInputDomainAdapter.h>
 #include <vamp-hostsdk/PluginLoader.h>
 
+#include <algorithm>
+
 using namespace std;
 
 using Vamp::Plugin;
@@ -20,16 +22,22 @@ namespace signum
 	class VampAnalysis : public UnaryOpUnit
 	{
 		public:
-			VampAnalysis(UnitRef input = 0.0) :
+			VampAnalysis(UnitRef input = 0.0, string plugin_id = "vamp-example-plugins:spectralcentroid:linearcentroid") :
 				UnaryOpUnit(input)
 			{
 				this->name = "vamp";
 
 				this->current_frame = 0;
 
-			    string vamp_plugin_library = "vamp-example-plugins";
-				string vamp_plugin_feature = "spectralcentroid";
-				string vamp_plugin_output = "linearcentroid";	
+				size_t num_colons = std::count(plugin_id.begin(), plugin_id.end(), ':');
+				if (num_colons != 2)
+					throw std::runtime_error("Invalid Vamp plugin ID: " + plugin_id);
+
+				int first_separator = plugin_id.find(':');
+				int second_separator = plugin_id.find(':', first_separator + 1);
+				string vamp_plugin_library = plugin_id.substr(0, first_separator);
+				string vamp_plugin_feature = plugin_id.substr(first_separator + 1, second_separator - first_separator);
+				string vamp_plugin_output = plugin_id.substr(second_separator + 1);
 
 				PluginLoader *loader = PluginLoader::getInstance();
 				PluginLoader::PluginKey key = loader->composePluginKey(vamp_plugin_library, vamp_plugin_feature);
@@ -37,10 +45,10 @@ namespace signum
 				this->plugin = loader->loadPlugin(key, 44100, PluginLoader::ADAPT_ALL);
 
 				if (!this->plugin)
-					fprintf(stderr, "Failed to load plugin");
+					throw std::runtime_error("Failed to load Vamp plugin: " + plugin_id);
 
 				/*------------------------------------------------------------------------
-				 * Get required output index
+				 * Get required output index.
 				 *-----------------------------------------------------------------------*/
 				Plugin::OutputList outputs = this->plugin->getOutputDescriptors();
 				this->output_index = -1;
@@ -54,7 +62,7 @@ namespace signum
 					}
 				}
 
-				printf("Loaded plugin (output index %d)\n", this->output_index);
+				signum_debug("Loaded plugin (output index %d)", this->output_index);
 				this->plugin->initialise(1, 512, 512);
 			}
 
