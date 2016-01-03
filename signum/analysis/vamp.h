@@ -36,8 +36,9 @@ namespace signum
 				int first_separator = plugin_id.find(':');
 				int second_separator = plugin_id.find(':', first_separator + 1);
 				string vamp_plugin_library = plugin_id.substr(0, first_separator);
-				string vamp_plugin_feature = plugin_id.substr(first_separator + 1, second_separator - first_separator);
+				string vamp_plugin_feature = plugin_id.substr(first_separator + 1, second_separator - first_separator - 1);
 				string vamp_plugin_output = plugin_id.substr(second_separator + 1);
+				signum_debug("Loading plugin %s, %s, %s", vamp_plugin_library.c_str(), vamp_plugin_feature.c_str(), vamp_plugin_output.c_str());
 
 				PluginLoader *loader = PluginLoader::getInstance();
 				PluginLoader::PluginKey key = loader->composePluginKey(vamp_plugin_library, vamp_plugin_feature);
@@ -73,7 +74,6 @@ namespace signum
 
 			void next(sample **out, int num_frames)
 			{
-				printf("Reading %d frames\n", num_frames);
 				RealTime rt = RealTime::frame2RealTime(this->current_frame, 44100);
 				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
 				if (features[this->output_index].size())
