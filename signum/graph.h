@@ -4,7 +4,6 @@
 
 namespace signum
 {
-
 	class Graph
 	{
 		public:

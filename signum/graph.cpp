@@ -1,5 +1,7 @@
 #include "graph.h"
-#include "signum.h"
+#include "unit.h"
+#include "core.h"
+
 #include "io/output.h"
 
 namespace signum

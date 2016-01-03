@@ -1,5 +1,4 @@
 #include "sine.h"
-#include "../signum.h"
 
 #include <math.h>
 #include <stdio.h>

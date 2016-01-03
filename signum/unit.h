@@ -25,7 +25,6 @@ namespace signum
 	class Unit;
 	class Graph;
 
-
 	/*------------------------------------------------------------------------
 	 * Allows us to use a float (or direct unit ptr) in place of a UnitRef
 	 * by specifying conversion constructors.
@@ -167,3 +166,5 @@ namespace signum
 			UnitRef input1;
 	};
 }
+
+#include "graph.h"
