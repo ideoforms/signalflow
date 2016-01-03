@@ -3,6 +3,15 @@
 #include <iostream>
 #include <stdlib.h>
 
+#include "util.h"
+
+using namespace signum;
+
+void signum_init()
+{
+	rng_init();
+}
+
 void signum_debug(char const * msg, ... )
 {
 	va_list v;
