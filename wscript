@@ -151,8 +151,10 @@ def build(bld):
 	#------------------------------------------------------------------------
 	# Copy example audio to build directory.
 	#------------------------------------------------------------------------
-	shutil.rmtree(os.path.join(build_dir, "audio"))
-	shutil.copytree(os.path.join("examples", "audio"), os.path.join(build_dir, "audio"))
+	audio_dir = os.path.join(build_dir, "audio")
+	if os.path.exists(audio_dir):
+		shutil.rmtree(audio_dir)
+	shutil.copytree(os.path.join("examples", "audio"), audio_dir)
 
 class dev(waflib.Build.BuildContext):
 	cmd = 'dev'
