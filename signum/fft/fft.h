@@ -26,7 +26,8 @@ namespace signum
 
 			~FFT()
 			{
-				// free resources
+				vDSP_destroy_fftsetup(this->fft_setup);
+				free(this->buffer);
 			}
 
 			int N;
