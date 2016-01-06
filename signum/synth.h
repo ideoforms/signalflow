@@ -11,10 +11,10 @@ namespace signum
 			Synth(SynthDef *def)
 			{
 				NodeDefinition nodedef = def->read_structure();
-				this->output = this->instantiate(nodedef);
+				this->output = this->instantiate(&nodedef);
 			}
 
-			UnitRef instantiate(NodeDefinition node)
+			UnitRef instantiate(NodeDefinition *node)
 			{
 				/*------------------------------------------------------------------------
 				 * Recursively instantiate the subgraph specified in NodeDefinition.
@@ -23,26 +23,26 @@ namespace signum
 				 *-----------------------------------------------------------------------*/
 				NodeRegistry *registry = NodeRegistry::global();
 
-				Unit *unit = registry->create(node.name);
+				Unit *unit = registry->create(node->name);
 				UnitRef unitref = UnitRef(unit);
 
-				for (auto param : node.params)
+				for (auto param : node->params)
 				{
 					std::string param_name = param.first;
 					UnitRef param_unit = this->instantiate(param.second);
 					unitref->set_param(param_name, param_unit);
 				}
 
-				if (node.is_constant)
+				if (node->is_constant)
 				{
 					// TODO rewrite
 					Constant *constant = (Constant *) unit;
-					constant->value = node.value;
+					constant->value = node->value;
 				}
 
-				if (!node.input_name.empty())
+				if (!node->input_name.empty())
 				{
-					this->inputs[node.input_name] = unitref;
+					this->inputs[node->input_name] = unitref;
 				}
 
 				return unitref;

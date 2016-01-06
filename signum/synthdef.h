@@ -67,7 +67,7 @@ namespace signum
 						if (param_unit)
 						{
 							NodeDefinition param_def = this->read_structure(param_unit);
-							def.add_param(param.first, param_def);
+							def.add_param(param.first, &param_def);
 						}
 					}
 				}

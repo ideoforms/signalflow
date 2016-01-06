@@ -35,7 +35,7 @@ namespace signum
 
 			virtual void next(sample **out, int num_frames)
 			{
-				assert(num_frames == N);
+				// assert(num_frames == N);
 
 				DSPSplitComplex buffer_split = { buffer, buffer + N/2 };
 				DSPSplitComplex input_split = { this->input->out[0], this->input->out[0] + N/2 };

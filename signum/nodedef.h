@@ -13,6 +13,11 @@ class NodeDefinition
 		{
 		}
 
+		~NodeDefinition()
+		{
+			// free params
+		}
+
 		NodeDefinition(std::string name) : name(name)
 		{
 		}
@@ -22,14 +27,16 @@ class NodeDefinition
 			this->set_value(value);
 		}
 
-		void add_param(std::string name, NodeDefinition def)
+		void add_param(std::string name, NodeDefinition *def)
 		{
-			this->params[name] = def;
+			NodeDefinition *def_copy = new NodeDefinition();
+			*def_copy = *def;
+			this->params[name] = def_copy;
 		}
 
 		void add_param(std::string name, float value)
 		{
-			this->params[name] = NodeDefinition("constant", value);
+			this->params[name] = new NodeDefinition("constant", value);
 		}
 
 		void set_value (float value)
@@ -41,7 +48,7 @@ class NodeDefinition
 		std::string name;
 		float value;
 		bool is_constant = false;
-		std::unordered_map <std::string, NodeDefinition> params;
+		std::unordered_map <std::string, NodeDefinition *> params;
 
 		std::string input_name;
 };
