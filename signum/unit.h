@@ -4,6 +4,7 @@
 #include "ringbuffer.h"
 #include "registry.h"
 #include "platform.h"
+#include "buffer.h"
 
 #include <string>
 #include <vector>
@@ -75,14 +76,22 @@ namespace signum
 			virtual void route(const UnitRef &other);
 
 			/*------------------------------------------------------------------------
-			 * Register inputs and parameters.
-			 * This is necessary to register connections to form the signal graph.
-			 * TODO: How can we enforce this? Should we abolish fields altogether?
-			 *       sample *frequency = this->get_param_output("frequency");
+			 * Connect a new signal input to this unit. These connections form
+			 * the holistic signal graph.
 			 *-----------------------------------------------------------------------*/
 			virtual void add_input(const UnitRef &input);
+
+			/*------------------------------------------------------------------------
+			 * Register parameters.
+			 *-----------------------------------------------------------------------*/
 			virtual void add_param(std::string name, UnitRef &param);
 			virtual void set_param(std::string name, const UnitRef &param);
+
+			/*------------------------------------------------------------------------
+			 * Register buffer params.
+			 *-----------------------------------------------------------------------*/
+			virtual void add_buffer(std::string name, Buffer **buffer);
+			virtual void set_buffer(std::string name, Buffer *buffer);
 
 			/*------------------------------------------------------------------------
 			 * TODO: Generic trigger method. Take named param for trigger ID?
@@ -97,16 +106,22 @@ namespace signum
 			Multiply operator* (sample value);
 
 			/*------------------------------------------------------------------------
-			 * General properties:
-			 *  - human-readable name identifier [a-z0-9-]
-			 *  - vector of parameters: (name, pointer to UnitRef)
-			 *    - must be a pointer rather than the UnitRef itself as these
-			 *      params are actually pointers to struct fields (this->frequency)
-			 *  - vector of input units
-			 *-----------------------------------------------------------------------*/
+			 * Human-readable name identifier [a-z0-9-]
+			 *----------------------------------------------------------------------*/
 			std::string name;
+
+			/*------------------------------------------------------------------------
+			 * Hash table of parameters: (name, pointer to UnitRef)
+			 * Must be a pointer rather than the UnitRef itself as these
+			 * params are actually pointers to struct fields (this->frequency).
+			 *-----------------------------------------------------------------------*/
 			std::unordered_map <std::string, UnitRef *> params;
-			// std::vector <UnitRef> inputs;
+
+			/*------------------------------------------------------------------------
+			 * Buffers are distinct from parameters, pointing to a fixed
+			 * area of sample storage that must be non-null.
+			 *-----------------------------------------------------------------------*/
+			std::unordered_map <std::string, Buffer **> buffers;
 
 			/*------------------------------------------------------------------------
 			 * Pointer to the Graph that this unit is a part of.
@@ -127,6 +142,9 @@ namespace signum
 			 *-----------------------------------------------------------------------*/
 			sample **out;
 
+			/*------------------------------------------------------------------------
+			 * Vector of input units.
+			 *-----------------------------------------------------------------------*/
 			std::vector <UnitRef> inputs;
 
 			/*------------------------------------------------------------------------

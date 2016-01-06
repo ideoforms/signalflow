@@ -33,7 +33,7 @@ namespace signum
 			Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain_length = 0.1);
 
 			Buffer *buffer;
-			EnvelopeBuffer *envelope;
+			Buffer *envelope;
 
 			UnitRef pos;
 			UnitRef clock;

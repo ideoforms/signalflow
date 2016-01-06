@@ -39,8 +39,8 @@ void Unit::next(sample **out, int num_frames)
 	// Basic next() loop assumes we are N-in, N-out.
 	// TODO: Assert channel config makes sense? (> 0)
 	
-	printf("Unit::next (should never be called)\n");
-	exit(1);
+
+	throw std::runtime_error("Unit::next (should never be called)");
 }
 
 void Unit::add_input(const UnitRef &other)
@@ -67,6 +67,30 @@ void Unit::add_param(std::string name, UnitRef &unit)
 	this->params[name] = &unit;
 }
 
+void Unit::set_param(std::string name, const UnitRef &unit)
+{
+	if (!this->params[name])
+		throw std::runtime_error("Unit " + this->name + " has no such param: " + name);
+
+	*(this->params[name]) = unit;
+}
+
+
+
+void Unit::add_buffer(std::string name, Buffer **buffer)
+{
+	this->buffers[name] = buffer;
+}
+
+void Unit::set_buffer(std::string name, Buffer *buffer)
+{
+	if (!this->buffers[name])
+		throw std::runtime_error("Unit " + this->name + " has no such buffer: " + name);
+
+	*(this->buffers[name]) = buffer;
+}
+
+
 // TODO: Assignment operator breaks our paradigm as (I think) we need 
 // to update the new object's 'ref' pointer to its shared_ptr container...
 // This might be bad practice. 
@@ -86,18 +110,6 @@ void Unit::trigger()
 {
 	// Placeholder
 }
-
-void Unit::set_param(std::string name, const UnitRef &unit)
-{
-	if (!this->params[name])
-	{
-		fprintf(stderr, "Unit %s has no such param: %s\n", this->name.c_str(), name.c_str());
-		exit(1);
-	}
-
-	*(this->params[name]) = unit;
-}
-
 
 template<>
 UnitRef::UnitRefT() : std::shared_ptr<Unit>(nullptr) { }

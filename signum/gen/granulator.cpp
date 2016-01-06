@@ -8,14 +8,18 @@ namespace signum
 Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain_length) :
 	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length)
 {
+	this->name = "granulator";
+
 	this->add_param("pos", this->pos);
 	this->add_param("clock", this->clock);
 	this->add_param("grain_length", this->grain_length);
 
 	this->envelope = new EnvelopeBufferTriangle();
+	this->add_buffer("envelope", &envelope);
 
 	this->channels_out = 2;
 
+	this->pan = 0.5;
 	this->pan = 0.5;
 	this->add_param("pan", this->pan);
 

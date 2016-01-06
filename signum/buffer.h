@@ -27,6 +27,16 @@ namespace signum
 		sample **data;
 
 		float duration;
+
+		sample get_amplitude(float norm_index)
+		{
+			/*-------------------------------------------------------------------------
+			 * TODO: Interpolate
+			 * TODO: Should we be more polite about indexes outside of [0,1]?
+			 *-----------------------------------------------------------------------*/
+			int index = norm_index * this->num_frames;
+			return this->data[0][index];
+		}
 	};
 
 	/*-------------------------------------------------------------------------
@@ -46,15 +56,6 @@ namespace signum
 					this->data[0][x] = 1.0;
 			}
 
-			sample get_amplitude(float norm_index)
-			{
-				/*-------------------------------------------------------------------------
-				 * TODO: Interpolate
-				 * TODO: Should we be more polite about indexes outside of [0,1]?
-				 *-----------------------------------------------------------------------*/
-				int index = norm_index * this->num_frames;
-				return this->data[0][index];
-			}
 	};
 
 	class EnvelopeBufferTriangle : public EnvelopeBuffer
