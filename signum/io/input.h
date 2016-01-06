@@ -13,7 +13,7 @@ namespace signum
 	class AudioIn : public Unit
 	{
 	public:
-		AudioIn(Graph *graph);
+		AudioIn();
 		int init();
 		int start();
 		int close();
@@ -21,6 +21,10 @@ namespace signum
 
 		struct SoundIo *soundio;
 		struct SoundIoDevice *device;
-		struct SoundIoOutStream *outstream;
+		struct SoundIoInStream *instream;
+
+		Buffer *buffer;
+		int read_pos;
+		int write_pos;
 	};
 }
