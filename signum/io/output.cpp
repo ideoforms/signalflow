@@ -27,7 +27,7 @@ void write_callback(struct SoundIoOutStream *outstream,
 
 	if ((err = soundio_outstream_begin_write(outstream, &areas, &frame_count)))
 	{
-		fprintf(stderr, "%s\n", soundio_strerror(err));
+		fprintf(stderr, "begin write: %s\n", soundio_strerror(err));
 		exit(1);
 	}
 
@@ -57,7 +57,7 @@ void write_callback(struct SoundIoOutStream *outstream,
 
 	if ((err = soundio_outstream_end_write(outstream)))
 	{
-		fprintf(stderr, "%s\n", soundio_strerror(err));
+		fprintf(stderr, "end write: %s\n", soundio_strerror(err));
 		exit(1);
 	}
 }
