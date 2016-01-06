@@ -15,8 +15,6 @@ signum::Graph *shared_graph = NULL;
 namespace signum
 {
 
-int phase = 0;
-
 void write_callback(struct SoundIoOutStream *outstream,
 		int frame_count_min, int frame_count_max)
 {
@@ -54,7 +52,6 @@ void write_callback(struct SoundIoOutStream *outstream,
 				if (*ptr > 1.0) *ptr = 1.0;
 				if (*ptr < -1.0) *ptr = -1.0;
 			}
-			phase++;
 		}
 
 		if ((err = soundio_outstream_end_write(outstream)))
