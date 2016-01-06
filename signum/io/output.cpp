@@ -25,23 +25,19 @@ void write_callback(struct SoundIoOutStream *outstream,
 	int frame_count = frame_count_max;
 	int frames_left = frame_count_max;
 
+	/*-----------------------------------------------------------------------*
+	 * On some drivers (eg Linux), we cannot write all samples at once.
+	 * Keep writing as many as we can until we have cleared the buffer.
+	 *-----------------------------------------------------------------------*/
 	while (frames_left > 0)
 	{
 		int err;
 
 		if ((err = soundio_outstream_begin_write(outstream, &areas, &frame_count)))
-		{
-			fprintf(stderr, "begin write: %s\n", soundio_strerror(err));
-			exit(1);
-		}
+			throw std::runtime_error("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
 
 		if (!shared_graph)
-		{
-			fprintf(stderr, "No global graph created!\n");
-			return;
-		}
-
-		/// printf("--- sample --- \n");
+			throw std::runtime_error("libsoundio error: No global graph created");
 
 		shared_graph->pull_input(frame_count);
 
@@ -51,8 +47,10 @@ void write_callback(struct SoundIoOutStream *outstream,
 			{
 				float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
 				*ptr = shared_graph->output->out[channel][frame];
-				// *ptr = 0.2 * sin(phase * M_PI * 2.0 * 440.0 / 44100.0);
 
+				/*-----------------------------------------------------------------------*
+				 * Hard limiter.
+				 *-----------------------------------------------------------------------*/
 				if (*ptr > 1.0) *ptr = 1.0;
 				if (*ptr < -1.0) *ptr = -1.0;
 			}
@@ -60,10 +58,8 @@ void write_callback(struct SoundIoOutStream *outstream,
 		}
 
 		if ((err = soundio_outstream_end_write(outstream)))
-		{
-			fprintf(stderr, "end write: %s\n", soundio_strerror(err));
-			exit(1);
-		}
+			throw std::runtime_error("libsoundio error on end write: " + std::string(soundio_strerror(err)));
+
 		frames_left -= frame_count;
 	}
 }
@@ -85,55 +81,38 @@ int AudioOut::init()
 	this->soundio = soundio_create();
 
 	if (!this->soundio)
-	{
-		fprintf(stderr, "out of memory\n");
-		return 1;
-	}
+		throw std::runtime_error("libsoundio init error: out of memory");
 
 	if ((err = soundio_connect(this->soundio)))
-	{
-		fprintf(stderr, "error connecting: %s", soundio_strerror(err));
-		return 1;
-	}
+		throw std::runtime_error("libsoundio init error: could not connect (" + std::string(soundio_strerror(err)) + ")");
 
 	soundio_flush_events(this->soundio);
 
 	int default_out_device_index = soundio_default_output_device_index(this->soundio);
 	if (default_out_device_index < 0)
-	{
-		fprintf(stderr, "no output device found");
-		return 1;
-	}
+		throw std::runtime_error("libsoundio init error: no output devices found.");
 
 	this->device = soundio_get_output_device(this->soundio, default_out_device_index);
 	if (!device)
-	{
-		fprintf(stderr, "out of memory");
-		return 1;
-	}
+		throw std::runtime_error("libsoundio init error: out of memory.");
 
 	fprintf(stderr, "Output device: %s\n", device->name);
 
 	this->outstream = soundio_outstream_create(device);
 	this->outstream->format = SoundIoFormatFloat32NE;
+	this->outstream->write_callback = write_callback;
 	// this->outstream->software_latency = 512 / 44100.0;
 	// this->outstream->sample_rate = 44100.0;
-	this->outstream->write_callback = write_callback;
 
 	if ((err = soundio_outstream_open(this->outstream)))
-	{
-		fprintf(stderr, "unable to open device: %s", soundio_strerror(err));
-		return 1;
-	}
+		throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
 
 	if (this->outstream->layout_error)
-		fprintf(stderr, "unable to set channel layout: %s\n", soundio_strerror(this->outstream->layout_error));
+		throw std::runtime_error("libsoundio init error: unable to set channel layout: " +
+				std::string(soundio_strerror(this->outstream->layout_error)));
 
 	if ((err = soundio_outstream_start(outstream)))
-	{
-		fprintf(stderr, "unable to start device: %s", soundio_strerror(err));
-		return 1;
-	}
+		throw std::runtime_error("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
 
 	return 0;
 }
