@@ -73,9 +73,10 @@ def configure(conf):
 	conf.check(lib = 'sndfile', define_name = 'HAVE_SNDFILE') 
 	conf.check(lib = 'soundio', define_name = 'HAVE_SOUNDIO') 
 	conf.check(lib = 'gsl', define_name = 'HAVE_GSL') 
+	conf.check(lib = 'gslcblas', define_name = 'HAVE_GSLCBLAS') 
 
 def build(bld):
-	libraries = [ 'GSL', 'SNDFILE', 'SOUNDIO' ]
+	libraries = [ 'GSL', 'GSLCBLAS', 'SNDFILE', 'SOUNDIO' ]
 
 	if bld.cmd == "dev":
 		bld.env.CXXFLAGS += [ "-g" ]
@@ -87,6 +88,7 @@ def build(bld):
 		bld.define("DEBUG", 1)
 	else:
 		bld.env.CXXFLAGS += [ "-O3" ]
+	bld.env.CXXFLAGS += [ "-Wno-unused-variable" ]
 
 	#------------------------------------------------------------------------
 	# Build every .cpp file found within signum as a shared library.
