@@ -72,6 +72,8 @@ def configure(conf):
 	#------------------------------------------------------------------------
 	conf.check(lib = 'sndfile', define_name = 'HAVE_SNDFILE') 
 	conf.check(lib = 'soundio', define_name = 'HAVE_SOUNDIO') 
+
+	conf.env.LDFLAGS += [ '-lgslcblas' ]
 	conf.check(lib = 'gsl', define_name = 'HAVE_GSL') 
 	conf.check(lib = 'gslcblas', define_name = 'HAVE_GSLCBLAS') 
 
