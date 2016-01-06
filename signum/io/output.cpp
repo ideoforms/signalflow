@@ -18,47 +18,53 @@ namespace signum
 int phase = 0;
 
 void write_callback(struct SoundIoOutStream *outstream,
-        int frame_count_min, int frame_count_max)
+		int frame_count_min, int frame_count_max)
 {
-    const struct SoundIoChannelLayout *layout = &outstream->layout;
-    struct SoundIoChannelArea *areas;
-    int frame_count = frame_count_min;
-	int err;
+	const struct SoundIoChannelLayout *layout = &outstream->layout;
+	struct SoundIoChannelArea *areas;
+	int frame_count = frame_count_max;
+	int frames_left = frame_count_max;
 
-	if ((err = soundio_outstream_begin_write(outstream, &areas, &frame_count)))
+	while (frames_left > 0)
 	{
-		fprintf(stderr, "begin write: %s\n", soundio_strerror(err));
-		exit(1);
-	}
+		int err;
 
-	if (!shared_graph)
-	{
-		fprintf(stderr, "No global graph created!\n");
-		return;
-	}
-
-	/// printf("--- sample --- \n");
-
-	shared_graph->pull_input(frame_count);
-
-	for (int frame = 0; frame < frame_count; frame++)
-	{
-		for (int channel = 0; channel < layout->channel_count; channel += 1)
+		if ((err = soundio_outstream_begin_write(outstream, &areas, &frame_count)))
 		{
-			float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
-			*ptr = shared_graph->output->out[channel][frame];
-			// *ptr = 0.2 * sin(phase * M_PI * 2.0 * 440.0 / 44100.0);
-
-			if (*ptr > 1.0) *ptr = 1.0;
-			if (*ptr < -1.0) *ptr = -1.0;
+			fprintf(stderr, "begin write: %s\n", soundio_strerror(err));
+			exit(1);
 		}
-		phase++;
-	}
 
-	if ((err = soundio_outstream_end_write(outstream)))
-	{
-		fprintf(stderr, "end write: %s\n", soundio_strerror(err));
-		exit(1);
+		if (!shared_graph)
+		{
+			fprintf(stderr, "No global graph created!\n");
+			return;
+		}
+
+		/// printf("--- sample --- \n");
+
+		shared_graph->pull_input(frame_count);
+
+		for (int frame = 0; frame < frame_count; frame++)
+		{
+			for (int channel = 0; channel < layout->channel_count; channel += 1)
+			{
+				float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
+				*ptr = shared_graph->output->out[channel][frame];
+				// *ptr = 0.2 * sin(phase * M_PI * 2.0 * 440.0 / 44100.0);
+
+				if (*ptr > 1.0) *ptr = 1.0;
+				if (*ptr < -1.0) *ptr = -1.0;
+			}
+			phase++;
+		}
+
+		if ((err = soundio_outstream_end_write(outstream)))
+		{
+			fprintf(stderr, "end write: %s\n", soundio_strerror(err));
+			exit(1);
+		}
+		frames_left -= frame_count;
 	}
 }
 
@@ -76,73 +82,73 @@ int AudioOut::init()
 {
 	int err;
 
-    this->soundio = soundio_create();
+	this->soundio = soundio_create();
 
-    if (!this->soundio)
+	if (!this->soundio)
 	{
-        fprintf(stderr, "out of memory\n");
-        return 1;
-    }
+		fprintf(stderr, "out of memory\n");
+		return 1;
+	}
 
-    if ((err = soundio_connect(this->soundio)))
+	if ((err = soundio_connect(this->soundio)))
 	{
-        fprintf(stderr, "error connecting: %s", soundio_strerror(err));
-        return 1;
-    }
+		fprintf(stderr, "error connecting: %s", soundio_strerror(err));
+		return 1;
+	}
 
-    soundio_flush_events(this->soundio);
+	soundio_flush_events(this->soundio);
 
-    int default_out_device_index = soundio_default_output_device_index(this->soundio);
-    if (default_out_device_index < 0)
+	int default_out_device_index = soundio_default_output_device_index(this->soundio);
+	if (default_out_device_index < 0)
 	{
-        fprintf(stderr, "no output device found");
-        return 1;
-    }
+		fprintf(stderr, "no output device found");
+		return 1;
+	}
 
-    this->device = soundio_get_output_device(this->soundio, default_out_device_index);
-    if (!device)
+	this->device = soundio_get_output_device(this->soundio, default_out_device_index);
+	if (!device)
 	{
-        fprintf(stderr, "out of memory");
-        return 1;
-    }
+		fprintf(stderr, "out of memory");
+		return 1;
+	}
 
-    fprintf(stderr, "Output device: %s\n", device->name);
+	fprintf(stderr, "Output device: %s\n", device->name);
 
-    this->outstream = soundio_outstream_create(device);
-    this->outstream->format = SoundIoFormatFloat32NE;
-    this->outstream->software_latency = 512 / 44100.0;
-    this->outstream->sample_rate = 44100.0;
-    this->outstream->write_callback = write_callback;
+	this->outstream = soundio_outstream_create(device);
+	this->outstream->format = SoundIoFormatFloat32NE;
+	// this->outstream->software_latency = 512 / 44100.0;
+	// this->outstream->sample_rate = 44100.0;
+	this->outstream->write_callback = write_callback;
 
-    if ((err = soundio_outstream_open(this->outstream)))
+	if ((err = soundio_outstream_open(this->outstream)))
 	{
-        fprintf(stderr, "unable to open device: %s", soundio_strerror(err));
-        return 1;
-    }
+		fprintf(stderr, "unable to open device: %s", soundio_strerror(err));
+		return 1;
+	}
 
-    if (this->outstream->layout_error)
-        fprintf(stderr, "unable to set channel layout: %s\n", soundio_strerror(this->outstream->layout_error));
+	if (this->outstream->layout_error)
+		fprintf(stderr, "unable to set channel layout: %s\n", soundio_strerror(this->outstream->layout_error));
 
-    if ((err = soundio_outstream_start(outstream)))
+	if ((err = soundio_outstream_start(outstream)))
 	{
-        fprintf(stderr, "unable to start device: %s", soundio_strerror(err));
-        return 1;
-    }
+		fprintf(stderr, "unable to start device: %s", soundio_strerror(err));
+		return 1;
+	}
 
-    return 0;
+	return 0;
 }
 
 int AudioOut::start()
 {
-    for (;;)
+	for (;;)
 		soundio_wait_events(soundio);
 }
 
 int AudioOut::close()
 {
-    soundio_outstream_destroy(this->outstream);
-    soundio_device_unref(this->device);
-    soundio_destroy(this->soundio);
+	soundio_outstream_destroy(this->outstream);
+	soundio_device_unref(this->device);
+	soundio_destroy(this->soundio);
 
 	return 0;
 }
