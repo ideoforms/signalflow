@@ -1,5 +1,7 @@
 #include "signum/signum.h"
 
+#include <unistd.h>
+
 using namespace signum;
 
 int main()
