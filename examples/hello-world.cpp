@@ -1,7 +1,7 @@
 #include <signum/signum.h>
 
 /*------------------------------------------------------------------------
- * All objects are in the  namespace.
+ * All objects are in the signum:: namespace.
  * Import this namespace for code brevity.
  *-----------------------------------------------------------------------*/
 using namespace signum;
