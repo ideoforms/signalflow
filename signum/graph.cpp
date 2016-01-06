@@ -4,6 +4,8 @@
 
 #include "io/output.h"
 
+#include <unistd.h>
+
 namespace signum
 {
 	Graph::Graph()

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <stdarg.h>
 
 #include "util.h"
 
