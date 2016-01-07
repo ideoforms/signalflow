@@ -9,6 +9,7 @@
 
 #include "graph.h"
 #include "util.h"
+#include "monitor.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,6 +33,7 @@ Unit::Unit()
 	this->channels_in = 1;
 	this->channels_out = 1;
 	this->ref = NULL;
+	this->monitor = NULL;
 }
 
 void Unit::next(sample **out, int num_frames)
@@ -110,6 +112,13 @@ void Unit::trigger()
 {
 	// Placeholder
 }
+
+void Unit::poll(float frequency)
+{
+	this->monitor = new UnitMonitor(this, frequency); 
+	this->monitor->start();
+}
+
 
 template<>
 UnitRef::UnitRefT() : std::shared_ptr<Unit>(nullptr) { }

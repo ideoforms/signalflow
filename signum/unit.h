@@ -25,6 +25,7 @@ namespace signum
 
 	class Unit;
 	class Graph;
+	class UnitMonitor;
 
 	/*------------------------------------------------------------------------
 	 * Allows us to use a float (or direct unit ptr) in place of a UnitRef
@@ -97,6 +98,12 @@ namespace signum
 			 * TODO: Generic trigger method. Take named param for trigger ID?
 			 *-----------------------------------------------------------------------*/
 			virtual void trigger();
+
+			/*------------------------------------------------------------------------
+			 * Outputs the unit's value at a user-specified frequency.
+			 *-----------------------------------------------------------------------*/
+			virtual void poll(float frequency = 1.0);
+			UnitMonitor *monitor;
 
 			/*------------------------------------------------------------------------
 			 * Overloading operators allows us to write
