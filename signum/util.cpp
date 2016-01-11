@@ -10,8 +10,12 @@
 #include <math.h>
 #include <sys/time.h>
 
+#ifdef HAVE_GSL
+
 #include <gsl/gsl_rng.h>
 #include <gsl/gsl_randist.h>
+
+#endif
 
 #include <limits.h>
 
@@ -21,7 +25,11 @@ namespace signum
 /*--------------------------------------------------------------------*
  * Maintain a single global RNG state object.
  *--------------------------------------------------------------------*/
+#ifdef HAVE_GSL
+    
 gsl_rng *rng;
+    
+#endif
 
 
 /*--------------------------------------------------------------------*
@@ -33,8 +41,9 @@ gsl_rng *rng;
  *--------------------------------------------------------------------*/
 void rng_init()
 {
+    #ifdef HAVE_GSL
+    
 	struct timeval tv;
-	
 	gsl_rng_env_setup();
 	rng = gsl_rng_alloc(gsl_rng_default);
 	
@@ -44,11 +53,17 @@ void rng_init()
 	 *--------------------------------------------------------------------*/
 	gettimeofday(&tv, 0);
 	rng_seed(tv.tv_sec * tv.tv_usec);
+    
+    #endif
 }
 
 void rng_seed(long seed)
 {
+    #ifdef HAVE_GSL
+    
 	gsl_rng_set(rng, seed);
+    
+    #endif
 }
 
 /*--------------------------------------------------------------------*
@@ -56,13 +71,27 @@ void rng_seed(long seed)
  *--------------------------------------------------------------------*/
 double rng_gaussian(double mean, double sd)
 {
-	double value = mean + gsl_ran_gaussian(rng, sd);
+	// double value = mean + gsl_ran_gaussian(rng, sd);
+    double value = mean + sd * rng_gaussian();
 	return value;
 }
 
 double rng_gaussian()
 {
+    #ifdef HAVE_GSL
+    
 	double value = gsl_ran_gaussian(rng, 1);
+    
+    #else
+    
+    double u1 = arc4random_uniform(1);
+    double u2 = arc4random_uniform(1);
+    double f1 = sqrt(-2 * log(u1));
+    double f2 = 2 * M_PI * u2;
+    double value = f1 * cos(f2);
+    
+    #endif
+    
 	return value;
 }
 
@@ -72,26 +101,35 @@ double rng_gaussian()
  *--------------------------------------------------------------------*/
 double rng_uniformuf()
 {
+    #ifdef HAVE_GSL
+    
 	double value = gsl_rng_uniform(rng);
+    
+    #else
+    
+    double value = arc4random_uniform(1);
+    
+    #endif
+    
 	return value;
 }
 
 double rng_uniform(double to)
 {
-	double value = gsl_rng_uniform(rng) * to;
+	double value = rng_uniformuf() * to;
 	return value;
 }
 
 double rng_uniform(double from, double to)
 {
-	double value = gsl_rng_uniform(rng);
+	double value = rng_uniformuf();
 	value = value * (to - from) + from;
 	return value;
 }
 
 bool rng_coin(double limit = 0.5)
 {
-	double value = gsl_rng_uniform(rng);
+	double value = rng_uniformuf();
 	return value < limit;
 }
 
@@ -101,12 +139,12 @@ bool rng_coin(double limit = 0.5)
  *--------------------------------------------------------------------*/
 unsigned long rng_randint(unsigned long to)
 {
-	return gsl_rng_get(rng) % to;
+    return (long) rng_uniform(to);
 }
 
 unsigned long rng_randint(unsigned long from, unsigned long to)
 {
-	return from + (gsl_rng_get(rng) % (to - from));
+	return from + (((long) rng_uniform(to)) % (to - from));
 }
 
 
