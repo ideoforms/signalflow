@@ -1,5 +1,8 @@
-#include <sndfile.h>
 #include "buffer.h"
+
+#ifdef HAVE_SNDFILE
+	#include <sndfile.h>
+#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -28,6 +31,8 @@ Buffer::Buffer(const char *filename)
 
 void Buffer::open(const char *filename)
 {
+	#ifdef HAVE_SNDFILE
+
     SF_INFO info;
     SNDFILE *sndfile = sf_open(filename, SFM_READ, &info);
 
@@ -63,6 +68,8 @@ void Buffer::open(const char *filename)
 	this->num_frames = info.frames;
 	this->sample_rate = info.samplerate;
 	this->duration = this->num_frames / this->sample_rate;
+
+	#endif
 }
 
 }
