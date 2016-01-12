@@ -15,10 +15,10 @@
 #include <stdlib.h>
 #include <cassert>
 
-extern signum::Graph * shared_graph;
-
 namespace signum
 {
+    
+extern Graph *shared_graph;
 
 Unit::Unit()
 {

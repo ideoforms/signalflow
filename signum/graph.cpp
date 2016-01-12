@@ -2,7 +2,8 @@
 #include "unit.h"
 #include "core.h"
 
-#include "io/output.h"
+#include "io/output/abstract.h"
+#include "io/output/soundio.h"
 
 #include <unistd.h>
 
@@ -11,6 +12,7 @@ namespace signum
 	Graph::Graph()
 	{
 		signum_init();
+        
 		this->output = new AudioOut(this);
 		this->sample_rate = 44100.0;
 	}

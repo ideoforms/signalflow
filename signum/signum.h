@@ -26,8 +26,11 @@
 /*------------------------------------------------------------------------
  * I/O
  *-----------------------------------------------------------------------*/
-#include "io/output.h"
-#include "io/input.h"
+#include "io/output/abstract.h"
+#include "io/output/soundio.h"
+
+#include "io/input/abstract.h"
+#include "io/input/soundio.h"
 
 /*------------------------------------------------------------------------
  * Generators
