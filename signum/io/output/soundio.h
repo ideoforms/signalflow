@@ -23,7 +23,6 @@ namespace signum
         virtual int init() override;
         virtual int start() override;
         virtual int close() override;
-        virtual void next(sample **out, int num_samples) override;
 
         struct SoundIo *soundio;
         struct SoundIoDevice *device;
