@@ -113,9 +113,9 @@ void Unit::trigger()
 	// Placeholder
 }
 
-void Unit::poll(float frequency)
+void Unit::poll(float frequency, std::string label)
 {
-	this->monitor = new UnitMonitor(this, frequency); 
+	this->monitor = new UnitMonitor(this, label, frequency); 
 	this->monitor->start();
 }
 

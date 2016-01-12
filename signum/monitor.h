@@ -9,10 +9,15 @@ namespace signum
 class UnitMonitor
 {
 	public:
-	UnitMonitor(Unit *unit, float frequency)
+	UnitMonitor(Unit *unit, std::string label, float frequency)
 	{
 		this->unit = unit;
 		this->frequency = frequency;
+
+		if (label == "")
+			this->label = this->unit->name;
+		else
+			this->label = label;
 	}
 
 	void start()
@@ -26,7 +31,7 @@ class UnitMonitor
 		float sleep_time = 1000000.0 * (1.0 / this->frequency);
 		while (this->running)
 		{
-			fprintf(stderr, "%s: %.5f\n", this->unit->name.c_str(), this->unit->out[0][0]);
+			fprintf(stderr, "%s: %.5f\n", this->label.c_str(), this->unit->out[0][0]);
 			usleep(sleep_time);
 		}
 	}
@@ -38,6 +43,7 @@ class UnitMonitor
 
 	Unit *unit;
 	float frequency;
+	std::string label;
 	bool running;
 	std::shared_ptr<std::thread> thread;
 };
