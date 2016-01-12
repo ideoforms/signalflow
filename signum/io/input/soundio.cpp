@@ -64,9 +64,9 @@ AudioIn_SoundIO::AudioIn_SoundIO() : AudioIn_Abstract()
 	// we risk overwriting our input buffer from the audio in
 	// while it is still being read from.
 	// TODO: Bad hardcoded block size
-	this->buffer = new Buffer(2, 512 * 2);
+	this->buffer = new Buffer(2, 2048 * 2);
 	this->read_pos = 0;
-	this->write_pos = 512;
+	this->write_pos = 2048;
 	this->init();
 }
 
@@ -95,10 +95,6 @@ int AudioIn_SoundIO::init()
 
 	if ((err = soundio_instream_open(this->instream)))
 		throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
-
-	if (this->instream->layout_error)
-		throw std::runtime_error("libsoundio init error: unable to set channel layout: " +
-				std::string(soundio_strerror(this->instream->layout_error)));
 
 	if ((err = soundio_instream_start(instream)))
 		throw std::runtime_error("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
