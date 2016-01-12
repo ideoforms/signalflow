@@ -107,7 +107,7 @@ double rng_uniformuf()
     
     #else
     
-    double value = arc4random_uniform(1);
+    double value = (float) arc4random() / UINT_MAX;
     
     #endif
     

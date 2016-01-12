@@ -4,6 +4,7 @@
 
 #include "io/output/abstract.h"
 #include "io/output/soundio.h"
+#include "io/output/ios.h"
 
 #include <unistd.h>
 

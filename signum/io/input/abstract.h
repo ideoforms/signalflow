@@ -13,9 +13,11 @@ namespace signum
 	{
 	public:
         AudioIn_Abstract();
+        
         virtual int init() = 0;
         virtual int start() = 0;
         virtual int close() = 0;
+        
         virtual void next(sample **out, int num_samples) = 0;
 	};
 }
