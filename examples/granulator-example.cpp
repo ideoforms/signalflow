@@ -17,7 +17,7 @@ int main()
 	 * Load audio buffer
 	 *-----------------------------------------------------------------------*/
 	Buffer *buffer = new Buffer("audio/gliss.aif");
-	UnitRef dust = new Dust(5.0);
+	UnitRef dust = new Dust(1000.0);
 	UnitRef pos = new Noise(0.3, false, 0, buffer->duration);
 	UnitRef len = new Noise(100, false, 0.1, 0.5);
 	UnitRef pan = new Noise(100, false);
@@ -25,6 +25,7 @@ int main()
 	Buffer *env_buf = new EnvelopeBufferHanning();
 	granulator->set_param("pan", pan);
 	granulator->set_buffer("envelope", env_buf);
+	granulator = granulator * 0.25;
 
 	/*------------------------------------------------------------------------
 	 * The Graph can have multiple inputs, summed to output.
