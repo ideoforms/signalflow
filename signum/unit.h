@@ -137,10 +137,22 @@ namespace signum
 			Graph *graph;
 
 			/*------------------------------------------------------------------------
-			 * Number of in/out channels.
+			 * Number of actual in/out channels. This should always reflect
+			 * the number of audio channels allocated in our `out` buffer,
 			 *-----------------------------------------------------------------------*/
 			int channels_in;
 			int channels_out;
+
+			/*------------------------------------------------------------------------
+			 * Number of preferred in/out channels. This is used to determine
+			 * how audio should be up-mixed or down-mixed when passing signals
+			 * between nodes.
+			 *
+			 * N-to-N nodes should use N_CHANNELS / N_CHANNELS
+			 * 1-to-N nodes should use 1 / N_CHANNELS
+			 *-----------------------------------------------------------------------*/
+			int preferred_channels_in;
+			int preferred_channels_out;
 
 			/*------------------------------------------------------------------------
 			 * Buffer containing this unit's output.

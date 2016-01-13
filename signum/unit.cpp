@@ -47,6 +47,7 @@ void Unit::next(sample **out, int num_frames)
 
 void Unit::add_input(const UnitRef &other)
 {
+	this->inputs.push_back(other);
 }
 
 void Unit::route(const UnitRef &other)
