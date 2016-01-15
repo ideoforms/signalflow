@@ -22,6 +22,7 @@
 #include "op/subtract.h"
 #include "op/round.h"
 #include "op/linexp.h"
+#include "op/multiplex.h"
 
 /*------------------------------------------------------------------------
  * I/O
