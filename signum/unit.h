@@ -80,11 +80,21 @@ namespace signum
 			 * Connect a new signal input to this unit. These connections form
 			 * the holistic signal graph.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_input(const UnitRef &input);
+			virtual void add_input(const UnitRef &input) {}
+
+			/*------------------------------------------------------------------------
+			 * Called after add_input/route to update our routing ins/outs.
+			 *-----------------------------------------------------------------------*/
+			virtual void update_channels();
 
 			/*------------------------------------------------------------------------
 			 * Register parameters.
+			 * add_param with no UnitRef arg is used for the case in which
+			 * we want to register a param without registering a storage pointer
+			 * for it (such as in the case of AudioOut's input vector, which do not
+			 * have designed fields within the class.)
 			 *-----------------------------------------------------------------------*/
+			virtual void add_param(std::string name);
 			virtual void add_param(std::string name, UnitRef &param);
 			virtual void set_param(std::string name, const UnitRef &param);
 
@@ -151,8 +161,11 @@ namespace signum
 			 * N-to-N nodes should use N_CHANNELS / N_CHANNELS
 			 * 1-to-N nodes should use 1 / N_CHANNELS
 			 *-----------------------------------------------------------------------*/
-			int preferred_channels_in;
-			int preferred_channels_out;
+			int  min_input_channels,
+			     max_input_channels,
+			     min_output_channels,
+			     max_output_channels;
+			bool no_input_automix;
 
 			/*------------------------------------------------------------------------
 			 * Buffer containing this unit's output.
@@ -164,7 +177,7 @@ namespace signum
 			/*------------------------------------------------------------------------
 			 * Vector of input units.
 			 *-----------------------------------------------------------------------*/
-			std::vector <UnitRef> inputs;
+			// std::vector <UnitRef> inputs;
 
 			/*------------------------------------------------------------------------
 			 * A reference to the UnitRef shared_ptr pointing to this Unit.
@@ -188,7 +201,6 @@ namespace signum
 	{
 		public:
 			UnaryOpUnit(UnitRef input = 0);
-			virtual void set_param(std::string name, const UnitRef &param);
 
 			UnitRef input;
 	};
@@ -197,7 +209,6 @@ namespace signum
 	{
 		public:
 			BinaryOpUnit(UnitRef a = 0, UnitRef b = 0);
-			virtual void set_param(std::string name, const UnitRef &param);
 
 			UnitRef input0;
 			UnitRef input1;

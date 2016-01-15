@@ -10,6 +10,7 @@ namespace signum
         shared_graph = graph;
         
         this->name = "audioout";
+        // this->channels_in = 2;
         this->channels_out = 2;
     }
     
@@ -22,7 +23,7 @@ namespace signum
         for (int index = 0; index < this->inputs.size(); index++)
         {
             UnitRef unit = this->inputs[index];
-            for (int channel = 0; channel < this->channels_out; channel++)
+            for (int channel = 0; channel < unit->channels_out; channel++)
             {
                 #ifdef __APPLE__
                 

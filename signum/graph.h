@@ -4,6 +4,8 @@
 
 namespace signum
 {
+	class AudioOut_Abstract;
+
 	class Graph
 	{
 		public:

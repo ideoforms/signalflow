@@ -30,11 +30,13 @@ namespace signum
 		// std::cout << "pull_input: " << unit << std::endl;
 		// std::cout << "pull_input: " << unit->name << std::endl;
 
+		/*
 		for (auto input_unit : unit->inputs)
 		{
 			if (input_unit)
 				this->pull_input(input_unit, num_frames);
 		}
+		*/
 
 		for (auto param : unit->params)
 		{

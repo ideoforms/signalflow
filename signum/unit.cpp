@@ -7,6 +7,7 @@
 
 #include "gen/constant.h"
 
+#include "core.h"
 #include "graph.h"
 #include "util.h"
 #include "monitor.h"
@@ -28,10 +29,16 @@ Unit::Unit()
 	for (int i = 0; i < 32; i++)
 		this->out[i] = (sample *) malloc(44100 * sizeof(float));
 
-	this->channels_in = N_CHANNELS;
-	this->channels_out = N_CHANNELS;
+	this->min_input_channels = N_CHANNELS;
+	this->max_input_channels = N_CHANNELS;
+	this->min_output_channels = N_CHANNELS;
+	this->max_output_channels = N_CHANNELS;
+
 	this->channels_in = 1;
 	this->channels_out = 1;
+
+	this->no_input_automix = false;
+
 	this->ref = NULL;
 	this->monitor = NULL;
 }
@@ -40,14 +47,30 @@ void Unit::next(sample **out, int num_frames)
 {
 	// Basic next() loop assumes we are N-in, N-out.
 	// TODO: Assert channel config makes sense? (> 0)
-	
 
 	throw std::runtime_error("Unit::next (should never be called)");
 }
 
-void Unit::add_input(const UnitRef &other)
+void Unit::update_channels()
 {
-	this->inputs.push_back(other);
+	if (this->min_input_channels == N_CHANNELS)
+	{
+		int max_channels = 0;
+		for (auto param : this->params)
+		{
+			UnitRef *ptr = param.second;
+			// A param may be registered but not yet set
+			if (!ptr)
+				continue;
+
+			UnitRef input = *ptr;
+			if (input->channels_out > max_channels)
+				max_channels = input->channels_out;
+		}
+
+		signum_debug("Unit %s set num_out_channels to %d", this->name.c_str(), max_channels);
+		this->channels_out = max_channels;
+	}
 }
 
 void Unit::route(const UnitRef &other)
@@ -65,17 +88,27 @@ void Unit::route(const UnitRef &other)
 	// other->add_input(r);
 }
 
+void Unit::add_param(std::string name)
+{
+	this->params[name] = nullptr;
+	this->update_channels();
+}
+
 void Unit::add_param(std::string name, UnitRef &unit)
 {
 	this->params[name] = &unit;
+	this->update_channels();
+	unit->update_channels();
 }
 
 void Unit::set_param(std::string name, const UnitRef &unit)
 {
-	if (!this->params[name])
+	if (this->params.find(name) == this->params.end())
 		throw std::runtime_error("Unit " + this->name + " has no such param: " + name);
 
 	*(this->params[name]) = unit;
+	this->update_channels();
+	unit->update_channels();
 }
 
 
@@ -187,44 +220,17 @@ sample UnitRef::operator[] (int index)
 	return (*this)->out[0][index];
 }
 
-BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit()
+BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit(), input0(a), input1(b)
 {
-	this->input0 = a;
-	this->input1 = b;
-
 	this->add_param("input0", this->input0);
 	this->add_param("input1", this->input1);
-
-	// upmixing
-	this->channels_out = MAX(input0->channels_out, input1->channels_out);
 }
 
-
-void BinaryOpUnit::set_param(std::string name, const UnitRef &unit)
+UnaryOpUnit::UnaryOpUnit(UnitRef a) : Unit(), input(a)
 {
-	Unit::set_param(name, unit);
-
-	// upmixing
-	this->channels_out = MAX(input0->channels_out, input1->channels_out);
-}
-
-
-UnaryOpUnit::UnaryOpUnit(UnitRef a) : Unit()
-{
-	this->input = a;
-
-	this->add_param("input0", this->input);
-
-	// upmixing
-	this->channels_out = this->input->channels_out;
-}
-
-void UnaryOpUnit::set_param(std::string name, const UnitRef &unit)
-{
-	Unit::set_param(name, unit);
-
-	// upmixing
-	this->channels_out = this->input->channels_out;
+	// TODO: Do this add_param automatically in add_input, with indexically-named
+	//       inputs?
+	this->add_param("input", this->input);
 }
 
 }
