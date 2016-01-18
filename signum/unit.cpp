@@ -25,7 +25,6 @@ extern Graph *shared_graph;
 
 Unit::Unit()
 {
-	// this->out = new RingBuffer <sample> (44100);
 	this->graph = shared_graph;
 	this->out = (sample **) malloc(SIGNUM_MAX_OUTPUT_CHANNELS * sizeof(float*));
 	for (int i = 0; i < SIGNUM_MAX_OUTPUT_CHANNELS; i++)
@@ -76,22 +75,6 @@ void Unit::update_channels()
 		this->channels_out = max_channels;
 	}
 }
-
-void Unit::route(const UnitRef &other)
-{
-	// other->add_input(std::shared_ptr <Unit>(this));
-	// other->add_input(std::shared_ptr <Unit>(this));
-
-	/*------------------------------------------------------------------------
-	 * Care required here -- if we naively do add_input(*(this->ref)), the
-	 * shared_ptr is copied which breaks things (see TODO below).
-	 * Explicitly cast to a const ref.
-	 *-----------------------------------------------------------------------*/
-	printf("ROUTE NO LONGER IMPLEMENTED\n");
-	// const UnitRef &r = *(this->ref);
-	// other->add_input(r);
-}
-
 
 void Unit::add_param(std::string name, UnitRef &unit)
 {

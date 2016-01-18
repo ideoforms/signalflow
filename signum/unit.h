@@ -69,16 +69,8 @@ namespace signum
 			virtual void next(sample **out, int num_frames);
 
 			/*------------------------------------------------------------------------
-			 * Register inputs and parameters.
-			 * This is necessary to register connections to form the signal graph.
-			 * TODO: How can we enforce this? Should we abolish fields altogether?
-			 *       sample *frequency = this->get_param_output("frequency");
-			 *-----------------------------------------------------------------------*/
-			virtual void route(const UnitRef &other);
-
-			/*------------------------------------------------------------------------
 			 * Connect a new signal input to this unit. These connections form
-			 * the holistic signal graph.
+			 * the overall signal graph.
 			 *-----------------------------------------------------------------------*/
 			virtual void add_input(UnitRef input) {}
 

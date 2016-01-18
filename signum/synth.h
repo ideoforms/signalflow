@@ -48,15 +48,6 @@ namespace signum
 				return unitref;
 			}
 
-			/*
-			void route(const UnitRef &other)
-			{
-				std::cout << "Output is " << this->output << std::endl;
-				// this->output->route(other);
-				// other->add_input(this->output);
-			}
-			*/
-
 			void set_param(std::string name, float value)
 			{
 				// TODO: Should support non-constant inputs
