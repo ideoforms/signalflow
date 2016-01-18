@@ -16,6 +16,8 @@
 #include <stdlib.h>
 #include <cassert>
 
+#define SIGNUM_MAX_OUTPUT_CHANNELS 32
+
 namespace signum
 {
     
@@ -25,8 +27,8 @@ Unit::Unit()
 {
 	// this->out = new RingBuffer <sample> (44100);
 	this->graph = shared_graph;
-	this->out = (sample **) malloc(32 * sizeof(float*));
-	for (int i = 0; i < 32; i++)
+	this->out = (sample **) malloc(SIGNUM_MAX_OUTPUT_CHANNELS * sizeof(float*));
+	for (int i = 0; i < SIGNUM_MAX_OUTPUT_CHANNELS; i++)
 		this->out[i] = (sample *) malloc(44100 * sizeof(float));
 
 	this->min_input_channels = N_CHANNELS;
@@ -140,6 +142,11 @@ UnitRef UnitRef::operator= (const UnitRef &other)
 }
 */
 
+void Unit::zero_output()
+{
+	for (int i = 0; i < this->channels_out; i++)
+		memset(this->out[i], 0, 44100 * sizeof(sample));
+}
 
 void Unit::trigger()
 {

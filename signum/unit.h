@@ -105,6 +105,11 @@ namespace signum
 			virtual void trigger();
 
 			/*------------------------------------------------------------------------
+			 * Sets our output buffer to zero.
+			 *-----------------------------------------------------------------------*/
+			virtual void zero_output();
+
+			/*------------------------------------------------------------------------
 			 * Outputs the unit's value at a user-specified frequency.
 			 *-----------------------------------------------------------------------*/
 			virtual void poll(float frequency = 1.0, std::string label = "");
