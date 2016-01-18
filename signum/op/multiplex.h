@@ -37,8 +37,14 @@ namespace signum
 			{
 				this->channels_in += input->channels_out;
 			}
-			signum_debug("multiplex: counted %d channels across %ld inputs\n", this->channels_in, this->inputs.size());
+
 			this->channels_out = this->channels_in;
+			// signum_debug("Unit %s set num_out_channels to %d", this->name.c_str(), this->channels_out);
+		}
+
+		virtual void add_input(UnitRef input)
+		{
+			this->inputs.push_back(input);
 		}
 
 		std::vector <UnitRef> inputs;
