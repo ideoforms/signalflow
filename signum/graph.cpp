@@ -25,26 +25,13 @@ namespace signum
 
 	void Graph::pull_input(const UnitRef &unit, int num_frames)
 	{
-		// Must pull our input's outputs first,
-		// or pops will be caused in the output (something to do with phase?)
-		// std::cout << "pull_input: " << unit << std::endl;
-		// std::cout << "pull_input: " << unit->name << std::endl;
-
-		/*
-		for (auto input_unit : unit->inputs)
-		{
-			if (input_unit)
-				this->pull_input(input_unit, num_frames);
-		}
-		*/
-
+		// Must pull our input's inputs first,
+		// or pops will be caused in the output 
 		for (auto param : unit->params)
 		{
 			UnitRef param_unit = *(param.second);
 			if (param_unit)
 				this->pull_input(param_unit, num_frames);
-			// else
-			//	fprintf(stderr, "Unit %s has a null param input (parameter: %s)\n", unit->name.c_str(), param.first.c_str());
 		}
 		unit->next(unit->out, num_frames);
 	}
