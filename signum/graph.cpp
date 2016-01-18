@@ -25,13 +25,48 @@ namespace signum
 
 	void Graph::pull_input(const UnitRef &unit, int num_frames)
 	{
-		// Must pull our input's inputs first,
-		// or pops will be caused in the output 
+		/*------------------------------------------------------------------------
+		 * Must pull our inputs before we generate our own outputs.
+		 *-----------------------------------------------------------------------*/
 		for (auto param : unit->params)
 		{
 			UnitRef param_unit = *(param.second);
 			if (param_unit)
+			{
 				this->pull_input(param_unit, num_frames);
+
+				/*------------------------------------------------------------------------
+				 * Automatic upmix.
+				 *
+				 * If the input unit produces less channels than demanded, automatically
+				 * up-mix its output by replicating the existing channels. This allows
+				 * operations between multi-channel and mono-channel inputs to work
+				 * seamlessly without any additional implementation within the node
+				 * itself (for example, Multiply(new Sine(440), new Pan(2, ...)))
+				 *
+				 * A few units must prevent automatic up-mixing from happening.
+				 * These include Multiplex and AudioOut.
+				 *-----------------------------------------------------------------------*/
+				if (param_unit->channels_out < unit->channels_in && !unit->no_input_automix)
+				{
+					signum_debug("Upmixing %s (%s wants %d channels, I only produce %d)", param_unit->name.c_str(),
+						unit->name.c_str(), unit->channels_in, param_unit->channels_out);
+
+					/*------------------------------------------------------------------------
+					 * If we generate 2 channels but have 6 channels demanded, repeat
+					 * them: [ 0, 1, 0, 1, 0, 1 ]
+					 *-----------------------------------------------------------------------*/
+					for (int out_channel_index = param_unit->channels_out;
+					         out_channel_index < unit->channels_in;
+					         out_channel_index ++)
+					{
+						int in_channel_index = out_channel_index % param_unit->channels_out;
+						memcpy(param_unit->out[out_channel_index],
+						       param_unit->out[in_channel_index],
+						       num_frames * sizeof(sample));
+					}
+				}
+			}
 		}
 		unit->next(unit->out, num_frames);
 	}

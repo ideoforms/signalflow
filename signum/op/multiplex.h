@@ -17,6 +17,7 @@ namespace signum
 		Multiplex() : Unit()
 		{
 			this->name = "multiplex";
+			this->no_input_automix = true;
 		}
 
 		virtual void next(sample **out, int num_frames)

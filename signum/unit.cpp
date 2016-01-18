@@ -72,6 +72,7 @@ void Unit::update_channels()
 		}
 
 		signum_debug("Unit %s set num_out_channels to %d", this->name.c_str(), max_channels);
+		this->channels_in = max_channels;
 		this->channels_out = max_channels;
 	}
 }

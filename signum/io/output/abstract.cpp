@@ -12,6 +12,7 @@ namespace signum
         this->name = "audioout";
         // this->channels_in = 2;
         this->channels_out = 2;
+        this->no_input_automix = true;
     }
     
     
