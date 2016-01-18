@@ -80,7 +80,7 @@ namespace signum
 			 * Connect a new signal input to this unit. These connections form
 			 * the holistic signal graph.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_input(const UnitRef &input) {}
+			virtual void add_input(UnitRef input) {}
 
 			/*------------------------------------------------------------------------
 			 * Called after add_input/route to update our routing ins/outs.
@@ -89,12 +89,7 @@ namespace signum
 
 			/*------------------------------------------------------------------------
 			 * Register parameters.
-			 * add_param with no UnitRef arg is used for the case in which
-			 * we want to register a param without registering a storage pointer
-			 * for it (such as in the case of AudioOut's input vector, which do not
-			 * have designed fields within the class.)
 			 *-----------------------------------------------------------------------*/
-			virtual void add_param(std::string name);
 			virtual void add_param(std::string name, UnitRef &param);
 			virtual void set_param(std::string name, const UnitRef &param);
 
@@ -178,6 +173,11 @@ namespace signum
 			 * Vector of input units.
 			 *-----------------------------------------------------------------------*/
 			// std::vector <UnitRef> inputs;
+
+			/*------------------------------------------------------------------------
+			 * Pointer to our outgoing connection.
+			 *-----------------------------------------------------------------------*/
+			UnitRef output = nullptr;
 
 			/*------------------------------------------------------------------------
 			 * A reference to the UnitRef shared_ptr pointing to this Unit.

@@ -62,6 +62,8 @@ void Unit::update_channels()
 			// A param may be registered but not yet set
 			if (!ptr)
 				continue;
+			std::string param_name = param.first;
+			// signum_debug("%s: update_channels (%s)", this->name.c_str(), param_name.c_str());
 
 			UnitRef input = *ptr;
 			if (input->channels_out > max_channels)
@@ -88,16 +90,13 @@ void Unit::route(const UnitRef &other)
 	// other->add_input(r);
 }
 
-void Unit::add_param(std::string name)
-{
-	this->params[name] = nullptr;
-	this->update_channels();
-}
 
 void Unit::add_param(std::string name, UnitRef &unit)
 {
 	this->params[name] = &unit;
 	this->update_channels();
+
+	// unit->output = *(this->ref);
 	unit->update_channels();
 }
 
