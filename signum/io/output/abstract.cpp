@@ -20,20 +20,19 @@ namespace signum
         for (int channel = 0; channel < this->channels_out; channel++)
             memset(out[channel], 0, num_frames * sizeof(sample));
         
-        for (int index = 0; index < this->inputs.size(); index++)
+        for (UnitRef input : this->inputs)
         {
-            UnitRef unit = this->inputs[index];
-            for (int channel = 0; channel < unit->channels_out; channel++)
+            for (int channel = 0; channel < input->channels_out; channel++)
             {
                 #ifdef __APPLE__
                 
-                vDSP_vadd(unit->out[channel], 1, out[channel], 1, out[channel], 1, num_frames);
+                vDSP_vadd(input->out[channel], 1, out[channel], 1, out[channel], 1, num_frames);
                 
                 #else
                 
                 for (int frame = 0; frame < num_frames; frame++)
                 {
-                    out[channel][frame] += unit->out[channel][frame];
+                    out[channel][frame] += input->out[channel][frame];
                 }
                 
                 #endif
