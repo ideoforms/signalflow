@@ -23,6 +23,7 @@
 #include "op/round.h"
 #include "op/linexp.h"
 #include "op/multiplex.h"
+#include "op/mixer.h"
 
 /*------------------------------------------------------------------------
  * I/O
