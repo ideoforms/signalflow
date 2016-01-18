@@ -62,7 +62,7 @@ void Unit::update_channels()
 		{
 			UnitRef *ptr = param.second;
 			// A param may be registered but not yet set
-			if (!ptr)
+			if (!ptr || !*ptr)
 				continue;
 			std::string param_name = param.first;
 			// signum_debug("%s: update_channels (%s)", this->name.c_str(), param_name.c_str());
@@ -98,8 +98,8 @@ void Unit::add_param(std::string name, UnitRef &unit)
 	this->params[name] = &unit;
 	this->update_channels();
 
-	// unit->output = *(this->ref);
-	unit->update_channels();
+	if (unit)
+		unit->update_channels();
 }
 
 void Unit::set_param(std::string name, const UnitRef &unit)
