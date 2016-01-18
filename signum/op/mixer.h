@@ -41,19 +41,22 @@ namespace signum
 
 				for (int in_channel = 0; in_channel < this->channels_in; in_channel++)
 				{
+					float channel_amp = 1.0;
+					if (this->channels > 1)
+					{
+						if (this->channels_in > 1)
+							in_channel_pan = map(in_channel, 0, this->channels_in - 1, 0, 1);
+						else
+							in_channel_pan = 0.5;
 
-					if (this->channels_in > 1)
-						in_channel_pan = map(in_channel, 0, this->channels_in - 1, 0, 1);
-					else
-						in_channel_pan = 0.5;
-
-					float channel_distance = fabs(in_channel_pan - out_channel_pan);
-					float channel_distance_max = 1.0 / (this->channels - 1);
-					float channel_amp = map(channel_distance,
-							channel_distance_max, 0,
-							0, 1);
-					channel_amp = clip(channel_amp, 0, 1);
-				
+						float channel_distance = fabs(in_channel_pan - out_channel_pan);
+						float channel_distance_max = 1.0 / (this->channels - 1);
+						channel_amp = map(channel_distance,
+								channel_distance_max, 0,
+								0, 1);
+						channel_amp = clip(channel_amp, 0, 1);
+					}
+					
 					for (int frame = 0; frame < num_frames; frame++)
 					{
 						out[out_channel][frame] += channel_amp * this->input->out[in_channel][frame];
