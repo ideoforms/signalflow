@@ -8,12 +8,21 @@ namespace signum
 
 Sampler::Sampler(Buffer *buffer, UnitRef rate, bool loop) : rate(rate)
 {
+	this->name = "sampler";
+
 	this->add_param("rate", this->rate);
 
 	this->loop = loop;
 	this->phase = 0.0;
 
 	this->buffer = buffer;
+
+	this->channels_in = 0;
+	this->channels_out = buffer->num_channels;
+
+	this->min_input_channels = this->max_input_channels = 0;
+	this->min_output_channels = this->max_output_channels = this->channels_out;
+
 	this->trigger();
 }
 
