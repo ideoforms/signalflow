@@ -66,6 +66,7 @@
 #include "fx/pan.h"
 #include "fx/width.h"
 #include "fx/freeze.h"
+#include "fx/gate.h"
 
 /*------------------------------------------------------------------------
  * Spectral processing

@@ -16,8 +16,6 @@
 #include <stdlib.h>
 #include <cassert>
 
-#define SIGNUM_MAX_OUTPUT_CHANNELS 32
-
 namespace signum
 {
     
@@ -26,8 +24,8 @@ extern Graph *shared_graph;
 Unit::Unit()
 {
 	this->graph = shared_graph;
-	this->out = (sample **) malloc(SIGNUM_MAX_OUTPUT_CHANNELS * sizeof(float*));
-	for (int i = 0; i < SIGNUM_MAX_OUTPUT_CHANNELS; i++)
+	this->out = (sample **) malloc(SIGNUM_MAX_CHANNELS* sizeof(float*));
+	for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
 		this->out[i] = (sample *) malloc(44100 * sizeof(float));
 
 	this->min_input_channels = N_CHANNELS;
