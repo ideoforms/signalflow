@@ -43,10 +43,7 @@ namespace signum
 					this->step++;
 				}
 
-				for (int channel = 0; channel < channels_out; channel++)
-				{
-					this->out[channel][frame] = this->value;
-				}
+				this->out[0][frame] = this->value;
 			}
 		}
 

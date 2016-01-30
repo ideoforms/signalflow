@@ -24,10 +24,7 @@ namespace signum
 				int index = this->phase * this->table->num_frames;
 				float rv = this->table->data[0][index];
 
-				for (int channel = 0; channel < channels_out; channel++)
-				{
-					this->out[channel][frame] = rv;
-				}
+				this->out[0][frame] = rv;
 
 				this->phase += (frequency / this->graph->sample_rate);
 				while (this->phase >= 1.0)

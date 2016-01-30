@@ -29,10 +29,8 @@ namespace signum
 				{
 					this->steps_remaining--;
 				}
-				for (int channel = 0; channel < this->channels_out; channel++)
-				{
-					this->out[channel][frame] = rv;
-				}
+
+				this->out[0][frame] = rv;
 			}
 		}
 
