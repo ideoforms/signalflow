@@ -25,7 +25,7 @@ namespace signum
 
 			float phase;
 			float phase_last;
-			sample sample_last[32];
+			sample sample_last[SIGNUM_MAX_CHANNELS];
 
 			virtual void next(sample **out, int num_frames);
 	};

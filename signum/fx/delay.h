@@ -18,7 +18,7 @@ namespace signum
 				this->add_param("delay_time", this->delaytime);
 				this->add_param("feedback", this->feedback);
 
-				for (int i = 0; i < 32; i++)
+				for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
 					buffers.push_back(new SampleRingBuffer(maxdelaytime * 44100.0));
 			}
 
