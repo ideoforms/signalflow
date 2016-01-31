@@ -47,7 +47,7 @@ namespace signum
 			int inbuf_size;
 			sample *window;
 
-			virtual void fft(sample *in, sample *out)
+			virtual void fft(sample *in, sample *out, bool polar = true)
 			{
 				DSPSplitComplex buffer_split = { buffer, buffer + fft_size/2 };
 				DSPSplitComplex output_split = { out, out + fft_size/2 };
@@ -73,16 +73,23 @@ namespace signum
 				 *-----------------------------------------------------------------------*/
 
 				/*------------------------------------------------------------------------
-				 * 1. Sending cartesian values
-				 *-----------------------------------------------------------------------*/
-				// vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out[0], 2, N/2);
-
-				/*------------------------------------------------------------------------
 				 * 2. Sending polar values
 				 *-----------------------------------------------------------------------*/
-				vDSP_ztoc(&buffer_split, 1, (DSPComplex *) buffer2, 2, fft_size/2);
-				vDSP_polar(buffer2, 2, buffer, 2, fft_size/2);
-				vDSP_ctoz((DSPComplex *) buffer, 2, &output_split, 1, fft_size/2);
+				if (polar)
+				{
+					vDSP_ztoc(&buffer_split, 1, (DSPComplex *) buffer2, 2, fft_size/2);
+					vDSP_polar(buffer2, 2, buffer, 2, fft_size/2);
+					vDSP_ctoz((DSPComplex *) buffer, 2, &output_split, 1, fft_size/2);
+				}
+
+				/*------------------------------------------------------------------------
+				 * 1. Sending cartesian values
+				 *-----------------------------------------------------------------------*/
+				else
+				{
+					vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out, 2, fft_size/2);
+				}
+
 			}
 
 			virtual void next(sample **out, int num_frames)
