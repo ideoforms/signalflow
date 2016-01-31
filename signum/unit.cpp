@@ -24,7 +24,7 @@ extern Graph *shared_graph;
 Unit::Unit()
 {
 	this->graph = shared_graph;
-	this->out = (sample **) malloc(SIGNUM_MAX_CHANNELS* sizeof(float*));
+	this->out = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float*));
 	for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
 		this->out[i] = (sample *) malloc(44100 * sizeof(float));
 
