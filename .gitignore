@@ -2,8 +2,12 @@
 *.build/
 build/
 dev/
+examples-dev/
+TODO
 *.swp
 *-test
 *-test.cpp
 *.dSYM
 *.o
+.lock*
+.waf*
