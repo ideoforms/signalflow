@@ -71,7 +71,7 @@ def configure(conf):
 		# Need to define __APPLE__ for waf to detect changes in #include within
 		# platform-specified #iddef
 		#------------------------------------------------------------------------
-		bld.define("__APPLE__", 1)
+		conf.define("__APPLE__", 1)
 
 	#------------------------------------------------------------------------
 	# Setup library includes
