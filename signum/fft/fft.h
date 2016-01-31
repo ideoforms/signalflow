@@ -23,6 +23,12 @@ namespace signum
 
 				this->buffer = (sample *) calloc(fft_size, sizeof(sample));
 				this->buffer2 = (sample *) calloc(fft_size, sizeof(sample));
+
+				this->hop_size = fft_size / 2.0;
+				this->inbuf = (sample *) calloc(fft_size * 2, sizeof(sample));
+				this->inbuf_size = 0;
+				this->window = (sample *) calloc(fft_size, sizeof(sample));
+				vDSP_hann_window(this->window, fft_size, vDSP_HANN_NORM);
 			}
 
 			~FFT()
@@ -32,10 +38,14 @@ namespace signum
 			}
 
 			int fft_size;
+			int hop_size;
 			int log2N;
 			FFTSetup fft_setup;
 			sample *buffer;
 			sample *buffer2;
+			sample *inbuf;
+			int inbuf_size;
+			sample *window;
 
 			virtual void next(sample **out, int num_frames)
 			{
@@ -50,6 +60,8 @@ namespace signum
 				sample *magnitude = out[0];
 				sample *phase = out[0] + fft_size/2;
 
+				vDSP_vmul(input->out[0], 1, this->window, 1, buffer2, 1, fft_size);
+
 				/*------------------------------------------------------------------------
 				 * Convert from interleaved format (sequential pairs) to split format,
 				 * as required by the vDSP real-to-complex functions.
@@ -57,7 +69,7 @@ namespace signum
 				 * Stride of 2 is the smallest permissible value, denoting no gap
 				 * between "pairs" of samples".
 				 *-----------------------------------------------------------------------*/
-				vDSP_ctoz((DSPComplex *) input->out[0], 2, &buffer_split, 1, fft_size/2);
+				vDSP_ctoz((DSPComplex *) buffer2, 2, &buffer_split, 1, fft_size/2);
 
 				/*------------------------------------------------------------------------
 				 * Perform single-precision FFT, in-place (overwriting real values).
