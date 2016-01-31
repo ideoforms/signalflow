@@ -94,7 +94,7 @@ int AudioOut_SoundIO::init()
 	this->outstream->format = SoundIoFormatFloat32NE;
 	this->outstream->write_callback = write_callback;
 	this->outstream->sample_rate = 44100.0;
-	// this->outstream->software_latency = 512 / 44100.0;
+	this->outstream->software_latency = 1024 / 44100.0;
 
 	if ((err = soundio_outstream_open(this->outstream)))
 		throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
