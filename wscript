@@ -67,6 +67,12 @@ def configure(conf):
 		#------------------------------------------------------------------------
 		conf.env.LINKFLAGS += [ "-framework", "Accelerate" ]
 
+		#------------------------------------------------------------------------
+		# Need to define __APPLE__ for waf to detect changes in #include within
+		# platform-specified #iddef
+		#------------------------------------------------------------------------
+		bld.define("__APPLE__", 1)
+
 	#------------------------------------------------------------------------
 	# Setup library includes
 	#------------------------------------------------------------------------
@@ -90,6 +96,7 @@ def build(bld):
 		bld.define("DEBUG", 1)
 	else:
 		bld.env.CXXFLAGS += [ "-O3" ]
+
 	bld.env.CXXFLAGS += [ "-Wno-unused-variable" ]
 
 	#------------------------------------------------------------------------
