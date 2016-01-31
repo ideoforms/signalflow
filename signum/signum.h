@@ -74,6 +74,7 @@
 #ifdef __APPLE__
 #include "fft/fft.h"
 #include "fft/ifft.h"
+#include "fft/lpf.h"
 #endif
 
 
