@@ -1,0 +1,19 @@
+#pragma once 
+
+#include "../unit.h"
+#include "fftop.h"
+
+namespace signum
+{
+	class FFTConstant : public FFTUnit
+	{
+	public:
+		FFTConstant(sample value = 0);
+
+		float value;
+
+		virtual void next(sample **out, int num_frames);
+	};
+
+	REGISTER(FFTConstant, "fft_constant");
+}

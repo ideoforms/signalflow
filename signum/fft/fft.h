@@ -47,12 +47,15 @@ namespace signum
 			int inbuf_size;
 			sample *window;
 
-			virtual void fft(sample *in, sample *out, bool polar = true)
+			virtual void fft(sample *in, sample *out, bool polar = true, bool do_window = true)
 			{
 				DSPSplitComplex buffer_split = { buffer, buffer + fft_size/2 };
 				DSPSplitComplex output_split = { out, out + fft_size/2 };
 
-				vDSP_vmul(in, 1, this->window, 1, buffer2, 1, fft_size);
+				if (do_window)
+					vDSP_vmul(in, 1, this->window, 1, buffer2, 1, fft_size);
+				else
+					memcpy(buffer2, in, fft_size * sizeof(sample));
 
 				/*------------------------------------------------------------------------
 				 * Convert from interleaved format (sequential pairs) to split format,
@@ -95,10 +98,11 @@ namespace signum
 			virtual void next(sample **out, int num_frames)
 			{
 				/*------------------------------------------------------------------------
-				 * 
+				 * Append the incoming buffer onto our inbuf.
+				 * Perform repeated window 
 				 *-----------------------------------------------------------------------*/
 				// assert(this->inbuf_size + num_frames < this->fft_size * 2);
-				// memcpy(this->inbuf[this->inbuf_size], this->input->out[0], num_frames)
+				// memcpy(this->inbuf + this->inbuf_size, this->input->out[0], num_frames);
 				// this->inbuf_size += num_frames;
 
 				this->fft(this->input->out[0], this->out[0]);

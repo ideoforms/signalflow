@@ -1,0 +1,36 @@
+#pragma once
+
+#include "../unit.h"
+
+namespace signum
+{
+	class FFTUnit : public Unit
+	{
+		public:
+
+			FFTUnit(int fft_size) : Unit()
+			{
+				this->fft_size = fft_size;
+				this->num_bins = fft_size / 2;
+				this->magnitudes = this->out[0];
+				this->phases = this->out[0] + this->num_bins;
+			}
+
+			sample *magnitudes;
+			sample *phases;
+			int num_bins;
+			int fft_size;
+	};
+
+	class FFTOpUnit : public FFTUnit
+	{
+		public:
+
+			FFTOpUnit(FFTUnitRef input) : FFTUnit(input->fft_size), input(input)
+			{
+			}
+
+			FFTUnitRef input;
+	};
+}
+
