@@ -57,7 +57,6 @@ namespace signum
 
 	typedef UnitRefT <Unit> UnitRef;
 
-
 	class Unit
 	{
 

@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <cassert>
 
+
 namespace signum
 {
     
@@ -141,27 +142,25 @@ void Unit::poll(float frequency, std::string label)
 	this->monitor->start();
 }
 
+/*------------------------------------------------------------------------
+ * Default constructors. 
+ *-----------------------------------------------------------------------*/
 
 template<>
 UnitRef::UnitRefT() : std::shared_ptr<Unit>(nullptr) { }
 
 template<>
 UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr)
-{
-	ptr->ref = this;
-}
+	{ ptr->ref = this; }
 
 template<>
 UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new Constant(x))
-{
-	(*this)->ref = this;
-}
+	{ (*this)->ref = this; }
 
 template<>
 UnitRef::UnitRefT(int x) : std::shared_ptr<Unit>(new Constant((float) x))
-{
-	(*this)->ref = this;
-}
+	{ (*this)->ref = this; }
+
 
 
 /*------------------------------------------------------------------------
