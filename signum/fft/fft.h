@@ -14,15 +14,15 @@ namespace signum
 	{
 		public:
 			FFT(UnitRef input = 0.0, int fft_size = 1024) :
-				UnaryOpUnit(input), N(fft_size)
+				UnaryOpUnit(input), fft_size(fft_size)
 			{
 				this->name = "fft";
 
-				this->log2N = (int) log2((float) N);
+				this->log2N = (int) log2((float) fft_size);
 				this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
 
-				this->buffer = (sample *) malloc(N * sizeof(sample));
-				this->buffer2 = (sample *) malloc(N * sizeof(sample));
+				this->buffer = (sample *) calloc(fft_size, sizeof(sample));
+				this->buffer2 = (sample *) calloc(fft_size, sizeof(sample));
 			}
 
 			~FFT()
@@ -31,7 +31,7 @@ namespace signum
 				free(this->buffer);
 			}
 
-			int N;
+			int fft_size;
 			int log2N;
 			FFTSetup fft_setup;
 			sample *buffer;
@@ -43,12 +43,12 @@ namespace signum
 				 * TODO: Support FFT of size != hardware buffer size
 				 * TODO: Windowing
 				 *-----------------------------------------------------------------------*/
-				assert(num_frames == N);
+				assert(num_frames == fft_size);
 
-				DSPSplitComplex buffer_split = { buffer, buffer + N/2 };
-				DSPSplitComplex output_split = { out[0], out[0] + N/2 };
+				DSPSplitComplex buffer_split = { buffer, buffer + fft_size/2 };
+				DSPSplitComplex output_split = { out[0], out[0] + fft_size/2 };
 				sample *magnitude = out[0];
-				sample *phase = out[0] + N/2;
+				sample *phase = out[0] + fft_size/2;
 
 				/*------------------------------------------------------------------------
 				 * Convert from interleaved format (sequential pairs) to split format,
@@ -57,7 +57,7 @@ namespace signum
 				 * Stride of 2 is the smallest permissible value, denoting no gap
 				 * between "pairs" of samples".
 				 *-----------------------------------------------------------------------*/
-				vDSP_ctoz((DSPComplex *) input->out[0], 2, &buffer_split, 1, N/2);
+				vDSP_ctoz((DSPComplex *) input->out[0], 2, &buffer_split, 1, fft_size/2);
 
 				/*------------------------------------------------------------------------
 				 * Perform single-precision FFT, in-place (overwriting real values).
@@ -76,9 +76,9 @@ namespace signum
 				/*------------------------------------------------------------------------
 				 * 2. Sending polar values
 				 *-----------------------------------------------------------------------*/
-				vDSP_ztoc(&buffer_split, 1, (DSPComplex *) buffer2, 2, N/2);
-				vDSP_polar(buffer2, 2, buffer, 2, N/2);
-				vDSP_ctoz((DSPComplex *) buffer, 2, &output_split, 1, N/2);
+				vDSP_ztoc(&buffer_split, 1, (DSPComplex *) buffer2, 2, fft_size/2);
+				vDSP_polar(buffer2, 2, buffer, 2, fft_size/2);
+				vDSP_ctoz((DSPComplex *) buffer, 2, &output_split, 1, fft_size/2);
 			}
 	};
 
