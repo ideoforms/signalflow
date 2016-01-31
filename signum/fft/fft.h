@@ -47,20 +47,12 @@ namespace signum
 			int inbuf_size;
 			sample *window;
 
-			virtual void next(sample **out, int num_frames)
+			virtual void fft(sample *in, sample *out)
 			{
-				/*------------------------------------------------------------------------
-				 * TODO: Support FFT of size != hardware buffer size
-				 * TODO: Windowing
-				 *-----------------------------------------------------------------------*/
-				assert(num_frames == fft_size);
-
 				DSPSplitComplex buffer_split = { buffer, buffer + fft_size/2 };
-				DSPSplitComplex output_split = { out[0], out[0] + fft_size/2 };
-				sample *magnitude = out[0];
-				sample *phase = out[0] + fft_size/2;
+				DSPSplitComplex output_split = { out, out + fft_size/2 };
 
-				vDSP_vmul(input->out[0], 1, this->window, 1, buffer2, 1, fft_size);
+				vDSP_vmul(in, 1, this->window, 1, buffer2, 1, fft_size);
 
 				/*------------------------------------------------------------------------
 				 * Convert from interleaved format (sequential pairs) to split format,
@@ -91,6 +83,18 @@ namespace signum
 				vDSP_ztoc(&buffer_split, 1, (DSPComplex *) buffer2, 2, fft_size/2);
 				vDSP_polar(buffer2, 2, buffer, 2, fft_size/2);
 				vDSP_ctoz((DSPComplex *) buffer, 2, &output_split, 1, fft_size/2);
+			}
+
+			virtual void next(sample **out, int num_frames)
+			{
+				/*------------------------------------------------------------------------
+				 * 
+				 *-----------------------------------------------------------------------*/
+				// assert(this->inbuf_size + num_frames < this->fft_size * 2);
+				// memcpy(this->inbuf[this->inbuf_size], this->input->out[0], num_frames)
+				// this->inbuf_size += num_frames;
+
+				this->fft(this->input->out[0], this->out[0]);
 			}
 	};
 
