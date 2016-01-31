@@ -11,7 +11,10 @@ int main()
 	freq = new RoundToScale(freq);
 	UnitRef wavetable = new Wavetable(buffer, freq * 2.0);
 	UnitRef delay = new Delay(wavetable, 0.1, 0.3);
-	UnitRef attenuated = delay * 0.2;
+
+	UnitRef pan = new Pan(2, delay);
+
+	UnitRef attenuated = pan * 0.2;
 	graph->output->add_input(attenuated);
 
 	graph->run();
