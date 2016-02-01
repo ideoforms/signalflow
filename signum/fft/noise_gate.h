@@ -16,17 +16,23 @@ namespace signum
 
 			virtual void next(sample **out, int num_frames)
 			{
-				for (int i = 0; i < num_frames; i++)
+				for (int channel = 0; channel < 4; channel++)
 				{
-					if (i > 0 && i < num_frames / 2)
+					for (int i = 0; i < num_frames; i++)
 					{
-						if (i < num_frames / 4)
-							out[0][i] = input->out[0][i];
+						// Magnitudes
+						if (i < num_frames / 2)
+						{
+							float rv = input->out[channel][i];
+							printf("%f\n", rv);
+							out[channel][i] = (rv < 20) ? rv : 0;
+						}
+						// Phases
 						else
-							out[0][i] = input->out[0][i];
+						{
+							out[channel][i] = input->out[channel][i];
+						}
 					}
-					else
-						out[0][i] = input->out[0][i] * 0.1;
 				}
 			}
 	};

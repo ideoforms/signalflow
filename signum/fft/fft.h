@@ -24,10 +24,11 @@ namespace signum
 				this->buffer = (sample *) calloc(fft_size, sizeof(sample));
 				this->buffer2 = (sample *) calloc(fft_size, sizeof(sample));
 
-				this->hop_size = fft_size / 2.0;
+				this->hop_size = fft_size / 8;
 				this->inbuf = (sample *) calloc(fft_size * 2, sizeof(sample));
 				this->inbuf_size = 0;
 				this->window = (sample *) calloc(fft_size, sizeof(sample));
+				memset(window, 0, sizeof(float) * fft_size);
 				vDSP_hann_window(this->window, fft_size, vDSP_HANN_NORM);
 			}
 
@@ -76,7 +77,7 @@ namespace signum
 				 *-----------------------------------------------------------------------*/
 
 				/*------------------------------------------------------------------------
-				 * 2. Sending polar values
+				 * 1. Sending polar values
 				 *-----------------------------------------------------------------------*/
 				if (polar)
 				{
@@ -86,7 +87,7 @@ namespace signum
 				}
 
 				/*------------------------------------------------------------------------
-				 * 1. Sending cartesian values
+				 * 2. Sending cartesian values
 				 *-----------------------------------------------------------------------*/
 				else
 				{
@@ -99,13 +100,22 @@ namespace signum
 			{
 				/*------------------------------------------------------------------------
 				 * Append the incoming buffer onto our inbuf.
-				 * Perform repeated window 
+				 * Perform repeated window and FFT by stepping forward hop_size frames.
 				 *-----------------------------------------------------------------------*/
-				// assert(this->inbuf_size + num_frames < this->fft_size * 2);
-				// memcpy(this->inbuf + this->inbuf_size, this->input->out[0], num_frames);
-				// this->inbuf_size += num_frames;
+				assert(this->inbuf_size + num_frames <= this->fft_size * 2);
+				memcpy(this->inbuf + this->inbuf_size, this->input->out[0], num_frames * sizeof(sample));
+				this->inbuf_size += num_frames;
 
-				this->fft(this->input->out[0], this->out[0]);
+				int num_hops = (this->inbuf_size - this->fft_size) / this->hop_size;
+				for (int hop = 0; hop < num_hops; hop++)
+				{
+					this->fft(this->inbuf + (hop * this->hop_size), this->out[hop]);
+				}
+
+				int frames_processed = this->hop_size * num_hops;
+				int frames_remaining = this->inbuf_size - (this->hop_size * num_hops);
+				memcpy(this->inbuf, this->inbuf + frames_processed, frames_remaining * sizeof(sample));
+				this->inbuf_size -= frames_processed;
 			}
 	};
 

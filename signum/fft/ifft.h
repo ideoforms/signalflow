@@ -13,15 +13,26 @@ namespace signum
 	{
 		public:
 			IFFT(UnitRef input = 0.0, int fft_size = 1024) :
-				UnaryOpUnit(input), N(fft_size)
+				UnaryOpUnit(input), fft_size(fft_size)
 			{
 				this->name = "ifft";
 
-				this->log2N = (int) log2((float) N);
+				this->log2N = (int) log2((float) fft_size);
 				this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
 
-				this->buffer = (sample *) malloc(N * sizeof(sample));
-				this->buffer2 = (sample *) malloc(N * sizeof(sample));
+				/*------------------------------------------------------------------------
+				 * Buffers used in intermediate FFT calculations.
+				 *-----------------------------------------------------------------------*/
+				this->buffer = (sample *) malloc(fft_size * sizeof(sample));
+				this->buffer2 = (sample *) malloc(fft_size * sizeof(sample));
+
+				this->hop_size = fft_size / 8;
+
+				/*------------------------------------------------------------------------
+				 * Generate a Hann window for overlap-add.
+				 *-----------------------------------------------------------------------*/
+                this->window = (sample *) calloc(fft_size, sizeof(sample));
+                vDSP_hann_window(this->window, fft_size, vDSP_HANN_NORM);
 			}
 
 			~IFFT()
@@ -29,52 +40,85 @@ namespace signum
 				// free resources
 			}
 
-			int N;
+			int fft_size;
+			int hop_size;
 			int log2N;
 			FFTSetup fft_setup;
 			sample *buffer;
 			sample *buffer2;
+			sample *window;
 
-			virtual void next(sample **out, int num_frames)
+			virtual void ifft(sample *in, sample *tout)
 			{
-				assert(num_frames == N);
-
 				/*------------------------------------------------------------------------
 				 * Set up pointers to memory spaces so we can treat input and buffer
 				 * as split-valued complex pairs.
 				 *-----------------------------------------------------------------------*/
-				DSPSplitComplex buffer_split = { buffer, buffer + N/2 };
-				DSPSplitComplex input_split = { this->input->out[0], this->input->out[0] + N/2 };
+				DSPSplitComplex buffer_split = { buffer, buffer + fft_size/2 };
+				DSPSplitComplex input_split = { in, in + fft_size/2 };
 
 				/*------------------------------------------------------------------------
 				 * Convert magnitude/phase to complex values.
 				 * Received values are split but vDSP_rect requires that pairs be
 				 * given sequentially, thus do a small dance.
 				 *-----------------------------------------------------------------------*/
-				vDSP_ztoc(&input_split, 1, (DSPComplex *) this->buffer, 2, N / 2);
-				vDSP_rect(this->buffer, 2, this->buffer2, 2, N / 2);
+				vDSP_ztoc(&input_split, 1, (DSPComplex *) this->buffer, 2, fft_size / 2);
+				vDSP_rect(this->buffer, 2, this->buffer2, 2, fft_size / 2);
 
 				/*------------------------------------------------------------------------
 				 * 1. Expecting polar values
 				 *-----------------------------------------------------------------------*/
-				vDSP_ctoz((DSPComplex *) this->buffer2, 2, &buffer_split, 1, N / 2);
+				vDSP_ctoz((DSPComplex *) this->buffer2, 2, &buffer_split, 1, fft_size / 2);
 
 				/*------------------------------------------------------------------------
-				 * 1. Expecting Cartesian values
+				 * 2. Expecting Cartesian values
 				 *-----------------------------------------------------------------------*/
-				// vDSP_ctoz((DSPComplex *) this->input->out[0], 2, &buffer_split, 1, N / 2);
+				// vDSP_ctoz((DSPComplex *) this->input->out[0], 2, &buffer_split, 1, fft_size / 2);
 
 				/*------------------------------------------------------------------------
 				 * Perform inverse FFT
 				 *-----------------------------------------------------------------------*/
 				vDSP_fft_zrip(fft_setup, &buffer_split, 1, log2N, FFT_INVERSE);
-				vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out[0], 2, N / 2);
+				vDSP_ztoc(&buffer_split, 1, (DSPComplex *) this->buffer2, 2, fft_size / 2);
 
 				/*------------------------------------------------------------------------
 				 * Scale down (Required by vDSP)
 				 *-----------------------------------------------------------------------*/
-				float scale = 1.0 / (N * 2.0);
-				vDSP_vsmul(out[0], 1, &scale, out[0], 1, N);
+				float scale = 1.0 / (fft_size * 2.0);
+				vDSP_vsmul(buffer2, 1, &scale, buffer2, 1, fft_size);
+
+				/*------------------------------------------------------------------------
+				 * Apply Hann window (for overlap-add)
+				 *-----------------------------------------------------------------------*/
+				bool do_window = false;
+				if (do_window)
+					vDSP_vmul(buffer2, 1, this->window, 1, buffer2, 1, fft_size);
+
+				/*------------------------------------------------------------------------
+				 * Add to output buffer (for overlap/add)
+				 *-----------------------------------------------------------------------*/
+				vDSP_vadd(buffer2, 1, tout, 1, tout, 1, fft_size);
+			}
+
+			virtual void next(sample **out, int num_frames)
+			{
+				/*------------------------------------------------------------------------
+				 * 
+				 *-----------------------------------------------------------------------*/
+				memcpy(out[0], out[0] + this->fft_size, this->fft_size * sizeof(sample));
+				memset(out[0] + this->fft_size, 0, this->fft_size * sizeof(sample));
+				assert(num_frames == fft_size);
+
+				int num_hops = this->fft_size / this->hop_size;
+
+				/*------------------------------------------------------------------------
+				 * Perform repeated inverse FFT, moving forward hop_size frames per
+				 * hop.
+				 *-----------------------------------------------------------------------*/
+				for (int hop = 0; hop < num_hops; hop++)
+				{
+					this->ifft(this->input->out[hop], out[0] + (hop * hop_size));
+				}
 			}
 	};
 
