@@ -24,7 +24,7 @@ namespace signum
 				this->buffer = (sample *) calloc(fft_size, sizeof(sample));
 				this->buffer2 = (sample *) calloc(fft_size, sizeof(sample));
 
-				this->hop_size = fft_size / 8;
+				this->hop_size = fft_size / 4;
 				this->inbuf = (sample *) calloc(fft_size * 2, sizeof(sample));
 				this->inbuf_size = 0;
 				this->window = (sample *) calloc(fft_size, sizeof(sample));

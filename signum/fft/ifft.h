@@ -26,7 +26,7 @@ namespace signum
 				this->buffer = (sample *) malloc(fft_size * sizeof(sample));
 				this->buffer2 = (sample *) malloc(fft_size * sizeof(sample));
 
-				this->hop_size = fft_size / 8;
+				this->hop_size = fft_size / 4;
 
 				/*------------------------------------------------------------------------
 				 * Generate a Hann window for overlap-add.
@@ -48,7 +48,7 @@ namespace signum
 			sample *buffer2;
 			sample *window;
 
-			virtual void ifft(sample *in, sample *tout)
+			virtual void ifft(sample *in, sample *out, bool polar = true, bool do_window = true)
 			{
 				/*------------------------------------------------------------------------
 				 * Set up pointers to memory spaces so we can treat input and buffer
@@ -68,12 +68,18 @@ namespace signum
 				/*------------------------------------------------------------------------
 				 * 1. Expecting polar values
 				 *-----------------------------------------------------------------------*/
-				vDSP_ctoz((DSPComplex *) this->buffer2, 2, &buffer_split, 1, fft_size / 2);
+				if (polar)
+				{
+					vDSP_ctoz((DSPComplex *) this->buffer2, 2, &buffer_split, 1, fft_size / 2);
+				}
 
 				/*------------------------------------------------------------------------
 				 * 2. Expecting Cartesian values
 				 *-----------------------------------------------------------------------*/
-				// vDSP_ctoz((DSPComplex *) this->input->out[0], 2, &buffer_split, 1, fft_size / 2);
+				else
+				{
+					vDSP_ctoz((DSPComplex *) this->input->out[0], 2, &buffer_split, 1, fft_size / 2);
+				}
 
 				/*------------------------------------------------------------------------
 				 * Perform inverse FFT
@@ -90,24 +96,24 @@ namespace signum
 				/*------------------------------------------------------------------------
 				 * Apply Hann window (for overlap-add)
 				 *-----------------------------------------------------------------------*/
-				bool do_window = false;
 				if (do_window)
 					vDSP_vmul(buffer2, 1, this->window, 1, buffer2, 1, fft_size);
 
 				/*------------------------------------------------------------------------
 				 * Add to output buffer (for overlap/add)
 				 *-----------------------------------------------------------------------*/
-				vDSP_vadd(buffer2, 1, tout, 1, tout, 1, fft_size);
+				vDSP_vadd(buffer2, 1, out, 1, out, 1, fft_size);
 			}
 
 			virtual void next(sample **out, int num_frames)
 			{
+				assert(num_frames == fft_size);
+
 				/*------------------------------------------------------------------------
 				 * 
 				 *-----------------------------------------------------------------------*/
 				memcpy(out[0], out[0] + this->fft_size, this->fft_size * sizeof(sample));
 				memset(out[0] + this->fft_size, 0, this->fft_size * sizeof(sample));
-				assert(num_frames == fft_size);
 
 				int num_hops = this->fft_size / this->hop_size;
 
@@ -119,6 +125,7 @@ namespace signum
 				{
 					this->ifft(this->input->out[hop], out[0] + (hop * hop_size));
 				}
+
 			}
 	};
 
