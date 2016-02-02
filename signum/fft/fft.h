@@ -1,22 +1,21 @@
 #pragma once
 
-#include "../unit.h"
-#include "../constants.h"
+#include "fftunit.h"
 
 #include <Accelerate/Accelerate.h>
 #include <assert.h>
 
-#include <vector>
-
 namespace signum
 {
-	class FFT : public UnaryOpUnit
+	class FFT : public FFTUnit
 	{
 		public:
 			FFT(UnitRef input = 0.0, int fft_size = 1024) :
-				UnaryOpUnit(input), fft_size(fft_size)
+				FFTUnit(fft_size), input(input)
 			{
 				this->name = "fft";
+
+				this->add_param("input", this->input);
 
 				this->log2N = (int) log2((float) fft_size);
 				this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
@@ -28,7 +27,8 @@ namespace signum
 				this->inbuf = (sample *) calloc(fft_size * 2, sizeof(sample));
 				this->inbuf_size = 0;
 				this->window = (sample *) calloc(fft_size, sizeof(sample));
-				memset(window, 0, sizeof(float) * fft_size);
+				memset(this->window, 0, sizeof(float) * this->fft_size);
+
 				vDSP_hann_window(this->window, fft_size, vDSP_HANN_NORM);
 			}
 
@@ -38,7 +38,7 @@ namespace signum
 				free(this->buffer);
 			}
 
-			int fft_size;
+			UnitRef input;
 			int hop_size;
 			int log2N;
 			FFTSetup fft_setup;

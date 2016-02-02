@@ -1,7 +1,6 @@
 #pragma once
 
-#include "../unit.h"
-#include "../constants.h"
+#include "fftunit.h"
 
 namespace signum
 {

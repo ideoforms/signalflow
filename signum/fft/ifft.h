@@ -1,11 +1,8 @@
 #pragma once
 
-#include "../unit.h"
-#include "../constants.h"
+#include "fftunit.h"
 
 #include <Accelerate/Accelerate.h>
-
-#include <vector>
 
 namespace signum
 {
