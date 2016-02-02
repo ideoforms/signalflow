@@ -28,7 +28,12 @@ namespace signum
 		/*------------------------------------------------------------------------
 		 * Must pull our inputs before we generate our own outputs.
 		 *-----------------------------------------------------------------------*/
+
+		signum_assert (unit->params.size() > 0 || unit->name == "constant",
+			"Unit %s has no registered params", unit->name.c_str());
+
 		for (auto param : unit->params)
+
 		{
 			UnitRef param_unit = *(param.second);
 			if (param_unit)
