@@ -11,3 +11,4 @@ TODO
 *.o
 .lock*
 .waf*
+*-
