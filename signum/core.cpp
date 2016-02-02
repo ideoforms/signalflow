@@ -26,6 +26,20 @@ void signum_debug(char const * msg, ... )
 	#endif
 }
 
+void signum_assert(bool equality, char const *msg, ...)
+{
+	if (!equality)
+	{
+		va_list v;
+		va_start(v, msg);
+		fprintf(stdout, "SIGNUM FATAL ERROR: ");
+		vfprintf(stdout, msg, v);
+		fprintf(stdout, "\n");
+		va_end(v);
+		exit(1);
+	}
+}
+
 void signum_warn(char const * msg, ... )
 {
 	va_list v;
