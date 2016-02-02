@@ -12,12 +12,24 @@ namespace signum
 			{
 				this->fft_size = fft_size;
 				this->num_bins = fft_size / 2;
-				this->magnitudes = this->out[0];
-				this->phases = this->out[0] + this->num_bins;
+
+				this->magnitudes = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float *));
+				for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
+					this->magnitudes[i] = this->out[i];
+
+				this->phases = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float *));
+				for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
+					this->phases[i] = this->out[i] + this->num_bins;
 			}
 
-			sample *magnitudes;
-			sample *phases;
+			~FFTUnit()
+			{
+				free(this->magnitudes);
+				free(this->phases);
+			}
+
+			sample **magnitudes;
+			sample **phases;
 			int fft_size;
 			int num_bins;
 	};
