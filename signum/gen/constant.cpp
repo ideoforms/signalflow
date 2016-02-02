@@ -15,10 +15,10 @@ Constant::Constant(sample value) : Unit()
 void Constant::next(sample **out, int num_frames)
 {
 	#if __APPLE__
-	vDSP_vfill(&(this->value), out[0], 1, num_frames);
+		vDSP_vfill(&(this->value), out[0], 1, num_frames);
 	#else
-	for (int frame = 0; frame < num_frames; frame++)
-		out[0][frame] = this->value;
+		for (int frame = 0; frame < num_frames; frame++)
+			out[0][frame] = this->value;
 	#endif
 }
 
