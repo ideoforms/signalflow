@@ -3,14 +3,9 @@
 #include <unordered_map>
 #include <functional>
 
-// #include "unit.h"
 #include "nodedef.h"
 
-// #define REGISTER(class, name) (::signum::NodeRegistry::global->add<class>(name))
-
-// #define REGISTER(class, name) static NodeRegistry *reg = NodeRegistry::global(); static bool ok = reg->add<class>(name);
-#define REGISTER(class, name) static bool class##OK = NodeRegistry::global()->add<class>(name);
-
+#define REGISTER(CLASS, NAME) static bool CLASS##OK = NodeRegistry::global()->add<CLASS>(NAME);
 
 namespace signum
 {
