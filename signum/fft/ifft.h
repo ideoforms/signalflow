@@ -6,30 +6,30 @@
 
 namespace signum
 {
-	class IFFT : public UnaryOpUnit
+	class IFFT : public FFTOpUnit
 	{
 		public:
-			IFFT(UnitRef input = 0.0, int fft_size = 1024) :
-				UnaryOpUnit(input), fft_size(fft_size)
+			IFFT(UnitRef input = 0.0):
+				FFTOpUnit(input)
 			{
 				this->name = "ifft";
 
-				this->log2N = (int) log2((float) fft_size);
+				this->log2N = (int) log2((float) this->fft_size);
 				this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
 
 				/*------------------------------------------------------------------------
 				 * Buffers used in intermediate FFT calculations.
 				 *-----------------------------------------------------------------------*/
-				this->buffer = (sample *) malloc(fft_size * sizeof(sample));
-				this->buffer2 = (sample *) malloc(fft_size * sizeof(sample));
+				this->buffer = (sample *) malloc(this->fft_size * sizeof(sample));
+				this->buffer2 = (sample *) malloc(this->fft_size * sizeof(sample));
 
-				this->hop_size = fft_size / 4;
+				this->hop_size = this->fft_size / 4;
 
 				/*------------------------------------------------------------------------
 				 * Generate a Hann window for overlap-add.
 				 *-----------------------------------------------------------------------*/
-                this->window = (sample *) calloc(fft_size, sizeof(sample));
-                vDSP_hann_window(this->window, fft_size, vDSP_HANN_NORM);
+                this->window = (sample *) calloc(this->fft_size, sizeof(sample));
+                vDSP_hann_window(this->window, this->fft_size, vDSP_HANN_NORM);
 			}
 
 			~IFFT()
@@ -37,7 +37,6 @@ namespace signum
 				// free resources
 			}
 
-			int fft_size;
 			int hop_size;
 			int log2N;
 			FFTSetup fft_setup;
