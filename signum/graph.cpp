@@ -29,7 +29,7 @@ namespace signum
 		 * Must pull our inputs before we generate our own outputs.
 		 *-----------------------------------------------------------------------*/
 
-		signum_assert (unit->params.size() > 0 || unit->name == "constant",
+		signum_assert (unit->params.size() > 0 || unit->name == "constant" || unit->name == "audioout",
 			"Unit %s has no registered params", unit->name.c_str());
 
 		for (auto param : unit->params)
