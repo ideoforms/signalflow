@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <set>
 #include <memory>
 
 
@@ -94,6 +95,13 @@ namespace signum
 			 * TODO: Generic trigger method. Take named param for trigger ID?
 			 *-----------------------------------------------------------------------*/
 			virtual void trigger();
+			virtual void trigger(std::string name);
+
+			/*------------------------------------------------------------------------
+			 * Check whether a trigger has been triggered.
+			 *-----------------------------------------------------------------------*/
+			virtual bool triggered();
+			virtual bool triggered(std::string name);
 
 			/*------------------------------------------------------------------------
 			 * Sets our output buffer to zero.
@@ -181,6 +189,11 @@ namespace signum
 			 * other UnitRefs, increasing its own shared_ptr's reference count.
 			 *-----------------------------------------------------------------------*/
 			UnitRef *ref;
+
+			/*------------------------------------------------------------------------
+			 * Trigger states.
+			 *-----------------------------------------------------------------------*/
+			std::set <std::string> triggers;
 	};
 
 	class GeneratorUnit : public Unit

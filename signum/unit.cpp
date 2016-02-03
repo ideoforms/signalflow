@@ -131,9 +131,31 @@ void Unit::zero_output()
 		memset(this->out[i], 0, 44100 * sizeof(sample));
 }
 
+void Unit::trigger(std::string name)
+{
+	triggers.insert(name);
+}
+
 void Unit::trigger()
 {
-	// Placeholder
+	this->trigger("default");
+}
+
+bool Unit::triggered(std::string name)
+{
+	bool rv = false;
+	auto location = triggers.find(name);
+	if (location != triggers.end())
+	{
+		triggers.erase(location);
+		rv = true;
+	}
+	return rv;
+}
+
+bool Unit::triggered()
+{
+	return this->triggered("default");
 }
 
 void Unit::poll(float frequency, std::string label)
