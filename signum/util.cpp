@@ -99,7 +99,7 @@ double rng_gaussian()
 /*--------------------------------------------------------------------*
  * Generate uniform rand.
  *--------------------------------------------------------------------*/
-double rng_uniformuf()
+double rng_uniform()
 {
     #ifdef HAVE_GSL
     
@@ -116,20 +116,20 @@ double rng_uniformuf()
 
 double rng_uniform(double to)
 {
-	double value = rng_uniformuf() * to;
+	double value = rng_uniform() * to;
 	return value;
 }
 
 double rng_uniform(double from, double to)
 {
-	double value = rng_uniformuf();
+	double value = rng_uniform();
 	value = value * (to - from) + from;
 	return value;
 }
 
 bool rng_coin(double limit = 0.5)
 {
-	double value = rng_uniformuf();
+	double value = rng_uniform();
 	return value < limit;
 }
 

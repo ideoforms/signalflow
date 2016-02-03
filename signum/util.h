@@ -15,9 +15,9 @@ namespace signum
 
 	double rng_gaussian(double mean, double sd);
 	double rng_gaussian();
-	double rng_uniform(double to = 1.0);
+	double rng_uniform();
+	double rng_uniform(double to);
 	double rng_uniform(double from, double to);
-	double rng_uniformuf();
 	unsigned long rng_randint(unsigned long to);
 	unsigned long rng_randint(unsigned long from, unsigned long to);
 	bool rng_coin(double limit);
