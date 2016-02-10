@@ -23,7 +23,7 @@ namespace signum
 				this->buffer = (sample *) malloc(this->fft_size * sizeof(sample));
 				this->buffer2 = (sample *) malloc(this->fft_size * sizeof(sample));
 
-				this->hop_size = this->fft_size / 4;
+				this->hop_size = 256;
 
 				/*------------------------------------------------------------------------
 				 * Generate a Hann window for overlap-add.
@@ -103,21 +103,26 @@ namespace signum
 
 			virtual void next(sample **out, int num_frames)
 			{
-				assert(num_frames == fft_size);
+				/*------------------------------------------------------------------------
+				 * Move previously-written data to front of buffer (the "overlap" of
+				 * overlap-add); zero anything after that point.
+				 *-----------------------------------------------------------------------*/
+				int previous_offset = this->num_hops * this->hop_size;
+				int previous_overflow = this->fft_size * 2 * sizeof(sample);
+				memcpy(out[0], out[0] + previous_offset, previous_overflow);
+				memset(out[0] + previous_overflow, 0, previous_overflow);
 
 				/*------------------------------------------------------------------------
 				 * 
 				 *-----------------------------------------------------------------------*/
-				memcpy(out[0], out[0] + this->fft_size, this->fft_size * sizeof(sample));
-				memset(out[0] + this->fft_size, 0, this->fft_size * sizeof(sample));
-
-				int num_hops = this->fft_size / this->hop_size;
+				FFTUnit *fftunit = (FFTUnit *) this->input.get();
+				this->num_hops = fftunit->num_hops; 
 
 				/*------------------------------------------------------------------------
 				 * Perform repeated inverse FFT, moving forward hop_size frames per
 				 * hop.
 				 *-----------------------------------------------------------------------*/
-				for (int hop = 0; hop < num_hops; hop++)
+				for (int hop = 0; hop < this->num_hops; hop++)
 				{
 					this->ifft(this->input->out[hop], out[0] + (hop * hop_size));
 				}

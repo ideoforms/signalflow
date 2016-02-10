@@ -12,6 +12,7 @@ namespace signum
 			{
 				this->fft_size = fft_size;
 				this->num_bins = fft_size / 2;
+				this->num_hops = 0;
 
 				this->magnitudes = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float *));
 				for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
@@ -32,6 +33,7 @@ namespace signum
 			sample **phases;
 			int fft_size;
 			int num_bins;
+			int num_hops;
 	};
 
 	class FFTOpUnit : public FFTUnit

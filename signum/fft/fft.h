@@ -17,15 +17,31 @@ namespace signum
 
 				this->add_param("input", this->input);
 
+				/*------------------------------------------------------------------------
+				 * Initial FFT setup.
+				 *-----------------------------------------------------------------------*/
 				this->log2N = (int) log2((float) fft_size);
 				this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
 
+				/*------------------------------------------------------------------------
+				 * Temp buffers for FFT calculations.
+				 *-----------------------------------------------------------------------*/
 				this->buffer = (sample *) calloc(fft_size, sizeof(sample));
 				this->buffer2 = (sample *) calloc(fft_size, sizeof(sample));
 
-				this->hop_size = fft_size / 4;
-				this->inbuf = (sample *) calloc(fft_size * 2, sizeof(sample));
+				this->hop_size = 256;
+
+				/*------------------------------------------------------------------------
+				 * To perform an FFT, we have to enqueue at least `fft_size` samples.
+				 * inbuf stores our backlog, so make sure we've allocated enough space.
+				 * inbuf_size records the current number of frames we have buffered.
+				 *-----------------------------------------------------------------------*/
+				this->inbuf = (sample *) calloc(SIGNUM_MAX_FFT_SIZE * 2, sizeof(sample));
 				this->inbuf_size = 0;
+
+				/*------------------------------------------------------------------------
+				 * Hann window for overlap/add
+				 *-----------------------------------------------------------------------*/
 				this->window = (sample *) calloc(fft_size, sizeof(sample));
 				memset(this->window, 0, sizeof(float) * this->fft_size);
 
@@ -102,18 +118,29 @@ namespace signum
 				 * Append the incoming buffer onto our inbuf.
 				 * Perform repeated window and FFT by stepping forward hop_size frames.
 				 *-----------------------------------------------------------------------*/
-				assert(this->inbuf_size + num_frames <= this->fft_size * 2);
+				// assert(this->inbuf_size + num_frames <= this->fft_size * 2);
 				memcpy(this->inbuf + this->inbuf_size, this->input->out[0], num_frames * sizeof(sample));
 				this->inbuf_size += num_frames;
 
-				int num_hops = (this->inbuf_size - this->fft_size) / this->hop_size;
-				for (int hop = 0; hop < num_hops; hop++)
+				/*------------------------------------------------------------------------
+				 * Calculate the number of hops to perform.
+				 * Each hop is stored in an output channel so we can't have > 32.
+				 *-----------------------------------------------------------------------*/
+				this->num_hops = (this->inbuf_size - this->fft_size) / this->hop_size;
+				assert(this->num_hops <= SIGNUM_MAX_CHANNELS);
+
+				if (this->num_hops < 0)
+					this->num_hops = 0;
+
+
+				for (int hop = 0; hop < this->num_hops; hop++)
 				{
 					this->fft(this->inbuf + (hop * this->hop_size), this->out[hop]);
 				}
 
-				int frames_processed = this->hop_size * num_hops;
-				int frames_remaining = this->inbuf_size - (this->hop_size * num_hops);
+				int frames_processed = this->hop_size * this->num_hops;
+				int frames_remaining = this->inbuf_size - frames_processed;
+
 				memcpy(this->inbuf, this->inbuf + frames_processed, frames_remaining * sizeof(sample));
 				this->inbuf_size -= frames_processed;
 			}
