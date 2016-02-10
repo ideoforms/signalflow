@@ -1,6 +1,6 @@
 # signum
 
-A new C++ audio synthesis engine.
+A modern audio synthesis engine, written in c++11.
 
 ## Installation
 
@@ -29,4 +29,11 @@ Requires Raspbian jessie (for `g++ 4.9`).
 
 ## Examples
 
-See `examples`.
+See `[examples](examples)` for a number of example programs.
+
+## License
+
+For non-commercial use, Signum is available under the terms of the [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
+
+For commercial use, please [contact the author](http://erase.net/contact).
+
