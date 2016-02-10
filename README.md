@@ -29,7 +29,7 @@ Requires Raspbian jessie (for `g++ 4.9`).
 
 ## Examples
 
-See `[examples](examples)` for a number of example programs.
+See [examples](examples) for a number of example programs.
 
 ## License
 
