@@ -1,4 +1,4 @@
-# signum
+# signal
 
 A modern audio synthesis engine, written in c++11.
 
@@ -33,7 +33,7 @@ See [examples](examples) for a number of example programs.
 
 ## License
 
-For non-commercial use, Signum is available under the terms of the [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
+For non-commercial use, Signal is available under the terms of the [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
 
 For commercial use, please [contact the author](http://erase.net/contact).
 
