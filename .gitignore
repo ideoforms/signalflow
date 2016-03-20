@@ -3,7 +3,10 @@
 build/
 dev/
 examples-dev/
+recordings/
+_site/
 TODO
+NOTES
 *.swp
 *-test
 *-test.cpp
