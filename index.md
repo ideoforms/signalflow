@@ -1,16 +1,16 @@
 ---
 layout: default
-title: Test
+title: signal
 ---
 
-## Hello, world
+## Graph-based audio DSP for 2016
 
-This is a test, in **markdown**.
+Signal is a new audio framework, developed in pure c++11 and using familiar technological standards.
 
 ```cpp
 Graph *graph = new Graph();
 
-SynthDef *def = new SynthDef("test");
+SynthDef *def = new SynthDef("ping");
 UnitRef sine = def->add_node(new Sine(440));
 UnitRef env = def->add_node(new ASR(0.01, 0.1, 5.0));
 UnitRef pan = def->add_node(new Pan(2, env * sine, 0.5));
