@@ -1,10 +1,10 @@
-#include <signum/signum.h>
+#include <signal/signal.h>
 
 /*------------------------------------------------------------------------
- * All objects are in the signum:: namespace.
+ * All objects are in the signal:: namespace.
  * Import this namespace for code brevity.
  *-----------------------------------------------------------------------*/
-using namespace signum;
+using namespace libsignal;
 
 int main()
 {

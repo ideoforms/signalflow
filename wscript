@@ -1,7 +1,7 @@
 #! /usr/bin/env python
 
 #------------------------------------------------------------------------
-# waf build script for signum.
+# waf build script for signal.
 #
 # To build in production mode (optimisation flags, strip debug syms):
 #
@@ -18,7 +18,7 @@
 #------------------------------------------------------------------------
 
 VERSION = '0.0.1'
-APPNAME = 'signum'
+APPNAME = 'signal'
 
 import os
 import shutil
@@ -100,14 +100,14 @@ def build(bld):
 	bld.env.CXXFLAGS += [ "-Wno-unused-variable" ]
 
 	#------------------------------------------------------------------------
-	# Build every .cpp file found within signum as a shared library.
+	# Build every .cpp file found within signal as a shared library.
 	# Set install_path = "@rpath" sets the internal install_name of the 
 	# shared object, used when generating the link paths of binaries
 	# compiled against this lib.
 	#------------------------------------------------------------------------
 	bld.shlib(
-		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('signum/**/*.cpp'),
-		target = 'signum',
+		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('signal/**/*.cpp'),
+		target = 'signal',
 		vnum = VERSION,
 		use = libraries,
 		install_path = '@rpath'
@@ -156,7 +156,7 @@ def build(bld):
 			source = source_file,
 			target = target,
 			includes = [ ".." ],
-			use = libraries + [ 'signum' ],
+			use = libraries + [ 'signal' ],
 		)
 	
 	#------------------------------------------------------------------------

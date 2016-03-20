@@ -1,8 +1,8 @@
-#include "signum/signum.h"
+#include "signal/signal.h"
 
 #include <unistd.h>
 
-using namespace signum;
+using namespace libsignal;
 
 int main()
 {

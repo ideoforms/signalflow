@@ -1,6 +1,6 @@
-#include <signum/signum.h>
+#include <signal/signal.h>
 
-using namespace signum;
+using namespace libsignal;
 
 int main()
 {
