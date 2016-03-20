@@ -2,6 +2,8 @@
 
 A modern audio synthesis engine, written in c++11.
 
+Signal is in **alpha** status. Its codebase is under heavy development, and the interfaces are changing frequently. Caveat emptor.
+
 ## Installation
 
 #### OS X
