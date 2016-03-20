@@ -27,7 +27,7 @@ h3
 
 p
 {
-	margin: 0 0 1em;
+	margin: 0 0 0.5em;
 	line-height: 1.4em;
 }
 
@@ -47,6 +47,22 @@ hr
 	height: 0px;
 	border: none;
 	border-bottom: 1px solid #eee;
+}
+
+nav
+{
+	margin: 1em 0;
+}
+nav ul, nav li
+{
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+}
+nav li
+{
+	display: inline-block;
+	margin: 0 0.5em;
 }
 
 #main
@@ -102,6 +118,8 @@ pre, code
 .intro
 {
 	font-size: 150%;
+	margin-bottom: 0;
+	line-height: 1em;
 }
 
 @media only screen and (max-width: 800px)
