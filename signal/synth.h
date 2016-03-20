@@ -16,7 +16,7 @@ namespace libsignal
 				this->output = this->instantiate(&nodedef);
 			}
 
-			NodeRef instantiate(NodeDefinition *node)
+			NodeRef instantiate(NodeDefinition *nodedef)
 			{
 				/*------------------------------------------------------------------------
 				 * Recursively instantiate the subgraph specified in NodeDefinition.
@@ -25,26 +25,26 @@ namespace libsignal
 				 *-----------------------------------------------------------------------*/
 				NodeRegistry *registry = NodeRegistry::global();
 
-				Node *node = registry->create(node->name);
+				Node *node = registry->create(nodedef->name);
 				NodeRef noderef = NodeRef(node);
 
-				for (auto param : node->params)
+				for (auto param : nodedef->params)
 				{
 					std::string param_name = param.first;
 					NodeRef param_node = this->instantiate(param.second);
 					noderef->set_param(param_name, param_node);
 				}
 
-				if (node->is_constant)
+				if (nodedef->is_constant)
 				{
 					// TODO rewrite
 					Constant *constant = (Constant *) node;
-					constant->value = node->value;
+					constant->value = nodedef->value;
 				}
 
-				if (!node->input_name.empty())
+				if (!nodedef->input_name.empty())
 				{
-					this->inputs[node->input_name] = noderef;
+					this->inputs[nodedef->input_name] = noderef;
 				}
 
 				return noderef;
