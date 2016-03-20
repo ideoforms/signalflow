@@ -2,24 +2,65 @@ body
 {
 	background: white;
 	color: black;
-	font-family: "helvetica neue", sans-serif;
+	font-family: "helvetica", sans-serif;
 	font-weight: 300;
-	font-size: 16px;
+	font-size: 15px;
 }
 
 h1
 {
 	font-size: 400%;
+	margin: 0 0 0.2em;
+}
+h2
+{
+	font-size: 230%;
+	margin: 0 0 0.5em;
+}
+
+h3
+{
+	font-size: 150%;
+	margin: 0 0 0.5em;
+	line-height: 1.3em;
+}
+
+p
+{
+	margin: 0 0 1em;
+	line-height: 1.4em;
 }
 
 #main
 {
-	width: 30em;
+	width: 53em;
 	margin: auto;
+}
+
+#top
+{
+	text-align: center;
+	padding-top: 1.0em;
+	padding-bottom: 0.5em;
+	margin-bottom: 1.5em;
+	border-bottom: 1px solid #eee;
 }
 
 pre.highlight
 {
-	background: #333344;
+	background: #2a2245;
 	padding: 1em;
+	margin: 2em 0em;
+}
+
+.item
+{
+	width: 16em;
+	margin-right: 1.5em;
+	margin-bottom: 1.5em;
+	float: left;
+}
+.intro
+{
+	font-size: 150%;
 }
