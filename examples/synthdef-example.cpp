@@ -29,7 +29,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Instantiate a synth that uses this definition.
 	 *-----------------------------------------------------------------------*/
-	Synth *synth1 = new Synth(def);
+	SynthRef synth1 = new Synth(def);
 	graph->output->add_input(synth1->output);
 
 	while (true)

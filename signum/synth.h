@@ -2,6 +2,8 @@
 
 #include "gen/constant.h"
 #include <iostream>
+#include <memory>
+
 
 namespace signum
 {
@@ -59,4 +61,17 @@ namespace signum
 			UnitRef output;
 			std::unordered_map <std::string, UnitRef> inputs;
 	};
+
+	template<class T>
+	class SynthRefT : public std::shared_ptr<T>
+	{
+		public:
+			using std::shared_ptr<T>::shared_ptr;
+
+			SynthRefT() : std::shared_ptr<Synth>(nullptr) { }
+			SynthRefT(Synth *ptr) : std::shared_ptr<Synth>(ptr) { }
+			SynthRefT(SynthDef *def) : std::shared_ptr<Unit>(new Synth(def)) { }
+	};
+
+	typedef SynthRefT <Synth> SynthRef;
 }
