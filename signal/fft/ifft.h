@@ -115,8 +115,8 @@ namespace libsignal
 				/*------------------------------------------------------------------------
 				 * 
 				 *-----------------------------------------------------------------------*/
-				FFTNode *fftunit = (FFTNode *) this->input.get();
-				this->num_hops = fftunit->num_hops; 
+				FFTNode *fftnode = (FFTNode *) this->input.get();
+				this->num_hops = fftnode->num_hops; 
 
 				/*------------------------------------------------------------------------
 				 * Perform repeated inverse FFT, moving forward hop_size frames per

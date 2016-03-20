@@ -28,7 +28,7 @@ void Noise::next(sample **out, int num_frames)
 	if (this->value == std::numeric_limits<float>::max())
 	{
 		// TODO: Put this in an init block that is available to all
-		// units on their first block?
+		// nodes on their first block?
 		this->value = this->min->out[0][0];
 	}
 

@@ -76,23 +76,23 @@ void Node::update_channels()
 	}
 }
 
-void Node::add_param(std::string name, NodeRef &unit)
+void Node::add_param(std::string name, NodeRef &node)
 {
-	this->params[name] = &unit;
+	this->params[name] = &node;
 	this->update_channels();
 
-	if (unit)
-		unit->update_channels();
+	if (node)
+		node->update_channels();
 }
 
-void Node::set_param(std::string name, const NodeRef &unit)
+void Node::set_param(std::string name, const NodeRef &node)
 {
 	if (this->params.find(name) == this->params.end())
 		throw std::runtime_error("Node " + this->name + " has no such param: " + name);
 
-	*(this->params[name]) = unit;
+	*(this->params[name]) = node;
 	this->update_channels();
-	unit->update_channels();
+	node->update_channels();
 }
 
 

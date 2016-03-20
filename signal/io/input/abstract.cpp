@@ -7,7 +7,7 @@ namespace libsignal
     AudioIn_Abstract::AudioIn_Abstract()
     {
         if (shared_in)
-            throw std::runtime_error("Multiple AudioIn units are not yet supported.");
+            throw std::runtime_error("Multiple AudioIn nodes are not yet supported.");
         
         shared_in = this;
         

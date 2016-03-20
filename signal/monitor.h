@@ -9,13 +9,13 @@ namespace libsignal
 class NodeMonitor
 {
 	public:
-	NodeMonitor(Node *unit, std::string label, float frequency)
+	NodeMonitor(Node *node, std::string label, float frequency)
 	{
-		this->unit = unit;
+		this->node = node;
 		this->frequency = frequency;
 
 		if (label == "")
-			this->label = this->unit->name;
+			this->label = this->node->name;
 		else
 			this->label = label;
 	}
@@ -31,7 +31,7 @@ class NodeMonitor
 		float sleep_time = 1000000.0 * (1.0 / this->frequency);
 		while (this->running)
 		{
-			fprintf(stderr, "%s: %.5f\n", this->label.c_str(), this->unit->out[0][0]);
+			fprintf(stderr, "%s: %.5f\n", this->label.c_str(), this->node->out[0][0]);
 			usleep(sleep_time);
 		}
 	}
@@ -41,7 +41,7 @@ class NodeMonitor
 		this->running = false;
 	}
 
-	Node *unit;
+	Node *node;
 	float frequency;
 	std::string label;
 	bool running;

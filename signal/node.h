@@ -29,7 +29,7 @@ namespace libsignal
 	class NodeMonitor;
 
 	/*------------------------------------------------------------------------
-	 * Allows us to use a float (or direct unit ptr) in place of a NodeRef
+	 * Allows us to use a float (or direct node ptr) in place of a NodeRef
 	 * by specifying conversion constructors.
 	 *-----------------------------------------------------------------------*/
 	template<class T>
@@ -69,7 +69,7 @@ namespace libsignal
 			virtual void next(sample **out, int num_frames);
 
 			/*------------------------------------------------------------------------
-			 * Connect a new signal input to this unit. These connections form
+			 * Connect a new signal input to this node. These connections form
 			 * the overall signal graph.
 			 *-----------------------------------------------------------------------*/
 			virtual void add_input(NodeRef input) {}
@@ -109,7 +109,7 @@ namespace libsignal
 			virtual void zero_output();
 
 			/*------------------------------------------------------------------------
-			 * Outputs the unit's value at a user-specified frequency.
+			 * Outputs the node's value at a user-specified frequency.
 			 *-----------------------------------------------------------------------*/
 			virtual void poll(float frequency = 1.0, std::string label = "");
 			NodeMonitor *monitor;
@@ -140,7 +140,7 @@ namespace libsignal
 			std::unordered_map <std::string, Buffer **> buffers;
 
 			/*------------------------------------------------------------------------
-			 * Pointer to the Graph that this unit is a part of.
+			 * Pointer to the Graph that this node is a part of.
 			 * Set automatically in constructor.
 			 *-----------------------------------------------------------------------*/
 			Graph *graph;
@@ -167,14 +167,14 @@ namespace libsignal
 			bool no_input_automix;
 
 			/*------------------------------------------------------------------------
-			 * Buffer containing this unit's output.
+			 * Buffer containing this node's output.
 			 * TODO: Point this partway through a bigger frame buffer so that
 			 * its history can be read for delay lines etc.
 			 *-----------------------------------------------------------------------*/
 			sample **out;
 
 			/*------------------------------------------------------------------------
-			 * Vector of input units.
+			 * Vector of input nodes.
 			 *-----------------------------------------------------------------------*/
 			// std::vector <NodeRef> inputs;
 
@@ -185,7 +185,7 @@ namespace libsignal
 
 			/*------------------------------------------------------------------------
 			 * A reference to the NodeRef shared_ptr pointing to this Node.
-			 * Necessary so that a unit can make outgoing/incoming connections to
+			 * Necessary so that a node can make outgoing/incoming connections to
 			 * other NodeRefs, increasing its own shared_ptr's reference count.
 			 *-----------------------------------------------------------------------*/
 			NodeRef *ref;

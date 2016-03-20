@@ -28,8 +28,8 @@ namespace libsignal
 
 			virtual void next(sample **out, int num_frames)
 			{
-				FFTNode *fftunit = (FFTNode *) this->input.get();
-				this->num_hops = fftunit->num_hops; 
+				FFTNode *fftnode = (FFTNode *) this->input.get();
+				this->num_hops = fftnode->num_hops; 
 
 				bool triggered = this->triggered();
 				if (!frozen && triggered)

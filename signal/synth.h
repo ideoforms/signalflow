@@ -25,29 +25,29 @@ namespace libsignal
 				 *-----------------------------------------------------------------------*/
 				NodeRegistry *registry = NodeRegistry::global();
 
-				Node *unit = registry->create(node->name);
-				NodeRef unitref = NodeRef(unit);
+				Node *node = registry->create(node->name);
+				NodeRef noderef = NodeRef(node);
 
 				for (auto param : node->params)
 				{
 					std::string param_name = param.first;
-					NodeRef param_unit = this->instantiate(param.second);
-					unitref->set_param(param_name, param_unit);
+					NodeRef param_node = this->instantiate(param.second);
+					noderef->set_param(param_name, param_node);
 				}
 
 				if (node->is_constant)
 				{
 					// TODO rewrite
-					Constant *constant = (Constant *) unit;
+					Constant *constant = (Constant *) node;
 					constant->value = node->value;
 				}
 
 				if (!node->input_name.empty())
 				{
-					this->inputs[node->input_name] = unitref;
+					this->inputs[node->input_name] = noderef;
 				}
 
-				return unitref;
+				return noderef;
 			}
 
 			void set_param(std::string name, float value)

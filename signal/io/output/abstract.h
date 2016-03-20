@@ -20,9 +20,9 @@ namespace libsignal
         virtual int start() = 0;
         virtual int close() = 0;
 
-        virtual void add_input(NodeRef unit)
+        virtual void add_input(NodeRef node)
 		{
-			inputs.push_back(unit);
+			inputs.push_back(node);
 			std::string input_name = "input" + std::to_string(this->inputs.size());;
 
 			this->add_param(input_name, inputs.back());

@@ -13,9 +13,9 @@ namespace libsignal
 			Graph();
 
 			void run();
-			void pull_input(const NodeRef & unit, int num_frames);
+			void pull_input(const NodeRef &node, int num_frames);
 			void pull_input(int num_frames);
-			NodeRef addNode(Node *unit);
+			NodeRef addNode(Node *node);
 
 			NodeRef input = nullptr;
 			NodeRef output = nullptr;

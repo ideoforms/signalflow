@@ -20,13 +20,13 @@ namespace libsignal
 				return placeholder;
 			}
 
-			std::string get_input_name(const NodeRef &unit)
+			std::string get_input_name(const NodeRef &node)
 			{
 				for (auto input : this->inputs)
 				{
 					std::string name = input.first;
-					Node *unit_ptr = input.second;
-					if (unit_ptr == unit.get())
+					Node *node_ptr = input.second;
+					if (node_ptr == node.get())
 						return name;
 				}
 
@@ -57,28 +57,28 @@ namespace libsignal
 				return this->read_structure(r);
 			}
 
-			NodeDefinition read_structure(const NodeRef &unit)
+			NodeDefinition read_structure(const NodeRef &node)
 			{
-				NodeDefinition def(unit->name);
-				if (unit->name == "constant")
+				NodeDefinition def(node->name);
+				if (node->name == "constant")
 				{
-					Constant *constant = (Constant *) unit.get();
+					Constant *constant = (Constant *) node.get();
 					def.set_value(constant->value);
 				}
 				else
 				{
-					for (auto param : unit->params)
+					for (auto param : node->params)
 					{
-						NodeRef param_unit = *(param.second);
-						if (param_unit)
+						NodeRef param_node = *(param.second);
+						if (param_node)
 						{
-							NodeDefinition param_def = this->read_structure(param_unit);
+							NodeDefinition param_def = this->read_structure(param_node);
 							def.add_param(param.first, &param_def);
 						}
 					}
 				}
 
-				std::string input_name = this->get_input_name(unit);
+				std::string input_name = this->get_input_name(node);
 				if (!input_name.empty())
 				{
 					def.input_name = input_name;
