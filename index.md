@@ -34,12 +34,18 @@ Tested on OS X, iOS, Linux and Raspberry Pi (Jessie). Cross-platform I/O courtes
 </div>
 
 <div class="box">
-### Concise and idiomatic
-Instantiate an audio-generating node in a single line of C++. Combine and modulate nodes with the regular <code>+-*/</code> operators.
+### No memory allocation headaches
+Key objects are transparently instantiated via `shared_ptr` reference counters, meaning much less manual memory allocation.
 </div>
 
 </div>
 <div class="row">
+
+<div class="box">
+### Concise expression of complex ideas
+Instantiate an audio-generating node in a single line of C++. Combine and modulate nodes with the regular <code>+-*/</code> operators.
+</div>
+
 
 <div class="box">
 ### Processor efficient
