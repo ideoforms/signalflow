@@ -1,13 +1,13 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Wavetable : public Unit
+	class Wavetable : public Node
 	{
 	public:
-		Wavetable(Buffer *table, UnitRef frequency, bool interpolate = true) :
+		Wavetable(Buffer *table, NodeRef frequency, bool interpolate = true) :
 			table(table), frequency(frequency), interpolate(interpolate)
 		{
 			this->phase = 0.0;
@@ -33,7 +33,7 @@ namespace libsignal
 		}
 
 		Buffer *table;
-		UnitRef frequency;
+		NodeRef frequency;
 		float phase;
 		bool interpolate;
 

@@ -1,17 +1,17 @@
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 #include "../buffer.h"
 
 namespace libsignal
 {
-	class Sampler : public Unit
+	class Sampler : public Node
 	{
 		public:
-			Sampler(Buffer *buffer, UnitRef rate = 1.0, bool loop = false);
+			Sampler(Buffer *buffer, NodeRef rate = 1.0, bool loop = false);
 
 			Buffer *buffer;
 
-			UnitRef rate;
+			NodeRef rate;
 			float phase;
 			bool loop;
 

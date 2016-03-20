@@ -1,4 +1,4 @@
-#include "unit.h"
+#include "node.h"
 
 #include "op/multiply.h"
 #include "op/add.h"
@@ -22,7 +22,7 @@ namespace libsignal
     
 extern Graph *shared_graph;
 
-Unit::Unit()
+Node::Node()
 {
 	this->graph = shared_graph;
 	this->out = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float*));
@@ -43,40 +43,40 @@ Unit::Unit()
 	this->monitor = NULL;
 }
 
-void Unit::next(sample **out, int num_frames)
+void Node::next(sample **out, int num_frames)
 {
 	// Basic next() loop assumes we are N-in, N-out.
 	// TODO: Assert channel config makes sense? (> 0)
 
-	throw std::runtime_error("Unit::next (should never be called)");
+	throw std::runtime_error("Node::next (should never be called)");
 }
 
-void Unit::update_channels()
+void Node::update_channels()
 {
 	if (this->min_input_channels == N_CHANNELS)
 	{
 		int max_channels = 0;
 		for (auto param : this->params)
 		{
-			UnitRef *ptr = param.second;
+			NodeRef *ptr = param.second;
 			// A param may be registered but not yet set
 			if (!ptr || !*ptr)
 				continue;
 			std::string param_name = param.first;
 			// signal_debug("%s: update_channels (%s)", this->name.c_str(), param_name.c_str());
 
-			UnitRef input = *ptr;
+			NodeRef input = *ptr;
 			if (input->channels_out > max_channels)
 				max_channels = input->channels_out;
 		}
 
-		// signal_debug("Unit %s set num_out_channels to %d", this->name.c_str(), max_channels);
+		// signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), max_channels);
 		this->channels_in = max_channels;
 		this->channels_out = max_channels;
 	}
 }
 
-void Unit::add_param(std::string name, UnitRef &unit)
+void Node::add_param(std::string name, NodeRef &unit)
 {
 	this->params[name] = &unit;
 	this->update_channels();
@@ -85,10 +85,10 @@ void Unit::add_param(std::string name, UnitRef &unit)
 		unit->update_channels();
 }
 
-void Unit::set_param(std::string name, const UnitRef &unit)
+void Node::set_param(std::string name, const NodeRef &unit)
 {
 	if (this->params.find(name) == this->params.end())
-		throw std::runtime_error("Unit " + this->name + " has no such param: " + name);
+		throw std::runtime_error("Node " + this->name + " has no such param: " + name);
 
 	*(this->params[name]) = unit;
 	this->update_channels();
@@ -97,15 +97,15 @@ void Unit::set_param(std::string name, const UnitRef &unit)
 
 
 
-void Unit::add_buffer(std::string name, Buffer **buffer)
+void Node::add_buffer(std::string name, Buffer **buffer)
 {
 	this->buffers[name] = buffer;
 }
 
-void Unit::set_buffer(std::string name, Buffer *buffer)
+void Node::set_buffer(std::string name, Buffer *buffer)
 {
 	if (!this->buffers[name])
-		throw std::runtime_error("Unit " + this->name + " has no such buffer: " + name);
+		throw std::runtime_error("Node " + this->name + " has no such buffer: " + name);
 
 	*(this->buffers[name]) = buffer;
 }
@@ -116,7 +116,7 @@ void Unit::set_buffer(std::string name, Buffer *buffer)
 // This might be bad practice. 
 /*
 template<>
-UnitRef UnitRef::operator= (const UnitRef &other)
+NodeRef NodeRef::operator= (const NodeRef &other)
 {
 	printf("UNITREF ASSIGN, HERE BE DRAGONS\n");
 	// if (this != other)
@@ -125,23 +125,23 @@ UnitRef UnitRef::operator= (const UnitRef &other)
 }
 */
 
-void Unit::zero_output()
+void Node::zero_output()
 {
 	for (int i = 0; i < this->channels_out; i++)
 		memset(this->out[i], 0, 44100 * sizeof(sample));
 }
 
-void Unit::trigger(std::string name)
+void Node::trigger(std::string name)
 {
 	triggers.insert(name);
 }
 
-void Unit::trigger()
+void Node::trigger()
 {
 	this->trigger("default");
 }
 
-bool Unit::triggered(std::string name)
+bool Node::triggered(std::string name)
 {
 	bool rv = false;
 	auto location = triggers.find(name);
@@ -153,14 +153,14 @@ bool Unit::triggered(std::string name)
 	return rv;
 }
 
-bool Unit::triggered()
+bool Node::triggered()
 {
 	return this->triggered("default");
 }
 
-void Unit::poll(float frequency, std::string label)
+void Node::poll(float frequency, std::string label)
 {
-	this->monitor = new UnitMonitor(this, label, frequency); 
+	this->monitor = new NodeMonitor(this, label, frequency); 
 	this->monitor->start();
 }
 
@@ -169,73 +169,73 @@ void Unit::poll(float frequency, std::string label)
  *-----------------------------------------------------------------------*/
 
 template<>
-UnitRef::UnitRefT() : std::shared_ptr<Unit>(nullptr) { }
+NodeRef::NodeRefT() : std::shared_ptr<Node>(nullptr) { }
 
 template<>
-UnitRef::UnitRefT(Unit *ptr) : std::shared_ptr<Unit>(ptr)
+NodeRef::NodeRefT(Node *ptr) : std::shared_ptr<Node>(ptr)
 	{ ptr->ref = this; }
 
 template<>
-UnitRef::UnitRefT(double x) : std::shared_ptr<Unit>(new Constant(x))
+NodeRef::NodeRefT(double x) : std::shared_ptr<Node>(new Constant(x))
 	{ (*this)->ref = this; }
 
 template<>
-UnitRef::UnitRefT(int x) : std::shared_ptr<Unit>(new Constant((float) x))
+NodeRef::NodeRefT(int x) : std::shared_ptr<Node>(new Constant((float) x))
 	{ (*this)->ref = this; }
 
 
 
 /*------------------------------------------------------------------------
- * Don't explicitly cast to UnitRef here or bad things happen
+ * Don't explicitly cast to NodeRef here or bad things happen
  * (shared_ptrs freed too early -- causing SIGSEGV when doing
  * sine * 0.25)
  *-----------------------------------------------------------------------*/
 template<>
-UnitRef UnitRef::operator* (UnitRef other)
+NodeRef NodeRef::operator* (NodeRef other)
 	{ return new Multiply(*this, other); }
 
 template<>
-UnitRef UnitRef::operator* (double constant)
+NodeRef NodeRef::operator* (double constant)
 	{ return new Multiply(*this, constant); }
 
 template<>
-UnitRef UnitRef::operator+ (UnitRef other)
+NodeRef NodeRef::operator+ (NodeRef other)
 	{ return new Add(*this, other); }
 
 template<>
-UnitRef UnitRef::operator+ (double constant)
+NodeRef NodeRef::operator+ (double constant)
 	{ return new Add(*this, constant); }
 
 template<>
-UnitRef UnitRef::operator- (UnitRef other)
+NodeRef NodeRef::operator- (NodeRef other)
 	{ return new Subtract(*this, other); }
 
 template<>
-UnitRef UnitRef::operator- (double constant)
+NodeRef NodeRef::operator- (double constant)
 	{ return new Subtract(*this, constant); }
 
 template<>
-UnitRef UnitRef::operator/ (UnitRef other)
+NodeRef NodeRef::operator/ (NodeRef other)
 	{ return new Divide(*this, other); }
 
 template<>
-UnitRef UnitRef::operator/ (double constant)
+NodeRef NodeRef::operator/ (double constant)
 	{ return new Divide(*this, constant); }
 
 template<>
-sample UnitRef::operator[] (int index)
+sample NodeRef::operator[] (int index)
 {
 	// unused?
 	return (*this)->out[0][index];
 }
 
-BinaryOpUnit::BinaryOpUnit(UnitRef a, UnitRef b) : Unit(), input0(a), input1(b)
+BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b) : Node(), input0(a), input1(b)
 {
 	this->add_param("input0", this->input0);
 	this->add_param("input1", this->input1);
 }
 
-UnaryOpUnit::UnaryOpUnit(UnitRef a) : Unit(), input(a)
+UnaryOpNode::UnaryOpNode(NodeRef a) : Node(), input(a)
 {
 	// TODO: Do this add_param automatically in add_input, with indexically-named
 	//       inputs?

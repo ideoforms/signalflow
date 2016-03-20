@@ -1,15 +1,15 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Dust : public Unit
+	class Dust : public Node
 	{
 	public:
-		Dust(UnitRef frequency = 1.0);
+		Dust(NodeRef frequency = 1.0);
 
-		UnitRef frequency;
+		NodeRef frequency;
 
 		virtual void next(sample **out, int num_frames);
 	

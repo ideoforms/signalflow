@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 
 namespace libsignal
 {
-	class Freeze : public UnaryOpUnit
+	class Freeze : public UnaryOpNode
 	{
 		public:
-			Freeze(UnitRef input = 0) :
-				UnaryOpUnit(input)
+			Freeze(NodeRef input = 0) :
+				UnaryOpNode(input)
 			{
 				this->buffer = new Buffer(1, 2048);
 

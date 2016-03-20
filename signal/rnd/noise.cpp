@@ -9,7 +9,7 @@
 namespace libsignal
 {
 
-Noise::Noise(UnitRef frequency, bool interpolate, UnitRef min, UnitRef max) : frequency(frequency), min(min), max(max)
+Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max) : frequency(frequency), min(min), max(max)
 {
 	this->name = "noise";
 	this->add_param("frequency", this->frequency);

@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 
 namespace libsignal
 {
-	class FFTPhaseVocoder : public FFTOpUnit
+	class FFTPhaseVocoder : public FFTOpNode
 	{
 		public:
-			FFTPhaseVocoder(UnitRef input = 0) :
-				FFTOpUnit(input)
+			FFTPhaseVocoder(NodeRef input = 0) :
+				FFTOpNode(input)
 			{
 				this->name = "fft_phase_vocoder";
 
@@ -28,7 +28,7 @@ namespace libsignal
 
 			virtual void next(sample **out, int num_frames)
 			{
-				FFTUnit *fftunit = (FFTUnit *) this->input.get();
+				FFTNode *fftunit = (FFTNode *) this->input.get();
 				this->num_hops = fftunit->num_hops; 
 
 				bool triggered = this->triggered();
@@ -73,7 +73,7 @@ namespace libsignal
 				int last_hop = this->num_hops - 1;
 				if (!frozen || triggered)
 				{
-					FFTUnit *fftin = (FFTUnit *) input.get();
+					FFTNode *fftin = (FFTNode *) input.get();
 					for (int frame = 0; frame < this->num_bins; frame++)
 					{
 						if (rng_uniform() < 1.0)

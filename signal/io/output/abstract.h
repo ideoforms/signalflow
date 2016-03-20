@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../unit.h"
+#include "../../node.h"
 #include "../../buffer.h"
 #include "../../graph.h"
 
@@ -10,7 +10,7 @@
 namespace libsignal
 {
     
-    class AudioOut_Abstract : public Unit
+    class AudioOut_Abstract : public Node
     {
     public:
         AudioOut_Abstract(Graph *graph);
@@ -20,7 +20,7 @@ namespace libsignal
         virtual int start() = 0;
         virtual int close() = 0;
 
-        virtual void add_input(UnitRef unit)
+        virtual void add_input(NodeRef unit)
 		{
 			inputs.push_back(unit);
 			std::string input_name = "input" + std::to_string(this->inputs.size());;
@@ -28,7 +28,7 @@ namespace libsignal
 			this->add_param(input_name, inputs.back());
 		}
 
-		std::list <UnitRef> inputs;
+		std::list <NodeRef> inputs;
     };
 
 } // namespace libsignal

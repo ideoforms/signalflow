@@ -1,17 +1,17 @@
 #include "../constants.h"
 
-#include "../unit.h"
+#include "../node.h"
 #include "../gen/constant.h"
 
 namespace libsignal
 {
 
-class LinExp : public UnaryOpUnit
+class LinExp : public UnaryOpNode
 {
 
 public:
 
-	LinExp(UnitRef input = 0, UnitRef a = 0, UnitRef b = 1, UnitRef c = 1, UnitRef d = 10) : UnaryOpUnit(input), a(a), b(b), c(c), d(d)
+	LinExp(NodeRef input = 0, NodeRef a = 0, NodeRef b = 1, NodeRef c = 1, NodeRef d = 10) : UnaryOpNode(input), a(a), b(b), c(c), d(d)
 	{
 		this->name = "linexp";
 
@@ -33,10 +33,10 @@ public:
 		}
 	}
 
-	UnitRef a;
-	UnitRef b;
-	UnitRef c;
-	UnitRef d;
+	NodeRef a;
+	NodeRef b;
+	NodeRef c;
+	NodeRef d;
 };
 
 

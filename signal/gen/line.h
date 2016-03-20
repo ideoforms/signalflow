@@ -1,13 +1,13 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Line : public Unit
+	class Line : public Node
 	{
 	public:
-		Line(UnitRef time = 1.0, UnitRef from = 0.0, UnitRef to = 1.0) : 
+		Line(NodeRef time = 1.0, NodeRef from = 0.0, NodeRef to = 1.0) : 
 			time(time), from(from), to(to)
 		{
 			this->name = "line";
@@ -47,9 +47,9 @@ namespace libsignal
 			}
 		}
 
-		UnitRef time;
-		UnitRef from;
-		UnitRef to;
+		NodeRef time;
+		NodeRef from;
+		NodeRef to;
 
 		float value;
 		float value_change_per_step;

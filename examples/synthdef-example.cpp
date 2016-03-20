@@ -17,9 +17,9 @@ int main()
 	 * Create a named input that can be used to modulate parameters of
 	 * the synth.
 	 *-----------------------------------------------------------------------*/
-	UnitRef base_freq = def->add_input("base_freq", 40.0);
-	UnitRef freq = def->add_node(new Noise(2.0, true, 40, 160));
-	UnitRef sine = def->add_node(new Sine(freq + base_freq));
+	NodeRef base_freq = def->add_input("base_freq", 40.0);
+	NodeRef freq = def->add_node(new Noise(2.0, true, 40, 160));
+	NodeRef sine = def->add_node(new Sine(freq + base_freq));
 
 	/*------------------------------------------------------------------------
 	 * Set the output of the synth.

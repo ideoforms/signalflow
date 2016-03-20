@@ -1,13 +1,13 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Tick : public Unit
+	class Tick : public Node
 	{
 	public:
-		Tick(UnitRef frequency = 1.0) :
+		Tick(NodeRef frequency = 1.0) :
 			frequency(frequency)
 		{
 			this->steps_remaining = 0;
@@ -34,7 +34,7 @@ namespace libsignal
 			}
 		}
 
-		UnitRef frequency;
+		NodeRef frequency;
 		int steps_remaining;
 
 	};

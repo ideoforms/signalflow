@@ -24,47 +24,47 @@ namespace libsignal
 	class Subtract;
 	class Divide;
 
-	class Unit;
+	class Node;
 	class Graph;
-	class UnitMonitor;
+	class NodeMonitor;
 
 	/*------------------------------------------------------------------------
-	 * Allows us to use a float (or direct unit ptr) in place of a UnitRef
+	 * Allows us to use a float (or direct unit ptr) in place of a NodeRef
 	 * by specifying conversion constructors.
 	 *-----------------------------------------------------------------------*/
 	template<class T>
-	class UnitRefT : public std::shared_ptr<T>
+	class NodeRefT : public std::shared_ptr<T>
 	{
 		public:
 			using std::shared_ptr<T>::shared_ptr;
-			UnitRefT();
-			UnitRefT(Unit *ptr);
-			UnitRefT(double x);
-			UnitRefT(int x);
+			NodeRefT();
+			NodeRefT(Node *ptr);
+			NodeRefT(double x);
+			NodeRefT(int x);
 
-			UnitRefT operator* (UnitRefT other);
-			UnitRefT operator* (double constant);
-			UnitRefT operator+ (UnitRefT other);
-			UnitRefT operator+ (double constant);
-			UnitRefT operator- (UnitRefT other);
-			UnitRefT operator- (double constant);
-			UnitRefT operator/ (UnitRefT other);
-			UnitRefT operator/ (double constant);
+			NodeRefT operator* (NodeRefT other);
+			NodeRefT operator* (double constant);
+			NodeRefT operator+ (NodeRefT other);
+			NodeRefT operator+ (double constant);
+			NodeRefT operator- (NodeRefT other);
+			NodeRefT operator- (double constant);
+			NodeRefT operator/ (NodeRefT other);
+			NodeRefT operator/ (double constant);
 			sample operator[] (int index);
 
-			// UnitRefT operator= (const UnitRefT &other);
+			// NodeRefT operator= (const NodeRefT &other);
 
 	};
 
-	typedef UnitRefT <Unit> UnitRef;
+	typedef NodeRefT <Node> NodeRef;
 
-	class Unit
+	class Node
 	{
 
 		public:
 
-			Unit();
-			Unit(double x);
+			Node();
+			Node(double x);
 
 			virtual void next(sample **out, int num_frames);
 
@@ -72,7 +72,7 @@ namespace libsignal
 			 * Connect a new signal input to this unit. These connections form
 			 * the overall signal graph.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_input(UnitRef input) {}
+			virtual void add_input(NodeRef input) {}
 
 			/*------------------------------------------------------------------------
 			 * Called after add_input/route to update our routing ins/outs.
@@ -82,8 +82,8 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Register parameters.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_param(std::string name, UnitRef &param);
-			virtual void set_param(std::string name, const UnitRef &param);
+			virtual void add_param(std::string name, NodeRef &param);
+			virtual void set_param(std::string name, const NodeRef &param);
 
 			/*------------------------------------------------------------------------
 			 * Register buffer params.
@@ -112,13 +112,13 @@ namespace libsignal
 			 * Outputs the unit's value at a user-specified frequency.
 			 *-----------------------------------------------------------------------*/
 			virtual void poll(float frequency = 1.0, std::string label = "");
-			UnitMonitor *monitor;
+			NodeMonitor *monitor;
 
 			/*------------------------------------------------------------------------
 			 * Overloading operators allows us to write
-			 * UnitRef foo = bar * 0.5;
+			 * NodeRef foo = bar * 0.5;
 			 *-----------------------------------------------------------------------*/
-			Multiply operator* (UnitRef other);
+			Multiply operator* (NodeRef other);
 			Multiply operator* (sample value);
 
 			/*------------------------------------------------------------------------
@@ -127,11 +127,11 @@ namespace libsignal
 			std::string name;
 
 			/*------------------------------------------------------------------------
-			 * Hash table of parameters: (name, pointer to UnitRef)
-			 * Must be a pointer rather than the UnitRef itself as these
+			 * Hash table of parameters: (name, pointer to NodeRef)
+			 * Must be a pointer rather than the NodeRef itself as these
 			 * params are actually pointers to struct fields (this->frequency).
 			 *-----------------------------------------------------------------------*/
-			std::unordered_map <std::string, UnitRef *> params;
+			std::unordered_map <std::string, NodeRef *> params;
 
 			/*------------------------------------------------------------------------
 			 * Buffers are distinct from parameters, pointing to a fixed
@@ -176,19 +176,19 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Vector of input units.
 			 *-----------------------------------------------------------------------*/
-			// std::vector <UnitRef> inputs;
+			// std::vector <NodeRef> inputs;
 
 			/*------------------------------------------------------------------------
 			 * Pointer to our outgoing connection.
 			 *-----------------------------------------------------------------------*/
-			UnitRef output = nullptr;
+			NodeRef output = nullptr;
 
 			/*------------------------------------------------------------------------
-			 * A reference to the UnitRef shared_ptr pointing to this Unit.
+			 * A reference to the NodeRef shared_ptr pointing to this Node.
 			 * Necessary so that a unit can make outgoing/incoming connections to
-			 * other UnitRefs, increasing its own shared_ptr's reference count.
+			 * other NodeRefs, increasing its own shared_ptr's reference count.
 			 *-----------------------------------------------------------------------*/
-			UnitRef *ref;
+			NodeRef *ref;
 
 			/*------------------------------------------------------------------------
 			 * Trigger states.
@@ -196,31 +196,31 @@ namespace libsignal
 			std::set <std::string> triggers;
 	};
 
-	class GeneratorUnit : public Unit
+	class GeneratorNode : public Node
 	{
 		public:
-			GeneratorUnit() : Unit()
+			GeneratorNode() : Node()
 			{
 				this->channels_in = 0;
 				this->channels_out = 1;
 			}
 	};
 
-	class UnaryOpUnit : public Unit
+	class UnaryOpNode : public Node
 	{
 		public:
-			UnaryOpUnit(UnitRef input = 0);
+			UnaryOpNode(NodeRef input = 0);
 
-			UnitRef input;
+			NodeRef input;
 	};
 
-	class BinaryOpUnit : public Unit
+	class BinaryOpNode : public Node
 	{
 		public:
-			BinaryOpUnit(UnitRef a = 0, UnitRef b = 0);
+			BinaryOpNode(NodeRef a = 0, NodeRef b = 0);
 
-			UnitRef input0;
-			UnitRef input1;
+			NodeRef input0;
+			NodeRef input1;
 	};
 }
 

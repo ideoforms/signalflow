@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../constants.h"
-#include "../unit.h"
+#include "../node.h"
 #include "../registry.h"
 #include "../util.h"
 
@@ -10,12 +10,12 @@
 namespace libsignal
 {
 
-	class Mixer : public UnaryOpUnit
+	class Mixer : public UnaryOpNode
 	{
 
 	public:
 
-		Mixer(UnitRef input = 0, int channels = 1) : UnaryOpUnit(input), channels(channels)
+		Mixer(NodeRef input = 0, int channels = 1) : UnaryOpNode(input), channels(channels)
 		{
 			this->name = "mixer";
 			this->channels = channels;
@@ -70,10 +70,10 @@ namespace libsignal
 			this->channels_in = this->min_input_channels = this->max_input_channels = this->input->channels_out;
 			this->channels_out = this->min_output_channels = this->max_output_channels = this->channels;
 
-			signal_debug("Unit %s set num_out_channels to %d", this->name.c_str(), this->channels_out);
+			signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->channels_out);
 		}
 
-		std::list <UnitRef> inputs;
+		std::list <NodeRef> inputs;
 		int channels;
 
 	};

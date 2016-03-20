@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../constants.h"
-#include "../unit.h"
+#include "../node.h"
 #include "../registry.h"
 
 #include <list>
@@ -9,12 +9,12 @@
 namespace libsignal
 {
 
-	class Multiplex : public Unit
+	class Multiplex : public Node
 	{
 
 	public:
 
-		Multiplex() : Unit()
+		Multiplex() : Node()
 		{
 			this->name = "multiplex";
 			this->no_input_automix = true;
@@ -23,7 +23,7 @@ namespace libsignal
 		virtual void next(sample **out, int num_frames)
 		{
 			int global_channel = 0; 
-			for (UnitRef input : this->inputs)
+			for (NodeRef input : this->inputs)
 			{
 				for (int this_channel = 0; this_channel < input->channels_out; this_channel++)
 				{
@@ -36,7 +36,7 @@ namespace libsignal
 		virtual void update_channels()
 		{
 			this->channels_in = 0;
-			for (UnitRef input : this->inputs)
+			for (NodeRef input : this->inputs)
 			{
 				this->channels_in += input->channels_out;
 			}
@@ -46,17 +46,17 @@ namespace libsignal
 			this->min_input_channels = this->max_input_channels = this->channels_in;
 			this->min_output_channels = this->max_output_channels = this->channels_out;
 
-			signal_debug("Unit %s set num_out_channels to %d", this->name.c_str(), this->channels_out);
+			signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->channels_out);
 		}
 
-		virtual void add_input(UnitRef input)
+		virtual void add_input(NodeRef input)
 		{
 			this->inputs.push_back(input);
             std::string input_name = "input" + std::to_string(this->inputs.size());;
             this->add_param(input_name, inputs.back());
 		}
 
-		std::list <UnitRef> inputs;
+		std::list <NodeRef> inputs;
 	};
 
 	REGISTER(Multiplex, "multiplex");

@@ -3,7 +3,7 @@
 namespace libsignal
 {
 
-Constant::Constant(sample value) : Unit()
+Constant::Constant(sample value) : Node()
 {
 	this->value = value;
 	this->name = "constant";

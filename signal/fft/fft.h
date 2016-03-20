@@ -1,17 +1,17 @@
 #pragma once
 
-#include "fftunit.h"
+#include "fftnode.h"
 
 #include <Accelerate/Accelerate.h>
 #include <assert.h>
 
 namespace libsignal
 {
-	class FFT : public FFTUnit
+	class FFT : public FFTNode
 	{
 		public:
-			FFT(UnitRef input = 0.0, int fft_size = 1024) :
-				FFTUnit(fft_size), input(input)
+			FFT(NodeRef input = 0.0, int fft_size = 1024) :
+				FFTNode(fft_size), input(input)
 			{
 				this->name = "fft";
 
@@ -54,7 +54,7 @@ namespace libsignal
 				free(this->buffer);
 			}
 
-			UnitRef input;
+			NodeRef input;
 			int hop_size;
 			int log2N;
 			FFTSetup fft_setup;

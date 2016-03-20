@@ -5,7 +5,7 @@
 namespace libsignal
 {
 
-Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain_length) :
+Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length) :
 	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length)
 {
 	this->name = "granulator";
@@ -26,7 +26,7 @@ Granulator::Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain
 	this->clock_last = 0.0;
 }
 
-void Granulator::set_spatialisation(int num_channels, UnitRef pan)
+void Granulator::set_spatialisation(int num_channels, NodeRef pan)
 {
 	this->channels_out = num_channels;
 	this->pan = pan;

@@ -1,4 +1,4 @@
-#include "unit.h"
+#include "node.h"
 
 #include <unistd.h>
 #include <thread>
@@ -6,10 +6,10 @@
 namespace libsignal
 {
 
-class UnitMonitor
+class NodeMonitor
 {
 	public:
-	UnitMonitor(Unit *unit, std::string label, float frequency)
+	NodeMonitor(Node *unit, std::string label, float frequency)
 	{
 		this->unit = unit;
 		this->frequency = frequency;
@@ -23,7 +23,7 @@ class UnitMonitor
 	void start()
 	{
 		this->running = true;
-		this->thread = std::shared_ptr<std::thread>(new std::thread(&UnitMonitor::run_thread, this));
+		this->thread = std::shared_ptr<std::thread>(new std::thread(&NodeMonitor::run_thread, this));
 	}
 
 	void run_thread()
@@ -41,7 +41,7 @@ class UnitMonitor
 		this->running = false;
 	}
 
-	Unit *unit;
+	Node *unit;
 	float frequency;
 	std::string label;
 	bool running;

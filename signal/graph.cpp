@@ -1,5 +1,5 @@
 #include "graph.h"
-#include "unit.h"
+#include "node.h"
 #include "core.h"
 
 #include "io/output/abstract.h"
@@ -23,19 +23,19 @@ namespace libsignal
 		while (true) { usleep(100000); }
 	}
 
-	void Graph::pull_input(const UnitRef &unit, int num_frames)
+	void Graph::pull_input(const NodeRef &unit, int num_frames)
 	{
 		/*------------------------------------------------------------------------
 		 * Must pull our inputs before we generate our own outputs.
 		 *-----------------------------------------------------------------------*/
 
 		signal_assert (unit->params.size() > 0 || unit->name == "constant" || unit->name == "audioout",
-			"Unit %s has no registered params", unit->name.c_str());
+			"Node %s has no registered params", unit->name.c_str());
 
 		for (auto param : unit->params)
 
 		{
-			UnitRef param_unit = *(param.second);
+			NodeRef param_unit = *(param.second);
 			if (param_unit)
 			{
 				this->pull_input(param_unit, num_frames);
@@ -81,8 +81,8 @@ namespace libsignal
 		this->pull_input(this->output, num_frames);
 	}
 
-	UnitRef Graph::addUnit(Unit *unit)
+	NodeRef Graph::addNode(Node *unit)
 	{
-		return std::shared_ptr<Unit>(unit);
+		return std::shared_ptr<Node>(unit);
 	}
 }

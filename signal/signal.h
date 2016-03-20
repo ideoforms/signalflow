@@ -3,7 +3,7 @@
  *-----------------------------------------------------------------------*/
 #include "core.h"
 #include "constants.h"
-#include "unit.h"
+#include "node.h"
 #include "graph.h"
 #include "buffer.h"
 #include "ringbuffer.h"

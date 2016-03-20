@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 
 #include <vamp-hostsdk/PluginHostAdapter.h>
 #include <vamp-hostsdk/PluginInputDomainAdapter.h>
@@ -19,11 +19,11 @@ using Vamp::HostExt::PluginInputDomainAdapter;
 
 namespace libsignal
 {
-	class VampAnalysis : public UnaryOpUnit
+	class VampAnalysis : public UnaryOpNode
 	{
 		public:
-			VampAnalysis(UnitRef input = 0.0, string plugin_id = "vamp-example-plugins:spectralcentroid:linearcentroid") :
-				UnaryOpUnit(input)
+			VampAnalysis(NodeRef input = 0.0, string plugin_id = "vamp-example-plugins:spectralcentroid:linearcentroid") :
+				UnaryOpNode(input)
 			{
 				this->name = "vamp";
 

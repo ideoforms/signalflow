@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 
 namespace libsignal
 {
-	class Gate : public UnaryOpUnit
+	class Gate : public UnaryOpNode
 	{
 		public:
-			Gate(UnitRef input = 0.0, UnitRef threshold = 0.1, UnitRef attack = 0.0, UnitRef hold = 0.0, UnitRef release = 0.0) :
-				UnaryOpUnit(input), threshold(threshold), attack(attack), hold(hold), release(release)
+			Gate(NodeRef input = 0.0, NodeRef threshold = 0.1, NodeRef attack = 0.0, NodeRef hold = 0.0, NodeRef release = 0.0) :
+				UnaryOpNode(input), threshold(threshold), attack(attack), hold(hold), release(release)
 			{
 				this->open = false;
 				this->openTime = 0;
@@ -22,19 +22,19 @@ namespace libsignal
 				this->add_param("release", this->release);
 			}
 
-			UnitRef sample_rate;
-			UnitRef bit_rate;
+			NodeRef sample_rate;
+			NodeRef bit_rate;
 
 			bool open;
 			float openTime;
 			float level;
 
-			UnitRef threshold;
+			NodeRef threshold;
 
 			// TODO: Implement attack, hold, release (based on current graph sample rate)
-			UnitRef attack;
-			UnitRef hold;
-			UnitRef release;
+			NodeRef attack;
+			NodeRef hold;
+			NodeRef release;
 
 			virtual void next(sample **out, int num_frames)
 			{

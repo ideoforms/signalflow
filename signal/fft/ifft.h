@@ -1,16 +1,16 @@
 #pragma once
 
-#include "fftunit.h"
+#include "fftnode.h"
 
 #include <Accelerate/Accelerate.h>
 
 namespace libsignal
 {
-	class IFFT : public FFTOpUnit
+	class IFFT : public FFTOpNode
 	{
 		public:
-			IFFT(UnitRef input = 0.0):
-				FFTOpUnit(input)
+			IFFT(NodeRef input = 0.0):
+				FFTOpNode(input)
 			{
 				this->name = "ifft";
 
@@ -115,7 +115,7 @@ namespace libsignal
 				/*------------------------------------------------------------------------
 				 * 
 				 *-----------------------------------------------------------------------*/
-				FFTUnit *fftunit = (FFTUnit *) this->input.get();
+				FFTNode *fftunit = (FFTNode *) this->input.get();
 				this->num_hops = fftunit->num_hops; 
 
 				/*------------------------------------------------------------------------

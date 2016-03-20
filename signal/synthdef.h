@@ -13,19 +13,19 @@ namespace libsignal
 				this->name = name;
 			}
 
-			UnitRef add_input(std::string name, sample default_value)
+			NodeRef add_input(std::string name, sample default_value)
 			{
-				UnitRef placeholder(default_value);
+				NodeRef placeholder(default_value);
 				this->inputs[name] = placeholder.get();
 				return placeholder;
 			}
 
-			std::string get_input_name(const UnitRef &unit)
+			std::string get_input_name(const NodeRef &unit)
 			{
 				for (auto input : this->inputs)
 				{
 					std::string name = input.first;
-					Unit *unit_ptr = input.second;
+					Node *unit_ptr = input.second;
 					if (unit_ptr == unit.get())
 						return name;
 				}
@@ -33,12 +33,12 @@ namespace libsignal
 				return "";
 			}
 
-			UnitRef add_node(UnitRef node)
+			NodeRef add_node(NodeRef node)
 			{
 				return node;
 			}
 
-			void set_output(const UnitRef &out)
+			void set_output(const NodeRef &out)
 			{
 				this->output = out;
 			}
@@ -53,11 +53,11 @@ namespace libsignal
 			NodeDefinition read_structure()
 			{
 				signal_assert(this->output != nullptr, "SynthDef %s: output is not set", this->name.c_str());
-				const UnitRef &r = this->output;
+				const NodeRef &r = this->output;
 				return this->read_structure(r);
 			}
 
-			NodeDefinition read_structure(const UnitRef &unit)
+			NodeDefinition read_structure(const NodeRef &unit)
 			{
 				NodeDefinition def(unit->name);
 				if (unit->name == "constant")
@@ -69,7 +69,7 @@ namespace libsignal
 				{
 					for (auto param : unit->params)
 					{
-						UnitRef param_unit = *(param.second);
+						NodeRef param_unit = *(param.second);
 						if (param_unit)
 						{
 							NodeDefinition param_def = this->read_structure(param_unit);
@@ -88,8 +88,8 @@ namespace libsignal
 			}
 
 			std::string name;
-			std::unordered_map <std::string, Unit *> inputs;
-			UnitRef output = nullptr;
+			std::unordered_map <std::string, Node *> inputs;
+			NodeRef output = nullptr;
 
 			std::vector <NodeDefinition> nodedefs;
 	};

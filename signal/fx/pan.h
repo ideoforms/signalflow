@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Pan : public Unit
+	class Pan : public Node
 	{
 		public:
-			Pan(int channels = 2, UnitRef input = 2, UnitRef pan = 0.5) :
+			Pan(int channels = 2, NodeRef input = 2, NodeRef pan = 0.5) :
 				input(input), pan(pan)
 			{
 				this->channels_in = 1;
@@ -22,8 +22,8 @@ namespace libsignal
 				this->name = "pan";
 			}
 
-			UnitRef input;
-			UnitRef pan;
+			NodeRef input;
+			NodeRef pan;
 
 			virtual void next(sample **out, int num_frames);
 	};

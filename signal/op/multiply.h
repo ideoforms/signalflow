@@ -1,18 +1,18 @@
 #pragma once
 
 #include "../constants.h"
-#include "../unit.h"
+#include "../node.h"
 #include "../registry.h"
 
 namespace libsignal
 {
 
-	class Multiply : public BinaryOpUnit
+	class Multiply : public BinaryOpNode
 	{
 
 	public:
 
-		Multiply(UnitRef a = 1.0, UnitRef b = 1.0) : BinaryOpUnit(a, b)
+		Multiply(NodeRef a = 1.0, NodeRef b = 1.0) : BinaryOpNode(a, b)
 		{
 			this->name = "multiply";
 		}

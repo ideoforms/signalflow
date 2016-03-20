@@ -1,18 +1,18 @@
 #include "../constants.h"
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
 
-class ASR : public Unit
+class ASR : public Node
 {
 	public:
-		ASR(UnitRef attack = 0.1, UnitRef sustain = 0.5, UnitRef release = 0.1, UnitRef clock = nullptr);
+		ASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef clock = nullptr);
 
-		UnitRef attack;
-		UnitRef sustain;
-		UnitRef release;
-		UnitRef clock = nullptr;
+		NodeRef attack;
+		NodeRef sustain;
+		NodeRef release;
+		NodeRef clock = nullptr;
 
 		float phase;
 		float clock_last;

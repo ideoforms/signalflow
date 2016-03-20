@@ -1,20 +1,20 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Sine : public Unit
+	class Sine : public Node
 	{
 	public:
-		Sine(UnitRef frequency = 440) : frequency(frequency)
+		Sine(NodeRef frequency = 440) : frequency(frequency)
 		{
 			this->phase = 0;
 			this->name = "sine";
 			this->add_param("frequency", this->frequency);
 		}
 
-		UnitRef frequency;
+		NodeRef frequency;
 		float phase;
 
 		virtual void next(sample **out, int num_frames);

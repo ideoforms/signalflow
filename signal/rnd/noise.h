@@ -1,21 +1,21 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Noise : public Unit
+	class Noise : public Node
 	{
 	public:
-		Noise(UnitRef frequency = 0.0, bool interpolate = true, UnitRef min = 0.0, UnitRef max = 1.0);
+		Noise(NodeRef frequency = 0.0, bool interpolate = true, NodeRef min = 0.0, NodeRef max = 1.0);
 
-		UnitRef frequency;
+		NodeRef frequency;
 		bool interpolate;
 		int phase;
 		sample value;
 
-		UnitRef min;
-		UnitRef max;
+		NodeRef min;
+		NodeRef max;
 
 		virtual void next(sample **out, int num_frames);
 	

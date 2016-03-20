@@ -1,4 +1,4 @@
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 #include "../buffer.h"
 
@@ -27,21 +27,21 @@ namespace libsignal
 			float pan;
 	};
 
-	class Granulator : public Unit
+	class Granulator : public Node
 	{
 		public:
-			Granulator(Buffer *buffer, UnitRef clock, UnitRef pos, UnitRef grain_length = 0.1);
+			Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length = 0.1);
 
 			Buffer *buffer;
 			Buffer *envelope;
 
-			UnitRef pos;
-			UnitRef clock;
-			UnitRef grain_length;
-			UnitRef pan;
+			NodeRef pos;
+			NodeRef clock;
+			NodeRef grain_length;
+			NodeRef pan;
 
 			virtual void next(sample **out, int num_frames);
-			virtual void set_spatialisation(int num_channels, UnitRef pan);
+			virtual void set_spatialisation(int num_channels, NodeRef pan);
 
 		private:
 			sample clock_last;

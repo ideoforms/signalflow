@@ -10,10 +10,10 @@
 namespace libsignal
 {
 
-	class Unit;
+	class Node;
 
 	template <typename T>
-	Unit *create()
+	Node *create()
 	{
 		return new T;
 	}
@@ -25,8 +25,8 @@ namespace libsignal
 
 			static NodeRegistry *global();
 
-			Unit *create(std::string name);
-			Unit *create(NodeDefinition definition);
+			Node *create(std::string name);
+			Node *create(NodeDefinition definition);
 
 			/*------------------------------------------------------------------------
 			 * Function template implementations must be in .h file.
@@ -38,7 +38,7 @@ namespace libsignal
 				return true;
 			}
 
-			std::unordered_map <std::string, std::function <Unit *()> > classes;
+			std::unordered_map <std::string, std::function <Node *()> > classes;
 	};
 
 }

@@ -16,7 +16,7 @@ namespace libsignal
 				this->output = this->instantiate(&nodedef);
 			}
 
-			UnitRef instantiate(NodeDefinition *node)
+			NodeRef instantiate(NodeDefinition *node)
 			{
 				/*------------------------------------------------------------------------
 				 * Recursively instantiate the subgraph specified in NodeDefinition.
@@ -25,13 +25,13 @@ namespace libsignal
 				 *-----------------------------------------------------------------------*/
 				NodeRegistry *registry = NodeRegistry::global();
 
-				Unit *unit = registry->create(node->name);
-				UnitRef unitref = UnitRef(unit);
+				Node *unit = registry->create(node->name);
+				NodeRef unitref = NodeRef(unit);
 
 				for (auto param : node->params)
 				{
 					std::string param_name = param.first;
-					UnitRef param_unit = this->instantiate(param.second);
+					NodeRef param_unit = this->instantiate(param.second);
 					unitref->set_param(param_name, param_unit);
 				}
 
@@ -53,13 +53,13 @@ namespace libsignal
 			void set_param(std::string name, float value)
 			{
 				// TODO: Should support non-constant inputs
-				UnitRef input = this->inputs[name];
+				NodeRef input = this->inputs[name];
 				Constant *constant = (Constant *) input.get();
 				constant->value = value;
 			}
 
-			UnitRef output;
-			std::unordered_map <std::string, UnitRef> inputs;
+			NodeRef output;
+			std::unordered_map <std::string, NodeRef> inputs;
 	};
 
 	template<class T>
@@ -70,7 +70,7 @@ namespace libsignal
 
 			SynthRefT() : std::shared_ptr<Synth>(nullptr) { }
 			SynthRefT(Synth *ptr) : std::shared_ptr<Synth>(ptr) { }
-			SynthRefT(SynthDef *def) : std::shared_ptr<Unit>(new Synth(def)) { }
+			SynthRefT(SynthDef *def) : std::shared_ptr<Node>(new Synth(def)) { }
 	};
 
 	typedef SynthRefT <Synth> SynthRef;

@@ -1,10 +1,10 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Constant : public Unit
+	class Constant : public Node
 	{
 	public:
 		Constant(sample value = 0);

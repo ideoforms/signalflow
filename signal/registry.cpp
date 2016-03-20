@@ -18,14 +18,14 @@ NodeRegistry *NodeRegistry::global()
 	return registry;
 }
 
-Unit *NodeRegistry::create(std::string name)
+Node *NodeRegistry::create(std::string name)
 {
 	if (!this->classes[name])
 	{
 		fprintf(stderr, "Could not instantiate object (unknown type: %s)\n", name.c_str());
 		exit(1);
 	}
-	Unit *object = this->classes[name]();
+	Node *object = this->classes[name]();
 	return object;
 }
 

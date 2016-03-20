@@ -1,20 +1,20 @@
 #pragma once 
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Square : public Unit
+	class Square : public Node
 	{
 	public:
-		Square(UnitRef frequency, UnitRef width = 0.5) : frequency(frequency), width(width), phase(0)
+		Square(NodeRef frequency, NodeRef width = 0.5) : frequency(frequency), width(width), phase(0)
 		{
 			this->add_param("frequency", this->frequency);
 			this->add_param("width", this->width);
 		};
 
-		UnitRef frequency;
-		UnitRef width;
+		NodeRef frequency;
+		NodeRef width;
 
 		float phase;
 

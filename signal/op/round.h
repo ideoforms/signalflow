@@ -1,18 +1,18 @@
 #include "../constants.h"
 
-#include "../unit.h"
+#include "../node.h"
 #include "../util.h"
 #include "../gen/constant.h"
 
 namespace libsignal
 {
 
-class RoundToScale : public UnaryOpUnit
+class RoundToScale : public UnaryOpNode
 {
 
 public:
 
-	RoundToScale(UnitRef a) : UnaryOpUnit(a)
+	RoundToScale(NodeRef a) : UnaryOpNode(a)
 	{
 		this->name = "round-to-scale";
 	}

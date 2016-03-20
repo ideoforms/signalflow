@@ -11,7 +11,7 @@
 #include "abstract.h"
 
 
-#include "../../unit.h"
+#include "../../node.h"
 #include "../../graph.h"
 
 namespace libsignal

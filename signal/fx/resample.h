@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 
 namespace libsignal
 {
-	class Resample : public UnaryOpUnit
+	class Resample : public UnaryOpNode
 	{
 		public:
-			Resample(UnitRef input, UnitRef sample_rate, UnitRef bit_rate) :
-				UnaryOpUnit(input), sample_rate(sample_rate), bit_rate(bit_rate)
+			Resample(NodeRef input, NodeRef sample_rate, NodeRef bit_rate) :
+				UnaryOpNode(input), sample_rate(sample_rate), bit_rate(bit_rate)
 			{
 				phase = 0.0;
 				phase_last = -1.0;
@@ -20,8 +20,8 @@ namespace libsignal
 				this->add_param("bit_rate", this->bit_rate);
 			}
 
-			UnitRef sample_rate;
-			UnitRef bit_rate;
+			NodeRef sample_rate;
+			NodeRef bit_rate;
 
 			float phase;
 			float phase_last;

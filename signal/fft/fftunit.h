@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class FFTUnit : public Unit
+	class FFTNode : public Node
 	{
 		public:
 
-			FFTUnit(int fft_size) : Unit()
+			FFTNode(int fft_size) : Node()
 			{
 				this->fft_size = fft_size;
 				this->num_bins = fft_size / 2;
@@ -23,7 +23,7 @@ namespace libsignal
 					this->phases[i] = this->out[i] + this->num_bins;
 			}
 
-			~FFTUnit()
+			~FFTNode()
 			{
 				free(this->magnitudes);
 				free(this->phases);
@@ -36,16 +36,16 @@ namespace libsignal
 			int num_hops;
 	};
 
-	class FFTOpUnit : public FFTUnit
+	class FFTOpNode : public FFTNode
 	{
 		public:
 
-			FFTOpUnit(UnitRef input) : FFTUnit(((FFTUnit *) input.get())->fft_size), input(input)
+			FFTOpNode(NodeRef input) : FFTNode(((FFTNode *) input.get())->fft_size), input(input)
 			{
 				this->add_param("input", this->input);
 			}
 
-			UnitRef input;
+			NodeRef input;
 	};
 }
 

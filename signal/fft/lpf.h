@@ -1,20 +1,20 @@
 #pragma once
 
-#include "fftunit.h"
+#include "fftnode.h"
 
 namespace libsignal
 {
-	class FFTLPF : public UnaryOpUnit
+	class FFTLPF : public UnaryOpNode
 	{
 		public:
-			FFTLPF(UnitRef input = 0, UnitRef frequency = 2000) :
-				UnaryOpUnit(input), frequency(frequency)
+			FFTLPF(NodeRef input = 0, NodeRef frequency = 2000) :
+				UnaryOpNode(input), frequency(frequency)
 			{
 				this->name = "fft_lpf";
 				this->add_param("frequency", this->frequency);
 			}
 
-			UnitRef frequency;
+			NodeRef frequency;
 
 			virtual void next(sample **out, int num_frames)
 			{

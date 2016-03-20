@@ -1,15 +1,15 @@
 #include "../constants.h"
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
 
-	class Subtract : public BinaryOpUnit
+	class Subtract : public BinaryOpNode
 	{
 
 	public:
 
-		Subtract(UnitRef a = 0, UnitRef b = 0) : BinaryOpUnit(a, b)
+		Subtract(NodeRef a = 0, NodeRef b = 0) : BinaryOpNode(a, b)
 		{
 			this->name = "subtract";
 		}

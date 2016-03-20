@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 
 namespace libsignal
 {
-	class FFTZeroPhase : public UnaryOpUnit
+	class FFTZeroPhase : public UnaryOpNode
 	{
 		public:
-			FFTZeroPhase(UnitRef input = 0) :
-				UnaryOpUnit(input)
+			FFTZeroPhase(NodeRef input = 0) :
+				UnaryOpNode(input)
 			{
 				this->name = "zero_phase";
 			}

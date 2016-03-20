@@ -4,7 +4,7 @@
 namespace libsignal
 {
 
-ASR::ASR(UnitRef attack, UnitRef sustain, UnitRef release, UnitRef clock) :
+ASR::ASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock) :
 	attack(attack), sustain(sustain), release(release), clock(clock)
 {
 	this->phase = 0.0;

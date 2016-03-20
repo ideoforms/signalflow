@@ -21,7 +21,7 @@ namespace libsignal
         for (int channel = 0; channel < this->channels_out; channel++)
             memset(out[channel], 0, num_frames * sizeof(sample));
         
-        for (UnitRef input : this->inputs)
+        for (NodeRef input : this->inputs)
         {
             for (int channel = 0; channel < input->channels_out; channel++)
             {

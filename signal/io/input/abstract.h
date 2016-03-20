@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../unit.h"
+#include "../../node.h"
 #include "../../buffer.h"
 #include "../../graph.h"
 
@@ -9,7 +9,7 @@
 
 namespace libsignal
 {
-	class AudioIn_Abstract : public Unit
+	class AudioIn_Abstract : public Node
 	{
 	public:
         AudioIn_Abstract();

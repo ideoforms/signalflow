@@ -1,6 +1,6 @@
 #pragma once 
 
-#include "unit.h"
+#include "node.h"
 
 namespace libsignal
 {
@@ -13,12 +13,12 @@ namespace libsignal
 			Graph();
 
 			void run();
-			void pull_input(const UnitRef & unit, int num_frames);
+			void pull_input(const NodeRef & unit, int num_frames);
 			void pull_input(int num_frames);
-			UnitRef addUnit(Unit *unit);
+			NodeRef addNode(Node *unit);
 
-			UnitRef input = nullptr;
-			UnitRef output = nullptr;
+			NodeRef input = nullptr;
+			NodeRef output = nullptr;
 
 			float sample_rate;
 	};

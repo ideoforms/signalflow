@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 #include "../ringbuffer.h"
 
@@ -8,11 +8,11 @@
 
 namespace libsignal
 {
-	class Delay : public UnaryOpUnit
+	class Delay : public UnaryOpNode
 	{
 		public:
-			Delay(UnitRef input = 0.0, UnitRef delaytime = 0.1, UnitRef feedback = 0.5, float maxdelaytime = 10.0) :
-				UnaryOpUnit(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
+			Delay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 10.0) :
+				UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 			{
 				this->name = "delay";
 				this->add_param("delay_time", this->delaytime);
@@ -27,8 +27,8 @@ namespace libsignal
 				// free buffers
 			}
 
-			UnitRef delaytime;
-			UnitRef feedback;
+			NodeRef delaytime;
+			NodeRef feedback;
 			float maxdelaytime;
 
 			std::vector <SampleRingBuffer *> buffers;

@@ -1,21 +1,21 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 
 namespace libsignal
 {
-	class Width : public Unit
+	class Width : public Node
 	{
 		public:
-			Width(UnitRef input, UnitRef width) :
+			Width(NodeRef input, NodeRef width) :
 				input(input), width(width)
 			{
 				this->channels_in = 1;
 				this->channels_out = 2;
 			}
 
-			UnitRef input;
-			UnitRef width;
+			NodeRef input;
+			NodeRef width;
 
 			virtual void next(sample **out, int num_frames);
 	};

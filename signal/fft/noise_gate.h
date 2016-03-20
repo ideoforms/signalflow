@@ -1,15 +1,15 @@
 #pragma once
 
-#include "../unit.h"
+#include "../node.h"
 #include "../constants.h"
 
 namespace libsignal
 {
-	class FFTNoiseGate : public UnaryOpUnit
+	class FFTNoiseGate : public UnaryOpNode
 	{
 		public:
-			FFTNoiseGate(UnitRef input = 0, UnitRef threshold = 0.5) :
-				UnaryOpUnit(input)
+			FFTNoiseGate(NodeRef input = 0, NodeRef threshold = 0.5) :
+				UnaryOpNode(input)
 			{
 				this->name = "fft_noise_gate";
 			}

@@ -7,7 +7,7 @@
 namespace libsignal
 {
 
-Dust::Dust(UnitRef frequency) : frequency(frequency)
+Dust::Dust(NodeRef frequency) : frequency(frequency)
 {
 	this->steps_remaining = 0;
 
