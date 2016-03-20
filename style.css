@@ -31,6 +31,24 @@ p
 	line-height: 1.4em;
 }
 
+a
+{
+	color: #707;
+}
+
+a:hover
+{
+	color: #f05;
+}
+
+hr
+{
+	clear: both;
+	height: 0px;
+	border: none;
+	border-bottom: 1px solid #eee;
+}
+
 #main
 {
 	width: 53em;
@@ -46,14 +64,35 @@ p
 	border-bottom: 1px solid #eee;
 }
 
+#footer
+{
+	clear: both;
+	padding-top: 1.5em;
+	padding-bottom: 1.5em;
+	margin-top: 1.5em;
+	text-align: center;
+}
+
 pre.highlight
 {
+	line-height: 1.35em;
 	background: #2a2245;
 	padding: 1em;
 	margin: 2em 0em;
+	font-size: 95%;
+	border-bottom: 1em solid #ddd;
+}
+pre, code
+{
+	font-family: menlo, "courier new";
 }
 
-.item
+.row
+{
+	clear: both;
+}
+
+.box
 {
 	width: 16em;
 	margin-right: 1.5em;
@@ -63,4 +102,23 @@ pre.highlight
 .intro
 {
 	font-size: 150%;
+}
+
+@media only screen and (max-width: 800px)
+{
+	#main, #top, img
+	{
+		width: auto;
+		max-width: 100%;
+		text-align: left;
+	}
+	pre
+	{
+		max-width: 100%;
+	}
+	.box
+	{
+		width: auto;
+		float: none;
+	}
 }
