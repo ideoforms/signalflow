@@ -2,8 +2,20 @@ body
 {
 	background: white;
 	color: black;
-	font-family: helvetica, sans-serif;
+	font-family: "helvetica neue", sans-serif;
+	font-weight: 300;
 	font-size: 16px;
+}
+
+h1
+{
+	font-size: 400%;
+}
+
+#main
+{
+	width: 30em;
+	margin: auto;
 }
 
 pre.highlight
