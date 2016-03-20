@@ -133,6 +133,7 @@ pre, code
 	pre
 	{
 		max-width: 100%;
+		overflow: scroll;
 	}
 	.box
 	{
