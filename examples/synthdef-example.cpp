@@ -9,9 +9,9 @@ int main()
 	Graph *graph = new Graph();
 
 	/*------------------------------------------------------------------------
-	 * Create a new SynthDef (with optional name)
+	 * Create a new SynthDef 
 	 *-----------------------------------------------------------------------*/
-	SynthDef *def = new SynthDef();
+	SynthDef *def = new SynthDef("my_synth");
 
 	/*------------------------------------------------------------------------
 	 * Create a named input that can be used to modulate parameters of

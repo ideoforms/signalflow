@@ -8,6 +8,11 @@ namespace signum
 	class SynthDef
 	{
 		public:
+			SynthDef(std::string name)
+			{
+				this->name = name;
+			}
+
 			UnitRef add_input(std::string name, sample default_value)
 			{
 				UnitRef placeholder(default_value);
@@ -47,6 +52,7 @@ namespace signum
 			 *-----------------------------------------------------------------------*/
 			NodeDefinition read_structure()
 			{
+				signum_assert(this->output != nullptr, "SynthDef %s: output is not set", this->name.c_str());
 				const UnitRef &r = this->output;
 				return this->read_structure(r);
 			}
@@ -81,8 +87,9 @@ namespace signum
 				return def;
 			}
 
+			std::string name;
 			std::unordered_map <std::string, Unit *> inputs;
-			UnitRef output;
+			UnitRef output = nullptr;
 
 			std::vector <NodeDefinition> nodedefs;
 	};
