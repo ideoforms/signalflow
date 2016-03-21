@@ -34,8 +34,8 @@ Tested on OS X, iOS, Linux and Raspberry Pi (Jessie). Cross-platform I/O courtes
 </div>
 
 <div class="box">
-### No memory allocation headaches
-Key objects are transparently instantiated via `shared_ptr` reference counters, meaning much less manual memory allocation.
+### Free of memory allocation headaches
+Key objects are transparently instantiated via `shared_ptr` reference counters, meaning less manual memory allocation.
 </div>
 
 </div>
