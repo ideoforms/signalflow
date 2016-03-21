@@ -61,9 +61,9 @@ Designed for clarity, with modularised and accessible code.
 
 ---
 
-**What it can do now:** Cross-platform audio I/O (OS X, iOS, Linux, rpi), Granular synthesis, Sample playback, Synth graph templates, Reference-counted memory management
+**What it can do now:** Cross-platform audio I/O (OS X, iOS, Linux, rpi), Oscillators and wavetables, Sample playback, Granular synthesis, Multichannel expansion, Node operations via standard operators, Synth graph templates, Reference-counted memory management
 
-**What it will do in the future:** RESTful client-server architecture, Python interface, Convolution reverb, Binaural spatialisation with HRTF, System install as a shared library, Non-realtime processing
+**What it will do in the future:** RESTful client-server architecture, Python interface, Convolution reverb, Binaural spatialisation with HRTF, System install as a shared library, Non-realtime processing, Audio analysis via Vamp, Sound-source positioning and multichannel spatialisation
 
-**What it will not do:** Graphical user interface, Web audio 
+**What it will not do:** Graphical user interface, Timelines and event scheduling, Web audio 
 
