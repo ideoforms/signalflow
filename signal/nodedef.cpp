@@ -20,6 +20,11 @@ namespace libsignal
 		this->set_value(value);
 	}
 
+	void NodeDefinition::set_id(int value)
+	{
+		this->id = value;
+	}
+
 	void NodeDefinition::add_param(std::string name, NodeDefinition *def)
 	{
 		NodeDefinition *def_copy = new NodeDefinition();

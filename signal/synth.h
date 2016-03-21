@@ -12,7 +12,7 @@ namespace libsignal
 		public:
 			Synth(SynthDef *def)
 			{
-				NodeDefinition nodedef = def->read_structure();
+				NodeDefinition nodedef = def->get_root();
 				this->output = this->instantiate(&nodedef);
 			}
 

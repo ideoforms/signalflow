@@ -16,6 +16,10 @@ namespace libsignal
 			void set_output(const NodeRef &out);
 
 			/*----------------------------------------------------------------------------------
+			 * Methods for creating a SynthDef from live Node objects.
+			 *---------------------------------------------------------------------------------*/
+
+			/*----------------------------------------------------------------------------------
 			 * Save a SynthDef to disk.
 			 *---------------------------------------------------------------------------------*/
 			void save(std::string filename);
@@ -23,14 +27,22 @@ namespace libsignal
 			/*----------------------------------------------------------------------------------
 			 * 
 			 *---------------------------------------------------------------------------------*/
-			NodeDefinition read_structure();
+			void read_structure();
+			NodeDefinition get_root();
 
 			std::string name;
-			NodeRef output = nullptr;
 
 		private:
+
+			NodeDefinition output_def;
+			NodeRef output = nullptr;
+			bool parsed = false;
+			int last_id = 0;
+
 			std::string get_input_name(const NodeRef &node);
 			NodeDefinition read_structure(const NodeRef &node);
 			std::unordered_map <std::string, Node *> inputs;
+
+			std::unordered_map <int, NodeDefinition> nodedefs;
 	};
 }
