@@ -115,13 +115,6 @@ namespace libsignal
 			NodeMonitor *monitor;
 
 			/*------------------------------------------------------------------------
-			 * Overloading operators allows us to write
-			 * NodeRef foo = bar * 0.5;
-			 *-----------------------------------------------------------------------*/
-			Multiply operator* (NodeRef other);
-			Multiply operator* (sample value);
-
-			/*------------------------------------------------------------------------
 			 * Human-readable name identifier [a-z0-9-]
 			 *----------------------------------------------------------------------*/
 			std::string name;
@@ -174,14 +167,9 @@ namespace libsignal
 			sample **out;
 
 			/*------------------------------------------------------------------------
-			 * Vector of input nodes.
-			 *-----------------------------------------------------------------------*/
-			// std::vector <NodeRef> inputs;
-
-			/*------------------------------------------------------------------------
 			 * Pointer to our outgoing connection.
 			 *-----------------------------------------------------------------------*/
-			NodeRef output = nullptr;
+			// NodeRef output = nullptr;
 
 			/*------------------------------------------------------------------------
 			 * A reference to the NodeRef shared_ptr pointing to this Node.
