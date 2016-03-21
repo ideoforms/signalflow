@@ -58,3 +58,12 @@ Designed for clarity, with modularised and accessible code.
 </div>
 
 </div>
+
+---
+
+**What it can do now:** Cross-platform audio I/O (OS X, iOS, Linux, rpi), Granular synthesis, Sample playback, Synth graph templates, Reference-counted memory management.
+
+**What it will do in the future:** RESTful client-server architecture, Convolution reverb, Binaural spatialisation with HRTF
+
+**What it will never do:** Graphical user interface, Web audio 
+

@@ -62,7 +62,15 @@ nav ul, nav li
 nav li
 {
 	display: inline-block;
-	margin: 0 0.5em;
+	margin: 0 0.8em;
+}
+nav a
+{
+	text-decoration: none;
+}
+nav a i
+{
+	margin-right: 0.5ex;
 }
 
 #main
