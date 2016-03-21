@@ -49,6 +49,21 @@ namespace libsignal
 	{
 	}
 
+	void SynthDef::add_node_def(NodeDefinition def)
+	{
+		this->nodedefs[def.id] = def;
+	} 
+
+	NodeDefinition *SynthDef::get_node_def(int id)
+	{
+		return &(this->nodedefs[id]);
+	} 
+
+	void SynthDef::set_output(NodeDefinition def)
+	{
+		this->output_def = def;
+	} 
+
 	/*------------------------------------------------------------------------
 	 * Scans the graph structure beginning from its inputs and outputs.
 	 *-----------------------------------------------------------------------*/
