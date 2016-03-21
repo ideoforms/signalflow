@@ -104,7 +104,7 @@ pre.highlight
 	padding: 1em;
 	margin: 2em 0em;
 	font-size: 95%;
-	border-bottom: 1em solid #ddd;
+	border-bottom: 1.5ex solid #eee;
 }
 pre, code
 {
