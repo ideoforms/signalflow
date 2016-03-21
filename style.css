@@ -27,7 +27,7 @@ h3
 
 p
 {
-	margin: 0 0 0.5em;
+	margin: 0 0 1em;
 	line-height: 1.4em;
 }
 
@@ -46,7 +46,7 @@ hr
 	clear: both;
 	height: 0px;
 	border: none;
-	margin: 1em 0;
+	margin: 2em 0;
 	border-bottom: 1px solid #eee;
 }
 
