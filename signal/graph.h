@@ -22,4 +22,13 @@ namespace libsignal
 
 			float sample_rate;
 	};
+
+    class GraphRef : public std::shared_ptr<Graph>
+    {
+        public:
+            using std::shared_ptr<Graph>::shared_ptr;
+
+            GraphRef() : std::shared_ptr<Graph>(nullptr) { }
+            GraphRef(Graph *ptr) : std::shared_ptr<Graph>(ptr) { }
+    };
 }
