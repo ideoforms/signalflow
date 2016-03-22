@@ -2,8 +2,12 @@
 
 #include "core.h"
 #include "gen/constant.h"
+#include "json11/json11.hpp"
 
 #include <iostream>
+#include <fstream>
+
+using namespace json11;
 
 namespace libsignal
 {
@@ -47,6 +51,74 @@ namespace libsignal
 
 	void SynthDef::save(std::string filename)
 	{
+	}
+
+	void SynthDef::load(std::string filename)
+	{
+		std::string buf;
+		std::string line;
+		std::string err;
+
+		std::ifstream input(filename);
+		while (std::getline(input, line))
+		{
+			buf += line + "\n";
+		}
+
+		auto json = Json::parse(buf, err);
+		if (!err.empty())
+		{
+			printf("Failed: %s\n", err.c_str());
+		}
+
+		if (!json.is_array())
+		{
+			printf("Must be array\n");
+		}
+		for (auto element : json.array_items())
+		{
+			NodeDefinition node;
+			bool is_output = false;
+			for (auto pair : element.object_items())
+			{
+				std::string key = pair.first;
+				auto value = pair.second;
+
+				printf("Got key %s\n", key.c_str());
+				if (key == "node")
+				{
+					printf("Set name\n");
+					node.set_name(value.string_value());
+				}
+				else if (key == "id")
+				{
+					node.set_id(value.int_value());
+				}
+				else if (key == "is_output")
+				{
+					is_output = true;
+				}
+				else
+				{
+					if (value.is_number())
+					{
+						node.add_param(key, value.number_value());
+					}
+					else if (value.is_object())
+					{
+						int id = value["id"].int_value();
+						NodeDefinition *ptr = this->get_node_def(id);
+						node.add_param(key, ptr);
+					}
+				}
+			}
+			printf("Adding node with name %s\n", node.name.c_str());
+			this->add_node_def(node);
+			if (is_output)
+			{
+				this->set_output(node);
+			}
+		}
 	}
 
 	void SynthDef::add_node_def(NodeDefinition def)
