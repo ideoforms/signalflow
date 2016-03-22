@@ -5,18 +5,18 @@ title: signal
 
 ## Graph-based audio DSP for 2016
 
-Signal is a new audio framework, developed in pure c++11 and using familiar technological standards.
+Signal is a new audio framework that makes use of the powerful expressive possibilities of c++11, alongside modern technological standards: JSON for signal graph expression, REST/HTTP for client-server-communications. 
 
 ```cpp
-Graph *graph = new Graph();
+GraphRef graph = new Graph();
 
-SynthDef *def = new SynthDef("ping");
-UnitRef sine = def->add_node(new Sine(440));
-UnitRef env = def->add_node(new ASR(0.01, 0.1, 5.0));
-UnitRef pan = def->add_node(new Pan(2, env * sine, 0.5));
-def->set_output(pan);
+StructRef structure = new Structure("ping");
+NodeRef sine = structure->add_node(new Sine(440));
+NodeRef env = structure->add_node(new ASR(0.01, 0.1, 5.0));
+NodeRef pan = structure->add_node(new Pan(2, env * sine, 0.5));
+structure->set_output(pan);
 
-SynthRef synth = new Synth(def);
+SynthRef synth = new Synth(structure);
 graph->output->add_input(synth->output);
 graph->run();
 ```
