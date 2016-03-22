@@ -3,32 +3,32 @@
 
 namespace libsignal
 {
-	class SynthDef
+	class Structure
 	{
 		public:
-			SynthDef(std::string name);
+			Structure(std::string name);
 			
 			/*----------------------------------------------------------------------------------
-			 * Methods for creating a SynthDef from live Node objects.
+			 * Methods for creating a Structure from live Node objects.
 			 *---------------------------------------------------------------------------------*/
 			NodeRef add_input(std::string name, sample default_value);
 			NodeRef add_node(NodeRef node);
 			void set_output(const NodeRef &out);
 
 			/*----------------------------------------------------------------------------------
-			 * Methods for creating a SynthDef from NodeDefinitions.
+			 * Methods for creating a Structure from NodeDefinitions.
 			 *---------------------------------------------------------------------------------*/
 			void add_node_def(NodeDefinition def);
 			void set_output(NodeDefinition def);
 			NodeDefinition *get_node_def(int id);
 
 			/*----------------------------------------------------------------------------------
-			 * Save a SynthDef to disk.
+			 * Save a Structure to disk.
 			 *---------------------------------------------------------------------------------*/
 			void save(std::string filename);
 
 			/*----------------------------------------------------------------------------------
-			 * Load a SynthDef from disk.
+			 * Load a Structure from disk.
 			 *---------------------------------------------------------------------------------*/
 			void load(std::string filename);
 
@@ -37,6 +37,11 @@ namespace libsignal
 			 *---------------------------------------------------------------------------------*/
 			void read_structure();
 			NodeDefinition get_root();
+
+			/**----------------------------------------------------------------------------------
+			 * Returns true if this Structure is ready to be played.
+			 *---------------------------------------------------------------------------------*/
+			bool is_ready();
 
 			std::string name;
 
@@ -53,4 +58,13 @@ namespace libsignal
 			std::unordered_map <std::string, Node *> inputs;
 			std::unordered_map <int, NodeDefinition> nodedefs;
 	};
+
+    class StructRef : public std::shared_ptr<Structure>
+    {
+        public:
+            using std::shared_ptr<Structure>::shared_ptr;
+
+            StructRef() : std::shared_ptr<Structure>(nullptr) { }
+            StructRef(Structure *ptr) : std::shared_ptr<Structure>(ptr) { }
+    };
 }

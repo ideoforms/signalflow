@@ -10,7 +10,7 @@
 
 #include "registry.h"
 #include "nodedef.h"
-#include "synthdef.h"
+#include "structure.h"
 #include "synth.h"
 
 /*------------------------------------------------------------------------

@@ -10,9 +10,9 @@ namespace libsignal
 	class Synth
 	{
 		public:
-			Synth(SynthDef *def)
+			Synth(StructRef structure)
 			{
-				NodeDefinition nodedef = def->get_root();
+				NodeDefinition nodedef = structure->get_root();
 				this->output = this->instantiate(&nodedef);
 			}
 
@@ -70,7 +70,7 @@ namespace libsignal
 
 			SynthRefT() : std::shared_ptr<Synth>(nullptr) { }
 			SynthRefT(Synth *ptr) : std::shared_ptr<Synth>(ptr) { }
-			SynthRefT(SynthDef *def) : std::shared_ptr<Node>(new Synth(def)) { }
+			SynthRefT(StructRef structure) : std::shared_ptr<Node>(new Synth(structure)) { }
 	};
 
 	typedef SynthRefT <Synth> SynthRef;

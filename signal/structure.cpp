@@ -1,4 +1,4 @@
-#include "synthdef.h"
+#include "structure.h"
 
 #include "core.h"
 #include "gen/constant.h"
@@ -11,7 +11,7 @@ using namespace json11;
 
 namespace libsignal
 {
-	SynthDef::SynthDef(std::string name)
+	Structure::Structure(std::string name)
 	{
 		this->name = name;
 	}
@@ -20,14 +20,14 @@ namespace libsignal
 	 * TEMPLATING 
 	 *-----------------------------------------------------------------------*/
 
-	NodeRef SynthDef::add_input(std::string name, sample default_value)
+	NodeRef Structure::add_input(std::string name, sample default_value)
 	{
 		NodeRef placeholder(default_value);
 		this->inputs[name] = placeholder.get();
 		return placeholder;
 	}
 
-	std::string SynthDef::get_input_name(const NodeRef &node)
+	std::string Structure::get_input_name(const NodeRef &node)
 	{
 		for (auto input : this->inputs)
 		{
@@ -40,20 +40,20 @@ namespace libsignal
 		return "";
 	}
 
-	NodeRef SynthDef::add_node(NodeRef node)
+	NodeRef Structure::add_node(NodeRef node)
 	{
 		return node;
 	} 
-	void SynthDef::set_output(const NodeRef &out)
+	void Structure::set_output(const NodeRef &out)
 	{
 		this->output = out;
 	}
 
-	void SynthDef::save(std::string filename)
+	void Structure::save(std::string filename)
 	{
 	}
 
-	void SynthDef::load(std::string filename)
+	void Structure::load(std::string filename)
 	{
 		std::string buf;
 		std::string line;
@@ -121,17 +121,17 @@ namespace libsignal
 		}
 	}
 
-	void SynthDef::add_node_def(NodeDefinition def)
+	void Structure::add_node_def(NodeDefinition def)
 	{
 		this->nodedefs[def.id] = def;
 	} 
 
-	NodeDefinition *SynthDef::get_node_def(int id)
+	NodeDefinition *Structure::get_node_def(int id)
 	{
 		return &(this->nodedefs[id]);
 	} 
 
-	void SynthDef::set_output(NodeDefinition def)
+	void Structure::set_output(NodeDefinition def)
 	{
 		this->output_def = def;
 	} 
@@ -139,16 +139,16 @@ namespace libsignal
 	/*------------------------------------------------------------------------
 	 * Scans the graph structure beginning from its inputs and outputs.
 	 *-----------------------------------------------------------------------*/
-	void SynthDef::read_structure()
+	void Structure::read_structure()
 	{
-		signal_assert(this->output != nullptr, "SynthDef %s: output is not set", this->name.c_str());
+		signal_assert(this->output != nullptr, "Structure %s: output is not set", this->name.c_str());
 		const NodeRef &r = this->output;
 		this->last_id = 0;
 		this->output_def = this->read_structure(r);
 		this->parsed = true;
 	}
 
-	NodeDefinition SynthDef::read_structure(const NodeRef &node)
+	NodeDefinition Structure::read_structure(const NodeRef &node)
 	{
 		NodeDefinition def(node->name);
 		def.set_id(this->last_id++);
@@ -180,7 +180,7 @@ namespace libsignal
 		return def;
 	}
 
-	NodeDefinition SynthDef::get_root()
+	NodeDefinition Structure::get_root()
 	{
 		return this->output_def;
 	}
