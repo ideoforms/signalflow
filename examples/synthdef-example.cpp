@@ -9,34 +9,47 @@ int main()
 	Graph *graph = new Graph();
 
 	/*------------------------------------------------------------------------
-	 * Create a new SynthDef 
+	 * Create a new Structure 
 	 *-----------------------------------------------------------------------*/
-	SynthDef *def = new SynthDef("my_synth");
+	StructRef structure = new Structure("my_synth");
 
 	/*------------------------------------------------------------------------
 	 * Create a named input that can be used to modulate parameters of
 	 * the synth.
 	 *-----------------------------------------------------------------------*/
-	NodeRef base_freq = def->add_input("base_freq", 40.0);
-	NodeRef freq = def->add_node(new Noise(2.0, true, 40, 160));
-	NodeRef sine = def->add_node(new Sine(freq + base_freq));
+	NodeRef base_freq = structure->add_input("base_freq", 40.0);
+	NodeRef freq = structure->add_node(new Noise(2.0, true, 40, 160));
+	NodeRef sine = structure->add_node(new Sine(freq + base_freq));
+	NodeRef pan_position = structure->add_input("pan", 0.5);
+	NodeRef pan = structure->add_node(new Pan(2, sine, pan_position));
 
 	/*------------------------------------------------------------------------
 	 * Set the output of the synth.
 	 *-----------------------------------------------------------------------*/
-	def->set_output(sine);
+	structure->set_output(pan);
 
 	/*------------------------------------------------------------------------
-	 * Instantiate a synth that uses this definition.
+	 * Instantiate two synths that use this structure.
+	 * Pan one hard left, and one hard right.
 	 *-----------------------------------------------------------------------*/
-	SynthRef synth1 = new Synth(def);
+	SynthRef synth1 = new Synth(structure);
+	synth1->set_param("pan", 0);
+	SynthRef synth2 = new Synth(structure);
+	synth2->set_param("pan", 1);
+
+	/*------------------------------------------------------------------------
+	 * Connect the synths to our graph's output.
+	 *-----------------------------------------------------------------------*/
 	graph->output->add_input(synth1->output);
+	graph->output->add_input(synth2->output);
 
 	while (true)
 	{
-		float freq = rng_uniform(40, 400);
+		float freq = rng_uniform(40, 800);
 		synth1->set_param("base_freq", freq);
-		usleep(500000);
+		usleep(250000);
+		synth2->set_param("base_freq", freq);
+		usleep(250000);
 	}
 
 
