@@ -106,7 +106,7 @@ def build(bld):
 	# compiled against this lib.
 	#------------------------------------------------------------------------
 	bld.shlib(
-		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('signal/**/*.cpp'),
+		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('lib/json11/json11.cpp') + bld.path.ant_glob('signal/**/*.cpp'),
 		target = 'signal',
 		vnum = VERSION,
 		use = libraries,
