@@ -139,16 +139,19 @@ namespace libsignal
 	/*------------------------------------------------------------------------
 	 * Scans the graph structure beginning from its inputs and outputs.
 	 *-----------------------------------------------------------------------*/
-	void Structure::read_structure()
+	void Structure::parse()
 	{
-		signal_assert(this->output != nullptr, "Structure %s: output is not set", this->name.c_str());
-		const NodeRef &r = this->output;
-		this->last_id = 0;
-		this->output_def = this->read_structure(r);
-		this->parsed = true;
+		if (!this->parsed)
+		{
+			signal_assert(this->output != nullptr, "Structure %s: output is not set", this->name.c_str());
+			const NodeRef &r = this->output;
+			this->last_id = 0;
+			this->output_def = this->parse_root(r);
+			this->parsed = true;
+		}
 	}
 
-	NodeDefinition Structure::read_structure(const NodeRef &node)
+	NodeDefinition Structure::parse_root(const NodeRef &node)
 	{
 		NodeDefinition def(node->name);
 		def.set_id(this->last_id++);
@@ -165,7 +168,7 @@ namespace libsignal
 				NodeRef param_node = *(param.second);
 				if (param_node)
 				{
-					NodeDefinition param_def = this->read_structure(param_node);
+					NodeDefinition param_def = this->parse_root(param_node);
 					def.add_param(param.first, &param_def);
 				}
 			}

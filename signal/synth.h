@@ -1,4 +1,5 @@
 #include "nodedef.h"
+#include "core.h"
 
 #include "gen/constant.h"
 #include <iostream>
@@ -12,6 +13,7 @@ namespace libsignal
 		public:
 			Synth(StructRef structure)
 			{
+				structure->parse();
 				NodeDefinition nodedef = structure->get_root();
 				this->output = this->instantiate(&nodedef);
 			}
@@ -54,6 +56,7 @@ namespace libsignal
 			{
 				// TODO: Should support non-constant inputs
 				NodeRef input = this->inputs[name];
+				signal_assert(input != nullptr, "Synth has no such parameter: %s", name.c_str());
 				Constant *constant = (Constant *) input.get();
 				constant->value = value;
 			}

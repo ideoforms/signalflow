@@ -35,7 +35,7 @@ namespace libsignal
 			/*----------------------------------------------------------------------------------
 			 * 
 			 *---------------------------------------------------------------------------------*/
-			void read_structure();
+			void parse();
 			NodeDefinition get_root();
 
 			/**----------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ namespace libsignal
 			int last_id = 0;
 
 			std::string get_input_name(const NodeRef &node);
-			NodeDefinition read_structure(const NodeRef &node);
+			NodeDefinition parse_root(const NodeRef &node);
 
 			std::unordered_map <std::string, Node *> inputs;
 			std::unordered_map <int, NodeDefinition> nodedefs;
