@@ -36,7 +36,7 @@ namespace libsignal
 				 * inbuf stores our backlog, so make sure we've allocated enough space.
 				 * inbuf_size records the current number of frames we have buffered.
 				 *-----------------------------------------------------------------------*/
-				this->inbuf = (sample *) calloc(SIGNUM_MAX_FFT_SIZE * 2, sizeof(sample));
+				this->inbuf = (sample *) calloc(SIGNAL_MAX_FFT_SIZE * 2, sizeof(sample));
 				this->inbuf_size = 0;
 
 				/*------------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace libsignal
 				 * Each hop is stored in an output channel so we can't have > 32.
 				 *-----------------------------------------------------------------------*/
 				this->num_hops = (this->inbuf_size - this->fft_size) / this->hop_size;
-				assert(this->num_hops <= SIGNUM_MAX_CHANNELS);
+				assert(this->num_hops <= SIGNAL_MAX_CHANNELS);
 
 				if (this->num_hops < 0)
 					this->num_hops = 0;

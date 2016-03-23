@@ -18,7 +18,7 @@ namespace libsignal
 				this->add_param("delay_time", this->delaytime);
 				this->add_param("feedback", this->feedback);
 
-				for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
+				for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
 					buffers.push_back(new SampleRingBuffer(maxdelaytime * 44100.0));
 			}
 

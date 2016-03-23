@@ -25,7 +25,7 @@ namespace libsignal
 
 			float phase;
 			float phase_last;
-			sample sample_last[SIGNUM_MAX_CHANNELS];
+			sample sample_last[SIGNAL_MAX_CHANNELS];
 
 			virtual void next(sample **out, int num_frames);
 	};

@@ -25,8 +25,8 @@ extern Graph *shared_graph;
 Node::Node()
 {
 	this->graph = shared_graph;
-	this->out = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float*));
-	for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
+	this->out = (sample **) malloc(SIGNAL_MAX_CHANNELS * sizeof(float*));
+	for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
 		this->out[i] = (sample *) malloc(44100 * sizeof(float));
 
 	this->min_input_channels = N_CHANNELS;

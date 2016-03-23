@@ -4,8 +4,8 @@
 
 #include <math.h>
 
-#define SIGNUM_ENVELOPE_BUFFER_LENGTH 1024
-#define SIGNUM_ENVELOPE_BUFFER_HALF_LENGTH (SIGNUM_ENVELOPE_BUFFER_LENGTH / 2)
+#define SIGNAL_ENVELOPE_BUFFER_LENGTH 1024
+#define SIGNAL_ENVELOPE_BUFFER_HALF_LENGTH (SIGNAL_ENVELOPE_BUFFER_LENGTH / 2)
 
 namespace libsignal
 {
@@ -47,7 +47,7 @@ namespace libsignal
 	class EnvelopeBuffer : public Buffer
 	{
 		public:
-			EnvelopeBuffer(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : Buffer(1, length)
+			EnvelopeBuffer(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH) : Buffer(1, length)
 			{
 				/*-------------------------------------------------------------------------
 				 * Initialise to a flat envelope at maximum amplitude.
@@ -61,7 +61,7 @@ namespace libsignal
 	class EnvelopeBufferTriangle : public EnvelopeBuffer
 	{
 		public:
-			EnvelopeBufferTriangle(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
+			EnvelopeBufferTriangle(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
 			{
 				for (int x = 0; x < length / 2; x++)
 					this->data[0][x] = (float) x / (length / 2);
@@ -73,7 +73,7 @@ namespace libsignal
 	class EnvelopeBufferLinearDecay : public EnvelopeBuffer
 	{
 		public:
-			EnvelopeBufferLinearDecay(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
+			EnvelopeBufferLinearDecay(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
 			{
 				for (int x = 0; x < length; x++)
 					this->data[0][x] = 1.0 - (float) x / length;
@@ -83,7 +83,7 @@ namespace libsignal
 	class EnvelopeBufferHanning : public EnvelopeBuffer
 	{
 		public:
-			EnvelopeBufferHanning(int length = SIGNUM_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
+			EnvelopeBufferHanning(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH) : EnvelopeBuffer(length)
 			{
 				for (int x = 0; x < length; x++)
 				{

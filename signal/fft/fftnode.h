@@ -14,12 +14,12 @@ namespace libsignal
 				this->num_bins = fft_size / 2;
 				this->num_hops = 0;
 
-				this->magnitudes = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float *));
-				for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
+				this->magnitudes = (sample **) malloc(SIGNAL_MAX_CHANNELS * sizeof(float *));
+				for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
 					this->magnitudes[i] = this->out[i];
 
-				this->phases = (sample **) malloc(SIGNUM_MAX_CHANNELS * sizeof(float *));
-				for (int i = 0; i < SIGNUM_MAX_CHANNELS; i++)
+				this->phases = (sample **) malloc(SIGNAL_MAX_CHANNELS * sizeof(float *));
+				for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
 					this->phases[i] = this->out[i] + this->num_bins;
 			}
 

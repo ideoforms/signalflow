@@ -32,7 +32,7 @@ void signal_assert(bool equality, char const *msg, ...)
 	{
 		va_list v;
 		va_start(v, msg);
-		fprintf(stdout, "SIGNUM FATAL ERROR: ");
+		fprintf(stdout, "SIGNAL FATAL ERROR: ");
 		vfprintf(stdout, msg, v);
 		fprintf(stdout, "\n");
 		va_end(v);
