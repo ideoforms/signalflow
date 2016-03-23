@@ -52,16 +52,25 @@ void Buffer::open(const char *filename)
 		memset(this->data[channel], 0, length);
 	}
 
+	int frames_per_read = 1024;
+	int samples_per_read = frames_per_read * info.channels;
+	sample buffer[samples_per_read];
     int ptr = 0;
-	int samples_per_read = 2048;
 
     while (true)
     {
-        int count = sf_readf_float(sndfile, (float *) this->data[0] + ptr, samples_per_read);
-        if (count < samples_per_read)
+        int count = sf_readf_float(sndfile, buffer, frames_per_read);
+		for (int frame = 0; frame < count; frame++)
+		{
+			// TODO: Vector-accelerated de-interleave
+			for (int channel = 0; channel < info.channels; channel++)
+			{
+				this->data[channel][ptr] = buffer[frame * info.channels + channel];
+			}
+			ptr++;
+		}
+        if (count < frames_per_read)
             break;
-
-        ptr += count;
     }
 
 	this->num_channels = info.channels;
