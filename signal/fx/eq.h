@@ -19,6 +19,19 @@ namespace libsignal
 				this->add_param("high_gain", this->high_gain);
 				this->add_param("low_freq", this->low_freq);
 				this->add_param("high_freq", this->high_freq);
+
+				int int_buf_size = SIGNAL_MAX_CHANNELS * sizeof(int);
+				memset(f1p0, 0, int_buf_size);
+				memset(f1p1, 0, int_buf_size);
+				memset(f1p2, 0, int_buf_size);
+				memset(f1p3, 0, int_buf_size);
+				memset(f2p0, 0, int_buf_size);
+				memset(f2p1, 0, int_buf_size);
+				memset(f2p2, 0, int_buf_size);
+				memset(f2p3, 0, int_buf_size);
+				memset(sdm1, 0, int_buf_size);
+				memset(sdm2, 0, int_buf_size);
+				memset(sdm3, 0, int_buf_size);
 			}
 
 			NodeRef low_gain;
@@ -27,10 +40,9 @@ namespace libsignal
 			NodeRef low_freq;
 			NodeRef high_freq;
 
-			float lf = 0, hf = 0;
-			float f1p0 = 0, f1p1 = 0, f1p2 = 0, f1p3 = 0;
-			float f2p0 = 0, f2p1 = 0, f2p2 = 0, f2p3 = 0;
-			float sdm1 = 0, sdm2 = 0, sdm3 = 0;
+			float f1p0[SIGNAL_MAX_CHANNELS], f1p1[SIGNAL_MAX_CHANNELS], f1p2[SIGNAL_MAX_CHANNELS], f1p3[SIGNAL_MAX_CHANNELS];
+			float f2p0[SIGNAL_MAX_CHANNELS], f2p1[SIGNAL_MAX_CHANNELS], f2p2[SIGNAL_MAX_CHANNELS], f2p3[SIGNAL_MAX_CHANNELS];
+			float sdm1[SIGNAL_MAX_CHANNELS], sdm2[SIGNAL_MAX_CHANNELS], sdm3[SIGNAL_MAX_CHANNELS];
 
 			virtual void next(sample **out, int num_frames);
 	};

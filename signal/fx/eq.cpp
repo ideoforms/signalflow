@@ -9,47 +9,47 @@ namespace libsignal
 
 void EQ::next(sample **out, int num_frames)
 {
-	this->lf = 2 * sin(M_PI * ((double) this->low_freq->out[0][0] / this->graph->sample_rate));
-	this->hf = 2 * sin(M_PI * ((double) this->high_freq->out[0][0] / this->graph->sample_rate));
-
 	float low, mid, high;
 
-	for (int frame = 0; frame < num_frames; frame++)
+	for (int channel = 0; channel < this->channels_out; channel++)
 	{
-		/*------------------------------------------------------------------------
-		 * Low-pass filter
-		 *-----------------------------------------------------------------------*/
-		float sample = this->input->out[0][frame];
-		this->f1p0  += (this->lf * (sample   - this->f1p0));
-		this->f1p1  += (this->lf * (this->f1p0 - this->f1p1));
-		this->f1p2  += (this->lf * (this->f1p1 - this->f1p2));
-		this->f1p3  += (this->lf * (this->f1p2 - this->f1p3));
-		low = this->f1p3;
+		float lf = 2 * sin(M_PI * ((double) this->low_freq->out[channel][0] / this->graph->sample_rate));
+		float hf = 2 * sin(M_PI * ((double) this->high_freq->out[channel][0] / this->graph->sample_rate));
 
-		/*------------------------------------------------------------------------
-		 * High-pass filter
-		 *-----------------------------------------------------------------------*/
-		this->f2p0  += (this->hf * (sample   - this->f2p0));
-		this->f2p1  += (this->hf * (this->f2p0 - this->f2p1));
-		this->f2p2  += (this->hf * (this->f2p1 - this->f2p2));
-		this->f2p3  += (this->hf * (this->f2p2 - this->f2p3));
-		high = this->sdm3 - this->f2p3;
-
-		/*------------------------------------------------------------------------
-		 * Midrange (signal - (low + high))
-		 *-----------------------------------------------------------------------*/
-		mid = this->sdm3 - (high + low);
-
-		low *= this->low_gain->out[0][frame];
-		mid *= this->mid_gain->out[0][frame];
-		high *= this->high_gain->out[0][frame];
-
-		this->sdm3 = this->sdm2;
-		this->sdm2 = this->sdm1;
-		this->sdm1 = sample;                
-
-		for (int channel = 0; channel < channels_out; channel++)
+		for (int frame = 0; frame < num_frames; frame++)
 		{
+			/*------------------------------------------------------------------------
+			 * Low-pass filter
+			 *-----------------------------------------------------------------------*/
+			float sample = this->input->out[channel][frame];
+			this->f1p0[channel]  += (lf * (sample   - this->f1p0[channel]));
+			this->f1p1[channel]  += (lf * (this->f1p0[channel] - this->f1p1[channel]));
+			this->f1p2[channel]  += (lf * (this->f1p1[channel] - this->f1p2[channel]));
+			this->f1p3[channel]  += (lf * (this->f1p2[channel] - this->f1p3[channel]));
+			low = this->f1p3[channel];
+
+			/*------------------------------------------------------------------------
+			 * High-pass filter
+			 *-----------------------------------------------------------------------*/
+			this->f2p0[channel]  += (hf * (sample   - this->f2p0[channel]));
+			this->f2p1[channel]  += (hf * (this->f2p0[channel] - this->f2p1[channel]));
+			this->f2p2[channel]  += (hf * (this->f2p1[channel] - this->f2p2[channel]));
+			this->f2p3[channel]  += (hf * (this->f2p2[channel] - this->f2p3[channel]));
+			high = this->sdm3[channel] - this->f2p3[channel];
+
+			/*------------------------------------------------------------------------
+			 * Midrange (signal - (low + high))
+			 *-----------------------------------------------------------------------*/
+			mid = this->sdm3[channel] - (high + low);
+
+			low *= this->low_gain->out[channel][frame];
+			mid *= this->mid_gain->out[channel][frame];
+			high *= this->high_gain->out[channel][frame];
+
+			this->sdm3[channel] = this->sdm2[channel];
+			this->sdm2[channel] = this->sdm1[channel];
+			this->sdm1[channel] = sample;                
+
 			this->out[channel][frame] = low + mid + high;
 		}
 	}
