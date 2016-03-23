@@ -54,8 +54,8 @@ namespace libsignal
 				 *-----------------------------------------------------------------------*/
 				if (param_node->channels_out < node->channels_in && !node->no_input_automix)
 				{
-					signal_debug("Upmixing %s (%s wants %d channels, I only produce %d)", param_node->name.c_str(),
-						node->name.c_str(), node->channels_in, param_node->channels_out);
+					signal_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
+						node->name.c_str(), node->channels_in, param_node->name.c_str(), param_node->channels_out);
 
 					/*------------------------------------------------------------------------
 					 * If we generate 2 channels but have 6 channels demanded, repeat
