@@ -237,8 +237,6 @@ BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b) : Node(), input0(a), input1(b)
 
 UnaryOpNode::UnaryOpNode(NodeRef a) : Node(), input(a)
 {
-	// TODO: Do this add_param automatically in add_input, with indexically-named
-	//       inputs?
 	this->add_param("input", this->input);
 }
 
