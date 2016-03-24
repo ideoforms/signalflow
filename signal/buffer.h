@@ -17,10 +17,6 @@ namespace libsignal
 
 		void open(const char *filename);
 
-		// TODO: Should we assert a buffer is mono before indexing?
-		sample get(int index) { return this->data[0][index]; }
-		sample operator [](int index){ return this->get(index); }
-
 		float sample_rate;
 		int num_channels;
 		int num_frames;
