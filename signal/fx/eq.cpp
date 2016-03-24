@@ -13,11 +13,11 @@ void EQ::next(sample **out, int num_frames)
 
 	for (int channel = 0; channel < this->channels_out; channel++)
 	{
-		float lf = 2 * sin(M_PI * ((double) this->low_freq->out[channel][0] / this->graph->sample_rate));
-		float hf = 2 * sin(M_PI * ((double) this->high_freq->out[channel][0] / this->graph->sample_rate));
-
 		for (int frame = 0; frame < num_frames; frame++)
 		{
+			float lf = 2 * sin(M_PI * ((double) this->low_freq->out[channel][frame] / this->graph->sample_rate));
+			float hf = 2 * sin(M_PI * ((double) this->high_freq->out[channel][frame] / this->graph->sample_rate));
+
 			/*------------------------------------------------------------------------
 			 * Low-pass filter
 			 *-----------------------------------------------------------------------*/
