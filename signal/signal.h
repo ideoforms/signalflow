@@ -41,6 +41,7 @@
 #include "gen/constant.h"
 #include "gen/sine.h"
 #include "gen/square.h"
+#include "gen/saw.h"
 #include "gen/sampler.h"
 #include "gen/granulator.h"
 #include "gen/wavetable.h"
