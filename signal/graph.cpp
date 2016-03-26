@@ -26,14 +26,22 @@ namespace libsignal
 	void Graph::pull_input(const NodeRef &node, int num_frames)
 	{
 		/*------------------------------------------------------------------------
-		 * Must pull our inputs before we generate our own outputs.
+		 * If this node has already been processed this timestep, return.
 		 *-----------------------------------------------------------------------*/
+		if (this->processed_nodes.find(node.get()) != processed_nodes.end())
+		{
+			signal_debug("Already processed node %s, skipping", node->name.c_str());
+			return;
+		}
 
 		signal_assert (node->params.size() > 0 || node->name == "constant" || node->name == "audioout",
 			"Node %s has no registered params", node->name.c_str());
 
-		for (auto param : node->params)
+		/*------------------------------------------------------------------------
+		 * Pull our inputs before we generate our own outputs.
+		 *-----------------------------------------------------------------------*/
 
+		for (auto param : node->params)
 		{
 			NodeRef param_node = *(param.second);
 			if (param_node)
@@ -74,14 +82,16 @@ namespace libsignal
 			}
 		}
 		node->next(node->out, num_frames);
+		this->processed_nodes.insert(node.get());
 	}
 
 	void Graph::pull_input(int num_frames)
 	{
+		this->processed_nodes.clear();
 		this->pull_input(this->output, num_frames);
 	}
 
-	NodeRef Graph::addNode(Node *node)
+	NodeRef Graph::add_node(Node *node)
 	{
 		return std::shared_ptr<Node>(node);
 	}

@@ -15,12 +15,16 @@ namespace libsignal
 			void run();
 			void pull_input(const NodeRef &node, int num_frames);
 			void pull_input(int num_frames);
-			NodeRef addNode(Node *node);
+			NodeRef add_node(Node *node);
 
 			NodeRef input = nullptr;
 			NodeRef output = nullptr;
 
 			float sample_rate;
+
+		private: 
+
+			std::set<Node *> processed_nodes;
 	};
 
     class GraphRef : public std::shared_ptr<Graph>
