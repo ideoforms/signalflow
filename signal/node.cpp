@@ -198,6 +198,9 @@ template<>
 NodeRef NodeRef::operator* (double constant)
 	{ return new Multiply(*this, constant); }
 
+NodeRef operator*(double constant, const NodeRef node)
+	{ return new Multiply(node, constant); }
+
 template<>
 NodeRef NodeRef::operator+ (NodeRef other)
 	{ return new Add(*this, other); }
@@ -205,6 +208,9 @@ NodeRef NodeRef::operator+ (NodeRef other)
 template<>
 NodeRef NodeRef::operator+ (double constant)
 	{ return new Add(*this, constant); }
+
+NodeRef operator+(double constant, const NodeRef node)
+	{ return new Add(node, constant); }
 
 template<>
 NodeRef NodeRef::operator- (NodeRef other)
@@ -214,6 +220,9 @@ template<>
 NodeRef NodeRef::operator- (double constant)
 	{ return new Subtract(*this, constant); }
 
+NodeRef operator-(double constant, const NodeRef node)
+	{ return new Subtract(node, constant); }
+
 template<>
 NodeRef NodeRef::operator/ (NodeRef other)
 	{ return new Divide(*this, other); }
@@ -221,6 +230,9 @@ NodeRef NodeRef::operator/ (NodeRef other)
 template<>
 NodeRef NodeRef::operator/ (double constant)
 	{ return new Divide(*this, constant); }
+
+NodeRef operator/(double constant, const NodeRef node)
+	{ return new Divide(node, constant); }
 
 template<>
 sample NodeRef::operator[] (int index)

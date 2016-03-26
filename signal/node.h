@@ -58,6 +58,14 @@ namespace libsignal
 
 	typedef NodeRefT <Node> NodeRef;
 
+	/*------------------------------------------------------------------------
+	 * Mathematical operators where NodeRef is the RHS operand
+	 *-----------------------------------------------------------------------*/
+	NodeRef operator*(double constant, const NodeRef other);
+	NodeRef operator+(double constant, const NodeRef other);
+	NodeRef operator-(double constant, const NodeRef other);
+	NodeRef operator/(double constant, const NodeRef other);
+
 	class Node
 	{
 
