@@ -17,11 +17,11 @@ Sampler::Sampler(Buffer *buffer, NodeRef rate, bool loop) : rate(rate)
 
 	this->buffer = buffer;
 
-	this->channels_in = 0;
-	this->channels_out = buffer->num_channels;
+	this->num_input_channels = 0;
+	this->num_output_channels = buffer->num_channels;
 
 	this->min_input_channels = this->max_input_channels = 0;
-	this->min_output_channels = this->max_output_channels = this->channels_out;
+	this->min_output_channels = this->max_output_channels = this->num_output_channels;
 
 	this->trigger();
 }
@@ -31,7 +31,7 @@ void Sampler::next(sample **out, int num_frames)
 	for (int frame = 0; frame < num_frames; frame++)
 	{
 		sample s;
-		for (int channel = 0; channel < this->channels_out; channel++)
+		for (int channel = 0; channel < this->num_output_channels; channel++)
 		{
 			if ((int) this->phase < buffer->num_frames)
 			{

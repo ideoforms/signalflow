@@ -39,13 +39,13 @@ namespace libsignal
 				else
 					out_channel_pan = 0.5;
 
-				for (int in_channel = 0; in_channel < this->channels_in; in_channel++)
+				for (int in_channel = 0; in_channel < this->num_input_channels; in_channel++)
 				{
 					float channel_amp = 1.0;
 					if (this->channels > 1)
 					{
-						if (this->channels_in > 1)
-							in_channel_pan = map(in_channel, 0, this->channels_in - 1, 0, 1);
+						if (this->num_input_channels > 1)
+							in_channel_pan = map(in_channel, 0, this->num_input_channels - 1, 0, 1);
 						else
 							in_channel_pan = 0.5;
 
@@ -68,11 +68,11 @@ namespace libsignal
 
 		virtual void update_channels()
 		{
-			this->channels_in = this->min_input_channels = this->max_input_channels = this->input->channels_out;
-			this->channels_out = this->min_output_channels = this->max_output_channels = this->channels;
-			this->amp_compensation = (float) this->channels_out / this->channels_in;
+			this->num_input_channels = this->min_input_channels = this->max_input_channels = this->input->num_output_channels;
+			this->num_output_channels = this->min_output_channels = this->max_output_channels = this->channels;
+			this->amp_compensation = (float) this->num_output_channels / this->num_input_channels;
 
-			signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->channels_out);
+			signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
 		}
 
 		std::list <NodeRef> inputs;

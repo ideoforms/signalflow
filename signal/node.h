@@ -150,8 +150,8 @@ namespace libsignal
 			 * Number of actual in/out channels. This should always reflect
 			 * the number of audio channels allocated in our `out` buffer,
 			 *-----------------------------------------------------------------------*/
-			int channels_in;
-			int channels_out;
+			int num_input_channels;
+			int num_output_channels;
 
 			/*------------------------------------------------------------------------
 			 * Number of preferred in/out channels. This is used to determine
@@ -197,8 +197,8 @@ namespace libsignal
 		public:
 			GeneratorNode() : Node()
 			{
-				this->channels_in = 0;
-				this->channels_out = 1;
+				this->num_input_channels = 0;
+				this->num_output_channels = 1;
 			}
 	};
 

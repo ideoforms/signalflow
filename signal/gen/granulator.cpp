@@ -17,7 +17,7 @@ Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain
 	this->envelope = new EnvelopeBufferTriangle();
 	this->add_buffer("envelope", &envelope);
 
-	this->channels_out = 2;
+	this->num_output_channels = 2;
 
 	this->pan = 0.5;
 	this->pan = 0.5;
@@ -28,7 +28,7 @@ Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain
 
 void Granulator::set_spatialisation(int num_channels, NodeRef pan)
 {
-	this->channels_out = num_channels;
+	this->num_output_channels = num_channels;
 	this->pan = pan;
 }
 
@@ -48,7 +48,7 @@ void Granulator::next(sample **out, int num_frames)
 		}
 		clock_last = clock_value;
 
-		for (int channel = 0; channel < this->channels_out; channel++)
+		for (int channel = 0; channel < this->num_output_channels; channel++)
 			out[channel][frame] = 0.0;
 
 		std::vector<Grain *>::iterator it;

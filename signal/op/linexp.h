@@ -25,7 +25,7 @@ public:
 	{
 		for (int frame = 0; frame < num_frames; frame++)
 		{
-			for (int channel = 0; channel < this->channels_out; channel++)
+			for (int channel = 0; channel < this->num_output_channels; channel++)
 			{
 				float norm = (input->out[channel][frame] - a->out[channel][frame]) / (b->out[channel][frame] - a->out[channel][frame]);
 				out[channel][frame] = powf(d->out[channel][frame] / c->out[channel][frame], norm) * c->out[channel][frame];

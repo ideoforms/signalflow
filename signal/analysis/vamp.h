@@ -84,7 +84,7 @@ namespace libsignal
 
 					for (int frame = 0; frame < num_frames; frame++)
 					{
-						for (int channel = 0; channel < this->channels_in; channel++)
+						for (int channel = 0; channel < this->num_input_channels; channel++)
 						{
 							out[channel][frame] = value;
 						}

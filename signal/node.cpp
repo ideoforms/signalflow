@@ -34,8 +34,8 @@ Node::Node()
 	this->min_output_channels = N_CHANNELS;
 	this->max_output_channels = N_CHANNELS;
 
-	this->channels_in = 1;
-	this->channels_out = 1;
+	this->num_input_channels = 1;
+	this->num_output_channels = 1;
 
 	this->no_input_automix = false;
 
@@ -66,13 +66,13 @@ void Node::update_channels()
 			// signal_debug("%s: update_channels (%s)", this->name.c_str(), param_name.c_str());
 
 			NodeRef input = *ptr;
-			if (input->channels_out > max_channels)
-				max_channels = input->channels_out;
+			if (input->num_output_channels > max_channels)
+				max_channels = input->num_output_channels;
 		}
 
 		// signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), max_channels);
-		this->channels_in = max_channels;
-		this->channels_out = max_channels;
+		this->num_input_channels = max_channels;
+		this->num_output_channels = max_channels;
 	}
 }
 
@@ -127,7 +127,7 @@ NodeRef NodeRef::operator= (const NodeRef &other)
 
 void Node::zero_output()
 {
-	for (int i = 0; i < this->channels_out; i++)
+	for (int i = 0; i < this->num_output_channels; i++)
 		memset(this->out[i], 0, 44100 * sizeof(sample));
 }
 

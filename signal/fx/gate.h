@@ -41,9 +41,9 @@ namespace libsignal
 				for (int frame = 0; frame < num_frames; frame++)
 				{
 					float amp = 0.0;
-					for (int channel = 0; channel < this->channels_in; channel++)
+					for (int channel = 0; channel < this->num_input_channels; channel++)
 						amp += this->input->out[channel][frame];
-					amp /= this->channels_in;
+					amp /= this->num_input_channels;
 
 					float threshold = this->threshold->out[0][frame];
 
@@ -58,7 +58,7 @@ namespace libsignal
 						level = 0.0;
 					}
 
-					for (int channel = 0; channel < this->channels_out; channel++)
+					for (int channel = 0; channel < this->num_output_channels; channel++)
 					{
 						this->out[channel][frame] = this->input->out[channel][frame] * level;
 					}

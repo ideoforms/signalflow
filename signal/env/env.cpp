@@ -59,7 +59,7 @@ void ASR::next(sample **out, int num_frames)
 
 		this->phase += 1.0 / this->graph->sample_rate;
 
-		for (int channel = 0; channel < this->channels_out; channel++)
+		for (int channel = 0; channel < this->num_output_channels; channel++)
 		{
 			out[channel][frame] = rv;
 		}

@@ -27,7 +27,7 @@ void Dust::next(sample **out, int num_frames)
 		}
 		this->steps_remaining--;
 
-		for (int channel = 0; channel < this->channels_out; channel++)
+		for (int channel = 0; channel < this->num_output_channels; channel++)
 		{
 			out[channel][frame] = (this->steps_remaining == 0) ? 1 : 0;
 		}

@@ -10,20 +10,20 @@ namespace libsignal
         shared_graph = graph;
         
         this->name = "audioout";
-        // this->channels_in = 2;
-        this->channels_out = 2;
+        // this->num_input_channels = 2;
+        this->num_output_channels = 2;
         this->no_input_automix = true;
     }
     
     
     void AudioOut_Abstract::next(sample **out, int num_frames)
     {
-        for (int channel = 0; channel < this->channels_out; channel++)
+        for (int channel = 0; channel < this->num_output_channels; channel++)
             memset(out[channel], 0, num_frames * sizeof(sample));
         
         for (NodeRef input : this->inputs)
         {
-            for (int channel = 0; channel < input->channels_out; channel++)
+            for (int channel = 0; channel < input->num_output_channels; channel++)
             {
                 #ifdef __APPLE__
                 

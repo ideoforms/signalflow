@@ -12,7 +12,7 @@ namespace libsignal
         shared_in = this;
         
         this->name = "audioin";
-        this->channels_out = 2;
+        this->num_output_channels = 2;
     }
         
 }

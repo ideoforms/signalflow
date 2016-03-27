@@ -67,7 +67,7 @@ void Noise::next(sample **out, int num_frames)
 
 		this->value += this->step_change;
 
-		for (int channel = 0; channel < this->channels_out; channel++)
+		for (int channel = 0; channel < this->num_output_channels; channel++)
 			out[channel][frame] = this->value;
 
 		this->steps_remaining--;

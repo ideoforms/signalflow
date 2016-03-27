@@ -13,7 +13,7 @@ void Resample::next(sample **out, int num_frames)
 	{
 		float phase_increment = this->sample_rate->out[0][frame] / this->graph->sample_rate;
 
-		for (int channel = 0; channel < channels_out; channel++)
+		for (int channel = 0; channel < num_output_channels; channel++)
 		{
 			out[channel][frame] = sample_last[channel];
 			if (int(phase) > int(phase_last))

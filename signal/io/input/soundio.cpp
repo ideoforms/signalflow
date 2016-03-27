@@ -119,7 +119,7 @@ void AudioIn_SoundIO::next(sample **out, int num_frames)
 	// don't have to do anything as our output is written by the read_callback
 	for (int frame = 0; frame < num_frames; frame++)
 	{
-		for (int channel = 0; channel < channels_out; channel++)
+		for (int channel = 0; channel < num_output_channels; channel++)
 		{
 			out[channel][frame] = this->buffer->data[channel][read_pos];
 		}

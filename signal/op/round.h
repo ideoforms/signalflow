@@ -21,7 +21,7 @@ public:
 	{
 		for (int frame = 0; frame < num_frames; frame++)
 		{
-			for (int channel = 0; channel < this->channels_out; channel++)
+			for (int channel = 0; channel < this->num_output_channels; channel++)
 			{
 				float value = this->input->out[channel][frame];
 				float midi = freq_to_midi(value);

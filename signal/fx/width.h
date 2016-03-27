@@ -10,8 +10,8 @@ namespace libsignal
 			Width(NodeRef input, NodeRef width) :
 				input(input), width(width)
 			{
-				this->channels_in = 1;
-				this->channels_out = 2;
+				this->num_input_channels = 1;
+				this->num_output_channels = 2;
 			}
 
 			NodeRef input;

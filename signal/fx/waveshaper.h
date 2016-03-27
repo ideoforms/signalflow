@@ -11,11 +11,10 @@ namespace libsignal
 			WaveShaper(NodeRef input, Buffer *buffer) :
 				UnaryOpNode(input), buffer(buffer)
 			{
-				memset(sample_last, 0, sizeof(sample_last));
-
 				this->name = "waveshaper";
 			}
 
+			Buffer *buffer;
 			virtual void next(sample **out, int num_frames);
 	};
 }

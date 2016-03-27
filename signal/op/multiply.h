@@ -19,7 +19,7 @@ namespace libsignal
 
 		virtual void next(sample **out, int num_frames)
 		{
-			for (int channel = 0; channel < this->channels_out; channel++)
+			for (int channel = 0; channel < this->num_output_channels; channel++)
 			{
 				#ifdef __APPLE__
 

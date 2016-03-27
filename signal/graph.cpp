@@ -62,17 +62,17 @@ namespace libsignal
 				 * A few nodes must prevent automatic up-mixing from happening.
 				 * These include Multiplex and AudioOut.
 				 *-----------------------------------------------------------------------*/
-				if (param_node->num_output_channels < node->channels_in && !node->no_input_automix)
+				if (param_node->num_output_channels < node->num_input_channels && !node->no_input_automix)
 				{
 					signal_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
-						node->name.c_str(), node->channels_in, param_node->name.c_str(), param_node->num_output_channels);
+						node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);
 
 					/*------------------------------------------------------------------------
 					 * If we generate 2 channels but have 6 channels demanded, repeat
 					 * them: [ 0, 1, 0, 1, 0, 1 ]
 					 *-----------------------------------------------------------------------*/
 					for (int out_channel_index = param_node->num_output_channels;
-					         out_channel_index < node->channels_in;
+					         out_channel_index < node->num_input_channels;
 					         out_channel_index ++)
 					{
 						int in_channel_index = out_channel_index % param_node->num_output_channels;

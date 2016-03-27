@@ -1,6 +1,7 @@
 #pragma once 
 
 #include "constants.h"
+#include "util.h"
 
 #include <math.h>
 
