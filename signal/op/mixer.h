@@ -55,6 +55,7 @@ namespace libsignal
 								channel_distance_max, 0,
 								0, 1);
 						channel_amp = clip(channel_amp, 0, 1);
+						channel_amp = channel_amp * this->amp_compensation;
 					}
 					
 					for (int frame = 0; frame < num_frames; frame++)
@@ -69,12 +70,14 @@ namespace libsignal
 		{
 			this->channels_in = this->min_input_channels = this->max_input_channels = this->input->channels_out;
 			this->channels_out = this->min_output_channels = this->max_output_channels = this->channels;
+			this->amp_compensation = (float) this->channels_out / this->channels_in;
 
 			signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->channels_out);
 		}
 
 		std::list <NodeRef> inputs;
 		int channels;
+		float amp_compensation;
 
 	};
 
