@@ -34,8 +34,10 @@ namespace libsignal
 			return;
 		}
 
-		signal_assert (node->params.size() > 0 || node->name == "constant" || node->name == "audioout",
-			"Node %s has no registered params", node->name.c_str());
+		if (!(node->params.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
+		{
+			signum_warn("Node %s has no registered params", node->name.c_str());
+		}
 
 		/*------------------------------------------------------------------------
 		 * Pull our inputs before we generate our own outputs.
@@ -87,6 +89,7 @@ namespace libsignal
 
 	void Graph::pull_input(int num_frames)
 	{
+		signal_debug("Graph: pull %d frames", num_frames);
 		this->processed_nodes.clear();
 		this->pull_input(this->output, num_frames);
 	}

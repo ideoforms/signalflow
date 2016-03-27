@@ -118,7 +118,6 @@ namespace libsignal
 				 * Append the incoming buffer onto our inbuf.
 				 * Perform repeated window and FFT by stepping forward hop_size frames.
 				 *-----------------------------------------------------------------------*/
-				// assert(this->inbuf_size + num_frames <= this->fft_size * 2);
 				memcpy(this->inbuf + this->inbuf_size, this->input->out[0], num_frames * sizeof(sample));
 				this->inbuf_size += num_frames;
 
@@ -127,11 +126,9 @@ namespace libsignal
 				 * Each hop is stored in an output channel so we can't have > 32.
 				 *-----------------------------------------------------------------------*/
 				this->num_hops = (this->inbuf_size - this->fft_size) / this->hop_size;
-				assert(this->num_hops <= SIGNAL_MAX_CHANNELS);
-
 				if (this->num_hops < 0)
 					this->num_hops = 0;
-
+				assert(this->num_hops <= SIGNAL_MAX_CHANNELS);
 
 				for (int hop = 0; hop < this->num_hops; hop++)
 				{
