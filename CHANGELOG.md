@@ -20,17 +20,11 @@
 **New features:**
 
 - Incorporate JSON parser library [\#7](https://github.com/ideoforms/signal/issues/7)
+- SynthRef [\#3](https://github.com/ideoforms/signal/issues/3)
 
 **Fixed bugs:**
 
 - Correct loading of multichannel buffers [\#18](https://github.com/ideoforms/signal/issues/18)
-
-## [v0.1.0](https://github.com/ideoforms/signal/tree/v0.1.0) (2016-03-20)
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.0.1...v0.1.0)
-
-**New features:**
-
-- SynthRef [\#3](https://github.com/ideoforms/signal/issues/3)
 
 ## v0.0.1 (2016-01-01)
 

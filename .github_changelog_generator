@@ -2,3 +2,5 @@ enhancement-labels=["feature", "node"]
 enhancement-prefix=**New features:**
 unreleased-label=HEAD
 header-label=CHANGELOG
+base=aux/docs/HISTORY.md
+since-tag=v0.1.0
