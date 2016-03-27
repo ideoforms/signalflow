@@ -8,17 +8,20 @@ namespace libsignal
 
 void Square::next(sample **out, int num_frames)
 {
-	for (int frame = 0; frame < num_frames; frame++)
+	for (int channel = 0; channel < this->channels_out; channel++)
 	{
-		float frequency = this->frequency->out[0][frame];
-		float width = this->width->out[0][frame];
-		float rv = (this->phase < width) ? 1 : -1;
+		for (int frame = 0; frame < num_frames; frame++)
+		{
+			float frequency = this->frequency->out[channel][frame];
+			float width = this->width->out[channel][frame];
+			float rv = (this->phase[channel] < width) ? 1 : -1;
 
-		out[0][frame] = rv;
+			out[channel][frame] = rv;
 
-		this->phase += 1.0 / (44100.0 / frequency);
-		if (this->phase >= 1.0)
-			this->phase -= 1.0;
+			this->phase[channel] += 1.0 / (this->graph->sample_rate / frequency);
+			if (this->phase[channel] >= 1.0)
+				this->phase[channel] -= 1.0;
+		}
 	}
 }
 
