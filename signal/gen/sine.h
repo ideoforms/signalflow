@@ -21,6 +21,5 @@ namespace libsignal
 	};
 
 	REGISTER(Sine, "sine");
-
 }
 

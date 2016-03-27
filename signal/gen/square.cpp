@@ -1,8 +1,5 @@
 #include "square.h"
 
-#include <math.h>
-#include <stdio.h>
-
 namespace libsignal
 {
 

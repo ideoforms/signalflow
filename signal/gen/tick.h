@@ -10,8 +10,8 @@ namespace libsignal
 		Tick(NodeRef frequency = 1.0) :
 			frequency(frequency)
 		{
-			this->steps_remaining = 0;
 			this->name = "tick";
+			this->steps_remaining = 0;
 			this->add_param("frequency", this->frequency);
 		}
 

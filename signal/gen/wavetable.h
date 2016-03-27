@@ -7,11 +7,11 @@ namespace libsignal
 	class Wavetable : public Node
 	{
 	public:
-		Wavetable(Buffer *table, NodeRef frequency, bool interpolate = true) :
+		Wavetable(Buffer *table = NULL, NodeRef frequency = 440, bool interpolate = true) :
 			table(table), frequency(frequency), interpolate(interpolate)
 		{
-			this->phase = 0.0;
 			this->name = "wavetable";
+			this->phase = 0.0;
 
 			this->add_param("frequency", this->frequency);
 		}
@@ -38,4 +38,6 @@ namespace libsignal
 		bool interpolate;
 
 	};
+
+	REGISTER(Wavetable, "wavetable");
 }

@@ -1,15 +1,15 @@
-#include "saw.h"
+#include "triangle.h"
 
 namespace libsignal
 {
 
-void Saw::next(sample **out, int num_frames)
+void Triangle::next(sample **out, int num_frames)
 {
 	for (int channel = 0; channel < this->num_output_channels; channel++)
 	{
 		for (int frame = 0; frame < num_frames; frame++)
 		{
-			float rv = (this->phase[channel] * 2.0) - 1.0;
+			float rv = (this->phase[channel] < 0.5) ? (this->phase[channel] * 4.0 - 1.0) : (1.0 - (this->phase[channel] - 0.5) * 4.0);
 
 			out[channel][frame] = rv;
 

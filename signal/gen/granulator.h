@@ -30,7 +30,7 @@ namespace libsignal
 	class Granulator : public Node
 	{
 		public:
-			Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length = 0.1);
+			Granulator(Buffer *buffer = NULL, NodeRef clock = 0, NodeRef pos = 0, NodeRef grain_length = 0.1);
 
 			Buffer *buffer;
 			Buffer *envelope;
@@ -49,4 +49,5 @@ namespace libsignal
 			std::vector <Grain *> grains;
 	};
 
+	REGISTER(Granulator, "granulator");
 }

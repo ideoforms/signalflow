@@ -8,7 +8,7 @@ namespace libsignal
 	class EQ : public UnaryOpNode
 	{
 		public:
-			EQ(NodeRef input, NodeRef low_gain = 1.0, NodeRef mid_gain = 1.0, NodeRef high_gain = 1.0,
+			EQ(NodeRef input = 0.0, NodeRef low_gain = 1.0, NodeRef mid_gain = 1.0, NodeRef high_gain = 1.0,
 					NodeRef low_freq = 500, NodeRef high_freq = 5000) :
 				UnaryOpNode(input), low_gain(low_gain), mid_gain(mid_gain), high_gain(high_gain),
 					low_freq(low_freq), high_freq(high_freq)
@@ -46,4 +46,6 @@ namespace libsignal
 
 			virtual void next(sample **out, int num_frames);
 	};
+
+	REGISTER(EQ, "eq");
 }

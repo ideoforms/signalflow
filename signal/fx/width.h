@@ -7,7 +7,7 @@ namespace libsignal
 	class Width : public Node
 	{
 		public:
-			Width(NodeRef input, NodeRef width) :
+			Width(NodeRef input = 0, NodeRef width = 1) :
 				input(input), width(width)
 			{
 				this->num_input_channels = 1;
@@ -19,4 +19,6 @@ namespace libsignal
 
 			virtual void next(sample **out, int num_frames);
 	};
+
+	REGISTER(Width, "width");
 }

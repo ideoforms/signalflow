@@ -7,7 +7,7 @@ namespace libsignal
 	class Sampler : public Node
 	{
 		public:
-			Sampler(Buffer *buffer, NodeRef rate = 1.0, bool loop = false);
+			Sampler(Buffer *buffer = NULL, NodeRef rate = 1.0, bool loop = false);
 
 			Buffer *buffer;
 
@@ -18,4 +18,6 @@ namespace libsignal
 			virtual void trigger();
 			virtual void next(sample **out, int num_frames);
 	};
+
+	REGISTER(Sampler, "sampler");
 }

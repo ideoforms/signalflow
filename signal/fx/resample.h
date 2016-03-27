@@ -8,7 +8,7 @@ namespace libsignal
 	class Resample : public UnaryOpNode
 	{
 		public:
-			Resample(NodeRef input, NodeRef sample_rate, NodeRef bit_rate) :
+			Resample(NodeRef input = 0, NodeRef sample_rate = 22050, NodeRef bit_rate = 8) :
 				UnaryOpNode(input), sample_rate(sample_rate), bit_rate(bit_rate)
 			{
 				phase = 0.0;
@@ -29,4 +29,6 @@ namespace libsignal
 
 			virtual void next(sample **out, int num_frames);
 	};
+
+	REGISTER(Resample, "resample");
 }
