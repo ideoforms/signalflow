@@ -36,7 +36,7 @@ namespace libsignal
 
 		if (!(node->params.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
 		{
-			signum_warn("Node %s has no registered params", node->name.c_str());
+			signal_warn("Node %s has no registered params", node->name.c_str());
 		}
 
 		/*------------------------------------------------------------------------
