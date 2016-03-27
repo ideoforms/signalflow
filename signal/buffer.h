@@ -88,5 +88,25 @@ namespace libsignal
 			}
 	};
 
+	/*-------------------------------------------------------------------------
+	 * A WaveShaperBuffer is a mono buffer with a fixed number of samples
+	 * that can be sampled at a position [-1,1] to give an amplitude mapping
+	 * value, equal to the result of the shaper's transfer function for
+	 * that value.
+	 *-----------------------------------------------------------------------*/
+	class WaveShaperBuffer : public Buffer
+	{
+		public:
+			WaveShaperBuffer(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH) : Buffer(1, length)
+			{
+				/*-------------------------------------------------------------------------
+				 * Initialise to a flat envelope at maximum amplitude.
+				 *-----------------------------------------------------------------------*/
+				for (int x = 0; x < length; x++)
+				{
+					float mapped = map(x, 0, length - 1, -1, 1);
+					this->data[0][x] = mapped;
+				}
+			}
+	};
 }
-
