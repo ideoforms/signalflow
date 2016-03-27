@@ -9,6 +9,11 @@
 - Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
 - Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
 
+**Fixed bugs:**
+
+- Add node-constant operations where node is the RHS operand [\#30](https://github.com/ideoforms/signal/issues/30)
+- Prevent a node from being stepped multiple times per tick [\#29](https://github.com/ideoforms/signal/issues/29)
+
 ## [v0.1.1](https://github.com/ideoforms/signal/tree/v0.1.1) (2016-03-23)
 [Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.0...v0.1.1)
 
