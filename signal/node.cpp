@@ -25,9 +25,9 @@ extern Graph *shared_graph;
 Node::Node()
 {
 	this->graph = shared_graph;
-	this->out = (sample **) malloc(SIGNAL_MAX_CHANNELS * sizeof(float*));
+	this->out = (sample **) malloc(SIGNAL_MAX_CHANNELS * sizeof(sample *));
 	for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
-		this->out[i] = (sample *) malloc(44100 * sizeof(float));
+		this->out[i] = (sample *) malloc(SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
 
 	this->min_input_channels = N_CHANNELS;
 	this->max_input_channels = N_CHANNELS;
@@ -128,7 +128,7 @@ NodeRef NodeRef::operator= (const NodeRef &other)
 void Node::zero_output()
 {
 	for (int i = 0; i < this->num_output_channels; i++)
-		memset(this->out[i], 0, 44100 * sizeof(sample));
+		memset(this->out[i], 0, SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
 }
 
 void Node::trigger(std::string name)

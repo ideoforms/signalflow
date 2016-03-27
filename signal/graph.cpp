@@ -15,7 +15,7 @@ namespace libsignal
 		signal_init();
         
 		this->output = new AudioOut(this);
-		this->sample_rate = 44100.0;
+		this->sample_rate = ((AudioOut *) this->output.get())->sample_rate;
 	}
 
 	void Graph::run()
@@ -64,8 +64,8 @@ namespace libsignal
 				 *-----------------------------------------------------------------------*/
 				if (param_node->num_output_channels < node->num_input_channels && !node->no_input_automix)
 				{
-					signal_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
-						node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);
+					// signal_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
+					//	node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);
 
 					/*------------------------------------------------------------------------
 					 * If we generate 2 channels but have 6 channels demanded, repeat

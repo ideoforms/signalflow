@@ -5,7 +5,22 @@ typedef sample * frame;
 
 typedef RingBuffer <sample> SampleRingBuffer;
 
+/*------------------------------------------------------------------------
+ * Max supported number of output channels. Impacts memory usage.
+ *-----------------------------------------------------------------------*/
+#define SIGNAL_MAX_CHANNELS 32
+
+/*------------------------------------------------------------------------
+ * Max supported number of FFT bins.
+ *-----------------------------------------------------------------------*/
+#define SIGNAL_MAX_FFT_SIZE 8192
+
+/*------------------------------------------------------------------------
+ * The default size of a node's output buffer, in samples.
+ * Needed because nodes such as AudioOut may be instantiated before the
+ * audio hardware's sample rate is known.
+ *-----------------------------------------------------------------------*/
+#define SIGNAL_NODE_BUFFER_SIZE 44100
+
 #define N_CHANNELS -1
 
-#define SIGNAL_MAX_CHANNELS 32
-#define SIGNAL_MAX_FFT_SIZE 8192

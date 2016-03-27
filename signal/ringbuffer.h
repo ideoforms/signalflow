@@ -8,7 +8,7 @@ template <class T>
 class RingBuffer
 {
 	public:
-		RingBuffer(int size = 44100);
+		RingBuffer(int size);
 		~RingBuffer();
 
 		void append(T value);

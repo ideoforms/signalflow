@@ -88,13 +88,15 @@ int AudioOut_SoundIO::init()
 	if (!device)
 		throw std::runtime_error("libsoundio init error: out of memory.");
 
-	fprintf(stderr, "Output device: %s\n", device->name);
-
 	this->outstream = soundio_outstream_create(device);
 	this->outstream->format = SoundIoFormatFloat32NE;
 	this->outstream->write_callback = write_callback;
-	this->outstream->sample_rate = 44100.0;
+	this->outstream->sample_rate = this->device->sample_rate_current;
 	// this->outstream->software_latency = 1024 / 44100.0;
+
+	this->sample_rate = this->outstream->sample_rate;
+
+	fprintf(stderr, "Output device: %s (%dHz)\n", device->name, this->sample_rate);
 
 	if ((err = soundio_outstream_open(this->outstream)))
 		throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));

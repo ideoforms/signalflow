@@ -19,7 +19,7 @@ namespace libsignal
 				this->add_param("feedback", this->feedback);
 
 				for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
-					buffers.push_back(new SampleRingBuffer(maxdelaytime * 44100.0));
+					buffers.push_back(new SampleRingBuffer(maxdelaytime * this->graph->sample_rate));
 			}
 
 			~Delay()

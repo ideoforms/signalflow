@@ -91,7 +91,9 @@ int AudioIn_SoundIO::init()
 	this->instream->format = SoundIoFormatFloat32NE;
 	this->instream->read_callback = read_callback;
 	// this->outstream->software_latency = 512 / 44100.0;
-	this->instream->sample_rate = 44100.0;
+	this->instream->sample_rate = device->sample_rate_current;
+
+	fprintf(stderr, "Input device: %s (%dHz)\n", device->name, device->sample_rate_current);
 
 	if ((err = soundio_instream_open(this->instream)))
 		throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
