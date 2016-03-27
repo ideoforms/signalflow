@@ -28,13 +28,15 @@ read -r -d '' SCRIPT <<EOF
 
 GIT_REPO_DIR=\$(git rev-parse --show-toplevel)
 VERSION_H="\$GIT_REPO_DIR/signal/version.h"
+CURRENT_BUILD=\`cat \$VERSION_H | grep SIGNAL_BUILD | cut -d' ' -f3\`
 
-if ! grep -q SIGNAL_BUILD "\$VERSION_H"
+if [ "\$CURRENT_BUILD" = "" ]
 then
 	echo "Couldn't find SIGNAL_BUILD marker."
 	exit 1
 fi
-echo "Processing \$VERSION_H"
+CURRENT_BUILD=\$((CURRENT_BUILD + 1))
+echo "Incrementing SIGNAL_BUILD to \$CURRENT_BUILD"
 
 # Increment build number
 perl -i -pe 's/(SIGNAL_BUILD) (\d+)/"\$1 " . (\$2 + 1)/e' "\$VERSION_H"
