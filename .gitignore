@@ -2,6 +2,7 @@
 *.build/
 build/
 dev/
+examples/audio
 examples-dev/
 recordings/
 _site/
@@ -10,9 +11,11 @@ NOTES
 *.swp
 *-test
 *-test.cpp
+test-*.cpp
 *.dSYM
 *.o
 .lock*
 .waf*
 *-
 docs/html
+signal/signal-dev.h
