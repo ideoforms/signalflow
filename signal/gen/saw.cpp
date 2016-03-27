@@ -12,13 +12,13 @@ void Saw::next(sample **out, int num_frames)
 	{
 		for (int frame = 0; frame < num_frames; frame++)
 		{
-			float rv = (this->phase * 2.0) - 1.0;
+			float rv = (this->phase[channel] * 2.0) - 1.0;
 
 			out[channel][frame] = rv;
 
-			this->phase += this->frequency->out[channel][frame] / this->graph->sample_rate;
-			while (this->phase >= 1.0)
-				this->phase -= 1.0;
+			this->phase[channel] += this->frequency->out[channel][frame] / this->graph->sample_rate;
+			while (this->phase[channel] >= 1.0)
+				this->phase[channel] -= 1.0;
 		}
 	}
 }

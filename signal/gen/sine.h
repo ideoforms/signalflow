@@ -9,13 +9,13 @@ namespace libsignal
 	public:
 		Sine(NodeRef frequency = 440) : frequency(frequency)
 		{
-			this->phase = 0;
 			this->name = "sine";
 			this->add_param("frequency", this->frequency);
+			memset(this->phase, 0, sizeof(this->phase));
 		}
 
 		NodeRef frequency;
-		float phase;
+		float phase[SIGNAL_MAX_CHANNELS];
 
 		virtual void next(sample **out, int num_frames);
 	};

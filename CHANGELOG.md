@@ -1,7 +1,30 @@
 # Change Log
 
+## [HEAD](https://github.com/ideoforms/signal/tree/HEAD)
+
+[Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.1...HEAD)
+
+**New features:**
+
+- Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
+- Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
+
+**Fixed bugs:**
+
+- Add node-constant operations where node is the RHS operand [\#30](https://github.com/ideoforms/signal/issues/30)
+- Prevent a node from being stepped multiple times per tick [\#29](https://github.com/ideoforms/signal/issues/29)
+
 ## [v0.1.1](https://github.com/ideoforms/signal/tree/v0.1.1) (2016-03-23)
 [Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.0...v0.1.1)
+
+**New features:**
+
+- Incorporate JSON parser library [\#7](https://github.com/ideoforms/signal/issues/7)
+- SynthRef [\#3](https://github.com/ideoforms/signal/issues/3)
+
+**Fixed bugs:**
+
+- Correct loading of multichannel buffers [\#18](https://github.com/ideoforms/signal/issues/18)
 
 ## v0.0.1 (2016-01-01)
 
