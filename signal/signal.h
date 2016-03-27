@@ -2,6 +2,7 @@
  * Core
  *-----------------------------------------------------------------------*/
 #include "core.h"
+#include "version.h"
 #include "constants.h"
 #include "node.h"
 #include "graph.h"
