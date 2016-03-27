@@ -43,7 +43,7 @@ namespace libsignal
 				PluginLoader *loader = PluginLoader::getInstance();
 				PluginLoader::PluginKey key = loader->composePluginKey(vamp_plugin_library, vamp_plugin_feature);
 
-				this->plugin = loader->loadPlugin(key, 44100, PluginLoader::ADAPT_ALL);
+				this->plugin = loader->loadPlugin(key, this->graph->sample_rate, PluginLoader::ADAPT_ALL);
 
 				if (!this->plugin)
 					throw std::runtime_error("Failed to load Vamp plugin: " + plugin_id);
@@ -74,7 +74,7 @@ namespace libsignal
 
 			void next(sample **out, int num_frames)
 			{
-				RealTime rt = RealTime::frame2RealTime(this->current_frame, 44100);
+				RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
 				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
 				if (features[this->output_index].size())
 				{
