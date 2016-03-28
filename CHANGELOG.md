@@ -9,6 +9,7 @@
 - Node: Triangle [\#26](https://github.com/ideoforms/signal/issues/26)
 - Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
 - Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
+- Support for non-44k samplerates [\#2](https://github.com/ideoforms/signal/issues/2)
 
 **Fixed bugs:**
 
