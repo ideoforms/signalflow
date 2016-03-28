@@ -13,7 +13,8 @@ void WaveShaper::next(sample **out, int num_frames)
 	{
 		for (int frame = 0; frame < num_frames; frame++)
 		{
-			out[channel][frame] = this->input->out[channel][frame];
+			float input = this->input->out[channel][frame];
+			out[channel][frame] = this->buffer->get(input);
 		}
 	}
 }

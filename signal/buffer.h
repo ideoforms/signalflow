@@ -199,7 +199,7 @@ namespace libsignal
 			 * @param input A given input sample, between [-1, 1]
 			 * @return A transformed sample value, between [-1, 1].
 			 *------------------------------------------------------------------------*/
-			virtual sample get(float input) override;
+			// virtual sample get(float input) override;
 
 			virtual float offset_to_frame(float offset) override
 			{
