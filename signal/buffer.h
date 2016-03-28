@@ -42,6 +42,7 @@ namespace libsignal
 		sample **data;
 
 		float duration;
+		signal_interpolate_t interpolate;
 
 		/**------------------------------------------------------------------------
 		 * Map a frame index to an offset in the buffer's native range.

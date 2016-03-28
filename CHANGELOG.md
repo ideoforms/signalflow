@@ -6,6 +6,9 @@
 
 **New features:**
 
+- Buffer: Fill buffer from a lambda function [\#35](https://github.com/ideoforms/signal/issues/35)
+- Buffer: Waveshaper buffers [\#33](https://github.com/ideoforms/signal/issues/33)
+- Node: Waveshaper [\#27](https://github.com/ideoforms/signal/issues/27)
 - Node: Triangle [\#26](https://github.com/ideoforms/signal/issues/26)
 - Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
 - Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
