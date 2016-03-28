@@ -68,7 +68,7 @@ void Granulator::next(sample **out, int num_frames)
 				 * Apply grain envelope.
 				 *-----------------------------------------------------------------------*/
 				float env_phase = (float) (grain->samples_done) / grain->sample_length;
-				float amp = this->envelope->get_amplitude(env_phase);
+				float amp = this->envelope->get(env_phase);
 
 				grain->samples_done++;
 
