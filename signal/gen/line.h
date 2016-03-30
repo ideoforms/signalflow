@@ -24,26 +24,29 @@ namespace libsignal
 
 		virtual void next(sample **out, int num_frames)
 		{
-			for (int frame = 0; frame < num_frames; frame++)
+			for (int channel = 0; channel < this->num_output_channels; channel++)
 			{
-				if (!step_target)
+				for (int frame = 0; frame < num_frames; frame++)
 				{
-					float from = this->from->out[0][frame];
-					float to = this->to->out[0][frame];
-					float time = this->time->out[0][frame];
+					if (!step_target)
+					{
+						float from = this->from->out[channel][frame];
+						float to = this->to->out[channel][frame];
+						float time = this->time->out[channel][frame];
 
-					this->step_target = this->graph->sample_rate * time;
-					this->value = from;
-					this->value_change_per_step = (to - from) / this->step_target;
+						this->step_target = this->graph->sample_rate * time;
+						this->value = from;
+						this->value_change_per_step = (to - from) / this->step_target;
+					}
+
+					if (this->step < this->step_target)
+					{
+						this->value += this->value_change_per_step;
+						this->step++;
+					}
+
+					this->out[channel][frame] = this->value;
 				}
-
-				if (this->step < this->step_target)
-				{
-					this->value += this->value_change_per_step;
-					this->step++;
-				}
-
-				this->out[0][frame] = this->value;
 			}
 		}
 
