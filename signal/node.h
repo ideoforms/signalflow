@@ -41,6 +41,7 @@ namespace libsignal
 			NodeRefT(Node *ptr);
 			NodeRefT(double x);
 			NodeRefT(int x);
+			NodeRefT(std::initializer_list<NodeRefT> x);
 
 			NodeRefT operator* (NodeRefT other);
 			NodeRefT operator* (double constant);

@@ -6,6 +6,7 @@
 #include "op/divide.h"
 
 #include "gen/constant.h"
+#include "op/multiplex.h"
 
 #include "core.h"
 #include "graph.h"
@@ -183,6 +184,9 @@ template<>
 NodeRef::NodeRefT(int x) : std::shared_ptr<Node>(new Constant((float) x))
 	{ (*this)->ref = this; }
 
+template<>
+NodeRef::NodeRefT(std::initializer_list<NodeRefT> x) : std::shared_ptr<Node>(new Multiplex(x))
+	{ (*this)->ref = this; }
 
 
 /*------------------------------------------------------------------------
