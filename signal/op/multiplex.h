@@ -2,6 +2,7 @@
 
 #include "../constants.h"
 #include "../node.h"
+#include "../core.h"
 #include "../registry.h"
 
 #include <list>
@@ -14,10 +15,15 @@ namespace libsignal
 
 	public:
 
-		Multiplex() : Node()
+		Multiplex(std::initializer_list<NodeRef> inputs = {}) : Node()
 		{
 			this->name = "multiplex";
 			this->no_input_automix = true;
+
+			for (NodeRef input : inputs)
+			{
+				this->add_input(input);
+			}
 		}
 
 		virtual void next(sample **out, int num_frames)
