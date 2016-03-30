@@ -76,7 +76,7 @@ namespace libsignal
 					FFTNode *fftin = (FFTNode *) input.get();
 					for (int frame = 0; frame < this->num_bins; frame++)
 					{
-						if (rng_uniform() < 1.0)
+						if (random_uniform() < 1.0)
 						{
 							this->phase_deriv[frame]      = fftin->phases[last_hop][frame] - fftin->phases[last_hop - 1][frame];
 							this->phase_buffer[frame]     = fftin->phases[last_hop][frame];

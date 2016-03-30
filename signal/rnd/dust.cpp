@@ -23,7 +23,7 @@ void Dust::next(sample **out, int num_frames)
 
 		if (this->steps_remaining <= 0)
 		{
-			this->steps_remaining = rng_randint(0, this->graph->sample_rate / (freq / 2.0));
+			this->steps_remaining = random_integer(0, this->graph->sample_rate / (freq / 2.0));
 		}
 		this->steps_remaining--;
 

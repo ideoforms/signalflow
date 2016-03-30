@@ -10,7 +10,7 @@ using namespace libsignal;
 
 void signal_init()
 {
-	rng_init();
+	random_init();
 }
 
 void signal_debug(char const * msg, ... )

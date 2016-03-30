@@ -43,11 +43,11 @@ void Noise::next(sample **out, int num_frames)
 		if (this->steps_remaining <= 0)
 		{
 			// pick a new target value
-			float target = rng_uniform(min, max);
+			float target = random_uniform(min, max);
 
 			if (frequency > 0)
 			{
-				this->steps_remaining = rng_randint(0, this->graph->sample_rate / (frequency / 2.0));
+				this->steps_remaining = random_integer(0, this->graph->sample_rate / (frequency / 2.0));
 				if (this->steps_remaining == 0)
 					this->steps_remaining = 1;
 				this->step_change = (target - value) / this->steps_remaining;

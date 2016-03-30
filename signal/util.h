@@ -10,18 +10,18 @@
 namespace libsignal
 {
 
-	void rng_init();
-	void rng_seed(long seed);
+	void random_init();
+	void random_seed(long seed);
 
-	double rng_gaussian(double mean, double sd);
-	double rng_gaussian();
-	double rng_uniform();
-	double rng_uniform(double to);
-	double rng_uniform(double from, double to);
-	unsigned long rng_randint(unsigned long to);
-	unsigned long rng_randint(unsigned long from, unsigned long to);
-	bool rng_coin(double limit);
-	void rng_shuffle(int *values, int count);
+	double random_gaussian(double mean, double sd);
+	double random_gaussian();
+	double random_uniform();
+	double random_uniform(double to);
+	double random_uniform(double from, double to);
+	unsigned long random_integer(unsigned long to);
+	unsigned long random_integer(unsigned long from, unsigned long to);
+	bool random_coin(double limit);
+	void random_shuffle(int *values, int count);
 
 	double timestamp();
 

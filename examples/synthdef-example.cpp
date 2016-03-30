@@ -45,7 +45,7 @@ int main()
 
 	while (true)
 	{
-		float freq = rng_uniform(40, 800);
+		float freq = random_uniform(40, 800);
 		synth1->set_param("base_freq", freq);
 		usleep(250000);
 		synth2->set_param("base_freq", freq);

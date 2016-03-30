@@ -33,13 +33,13 @@ gsl_rng *rng;
 
 
 /*--------------------------------------------------------------------*
- * rng_init(): Initialise pseudo-random number generator.
+ * random_init(): Initialise pseudo-random number generator.
  *
  * Uses the GNU Scientific Library:
  *   <http://www.gnu.org/software/gsl/>
  *
  *--------------------------------------------------------------------*/
-void rng_init()
+void random_init()
 {
     #ifdef HAVE_GSL
     
@@ -52,12 +52,12 @@ void rng_init()
 	 * a pretty decent non-correlated seed.
 	 *--------------------------------------------------------------------*/
 	gettimeofday(&tv, 0);
-	rng_seed(tv.tv_sec * tv.tv_usec);
+	random_seed(tv.tv_sec * tv.tv_usec);
     
     #endif
 }
 
-void rng_seed(long seed)
+void random_seed(long seed)
 {
     #ifdef HAVE_GSL
     
@@ -69,14 +69,14 @@ void rng_seed(long seed)
 /*--------------------------------------------------------------------*
  * Generate from gaussian distribution.
  *--------------------------------------------------------------------*/
-double rng_gaussian(double mean, double sd)
+double random_gaussian(double mean, double sd)
 {
 	// double value = mean + gsl_ran_gaussian(rng, sd);
-    double value = mean + sd * rng_gaussian();
+    double value = mean + sd * random_gaussian();
 	return value;
 }
 
-double rng_gaussian()
+double random_gaussian()
 {
     #ifdef HAVE_GSL
     
@@ -99,7 +99,7 @@ double rng_gaussian()
 /*--------------------------------------------------------------------*
  * Generate uniform rand.
  *--------------------------------------------------------------------*/
-double rng_uniform()
+double random_uniform()
 {
     #ifdef HAVE_GSL
     
@@ -114,37 +114,37 @@ double rng_uniform()
 	return value;
 }
 
-double rng_uniform(double to)
+double random_uniform(double to)
 {
-	double value = rng_uniform() * to;
+	double value = random_uniform() * to;
 	return value;
 }
 
-double rng_uniform(double from, double to)
+double random_uniform(double from, double to)
 {
-	double value = rng_uniform();
+	double value = random_uniform();
 	value = value * (to - from) + from;
 	return value;
 }
 
-bool rng_coin(double limit = 0.5)
+bool random_coin(double limit = 0.5)
 {
-	double value = rng_uniform();
+	double value = random_uniform();
 	return value < limit;
 }
 
 
 /*--------------------------------------------------------------------*
- * rng_randint: random int, up to (but excluding) to
+ * random_integer: random int, up to (but excluding) to
  *--------------------------------------------------------------------*/
-unsigned long rng_randint(unsigned long to)
+unsigned long random_integer(unsigned long to)
 {
-    return (long) rng_uniform(to);
+    return (long) random_uniform(to);
 }
 
-unsigned long rng_randint(unsigned long from, unsigned long to)
+unsigned long random_integer(unsigned long from, unsigned long to)
 {
-	return from + (((long) rng_uniform(to)) % (to - from));
+	return from + (((long) random_uniform(to)) % (to - from));
 }
 
 
