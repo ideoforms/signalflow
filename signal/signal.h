@@ -4,6 +4,7 @@
 #include "core.h"
 #include "version.h"
 #include "constants.h"
+#include "property.h"
 #include "node.h"
 #include "graph.h"
 #include "buffer.h"
