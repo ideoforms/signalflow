@@ -176,11 +176,6 @@ namespace libsignal
 			sample **out;
 
 			/*------------------------------------------------------------------------
-			 * Pointer to our outgoing connection.
-			 *-----------------------------------------------------------------------*/
-			// NodeRef output = nullptr;
-
-			/*------------------------------------------------------------------------
 			 * A reference to the NodeRef shared_ptr pointing to this Node.
 			 * Necessary so that a node can make outgoing/incoming connections to
 			 * other NodeRefs, increasing its own shared_ptr's reference count.
