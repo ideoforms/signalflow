@@ -29,6 +29,15 @@ namespace libsignal
 
 				this->current_frame = 0;
 
+				/*------------------------------------------------------------------------
+				 * Strip leading `vamp:` from plugin ID, if given. 
+				 *-----------------------------------------------------------------------*/
+				if (plugin_id.find("vamp:") == 0)
+					plugin_id = plugin_id.substr(5);
+
+				/*------------------------------------------------------------------------
+				 * Check that plugin ID is valid.
+				 *-----------------------------------------------------------------------*/
 				size_t num_colons = std::count(plugin_id.begin(), plugin_id.end(), ':');
 				if (num_colons != 2)
 					throw std::runtime_error("Invalid Vamp plugin ID: " + plugin_id);
