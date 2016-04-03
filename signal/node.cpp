@@ -109,7 +109,7 @@ void Node::set_property(std::string name, PropertyRef value)
 
 PropertyRef Node::get_property(std::string name)
 {
-	if (!this->buffers[name])
+	if (this->properties.find(name) == this->properties.end())
 		throw std::runtime_error("Node " + this->name + " has no such property: " + name);
 	
 	return this->properties[name];
@@ -122,7 +122,7 @@ void Node::add_buffer(std::string name, Buffer **buffer)
 
 void Node::set_buffer(std::string name, Buffer *buffer)
 {
-	if (!this->buffers[name])
+	if (this->buffers.find(name) == this->buffers.end())
 		throw std::runtime_error("Node " + this->name + " has no such buffer: " + name);
 
 	*(this->buffers[name]) = buffer;
