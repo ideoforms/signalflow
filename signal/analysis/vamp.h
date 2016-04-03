@@ -73,7 +73,7 @@ namespace libsignal
 				}
 
 				signal_debug("Loaded plugin (output index %d)", this->output_index);
-				this->plugin->initialise(1, 512, 512);
+				this->plugin->initialise(1, SIGNAL_DEFAULT_BLOCK_SIZE, SIGNAL_DEFAULT_BLOCK_SIZE);
 			}
 
 			~VampAnalysis()
@@ -83,23 +83,36 @@ namespace libsignal
 
 			void next(sample **out, int num_frames)
 			{
+				// printf("Vamp analysis, processing %d frames\n", num_frames);
+
 				RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
 				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
 				if (features[this->output_index].size())
 				{
 					Plugin::Feature feature = features[this->output_index][0];
-					float value = feature.values[0];
-					// printf("Got results (size = %d): %f\n", features[this->output_index].size(), value);
 
-					for (int frame = 0; frame < num_frames; frame++)
+					if (feature.values.size() > 0)
 					{
-						for (int channel = 0; channel < this->num_input_channels; channel++)
+						float value = feature.values[0];
+						printf("Got results (size = %d): %f\n", features[this->output_index].size(), value);
+
+						for (int frame = 0; frame < num_frames; frame++)
 						{
-							out[channel][frame] = value;
+							for (int channel = 0; channel < this->num_input_channels; channel++)
+							{
+								out[channel][frame] = value;
+							}
+						}
+
+						this->current_frame += num_frames;
+					}
+					else
+					{
+						if (feature.hasTimestamp)
+						{
+							printf("Got ts: %ld (%f)\n", RealTime::realTime2Frame(feature.timestamp, this->graph->sample_rate), this->graph->sample_rate);
 						}
 					}
-
-					this->current_frame += num_frames;
 				}
 			}
 
