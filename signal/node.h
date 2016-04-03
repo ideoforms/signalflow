@@ -100,6 +100,7 @@ namespace libsignal
 			 *-----------------------------------------------------------------------*/
 			virtual void add_property(std::string name);
 			virtual void set_property(std::string name, PropertyRef value);
+			virtual PropertyRef get_property(std::string name);
 
 			/*------------------------------------------------------------------------
 			 * Register buffer params.
