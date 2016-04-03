@@ -16,6 +16,11 @@ typedef RingBuffer <sample> SampleRingBuffer;
 #define SIGNAL_MAX_FFT_SIZE 8192
 
 /*------------------------------------------------------------------------
+ * Default sample block size unless otherwise specified.
+ *-----------------------------------------------------------------------*/
+#define SIGNAL_DEFAULT_BLOCK_SIZE 256
+
+/*------------------------------------------------------------------------
  * The default size of a node's output buffer, in samples.
  * Needed because nodes such as AudioOut may be instantiated before the
  * audio hardware's sample rate is known.
