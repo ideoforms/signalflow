@@ -89,9 +89,33 @@ namespace libsignal
 
 	void Graph::pull_input(int num_frames)
 	{
-		signal_debug("Graph: pull %d frames", num_frames);
+		// signal_debug("Graph: pull %d frames", num_frames);
 		this->processed_nodes.clear();
 		this->pull_input(this->output, num_frames);
+	}
+
+	void Graph::process(const NodeRef &root, int num_frames, int block_size)
+	{
+		int index = 0;
+		signal_debug("Graph: Performing offline process of %d frames", num_frames);
+		while (index < (num_frames - block_size))
+		{
+			this->pull_input(root, block_size);
+			this->processed_nodes.clear();
+			index += block_size;
+		}
+
+		/*------------------------------------------------------------------------
+		 * Process remaining samples.
+		 *-----------------------------------------------------------------------*/
+		printf("Processed %d frames, total %d\n", index, num_frames);
+		if (index < num_frames)
+		{
+			signal_debug("Graph: Processing remaining %d samples", num_frames - index);
+			this->pull_input(root, num_frames - index);
+		}
+			this->processed_nodes.clear();
+		signal_debug("Graph: Offline process completed");
 	}
 
 	NodeRef Graph::add_node(Node *node)
