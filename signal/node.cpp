@@ -97,6 +97,15 @@ void Node::set_param(std::string name, const NodeRef &node)
 }
 
 
+void Node::add_property(std::string name)
+{
+
+}
+
+void Node::set_property(std::string name, PropertyRef value)
+{
+	this->properties[name] = value;
+}
 
 void Node::add_buffer(std::string name, Buffer **buffer)
 {

@@ -5,6 +5,7 @@
 #include "registry.h"
 #include "platform.h"
 #include "buffer.h"
+#include "property.h"
 
 #include <string>
 #include <vector>
@@ -95,6 +96,12 @@ namespace libsignal
 			virtual void set_param(std::string name, const NodeRef &param);
 
 			/*------------------------------------------------------------------------
+			 * Register properties.
+			 *-----------------------------------------------------------------------*/
+			virtual void add_property(std::string name);
+			virtual void set_property(std::string name, PropertyRef value);
+
+			/*------------------------------------------------------------------------
 			 * Register buffer params.
 			 *-----------------------------------------------------------------------*/
 			virtual void add_buffer(std::string name, Buffer **buffer);
@@ -134,6 +141,13 @@ namespace libsignal
 			 * params are actually pointers to struct fields (this->frequency).
 			 *-----------------------------------------------------------------------*/
 			std::unordered_map <std::string, NodeRef *> params;
+
+			/*------------------------------------------------------------------------
+			 * Hash table of properties: (name, PropertyRef)
+			 * A property is a static, non-streaming value assigned to this node.
+			 * Properties may be ints, floats, strings or arrays.
+			 *-----------------------------------------------------------------------*/
+			std::unordered_map <std::string, PropertyRef> properties;
 
 			/*------------------------------------------------------------------------
 			 * Buffers are distinct from parameters, pointing to a fixed
