@@ -36,7 +36,7 @@ namespace libsignal
 
 		if (!(node->params.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
 		{
-			signal_warn("Node %s has no registered params", node->name.c_str());
+			// signal_warn("Node %s has no registered params", node->name.c_str());
 		}
 
 		/*------------------------------------------------------------------------
@@ -96,12 +96,19 @@ namespace libsignal
 
 	void Graph::process(const NodeRef &root, int num_frames, int block_size)
 	{
+		/*------------------------------------------------------------------------
+		 * Updating the routing from the tip. 
+		 * This normally happens when the root is connected to the graph's
+		 * audio out. Can this be improved?
+		 *-----------------------------------------------------------------------*/
+		root->update_channels();
+
 		int index = 0;
 		signal_debug("Graph: Performing offline process of %d frames", num_frames);
 		while (index < (num_frames - block_size))
 		{
-			this->pull_input(root, block_size);
 			this->processed_nodes.clear();
+			this->pull_input(root, block_size);
 			index += block_size;
 		}
 
@@ -112,6 +119,7 @@ namespace libsignal
 		if (index < num_frames)
 		{
 			signal_debug("Graph: Processing remaining %d samples", num_frames - index);
+			this->processed_nodes.clear();
 			this->pull_input(root, num_frames - index);
 		}
 			this->processed_nodes.clear();
