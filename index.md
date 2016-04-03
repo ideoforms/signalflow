@@ -4,7 +4,7 @@ title: signal
 ---
 
 <div class="intro">
-signal is an audio synthesis engine designed for structural clarity, lightness of code, and concise expression of complex ideas. It is built upon on modern standards, taking advantage of the powerful expressive capabilities of c++11 and json.
+signal is an audio synthesis engine designed for structural clarity, lightness of code, and concise expression of complex ideas. It is built with modern standards, taking advantage of the powerful expressive capabilities of c++11 and json.
 </div>
 
 ```cpp
