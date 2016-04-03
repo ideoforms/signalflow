@@ -36,7 +36,17 @@ fi
 read -r -d '' SCRIPT <<EOF
 #!/bin/bash
 
+GIT_BRANCH=\$(git symbolic-ref --short -q HEAD)
 GIT_REPO_DIR=\$(git rev-parse --show-toplevel)
+
+#------------------------------------------------------------------------
+# If we're editing web content, don't try to increment build counter
+#------------------------------------------------------------------------
+if [ "\$GIT_BRANCH" = "gh-pages" ]
+then
+    exit 0
+fi
+
 VERSION_H="\$GIT_REPO_DIR/signal/version.h"
 CURRENT_BUILD=\`cat \$VERSION_H | grep SIGNAL_BUILD | cut -d' ' -f3\`
 
