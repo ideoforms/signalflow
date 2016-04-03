@@ -3,9 +3,9 @@ layout: default
 title: signal
 ---
 
-## Graph-based audio DSP for 2016
-
-Signal is a new audio framework that makes use of the powerful expressive possibilities of c++11, alongside modern technological standards: JSON for signal graph expression, REST/HTTP for client-server-communications. 
+<div class="intro">
+signal is an audio synthesis engine designed for structural clarity, lightness of code, and concise expression of complex ideas. It is built upon on modern standards, taking advantage of the powerful expressive capabilities of c++11 and json.
+</div>
 
 ```cpp
 GraphRef graph = new Graph();
