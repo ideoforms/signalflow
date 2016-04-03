@@ -6,6 +6,7 @@
 
 **New features:**
 
+- Multiplex: Support for std::initializer\_list  [\#37](https://github.com/ideoforms/signal/issues/37)
 - Buffer: Fill buffer from a lambda function [\#35](https://github.com/ideoforms/signal/issues/35)
 - Buffer: Waveshaper buffers [\#33](https://github.com/ideoforms/signal/issues/33)
 - Node: Waveshaper [\#27](https://github.com/ideoforms/signal/issues/27)
@@ -19,6 +20,10 @@
 - Add node-constant operations where node is the RHS operand [\#30](https://github.com/ideoforms/signal/issues/30)
 - Prevent a node from being stepped multiple times per tick [\#29](https://github.com/ideoforms/signal/issues/29)
 - Rename channels\_out → num\_output\_channels for consistency [\#23](https://github.com/ideoforms/signal/issues/23)
+
+**Closed issues:**
+
+- Update basic nodes to handle multi-channel inputs [\#24](https://github.com/ideoforms/signal/issues/24)
 
 ## [v0.1.1](https://github.com/ideoforms/signal/tree/v0.1.1) (2016-03-23)
 [Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.0...v0.1.1)
