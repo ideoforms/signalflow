@@ -109,6 +109,9 @@ void Node::set_property(std::string name, PropertyRef value)
 
 PropertyRef Node::get_property(std::string name)
 {
+	if (!this->buffers[name])
+		throw std::runtime_error("Node " + this->name + " has no such property: " + name);
+	
 	return this->properties[name];
 }
 
