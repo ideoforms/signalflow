@@ -23,7 +23,7 @@
 #include "op/add.h"
 #include "op/subtract.h"
 #include "op/round.h"
-#include "op/linexp.h"
+#include "op/scale.h"
 #include "op/multiplex.h"
 #include "op/mixer.h"
 
@@ -72,6 +72,7 @@
 #include "fx/freeze.h"
 #include "fx/gate.h"
 #include "fx/eq.h"
+#include "fx/moog.h"
 #include "fx/waveshaper.h"
 
 /*------------------------------------------------------------------------
