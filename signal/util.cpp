@@ -188,6 +188,16 @@ double linexp (double value, double a, double b, double c, double d)
     return pow(d/c, (value-a)/(b-a)) * c;
 }
 
+/*--------------------------------------------------------------------*
+ * explin(): Map a value from an exponential to linear range.
+ *--------------------------------------------------------------------*/
+double explin (double value, double a, double b, double c, double d)
+{
+    if (value <= a) return c;
+    if (value >= b) return d;
+	return (log(value / a)) / (log(b / a)) * (d - c) + c;
+}
+
 
 float freq_to_midi(float frequency)
 {
