@@ -81,10 +81,8 @@ namespace libsignal
 				// close vamp plugins
 			}
 
-			void next(sample **out, int num_frames)
+			virtual void next(sample **out, int num_frames)
 			{
-				// printf("Vamp analysis, processing %d frames\n", num_frames);
-
 				RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
 				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
 				if (features[this->output_index].size())
@@ -94,7 +92,7 @@ namespace libsignal
 					if (feature.values.size() > 0)
 					{
 						float value = feature.values[0];
-						printf("Got results (size = %d): %f\n", features[this->output_index].size(), value);
+						printf("Got results (size = %ld): %f\n", features[this->output_index].size(), value);
 
 						for (int frame = 0; frame < num_frames; frame++)
 						{
@@ -106,13 +104,6 @@ namespace libsignal
 
 						this->current_frame += num_frames;
 					}
-					else
-					{
-						if (feature.hasTimestamp)
-						{
-							printf("Got ts: %ld (%f)\n", RealTime::realTime2Frame(feature.timestamp, this->graph->sample_rate), this->graph->sample_rate);
-						}
-					}
 				}
 			}
 
@@ -121,5 +112,36 @@ namespace libsignal
 			Plugin *plugin;
 	};
 
+	class VampEventExtractor : public VampAnalysis
+	{
+		public:
+			VampEventExtractor(NodeRef input = 0.0, string plugin_id = "vamp:vamp-example-plugins:percussiononsets:onsets") :
+				VampAnalysis(input, plugin_id)
+			{
+				this->name = "vamp_events";
+				this->set_property("timestamps", { 0 });
+			}
+
+			virtual void next(sample **out, int num_frames)
+			{
+				RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
+				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
+				if (features[this->output_index].size())
+				{
+					Plugin::Feature feature = features[this->output_index][0];
+
+					if (feature.hasTimestamp)
+					{
+						long ts = RealTime::realTime2Frame(feature.timestamp, this->graph->sample_rate);
+						printf("Got ts: %ld (%f)\n", ts, this->graph->sample_rate);
+						std::vector<float> timestamps = this->get_property("timestamps")->array_value();
+						timestamps.push_back(ts);
+						this->set_property("timestamps", timestamps);
+					}
+				}
+			}
+	};
+
 	REGISTER(VampAnalysis, "vamp");
+	REGISTER(VampEventExtractor, "vamp_events");
 }
