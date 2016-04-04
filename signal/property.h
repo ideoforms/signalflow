@@ -65,5 +65,6 @@ class PropertyRef : public std::shared_ptr<Property>
 		PropertyRef(std::string value) : std::shared_ptr<Property>(new StringProperty(value)) { }
 		PropertyRef(const char *value) : std::shared_ptr<Property>(new StringProperty(value)) { }
 		PropertyRef(std::initializer_list <float> value) : std::shared_ptr<Property>(new ArrayProperty(value)) { }
+		PropertyRef(std::vector <float> value) : std::shared_ptr<Property>(new ArrayProperty(value)) { }
 };
 
