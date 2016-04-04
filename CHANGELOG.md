@@ -6,6 +6,7 @@
 
 **New features:**
 
+- Node: Support for constant property values [\#39](https://github.com/ideoforms/signal/issues/39)
 - Multiplex: Support for std::initializer\_list  [\#37](https://github.com/ideoforms/signal/issues/37)
 - Buffer: Fill buffer from a lambda function [\#35](https://github.com/ideoforms/signal/issues/35)
 - Buffer: Waveshaper buffers [\#33](https://github.com/ideoforms/signal/issues/33)
