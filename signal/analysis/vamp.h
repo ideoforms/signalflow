@@ -94,15 +94,22 @@ namespace libsignal
 						float value = feature.values[0];
 						printf("Got results (size = %ld): %f\n", features[this->output_index].size(), value);
 
-						for (int frame = 0; frame < num_frames; frame++)
+						for (int channel = 0; channel < this->num_input_channels; channel++)
 						{
-							for (int channel = 0; channel < this->num_input_channels; channel++)
+							for (int frame = 0; frame < num_frames; frame++)
 							{
 								out[channel][frame] = value;
 							}
 						}
 
 						this->current_frame += num_frames;
+					}
+					else
+					{
+						for (int channel = 0; channel < this->num_input_channels; channel++)
+						{
+							memset(out[channel], 0, num_frames * sizeof(sample));
+						}
 					}
 				}
 			}
