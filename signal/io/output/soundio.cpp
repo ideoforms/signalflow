@@ -61,6 +61,24 @@ void write_callback(struct SoundIoOutStream *outstream,
 	}
 }
 
+int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
+{
+    int output_count = soundio_output_device_count(soundio);
+    for (int i = 0; i < output_count; i++)
+	{
+        struct SoundIoDevice *device = soundio_get_output_device(soundio, i);
+		if (strcmp(device->name, name) == 0)
+		{
+			printf("Found device %s: %d\n", name, i);
+			return i;
+		}
+	}
+	fprintf(stderr, "Couldn't find output device %s\n", name);
+
+	return -1;
+}
+
+
 AudioOut_SoundIO::AudioOut_SoundIO(Graph *graph) : AudioOut_Abstract(graph)
 {
     this->init();
@@ -84,7 +102,10 @@ int AudioOut_SoundIO::init()
 	if (default_out_device_index < 0)
 		throw std::runtime_error("libsoundio init error: no output devices found.");
 
+	// int index = soundio_get_device_by_name(this->soundio, "Loopback Audio");
+
 	this->device = soundio_get_output_device(this->soundio, default_out_device_index);
+	this->device = soundio_get_output_device(this->soundio, index);
 	if (!device)
 		throw std::runtime_error("libsoundio init error: out of memory.");
 
@@ -125,7 +146,6 @@ int AudioOut_SoundIO::close()
 
 	return 0;
 }
-
 
 } // namespace libsignal
 
