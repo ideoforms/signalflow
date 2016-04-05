@@ -71,8 +71,10 @@ namespace libsignal
 			this->num_input_channels = this->min_input_channels = this->max_input_channels = this->input->num_output_channels;
 			this->num_output_channels = this->min_output_channels = this->max_output_channels = this->channels;
 			this->amp_compensation = (float) this->num_output_channels / this->num_input_channels;
+			if (this->amp_compensation > 1.0)
+				this->amp_compensation = 1.0;
 
-			signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
+			signal_debug("Node %s set num_out_channels to %d, num_in_channels %d", this->name.c_str(), this->num_output_channels, this->num_input_channels);
 		}
 
 		std::list <NodeRef> inputs;
