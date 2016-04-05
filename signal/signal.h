@@ -46,6 +46,7 @@
 #include "gen/saw.h"
 #include "gen/triangle.h"
 #include "gen/sampler.h"
+#include "gen/recorder.h"
 #include "gen/granulator.h"
 #include "gen/wavetable.h"
 #include "gen/tick.h"
