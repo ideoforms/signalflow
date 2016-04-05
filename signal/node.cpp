@@ -71,7 +71,7 @@ void Node::update_channels()
 				max_channels = input->num_output_channels;
 		}
 
-		// signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), max_channels);
+		signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), max_channels);
 		this->num_input_channels = max_channels;
 		this->num_output_channels = max_channels;
 	}
@@ -79,11 +79,15 @@ void Node::update_channels()
 
 void Node::add_param(std::string name, NodeRef &node)
 {
-	this->params[name] = &node;
-	this->update_channels();
-
+	/*------------------------------------------------------------------------
+	 * Update each input's channel count first, allowing up-mix to
+	 * perculate to the root of the graph.
+	 *-----------------------------------------------------------------------*/
 	if (node)
 		node->update_channels();
+
+	this->params[name] = &node;
+	this->update_channels();
 }
 
 void Node::set_param(std::string name, const NodeRef &node)
