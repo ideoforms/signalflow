@@ -6,6 +6,7 @@
 
 **New features:**
 
+- Node: MoogVCF [\#43](https://github.com/ideoforms/signal/issues/43)
 - Node: Linear scale [\#41](https://github.com/ideoforms/signal/issues/41)
 - Node: Support for constant property values [\#39](https://github.com/ideoforms/signal/issues/39)
 - Multiplex: Support for std::initializer\_list  [\#37](https://github.com/ideoforms/signal/issues/37)

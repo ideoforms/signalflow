@@ -14,8 +14,9 @@ namespace libsignal
 	{
 		signal_init();
         
-		this->output = new AudioOut(this);
-		this->sample_rate = ((AudioOut *) this->output.get())->sample_rate;
+		AudioOut *audioout = new AudioOut(this);
+		this->output = audioout;
+		this->sample_rate = audioout->sample_rate;
 	}
 
 	void Graph::run()
