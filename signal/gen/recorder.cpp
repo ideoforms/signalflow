@@ -22,7 +22,7 @@ void Recorder::next(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{
-		for (int channel = 0; channel < this->num_output_channels; channel++)
+		for (int channel = 0; channel < this->num_input_channels; channel++)
 		{
 			if ((int) this->phase < buffer->num_frames)
 			{
