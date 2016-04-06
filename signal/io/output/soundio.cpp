@@ -103,9 +103,9 @@ int AudioOut_SoundIO::init()
 		throw std::runtime_error("libsoundio init error: no output devices found.");
 
 	// int index = soundio_get_device_by_name(this->soundio, "Loopback Audio");
+	// this->device = soundio_get_output_device(this->soundio, index);
 
 	this->device = soundio_get_output_device(this->soundio, default_out_device_index);
-	this->device = soundio_get_output_device(this->soundio, index);
 	if (!device)
 		throw std::runtime_error("libsoundio init error: out of memory.");
 
