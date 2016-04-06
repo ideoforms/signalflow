@@ -18,59 +18,62 @@ Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max) : fr
 
 	this->interpolate = interpolate;
 
-	this->value = std::numeric_limits<float>::max();
-
-	this->steps_remaining = 0;
+	for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+		this->value[i] = std::numeric_limits<float>::max();
+	memset(this->steps_remaining, 0, sizeof(int) * SIGNAL_MAX_CHANNELS);
+	memset(this->step_change, 0, sizeof(int) * SIGNAL_MAX_CHANNELS);
 }
 
 void Noise::next(sample **out, int num_frames)
 {
-	if (this->value == std::numeric_limits<float>::max())
+	for (int channel = 0; channel < this->num_output_channels; channel++)
 	{
-		// TODO: Put this in an init block that is available to all
-		// nodes on their first block?
-		this->value = this->min->out[0][0];
-	}
-
-	for (int frame = 0; frame < num_frames; frame++)
-	{
-		float min = this->min->out[0][frame];
-		float max = this->max->out[0][frame];
-		float frequency = this->frequency->out[0][frame];
-		if (!frequency)
-			frequency = this->graph->sample_rate;
-
-		if (this->steps_remaining <= 0)
+		if (this->value[channel] == std::numeric_limits<float>::max())
 		{
-			// pick a new target value
-			float target = random_uniform(min, max);
-
-			if (frequency > 0)
-			{
-				this->steps_remaining = random_integer(0, this->graph->sample_rate / (frequency / 2.0));
-				if (this->steps_remaining == 0)
-					this->steps_remaining = 1;
-				this->step_change = (target - value) / this->steps_remaining;
-			}
-			else
-			{
-				this->steps_remaining = 0;
-				this->step_change = target - value;
-			}
-
-			if (!this->interpolate)
-			{
-				this->value = target;
-				this->step_change = 0;
-			}
+			// TODO: Put this in an init block that is available to all
+			// nodes on their first block?
+			this->value[channel] = this->min->out[0][0];
 		}
 
-		this->value += this->step_change;
+		for (int frame = 0; frame < num_frames; frame++)
+		{
+			float min = this->min->out[channel][frame];
+			float max = this->max->out[channel][frame];
+			float frequency = this->frequency->out[channel][frame];
+			if (!frequency)
+				frequency = this->graph->sample_rate;
 
-		for (int channel = 0; channel < this->num_output_channels; channel++)
-			out[channel][frame] = this->value;
+			if (this->steps_remaining[channel] <= 0)
+			{
+				// pick a new target value
+				float target = random_uniform(min, max);
 
-		this->steps_remaining--;
+				if (frequency > 0)
+				{
+					this->steps_remaining[channel] = random_integer(0, this->graph->sample_rate / (frequency / 2.0));
+					if (this->steps_remaining[channel] == 0)
+						this->steps_remaining[channel] = 1;
+					this->step_change[channel] = (target - this->value[channel]) / this->steps_remaining[channel];
+				}
+				else
+				{
+					this->steps_remaining[channel] = 0;
+					this->step_change[channel] = target - this->value[channel];
+				}
+
+				if (!this->interpolate)
+				{
+					this->value[channel] = target;
+					this->step_change[channel] = 0;
+				}
+			}
+
+			this->value[channel] += this->step_change[channel];
+
+			this->out[channel][frame] = this->value[channel];
+
+			this->steps_remaining[channel]--;
+		}
 	}
 }
 

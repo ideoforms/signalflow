@@ -11,17 +11,18 @@ namespace libsignal
 
 		NodeRef frequency;
 		bool interpolate;
-		int phase;
-		sample value;
 
 		NodeRef min;
 		NodeRef max;
 
+		sample value[SIGNAL_MAX_CHANNELS];
+
 		virtual void next(sample **out, int num_frames);
 	
 	private:
-		int steps_remaining;
-		float step_change;
+
+		int steps_remaining[SIGNAL_MAX_CHANNELS];
+		float step_change[SIGNAL_MAX_CHANNELS];
 
 	};
 
