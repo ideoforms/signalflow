@@ -4,6 +4,7 @@
 #include "op/add.h"
 #include "op/subtract.h"
 #include "op/divide.h"
+#include "op/scale.h"
 
 #include "gen/constant.h"
 #include "op/multiplex.h"
@@ -277,5 +278,18 @@ UnaryOpNode::UnaryOpNode(NodeRef a) : Node(), input(a)
 	this->add_param("input", this->input);
 }
 
+Node *Node::scale(float from, float to, signal_scale_t scale)
+{
+	switch (scale)
+	{
+		case SIGNAL_SCALE_LIN_LIN:
+			return new Scale(this, -1, 1, from, to);
+		case SIGNAL_SCALE_LIN_EXP:
+			return new LinExp(this, -1, 1, from, to);
+		default:
+			return NULL;
+	}
 }
+
+} /* namespace libsignal */
 
