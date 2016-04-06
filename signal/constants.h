@@ -1,3 +1,5 @@
+#pragma once
+
 #include "ringbuffer.h"
 
 typedef float sample;
@@ -26,6 +28,14 @@ typedef RingBuffer <sample> SampleRingBuffer;
  * audio hardware's sample rate is known.
  *-----------------------------------------------------------------------*/
 #define SIGNAL_NODE_BUFFER_SIZE 44100
+
+typedef enum
+{
+	SIGNAL_SCALE_LIN_LIN,
+	SIGNAL_SCALE_LIN_EXP,
+	SIGNAL_SCALE_EXP_LIN,
+	SIGNAL_SCALE_EXP_EXP
+} signal_scale_t;
 
 #define N_CHANNELS -1
 
