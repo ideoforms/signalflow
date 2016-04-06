@@ -17,6 +17,7 @@
 - Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
 - Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
 - Support for non-44k samplerates [\#2](https://github.com/ideoforms/signal/issues/2)
+- Buffer recording [\#1](https://github.com/ideoforms/signal/issues/1)
 
 **Fixed bugs:**
 
