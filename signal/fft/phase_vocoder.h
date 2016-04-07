@@ -71,7 +71,7 @@ namespace libsignal
 				}
 
 				int last_hop = this->num_hops - 1;
-				if (!frozen || triggered)
+				if ((last_hop >= 1) && (!frozen || triggered))
 				{
 					FFTNode *fftin = (FFTNode *) input.get();
 					for (int frame = 0; frame < this->num_bins; frame++)
