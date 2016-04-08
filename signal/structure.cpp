@@ -68,12 +68,13 @@ namespace libsignal
 		auto json = Json::parse(buf, err);
 		if (!err.empty())
 		{
-			printf("Failed: %s\n", err.c_str());
+			signal_warn("Failed: %s\n", err.c_str());
 		}
 
 		if (!json.is_array())
 		{
-			printf("Must be array\n");
+			signal_warn("Cannot parse JSON (root element must be array)\n");
+			return;
 		}
 		for (auto element : json.array_items())
 		{
@@ -84,10 +85,8 @@ namespace libsignal
 				std::string key = pair.first;
 				auto value = pair.second;
 
-				printf("Got key %s\n", key.c_str());
 				if (key == "node")
 				{
-					printf("Set name\n");
 					node.set_name(value.string_value());
 				}
 				else if (key == "id")
@@ -112,13 +111,20 @@ namespace libsignal
 					}
 				}
 			}
-			printf("Adding node with name %s\n", node.name.c_str());
+			signal_debug("Adding node with name %s\n", node.name.c_str());
 			this->add_node_def(node);
 			if (is_output)
 			{
 				this->set_output(node);
 			}
 		}
+		
+		/*------------------------------------------------------------------------
+		 * Set `parsed` to indicate we have a complete NodeDef tree
+		 * (normally used to indicate the completion of template-based
+		 * construction)
+		 *-----------------------------------------------------------------------*/
+		this->parsed = true;
 	}
 
 	void Structure::add_node_def(NodeDefinition def)
