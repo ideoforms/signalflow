@@ -1,0 +1,34 @@
+[
+	{
+		"node" : "sine",
+		"id" : 0,
+		"frequency" : 440
+	},
+	{
+		"node" : "env-asr",
+		"id" : 1,
+		"attack" : 0.01,
+		"sustain" : 0,
+		"release" : 0.05
+	},
+	{
+		"node" : "multiply",
+		"id" : 2,
+		"input0" : { "id" : 0 },
+		"input1" : { "id" : 1 }
+	},
+	{
+		"node" : "delay",
+		"id" : 3,
+		"input" : { "id" : 2 },
+		"delay_time" : 0.1,
+		"feedback" : 0.8
+	},
+	{
+		"node" : "pan",
+		"input" : { "id" : 3 },
+		"pan" : 0.5,
+		"is_output" : true
+	}
+]
+

@@ -1,0 +1,8 @@
+[
+	{
+		"node" : "sine",
+		"id" : 0,
+		"frequency" : 440,
+		"is_output" : true
+	}
+]
