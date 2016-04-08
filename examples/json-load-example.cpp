@@ -26,7 +26,7 @@ int main(int argc, char **argv)
 	if (argc > 1)
 		structure->load(argv[1]);
 	else
-		structure->load("examples/sine-env-delay.json");
+		structure->load("synths/sine-env-delay.json");
 
 	/*------------------------------------------------------------------------
 	 * Instantiate a synth using this structure.
