@@ -20,7 +20,6 @@ namespace libsignal
 			{
 				for (int channel = 0; channel < 4; channel++)
 				{
-					int fft_size = num_frames;
 					int num_bins = num_frames / 2;
 					float cutoff = this->frequency->out[0][0];
 
