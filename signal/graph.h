@@ -23,6 +23,8 @@ namespace libsignal
 			void pull_input(const NodeRef &node, int num_frames);
 			void pull_input(int num_frames);
 
+			NodeRef get_output();
+
 			NodeRef add_node(Node *node);
 
 			NodeRef input = nullptr;

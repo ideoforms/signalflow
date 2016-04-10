@@ -131,4 +131,9 @@ namespace libsignal
 	{
 		return std::shared_ptr<Node>(node);
 	}
+
+	NodeRef Graph::get_output()
+	{
+		return this->output;
+	}
 }
