@@ -18,6 +18,7 @@
 - Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
 - Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
 - JSON parsing to load serialised synth graphs [\#17](https://github.com/ideoforms/signal/issues/17)
+- SynthDef: Support for named inputs and outputs [\#4](https://github.com/ideoforms/signal/issues/4)
 - Support for non-44k samplerates [\#2](https://github.com/ideoforms/signal/issues/2)
 - Buffer recording [\#1](https://github.com/ideoforms/signal/issues/1)
 
