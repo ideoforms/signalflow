@@ -33,10 +33,16 @@ namespace libsignal
 			void load(std::string filename);
 
 			/*----------------------------------------------------------------------------------
-			 * 
+			 * Parse a template from live Node objects to create a network of NodeDefs
 			 *---------------------------------------------------------------------------------*/
 			void parse();
 			NodeDefinition get_root();
+
+			/*----------------------------------------------------------------------------------
+			 * Store a Structure to the global SynthRegistry so that it can be
+			 * instantiated by name.
+			 *---------------------------------------------------------------------------------*/
+			void store();
 
 			/**----------------------------------------------------------------------------------
 			 * Returns true if this Structure is ready to be played.

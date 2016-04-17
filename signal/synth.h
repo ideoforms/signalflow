@@ -18,6 +18,17 @@ namespace libsignal
 				this->output = this->instantiate(&nodedef);
 			}
 
+			Synth(std::string name)
+			{
+				StructRef structure = SynthRegistry::global()->get(name);
+				if (structure)
+				{
+					structure->parse();
+					NodeDefinition nodedef = structure->get_root();
+					this->output = this->instantiate(&nodedef);
+				}
+			}
+
 			NodeRef instantiate(NodeDefinition *nodedef)
 			{
 				/*------------------------------------------------------------------------

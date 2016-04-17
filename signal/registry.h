@@ -11,6 +11,8 @@ namespace libsignal
 {
 
 	class Node;
+	class StructRef;
+	class Synth;
 
 	template <typename T>
 	Node *create()
@@ -29,7 +31,8 @@ namespace libsignal
 			Node *create(NodeDefinition definition);
 
 			/*------------------------------------------------------------------------
-			 * Function template implementations must be in .h file.
+			 * (Function template implementations must be in .h file.)
+			 * http://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
 			 *-----------------------------------------------------------------------*/
 			template <class T>
 			bool add(std::string name)
@@ -38,7 +41,22 @@ namespace libsignal
 				return true;
 			}
 
+			/*------------------------------------------------------------------------
+			 * Maps node names to constructors
+			 *-----------------------------------------------------------------------*/
 			std::unordered_map <std::string, std::function <Node *()> > classes;
 	};
 
+	class SynthRegistry
+	{
+		public:
+			SynthRegistry();
+			static SynthRegistry *global();
+
+			Synth *create(std::string name);
+			void add(std::string name, StructRef structure);
+			StructRef get(std::string name);
+
+			std::unordered_map <std::string, StructRef> structures;
+	};
 }
