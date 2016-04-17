@@ -80,9 +80,6 @@ namespace libsignal
 						this->magnitude_buffer[frame] = fftin->magnitudes[last_hop][frame];
 					}
 				}
-
-				if (this->num_hops > 1)
-					this->frozen = true;
 			}
 	};
 
