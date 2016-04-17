@@ -41,6 +41,11 @@ namespace libsignal
 				Node *node = registry->create(nodedef->name);
 				NodeRef noderef = NodeRef(node);
 
+				/*------------------------------------------------------------------------
+				 * Update the synth's internal collection of node refs.
+				 *-----------------------------------------------------------------------*/
+				this->nodes.insert(noderef);
+
 				for (auto param : nodedef->params)
 				{
 					std::string param_name = param.first;
@@ -50,7 +55,6 @@ namespace libsignal
 
 				if (nodedef->is_constant)
 				{
-					// TODO rewrite
 					Constant *constant = (Constant *) node;
 					constant->value = nodedef->value;
 				}
@@ -65,15 +69,40 @@ namespace libsignal
 
 			void set_param(std::string name, float value)
 			{
-				// TODO: Should support non-constant inputs
+				NodeRef current = this->inputs[name];
+				signal_assert(this->inputs[name] != nullptr, "Synth has no such parameter: %s", name.c_str());
 				NodeRef input = this->inputs[name];
-				signal_assert(input != nullptr, "Synth has no such parameter: %s", name.c_str());
 				Constant *constant = (Constant *) input.get();
 				constant->value = value;
 			}
 
+			void set_param(std::string name, NodeRef value)
+			{
+				/*------------------------------------------------------------------------
+				 * Replace a named input with another node.
+				 * Iterate over this synth's nodes, replacing the prior input with
+				 * the new node. (Inefficient, should be rethought.)
+				 *-----------------------------------------------------------------------*/
+				signal_assert(this->inputs[name] != nullptr, "Synth has no such parameter: %s", name.c_str());
+				NodeRef current = this->inputs[name];
+				for (NodeRef node : this->nodes)
+				{
+					for (auto param : node->params)
+					{
+						if ((param.second)->get() == current.get())
+						{
+							// Update routing
+							// printf("Updating '%s' input of %s\n", param.first.c_str(), node->name.c_str());
+							node->set_param(param.first, value);
+						}
+					}
+				}
+				this->inputs[name] = value;
+			}
+
 			NodeRef output;
 			std::unordered_map <std::string, NodeRef> inputs;
+			std::set <NodeRef> nodes;
 	};
 
 	template<class T>
