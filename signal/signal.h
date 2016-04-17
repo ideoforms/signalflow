@@ -89,6 +89,7 @@
 #include "fft/fft.h"
 #include "fft/ifft.h"
 #include "fft/lpf.h"
+#include "fft/phase_vocoder.h"
 #endif
 
 
