@@ -11,7 +11,7 @@ namespace libsignal
 			MoogVCF(NodeRef input = 0.0, NodeRef cutoff = 200.0, NodeRef resonance = 0.0) :
 				UnaryOpNode(input), cutoff(cutoff), resonance(resonance)
 			{
-				this->name = "eq";
+				this->name = "moog";
 				this->add_param("cutoff", this->cutoff);
 				this->add_param("resonance", this->resonance);
 
