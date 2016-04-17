@@ -11,7 +11,7 @@ namespace libsignal
 			/*----------------------------------------------------------------------------------
 			 * Methods for creating a Structure from live Node objects.
 			 *---------------------------------------------------------------------------------*/
-			NodeRef add_input(std::string name, sample default_value);
+			NodeRef add_input(std::string name, sample default_value = 0);
 			NodeRef add_node(NodeRef node);
 			void set_output(const NodeRef &out);
 
