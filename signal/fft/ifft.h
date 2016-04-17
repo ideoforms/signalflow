@@ -9,7 +9,7 @@ namespace libsignal
 	class IFFT : public FFTOpNode
 	{
 		public:
-			IFFT(NodeRef input = 0.0):
+			IFFT(NodeRef input = nullptr):
 				FFTOpNode(input)
 			{
 				this->name = "ifft";
