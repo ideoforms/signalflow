@@ -4,11 +4,11 @@
 
 namespace libsignal
 {
-	class FFTLPF : public UnaryOpNode
+	class FFTLPF : public FFTOpNode
 	{
 		public:
 			FFTLPF(NodeRef input = 0, NodeRef frequency = 2000) :
-				UnaryOpNode(input), frequency(frequency)
+				FFTOpNode(input), frequency(frequency)
 			{
 				this->name = "fft_lpf";
 				this->add_param("frequency", this->frequency);
@@ -18,32 +18,41 @@ namespace libsignal
 
 			virtual void next(sample **out, int num_frames)
 			{
-				for (int channel = 0; channel < 4; channel++)
+				FFTNode *fftnode = (FFTNode *) this->input.get();
+				this->num_hops = fftnode->num_hops; 
+
+				/*------------------------------------------------------------------------
+				 * Calculate a normalised cutoff value [0, 1]
+				 *-----------------------------------------------------------------------*/
+				float cutoff = this->frequency->out[0][0];
+				float cutoff_norm = (float) cutoff / (this->graph->sample_rate / 2.0);
+
+				/*------------------------------------------------------------------------
+				 * Calculate the bin above which we want to set magnitude = 0
+				 *-----------------------------------------------------------------------*/
+				int cutoff_bin = this->num_bins * cutoff_norm;
+
+				for (int hop = 0; hop < this->num_hops; hop++)
 				{
-					int num_bins = num_frames / 2;
-					float cutoff = this->frequency->out[0][0];
-
 					/*------------------------------------------------------------------------
-					 * Calculate a normalised cutoff value [0, 1]
+					 * IMPORTANT: FFT nodes must process fft_size frames and ignore
+					 * num_frames (num_frames indicates how many audio frames have been 
+					 * passed this block, but the FFT node buffers windows of `fft_size`
+					 * frames.
 					 *-----------------------------------------------------------------------*/
-					float cutoff_norm = (float) cutoff / (this->graph->sample_rate / 2.0);
-
-					/*------------------------------------------------------------------------
-					 * Calculate the bin above which we want to set magnitude = 0
-					 *-----------------------------------------------------------------------*/
-					int cutoff_bin = num_bins * cutoff_norm;
-		
-					for (int i = 0; i < num_frames; i++)
+					for (int frame = 0; frame < this->fft_size; frame++)
 					{
-						if (i < num_frames / 2)
+						if (frame < fft_size / 2)
 						{
-							if (i > cutoff_bin)
-								out[channel][i] = 0.0;
+							if (frame > cutoff_bin)
+								out[hop][frame] = 0.0;
 							else
-								out[channel][i] = input->out[channel][i];
+								out[hop][frame] = input->out[hop][frame];
 						}
 						else
-							out[channel][i] = input->out[channel][i];
+						{
+							out[hop][frame] = input->out[hop][frame];
+						}
 					}
 				}
 			}
