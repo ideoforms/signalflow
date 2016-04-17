@@ -30,6 +30,7 @@
 
 **Closed issues:**
 
+- Further examples [\#48](https://github.com/ideoforms/signal/issues/48)
 - Update basic nodes to handle multi-channel inputs [\#24](https://github.com/ideoforms/signal/issues/24)
 
 ## [v0.1.1](https://github.com/ideoforms/signal/tree/v0.1.1) (2016-03-23)
