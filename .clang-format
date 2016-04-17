@@ -1,0 +1,20 @@
+#------------------------------------------------------------------------
+#
+#  clang-format.yml
+#
+#  Chirp house style for C code.
+#
+#  Copyright © 2011-2016, Asio Ltd.
+#  All rights reserved.
+#
+#------------------------------------------------------------------------
+---
+BasedOnStyle: WebKit
+BreakBeforeBraces: Allman
+UseTab: Never
+TabWidth: 4
+IndentWidth: 4
+PointerAlignment: Right
+AlignAfterOpenBracket: true
+AlignTrailingComments: true
+BreakConstructorInitializersBeforeComma: false
