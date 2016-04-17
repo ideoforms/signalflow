@@ -13,7 +13,6 @@ namespace libsignal
 			{
 				this->name = "fft_phase_vocoder";
 
-				printf("making phase vocoder, %d bins\n", this->num_bins);
 				this->phase_buffer     = (sample *) calloc(this->num_bins, sizeof(sample));
 				this->phase_deriv      = (sample *) calloc(this->num_bins, sizeof(sample));
 				this->magnitude_buffer = (sample *) calloc(this->num_bins, sizeof(sample));
