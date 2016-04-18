@@ -17,6 +17,7 @@ namespace libsignal
 		AudioOut *audioout = new AudioOut(this);
 		this->output = audioout;
 		this->sample_rate = audioout->sample_rate;
+		this->node_count = 0;
 	}
 
 	void Graph::run()
@@ -90,9 +91,10 @@ namespace libsignal
 
 	void Graph::pull_input(int num_frames)
 	{
-		// signal_debug("Graph: pull %d frames", num_frames);
 		this->processed_nodes.clear();
 		this->pull_input(this->output, num_frames);
+		this->node_count = this->processed_nodes.size();
+		signal_debug("Graph: pull %d frames, %d nodes", num_frames, this->node_count);
 	}
 
 	void Graph::process(const NodeRef &root, int num_frames, int block_size)
@@ -123,7 +125,9 @@ namespace libsignal
 			this->processed_nodes.clear();
 			this->pull_input(root, num_frames - index);
 		}
-			this->processed_nodes.clear();
+
+		// TODO Remove this?
+		this->processed_nodes.clear();
 		signal_debug("Graph: Offline process completed");
 	}
 
