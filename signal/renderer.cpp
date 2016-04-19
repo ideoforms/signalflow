@@ -12,6 +12,10 @@ GraphRenderer::GraphRenderer()
 
 void GraphRenderer::render_node(NodeRef node)
 {
+	if (this->rendered_nodes.find(node.get()) != this->rendered_nodes.end())
+		return;
+	this->rendered_nodes.insert(node.get());
+
 	if (node->name == "constant")
 	{
 		nodestream << "\"" << (void const *) node.get() << "\" [shape=circle, label = \"";
@@ -38,8 +42,9 @@ void GraphRenderer::render_node(NodeRef node)
 
 void GraphRenderer::render(GraphRef graph)
 {
+	this->rendered_nodes.clear();
 	this->render_node(graph->output);
-	std::cout << "digraph { splines=ortho; graph [pad=1, ranksep=0.5, nodesep=0.5]; node [ fontname = helvetica, fontsize = 11, shape = box  ]; edge [ fontname = helvetica, fontsize = 11 ]; " << nodestream.str() << edgestream.str() << "} " << std::endl;
+	std::cout << "digraph { splines=ortho; graph [pad=1, ranksep=0.5, nodesep=0.5]; node [ fontname = helvetica, fontsize = 11, shape = box  ]; edge [ fontname = helvetica, fontsize = 9 ]; " << nodestream.str() << edgestream.str() << "} " << std::endl;
 }
 
 } /* namespace libsignal */

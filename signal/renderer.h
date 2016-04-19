@@ -13,5 +13,6 @@ namespace libsignal
 
 			std::stringstream nodestream;
 			std::stringstream edgestream;
+			std::set <Node *> rendered_nodes;
 	};
 }
