@@ -11,7 +11,6 @@ namespace libsignal
 {
 
 	class Node;
-	class StructRef;
 	class Synth;
 
 	template <typename T>
@@ -47,16 +46,4 @@ namespace libsignal
 			std::unordered_map <std::string, std::function <Node *()> > classes;
 	};
 
-	class SynthRegistry
-	{
-		public:
-			SynthRegistry();
-			static SynthRegistry *global();
-
-			Synth *create(std::string name);
-			void add(std::string name, StructRef structure);
-			StructRef get(std::string name);
-
-			std::unordered_map <std::string, StructRef> structures;
-	};
 }
