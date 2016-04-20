@@ -43,7 +43,7 @@ void Buffer::open(const char *filename)
         exit(1);
     }
 
-	printf("Read %d channels, %lld frames\n", info.channels, info.frames);
+	printf("Read %d channels, %ld frames\n", info.channels, (long int) info.frames);
     this->data = (sample **) malloc(sizeof(void *) * info.channels);
 	for (int channel = 0; channel < info.channels; channel++)
 	{
