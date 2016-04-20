@@ -1,4 +1,5 @@
 #include "synthregistry.h"
+#include "synth.h"
 
 namespace libsignal
 {

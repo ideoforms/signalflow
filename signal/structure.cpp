@@ -2,6 +2,7 @@
 
 #include "core.h"
 #include "registry.h"
+#include "synthregistry.h"
 #include "gen/constant.h"
 #include "json11/json11.hpp"
 

@@ -1,6 +1,9 @@
 #include "synth.h"
 
 #include "gen/constant.h"
+#include "synthregistry.h"
+#include "core.h"
+
 #include <iostream>
 #include <memory>
 
