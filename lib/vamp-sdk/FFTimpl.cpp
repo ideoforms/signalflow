@@ -1,7 +1,7 @@
 
 /* Public domain FFT implementation from Don Cross. */
 
-#import <math.h>
+#include <math.h>
 
 static void
 fft(unsigned int n, bool inverse,
