@@ -1,3 +1,5 @@
+#ifdef __APPLE__
+
 #include "fft.h"
 
 #include <assert.h>
@@ -126,3 +128,5 @@ namespace libsignal
 				this->inbuf_size -= frames_processed;
 			}
 }
+
+#endif
