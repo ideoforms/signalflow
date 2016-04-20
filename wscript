@@ -79,7 +79,7 @@ def configure(conf):
 	conf.check(lib = 'sndfile', define_name = 'HAVE_SNDFILE') 
 	conf.check(lib = 'soundio', define_name = 'HAVE_SOUNDIO') 
 
-	conf.env.LDFLAGS += [ '-lgslcblas' ]
+	conf.env.LDFLAGS += [ '-ldl', '-lgslcblas' ]
 	conf.check(lib = 'gsl', define_name = 'HAVE_GSL') 
 	conf.check(lib = 'gslcblas', define_name = 'HAVE_GSLCBLAS') 
 
@@ -134,8 +134,14 @@ def build(bld):
 		if bld.cmd == "dev":
 			example_dirs += [ "examples-dev" ]
 
+		excl = []
+		if platform != "darwin":
+			#------------------------------------------------------------------------
+			# FFT not yet supported on non-Darwin systems
+			#------------------------------------------------------------------------
+			excl.append("*/fft*.cpp")
 		for example_dir in example_dirs:
-			examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"))
+			examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
 			for example in examples:
 				example_path = os.path.join(example_dir, str(example))
 				source_files.append(example_path);
