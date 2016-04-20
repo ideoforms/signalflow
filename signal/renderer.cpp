@@ -1,8 +1,6 @@
 #include "renderer.h"
 #include "gen/constant.h"
 
-#include <iostream>
-
 namespace libsignal
 {
 

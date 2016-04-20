@@ -2,6 +2,10 @@
 
 #include "graph.h"
 
+#include <string>
+#include <iostream>
+#include <sstream>
+
 namespace libsignal
 {
 	class GraphRenderer
