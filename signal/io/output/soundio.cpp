@@ -24,6 +24,16 @@ void write_callback(struct SoundIoOutStream *outstream,
 	int frames_left = frame_count_max;
 
 	/*-----------------------------------------------------------------------*
+	 * Return if the shared_graph hasn't been initialized yet.
+	 * (The libsoundio Pulse Audio driver calls the write_callback once
+	 * on initialization, so this may happen legitimately.)
+	 *-----------------------------------------------------------------------*/
+	if (!shared_graph || !shared_graph->output)
+	{
+		return;
+	}
+
+	/*-----------------------------------------------------------------------*
 	 * On some drivers (eg Linux), we cannot write all samples at once.
 	 * Keep writing as many as we can until we have cleared the buffer.
 	 *-----------------------------------------------------------------------*/
@@ -33,9 +43,6 @@ void write_callback(struct SoundIoOutStream *outstream,
 
 		if ((err = soundio_outstream_begin_write(outstream, &areas, &frame_count)))
 			throw std::runtime_error("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
-
-		if (!shared_graph)
-			throw std::runtime_error("libsoundio error: No global graph created");
 
 		shared_graph->pull_input(frame_count);
 
