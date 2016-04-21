@@ -1,4 +1,5 @@
 #include "sine.h"
+#include "../graph.h"
 
 #include <math.h>
 #include <stdio.h>

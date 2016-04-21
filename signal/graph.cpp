@@ -1,6 +1,7 @@
 #include "graph.h"
 #include "node.h"
 #include "core.h"
+#include "synth.h"
 
 #include "io/output/abstract.h"
 #include "io/output/soundio.h"
@@ -139,5 +140,15 @@ namespace libsignal
 	NodeRef Graph::get_output()
 	{
 		return this->output;
+	}
+
+	void Graph::add_output(SynthRef synth)
+	{
+		this->output->add_input(synth->output);
+	}
+
+	void Graph::add_output(NodeRef node)
+	{
+		this->output->add_input(node);
 	}
 }

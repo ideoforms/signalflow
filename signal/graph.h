@@ -1,6 +1,7 @@
 #pragma once 
 
 #include "node.h"
+#include "synth.h"
 
 namespace libsignal
 {
@@ -24,6 +25,13 @@ namespace libsignal
 			void pull_input(int num_frames);
 
 			NodeRef get_output();
+
+			/**------------------------------------------------------------------------
+			 * TODO Should use polymorphism and a common interface
+			 *
+			 *------------------------------------------------------------------------*/
+			void add_output(SynthRef synth);
+			void add_output(NodeRef node);
 
 			NodeRef add_node(Node *node);
 

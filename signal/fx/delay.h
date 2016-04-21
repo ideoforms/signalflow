@@ -3,6 +3,7 @@
 #include "../node.h"
 #include "../constants.h"
 #include "../ringbuffer.h"
+#include "../graph.h"
 
 #include <vector>
 

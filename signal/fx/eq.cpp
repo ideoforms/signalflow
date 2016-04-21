@@ -1,6 +1,7 @@
 #include "eq.h" 
 
 #include "../gen/constant.h"
+#include "../graph.h"
 
 #include <stdlib.h>
 

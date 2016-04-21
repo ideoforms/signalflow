@@ -38,6 +38,7 @@ namespace libsignal
 	{
 		public:
 			using std::shared_ptr<T>::shared_ptr;
+
 			NodeRefT();
 			NodeRefT(Node *ptr);
 			NodeRefT(double x);
@@ -237,4 +238,3 @@ namespace libsignal
 	};
 }
 
-#include "graph.h"

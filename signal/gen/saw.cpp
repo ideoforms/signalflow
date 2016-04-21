@@ -1,4 +1,5 @@
 #include "saw.h"
+#include "../graph.h"
 
 namespace libsignal
 {

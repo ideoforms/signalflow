@@ -3,6 +3,7 @@
 #include "stdlib.h"
 
 #include "../util.h"
+#include "../graph.h"
 
 namespace libsignal
 {

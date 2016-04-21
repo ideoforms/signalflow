@@ -1,4 +1,5 @@
 #include "triangle.h"
+#include "../graph.h"
 
 namespace libsignal
 {

@@ -1,4 +1,5 @@
 #include "square.h"
+#include "../graph.h"
 
 namespace libsignal
 {
