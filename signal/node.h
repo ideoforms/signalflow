@@ -33,33 +33,26 @@ namespace libsignal
 	 * Allows us to use a float (or direct node ptr) in place of a NodeRef
 	 * by specifying conversion constructors.
 	 *-----------------------------------------------------------------------*/
-	template<class T>
-	class NodeRefT : public std::shared_ptr<T>
+	class NodeRef : public std::shared_ptr<Node>
 	{
 		public:
-			using std::shared_ptr<T>::shared_ptr;
+			NodeRef();
+			NodeRef(Node *ptr);
+			NodeRef(double x);
+			NodeRef(int x);
+			NodeRef(std::initializer_list<NodeRef> x);
 
-			NodeRefT();
-			NodeRefT(Node *ptr);
-			NodeRefT(double x);
-			NodeRefT(int x);
-			NodeRefT(std::initializer_list<NodeRefT> x);
-
-			NodeRefT operator* (NodeRefT other);
-			NodeRefT operator* (double constant);
-			NodeRefT operator+ (NodeRefT other);
-			NodeRefT operator+ (double constant);
-			NodeRefT operator- (NodeRefT other);
-			NodeRefT operator- (double constant);
-			NodeRefT operator/ (NodeRefT other);
-			NodeRefT operator/ (double constant);
+			NodeRef operator* (NodeRef other);
+			NodeRef operator* (double constant);
+			NodeRef operator+ (NodeRef other);
+			NodeRef operator+ (double constant);
+			NodeRef operator- (NodeRef other);
+			NodeRef operator- (double constant);
+			NodeRef operator/ (NodeRef other);
+			NodeRef operator/ (double constant);
 			sample operator[] (int index);
 
-			// NodeRefT operator= (const NodeRefT &other);
-
 	};
-
-	typedef NodeRefT <Node> NodeRef;
 
 	/*------------------------------------------------------------------------
 	 * Mathematical operators where NodeRef is the RHS operand

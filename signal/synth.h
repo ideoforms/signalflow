@@ -20,15 +20,12 @@ namespace libsignal
 			std::set <NodeRef> nodes;
         };
 
-        template<class T>
-        class SynthRefT : public std::shared_ptr<T>
+        class SynthRef : public std::shared_ptr<Synth>
         {
                 public:
 
-                        SynthRefT() : std::shared_ptr<Synth>(nullptr) { }
-                        SynthRefT(Synth *ptr) : std::shared_ptr<Synth>(ptr) { }
-                        SynthRefT(StructRef structure) : std::shared_ptr<Node>(new Synth(structure)) { }
+                        SynthRef() : std::shared_ptr<Synth>(nullptr) { }
+                        SynthRef(Synth *ptr) : std::shared_ptr<Synth>(ptr) { }
+                        SynthRef(StructRef structure) : std::shared_ptr<Synth>(new Synth(structure)) { }
         };
-
-        typedef SynthRefT <Synth> SynthRef;
 }

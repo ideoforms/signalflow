@@ -70,8 +70,6 @@ namespace libsignal
     class StructRef : public std::shared_ptr<Structure>
     {
         public:
-            using std::shared_ptr<Structure>::shared_ptr;
-
             StructRef() : std::shared_ptr<Structure>(nullptr) { }
             StructRef(Structure *ptr) : std::shared_ptr<Structure>(ptr) { }
     };

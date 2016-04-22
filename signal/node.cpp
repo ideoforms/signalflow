@@ -191,23 +191,18 @@ void Node::poll(float frequency, std::string label)
  * Default constructors. 
  *-----------------------------------------------------------------------*/
 
-template<>
-NodeRef::NodeRefT() : std::shared_ptr<Node>(nullptr) { }
+NodeRef::NodeRef() : std::shared_ptr<Node>(nullptr) { }
 
-template<>
-NodeRef::NodeRefT(Node *ptr) : std::shared_ptr<Node>(ptr)
-	{ ptr->ref = this; }
+NodeRef::NodeRef(Node *ptr) : std::shared_ptr<Node>(ptr)
+	{ if (ptr) ptr->ref = this; }
 
-template<>
-NodeRef::NodeRefT(double x) : std::shared_ptr<Node>(new Constant(x))
+NodeRef::NodeRef(double x) : std::shared_ptr<Node>(new Constant(x))
 	{ (*this)->ref = this; }
 
-template<>
-NodeRef::NodeRefT(int x) : std::shared_ptr<Node>(new Constant((float) x))
+NodeRef::NodeRef(int x) : std::shared_ptr<Node>(new Constant((float) x))
 	{ (*this)->ref = this; }
 
-template<>
-NodeRef::NodeRefT(std::initializer_list<NodeRefT> x) : std::shared_ptr<Node>(new Multiplex(x))
+NodeRef::NodeRef(std::initializer_list<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x))
 	{ (*this)->ref = this; }
 
 
@@ -216,51 +211,42 @@ NodeRef::NodeRefT(std::initializer_list<NodeRefT> x) : std::shared_ptr<Node>(new
  * (shared_ptrs freed too early -- causing SIGSEGV when doing
  * sine * 0.25)
  *-----------------------------------------------------------------------*/
-template<>
 NodeRef NodeRef::operator* (NodeRef other)
 	{ return new Multiply(*this, other); }
 
-template<>
 NodeRef NodeRef::operator* (double constant)
 	{ return new Multiply(*this, constant); }
 
 NodeRef operator*(double constant, const NodeRef node)
 	{ return new Multiply(node, constant); }
 
-template<>
 NodeRef NodeRef::operator+ (NodeRef other)
 	{ return new Add(*this, other); }
 
-template<>
 NodeRef NodeRef::operator+ (double constant)
 	{ return new Add(*this, constant); }
 
 NodeRef operator+(double constant, const NodeRef node)
 	{ return new Add(node, constant); }
 
-template<>
 NodeRef NodeRef::operator- (NodeRef other)
 	{ return new Subtract(*this, other); }
 
-template<>
 NodeRef NodeRef::operator- (double constant)
 	{ return new Subtract(*this, constant); }
 
 NodeRef operator-(double constant, const NodeRef node)
 	{ return new Subtract(node, constant); }
 
-template<>
 NodeRef NodeRef::operator/ (NodeRef other)
 	{ return new Divide(*this, other); }
 
-template<>
 NodeRef NodeRef::operator/ (double constant)
 	{ return new Divide(*this, constant); }
 
 NodeRef operator/(double constant, const NodeRef node)
 	{ return new Divide(node, constant); }
 
-template<>
 sample NodeRef::operator[] (int index)
 {
 	// unused?
