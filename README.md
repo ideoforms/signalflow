@@ -6,6 +6,23 @@ Signal is an audio synthesis engine designed for structural clarity, lightness o
 
 As of April 2016, Signal is in alpha status. Its codebase is under frequent development, and its interfaces may be subject to sudden change. 
 
+## Example
+
+```
+GraphRef graph = new Graph();
+
+StructRef structure = new Structure("ping");
+NodeRef sine = structure->add_node(new Sine({ 440, 880 }));
+NodeRef env = structure->add_node(new ASR(0.01, 0.1, 5.0));
+NodeRef ping = sine * env;
+NodeRef delay = structure->add_node(new Delay(ping, 0.3, 0.3));
+structure->set_output(delay);
+
+SynthRef synth = new Synth(structure);
+graph->output->add_input(synth->output);
+graph->run();
+```
+
 ## Installation
 
 #### OS X
