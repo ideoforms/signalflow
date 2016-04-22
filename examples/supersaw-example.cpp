@@ -38,8 +38,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * To add some life, add a resonant filter with wandering cutoff
 	 *-----------------------------------------------------------------------*/
-	// NodeRef moog = new MoogVCF(mix, (new Sine(0.1))->scale(200, 8000), 2);
-	NodeRef moog = new MoogVCF(mix, 200, 2);
+	NodeRef moog = new MoogVCF(mix, (new Sine(0.1))->scale(200, 8000), 2);
 
 	graph->output->add_input(moog);
 	graph->run();
