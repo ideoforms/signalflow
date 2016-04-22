@@ -201,6 +201,8 @@ namespace libsignal
 			 * Trigger states.
 			 *-----------------------------------------------------------------------*/
 			std::set <std::string> triggers;
+
+			Node operator+ (Node &other);
 	};
 
 	class GeneratorNode : public Node

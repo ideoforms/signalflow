@@ -277,5 +277,8 @@ Node *Node::scale(float from, float to, signal_scale_t scale)
 	}
 }
 
+Node Node::operator+ (Node &other)
+	{ return Add(this, &other); }
+
 } /* namespace libsignal */
 
