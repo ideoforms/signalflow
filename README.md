@@ -14,7 +14,7 @@ GraphRef graph = new Graph();
 StructRef structure = new Structure("ping");
 NodeRef sine = structure->add_node(new Sine({ 440, 880 }));
 NodeRef env = structure->add_node(new ASR(0.01, 0.1, 5.0));
-NodeRef ping = sine * env;
+NodeRef ping = structure->add_node(sine * env);
 NodeRef delay = structure->add_node(new Delay(ping, 0.3, 0.3));
 structure->set_output(delay);
 
