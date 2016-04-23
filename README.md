@@ -16,6 +16,8 @@ GraphRef graph = new Graph();
 
 /*------------------------------------------------------------------------
  * A Structure describes a reusable synthesis graph.
+ * *Ref objects are subclasses of std::shared_ptr smart pointers,
+ * so no memory management required.
  *-----------------------------------------------------------------------*/
 StructRef structure = new Structure("ping");
 
