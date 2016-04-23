@@ -101,7 +101,10 @@ void Node::set_param(std::string name, const NodeRef &node)
 		throw std::runtime_error("Node " + this->name + " has no such param: " + name);
 
 	NodeRef current_input = *(this->params[name]);
-	current_input->remove_output(this, name);
+	if (current_input)
+	{
+		current_input->remove_output(this, name);
+	}
 
 	*(this->params[name]) = node;
 	this->update_channels();
@@ -122,8 +125,15 @@ void Node::remove_output(Node *target, std::string name)
 
 void Node::disconnect_outputs()
 {
-	for (auto output : this->outputs)
+	/*------------------------------------------------------------------------
+	 * Don't iterate over outputs as the output set will change during
+	 * iteration (as calling set_param on each output of the node will 
+	 * change our own `outputs` array). Instead, keep trying until all
+	 * outputs are removed.
+	 *-----------------------------------------------------------------------*/
+	while (this->outputs.size() > 0)
 	{
+		auto output = *(this->outputs.begin());
 		Node *target = output.first;
 		std::string name = output.second;
 		target->set_param(name, 0);
