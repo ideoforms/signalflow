@@ -10,7 +10,7 @@ As of April 2016, Signal is in alpha status. Its codebase is under frequent deve
 
 ```cpp
 #include <signal/signal.h>
-use namespace libsignal;
+using namespace libsignal;
 
 GraphRef graph = new Graph();
 
