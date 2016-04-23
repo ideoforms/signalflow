@@ -8,18 +8,40 @@ As of April 2016, Signal is in alpha status. Its codebase is under frequent deve
 
 ## Example
 
-```
+```cpp
 GraphRef graph = new Graph();
 
+/*------------------------------------------------------------------------
+ * A Structure describes a reusable synthesis graph.
+ *-----------------------------------------------------------------------*/
 StructRef structure = new Structure("ping");
+
+/*------------------------------------------------------------------------
+ * Initializing Sine with an array of frequencies creates a stereo output.
+ *-----------------------------------------------------------------------*/
 NodeRef sine = structure->add_node(new Sine({ 440, 880 }));
+
+/*------------------------------------------------------------------------
+ * Simple attack/sustain/release envelope with linear curves.
+ *-----------------------------------------------------------------------*/
 NodeRef env = structure->add_node(new ASR(0.01, 0.1, 5.0));
+
+/*------------------------------------------------------------------------
+ * Operator overloading: Multiplies the amplitude of sine and env
+ *-----------------------------------------------------------------------*/
 NodeRef ping = structure->add_node(sine * env);
+
+/*------------------------------------------------------------------------
+ * Single-tap delay line with feedback.
+ *-----------------------------------------------------------------------*/
 NodeRef delay = structure->add_node(new Delay(ping, 0.3, 0.3));
 structure->set_output(delay);
 
+/*------------------------------------------------------------------------
+ * Instantiate the structure and wire it to the audio output.
+ *-----------------------------------------------------------------------*/
 SynthRef synth = new Synth(structure);
-graph->output->add_input(synth->output);
+graph->add_output(synth);
 graph->run();
 ```
 
