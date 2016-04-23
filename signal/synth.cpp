@@ -97,5 +97,16 @@ void Synth::set_param(std::string name, NodeRef value)
 		}
 	}
 	this->inputs[name] = value;
-			}
+}
+
+void Synth::disconnect()
+{
+	this->output->disconnect_outputs();
+	for (auto input : this->inputs)
+	{
+		std::string name = input.first;
+		this->set_param(name, 0);
+	}
+}
+
 }

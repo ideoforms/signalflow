@@ -14,6 +14,7 @@ namespace libsignal
 
 			void set_param(std::string name, float value);
 			void set_param(std::string name, NodeRef value);
+			void disconnect();
 
 			NodeRef output;
 			std::unordered_map <std::string, NodeRef> inputs;
