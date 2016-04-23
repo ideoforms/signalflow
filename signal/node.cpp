@@ -85,12 +85,14 @@ void Node::add_param(std::string name, NodeRef &node)
 	 * perculate to the root of the graph.
 	 *-----------------------------------------------------------------------*/
 	if (node)
+	{
 		node->update_channels();
+		node->add_output(this, name);
+	}
 
 	this->params[name] = &node;
 	this->update_channels();
 
-	node->add_output(this, name);
 }
 
 void Node::set_param(std::string name, const NodeRef &node)
