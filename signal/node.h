@@ -90,6 +90,14 @@ namespace libsignal
 			virtual void set_param(std::string name, const NodeRef &param);
 
 			/*------------------------------------------------------------------------
+			 * Register an output.
+			 * Note that this must be mirrored with a call to `set_param` on the
+			 * output node.
+			 *-----------------------------------------------------------------------*/
+			virtual void add_output(Node *target, std::string name);
+			virtual void remove_output(Node *target, std::string name);
+
+			/*------------------------------------------------------------------------
 			 * Register properties.
 			 *-----------------------------------------------------------------------*/
 			virtual void add_property(std::string name);
@@ -142,6 +150,17 @@ namespace libsignal
 			 * params are actually pointers to struct fields (this->frequency).
 			 *-----------------------------------------------------------------------*/
 			std::unordered_map <std::string, NodeRef *> params;
+
+			/*------------------------------------------------------------------------
+			 * Set of outputs.
+			 * Each output is a std::pair containing 
+			 *  - a reference to the Node connected outwards to
+			 *  - a string containing the name of the parameter that this node
+			 *    modulates.
+			 * Note that a node may modulate two different parameters of the same
+			 * node.
+			 *-----------------------------------------------------------------------*/
+			std::set <std::pair <Node *, std::string>> outputs;
 
 			/*------------------------------------------------------------------------
 			 * Hash table of properties: (name, PropertyRef)

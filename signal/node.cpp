@@ -89,6 +89,8 @@ void Node::add_param(std::string name, NodeRef &node)
 
 	this->params[name] = &node;
 	this->update_channels();
+
+	node->add_output(this, name);
 }
 
 void Node::set_param(std::string name, const NodeRef &node)
@@ -96,11 +98,25 @@ void Node::set_param(std::string name, const NodeRef &node)
 	if (this->params.find(name) == this->params.end())
 		throw std::runtime_error("Node " + this->name + " has no such param: " + name);
 
+	NodeRef current_input = *(this->params[name]);
+	current_input->remove_output(this, name);
+
 	*(this->params[name]) = node;
 	this->update_channels();
 	node->update_channels();
+
+	node->add_output(this, name);
 }
 
+void Node::add_output(Node *target, std::string name)
+{
+	this->outputs.insert(std::make_pair(target, name));
+}
+
+void Node::remove_output(Node *target, std::string name)
+{
+	this->outputs.erase(std::make_pair(target, name));
+}
 
 void Node::add_property(std::string name)
 {
