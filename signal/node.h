@@ -98,6 +98,12 @@ namespace libsignal
 			virtual void remove_output(Node *target, std::string name);
 
 			/*------------------------------------------------------------------------
+			 * Disconnect inputs and outputs.
+			 *-----------------------------------------------------------------------*/
+			virtual void disconnect_inputs();
+			virtual void disconnect_outputs();
+
+			/*------------------------------------------------------------------------
 			 * Register properties.
 			 *-----------------------------------------------------------------------*/
 			virtual void add_property(std::string name);

@@ -118,6 +118,25 @@ void Node::remove_output(Node *target, std::string name)
 	this->outputs.erase(std::make_pair(target, name));
 }
 
+void Node::disconnect_outputs()
+{
+	for (auto output : this->outputs)
+	{
+		Node *target = output.first;
+		std::string name = output.second;
+		target->set_param(name, 0);
+	}
+}
+
+void Node::disconnect_inputs()
+{
+	for (auto param : this->params)
+	{
+		this->set_param(param.first, 0);
+	}
+}
+
+
 void Node::add_property(std::string name)
 {
 
