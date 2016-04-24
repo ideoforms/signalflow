@@ -13,6 +13,8 @@ namespace libsignal
 			{
 				this->name = "fft_phase_vocoder";
 
+				this->add_input("clock", this->clock);
+
 				this->phase_buffer     = (sample *) calloc(this->num_bins, sizeof(sample));
 				this->phase_deriv      = (sample *) calloc(this->num_bins, sizeof(sample));
 				this->magnitude_buffer = (sample *) calloc(this->num_bins, sizeof(sample));
@@ -25,6 +27,8 @@ namespace libsignal
 			sample *phase_deriv;
 			bool frozen;
 
+			NodeRef clock = nullptr;
+
 			virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1)
 			{
 				this->frozen = true;
@@ -32,6 +36,11 @@ namespace libsignal
 
 			virtual void process(sample **out, int num_frames)
 			{
+				if (this->clock)
+				{
+					SIGNAL_PROCESS_TRIGGER_BLOCK(this->clock, num_frames, SIGNAL_DEFAULT_TRIGGER);
+				}
+
 				FFTNode *fftnode = (FFTNode *) this->input.get();
 				this->num_hops = fftnode->num_hops; 
 
