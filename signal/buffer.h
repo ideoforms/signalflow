@@ -35,6 +35,7 @@ namespace libsignal
 		Buffer(const char *filename);
 
 		void open(const char *filename);
+		void save(const char *filename);
 
 		float sample_rate;
 		int num_channels;
