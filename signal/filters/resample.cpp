@@ -1,6 +1,6 @@
 #include "resample.h" 
 
-#include "../gen/constant.h"
+#include "../oscillators/constant.h"
 #include "../graph.h"
 
 #include <stdlib.h>

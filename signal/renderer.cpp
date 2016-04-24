@@ -1,5 +1,5 @@
 #include "renderer.h"
-#include "gen/constant.h"
+#include "oscillators/constant.h"
 
 namespace libsignal
 {

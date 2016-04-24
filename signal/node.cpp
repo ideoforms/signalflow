@@ -1,13 +1,13 @@
 #include "node.h"
 
-#include "op/multiply.h"
-#include "op/add.h"
-#include "op/subtract.h"
-#include "op/divide.h"
-#include "op/scale.h"
+#include "operators/multiply.h"
+#include "operators/add.h"
+#include "operators/subtract.h"
+#include "operators/divide.h"
+#include "operators/scale.h"
 
-#include "gen/constant.h"
-#include "op/multiplex.h"
+#include "oscillators/constant.h"
+#include "operators/multiplex.h"
 
 #include "core.h"
 #include "graph.h"

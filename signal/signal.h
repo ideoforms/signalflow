@@ -18,14 +18,14 @@
 /*------------------------------------------------------------------------
  * Operators
  *-----------------------------------------------------------------------*/
-#include "op/multiply.h"
-#include "op/divide.h"
-#include "op/add.h"
-#include "op/subtract.h"
-#include "op/round.h"
-#include "op/scale.h"
-#include "op/multiplex.h"
-#include "op/mixer.h"
+#include "operators/multiply.h"
+#include "operators/divide.h"
+#include "operators/add.h"
+#include "operators/subtract.h"
+#include "operators/round.h"
+#include "operators/scale.h"
+#include "operators/multiplex.h"
+#include "operators/mixer.h"
 
 /*------------------------------------------------------------------------
  * I/O
@@ -40,46 +40,46 @@
 /*------------------------------------------------------------------------
  * Generators
  *-----------------------------------------------------------------------*/
-#include "gen/constant.h"
-#include "gen/sine.h"
-#include "gen/square.h"
-#include "gen/saw.h"
-#include "gen/triangle.h"
-#include "gen/sampler.h"
-#include "gen/recorder.h"
-#include "gen/granulator.h"
-#include "gen/wavetable.h"
-#include "gen/tick.h"
-#include "gen/line.h"
+#include "oscillators/constant.h"
+#include "oscillators/sine.h"
+#include "oscillators/square.h"
+#include "oscillators/saw.h"
+#include "oscillators/triangle.h"
+#include "oscillators/sampler.h"
+#include "oscillators/recorder.h"
+#include "oscillators/granulator.h"
+#include "oscillators/wavetable.h"
+#include "oscillators/tick.h"
+#include "oscillators/line.h"
 
 /*------------------------------------------------------------------------
  * Random processes
  *-----------------------------------------------------------------------*/
-#include "rnd/noise.h"
-#include "rnd/dust.h"
+#include "chance/noise.h"
+#include "chance/dust.h"
 
 /*------------------------------------------------------------------------
  * Envelopes
  *-----------------------------------------------------------------------*/
-#include "env/env.h"
+#include "envelope/env.h"
 
 /*------------------------------------------------------------------------
  * Effects
  *-----------------------------------------------------------------------*/
-#include "fx/delay.h"
-#include "fx/resample.h"
-#include "fx/pan.h"
-#include "fx/width.h"
-#include "fx/freeze.h"
-#include "fx/gate.h"
-#include "fx/eq.h"
-#include "fx/moog.h"
-#include "fx/waveshaper.h"
+#include "filters/delay.h"
+#include "filters/resample.h"
+#include "filters/pan.h"
+#include "filters/width.h"
+#include "filters/freeze.h"
+#include "filters/gate.h"
+#include "filters/eq.h"
+#include "filters/moog.h"
+#include "filters/waveshaper.h"
 
 /*------------------------------------------------------------------------
  * Sequencing
  *-----------------------------------------------------------------------*/
-#include "seq/index.h"
+#include "sequencing/index.h"
 
 
 /*------------------------------------------------------------------------

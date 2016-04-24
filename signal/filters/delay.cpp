@@ -1,6 +1,6 @@
 #include "delay.h" 
 
-#include "../gen/constant.h"
+#include "../oscillators/constant.h"
 
 #include <stdlib.h>
 

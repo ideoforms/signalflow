@@ -1,6 +1,6 @@
 #include "synth.h"
 
-#include "gen/constant.h"
+#include "oscillators/constant.h"
 #include "synthregistry.h"
 #include "core.h"
 

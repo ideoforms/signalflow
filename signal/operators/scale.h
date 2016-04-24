@@ -1,7 +1,7 @@
 #include "../constants.h"
 
 #include "../node.h"
-#include "../gen/constant.h"
+#include "../oscillators/constant.h"
 
 namespace libsignal
 {
