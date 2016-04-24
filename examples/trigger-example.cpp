@@ -37,7 +37,7 @@ int main()
 		 * Periodically, retrigger the envelope, panned to a random location.
 		 *-----------------------------------------------------------------------*/
 		usleep(random_integer(1e4, 1e6));
-		panned->set_param("pan", random_uniform(-1, 1));
+		panned->set_input("pan", random_uniform(-1, 1));
 		envelope->trigger();
 	}
 }

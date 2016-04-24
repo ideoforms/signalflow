@@ -33,9 +33,9 @@ int main()
 	 * Pan one hard left, and one hard right.
 	 *-----------------------------------------------------------------------*/
 	SynthRef synth1 = new Synth(structure);
-	synth1->set_param("pan", 0);
+	synth1->set_input("pan", 0);
 	SynthRef synth2 = new Synth(structure);
-	synth2->set_param("pan", 1);
+	synth2->set_input("pan", 1);
 
 	/*------------------------------------------------------------------------
 	 * Connect the synths to our graph's output.
@@ -46,9 +46,9 @@ int main()
 	while (true)
 	{
 		float freq = random_uniform(40, 800);
-		synth1->set_param("base_freq", freq);
+		synth1->set_input("base_freq", freq);
 		usleep(250000);
-		synth2->set_param("base_freq", freq);
+		synth2->set_input("base_freq", freq);
 		usleep(250000);
 	}
 

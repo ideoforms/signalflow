@@ -49,7 +49,7 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
 	{
 		std::string param_name = param.first;
 		NodeRef param_node = this->instantiate(param.second);
-		noderef->set_param(param_name, param_node);
+		noderef->set_input(param_name, param_node);
 	}
 
 	if (nodedef->is_constant)
@@ -66,7 +66,7 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
 	return noderef;
 }
 
-void Synth::set_param(std::string name, float value)
+void Synth::set_input(std::string name, float value)
 {
 	NodeRef current = this->inputs[name];
 	signal_assert(this->inputs[name] != nullptr, "Synth has no such parameter: %s", name.c_str());
@@ -75,7 +75,7 @@ void Synth::set_param(std::string name, float value)
 	constant->value = value;
 }
 
-void Synth::set_param(std::string name, NodeRef value)
+void Synth::set_input(std::string name, NodeRef value)
 {
 	/*------------------------------------------------------------------------
 	 * Replace a named input with another node.
@@ -92,7 +92,7 @@ void Synth::set_param(std::string name, NodeRef value)
 			{
 				// Update routing
 				// printf("Updating '%s' input of %s\n", param.first.c_str(), node->name.c_str());
-				node->set_param(param.first, value);
+				node->set_input(param.first, value);
 			}
 		}
 	}
@@ -105,7 +105,7 @@ void Synth::disconnect()
 	for (auto input : this->inputs)
 	{
 		std::string name = input.first;
-		this->set_param(name, 0);
+		this->set_input(name, 0);
 	}
 }
 

@@ -16,7 +16,7 @@ int main()
 		NodeRef noise = new Noise(0.3, true, 1.0, 2);
 		NodeRef dust = new Dust(noise);
 		NodeRef env = new ASR(0.005, 0.01, 0.05);
-		env->set_param("clock", dust);
+		env->set_input("clock", dust);
 
 		NodeRef sum = resample * env;
 		NodeRef pan = new Pan(2, sum * 0.1, random_uniform(0, 1));

@@ -23,7 +23,7 @@ int main()
 	NodeRef pan = new Noise(100, false);
 	NodeRef granulator = new Granulator(buffer, dust, pos, len);
 	Buffer *env_buf = new EnvelopeBufferHanning();
-	granulator->set_param("pan", pan);
+	granulator->set_input("pan", pan);
 	granulator->set_buffer("envelope", env_buf);
 	granulator = granulator * 0.25;
 

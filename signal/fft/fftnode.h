@@ -45,9 +45,9 @@ namespace libsignal
 				this->add_input("input", this->input);
 			}
 
-			virtual void set_param(std::string name, const NodeRef &node)
+			virtual void set_input(std::string name, const NodeRef &node)
 			{
-				FFTNode::set_param(name, node);
+				FFTNode::set_input(name, node);
 				if (name == "input")
 				{
 					// TODO: Update FFT size and buffers

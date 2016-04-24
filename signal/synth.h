@@ -12,8 +12,8 @@ namespace libsignal
 			Synth(std::string name);
 			NodeRef instantiate(NodeDefinition *nodedef);
 
-			void set_param(std::string name, float value);
-			void set_param(std::string name, NodeRef value);
+			void set_input(std::string name, float value);
+			void set_input(std::string name, NodeRef value);
 			void disconnect();
 
 			NodeRef output;

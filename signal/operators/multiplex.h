@@ -62,7 +62,7 @@ namespace libsignal
             this->Node::add_input(input_name, inputs.back());
 		}
 
-		virtual void set_param(std::string name, const NodeRef &node)
+		virtual void set_input(std::string name, const NodeRef &node)
 		{
 			if (this->params.find(name) == this->params.end())
 			{
@@ -70,7 +70,7 @@ namespace libsignal
 				this->Node::add_input(name, inputs.back());
 			}
 
-			this->Node::set_param(name, node);
+			this->Node::set_input(name, node);
 		}
 
 

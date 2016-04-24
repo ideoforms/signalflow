@@ -95,7 +95,7 @@ void Node::add_input(std::string name, NodeRef &node)
 
 }
 
-void Node::set_param(std::string name, const NodeRef &node)
+void Node::set_input(std::string name, const NodeRef &node)
 {
 	if (this->params.find(name) == this->params.end())
 		throw std::runtime_error("Node " + this->name + " has no such param: " + name);
@@ -127,7 +127,7 @@ void Node::disconnect_outputs()
 {
 	/*------------------------------------------------------------------------
 	 * Don't iterate over outputs as the output set will change during
-	 * iteration (as calling set_param on each output of the node will 
+	 * iteration (as calling set_input on each output of the node will 
 	 * change our own `outputs` array). Instead, keep trying until all
 	 * outputs are removed.
 	 *-----------------------------------------------------------------------*/
@@ -136,7 +136,7 @@ void Node::disconnect_outputs()
 		auto output = *(this->outputs.begin());
 		Node *target = output.first;
 		std::string name = output.second;
-		target->set_param(name, 0);
+		target->set_input(name, 0);
 	}
 }
 
@@ -144,7 +144,7 @@ void Node::disconnect_inputs()
 {
 	for (auto param : this->params)
 	{
-		this->set_param(param.first, 0);
+		this->set_input(param.first, 0);
 	}
 }
 
