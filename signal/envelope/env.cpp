@@ -8,7 +8,6 @@ ASR::ASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock) :
 	attack(attack), sustain(sustain), release(release), clock(clock)
 {
 	this->phase = 0.0;
-	this->clock_last = 0.0;
 
 	this->name = "env-asr";
 	this->add_input("clock", this->clock);
@@ -42,18 +41,30 @@ void ASR::process(sample **out, int num_frames)
 
 		if (this->phase < attack)
 		{
+			/*------------------------------------------------------------------------
+			 * Attack phase.
+			 *-----------------------------------------------------------------------*/
 			rv = (this->phase / attack);
 		}
 		else if (this->phase <= attack + sustain)
 		{
+			/*------------------------------------------------------------------------
+			 * Sutain phase.
+			 *-----------------------------------------------------------------------*/
 			rv = 1.0;
 		}
 		else if (this->phase < attack + sustain + release)
 		{
+			/*------------------------------------------------------------------------
+			 * Release phase.
+			 *-----------------------------------------------------------------------*/
 			rv = 1.0 - (this->phase - (attack + sustain)) / release;
 		}
 		else
 		{
+			/*------------------------------------------------------------------------
+			 * Envelope has finished.
+			 *-----------------------------------------------------------------------*/
 			rv = 0.0;
 		}
 
