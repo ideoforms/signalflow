@@ -3,7 +3,7 @@
 namespace libsignal
 {
 
-void Pan::next(sample **out, int num_frames)
+void Pan::process(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{

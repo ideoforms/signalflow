@@ -7,7 +7,7 @@
 namespace libsignal
 {
 
-void Delay::next(sample **out, int num_frames)
+void Delay::process(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{

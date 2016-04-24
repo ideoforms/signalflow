@@ -11,7 +11,7 @@ namespace libsignal
 
 		NodeRef frequency;
 
-		virtual void next(sample **out, int num_frames);
+		virtual void process(sample **out, int num_frames);
 	
 	private:
 		int steps_remaining;

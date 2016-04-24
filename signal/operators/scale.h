@@ -21,7 +21,7 @@ namespace libsignal
 			this->add_param("d", this->d);
 		}
 
-		virtual void next(sample **out, int num_frames)
+		virtual void process(sample **out, int num_frames)
 		{
 			for (int frame = 0; frame < num_frames; frame++)
 			{
@@ -51,7 +51,7 @@ namespace libsignal
 			this->add_param("d", this->d);
 		}
 
-		virtual void next(sample **out, int num_frames)
+		virtual void process(sample **out, int num_frames)
 		{
 			for (int frame = 0; frame < num_frames; frame++)
 			{

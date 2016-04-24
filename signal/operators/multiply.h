@@ -17,7 +17,7 @@ namespace libsignal
 			this->name = "multiply";
 		}
 
-		virtual void next(sample **out, int num_frames)
+		virtual void process(sample **out, int num_frames)
 		{
 			for (int channel = 0; channel < this->num_output_channels; channel++)
 			{

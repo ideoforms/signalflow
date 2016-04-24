@@ -18,6 +18,6 @@ namespace libsignal
         virtual int start() = 0;
         virtual int close() = 0;
         
-        virtual void next(sample **out, int num_samples) = 0;
+        virtual void process(sample **out, int num_samples) = 0;
 	};
 }

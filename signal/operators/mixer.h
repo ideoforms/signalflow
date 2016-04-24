@@ -21,7 +21,7 @@ namespace libsignal
 			this->channels = channels;
 		}
 
-		virtual void next(sample **out, int num_frames)
+		virtual void process(sample **out, int num_frames)
 		{
 			float out_channel_pan,
 				  in_channel_pan;

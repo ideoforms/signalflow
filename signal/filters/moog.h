@@ -38,7 +38,7 @@ namespace libsignal
 				  in3[SIGNAL_MAX_CHANNELS],
 				  in4[SIGNAL_MAX_CHANNELS];
 
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 	};
 
 	REGISTER(MoogVCF, "moog");

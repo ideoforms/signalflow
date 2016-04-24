@@ -44,7 +44,7 @@ namespace libsignal
 			float f2p0[SIGNAL_MAX_CHANNELS], f2p1[SIGNAL_MAX_CHANNELS], f2p2[SIGNAL_MAX_CHANNELS], f2p3[SIGNAL_MAX_CHANNELS];
 			float sdm1[SIGNAL_MAX_CHANNELS], sdm2[SIGNAL_MAX_CHANNELS], sdm3[SIGNAL_MAX_CHANNELS];
 
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 	};
 
 	REGISTER(EQ, "eq");

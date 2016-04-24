@@ -16,7 +16,7 @@ Dust::Dust(NodeRef frequency) : frequency(frequency)
 	this->add_param("frequency", this->frequency);
 }
 
-void Dust::next(sample **out, int num_frames)
+void Dust::process(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{

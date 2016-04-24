@@ -8,7 +8,7 @@
 namespace libsignal
 {
 
-void EQ::next(sample **out, int num_frames)
+void EQ::process(sample **out, int num_frames)
 {
 	float low, mid, high;
 

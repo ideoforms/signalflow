@@ -16,7 +16,7 @@ namespace libsignal
 
 			NodeRef frequency;
 
-			virtual void next(sample **out, int num_frames)
+			virtual void process(sample **out, int num_frames)
 			{
 				FFTNode *fftnode = (FFTNode *) this->input.get();
 				this->num_hops = fftnode->num_hops; 

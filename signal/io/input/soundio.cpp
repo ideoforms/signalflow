@@ -115,7 +115,7 @@ int AudioIn_SoundIO::close()
 	return 0;
 }
 
-void AudioIn_SoundIO::next(sample **out, int num_frames)
+void AudioIn_SoundIO::process(sample **out, int num_frames)
 {
 	// don't have to do anything as our output is written by the read_callback
 	for (int frame = 0; frame < num_frames; frame++)

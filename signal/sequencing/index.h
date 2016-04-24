@@ -11,7 +11,7 @@ namespace libsignal
 
 		Index(PropertyRef list = {}, NodeRef index = 0);
 
-		virtual void next(sample **out, int num_frames);
+		virtual void process(sample **out, int num_frames);
 
 		PropertyRef list;
 		NodeRef index;

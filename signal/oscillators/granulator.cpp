@@ -32,7 +32,7 @@ void Granulator::set_spatialisation(int num_channels, NodeRef pan)
 	this->pan = pan;
 }
 
-void Granulator::next(sample **out, int num_frames)
+void Granulator::process(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{

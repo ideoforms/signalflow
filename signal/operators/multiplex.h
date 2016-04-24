@@ -26,7 +26,7 @@ namespace libsignal
 			}
 		}
 
-		virtual void next(sample **out, int num_frames)
+		virtual void process(sample **out, int num_frames)
 		{
 			int global_channel = 0; 
 			for (NodeRef input : this->inputs)

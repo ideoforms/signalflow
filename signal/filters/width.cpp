@@ -3,7 +3,7 @@
 namespace libsignal
 {
 
-void Width::next(sample **out, int num_frames)
+void Width::process(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{

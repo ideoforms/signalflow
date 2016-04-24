@@ -11,7 +11,7 @@ namespace libsignal
 
 		float value;
 
-		virtual void next(sample **out, int num_frames);
+		virtual void process(sample **out, int num_frames);
 	};
 
 	REGISTER(Constant, "constant");

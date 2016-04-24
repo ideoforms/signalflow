@@ -14,7 +14,7 @@ namespace libsignal
 				this->name = "fft_noise_gate";
 			}
 
-			virtual void next(sample **out, int num_frames)
+			virtual void process(sample **out, int num_frames)
 			{
 				for (int channel = 0; channel < 4; channel++)
 				{

@@ -25,7 +25,7 @@ namespace libsignal
 			NodeRef input;
 			NodeRef pan;
 
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 	};
 
 	REGISTER(Pan, "pan");

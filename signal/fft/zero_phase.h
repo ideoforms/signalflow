@@ -14,7 +14,7 @@ namespace libsignal
 				this->name = "zero_phase";
 			}
 
-			virtual void next(sample **out, int num_frames)
+			virtual void process(sample **out, int num_frames)
 			{
 				for (int i = 0; i < num_frames; i++)
 				{

@@ -34,7 +34,7 @@ namespace libsignal
 
 			std::vector <SampleRingBuffer *> buffers;
 
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 	};
 
 	REGISTER(Delay, "delay");

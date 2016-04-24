@@ -70,7 +70,7 @@ namespace libsignal
 			Node();
 			Node(double x);
 
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 
 			/*------------------------------------------------------------------------
 			 * Connect a new signal input to this node. These connections form

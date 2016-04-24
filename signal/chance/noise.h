@@ -17,7 +17,7 @@ namespace libsignal
 
 		sample value[SIGNAL_MAX_CHANNELS];
 
-		virtual void next(sample **out, int num_frames);
+		virtual void process(sample **out, int num_frames);
 	
 	private:
 

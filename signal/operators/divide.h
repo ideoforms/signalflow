@@ -14,7 +14,7 @@ namespace libsignal
 			this->name = "divide";
 		}
 
-		virtual void next(sample **out, int num_frames)
+		virtual void process(sample **out, int num_frames)
 		{
 			for (int frame = 0; frame < num_frames; frame++)
 			{

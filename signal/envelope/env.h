@@ -21,7 +21,7 @@ class ASR : public Node
 
 
 		virtual void trigger();
-		virtual void next(sample **out, int num_frames);
+		virtual void process(sample **out, int num_frames);
 };
 
 REGISTER(ASR, "env-asr");

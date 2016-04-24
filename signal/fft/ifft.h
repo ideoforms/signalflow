@@ -101,7 +101,7 @@ namespace libsignal
 				vDSP_vadd(buffer2, 1, out, 1, out, 1, fft_size);
 			}
 
-			virtual void next(sample **out, int num_frames)
+			virtual void process(sample **out, int num_frames)
 			{
 				/*------------------------------------------------------------------------
 				 * Move previously-written data to front of buffer (the "overlap" of

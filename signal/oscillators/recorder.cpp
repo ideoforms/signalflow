@@ -18,7 +18,7 @@ Recorder::Recorder(Buffer *buffer, NodeRef input, bool loop) : buffer(buffer), i
 	this->min_output_channels = this->max_output_channels = 0;
 }
 
-void Recorder::next(sample **out, int num_frames)
+void Recorder::process(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{

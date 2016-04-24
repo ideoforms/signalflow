@@ -22,7 +22,7 @@ void ASR::trigger()
 	this->phase = 0.0;
 }
 
-void ASR::next(sample **out, int num_frames)
+void ASR::process(sample **out, int num_frames)
 {
 	sample rv;
 

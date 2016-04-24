@@ -12,7 +12,7 @@ Constant::Constant(sample value) : Node()
 	this->max_input_channels = 0;
 }
 
-void Constant::next(sample **out, int num_frames)
+void Constant::process(sample **out, int num_frames)
 {
 	#if __APPLE__
 		vDSP_vfill(&(this->value), out[0], 1, num_frames);

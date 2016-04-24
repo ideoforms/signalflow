@@ -40,7 +40,7 @@ namespace libsignal
 			NodeRef grain_length;
 			NodeRef pan;
 
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 			virtual void set_spatialisation(int num_channels, NodeRef pan);
 
 		private:

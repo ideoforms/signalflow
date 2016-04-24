@@ -13,7 +13,7 @@ namespace libsignal
 			~FFT();
 
 			virtual void fft(sample *in, sample *out, bool polar = true, bool do_window = true);
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 
 			NodeRef input;
 			int hop_size;

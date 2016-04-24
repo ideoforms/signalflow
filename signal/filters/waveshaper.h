@@ -15,7 +15,7 @@ namespace libsignal
 			}
 
 			Buffer *buffer;
-			virtual void next(sample **out, int num_frames);
+			virtual void process(sample **out, int num_frames);
 	};
 
 	REGISTER(WaveShaper, "waveshaper");

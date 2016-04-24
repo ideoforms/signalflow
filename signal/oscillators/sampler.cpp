@@ -26,7 +26,7 @@ Sampler::Sampler(Buffer *buffer, NodeRef rate, bool loop) : rate(rate)
 	this->trigger();
 }
 
-void Sampler::next(sample **out, int num_frames)
+void Sampler::process(sample **out, int num_frames)
 {
 	for (int frame = 0; frame < num_frames; frame++)
 	{

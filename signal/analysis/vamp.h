@@ -81,7 +81,7 @@ namespace libsignal
 				// close vamp plugins
 			}
 
-			virtual void next(sample **out, int num_frames)
+			virtual void process(sample **out, int num_frames)
 			{
 				RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
 				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
@@ -129,7 +129,7 @@ namespace libsignal
 				this->set_property("timestamps", { 0 });
 			}
 
-			virtual void next(sample **out, int num_frames)
+			virtual void process(sample **out, int num_frames)
 			{
 				RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
 				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);

@@ -98,7 +98,7 @@ namespace libsignal
 
 			}
 
-			void FFT::next(sample **out, int num_frames)
+			void FFT::process(sample **out, int num_frames)
 			{
 				/*------------------------------------------------------------------------
 				 * Append the incoming buffer onto our inbuf.

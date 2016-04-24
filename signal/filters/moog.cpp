@@ -8,7 +8,7 @@
 namespace libsignal
 {
 
-void MoogVCF::next(sample **out, int num_frames)
+void MoogVCF::process(sample **out, int num_frames)
 {
 	for (int channel = 0; channel < num_output_channels; channel++)
 	{

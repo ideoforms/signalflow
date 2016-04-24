@@ -7,7 +7,7 @@
 namespace libsignal
 {
 
-void Sine::next(sample **out, int num_frames)
+void Sine::process(sample **out, int num_frames)
 {
 	for (int channel = 0; channel < this->num_output_channels; channel++)
 	{

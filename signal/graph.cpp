@@ -86,7 +86,7 @@ namespace libsignal
 				}
 			}
 		}
-		node->next(node->out, num_frames);
+		node->process(node->out, num_frames);
 		this->processed_nodes.insert(node.get());
 	}
 

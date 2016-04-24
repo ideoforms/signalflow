@@ -45,12 +45,12 @@ Node::Node()
 	this->monitor = NULL;
 }
 
-void Node::next(sample **out, int num_frames)
+void Node::process(sample **out, int num_frames)
 {
-	// Basic next() loop assumes we are N-in, N-out.
+	// Basic process() loop assumes we are N-in, N-out.
 	// TODO: Assert channel config makes sense? (> 0)
 
-	throw std::runtime_error("Node::next (should never be called)");
+	throw std::runtime_error("Node::process (should never be called)");
 }
 
 void Node::update_channels()
