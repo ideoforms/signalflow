@@ -2,7 +2,23 @@
 
 ## [HEAD](https://github.com/ideoforms/signal/tree/HEAD)
 
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.1...HEAD)
+[Full Changelog](https://github.com/ideoforms/signal/compare/v0.2.0...HEAD)
+
+**New features:**
+
+- Support for named triggers [\#56](https://github.com/ideoforms/signal/issues/56)
+
+**Fixed bugs:**
+
+- Multiplex cannot be serialised [\#55](https://github.com/ideoforms/signal/issues/55)
+
+**Closed issues:**
+
+- Integrate with Travis CI [\#54](https://github.com/ideoforms/signal/issues/54)
+- Generate visualisation of synthesis graph structure [\#53](https://github.com/ideoforms/signal/issues/53)
+
+## [v0.2.0](https://github.com/ideoforms/signal/tree/v0.2.0) (2016-04-17)
+[Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.1...v0.2.0)
 
 **New features:**
 
