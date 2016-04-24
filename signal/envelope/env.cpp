@@ -11,10 +11,10 @@ ASR::ASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock) :
 	this->clock_last = 0.0;
 
 	this->name = "env-asr";
-	this->add_param("clock", this->clock);
-	this->add_param("attack", this->attack);
-	this->add_param("sustain", this->sustain);
-	this->add_param("release", this->release);
+	this->add_input("clock", this->clock);
+	this->add_input("attack", this->attack);
+	this->add_input("sustain", this->sustain);
+	this->add_input("release", this->release);
 }
 
 void ASR::trigger()

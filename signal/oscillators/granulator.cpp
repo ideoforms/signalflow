@@ -10,9 +10,9 @@ Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain
 {
 	this->name = "granulator";
 
-	this->add_param("pos", this->pos);
-	this->add_param("clock", this->clock);
-	this->add_param("grain_length", this->grain_length);
+	this->add_input("pos", this->pos);
+	this->add_input("clock", this->clock);
+	this->add_input("grain_length", this->grain_length);
 
 	this->envelope = new EnvelopeBufferTriangle();
 	this->add_buffer("envelope", &envelope);
@@ -21,7 +21,7 @@ Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain
 
 	this->pan = 0.5;
 	this->pan = 0.5;
-	this->add_param("pan", this->pan);
+	this->add_input("pan", this->pan);
 
 	this->clock_last = 0.0;
 }

@@ -78,7 +78,7 @@ void Node::update_channels()
 	}
 }
 
-void Node::add_param(std::string name, NodeRef &node)
+void Node::add_input(std::string name, NodeRef &node)
 {
 	/*------------------------------------------------------------------------
 	 * Update each input's channel count first, allowing up-mix to
@@ -302,13 +302,13 @@ sample NodeRef::operator[] (int index)
 
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b) : Node(), input0(a), input1(b)
 {
-	this->add_param("input0", this->input0);
-	this->add_param("input1", this->input1);
+	this->add_input("input0", this->input0);
+	this->add_input("input1", this->input1);
 }
 
 UnaryOpNode::UnaryOpNode(NodeRef a) : Node(), input(a)
 {
-	this->add_param("input", this->input);
+	this->add_input("input", this->input);
 }
 
 Node *Node::scale(float from, float to, signal_scale_t scale)

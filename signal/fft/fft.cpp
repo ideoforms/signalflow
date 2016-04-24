@@ -11,7 +11,7 @@ namespace libsignal
 			{
 				this->name = "fft";
 
-				this->add_param("input", this->input);
+				this->add_input("input", this->input);
 
 				/*------------------------------------------------------------------------
 				 * Initial FFT setup.

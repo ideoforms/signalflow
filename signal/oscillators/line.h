@@ -12,9 +12,9 @@ namespace libsignal
 		{
 			this->name = "line";
 
-			this->add_param("time", this->time);
-			this->add_param("from", this->from);
-			this->add_param("to", this->to);
+			this->add_input("time", this->time);
+			this->add_input("from", this->from);
+			this->add_input("to", this->to);
 
 			this->value = 0.0;
 			this->value_change_per_step = 0.0;

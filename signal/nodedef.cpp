@@ -30,14 +30,14 @@ namespace libsignal
 		this->name = name;
 	}
 
-	void NodeDefinition::add_param(std::string name, NodeDefinition *def)
+	void NodeDefinition::add_input(std::string name, NodeDefinition *def)
 	{
 		NodeDefinition *def_copy = new NodeDefinition();
 		*def_copy = *def;
 		this->params[name] = def_copy;
 	}
 
-	void NodeDefinition::add_param(std::string name, float value)
+	void NodeDefinition::add_input(std::string name, float value)
 	{
 		this->params[name] = new NodeDefinition("constant", value);
 	}

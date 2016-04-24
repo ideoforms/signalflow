@@ -10,7 +10,7 @@ namespace libsignal
 		Saw(NodeRef frequency = 440) : frequency(frequency)
 		{
 			this->name = "saw";
-			this->add_param("frequency", this->frequency);
+			this->add_input("frequency", this->frequency);
 			memset(this->phase, 0, sizeof(this->phase));
 		};
 

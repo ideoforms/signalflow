@@ -7,7 +7,7 @@ Recorder::Recorder(Buffer *buffer, NodeRef input, bool loop) : buffer(buffer), i
 {
 	this->name = "recorder";
 
-	this->add_param("input", this->input);
+	this->add_input("input", this->input);
 
 	this->phase = 0.0;
 

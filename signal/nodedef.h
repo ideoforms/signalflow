@@ -15,8 +15,8 @@ class NodeDefinition
 		NodeDefinition(std::string name, float value);
 
 		void set_id(int value);
-		void add_param(std::string name, NodeDefinition *def);
-		void add_param(std::string name, float value);
+		void add_input(std::string name, NodeDefinition *def);
+		void add_input(std::string name, float value);
 		void set_name (std::string name);
 		void set_value (float value);
 

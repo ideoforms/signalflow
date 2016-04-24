@@ -27,7 +27,7 @@ namespace libsignal
 			inputs.push_back(node);
 			std::string input_name = "input" + std::to_string(this->inputs.size());;
 
-			this->add_param(input_name, inputs.back());
+			this->Node::add_input(input_name, inputs.back());
 		}
 
 		std::list <NodeRef> inputs;

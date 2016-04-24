@@ -42,7 +42,7 @@ namespace libsignal
 
 			FFTOpNode(NodeRef input = nullptr) : FFTNode(input ? ((FFTNode *) input.get())->fft_size : SIGNAL_DEFAULT_FFT_SIZE), input(input)
 			{
-				this->add_param("input", this->input);
+				this->add_input("input", this->input);
 			}
 
 			virtual void set_param(std::string name, const NodeRef &node)

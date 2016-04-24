@@ -13,7 +13,7 @@ Dust::Dust(NodeRef frequency) : frequency(frequency)
 	this->steps_remaining = 0;
 
 	this->name = "dust";
-	this->add_param("frequency", this->frequency);
+	this->add_input("frequency", this->frequency);
 }
 
 void Dust::process(sample **out, int num_frames)

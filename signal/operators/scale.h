@@ -15,10 +15,10 @@ namespace libsignal
 		{
 			this->name = "linexp";
 
-			this->add_param("a", this->a);
-			this->add_param("b", this->b);
-			this->add_param("c", this->c);
-			this->add_param("d", this->d);
+			this->add_input("a", this->a);
+			this->add_input("b", this->b);
+			this->add_input("c", this->c);
+			this->add_input("d", this->d);
 		}
 
 		virtual void process(sample **out, int num_frames)
@@ -45,10 +45,10 @@ namespace libsignal
 		{
 			this->name = "scale";
 
-			this->add_param("a", this->a);
-			this->add_param("b", this->b);
-			this->add_param("c", this->c);
-			this->add_param("d", this->d);
+			this->add_input("a", this->a);
+			this->add_input("b", this->b);
+			this->add_input("c", this->c);
+			this->add_input("d", this->d);
 		}
 
 		virtual void process(sample **out, int num_frames)

@@ -11,7 +11,7 @@ namespace libsignal
 				FFTOpNode(input), frequency(frequency)
 			{
 				this->name = "fft_lpf";
-				this->add_param("frequency", this->frequency);
+				this->add_input("frequency", this->frequency);
 			}
 
 			NodeRef frequency;

@@ -59,7 +59,7 @@ namespace libsignal
 		{
 			this->inputs.push_back(input);
             std::string input_name = "input" + std::to_string(this->inputs.size());;
-            this->add_param(input_name, inputs.back());
+            this->Node::add_input(input_name, inputs.back());
 		}
 
 		virtual void set_param(std::string name, const NodeRef &node)
@@ -67,7 +67,7 @@ namespace libsignal
 			if (this->params.find(name) == this->params.end())
 			{
 				this->inputs.push_back(node);
-				this->add_param(name, inputs.back());
+				this->Node::add_input(name, inputs.back());
 			}
 
 			this->Node::set_param(name, node);

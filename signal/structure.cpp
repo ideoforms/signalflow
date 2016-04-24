@@ -103,13 +103,13 @@ namespace libsignal
 				{
 					if (value.is_number())
 					{
-						node.add_param(key, value.number_value());
+						node.add_input(key, value.number_value());
 					}
 					else if (value.is_object())
 					{
 						int id = value["id"].int_value();
 						NodeDefinition *ptr = this->get_node_def(id);
-						node.add_param(key, ptr);
+						node.add_input(key, ptr);
 					}
 				}
 			}
@@ -182,7 +182,7 @@ namespace libsignal
 				if (param_node)
 				{
 					NodeDefinition param_def = this->parse_root(param_node);
-					def.add_param(param.first, &param_def);
+					def.add_input(param.first, &param_def);
 				}
 			}
 		}

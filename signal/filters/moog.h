@@ -12,8 +12,8 @@ namespace libsignal
 				UnaryOpNode(input), cutoff(cutoff), resonance(resonance)
 			{
 				this->name = "moog";
-				this->add_param("cutoff", this->cutoff);
-				this->add_param("resonance", this->resonance);
+				this->add_input("cutoff", this->cutoff);
+				this->add_input("resonance", this->resonance);
 
 				int int_buf_size = SIGNAL_MAX_CHANNELS * sizeof(int);
 				memset(out1, 0, int_buf_size);

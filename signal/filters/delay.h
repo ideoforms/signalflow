@@ -16,8 +16,8 @@ namespace libsignal
 				UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 			{
 				this->name = "delay";
-				this->add_param("delay_time", this->delaytime);
-				this->add_param("feedback", this->feedback);
+				this->add_input("delay_time", this->delaytime);
+				this->add_input("feedback", this->feedback);
 
 				for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
 					buffers.push_back(new SampleRingBuffer(maxdelaytime * this->graph->sample_rate));

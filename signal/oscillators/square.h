@@ -10,8 +10,8 @@ namespace libsignal
 		Square(NodeRef frequency = 440, NodeRef width = 0.5) : frequency(frequency), width(width)
 		{
 			this->name = "square";
-			this->add_param("frequency", this->frequency);
-			this->add_param("width", this->width);
+			this->add_input("frequency", this->frequency);
+			this->add_input("width", this->width);
 			memset(this->phase, 0, sizeof(this->phase));
 		};
 

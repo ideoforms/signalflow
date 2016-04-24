@@ -7,7 +7,7 @@ Index::Index(PropertyRef list, NodeRef index) : Node(), list(list), index(index)
 {
 	this->name = "index";
 
-	this->add_param("index", this->index);
+	this->add_input("index", this->index);
 	this->set_property("list", this->list);
 }
 

@@ -86,7 +86,7 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Register parameters.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_param(std::string name, NodeRef &param);
+			virtual void add_input(std::string name, NodeRef &param);
 			virtual void set_param(std::string name, const NodeRef &param);
 
 			/*------------------------------------------------------------------------

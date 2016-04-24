@@ -16,10 +16,10 @@ namespace libsignal
 				this->level = 0.0;
 
 				this->name = "gate";
-				this->add_param("threshold", this->threshold);
-				this->add_param("attack", this->attack);
-				this->add_param("hold", this->hold);
-				this->add_param("release", this->release);
+				this->add_input("threshold", this->threshold);
+				this->add_input("attack", this->attack);
+				this->add_input("hold", this->hold);
+				this->add_input("release", this->release);
 			}
 
 			NodeRef sample_rate;

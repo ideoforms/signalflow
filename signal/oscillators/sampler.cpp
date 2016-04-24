@@ -10,7 +10,7 @@ Sampler::Sampler(Buffer *buffer, NodeRef rate, bool loop) : rate(rate)
 {
 	this->name = "sampler";
 
-	this->add_param("rate", this->rate);
+	this->add_input("rate", this->rate);
 
 	this->loop = loop;
 	this->phase = 0.0;
