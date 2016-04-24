@@ -20,7 +20,7 @@ class ASR : public Node
 		float clock_last;
 
 
-		virtual void trigger();
+		virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
 		virtual void process(sample **out, int num_frames);
 };
 

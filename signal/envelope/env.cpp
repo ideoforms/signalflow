@@ -17,9 +17,12 @@ ASR::ASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock) :
 	this->add_input("release", this->release);
 }
 
-void ASR::trigger()
+void ASR::trigger(std::string name, float value)
 {
-	this->phase = 0.0;
+	if (name == SIGNAL_DEFAULT_TRIGGER)
+	{
+		this->phase = 0.0;
+	}
 }
 
 void ASR::process(sample **out, int num_frames)
@@ -30,10 +33,7 @@ void ASR::process(sample **out, int num_frames)
 	{
 		if (this->clock)
 		{
-			sample clock_value = this->clock->out[0][frame];
-			if (clock_value > this->clock_last)
-				this->trigger();
-			this->clock_last = clock_value;
+			SIGNAL_PROCESS_TRIGGER(this->clock, frame, SIGNAL_DEFAULT_TRIGGER);
 		}
 
 		float attack = this->attack->out[0][frame];

@@ -201,32 +201,10 @@ void Node::zero_output()
 		memset(this->out[i], 0, SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
 }
 
-void Node::trigger(std::string name)
+void Node::trigger(std::string name, float value)
 {
-	triggers.insert(name);
 }
 
-void Node::trigger()
-{
-	this->trigger("default");
-}
-
-bool Node::triggered(std::string name)
-{
-	bool rv = false;
-	auto location = triggers.find(name);
-	if (location != triggers.end())
-	{
-		triggers.erase(location);
-		rv = true;
-	}
-	return rv;
-}
-
-bool Node::triggered()
-{
-	return this->triggered("default");
-}
 
 void Node::poll(float frequency, std::string label)
 {

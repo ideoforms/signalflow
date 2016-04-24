@@ -34,7 +34,7 @@ namespace libsignal
 				memcpy(out[0], this->buffer->data[0], sizeof(sample) * num_frames);
 			}
 
-			virtual void trigger()
+			virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0)
 			{
 				this->frozen = true;
 				this->trig = true;

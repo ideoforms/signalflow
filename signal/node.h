@@ -117,16 +117,9 @@ namespace libsignal
 			virtual void set_buffer(std::string name, Buffer *buffer);
 
 			/*------------------------------------------------------------------------
-			 * TODO: Generic trigger method. Take named param for trigger ID?
+			 * Generic trigger method. 
 			 *-----------------------------------------------------------------------*/
-			virtual void trigger();
-			virtual void trigger(std::string name);
-
-			/*------------------------------------------------------------------------
-			 * Check whether a trigger has been triggered.
-			 *-----------------------------------------------------------------------*/
-			virtual bool triggered();
-			virtual bool triggered(std::string name);
+			virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1);
 
 			/*------------------------------------------------------------------------
 			 * Sets our output buffer to zero.
@@ -221,11 +214,6 @@ namespace libsignal
 			 * other NodeRefs, increasing its own shared_ptr's reference count.
 			 *-----------------------------------------------------------------------*/
 			NodeRef *ref;
-
-			/*------------------------------------------------------------------------
-			 * Trigger states.
-			 *-----------------------------------------------------------------------*/
-			std::set <std::string> triggers;
 
 			Node operator+ (Node &other);
 	};

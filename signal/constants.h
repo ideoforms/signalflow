@@ -30,6 +30,26 @@ typedef RingBuffer <sample> SampleRingBuffer;
  *-----------------------------------------------------------------------*/
 #define SIGNAL_NODE_BUFFER_SIZE 44100
 
+/*------------------------------------------------------------------------
+ * The default trigger name, used when node->trigger() is called
+ * without any parameters.
+ *-----------------------------------------------------------------------*/
+#define SIGNAL_DEFAULT_TRIGGER "trigger"
+
+/*------------------------------------------------------------------------
+ * Macros to aid in processing trigger inputs, for sample-rate and
+ * block-rate tirggers.
+ *
+ * SIGNAL_PROCESS_TRIGGER checks whether the specified frame of a given
+ *     input has a rising edge, and performs this->trigger(name) if so
+ * SIGNAL_PROCESS_TRIGGER_BLOCK repeats the above operation over
+ *     num_frames frames of the given input
+ *-----------------------------------------------------------------------*/
+#define SIGNAL_PROCESS_TRIGGER(input, frame, name) \
+	if (frame > 0 && input->out[0][frame] > input->out[0][frame - 1]) { this->trigger(name); }
+#define SIGNAL_PROCESS_TRIGGER_BLOCK(input, num_frames, name) \
+	for (int frame = 0; frame < num_frames; frame++) { SIGNAL_PROCESS_TRIGGER(input, frame, name); }
+
 typedef enum
 {
 	SIGNAL_SCALE_LIN_LIN,

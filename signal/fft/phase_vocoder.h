@@ -25,14 +25,15 @@ namespace libsignal
 			sample *phase_deriv;
 			bool frozen;
 
+			virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1)
+			{
+				this->frozen = true;
+			}
+
 			virtual void process(sample **out, int num_frames)
 			{
 				FFTNode *fftnode = (FFTNode *) this->input.get();
 				this->num_hops = fftnode->num_hops; 
-
-				bool triggered = this->triggered();
-				if (!frozen && triggered)
-					frozen = true;
 
 				for (int hop = 0; hop < this->num_hops; hop++)
 				{
@@ -70,7 +71,8 @@ namespace libsignal
 				}
 
 				int last_hop = this->num_hops - 1;
-				if ((last_hop >= 1) && (!frozen || triggered))
+				// if ((last_hop >= 1) && (!frozen || triggered))
+				if ((last_hop >= 1) && !frozen)
 				{
 					FFTNode *fftin = (FFTNode *) input.get();
 					for (int frame = 0; frame < this->num_bins; frame++)

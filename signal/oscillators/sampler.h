@@ -15,7 +15,7 @@ namespace libsignal
 			float phase;
 			bool loop;
 
-			virtual void trigger();
+			virtual void trigger(std::string = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
 			virtual void process(sample **out, int num_frames);
 	};
 

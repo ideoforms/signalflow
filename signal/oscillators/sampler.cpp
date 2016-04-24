@@ -57,7 +57,7 @@ void Sampler::process(sample **out, int num_frames)
 	}
 }
 
-void Sampler::trigger()
+void Sampler::trigger(std::string name, float value)
 {
 	this->phase = 0;
 }
