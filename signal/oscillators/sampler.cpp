@@ -1,5 +1,6 @@
 #include "sampler.h" 
 #include "constant.h"
+#include "../graph.h"
 
 #include <stdlib.h>
 
@@ -59,7 +60,10 @@ void Sampler::process(sample **out, int num_frames)
 
 void Sampler::trigger(std::string name, float value)
 {
-	this->phase = 0;
+	if (name == SIGNAL_DEFAULT_TRIGGER)
+	{
+		this->phase = value * this->graph->sample_rate;
+	}
 }
 
 }
