@@ -15,6 +15,7 @@ Buffer::Buffer(int num_channels, int num_frames)
 	this->num_channels = num_channels;
 	this->num_frames = num_frames;
 	this->sample_rate = 44100.0;
+	this->duration = this->num_frames / this->sample_rate;
 	this->interpolate = SIGNAL_INTERPOLATE_NONE;
 
 	this->data = (sample **) malloc(sizeof(void *) * this->num_channels);
