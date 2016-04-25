@@ -56,6 +56,7 @@
  * Random processes
  *-----------------------------------------------------------------------*/
 #include "chance/noise.h"
+#include "chance/trigger_noise.h"
 #include "chance/dust.h"
 
 /*------------------------------------------------------------------------
