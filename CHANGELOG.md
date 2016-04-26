@@ -7,15 +7,12 @@
 **New features:**
 
 - Support for named triggers [\#56](https://github.com/ideoforms/signal/issues/56)
+- Integrate with Travis CI [\#54](https://github.com/ideoforms/signal/issues/54)
+- Generate visualisation of synthesis graph structure [\#53](https://github.com/ideoforms/signal/issues/53)
 
 **Fixed bugs:**
 
 - Multiplex cannot be serialised [\#55](https://github.com/ideoforms/signal/issues/55)
-
-**Closed issues:**
-
-- Integrate with Travis CI [\#54](https://github.com/ideoforms/signal/issues/54)
-- Generate visualisation of synthesis graph structure [\#53](https://github.com/ideoforms/signal/issues/53)
 
 ## [v0.2.0](https://github.com/ideoforms/signal/tree/v0.2.0) (2016-04-17)
 [Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.1...v0.2.0)
@@ -23,6 +20,7 @@
 **New features:**
 
 - SynthRegistry [\#51](https://github.com/ideoforms/signal/issues/51)
+- Further examples [\#48](https://github.com/ideoforms/signal/issues/48)
 - Node: MoogVCF [\#43](https://github.com/ideoforms/signal/issues/43)
 - Node: Linear scale [\#41](https://github.com/ideoforms/signal/issues/41)
 - Node: Support for constant property values [\#39](https://github.com/ideoforms/signal/issues/39)
@@ -46,7 +44,6 @@
 
 **Closed issues:**
 
-- Further examples [\#48](https://github.com/ideoforms/signal/issues/48)
 - Update basic nodes to handle multi-channel inputs [\#24](https://github.com/ideoforms/signal/issues/24)
 
 ## [v0.1.1](https://github.com/ideoforms/signal/tree/v0.1.1) (2016-03-23)
