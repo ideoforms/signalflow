@@ -133,6 +133,87 @@ bool random_coin(double limit = 0.5)
 	return value < limit;
 }
 
+float random_exponential(float mu)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_exponential(rng, mu);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_cauchy(float a)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_cauchy(rng, a);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_beta(float a, float b)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_beta(rng, a, b);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_gamma(float a, float b)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_gamma(rng, a, b);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_levy(float c, float alpha)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_levy(rng, c, alpha);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_exponential_pdf(float x, float mu)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_exponential_pdf(x, mu);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_cauchy_pdf(float x, float a)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_cauchy_pdf(x, a);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_beta_pdf(float x, float a, float b)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_beta_pdf(x, a, b);
+    #else
+    return 0.0;
+    #endif
+}
+
+float random_gamma_pdf(float x, float a, float b)
+{
+    #ifdef HAVE_GSL
+    return gsl_ran_gamma_pdf(x, a, b);
+    #else
+    return 0.0;
+    #endif
+}
+
 
 /*--------------------------------------------------------------------*
  * random_integer: random int, up to (but excluding) to

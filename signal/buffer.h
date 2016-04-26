@@ -131,8 +131,6 @@ namespace libsignal
 			 * @param position An envelope position between [0, 1].
 			 * @return An envelope amplitude value, between [0, 1].
 			 *------------------------------------------------------------------------*/
-			// virtual sample get(float offset);
-
 			virtual float offset_to_frame(float offset) override
 			{
 				return map(offset, 0, 1, 0, this->num_frames - 1);
@@ -141,6 +139,18 @@ namespace libsignal
 			virtual float frame_to_offset(float frame) override
 			{
 				return map(frame, 0, this->num_frames - 1, 0, 1);
+			}
+
+			virtual void fill_exponential(float mu)
+			{
+				for (int x = 0; x < this->num_frames; x++)
+					this->data[0][x] = random_exponential_pdf((float) x / this->num_frames, mu);
+			}
+
+			virtual void fill_beta(float a, float b)
+			{
+				for (int x = 0; x < this->num_frames; x++)
+					this->data[0][x] = random_beta_pdf((float) x / this->num_frames, a, b);
 			}
 	};
 
@@ -201,8 +211,6 @@ namespace libsignal
 			 * @param input A given input sample, between [-1, 1]
 			 * @return A transformed sample value, between [-1, 1].
 			 *------------------------------------------------------------------------*/
-			// virtual sample get(float input) override;
-
 			virtual float offset_to_frame(float offset) override
 			{
 				return map(offset, -1, 1, 0, this->num_frames - 1);
