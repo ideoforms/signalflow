@@ -27,17 +27,33 @@ import shutil
 # Don't require a manual ./waf configure before build
 #------------------------------------------------------------------------
 
+from waflib import TaskGen
 import waflib.Configure
 waflib.Configure.autoconfig = True
 
 import waflib.Options
 platform = waflib.Options.platform
 
+#------------------------------------------------------------------------
+# Load a C++ compiler
+#------------------------------------------------------------------------
 def options(opt):
 	opt.load('compiler_cxx')
 
-def configure(conf):
+#------------------------------------------------------------------------
+# Build mode 'dev' enables debugging symbols and disables optimisation.
+#------------------------------------------------------------------------
+class dev(waflib.Build.BuildContext):
+	cmd = 'dev'
 
+#------------------------------------------------------------------------
+# Support for Objective-C++ files, required for OS X AppKit bindings.
+#------------------------------------------------------------------------
+@TaskGen.extension('.mm')
+def m_hook(self, node):
+    return self.create_compiled_task('cxx', node)
+
+def configure(conf):
 	#------------------------------------------------------------------------
 	# Use C++11 extensions and add general search paths
 	#------------------------------------------------------------------------
@@ -66,6 +82,7 @@ def configure(conf):
 		# optimisations
 		#------------------------------------------------------------------------
 		conf.env.LINKFLAGS += [ "-framework", "Accelerate" ]
+		conf.env.LINKFLAGS += [ "-framework", "Foundation", "-framework", "AppKit" ]
 
 		#------------------------------------------------------------------------
 		# Need to define __APPLE__ for waf to detect changes in #include within
@@ -106,7 +123,7 @@ def build(bld):
 	# compiled against this lib.
 	#------------------------------------------------------------------------
 	bld.shlib(
-		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('lib/json11/json11.cpp') + bld.path.ant_glob('signal/**/*.cpp'),
+		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('lib/json11/json11.cpp') + bld.path.ant_glob('signal/**/*.cpp') + bld.path.ant_glob('signal/**/*.mm'),
 		target = 'signal',
 		vnum = VERSION,
 		use = libraries,
@@ -173,6 +190,3 @@ def build(bld):
 		if os.path.exists(resource_dir):
 			shutil.rmtree(resource_dir)
 		shutil.copytree(os.path.join("examples", resource_type), resource_dir)
-
-class dev(waflib.Build.BuildContext):
-	cmd = 'dev'
