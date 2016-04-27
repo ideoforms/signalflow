@@ -5,14 +5,15 @@
 namespace libsignal
 {
 
-Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length) :
-	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length)
+Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate) :
+	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length), rate(rate)
 {
 	this->name = "granulator";
 
 	this->add_input("pos", this->pos);
 	this->add_input("clock", this->clock);
 	this->add_input("grain_length", this->grain_length);
+	this->add_input("rate", this->rate);
 
 	this->envelope = new EnvelopeBufferTriangle();
 	this->add_buffer("envelope", &envelope);
@@ -40,11 +41,12 @@ void Granulator::process(sample **out, int num_frames)
 		sample pos = this->pos->out[0][frame];
 		sample clock_value = this->clock->out[0][frame];
 		sample grain_length = this->grain_length->out[0][frame];
+		sample rate = this->rate->out[0][frame];
 		sample pan = this->pan->out[0][frame];
 
 		if (clock_value > clock_last)
 		{
-			Grain *grain = new Grain(buffer, pos * buffer->sample_rate, grain_length * buffer->sample_rate, pan);
+			Grain *grain = new Grain(buffer, pos * buffer->sample_rate, grain_length * buffer->sample_rate, rate, pan);
 			this->grains.push_back(grain);
 		}
 		clock_last = clock_value;
@@ -59,10 +61,11 @@ void Granulator::process(sample **out, int num_frames)
 			if (!grain->finished())
 			{
 				/*------------------------------------------------------------------------
-				 * Obtain the correct saple from the buffer.
-				 * TODO: Handling of variable rate.
+				 * Obtain the correct sample from the buffer.
 				 *-----------------------------------------------------------------------*/
-				int buffer_index = (grain->sample_start + grain->samples_done) % this->buffer->num_frames;
+				int buffer_index = grain->sample_start + grain->samples_done;
+				while (buffer_index > this->buffer->num_frames)
+					buffer_index -= this->buffer->num_frames;
 				sample s = this->buffer->data[0][(int) buffer_index];
 
 				/*------------------------------------------------------------------------
@@ -71,7 +74,7 @@ void Granulator::process(sample **out, int num_frames)
 				float env_phase = (float) (grain->samples_done) / grain->sample_length;
 				float amp = this->envelope->get(env_phase);
 
-				grain->samples_done++;
+				grain->samples_done += grain->rate;
 
 				/*------------------------------------------------------------------------
 				 * Calculate pan.

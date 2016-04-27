@@ -9,8 +9,8 @@ namespace libsignal
 	class Grain
 	{
 		public:
-			Grain(Buffer *buffer, int start, int length, float pan) :
-				buffer(buffer), sample_start(start), sample_length(length), pan(pan)
+			Grain(Buffer *buffer, int start, int length, float rate, float pan) :
+				buffer(buffer), sample_start(start), sample_length(length), rate(rate), pan(pan)
 			{
 				this->samples_done = 0;
 			}
@@ -23,14 +23,15 @@ namespace libsignal
 			Buffer *buffer;
 			int sample_start;
 			int sample_length;
-			int samples_done;
+			float samples_done;
+			float rate;
 			float pan;
 	};
 
 	class Granulator : public Node
 	{
 		public:
-			Granulator(Buffer *buffer = NULL, NodeRef clock = 0, NodeRef pos = 0, NodeRef grain_length = 0.1);
+			Granulator(Buffer *buffer = NULL, NodeRef clock = 0, NodeRef pos = 0, NodeRef grain_length = 0.1, NodeRef rate = 1.0);
 
 			Buffer *buffer;
 			Buffer *envelope;
@@ -38,6 +39,7 @@ namespace libsignal
 			NodeRef pos;
 			NodeRef clock;
 			NodeRef grain_length;
+			NodeRef rate;
 			NodeRef pan;
 
 			virtual void process(sample **out, int num_frames);
