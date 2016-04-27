@@ -136,7 +136,7 @@ namespace libsignal
 			 * Returns a new Node that scales the output of this node from
 			 * `from` to `to`.
 			 *-----------------------------------------------------------------------*/
-			virtual Node *scale(float from, float to, signal_scale_t scale = SIGNAL_SCALE_LIN_LIN);
+			virtual NodeRef scale(float from, float to, signal_scale_t scale = SIGNAL_SCALE_LIN_LIN);
 
 			/*------------------------------------------------------------------------
 			 * Human-readable name identifier [a-z0-9-]

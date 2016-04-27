@@ -289,7 +289,7 @@ UnaryOpNode::UnaryOpNode(NodeRef a) : Node(), input(a)
 	this->add_input("input", this->input);
 }
 
-Node *Node::scale(float from, float to, signal_scale_t scale)
+NodeRef Node::scale(float from, float to, signal_scale_t scale)
 {
 	switch (scale)
 	{
@@ -298,7 +298,7 @@ Node *Node::scale(float from, float to, signal_scale_t scale)
 		case SIGNAL_SCALE_LIN_EXP:
 			return new LinExp(this, -1, 1, from, to);
 		default:
-			return NULL;
+			return nullptr;
 	}
 }
 
