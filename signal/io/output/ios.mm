@@ -1,6 +1,6 @@
 #include "ios.h"
 
-#ifdef TARGET_OS_IPHONE
+#if TARGET_OS_IPHONE
 
 #include "../../graph.h"
 
@@ -61,5 +61,5 @@ int AudioOut_iOS::close()
 
 } // namespace libsignal
 
-#endif
+#endif /* TARGET_OS_IPHONE */
 
