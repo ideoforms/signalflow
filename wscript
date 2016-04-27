@@ -122,8 +122,11 @@ def build(bld):
 	# shared object, used when generating the link paths of binaries
 	# compiled against this lib.
 	#------------------------------------------------------------------------
+	source_files = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('lib/json11/json11.cpp') + bld.path.ant_glob('signal/**/*.cpp')
+	if platform == "darwin" or platform == "ios":
+	    source_files += bld.path.ant_glob('signal/**/*.mm')
 	bld.shlib(
-		source = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('lib/json11/json11.cpp') + bld.path.ant_glob('signal/**/*.cpp') + bld.path.ant_glob('signal/**/*.mm'),
+		source = source_files,
 		target = 'signal',
 		vnum = VERSION,
 		use = libraries,
@@ -152,7 +155,7 @@ def build(bld):
 			example_dirs += [ "examples-dev" ]
 
 		excl = []
-		if platform != "darwin":
+		if platform != "darwin" and platform != "ios":
 			#------------------------------------------------------------------------
 			# FFT not yet supported on non-Darwin systems
 			#------------------------------------------------------------------------
