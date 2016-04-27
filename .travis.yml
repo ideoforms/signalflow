@@ -2,8 +2,8 @@ dist: trusty
 before_install:
  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
  - sudo apt-get update -q
- - sudo apt-get install g++-4.9 -y
- - sudo apt-get install cmake libasound2-dev libgsl0-dev libsndfile1-dev -y 
+ - travis_retry sudo apt-get install g++-4.9 -y
+ - travis_retry sudo apt-get install cmake libasound2-dev libgsl0-dev libsndfile1-dev -y 
  - export CXX="g++-4.9" CC="gcc-4.9"
  - pushd .
  - git clone https://github.com/andrewrk/libsoundio.git /tmp/libsoundio && mkdir /tmp/libsoundio/build
