@@ -112,7 +112,7 @@ def build(bld):
 		#------------------------------------------------------------------------
 		bld.define("DEBUG", 1)
 	else:
-		bld.env.CXXFLAGS += [ "-O3" ]
+		bld.env.CXXFLAGS += [ "-O3", "-funroll-loops" ]
 
 	bld.env.CXXFLAGS += [ "-Wno-unused-variable" ]
 
