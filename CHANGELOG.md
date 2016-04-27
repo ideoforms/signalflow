@@ -6,6 +6,7 @@
 
 **New features:**
 
+- Node: MouseX/MouseY [\#65](https://github.com/ideoforms/signal/issues/65)
 - Support for named triggers [\#56](https://github.com/ideoforms/signal/issues/56)
 - Integrate with Travis CI [\#54](https://github.com/ideoforms/signal/issues/54)
 - Generate visualisation of synthesis graph structure [\#53](https://github.com/ideoforms/signal/issues/53)
