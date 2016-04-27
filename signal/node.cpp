@@ -57,7 +57,7 @@ void Node::update_channels()
 {
 	if (this->min_input_channels == N_CHANNELS)
 	{
-		int max_channels = 0;
+		int max_channels = 1;
 		for (auto param : this->params)
 		{
 			NodeRef *ptr = param.second;
