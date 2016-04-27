@@ -8,7 +8,6 @@
 #include "AudioIOManager.h"
 #endif
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,7 +19,6 @@ namespace libsignal
 {
     
 extern Graph *shared_graph;
-    
     
 void audio_callback(float **data, int num_channels, int num_frames)
 {

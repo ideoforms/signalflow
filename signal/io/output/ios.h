@@ -1,15 +1,14 @@
 #pragma once
 
-#if __APPLE__
+#include "../../platform.h"
 
-#include "TargetConditionals.h"
+#if __APPLE__
 
 #if TARGET_OS_IPHONE
 
 #define AudioOut AudioOut_iOS
 
 #include "abstract.h"
-
 
 #include "../../node.h"
 #include "../../graph.h"
