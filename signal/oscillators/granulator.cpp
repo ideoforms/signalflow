@@ -18,8 +18,9 @@ Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain
 	this->add_buffer("envelope", &envelope);
 
 	this->num_output_channels = 2;
+	this->min_output_channels = this->max_output_channels = this->num_output_channels;
+	this->min_input_channels = this->max_input_channels = 1;
 
-	this->pan = 0.5;
 	this->pan = 0.5;
 	this->add_input("pan", this->pan);
 
