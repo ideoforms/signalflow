@@ -2,7 +2,7 @@
  * Audio write example
  *-----------------------------------------------------------------------*/
 
-#include "signal/signal.h"
+#include <signal/signal.h>
 
 #include <unistd.h>
 #include <stdlib.h>
