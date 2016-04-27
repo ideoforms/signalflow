@@ -7,7 +7,7 @@
  * Make some noise when starting the patch.
  *-----------------------------------------------------------------------*/
 
-#include "signal/signal.h"
+#include <signal/signal.h>
 
 #include <unistd.h>
 #include <stdlib.h>

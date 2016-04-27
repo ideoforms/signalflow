@@ -5,7 +5,7 @@
  * a frequency-domain brick wall filter, zeroing any bins beyond
  * the specified cutoff frequency.
  *-----------------------------------------------------------------------*/
-#include "signal/signal.h"
+#include <signal/signal.h>
 
 using namespace libsignal;
 

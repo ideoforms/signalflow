@@ -1,4 +1,4 @@
-#include "signal/signal.h"
+#include <signal/signal.h>
 
 #include <unistd.h>
 

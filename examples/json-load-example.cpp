@@ -5,7 +5,7 @@
  * Optional pathname to a JSON file can be passed in argv.
  *-----------------------------------------------------------------------*/
 
-#include "signal/signal.h"
+#include <signal/signal.h>
 
 using namespace libsignal;
 
