@@ -21,9 +21,18 @@ namespace libsignal
 		this->node_count = 0;
 	}
 
-	void Graph::run()
+	void Graph::start()
 	{
-		while (true) { usleep(100000); }
+		AudioOut *audioout = (AudioOut *) this->output.get();
+		audioout->start();
+	}
+
+	void Graph::wait()
+	{
+		while (true)
+		{
+			usleep(100000);
+		}
 	}
 
 	void Graph::pull_input(const NodeRef &node, int num_frames)
@@ -111,6 +120,7 @@ namespace libsignal
 		signal_debug("Graph: Performing offline process of %d frames", num_frames);
 		while (index < (num_frames - block_size))
 		{
+			signal_debug("Graph: Processing frame %d...", index);
 			this->processed_nodes.clear();
 			this->pull_input(root, block_size);
 			index += block_size;
@@ -127,8 +137,6 @@ namespace libsignal
 			this->pull_input(root, num_frames - index);
 		}
 
-		// TODO Remove this?
-		this->processed_nodes.clear();
 		signal_debug("Graph: Offline process completed");
 	}
 
