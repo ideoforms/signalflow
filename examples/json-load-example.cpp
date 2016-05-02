@@ -11,13 +11,13 @@ using namespace libsignal;
 
 int main(int argc, char **argv)
 {
-    GraphRef graph = new Graph();
+	GraphRef graph = new Graph();
 
 	/*------------------------------------------------------------------------
 	 * A Structure contains a description of a synthesis graph.
 	 * It takes a short human-readable name, drawn from [0-9a-zA-Z_-]
 	 *-----------------------------------------------------------------------*/
-    StructRef structure = new Structure("synth");
+	StructRef structure = new Structure("synth");
 
 	/*------------------------------------------------------------------------
 	 * ->load() parses the specified JSON file and creates a graph 
@@ -32,9 +32,10 @@ int main(int argc, char **argv)
 	 * Instantiate a synth using this structure.
 	 * TODO: Instantiate two synths with different frequencies/pans.
 	 *-----------------------------------------------------------------------*/
-    SynthRef synth = new Synth(structure);
-    graph->output->add_input(synth->output);
-    graph->run();
+	SynthRef synth = new Synth(structure);
+	graph->add_output(synth->output);
+	graph->start();
+	graph->wait();
 
-    return 0;
+	return 0;
 }

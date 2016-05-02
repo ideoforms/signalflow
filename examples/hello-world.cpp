@@ -21,12 +21,12 @@ int main()
 	/*------------------------------------------------------------------------
 	 * The Graph can have multiple inputs, summed to output.
 	 *-----------------------------------------------------------------------*/
-	graph->output->add_input(sine);
+	graph->add_output(sine);
 
 	/*------------------------------------------------------------------------
-	 * Graph actually begins processing as soon as inputs are added.
-	 * run() really just loops indefinitely.
+	 * Begin audio processing, and run indefinitely.
 	 *-----------------------------------------------------------------------*/
-	graph->run();
+	graph->start();
+	graph->wait();
 }
 

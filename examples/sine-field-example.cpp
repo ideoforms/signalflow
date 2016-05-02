@@ -21,9 +21,10 @@ int main()
 		NodeRef sum = resample * env;
 		NodeRef pan = new Pan(2, sum * 0.1, random_uniform(0, 1));
 		NodeRef delay = new Delay(pan, 0.2, 0.4);
-		graph->output->add_input(delay);
+		graph->add_output(delay);
 	}
 
-	graph->run();
+	graph->start();
+	graph->wait();
 }
 

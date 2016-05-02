@@ -30,12 +30,12 @@ int main()
 	/*------------------------------------------------------------------------
 	 * The Graph can have multiple inputs, summed to output.
 	 *-----------------------------------------------------------------------*/
-	graph->output->add_input(granulator);
+	graph->add_output(granulator);
 
 	/*------------------------------------------------------------------------
-	 * Graph actually begins processing as soon as inputs are added.
-	 * run() really just loops indefinitely.
+	 * Begin audio processing, and loop forever.
 	 *-----------------------------------------------------------------------*/
-	graph->run();
+	graph->start();
+	graph->wait();
 }
 

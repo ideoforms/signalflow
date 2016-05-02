@@ -15,8 +15,9 @@ int main()
 	NodeRef pan = new Pan(2, delay);
 
 	NodeRef attenuated = pan * 0.2;
-	graph->output->add_input(attenuated);
+	graph->add_output(attenuated);
 
-	graph->run();
+	graph->start();
+	graph->wait();
 }
 

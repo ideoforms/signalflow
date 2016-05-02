@@ -40,8 +40,8 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Connect the synths to our graph's output.
 	 *-----------------------------------------------------------------------*/
-	graph->output->add_input(synth1->output);
-	graph->output->add_input(synth2->output);
+	graph->add_output(synth1->output);
+	graph->add_output(synth2->output);
 
 	while (true)
 	{
