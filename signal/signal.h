@@ -100,9 +100,6 @@
 
 
 /*------------------------------------------------------------------------
- * Development headers (not included in production distribution)
+ * Local headers (not included in production distribution)
  *-----------------------------------------------------------------------*/
-#ifdef DEBUG
-#include "signal-dev.h"
-#endif
-
+#include "local.h"
