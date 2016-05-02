@@ -63,7 +63,7 @@ namespace libsignal
 				Plugin::OutputList outputs = this->plugin->getOutputDescriptors();
 				this->output_index = -1;
 
-				for (int oi = 0; oi < outputs.size(); oi++)
+				for (unsigned int oi = 0; oi < outputs.size(); oi++)
 				{
 					if (outputs[oi].identifier == vamp_plugin_output)
 					{
@@ -149,6 +149,66 @@ namespace libsignal
 			}
 	};
 
+	class VampSegmenter : public VampAnalysis
+	{
+		public:
+			VampSegmenter(NodeRef input = 0.0, string plugin_id = "vamp:vamp-example-plugins:percussiononsets:onsets") :
+				VampAnalysis(input, plugin_id)
+			{
+				this->name = "vamp_segmenter";
+				this->set_property("timestamps", { 0 });
+				this->set_property("values", { 0 });
+				this->set_property("durations", { 0 });
+			}
+
+			float last_value = -1;
+			long last_timestamp = -1;
+
+			virtual void process(sample **out, int num_frames)
+			{
+				RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
+				Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
+				if (features[this->output_index].size())
+				{
+					Plugin::Feature feature = features[this->output_index][0];
+
+					if (feature.values.size() > 0)
+					{
+						long timestamp = RealTime::realTime2Frame(feature.timestamp, this->graph->sample_rate);
+						float value = feature.values[0];
+						value = midi_to_freq(roundf(freq_to_midi(value)));
+
+						if (value != last_value && (!isnan(value) || !isnan(last_value)))
+						{
+							printf("value %f, last_value %f\n", value, last_value);
+							if (!isnan(value))
+							{
+								std::vector<float> values = this->get_property("values")->array_value();
+								values.push_back(value);
+								this->set_property("values", values);
+
+								std::vector<float> timestamps = this->get_property("timestamps")->array_value();
+								timestamps.push_back(timestamp);
+								this->set_property("timestamps", timestamps);
+							}
+
+							if (last_timestamp >= 0 && !isnan(last_value))
+							{
+								float duration = (float) (timestamp - last_timestamp);
+								std::vector<float> durations = this->get_property("durations")->array_value();
+								durations.push_back(duration);
+								this->set_property("durations", durations);
+							}
+
+							this->last_value = value;
+							this->last_timestamp = timestamp;
+						}
+					}
+				}
+			}
+	};
+
 	REGISTER(VampAnalysis, "vamp");
 	REGISTER(VampEventExtractor, "vamp_events");
+	REGISTER(VampSegmenter, "vamp_segmenter");
 }
