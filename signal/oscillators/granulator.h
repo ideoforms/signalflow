@@ -1,5 +1,6 @@
+#pragma once
+
 #include "../node.h"
-#include "../constants.h"
 #include "../buffer.h"
 
 #include <vector>
