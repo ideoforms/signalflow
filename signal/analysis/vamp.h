@@ -127,6 +127,7 @@ namespace libsignal
 			{
 				this->name = "vamp_events";
 				this->set_property("timestamps", { 0 });
+				this->set_property("labels", { "" });
 			}
 
 			virtual void process(sample **out, int num_frames)
@@ -141,7 +142,7 @@ namespace libsignal
 					{
 						long ts = RealTime::realTime2Frame(feature.timestamp, this->graph->sample_rate);
 						printf("Got ts: %ld (%f)\n", ts, this->graph->sample_rate);
-						std::vector<float> timestamps = this->get_property("timestamps")->array_value();
+						std::vector<float> timestamps = this->get_property("timestamps")->float_array_value();
 						timestamps.push_back(ts);
 						this->set_property("timestamps", timestamps);
 					}
@@ -183,11 +184,11 @@ namespace libsignal
 							printf("value %f, last_value %f\n", value, last_value);
 							if (!isnan(value))
 							{
-								std::vector<float> values = this->get_property("values")->array_value();
+								std::vector<float> values = this->get_property("values")->float_array_value();
 								values.push_back(value);
 								this->set_property("values", values);
 
-								std::vector<float> timestamps = this->get_property("timestamps")->array_value();
+								std::vector<float> timestamps = this->get_property("timestamps")->float_array_value();
 								timestamps.push_back(timestamp);
 								this->set_property("timestamps", timestamps);
 							}
@@ -195,7 +196,7 @@ namespace libsignal
 							if (last_timestamp >= 0 && !isnan(last_value))
 							{
 								float duration = (float) (timestamp - last_timestamp);
-								std::vector<float> durations = this->get_property("durations")->array_value();
+								std::vector<float> durations = this->get_property("durations")->float_array_value();
 								durations.push_back(duration);
 								this->set_property("durations", durations);
 							}
