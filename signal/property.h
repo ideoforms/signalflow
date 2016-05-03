@@ -10,7 +10,8 @@ class Property
 		virtual int int_value() { return 0; }
 		virtual float float_value() { return 0.0; }
 		virtual std::string string_value() { return ""; }
-		virtual std::vector <float> array_value() { return std::vector <float> (); }
+		virtual std::vector <float> float_array_value() { return std::vector <float> (); }
+		virtual std::vector <std::string> string_array_value() { return std::vector <std::string> (); }
 };
 
 template <typename T>
@@ -47,12 +48,20 @@ class StringProperty : public TypedProperty <std::string>
 		virtual std::string string_value() { return value; }
 };
 
-class ArrayProperty : public TypedProperty <std::vector <float>>
+class FloatArrayProperty : public TypedProperty <std::vector <float>>
 {
 	public:
-		ArrayProperty(std::vector <float> value) : TypedProperty(value) {}
-		virtual std::vector <float> array_value() { return value; }
+		FloatArrayProperty(std::vector <float> value) : TypedProperty(value) {}
+		virtual std::vector <float> float_array_value() { return value; }
 };
+
+class StringArrayProperty : public TypedProperty <std::vector <std::string>>
+{
+	public:
+		StringArrayProperty(std::vector <std::string> value) : TypedProperty(value) {}
+		virtual std::vector <std::string> string_array_value() { return value; }
+};
+
 
 class PropertyRef : public std::shared_ptr<Property>
 {
@@ -65,7 +74,9 @@ class PropertyRef : public std::shared_ptr<Property>
 		PropertyRef(int value) : std::shared_ptr<Property>(new IntProperty(value)) { }
 		PropertyRef(std::string value) : std::shared_ptr<Property>(new StringProperty(value)) { }
 		PropertyRef(const char *value) : std::shared_ptr<Property>(new StringProperty(value)) { }
-		PropertyRef(std::initializer_list <float> value) : std::shared_ptr<Property>(new ArrayProperty(value)) { }
-		PropertyRef(std::vector <float> value) : std::shared_ptr<Property>(new ArrayProperty(value)) { }
+		PropertyRef(std::initializer_list <float> value) : std::shared_ptr<Property>(new FloatArrayProperty(value)) { }
+		PropertyRef(std::vector <float> value) : std::shared_ptr<Property>(new FloatArrayProperty(value)) { }
+		PropertyRef(std::initializer_list <std::string> value) : std::shared_ptr<Property>(new StringArrayProperty(value)) { }
+		PropertyRef(std::vector <std::string> value) : std::shared_ptr<Property>(new StringArrayProperty(value)) { }
 };
 
