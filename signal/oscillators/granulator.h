@@ -32,7 +32,7 @@ namespace libsignal
 	class Granulator : public Node
 	{
 		public:
-			Granulator(Buffer *buffer = NULL, NodeRef clock = 0, NodeRef pos = 0, NodeRef grain_length = 0.1, NodeRef rate = 1.0);
+			Granulator(Buffer *buffer = NULL, NodeRef clock = 0, NodeRef pos = 0, NodeRef grain_length = 0.1, NodeRef rate = 1.0, NodeRef max_grains = 2048);
 
 			Buffer *buffer;
 			Buffer *envelope;
@@ -42,6 +42,7 @@ namespace libsignal
 			NodeRef grain_length;
 			NodeRef rate;
 			NodeRef pan;
+			NodeRef max_grains;
 
 			virtual void process(sample **out, int num_frames);
 			virtual void set_spatialisation(int num_channels, NodeRef pan);

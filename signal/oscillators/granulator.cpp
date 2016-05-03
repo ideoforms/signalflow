@@ -5,8 +5,8 @@
 namespace libsignal
 {
 
-Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate) :
-	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length), rate(rate)
+Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate, NodeRef max_grains) :
+	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length), rate(rate), max_grains(max_grains)
 {
 	this->name = "granulator";
 
@@ -14,6 +14,7 @@ Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain
 	this->add_input("clock", this->clock);
 	this->add_input("grain_length", this->grain_length);
 	this->add_input("rate", this->rate);
+	this->add_input("max_grains", this->max_grains);
 
 	this->envelope = new EnvelopeBufferTriangle();
 	this->add_buffer("envelope", &envelope);
@@ -43,11 +44,15 @@ void Granulator::process(sample **out, int num_frames)
 		sample grain_length = this->grain_length->out[0][frame];
 		sample rate = this->rate->out[0][frame];
 		sample pan = this->pan->out[0][frame];
+		sample max_grains = this->max_grains->out[0][frame];
 
 		if (clock_value > clock_last)
 		{
-			Grain *grain = new Grain(buffer, pos * buffer->sample_rate, grain_length * buffer->sample_rate, rate, pan);
-			this->grains.push_back(grain);
+			if (this->grains.size() < max_grains)
+			{
+				Grain *grain = new Grain(buffer, pos * buffer->sample_rate, grain_length * buffer->sample_rate, rate, pan);
+				this->grains.push_back(grain);
+			}
 		}
 		clock_last = clock_value;
 
@@ -71,7 +76,7 @@ void Granulator::process(sample **out, int num_frames)
 				/*------------------------------------------------------------------------
 				 * Apply grain envelope.
 				 *-----------------------------------------------------------------------*/
-				float env_phase = (float) (grain->samples_done) / grain->sample_length;
+				float env_phase = (float) grain->samples_done / grain->sample_length;
 				float amp = this->envelope->get(env_phase);
 
 				grain->samples_done += grain->rate;
