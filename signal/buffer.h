@@ -16,8 +16,7 @@
 typedef enum
 {
 	SIGNAL_INTERPOLATE_NONE,
-	SIGNAL_INTERPOLATE_LINEAR,
-	SIGNAL_INTERPOLATE_CUBIC
+	SIGNAL_INTERPOLATE_LINEAR
 } signal_interpolate_t;
 
 /**------------------------------------------------------------------------
@@ -48,36 +47,45 @@ namespace libsignal
 		/**------------------------------------------------------------------------
 		 * Map a frame index to an offset in the buffer's native range.
 		 *------------------------------------------------------------------------*/
-		virtual float frame_to_offset(float frame)
+		virtual double frame_to_offset(double frame)
 		{
-			return (int) frame;
+			return (double) frame;
 		}
 
 		/**------------------------------------------------------------------------
 		 * Map an offset to a frame value.
 		 *------------------------------------------------------------------------*/
-		virtual float offset_to_frame(float offset)
+		virtual double offset_to_frame(double offset)
 		{
-			return (int) offset;
+			return (double) offset;
 		}
 
 		/**------------------------------------------------------------------------
 		 * @param frame The absolute frame value to retrieve.
 		 * @return The raw value stored within that frame.
 		 *------------------------------------------------------------------------*/
-		sample get_frame(float frame)
+		sample get_frame(double frame)
 		{
-			frame = clip(frame, 0, this->num_frames - 1);
-			return this->data[0][(int) frame];
+			// frame = clip(frame, 0, this->num_frames - 1);
+			if (this->interpolate == SIGNAL_INTERPOLATE_LINEAR)
+			{
+				double frame_frac = (frame - (int) frame);
+				sample rv = ((1.0 - frame_frac) * this->data[0][(int) frame]) + (frame_frac * this->data[0][(int) ceil(frame)]);
+				return rv;
+			}
+			else
+			{
+				return this->data[0][(int) frame];
+			}
 		}
 
 		/**------------------------------------------------------------------------
 		 * @param index A sample offset, between [0, num_frames].
 		 * @return A sample value, between [-1, 1].
 		 *------------------------------------------------------------------------*/
-		virtual sample get(float offset)
+		virtual sample get(double offset)
 		{
-			float frame = this->offset_to_frame(offset);
+			double frame = this->offset_to_frame(offset);
 			return this->get_frame(frame);
 		}
 
@@ -104,7 +112,7 @@ namespace libsignal
 			{
 				for (int frame = 0; frame < this->num_frames; frame++)
 				{
-					float offset = this->frame_to_offset(frame);
+					double offset = this->frame_to_offset(frame);
 					this->data[channel][frame] = f(offset);
 				}
 			}
@@ -131,12 +139,12 @@ namespace libsignal
 			 * @param position An envelope position between [0, 1].
 			 * @return An envelope amplitude value, between [0, 1].
 			 *------------------------------------------------------------------------*/
-			virtual float offset_to_frame(float offset) override
+			virtual double offset_to_frame(double offset) override
 			{
 				return map(offset, 0, 1, 0, this->num_frames - 1);
 			}
 
-			virtual float frame_to_offset(float frame) override
+			virtual double frame_to_offset(double frame) override
 			{
 				return map(frame, 0, this->num_frames - 1, 0, 1);
 			}
@@ -211,12 +219,12 @@ namespace libsignal
 			 * @param input A given input sample, between [-1, 1]
 			 * @return A transformed sample value, between [-1, 1].
 			 *------------------------------------------------------------------------*/
-			virtual float offset_to_frame(float offset) override
+			virtual double offset_to_frame(double offset) override
 			{
 				return map(offset, -1, 1, 0, this->num_frames - 1);
 			}
 
-			virtual float frame_to_offset(float frame) override
+			virtual double frame_to_offset(double frame) override
 			{
 				return map(frame, 0, this->num_frames - 1, -1, 1);
 			}
