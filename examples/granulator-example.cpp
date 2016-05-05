@@ -9,9 +9,9 @@ using namespace libsignal;
 int main()
 {
 	/*------------------------------------------------------------------------
-	 * Instantiate a single Graph object for all global audio processing.
+	 * Instantiate a single AudioGraph object for all global audio processing.
 	 *-----------------------------------------------------------------------*/
-	Graph *graph = new Graph();
+	AudioGraph *graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Load audio buffer
@@ -28,7 +28,7 @@ int main()
 	granulator = granulator * 0.25;
 
 	/*------------------------------------------------------------------------
-	 * The Graph can have multiple inputs, summed to output.
+	 * The AudioGraph can have multiple inputs, summed to output.
 	 *-----------------------------------------------------------------------*/
 	graph->add_output(granulator);
 

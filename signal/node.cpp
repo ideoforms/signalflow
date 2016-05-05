@@ -22,7 +22,7 @@
 namespace libsignal
 {
     
-extern Graph *shared_graph;
+extern AudioGraph *shared_graph;
 
 Node::Node()
 {

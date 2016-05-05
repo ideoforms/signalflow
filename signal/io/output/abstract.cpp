@@ -2,9 +2,9 @@
 
 namespace libsignal
 {
-    Graph *shared_graph = NULL;
+    AudioGraph *shared_graph = NULL;
     
-    AudioOut_Abstract::AudioOut_Abstract(Graph *graph)
+    AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
     {
         this->graph = graph;
         shared_graph = graph;

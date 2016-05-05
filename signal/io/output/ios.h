@@ -19,7 +19,7 @@ namespace libsignal
     class AudioOut_iOS : public AudioOut_Abstract
     {
     public:
-        AudioOut_iOS(Graph *graph);
+        AudioOut_iOS(AudioGraph *graph);
         
         virtual int init() override;
         virtual int start() override;

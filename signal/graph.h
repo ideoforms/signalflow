@@ -7,11 +7,11 @@ namespace libsignal
 {
 	class AudioOut_Abstract;
 
-	class Graph
+	class AudioGraph
 	{
 		public:
 
-			Graph();
+			AudioGraph();
 
 			/**------------------------------------------------------------------------
 			 * Begin audio I/O.
@@ -56,12 +56,12 @@ namespace libsignal
 			std::set<Node *> processed_nodes;
 	};
 
-    class GraphRef : public std::shared_ptr<Graph>
-    {
-        public:
-            using std::shared_ptr<Graph>::shared_ptr;
+	class AudioGraphRef : public std::shared_ptr<AudioGraph>
+	{
+		public:
+			using std::shared_ptr<AudioGraph>::shared_ptr;
 
-            GraphRef() : std::shared_ptr<Graph>(nullptr) { }
-            GraphRef(Graph *ptr) : std::shared_ptr<Graph>(ptr) { }
-    };
+			AudioGraphRef() : std::shared_ptr<AudioGraph>(nullptr) { }
+			AudioGraphRef(AudioGraph *ptr) : std::shared_ptr<AudioGraph>(ptr) { }
+	};
 }

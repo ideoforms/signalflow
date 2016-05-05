@@ -19,7 +19,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Instantiate a global processing graph.
 	 *-----------------------------------------------------------------------*/
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Take a two-channel input from the default input device.

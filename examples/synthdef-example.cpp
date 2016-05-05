@@ -6,7 +6,7 @@ using namespace libsignal;
 
 int main()
 {
-	Graph *graph = new Graph();
+	AudioGraph *graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Create a new SynthTemplate 

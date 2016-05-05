@@ -26,7 +26,7 @@ namespace libsignal
 	class Divide;
 
 	class Node;
-	class Graph;
+	class AudioGraph;
 	class NodeMonitor;
 
 	/*------------------------------------------------------------------------
@@ -178,7 +178,7 @@ namespace libsignal
 			 * Pointer to the Graph that this node is a part of.
 			 * Set automatically in constructor.
 			 *-----------------------------------------------------------------------*/
-			Graph *graph;
+			AudioGraph *graph;
 
 			/*------------------------------------------------------------------------
 			 * Number of actual in/out channels. This should always reflect

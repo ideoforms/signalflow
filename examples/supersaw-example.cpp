@@ -15,9 +15,9 @@ using namespace libsignal;
 int main()
 {
 	/*------------------------------------------------------------------------
-	 * Create a global Graph object
+	 * Create a global AudioGraph object
 	 *-----------------------------------------------------------------------*/
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Create 6 mono channels of sawtooth with varying frequencies.

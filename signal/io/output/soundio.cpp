@@ -13,7 +13,7 @@
 namespace libsignal
 {
 	
-extern Graph *shared_graph;
+extern AudioGraph *shared_graph;
 	
 void write_callback(struct SoundIoOutStream *outstream,
 		int frame_count_min, int frame_count_max)
@@ -86,7 +86,7 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
 }
 
 
-AudioOut_SoundIO::AudioOut_SoundIO(Graph *graph) : AudioOut_Abstract(graph)
+AudioOut_SoundIO::AudioOut_SoundIO(AudioGraph *graph) : AudioOut_Abstract(graph)
 {
 	this->init();
 }

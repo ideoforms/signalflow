@@ -13,7 +13,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Create the global signal processing graph.
 	 *-----------------------------------------------------------------------*/
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Create a stereo pair of oscillating sine waves, an octave apart.

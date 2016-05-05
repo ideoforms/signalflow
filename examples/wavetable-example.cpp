@@ -4,7 +4,7 @@ using namespace libsignal;
 
 int main()
 {
-	Graph *graph = new Graph();
+	AudioGraph *graph = new AudioGraph();
 
 	Buffer *buffer = new EnvelopeBufferHanning(256);
 	NodeRef freq = new Noise(2.0, true, 140, 800);

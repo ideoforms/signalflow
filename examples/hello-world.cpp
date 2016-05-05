@@ -9,9 +9,9 @@ using namespace libsignal;
 int main()
 {
 	/*------------------------------------------------------------------------
-	 * Instantiate a single Graph object for all global audio processing.
+	 * Instantiate a single AudioGraph object for all global audio processing.
 	 *-----------------------------------------------------------------------*/
-	Graph *graph = new Graph();
+	AudioGraph *graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * 440hz Hello World
@@ -19,7 +19,7 @@ int main()
 	NodeRef sine = new Sine(440);
 
 	/*------------------------------------------------------------------------
-	 * The Graph can have multiple inputs, summed to output.
+	 * The AudioGraph can have multiple inputs, summed to output.
 	 *-----------------------------------------------------------------------*/
 	graph->add_output(sine);
 

@@ -18,7 +18,7 @@
 namespace libsignal
 {
     
-extern Graph *shared_graph;
+extern AudioGraph *shared_graph;
     
 void audio_callback(float **data, int num_channels, int num_frames)
 {
@@ -33,7 +33,7 @@ void audio_callback(float **data, int num_channels, int num_frames)
     }
 }
     
-AudioOut_iOS::AudioOut_iOS(Graph *graph) : AudioOut_Abstract(graph)
+AudioOut_iOS::AudioOut_iOS(AudioGraph *graph) : AudioOut_Abstract(graph)
 {
     this->init();
 }

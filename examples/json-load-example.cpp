@@ -11,7 +11,7 @@ using namespace libsignal;
 
 int main(int argc, char **argv)
 {
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * A SynthSpec contains a description of a synthesis graph.

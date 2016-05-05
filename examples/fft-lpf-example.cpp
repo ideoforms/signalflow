@@ -14,7 +14,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Create the global signal processing graph.
 	 *-----------------------------------------------------------------------*/
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Load and play a sample.

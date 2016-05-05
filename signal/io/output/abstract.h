@@ -13,7 +13,7 @@ namespace libsignal
     class AudioOut_Abstract : public Node
     {
     public:
-        AudioOut_Abstract(Graph *graph);
+        AudioOut_Abstract(AudioGraph *graph);
         virtual void process(sample **out, int num_samples);
 
         int sample_rate = 0;

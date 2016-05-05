@@ -50,7 +50,7 @@ void GraphRenderer::render_node(NodeRef node)
 	}
 }
 
-void GraphRenderer::render(GraphRef graph)
+void GraphRenderer::render(AudioGraphRef graph)
 {
 	/*------------------------------------------------------------------------
 	 * Recurse and render the complete output

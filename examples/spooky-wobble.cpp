@@ -8,7 +8,7 @@ using namespace libsignal;
 
 int main()
 {
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Load in a sample and play it back at a varying rate.

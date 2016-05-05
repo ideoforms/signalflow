@@ -13,7 +13,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Create the global processing graph and begin playback.
 	 *-----------------------------------------------------------------------*/
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 	graph->start();
 
 	/*------------------------------------------------------------------------

@@ -11,7 +11,7 @@
 
 namespace libsignal
 {
-	Graph::Graph()
+	AudioGraph::AudioGraph()
 	{
 		signal_init();
         
@@ -21,13 +21,13 @@ namespace libsignal
 		this->node_count = 0;
 	}
 
-	void Graph::start()
+	void AudioGraph::start()
 	{
 		AudioOut *audioout = (AudioOut *) this->output.get();
 		audioout->start();
 	}
 
-	void Graph::wait()
+	void AudioGraph::wait()
 	{
 		while (true)
 		{
@@ -35,7 +35,7 @@ namespace libsignal
 		}
 	}
 
-	void Graph::pull_input(const NodeRef &node, int num_frames)
+	void AudioGraph::pull_input(const NodeRef &node, int num_frames)
 	{
 		/*------------------------------------------------------------------------
 		 * If this node has already been processed this timestep, return.
@@ -99,15 +99,15 @@ namespace libsignal
 		this->processed_nodes.insert(node.get());
 	}
 
-	void Graph::pull_input(int num_frames)
+	void AudioGraph::pull_input(int num_frames)
 	{
 		this->processed_nodes.clear();
 		this->pull_input(this->output, num_frames);
 		this->node_count = this->processed_nodes.size();
-		signal_debug("Graph: pull %d frames, %d nodes", num_frames, this->node_count);
+		signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 	}
 
-	void Graph::process(const NodeRef &root, int num_frames, int block_size)
+	void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
 	{
 		/*------------------------------------------------------------------------
 		 * Updating the routing from the tip. 
@@ -117,10 +117,10 @@ namespace libsignal
 		root->update_channels();
 
 		int index = 0;
-		signal_debug("Graph: Performing offline process of %d frames", num_frames);
+		signal_debug("AudioGraph: Performing offline process of %d frames", num_frames);
 		while (index < (num_frames - block_size))
 		{
-			signal_debug("Graph: Processing frame %d...", index);
+			signal_debug("AudioGraph: Processing frame %d...", index);
 			this->processed_nodes.clear();
 			this->pull_input(root, block_size);
 			index += block_size;
@@ -132,30 +132,30 @@ namespace libsignal
 		printf("Processed %d frames, total %d\n", index, num_frames);
 		if (index < num_frames)
 		{
-			signal_debug("Graph: Processing remaining %d samples", num_frames - index);
+			signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);
 			this->processed_nodes.clear();
 			this->pull_input(root, num_frames - index);
 		}
 
-		signal_debug("Graph: Offline process completed");
+		signal_debug("AudioGraph: Offline process completed");
 	}
 
-	NodeRef Graph::add_node(Node *node)
+	NodeRef AudioGraph::add_node(Node *node)
 	{
 		return NodeRef(node);
 	}
 
-	NodeRef Graph::get_output()
+	NodeRef AudioGraph::get_output()
 	{
 		return this->output;
 	}
 
-	void Graph::add_output(SynthRef synth)
+	void AudioGraph::add_output(SynthRef synth)
 	{
 		this->output->add_input(synth->output);
 	}
 
-	void Graph::add_output(NodeRef node)
+	void AudioGraph::add_output(NodeRef node)
 	{
 		this->output->add_input(node);
 	}

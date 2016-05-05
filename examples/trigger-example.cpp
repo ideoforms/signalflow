@@ -15,7 +15,7 @@ using namespace libsignal;
 
 int main()
 {
-	GraphRef graph = new Graph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Create a simple envelope-modulated triangle wave.
