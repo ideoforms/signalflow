@@ -4,15 +4,12 @@
 
 #include <signal/signal.h>
 
-#include <unistd.h>
-#include <stdlib.h>
-
 using namespace libsignal;
 
 int main()
 {
 	/*------------------------------------------------------------------------
-	 * Instantiate a global processing graph.
+	 * Instantiate the global processing graph.
 	 *-----------------------------------------------------------------------*/
 	AudioGraphRef graph = new AudioGraph();
 
@@ -28,6 +25,7 @@ int main()
 
 	/*------------------------------------------------------------------------
 	 * Create a Recorder to perform a one-shot recording of the input.
+	 * It must be connected to the graph's output to trigger processing.
 	 *-----------------------------------------------------------------------*/
 	NodeRef recorder = new Recorder(buffer, input);
 	graph->add_output(recorder);
