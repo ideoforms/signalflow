@@ -18,4 +18,4 @@ test-*.cpp
 .waf*
 *-
 docs/html
-signal/signal-dev.h
+signal/local.h
