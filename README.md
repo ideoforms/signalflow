@@ -12,40 +12,40 @@ As of May 2016, Signal is in alpha status. Its codebase is under frequent develo
 #include <signal/signal.h>
 using namespace libsignal;
 
-GraphRef graph = new Graph();
+AudioGraphRef graph = new AudioGraph();
 
 /*------------------------------------------------------------------------
- * A Structure describes a reusable synthesis graph.
- * *Ref objects are subclasses of std::shared_ptr smart pointers,
+ * A SynthTemplate describes a reusable synthesis graph.
+ * *Ref objects are std::shared_ptr smart pointers,
  * so no memory management required.
  *-----------------------------------------------------------------------*/
-StructRef structure = new Structure("ping");
+SynthTemplateRef tmp = new SynthTemplate("ping");
 
 /*------------------------------------------------------------------------
  * Initializing Sine with an array of frequencies creates a stereo output.
  *-----------------------------------------------------------------------*/
-NodeRef sine = structure->add_node(new Sine({ 440, 880 }));
+NodeRef sine = tmp->add_node(new Sine({ 440, 880 }));
 
 /*------------------------------------------------------------------------
  * Simple attack/sustain/release envelope with linear curves.
  *-----------------------------------------------------------------------*/
-NodeRef env = structure->add_node(new ASR(0.01, 0.1, 5.0));
+NodeRef env = tmp->add_node(new ASR(0.01, 0.1, 0.5));
 
 /*------------------------------------------------------------------------
  * Operator overloading: Multiplies the amplitude of sine and env
  *-----------------------------------------------------------------------*/
-NodeRef ping = structure->add_node(sine * env);
+NodeRef ping = tmp->add_node(sine * env);
 
 /*------------------------------------------------------------------------
  * Single-tap delay line with feedback.
  *-----------------------------------------------------------------------*/
-NodeRef delay = structure->add_node(new Delay(ping, 0.3, 0.3));
-structure->set_output(delay);
+NodeRef delay = tmp->add_node(new Delay(ping, 0.5, 0.5));
+tmp->set_output(delay);
 
 /*------------------------------------------------------------------------
- * Instantiate the structure and wire it to the audio output.
+ * Instantiate the tmp and wire it to the audio output.
  *-----------------------------------------------------------------------*/
-SynthRef synth = new Synth(structure);
+SynthRef synth = new Synth(tmp);
 graph->add_output(synth);
 graph->run();
 ```
