@@ -15,8 +15,8 @@ using namespace libsignal;
 AudioGraphRef graph = new AudioGraph();
 
 /*------------------------------------------------------------------------
- * A SynthTemplate describes a reusable synthesis graph.
- * *Ref objects are std::shared_ptr smart pointers,
+ * A SynthTemplate constructs a reusable synthesis graph.
+ * -Ref objects are std::shared_ptr smart pointers,
  * so no memory management required.
  *-----------------------------------------------------------------------*/
 SynthTemplateRef tmp = new SynthTemplate("ping");
@@ -32,7 +32,7 @@ NodeRef sine = tmp->add_node(new Sine({ 440, 880 }));
 NodeRef env = tmp->add_node(new ASR(0.01, 0.1, 0.5));
 
 /*------------------------------------------------------------------------
- * Operator overloading: Multiplies the amplitude of sine and env
+ * Operator overloading: Apply the envelope to the sine wave's amplitude
  *-----------------------------------------------------------------------*/
 NodeRef ping = tmp->add_node(sine * env);
 
@@ -43,11 +43,11 @@ NodeRef delay = tmp->add_node(new Delay(ping, 0.5, 0.5));
 tmp->set_output(delay);
 
 /*------------------------------------------------------------------------
- * Instantiate the tmp and wire it to the audio output.
+ * Instantiate the synth and route it to the audio output.
  *-----------------------------------------------------------------------*/
 SynthRef synth = new Synth(tmp);
 graph->add_output(synth);
-graph->run();
+graph->start();
 ```
 
 ## Installation
