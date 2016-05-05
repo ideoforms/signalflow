@@ -7,9 +7,9 @@ namespace libsignal
 	class Recorder : public Node
 	{
 		public:
-			Recorder(Buffer *buffer = NULL, NodeRef input = 0.0, bool loop = false);
+			Recorder(BufferRef buffer = nullptr, NodeRef input = 0.0, bool loop = false);
 
-			Buffer *buffer;
+			BufferRef buffer;
 
 			NodeRef input;
 

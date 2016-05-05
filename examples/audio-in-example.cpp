@@ -26,7 +26,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Create a one-second stereo buffer.
 	 *-----------------------------------------------------------------------*/
-	Buffer *buffer = new Buffer(2, graph->sample_rate * 1.0);
+	BufferRef buffer = new Buffer(2, graph->sample_rate * 1.0);
 
 	/*------------------------------------------------------------------------
 	 * Create a Recorder to perform a one-shot recording of the input.
