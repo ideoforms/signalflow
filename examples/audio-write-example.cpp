@@ -3,6 +3,7 @@
  *-----------------------------------------------------------------------*/
 
 #include <signal/signal.h>
+#include <unistd.h>
 
 using namespace libsignal;
 
