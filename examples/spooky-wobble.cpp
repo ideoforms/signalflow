@@ -13,7 +13,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Load in a sample and play it back at a varying rate.
 	 *-----------------------------------------------------------------------*/
-	Buffer *buffer = new Buffer("audio/gliss.aif");
+	BufferRef buffer = new Buffer("audio/gliss.aif");
 	NodeRef sampler = new Sampler(buffer, new Noise(0.3, true), true);
 	NodeRef sampler_pan = new Pan(2, sampler, 0.25);
 	graph->add_output(sampler_pan);

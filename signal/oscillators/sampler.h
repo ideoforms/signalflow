@@ -7,9 +7,9 @@ namespace libsignal
 	class Sampler : public Node
 	{
 		public:
-			Sampler(Buffer *buffer = NULL, NodeRef rate = 1.0, bool loop = false);
+			Sampler(BufferRef buffer = nullptr, NodeRef rate = 1.0, bool loop = false);
 
-			Buffer *buffer;
+			BufferRef buffer;
 
 			NodeRef rate;
 			float phase;
