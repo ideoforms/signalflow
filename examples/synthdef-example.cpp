@@ -9,32 +9,34 @@ int main()
 	Graph *graph = new Graph();
 
 	/*------------------------------------------------------------------------
-	 * Create a new Structure 
+	 * Create a new SynthTemplate 
 	 *-----------------------------------------------------------------------*/
-	StructRef structure = new Structure("my_synth");
+	SynthTemplateRef tmp = new SynthTemplate("my_synth");
 
 	/*------------------------------------------------------------------------
 	 * Create a named input that can be used to modulate parameters of
 	 * the synth.
 	 *-----------------------------------------------------------------------*/
-	NodeRef base_freq = structure->add_input("base_freq", 40.0);
-	NodeRef freq = structure->add_node(new Noise(2.0, true, 40, 160));
-	NodeRef sine = structure->add_node(new Sine(freq + base_freq));
-	NodeRef pan_position = structure->add_input("pan", 0.5);
-	NodeRef pan = structure->add_node(new Pan(2, sine, pan_position));
+	NodeRef base_freq = tmp->add_input("base_freq", 40.0);
+	NodeRef freq = tmp->add_node(new Noise(2.0, true, 40, 160));
+	NodeRef sine = tmp->add_node(new Sine(freq + base_freq));
+	NodeRef pan_position = tmp->add_input("pan", 0.5);
+	NodeRef pan = tmp->add_node(new Pan(2, sine, pan_position));
 
 	/*------------------------------------------------------------------------
 	 * Set the output of the synth.
 	 *-----------------------------------------------------------------------*/
-	structure->set_output(pan);
+	tmp->set_output(pan);
+
+	SynthSpecRef spec = tmp->parse();
 
 	/*------------------------------------------------------------------------
-	 * Instantiate two synths that use this structure.
+	 * Instantiate two synths that use this tmp.
 	 * Pan one hard left, and one hard right.
 	 *-----------------------------------------------------------------------*/
-	SynthRef synth1 = new Synth(structure);
+	SynthRef synth1 = new Synth(spec);
 	synth1->set_input("pan", 0);
-	SynthRef synth2 = new Synth(structure);
+	SynthRef synth2 = new Synth(spec);
 	synth2->set_input("pan", 1);
 
 	/*------------------------------------------------------------------------
@@ -42,6 +44,7 @@ int main()
 	 *-----------------------------------------------------------------------*/
 	graph->add_output(synth1->output);
 	graph->add_output(synth2->output);
+	graph->start();
 
 	while (true)
 	{

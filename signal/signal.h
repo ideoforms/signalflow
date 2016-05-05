@@ -12,7 +12,8 @@
 
 #include "registry.h"
 #include "nodedef.h"
-#include "structure.h"
+#include "synthspec.h"
+#include "synthtemplate.h"
 #include "synth.h"
 
 /*------------------------------------------------------------------------

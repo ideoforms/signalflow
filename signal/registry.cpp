@@ -1,5 +1,5 @@
 #include "registry.h"
-#include "structure.h"
+#include "synthspec.h"
 #include "synth.h"
 
 #include <stdlib.h>

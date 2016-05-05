@@ -5,72 +5,55 @@
 
 namespace libsignal
 {
-	class Structure
+	class SynthSpec
 	{
 		public:
-			Structure(std::string name);
+			SynthSpec(std::string name);
 			
 			/*----------------------------------------------------------------------------------
-			 * Methods for creating a Structure from live Node objects.
-			 *---------------------------------------------------------------------------------*/
-			NodeRef add_input(std::string name, sample default_value = 0);
-			NodeRef add_node(NodeRef node);
-			void set_output(const NodeRef &out);
-
-			/*----------------------------------------------------------------------------------
-			 * Methods for creating a Structure from NodeDefinitions.
+			 * Methods for creating a SynthSpec from NodeDefinitions.
 			 *---------------------------------------------------------------------------------*/
 			void add_node_def(NodeDefinition def);
 			void set_output(NodeDefinition def);
 			NodeDefinition *get_node_def(int id);
+			NodeDefinition get_root();
 
 			/*----------------------------------------------------------------------------------
-			 * Save a Structure to disk.
+			 * Save a SynthSpec to disk.
 			 *---------------------------------------------------------------------------------*/
 			void save(std::string filename);
 
 			/*----------------------------------------------------------------------------------
-			 * Load a Structure from disk.
+			 * Load a SynthSpec from disk.
 			 *---------------------------------------------------------------------------------*/
 			void load(std::string filename);
 
 			/*----------------------------------------------------------------------------------
-			 * Parse a template from live Node objects to create a network of NodeDefs
-			 *---------------------------------------------------------------------------------*/
-			void parse();
-			NodeDefinition get_root();
-
-			/*----------------------------------------------------------------------------------
-			 * Store a Structure to the global SynthRegistry so that it can be
+			 * Store a SynthSpec to the global SynthRegistry so that it can be
 			 * instantiated by name.
 			 *---------------------------------------------------------------------------------*/
 			void store();
 
 			/**----------------------------------------------------------------------------------
-			 * Returns true if this Structure is ready to be played.
+			 * Returns true if this SynthSpec is ready to be played.
 			 *---------------------------------------------------------------------------------*/
 			bool is_ready();
 
 			std::string name;
 
-		private:
+		// private:
 
 			NodeDefinition output_def;
-			NodeRef output = nullptr;
 			bool parsed = false;
 			int last_id = 0;
 
-			std::string get_input_name(const NodeRef &node);
-			NodeDefinition parse_root(const NodeRef &node);
-
-			std::unordered_map <std::string, Node *> inputs;
 			std::unordered_map <int, NodeDefinition> nodedefs;
 	};
 
-    class StructRef : public std::shared_ptr<Structure>
-    {
-        public:
-            StructRef() : std::shared_ptr<Structure>(nullptr) { }
-            StructRef(Structure *ptr) : std::shared_ptr<Structure>(ptr) { }
-    };
+	class SynthSpecRef : public std::shared_ptr<SynthSpec>
+	{
+		public:
+			SynthSpecRef() : std::shared_ptr<SynthSpec>(nullptr) { }
+			SynthSpecRef(SynthSpec *ptr) : std::shared_ptr<SynthSpec>(ptr) { }
+	};
 }

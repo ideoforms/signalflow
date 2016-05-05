@@ -68,10 +68,10 @@ void Granulator::process(sample **out, int num_frames)
 				/*------------------------------------------------------------------------
 				 * Obtain the correct sample from the buffer.
 				 *-----------------------------------------------------------------------*/
-				int buffer_index = grain->sample_start + grain->samples_done;
+				double buffer_index = grain->sample_start + grain->samples_done;
 				while (buffer_index > this->buffer->num_frames)
 					buffer_index -= this->buffer->num_frames;
-				sample s = this->buffer->data[0][(int) buffer_index];
+				sample s = this->buffer->get(buffer_index);
 
 				/*------------------------------------------------------------------------
 				 * Apply grain envelope.

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unordered_map>
-#include "structure.h"
+#include "synthspec.h"
 
 namespace libsignal
 {
@@ -12,9 +12,9 @@ namespace libsignal
 			static SynthRegistry *global();
 
 			Synth *create(std::string name);
-			void add(std::string name, StructRef structure);
-			StructRef get(std::string name);
+			void add(std::string name, SynthSpecRef synthspec);
+			SynthSpecRef get(std::string name);
 
-			std::unordered_map <std::string, StructRef> structures;
+			std::unordered_map <std::string, SynthSpecRef> synthspecs;
 	};
 }

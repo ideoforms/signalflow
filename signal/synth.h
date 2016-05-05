@@ -1,14 +1,14 @@
 #pragma once
 
 #include "nodedef.h"
-#include "structure.h"
+#include "synthspec.h"
 
 namespace libsignal
 {
 	class Synth
 	{
 		public:
-			Synth(StructRef structure);
+			Synth(SynthSpecRef synthspec);
 			Synth(std::string name);
 			NodeRef instantiate(NodeDefinition *nodedef);
 
@@ -27,6 +27,6 @@ namespace libsignal
 
                         SynthRef() : std::shared_ptr<Synth>(nullptr) { }
                         SynthRef(Synth *ptr) : std::shared_ptr<Synth>(ptr) { }
-                        SynthRef(StructRef structure) : std::shared_ptr<Synth>(new Synth(structure)) { }
+                        SynthRef(SynthSpecRef synthspec) : std::shared_ptr<Synth>(new Synth(synthspec)) { }
         };
 }

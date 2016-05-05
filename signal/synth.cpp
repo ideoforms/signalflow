@@ -10,20 +10,20 @@
 namespace libsignal
 {
 
-Synth::Synth(StructRef structure)
+Synth::Synth(SynthSpecRef synthspec)
 {
-	structure->parse();
-	NodeDefinition nodedef = structure->get_root();
+	// synthspec->parse();
+	NodeDefinition nodedef = synthspec->get_root();
 	this->output = this->instantiate(&nodedef);
 }
 
 Synth::Synth(std::string name)
 {
-	StructRef structure = SynthRegistry::global()->get(name);
-	if (structure)
+	SynthSpecRef synthspec = SynthRegistry::global()->get(name);
+	if (synthspec)
 	{
-		structure->parse();
-		NodeDefinition nodedef = structure->get_root();
+		// synthspec->parse();
+		NodeDefinition nodedef = synthspec->get_root();
 		this->output = this->instantiate(&nodedef);
 	}
 }

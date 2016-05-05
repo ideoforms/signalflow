@@ -16,25 +16,25 @@ SynthRegistry *SynthRegistry::global()
 	return registry;
 }
 
-void SynthRegistry::add(std::string name, StructRef structure)
+void SynthRegistry::add(std::string name, SynthSpecRef synthspec)
 {
-	this->structures[name] = structure;
+	this->synthspecs[name] = synthspec;
 }
 
-StructRef SynthRegistry::get(std::string name)
+SynthSpecRef SynthRegistry::get(std::string name)
 {
-	return this->structures[name];
+	return this->synthspecs[name];
 }
 
 
 Synth *SynthRegistry::create(std::string name)
 {
-	if (!this->structures[name])
+	if (!this->synthspecs[name])
 	{
 		fprintf(stderr, "Could not instantiate synth (unknown name: %s)\n", name.c_str());
 		exit(1);
 	}
-	Synth *synth = new Synth(this->structures[name]);
+	Synth *synth = new Synth(this->synthspecs[name]);
 	return synth;
 }
 

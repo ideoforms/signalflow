@@ -22,9 +22,9 @@ namespace libsignal
 			}
 
 			Buffer *buffer;
-			int sample_start;
+			double sample_start;
 			int sample_length;
-			float samples_done;
+			double samples_done;
 			float rate;
 			float pan;
 	};
