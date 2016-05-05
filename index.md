@@ -25,17 +25,17 @@ graph->start();
 <div class="row">
 <div class="box">
 ### Built on familiar protocols
-Where possible, existing standards are used throughout: JSON to describe object graphs, REST/HTTP for client-server comms.
+Well-known standards and languages are used throughout, with audio graphs serialised using JSON.
 </div>
 
 <div class="box">
 ### Cross-platform
-Tested on OS X, iOS, Linux and Raspberry Pi (Jessie). Cross-platform I/O courtesy of [libsoundio](http://libsound.io/).
+Tested and stable on OS X, iOS, Linux and Raspberry Pi (Jessie). Cross-platform I/O courtesy of [libsoundio](http://libsound.io/).
 </div>
 
 <div class="box">
 ### Free of memory allocation headaches
-Key objects are transparently instantiated via `shared_ptr` reference counters, meaning less manual memory allocation.
+Key objects are transparently instantiated via `shared_ptr` reference counters, minimising the need for manual memory allocation.
 </div>
 
 </div>
