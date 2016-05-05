@@ -49,7 +49,7 @@ Instantiate an audio-generating node in a single line of C++. Combine and modula
 
 <div class="box">
 ### Processor efficient
-On iOS and OSX, uses Accelerate for hardware-accelerated FFT and vector optimisations.
+Performs complex synthesis and analysis on Raspberry Pi. On iOS and OSX, uses Accelerate for hardware-accelerated FFT and vector optimisations.
 </div>
 
 <div class="box">
