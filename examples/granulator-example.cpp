@@ -17,10 +17,23 @@ int main()
 	 * Load audio buffer
 	 *-----------------------------------------------------------------------*/
 	Buffer *buffer = new Buffer("audio/gliss.aif");
-	NodeRef dust = new Dust(1000.0);
+
+	/*------------------------------------------------------------------------
+	 * Dust creates an impulse train with randomised interval, at a 
+	 * given mean frequency. This is used to trigger grains.
+	 *-----------------------------------------------------------------------*/
+	NodeRef dust = new Dust(100.0);
+
+	/*------------------------------------------------------------------------
+	 * Set position, length and pan to oscillating randomised values.
+	 *-----------------------------------------------------------------------*/
 	NodeRef pos = new Noise(0.3, false, 0, buffer->duration);
 	NodeRef len = new Noise(100, false, 0.1, 0.5);
 	NodeRef pan = new Noise(100, false);
+
+	/*------------------------------------------------------------------------
+	 * Create a granulator object with Hanning envelope applies to grains.
+	 *-----------------------------------------------------------------------*/
 	NodeRef granulator = new Granulator(buffer, dust, pos, len);
 	Buffer *env_buf = new EnvelopeBufferHanning();
 	granulator->set_input("pan", pan);
@@ -29,6 +42,7 @@ int main()
 
 	/*------------------------------------------------------------------------
 	 * The AudioGraph can have multiple inputs, summed to output.
+	 * Add the granulator as its only output.
 	 *-----------------------------------------------------------------------*/
 	graph->add_output(granulator);
 
