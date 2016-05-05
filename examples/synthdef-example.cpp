@@ -28,15 +28,13 @@ int main()
 	 *-----------------------------------------------------------------------*/
 	tmp->set_output(pan);
 
-	SynthSpecRef spec = tmp->parse();
-
 	/*------------------------------------------------------------------------
-	 * Instantiate two synths that use this tmp.
+	 * Instantiate two synths that use this template.
 	 * Pan one hard left, and one hard right.
 	 *-----------------------------------------------------------------------*/
-	SynthRef synth1 = new Synth(spec);
+	SynthRef synth1 = new Synth(tmp);
 	synth1->set_input("pan", 0);
-	SynthRef synth2 = new Synth(spec);
+	SynthRef synth2 = new Synth(tmp);
 	synth2->set_input("pan", 1);
 
 	/*------------------------------------------------------------------------

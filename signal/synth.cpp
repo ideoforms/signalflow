@@ -12,9 +12,12 @@ namespace libsignal
 
 Synth::Synth(SynthSpecRef synthspec)
 {
-	// synthspec->parse();
 	NodeDefinition nodedef = synthspec->get_root();
 	this->output = this->instantiate(&nodedef);
+}
+
+Synth::Synth(SynthTemplateRef synthtemplate) : Synth(synthtemplate->parse())
+{
 }
 
 Synth::Synth(std::string name)
@@ -22,7 +25,6 @@ Synth::Synth(std::string name)
 	SynthSpecRef synthspec = SynthRegistry::global()->get(name);
 	if (synthspec)
 	{
-		// synthspec->parse();
 		NodeDefinition nodedef = synthspec->get_root();
 		this->output = this->instantiate(&nodedef);
 	}
