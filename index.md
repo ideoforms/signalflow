@@ -8,17 +8,17 @@ signal is an audio synthesis engine designed for structural clarity, lightness o
 </div>
 
 ```cpp
-GraphRef graph = new Graph();
+AudioGraphRef graph = new AudioGraph();
 
-StructRef structure = new Structure("ping");
-NodeRef sine = structure->add_node(new Sine(440));
-NodeRef env = structure->add_node(new ASR(0.01, 0.1, 5.0));
-NodeRef pan = structure->add_node(new Pan(2, env * sine, 0.5));
-structure->set_output(pan);
+SynthTemplateRef tmp = new SynthTemplate("ping");
+NodeRef sine = tmp->add_node(new Sine(440));
+NodeRef env = tmp->add_node(new ASR(0.01, 0.1, 5.0));
+NodeRef pan = tmp->add_node(new Pan(2, env * sine, 0.5));
+tmp->set_output(pan);
 
-SynthRef synth = new Synth(structure);
-graph->output->add_input(synth->output);
-graph->run();
+SynthRef synth = new Synth(tmp);
+graph->add_output(synth);
+graph->start();
 ```
 
 {::options parse_block_html="true" /}
@@ -61,9 +61,7 @@ Designed for clarity, with modularised and accessible code.
 
 ---
 
-**What it can do now:** Cross-platform audio I/O (OS X, iOS, Linux, rpi), Oscillators and wavetables, Sample playback, Granular synthesis, Multichannel expansion, Node operations via standard operators, Synth graph templates, Reference-counted memory management
+**What it can do now:** Cross-platform audio I/O (OS X, iOS, Linux, rpi), Oscillators and wavetables, Sample playback, Granular synthesis, Multichannel expansion, Node operations via standard operators, Synth graph templates, Reference-counted memory management, Non-realtime processing, Audio analysis via [Vamp](http://www.vamp-plugins.org/)
 
-**What it will do in the future:** RESTful client-server architecture, Python interface, Convolution reverb, Binaural spatialisation with HRTF, System install as a shared library, Non-realtime processing, Audio analysis via Vamp, Sound-source positioning and multichannel spatialisation
-
-**What it will not do:** Graphical user interface, Timelines and event scheduling, Web audio 
+**What it will do in the future:** RESTful client-server architecture, Python interface, Convolution reverb, Binaural spatialisation with HRTF, System install as a shared library, Sound-source positioning and multichannel spatialisation
 
