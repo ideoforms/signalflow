@@ -31,6 +31,7 @@ int main()
 	 *-----------------------------------------------------------------------*/
 	NodeRef recorder = new Recorder(buffer, input);
 	graph->add_output(recorder);
+	graph->start();
 
 	/*------------------------------------------------------------------------
 	 * Wait until our recording is complete (happening in the audio I/O

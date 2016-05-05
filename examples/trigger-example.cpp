@@ -30,6 +30,7 @@ int main()
 	NodeRef panned = new Pan(2, output);
 
 	graph->add_output(panned);
+	graph->start();
 
 	while (true)
 	{
