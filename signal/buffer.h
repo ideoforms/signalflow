@@ -9,6 +9,7 @@
 #include "util.h"
 
 #include <math.h>
+#include <memory>
 
 #define SIGNAL_ENVELOPE_BUFFER_LENGTH 1024
 #define SIGNAL_ENVELOPE_BUFFER_HALF_LENGTH (SIGNAL_ENVELOPE_BUFFER_LENGTH / 2)
@@ -228,5 +229,14 @@ namespace libsignal
 			{
 				return map(frame, 0, this->num_frames - 1, -1, 1);
 			}
+	};
+
+	class BufferRef : public std::shared_ptr<Buffer>
+	{
+		public:
+			using std::shared_ptr<Buffer>::shared_ptr;
+
+			BufferRef() : std::shared_ptr<Buffer>(nullptr) { }
+			BufferRef(Buffer *ptr) : std::shared_ptr<Buffer>(ptr) { }
 	};
 }
