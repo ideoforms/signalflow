@@ -113,8 +113,8 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Register buffer params.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_buffer(std::string name, Buffer **buffer);
-			virtual void set_buffer(std::string name, Buffer *buffer);
+			virtual void add_buffer(std::string name, BufferRef &buffer);
+			virtual void set_buffer(std::string name, BufferRef buffer);
 
 			/*------------------------------------------------------------------------
 			 * Generic trigger method. 
@@ -172,7 +172,7 @@ namespace libsignal
 			 * Buffers are distinct from parameters, pointing to a fixed
 			 * area of sample storage that must be non-null.
 			 *-----------------------------------------------------------------------*/
-			std::unordered_map <std::string, Buffer **> buffers;
+			std::unordered_map <std::string, BufferRef *> buffers;
 
 			/*------------------------------------------------------------------------
 			 * Pointer to the Graph that this node is a part of.

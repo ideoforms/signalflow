@@ -5,7 +5,7 @@
 namespace libsignal
 {
 
-Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate, NodeRef max_grains) :
+Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate, NodeRef max_grains) :
 	buffer(buffer), pos(pos), clock(clock), grain_length(grain_length), rate(rate), max_grains(max_grains)
 {
 	this->name = "granulator";
@@ -17,7 +17,7 @@ Granulator::Granulator(Buffer *buffer, NodeRef clock, NodeRef pos, NodeRef grain
 	this->add_input("max_grains", this->max_grains);
 
 	this->envelope = new EnvelopeBufferTriangle();
-	this->add_buffer("envelope", &envelope);
+	this->add_buffer("envelope", envelope);
 
 	this->num_output_channels = 2;
 	this->min_output_channels = this->max_output_channels = this->num_output_channels;

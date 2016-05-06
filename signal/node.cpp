@@ -167,12 +167,12 @@ PropertyRef Node::get_property(std::string name)
 	return this->properties[name];
 }
 
-void Node::add_buffer(std::string name, Buffer **buffer)
+void Node::add_buffer(std::string name, BufferRef &buffer)
 {
-	this->buffers[name] = buffer;
+	this->buffers[name] = &buffer;
 }
 
-void Node::set_buffer(std::string name, Buffer *buffer)
+void Node::set_buffer(std::string name, BufferRef buffer)
 {
 	if (this->buffers.find(name) == this->buffers.end())
 		throw std::runtime_error("Node " + this->name + " has no such buffer: " + name);

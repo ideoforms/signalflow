@@ -11,12 +11,12 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Instantiate a single AudioGraph object for all global audio processing.
 	 *-----------------------------------------------------------------------*/
-	AudioGraph *graph = new AudioGraph();
+	AudioGraphRef graph = new AudioGraph();
 
 	/*------------------------------------------------------------------------
 	 * Load audio buffer
 	 *-----------------------------------------------------------------------*/
-	Buffer *buffer = new Buffer("audio/gliss.aif");
+	BufferRef buffer = new Buffer("audio/gliss.aif");
 
 	/*------------------------------------------------------------------------
 	 * Dust creates an impulse train with randomised interval, at a 
