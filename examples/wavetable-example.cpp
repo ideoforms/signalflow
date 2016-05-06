@@ -1,12 +1,18 @@
+/*------------------------------------------------------------------------
+ * Wavetable example
+ *
+ * Demonstrates using the `Wavetable` oscillator to generate periodic
+ * waveforms from a fixed audio buffer.
+ *-----------------------------------------------------------------------*/
 #include <signal/signal.h>
 
 using namespace libsignal;
 
 int main()
 {
-	AudioGraph *graph = new AudioGraph();
+	AudioGraphRef graph = new AudioGraph();
 
-	Buffer *buffer = new EnvelopeBufferHanning(256);
+	BufferRef buffer = new EnvelopeBufferHanning(256);
 	NodeRef freq = new Noise(2.0, true, 140, 800);
 	freq = new RoundToScale(freq);
 	NodeRef wavetable = new Wavetable(buffer, freq * 2.0);

@@ -1,3 +1,10 @@
+/*------------------------------------------------------------------------
+ * Synth template example
+ *
+ * Demonstrates the creation of a reusable graph of nodes, that can
+ * be subsequently replicated for polyphonic output.
+ *-----------------------------------------------------------------------*/
+
 #include <signal/signal.h>
 
 #include <unistd.h>

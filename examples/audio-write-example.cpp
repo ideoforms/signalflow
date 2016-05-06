@@ -1,5 +1,8 @@
 /*------------------------------------------------------------------------
  * Audio write example
+ *
+ * Demonstrates recording audio input (or any other synthesis node)
+ * to a buffer, and saving the output to disk as a .wav file.
  *-----------------------------------------------------------------------*/
 
 #include <signal/signal.h>

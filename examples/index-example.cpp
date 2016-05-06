@@ -1,8 +1,8 @@
 /*------------------------------------------------------------------------
  * Index example
  *
- * Demonstrates using the Index node to retrieve indexed items
- * from a std::vector. Note that the first argument to Index is a
+ * Demonstrates using the `Index` node to retrieve indexed items
+ * from a `std::vector`. Note that the first argument to Index is a
  * static property, not a node.
  *-----------------------------------------------------------------------*/
 

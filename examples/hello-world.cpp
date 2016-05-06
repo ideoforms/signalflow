@@ -1,5 +1,7 @@
 /*------------------------------------------------------------------------
- * The 440hz Sinewave: Hello, World.
+ * Hello, World.
+ *
+ * The canonical 440hz sine wave example.
  *-----------------------------------------------------------------------*/
 
 #include <signal/signal.h>
