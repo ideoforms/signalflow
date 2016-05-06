@@ -19,7 +19,7 @@ int main()
 	/*------------------------------------------------------------------------
 	 * Load and play a sample.
 	 *-----------------------------------------------------------------------*/
-	Buffer *buffer = new Buffer("audio/gliss.aif");
+	BufferRef buffer = new Buffer("audio/gliss.aif");
 	NodeRef sampler = new Sampler(buffer, 1.0, true);
 
 	/*------------------------------------------------------------------------
