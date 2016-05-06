@@ -25,7 +25,7 @@ int main()
 	 * WaveShaperBuffer is a subclass of Buffer that is optimised for
 	 * mapping a sample value [-1, 1] to a new sample value [-1, 1].
 	 *-----------------------------------------------------------------------*/
-	Buffer *buffer = new WaveShaperBuffer();
+	BufferRef buffer = new WaveShaperBuffer();
 	buffer->fill([](float input) { return input * input * input; });
 
 	/*------------------------------------------------------------------------
