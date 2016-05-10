@@ -57,13 +57,13 @@ namespace libsignal
 							if (frame < this->num_bins)
 							{
 								out[hop][frame] = magnitude_buffer[frame];
-								// if (frame == 0)
-								// 	out[hop][frame] = 0.0;
 							}
 							else
 							{
-								// copy magnitudes in to out;
-								// for phases, increase by phase_deriv per hop
+								/*------------------------------------------------------------------------
+								 * copy magnitudes in to out;
+								 * for phases, increase by phase_deriv per hop
+								 *-----------------------------------------------------------------------*/
 								int phase_index = frame - num_bins;
 								phase_buffer[phase_index] = phase_buffer[phase_index] + phase_deriv[phase_index];
 								if (phase_buffer[phase_index] >= M_PI)
@@ -73,14 +73,15 @@ namespace libsignal
 						}
 						else
 						{
-							// copy in to out
+							/*------------------------------------------------------------------------
+							 * Copy in to out
+							 *-----------------------------------------------------------------------*/
 							out[hop][frame] = input->out[hop][frame];
 						}
 					}
 				}
 
 				int last_hop = this->num_hops - 1;
-				// if ((last_hop >= 1) && (!frozen || triggered))
 				if ((last_hop >= 1) && !frozen)
 				{
 					FFTNode *fftin = (FFTNode *) input.get();
