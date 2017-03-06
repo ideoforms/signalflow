@@ -20,18 +20,28 @@ namespace libsignal
 				this->magnitude_buffer = (sample *) calloc(this->num_bins, sizeof(sample));
 
 				this->frozen = false;
+				this->just_frozen = false;
 			}
 
 			sample *magnitude_buffer;
 			sample *phase_buffer;
 			sample *phase_deriv;
 			bool frozen;
+			bool just_frozen;
 
 			NodeRef clock = nullptr;
 
 			virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1)
 			{
-				this->frozen = true;
+				if (name == SIGNAL_DEFAULT_TRIGGER || name == "freeze")
+				{
+					this->frozen = true;
+					this->just_frozen = true;
+				}
+				else if (name == "unfreeze")
+				{
+					this->frozen = false;
+				}
 			}
 
 			virtual void process(sample **out, int num_frames)
@@ -82,8 +92,9 @@ namespace libsignal
 				}
 
 				int last_hop = this->num_hops - 1;
-				if ((last_hop >= 1) && !frozen)
+				if ((last_hop >= 1) && (!frozen || just_frozen))
 				{
+					this->just_frozen = false;
 					FFTNode *fftin = (FFTNode *) input.get();
 					for (int frame = 0; frame < this->num_bins; frame++)
 					{
