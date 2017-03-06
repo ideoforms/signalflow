@@ -66,17 +66,24 @@ namespace libsignal
 				{
 					is_output = true;
 				}
-				else
+				else if (key == "inputs")
 				{
-					if (value.is_number())
+					printf("found inputs\n");
+					for (auto input_pair : value.object_items())
 					{
-						node.add_input(key, value.number_value());
-					}
-					else if (value.is_object())
-					{
-						int id = value["id"].int_value();
-						NodeDefinition *ptr = this->get_node_def(id);
-						node.add_input(key, ptr);
+						std::string input_key = input_pair.first;
+						auto input_value = input_pair.second;
+
+						if (input_value.is_number())
+						{
+							node.add_input(input_key, input_value.number_value());
+						}
+						else if (input_value.is_object())
+						{
+							int id = input_value["id"].int_value();
+							NodeDefinition *ptr = this->get_node_def(id);
+							node.add_input(input_key, ptr);
+						}
 					}
 				}
 			}

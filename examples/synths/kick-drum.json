@@ -1,45 +1,60 @@
 [
 	{
 		"node" : "line",
-		"time" : 0.2,
-		"from" : 70,
-		"to" : 20,
-		"id" : 0
+		"id" : 0,
+		"inputs" : {
+			"time" : 0.2,
+			"from" : 70,
+			"to" : 20
+		}
 	},
 	{
 		"node" : "sine",
 		"id" : 1,
-		"frequency" : { "id" : 0 }
+		"inputs" : {
+			"frequency" : { "id" : 0 }
+		}
 	},
 	{
 		"node" : "env-asr",
 		"id" : 2,
-		"attack" : 0.001,
-		"sustain" : 0,
-		"release" : 0.3
+		"inputs" : {
+			"attack" : 0.001,
+			"sustain" : 0,
+			"release" : 0.3
+		}
 	},
 	{
 		"node" : "multiply",
 		"id" : 2,
-		"input0" : { "id" : 1 },
-		"input1" : { "id" : 2 }
+		"inputs" : {
+			"input0" : { "id" : 1 },
+			"input1" : { "id" : 2 }
+		}
 	},
 	{
 		"node" : "tick",
 		"id" : 3,
-		"frequency" : 0.0
+		"inputs" : {
+			"frequency" : 0.0
+		}
 	},
 	{
 		"node" : "add",
 		"id" : 4,
-		"input0" : { "id" : 2 },
-		"input1" : { "id" : 3 }
+		"inputs" : {
+			"input0" : { "id" : 2 },
+			"input1" : { "id" : 3 }
+		}
 	},
 	{
 		"node" : "pan",
-		"input" : { "id" : 4 },
-		"pan" : 0.5,
-		"is_output" : true
+		"id" : 5,
+		"is_output" : true,
+		"inputs" : {
+			"input" : { "id" : 4 },
+			"pan" : 0.5
+		}
 	}
 ]
 
