@@ -30,6 +30,7 @@ namespace libsignal
 
 	REGISTER(MouseX, "mousex");
 	REGISTER(MouseY, "mousey");
+	REGISTER(MouseDown, "mousedown");
 }
 
 #endif /* __APPLE__ */
