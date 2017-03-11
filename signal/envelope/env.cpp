@@ -30,10 +30,7 @@ void ASR::process(sample **out, int num_frames)
 
 	for (int frame = 0; frame < num_frames; frame++)
 	{
-		if (this->clock)
-		{
-			SIGNAL_PROCESS_TRIGGER(this->clock, frame, SIGNAL_DEFAULT_TRIGGER);
-		}
+		SIGNAL_PROCESS_TRIGGER(this->clock, frame, SIGNAL_DEFAULT_TRIGGER);
 
 		float attack = this->attack->out[0][frame];
 		float sustain = this->sustain->out[0][frame];
