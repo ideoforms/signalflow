@@ -46,7 +46,7 @@ void ASR::process(sample **out, int num_frames)
 		else if (this->phase <= attack + sustain)
 		{
 			/*------------------------------------------------------------------------
-			 * Sutain phase.
+			 * Sustain phase.
 			 *-----------------------------------------------------------------------*/
 			rv = 1.0;
 		}
