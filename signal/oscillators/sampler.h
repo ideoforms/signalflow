@@ -7,13 +7,14 @@ namespace libsignal
 	class Sampler : public Node
 	{
 		public:
-			Sampler(BufferRef buffer = nullptr, NodeRef rate = 1.0, bool loop = false);
+			Sampler(BufferRef buffer = nullptr, NodeRef rate = 1.0, PropertyRef loop = false);
 
 			BufferRef buffer;
 
 			NodeRef rate;
 			float phase;
-			bool loop;
+
+			PropertyRef loop = 0;
 
 			virtual void trigger(std::string = SIGNAL_DEFAULT_TRIGGER, float value = 0.0);
 			virtual void process(sample **out, int num_frames);

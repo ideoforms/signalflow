@@ -7,13 +7,13 @@
 namespace libsignal
 {
 
-Sampler::Sampler(BufferRef buffer, NodeRef rate, bool loop) : rate(rate)
+Sampler::Sampler(BufferRef buffer, NodeRef rate, PropertyRef loop) : rate(rate), loop(loop)
 {
 	this->name = "sampler";
 
 	this->add_input("rate", this->rate);
+	this->add_property("loop", this->loop);
 
-	this->loop = loop;
 	this->phase = 0.0;
 
 	this->buffer = buffer;
@@ -29,9 +29,9 @@ Sampler::Sampler(BufferRef buffer, NodeRef rate, bool loop) : rate(rate)
 
 void Sampler::process(sample **out, int num_frames)
 {
+	sample s;
 	for (int frame = 0; frame < num_frames; frame++)
 	{
-		sample s;
 		for (int channel = 0; channel < this->num_output_channels; channel++)
 		{
 			if ((int) this->phase < buffer->num_frames)
@@ -40,7 +40,7 @@ void Sampler::process(sample **out, int num_frames)
 			}
 			else
 			{
-				if (loop)
+				if (loop->int_value())
 				{
 					this->phase = 0;
 					s = this->buffer->data[channel][(int) this->phase];
