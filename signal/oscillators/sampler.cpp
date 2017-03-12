@@ -12,6 +12,8 @@ Sampler::Sampler(BufferRef buffer, NodeRef rate, PropertyRef loop) : rate(rate),
 	this->name = "sampler";
 
 	this->add_input("rate", this->rate);
+	this->add_input("loop_start", this->loop_start);
+	this->add_input("loop_end", this->loop_end);
 	this->add_property("loop", this->loop);
 
 	this->phase = 0.0;
@@ -30,11 +32,15 @@ Sampler::Sampler(BufferRef buffer, NodeRef rate, PropertyRef loop) : rate(rate),
 void Sampler::process(sample **out, int num_frames)
 {
 	sample s;
+
+	int loop_start = this->loop_start ? (buffer->num_frames * this->loop_start->out[0][0]) : 0;
+	int loop_end = this->loop_end ? (buffer->num_frames * this->loop_end->out[0][0]) : buffer->num_frames;
+
 	for (int frame = 0; frame < num_frames; frame++)
 	{
 		for (int channel = 0; channel < this->num_output_channels; channel++)
 		{
-			if ((int) this->phase < buffer->num_frames)
+			if ((int) this->phase < loop_end)
 			{
 				s = this->buffer->data[channel][(int) this->phase];
 			}
@@ -42,7 +48,7 @@ void Sampler::process(sample **out, int num_frames)
 			{
 				if (loop->int_value())
 				{
-					this->phase = 0;
+					this->phase = loop_start;
 					s = this->buffer->data[channel][(int) this->phase];
 				}
 				else
@@ -60,9 +66,17 @@ void Sampler::process(sample **out, int num_frames)
 
 void Sampler::trigger(std::string name, float value)
 {
-	if (name == SIGNAL_DEFAULT_TRIGGER)
+	if (name == SIGNAL_SAMPLER_TRIGGER_SET_POSITION)
 	{
 		this->phase = value * this->graph->sample_rate;
+	}
+	else if (name == SIGNAL_SAMPLER_TRIGGER_SET_LENGTH)
+	{
+		this->set_property("length", value);
+	}
+	else if (name == SIGNAL_SAMPLER_TRIGGER_SET_LOOP_PLAYBACK)
+	{
+		this->set_property("loop", (int) value);
 	}
 }
 
