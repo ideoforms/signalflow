@@ -29,7 +29,16 @@ Node::Node()
 	this->graph = shared_graph;
 	this->out = (sample **) malloc(SIGNAL_MAX_CHANNELS * sizeof(sample *));
 	for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
-		this->out[i] = (sample *) malloc(SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
+	{
+		this->out[i] = (sample *) calloc(SIGNAL_NODE_BUFFER_SIZE, sizeof(sample));
+
+		/*------------------------------------------------------------------------
+		 * Memory allocation magic: incrementing the `out` pointer means that
+		 * we can query out[-1] which holds the last frame of the previous
+		 * block. 
+		 *-----------------------------------------------------------------------*/
+		this->out[i] = this->out[i] + 1;
+	}
 
 	this->min_input_channels = N_CHANNELS;
 	this->max_input_channels = N_CHANNELS;
@@ -38,11 +47,31 @@ Node::Node()
 
 	this->num_input_channels = 1;
 	this->num_output_channels = 1;
+	this->last_num_frames = 0;
 
 	this->no_input_automix = false;
 
 	this->ref = NULL;
 	this->monitor = NULL;
+}
+
+/*------------------------------------------------------------------------
+ * Called directly by AudioGraph, this function wraps around the
+ * subclassed process() method and handles extra bits of magic,
+ * including populating the buffer history so that the value of the
+ * previous frame can be checked.
+ *-----------------------------------------------------------------------*/
+void Node::_process(sample **out, int num_frames)
+{
+	if (this->last_num_frames > 0)
+	{
+		for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+		{
+			out[i][-1] = out[i][last_num_frames - 1];
+		}
+	}
+	this->process(out, num_frames);
+	this->last_num_frames = num_frames;
 }
 
 void Node::process(sample **out, int num_frames)
@@ -149,14 +178,17 @@ void Node::disconnect_inputs()
 }
 
 
-void Node::add_property(std::string name)
+void Node::add_property(std::string name, PropertyRef &value)
 {
-
+	this->properties[name] = &value;
 }
 
-void Node::set_property(std::string name, PropertyRef value)
+void Node::set_property(std::string name, const PropertyRef &value)
 {
-	this->properties[name] = value;
+	if (this->properties.find(name) == this->properties.end())
+		throw std::runtime_error("Node " + this->name + " has no such property: " + name);
+
+	*this->properties[name] = value;
 }
 
 PropertyRef Node::get_property(std::string name)
@@ -164,7 +196,7 @@ PropertyRef Node::get_property(std::string name)
 	if (this->properties.find(name) == this->properties.end())
 		throw std::runtime_error("Node " + this->name + " has no such property: " + name);
 	
-	return this->properties[name];
+	return *(this->properties[name]);
 }
 
 void Node::add_buffer(std::string name, BufferRef &buffer)

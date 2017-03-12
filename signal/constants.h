@@ -52,7 +52,7 @@ typedef RingBuffer <sample> SampleRingBuffer;
 #define SIGNAL_PROCESS_TRIGGER(input, frame, name) \
 	if (input && SIGNAL_CHECK_TRIGGER(input, frame)) { this->trigger(name); }
 #define SIGNAL_PROCESS_TRIGGER_BLOCK(input, num_frames, name) \
-	if (input) { for (int frame = -1; frame < num_frames; frame++) { SIGNAL_PROCESS_TRIGGER(input, frame, name); } }
+	if (input) { for (int frame = 0; frame < num_frames; frame++) { SIGNAL_PROCESS_TRIGGER(input, frame, name); } }
 
 typedef enum
 {

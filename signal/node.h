@@ -70,11 +70,20 @@ namespace libsignal
 			Node();
 			Node(double x);
 
+			/*------------------------------------------------------------------------
+			 * The main generation/processing method.
+			 *-----------------------------------------------------------------------*/
 			virtual void process(sample **out, int num_frames);
 
 			/*------------------------------------------------------------------------
+			 * Wrapper around process(), called by AudioGraph.pull_input,
+			 * which handles caching of earlier frames etc.
+			 *-----------------------------------------------------------------------*/
+			virtual void _process(sample **out, int num_frames);
+
+			/*------------------------------------------------------------------------
 			 * Connect a new signal input to this node. These connections form
-			 * the overall signal graph.
+			 * the overall signal graph. (Now only used by AudioOut units?)
 			 *-----------------------------------------------------------------------*/
 			virtual void add_input(NodeRef input) {}
 
@@ -86,8 +95,8 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Register parameters.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_input(std::string name, NodeRef &param);
-			virtual void set_input(std::string name, const NodeRef &param);
+			virtual void add_input(std::string name, NodeRef &input);
+			virtual void set_input(std::string name, const NodeRef &input);
 
 			/*------------------------------------------------------------------------
 			 * Register an output.
@@ -106,8 +115,8 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Register properties.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_property(std::string name);
-			virtual void set_property(std::string name, PropertyRef value);
+			virtual void add_property(std::string name, PropertyRef &property);
+			virtual void set_property(std::string name, const PropertyRef &value);
 			virtual PropertyRef get_property(std::string name);
 
 			/*------------------------------------------------------------------------
@@ -162,11 +171,14 @@ namespace libsignal
 			std::set <std::pair <Node *, std::string>> outputs;
 
 			/*------------------------------------------------------------------------
-			 * Hash table of properties: (name, PropertyRef)
+			 * Hash table of properties: (name, PropertyRef *)
 			 * A property is a static, non-streaming value assigned to this node.
 			 * Properties may be ints, floats, strings or arrays.
+			 *
+			 * Similar to `inputs`, each property actually points to a local 
+			 * PropertyRef field which must be separatedly allocated on the object.
 			 *-----------------------------------------------------------------------*/
-			std::unordered_map <std::string, PropertyRef> properties;
+			std::unordered_map <std::string, PropertyRef *> properties;
 
 			/*------------------------------------------------------------------------
 			 * Buffers are distinct from parameters, pointing to a fixed
@@ -207,6 +219,12 @@ namespace libsignal
 			 * its history can be read for delay lines etc.
 			 *-----------------------------------------------------------------------*/
 			sample **out;
+
+			/*------------------------------------------------------------------------
+			 * Stores the number of frames in the previous processing block. Used
+			 * to populate frame history in out[-1].
+			 *-----------------------------------------------------------------------*/
+			int last_num_frames;
 
 			/*------------------------------------------------------------------------
 			 * A reference to the NodeRef shared_ptr pointing to this Node.

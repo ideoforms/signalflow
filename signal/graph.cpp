@@ -48,13 +48,12 @@ namespace libsignal
 
 		if (!(node->params.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
 		{
-			// signal_warn("Node %s has no registered params", node->name.c_str());
+			signal_debug("Node %s has no registered params", node->name.c_str());
 		}
 
 		/*------------------------------------------------------------------------
 		 * Pull our inputs before we generate our own outputs.
 		 *-----------------------------------------------------------------------*/
-
 		for (auto param : node->params)
 		{
 			NodeRef param_node = *(param.second);
@@ -95,7 +94,7 @@ namespace libsignal
 				}
 			}
 		}
-		node->process(node->out, num_frames);
+		node->_process(node->out, num_frames);
 		this->processed_nodes.insert(node.get());
 	}
 
