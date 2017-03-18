@@ -6,10 +6,16 @@
 
 **New features:**
 
+- BufferRef [\#66](https://github.com/ideoforms/signal/issues/66)
 - Node: MouseX/MouseY [\#65](https://github.com/ideoforms/signal/issues/65)
+- Example: audio-write-example [\#59](https://github.com/ideoforms/signal/issues/59)
+- Buffer: Save to wav file [\#58](https://github.com/ideoforms/signal/issues/58)
 - Support for named triggers [\#56](https://github.com/ideoforms/signal/issues/56)
 - Integrate with Travis CI [\#54](https://github.com/ideoforms/signal/issues/54)
 - Generate visualisation of synthesis graph structure [\#53](https://github.com/ideoforms/signal/issues/53)
+- Trigger-based random number generation [\#49](https://github.com/ideoforms/signal/issues/49)
+- Naming review [\#44](https://github.com/ideoforms/signal/issues/44)
+- Non-realtime processing [\#16](https://github.com/ideoforms/signal/issues/16)
 
 **Fixed bugs:**
 
