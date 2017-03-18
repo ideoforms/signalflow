@@ -7,14 +7,14 @@
 namespace libsignal
 {
 
-Sampler::Sampler(BufferRef buffer, NodeRef rate, PropertyRef loop) : rate(rate), loop(loop)
+Sampler::Sampler(BufferRef buffer, NodeRef rate, NodeRef loop) : rate(rate), loop(loop)
 {
 	this->name = "sampler";
 
 	this->add_input("rate", this->rate);
 	this->add_input("loop_start", this->loop_start);
 	this->add_input("loop_end", this->loop_end);
-	this->add_property("loop", this->loop);
+	this->add_input("loop", this->loop);
 
 	this->phase = 0.0;
 
@@ -46,7 +46,7 @@ void Sampler::process(sample **out, int num_frames)
 			}
 			else
 			{
-				if (loop->int_value())
+				if (loop->out[channel][frame])
 				{
 					this->phase = loop_start;
 					s = this->buffer->data[channel][(int) this->phase];
@@ -69,14 +69,6 @@ void Sampler::trigger(std::string name, float value)
 	if (name == SIGNAL_SAMPLER_TRIGGER_SET_POSITION)
 	{
 		this->phase = value * this->graph->sample_rate;
-	}
-	else if (name == SIGNAL_SAMPLER_TRIGGER_SET_LENGTH)
-	{
-		this->set_property("length", value);
-	}
-	else if (name == SIGNAL_SAMPLER_TRIGGER_SET_LOOP_PLAYBACK)
-	{
-		this->set_property("loop", (int) value);
 	}
 }
 

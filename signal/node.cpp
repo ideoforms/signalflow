@@ -76,9 +76,6 @@ void Node::_process(sample **out, int num_frames)
 
 void Node::process(sample **out, int num_frames)
 {
-	// Basic process() loop assumes we are N-in, N-out.
-	// TODO: Assert channel config makes sense? (> 0)
-
 	throw std::runtime_error("Node::process (should never be called)");
 }
 

@@ -189,6 +189,8 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Pointer to the Graph that this node is a part of.
 			 * Set automatically in constructor.
+			 *
+			 * TODO: Should be an AudioGraphRef
 			 *-----------------------------------------------------------------------*/
 			AudioGraph *graph;
 
