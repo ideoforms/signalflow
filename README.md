@@ -48,11 +48,13 @@ NodeRef delay = tmp->add_node(new Delay(ping, 0.5, 0.5));
 tmp->set_output(delay);
 
 /*------------------------------------------------------------------------
- * Instantiate the synth and route it to the audio output.
+ * Instantiate the synth and route it to the audio output,
+ * then start the AudioGraph and run forever.
  *-----------------------------------------------------------------------*/
 SynthRef synth = new Synth(tmp);
 graph->add_output(synth);
 graph->start();
+graph->wait();
 ```
 
 ## Installation
