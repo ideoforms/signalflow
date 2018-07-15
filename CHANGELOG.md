@@ -1,25 +1,27 @@
-# Change Log
+CHANGELOG
 
-## [HEAD](https://github.com/ideoforms/signal/tree/HEAD)
-
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.2.0...HEAD)
+## [v0.3.0](https://github.com/ideoforms/signal/tree/v0.3.0) (2018-07-15)
+[Full Changelog](https://github.com/ideoforms/signal/compare/v0.2.0...v0.3.0)
 
 **New features:**
 
 - BufferRef [\#66](https://github.com/ideoforms/signal/issues/66)
-- Node: MouseX/MouseY [\#65](https://github.com/ideoforms/signal/issues/65)
 - Example: audio-write-example [\#59](https://github.com/ideoforms/signal/issues/59)
 - Buffer: Save to wav file [\#58](https://github.com/ideoforms/signal/issues/58)
 - Support for named triggers [\#56](https://github.com/ideoforms/signal/issues/56)
-- Integrate with Travis CI [\#54](https://github.com/ideoforms/signal/issues/54)
-- Generate visualisation of synthesis graph structure [\#53](https://github.com/ideoforms/signal/issues/53)
 - Trigger-based random number generation [\#49](https://github.com/ideoforms/signal/issues/49)
-- Naming review [\#44](https://github.com/ideoforms/signal/issues/44)
 - Non-realtime processing [\#16](https://github.com/ideoforms/signal/issues/16)
 
 **Fixed bugs:**
 
 - Multiplex cannot be serialised [\#55](https://github.com/ideoforms/signal/issues/55)
+
+**Closed issues:**
+
+- Node: MouseX/MouseY [\#65](https://github.com/ideoforms/signal/issues/65)
+- Integrate with Travis CI [\#54](https://github.com/ideoforms/signal/issues/54)
+- Generate visualisation of synthesis graph structure [\#53](https://github.com/ideoforms/signal/issues/53)
+- Naming review [\#44](https://github.com/ideoforms/signal/issues/44)
 
 ## [v0.2.0](https://github.com/ideoforms/signal/tree/v0.2.0) (2016-04-17)
 [Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.1...v0.2.0)
@@ -27,17 +29,11 @@
 **New features:**
 
 - SynthRegistry [\#51](https://github.com/ideoforms/signal/issues/51)
-- Further examples [\#48](https://github.com/ideoforms/signal/issues/48)
-- Node: MoogVCF [\#43](https://github.com/ideoforms/signal/issues/43)
-- Node: Linear scale [\#41](https://github.com/ideoforms/signal/issues/41)
 - Node: Support for constant property values [\#39](https://github.com/ideoforms/signal/issues/39)
 - Multiplex: Support for std::initializer\_list  [\#37](https://github.com/ideoforms/signal/issues/37)
 - Buffer: Fill buffer from a lambda function [\#35](https://github.com/ideoforms/signal/issues/35)
 - Buffer: Waveshaper buffers [\#33](https://github.com/ideoforms/signal/issues/33)
 - Node: Waveshaper [\#27](https://github.com/ideoforms/signal/issues/27)
-- Node: Triangle [\#26](https://github.com/ideoforms/signal/issues/26)
-- Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
-- Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
 - JSON parsing to load serialised synth graphs [\#17](https://github.com/ideoforms/signal/issues/17)
 - SynthDef: Support for named inputs and outputs [\#4](https://github.com/ideoforms/signal/issues/4)
 - Support for non-44k samplerates [\#2](https://github.com/ideoforms/signal/issues/2)
@@ -51,7 +47,13 @@
 
 **Closed issues:**
 
+- Further examples [\#48](https://github.com/ideoforms/signal/issues/48)
+- Node: MoogVCF [\#43](https://github.com/ideoforms/signal/issues/43)
+- Node: Linear scale [\#41](https://github.com/ideoforms/signal/issues/41)
+- Node: Triangle [\#26](https://github.com/ideoforms/signal/issues/26)
+- Node: Saw [\#25](https://github.com/ideoforms/signal/issues/25)
 - Update basic nodes to handle multi-channel inputs [\#24](https://github.com/ideoforms/signal/issues/24)
+- Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
 
 ## [v0.1.1](https://github.com/ideoforms/signal/tree/v0.1.1) (2016-03-23)
 [Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.0...v0.1.1)
@@ -59,7 +61,6 @@
 **New features:**
 
 - Incorporate JSON parser library [\#7](https://github.com/ideoforms/signal/issues/7)
-- SynthRef [\#3](https://github.com/ideoforms/signal/issues/3)
 
 **Fixed bugs:**
 
