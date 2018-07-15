@@ -29,6 +29,10 @@ static property, not a node.
 Demonstrates loading a synth spec from a JSON graph description.
 Optional pathname to a JSON file can be passed in argv.
 
+**[mouse-control-example.cpp](mouse-control-example.cpp)**  
+Demonstrates mapping the mouse cursor position to synthesis
+parameters.
+
 **[sine-field-example.cpp](sine-field-example.cpp)**  
 An array of delayed sine pings.
 
