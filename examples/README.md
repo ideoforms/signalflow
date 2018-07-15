@@ -31,7 +31,7 @@ Optional pathname to a JSON file can be passed in argv.
 
 **[mouse-control-example.cpp](mouse-control-example.cpp)**  
 Demonstrates mapping the mouse cursor position to synthesis
-parameters.
+parameters. Only available on macOS for now.
 
 **[sine-field-example.cpp](sine-field-example.cpp)**  
 An array of delayed sine pings.
