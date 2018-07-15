@@ -4,7 +4,7 @@
 
 Signal is an audio synthesis engine designed for structural clarity, lightness of code, and concise expression of complex ideas. It is built with modern standards, taking advantage of the powerful expressive capabilities of c++11 and json.
 
-As of May 2016, Signal is in alpha status. Its codebase is under frequent development, and its interfaces may be subject to sudden change. 
+Signal is in alpha status. Interfaces may be subject to change. 
 
 ## Example
 
@@ -78,6 +78,12 @@ Requires Raspbian jessie (for `g++ 4.9`).
 ## Examples
 
 See [examples](examples) for a number of example programs.
+
+To run an example:
+```
+cd examples
+./hello-world
+```
 
 ## License
 
