@@ -4,7 +4,6 @@
  * Demonstrates mapping the mouse cursor position to synthesis
  * parameters. Only available on macOS for now.
  *-----------------------------------------------------------------------*/
-#ifdef __APPLE__
 #include <signal/signal.h>
 
 /*------------------------------------------------------------------------
@@ -51,5 +50,3 @@ int main()
 	graph->start();
 	graph->wait();
 }
-
-#endif
