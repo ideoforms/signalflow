@@ -57,7 +57,7 @@ graph->start();
 
 ## Installation
 
-#### OS X
+#### macOS
 
 To build with Homebrew dependencies:
 
