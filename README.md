@@ -16,8 +16,8 @@ AudioGraphRef graph = new AudioGraph();
 
 /*------------------------------------------------------------------------
  * A SynthTemplate constructs a reusable synthesis graph.
- * -Ref objects are std::shared_ptr smart pointers,
- * so no memory management required.
+ * Objects whose names end in Ref are std::shared_ptr smart pointers,
+ * for automatic memory management.
  *-----------------------------------------------------------------------*/
 SynthTemplateRef tmp = new SynthTemplate("ping");
 
@@ -32,7 +32,8 @@ NodeRef sine = tmp->add_node(new Sine({ 440, 880 }));
 NodeRef env = tmp->add_node(new ASR(0.01, 0.1, 0.5));
 
 /*------------------------------------------------------------------------
- * Operator overloading: Apply the envelope to the sine wave's amplitude
+ * Operator overloading: Modulate the sine wave's amplitude with the
+ * output of the ASR envelope.
  *-----------------------------------------------------------------------*/
 NodeRef ping = tmp->add_node(sine * env);
 
@@ -40,6 +41,10 @@ NodeRef ping = tmp->add_node(sine * env);
  * Single-tap delay line with feedback.
  *-----------------------------------------------------------------------*/
 NodeRef delay = tmp->add_node(new Delay(ping, 0.5, 0.5));
+
+/*------------------------------------------------------------------------
+ * A SynthTemplate must have a single output node. 
+ *-----------------------------------------------------------------------*/
 tmp->set_output(delay);
 
 /*------------------------------------------------------------------------
@@ -81,7 +86,7 @@ See [examples](examples) for a number of example programs.
 
 To run an example:
 ```
-cd examples
+cd build
 ./hello-world
 ```
 
