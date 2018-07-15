@@ -1,11 +1,15 @@
-/*------------------------------------------------------------------------ * Audio write example
+/*------------------------------------------------------------------------
+ * Mouse control example
+ *
+ * Demonstrates mapping the mouse cursor position to synthesis
+ * parameters.
  *-----------------------------------------------------------------------*/
-
 #include <signal/signal.h>
 
-#include <unistd.h>
-#include <stdlib.h>
-
+/*------------------------------------------------------------------------
+ * All objects are in the signal:: namespace.
+ * Import this namespace for code brevity.
+ *-----------------------------------------------------------------------*/
 using namespace libsignal;
 
 int main()
