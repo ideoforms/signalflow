@@ -69,6 +69,7 @@ namespace libsignal
 
 			Node();
 			Node(double x);
+			virtual ~Node();
 
 			/*------------------------------------------------------------------------
 			 * The main generation/processing method.

@@ -7,6 +7,8 @@
 class Property
 {
 	public:
+		virtual ~Property() { }
+
 		virtual int int_value() { return 0; }
 		virtual float float_value() { return 0.0; }
 		virtual std::string string_value() { return ""; }

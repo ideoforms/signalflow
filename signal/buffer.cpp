@@ -31,6 +31,15 @@ Buffer::Buffer(const char *filename)
 	this->open(filename);
 }
 
+Buffer::~Buffer()
+{
+    for (int channel = 0; channel < this->num_channels; channel++)
+    {
+	free(this->data[channel]);
+    }
+    free(this->data);
+}
+
 void Buffer::open(const char *filename)
 {
 	#ifdef HAVE_SNDFILE

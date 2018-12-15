@@ -55,6 +55,10 @@ Node::Node()
 	this->monitor = NULL;
 }
 
+Node::~Node()
+{
+}
+
 /*------------------------------------------------------------------------
  * Called directly by AudioGraph, this function wraps around the
  * subclassed process() method and handles extra bits of magic,
