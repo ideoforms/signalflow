@@ -21,18 +21,17 @@ VERSION = '0.0.1'
 APPNAME = 'signal'
 
 import os
+import sys
 import shutil
 
 #------------------------------------------------------------------------
 # Don't require a manual ./waf configure before build
 #------------------------------------------------------------------------
 
-from waflib import TaskGen
+from waflib import TaskGen, Options
 import waflib.Configure
 waflib.Configure.autoconfig = True
 
-import waflib.Options
-platform = waflib.Options.platform
 
 #------------------------------------------------------------------------
 # Load a C++ compiler
@@ -70,7 +69,7 @@ def configure(conf):
     #------------------------------------------------------------------------
     # OSX platform-specific flags
     #------------------------------------------------------------------------
-    if platform == "darwin":
+    if sys.platform == "darwin":
         #------------------------------------------------------------------------
         # For test applications (before installing in system paths), instruct
         # binaries to search in their current directory for shared libs.
@@ -122,9 +121,12 @@ def build(bld):
     # shared object, used when generating the link paths of binaries
     # compiled against this lib.
     #------------------------------------------------------------------------
-    source_files = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp') + bld.path.ant_glob('lib/json11/json11.cpp') + bld.path.ant_glob('signal/**/*.cpp')
-    if platform == "darwin" or platform == "ios":
+    source_files = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp')
+    source_files += bld.path.ant_glob('lib/json11/json11.cpp')
+    source_files += bld.path.ant_glob('signal/**/*.cpp')
+    if sys.platform == "darwin" or sys.platform == "ios":
         source_files += bld.path.ant_glob('signal/**/*.mm')
+
     bld.shlib(
         source = source_files,
         target = 'signal',
@@ -140,11 +142,11 @@ def build(bld):
     # If sources are specified on the command line (./waf build foo.cpp),
     # only these will be built; otherwise, examples will be built.
     #------------------------------------------------------------------------
-    source_files = []
+    program_files = []
     
-    if (waflib.Options.commands):
-        source_files += waflib.Options.commands
-        waflib.Options.commands = []
+    if (Options.commands):
+        program_files += Options.commands
+        Options.commands = []
     else:
         #------------------------------------------------------------------------
         # Collate all source files found within example folders.
@@ -155,7 +157,7 @@ def build(bld):
             example_dirs += [ "examples-dev" ]
 
         excl = []
-        if platform != "darwin" and platform != "ios":
+        if sys.platform != "darwin" and sys.platform != "ios":
             #------------------------------------------------------------------------
             # FFT not yet supported on non-Darwin systems
             #------------------------------------------------------------------------
@@ -166,25 +168,25 @@ def build(bld):
             #------------------------------------------------------------------------
             excl.append("*/mouse*.cpp")
         for example_dir in example_dirs:
-            examples = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
-            for example in examples:
-                example_path = os.path.join(example_dir, str(example))
-                source_files.append(example_path);
+            program_files = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
 
     #------------------------------------------------------------------------
     # Build each source file
     #------------------------------------------------------------------------
-    for source_file in source_files:
+    for program_file in program_files:
+        program_file = str(program_file)
+
         #------------------------------------------------------------------------
         # Remove path prefixes to ensure that built binaries go directly
         # in "build".
         #------------------------------------------------------------------------
-        target = os.path.basename(source_file)
+        program_file = os.path.relpath(program_file, ".")
+        target = os.path.basename(program_file)
         target = os.path.splitext(target)[0]
 
         bld.program(
             features = 'cxx cxxprogram',
-            source = source_file,
+            source = program_file,
             target = target,
             includes = [ ".." ],
             use = libraries + [ 'signal' ],
