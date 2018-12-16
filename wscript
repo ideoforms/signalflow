@@ -32,7 +32,6 @@ from waflib import TaskGen, Options
 import waflib.Configure
 waflib.Configure.autoconfig = True
 
-
 #------------------------------------------------------------------------
 # Load a C++ compiler
 #------------------------------------------------------------------------
@@ -103,7 +102,10 @@ def build(bld):
     libraries = [ 'GSL', 'GSLCBLAS', 'SNDFILE', 'SOUNDIO' ]
 
     if bld.cmd == "dev":
-        bld.env.CXXFLAGS += [ "-g" ]
+        bld.env.CXXFLAGS += [
+            "-g",
+            "-O0"
+        ]
         #------------------------------------------------------------------------
         # Use define rather than adding -D to build flags, as this ensures
         # that waf correctly refreshes the build when includes within #ifdef
@@ -111,7 +113,10 @@ def build(bld):
         #------------------------------------------------------------------------
         bld.define("DEBUG", 1)
     else:
-        bld.env.CXXFLAGS += [ "-O3", "-funroll-loops" ]
+        bld.env.CXXFLAGS += [
+            "-O3",
+            "-funroll-loops"
+        ]
 
     bld.env.CXXFLAGS += [ "-Wno-unused-variable" ]
 
@@ -127,7 +132,7 @@ def build(bld):
     if sys.platform == "darwin" or sys.platform == "ios":
         source_files += bld.path.ant_glob('signal/**/*.mm')
 
-    bld.shlib(
+    bld.stlib(
         source = source_files,
         target = 'signal',
         vnum = VERSION,
@@ -171,16 +176,17 @@ def build(bld):
             program_files = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
 
     #------------------------------------------------------------------------
-    # Build each source file
+    # Build each source file.
+    # Need to convert to relative paths for wscript to find source files.
     #------------------------------------------------------------------------
     for program_file in program_files:
         program_file = str(program_file)
+        program_file = os.path.relpath(program_file, ".")
 
         #------------------------------------------------------------------------
         # Remove path prefixes to ensure that built binaries go directly
         # in "build".
         #------------------------------------------------------------------------
-        program_file = os.path.relpath(program_file, ".")
         target = os.path.basename(program_file)
         target = os.path.splitext(target)[0]
 
