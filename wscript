@@ -132,13 +132,16 @@ def build(bld):
     if sys.platform == "darwin" or sys.platform == "ios":
         source_files += bld.path.ant_glob('signal/**/*.mm')
 
-    bld.stlib(
-        source = source_files,
-        target = 'signal',
-        vnum = VERSION,
-        use = libraries,
-        install_path = '@rpath'
-    )
+    library_params = {
+        "source" : source_files,
+        "target" : "signal",
+        "vnum" : VERSION,
+        "use" : libraries,
+        "install_path" : "@rpath"
+    }
+
+    bld.stlib(**library_params)
+    bld.shlib(**library_params)
 
     build_dir = "build"
 
