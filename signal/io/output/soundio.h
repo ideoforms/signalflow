@@ -22,7 +22,8 @@ namespace libsignal
         AudioOut_SoundIO(AudioGraph *graph);
         virtual int init() override;
         virtual int start() override;
-        virtual int close() override;
+        virtual int stop() override;
+        virtual int destroy() override;
 
         struct SoundIo *soundio;
         struct SoundIoDevice *device;

@@ -4,7 +4,6 @@
  * @file buffer.h
  * @brief Buffer and its subclasses store an array of sample values.
  *-----------------------------------------------------------------------*/
-
 #include "constants.h"
 #include "util.h"
 
@@ -68,7 +67,6 @@ namespace libsignal
 		 *------------------------------------------------------------------------*/
 		sample get_frame(double frame)
 		{
-			// frame = clip(frame, 0, this->num_frames - 1);
 			if (this->interpolate == SIGNAL_INTERPOLATE_LINEAR)
 			{
 				double frame_frac = (frame - (int) frame);

@@ -98,23 +98,23 @@ int AudioOut_SoundIO::init()
 	this->soundio = soundio_create();
 
 	if (!this->soundio)
-		throw std::runtime_error("libsoundio init error: out of memory");
+		throw std::runtime_error("libsoundio error: out of memory");
 
 	if ((err = soundio_connect(this->soundio)))
-		throw std::runtime_error("libsoundio init error: could not connect (" + std::string(soundio_strerror(err)) + ")");
+		throw std::runtime_error("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
 
 	soundio_flush_events(this->soundio);
 
 	int default_out_device_index = soundio_default_output_device_index(this->soundio);
 	if (default_out_device_index < 0)
-		throw std::runtime_error("libsoundio init error: no output devices found.");
+		throw std::runtime_error("libsoundio error: no output devices found.");
 
 	// int index = soundio_get_device_by_name(this->soundio, "Loopback Audio");
 	// this->device = soundio_get_output_device(this->soundio, index);
 
 	this->device = soundio_get_output_device(this->soundio, default_out_device_index);
 	if (!device)
-		throw std::runtime_error("libsoundio init error: out of memory.");
+		throw std::runtime_error("libsoundio error: out of memory.");
 
 	this->outstream = soundio_outstream_create(device);
 	this->outstream->format = SoundIoFormatFloat32NE;
@@ -127,10 +127,10 @@ int AudioOut_SoundIO::init()
 	fprintf(stderr, "Output device: %s (%dHz)\n", device->name, this->sample_rate);
 
 	if ((err = soundio_outstream_open(this->outstream)))
-		throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
+		throw std::runtime_error("libsoundio error: unable to open device: " + std::string(soundio_strerror(err)));
 
 	if (this->outstream->layout_error)
-		throw std::runtime_error("libsoundio init error: unable to set channel layout: " +
+		throw std::runtime_error("libsoundio error: unable to set channel layout: " +
 				std::string(soundio_strerror(this->outstream->layout_error)));
 
 	return 0;
@@ -140,12 +140,17 @@ int AudioOut_SoundIO::start()
 {
 	int err;
 	if ((err = soundio_outstream_start(outstream)))
-	throw std::runtime_error("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
+	throw std::runtime_error("libsoundio error: unable to start device: " + std::string(soundio_strerror(err)));
 
 	return 0;
 }
 
-int AudioOut_SoundIO::close()
+int AudioOut_SoundIO::stop()
+{
+	return 0;
+}
+
+int AudioOut_SoundIO::destroy()
 {
 	soundio_outstream_destroy(this->outstream);
 	soundio_device_unref(this->device);

@@ -27,6 +27,12 @@ namespace libsignal
 		audioout->start();
 	}
 
+	AudioGraph::~AudioGraph()
+	{
+		AudioOut *audioout = (AudioOut *) this->output.get();
+		audioout->destroy();
+	}
+
 	void AudioGraph::wait()
 	{
 		while (true)
