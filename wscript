@@ -37,6 +37,10 @@ waflib.Configure.autoconfig = True
 #------------------------------------------------------------------------
 def options(opt):
     opt.load('compiler_cxx')
+    opt.add_option('--shared', action='store_true', default=False,
+            help='build shared library')
+    opt.add_option('--debug', action='store_true', default=False,
+            help='set the level of logging (none, print, warn, info or debug)',)
 
 #------------------------------------------------------------------------
 # Build mode 'dev' enables debugging symbols and disables optimisation.
@@ -56,7 +60,11 @@ def configure(conf):
     # Use C++11 extensions and add general search paths
     #------------------------------------------------------------------------
     conf.load('compiler_cxx')
-    conf.env.CXXFLAGS = ['-std=c++11', '-Wall']
+    conf.env.CXXFLAGS = [
+        '-std=c++11',
+        '-Wall',
+        '-Wno-unused-variable'
+    ]
     conf.env.LIBPATH = ['/usr/local/lib']
     conf.env.INCLUDES = ['/usr/local/include', 'lib']
 
@@ -106,19 +114,20 @@ def build(bld):
             "-g",
             "-O0"
         ]
-        #------------------------------------------------------------------------
-        # Use define rather than adding -D to build flags, as this ensures
-        # that waf correctly refreshes the build when includes within #ifdef
-        # are updated.
-        #------------------------------------------------------------------------
-        bld.define("DEBUG", 1)
+
     else:
         bld.env.CXXFLAGS += [
             "-O3",
             "-funroll-loops"
         ]
 
-    bld.env.CXXFLAGS += [ "-Wno-unused-variable" ]
+    #------------------------------------------------------------------------
+    # Use define rather than adding -D to build flags, as this ensures
+    # that waf correctly refreshes the build when includes within #ifdef
+    # are updated.
+    #------------------------------------------------------------------------
+    if Options.options.debug:
+        bld.define("DEBUG", 1)
 
     #------------------------------------------------------------------------
     # Build every .cpp file found within signal as a shared library.
@@ -140,8 +149,10 @@ def build(bld):
         "install_path" : "@rpath"
     }
 
-    bld.stlib(**library_params)
-    bld.shlib(**library_params)
+    if Options.options.shared:
+        bld.shlib(**library_params)
+    else:
+        bld.stlib(**library_params)
 
     build_dir = "build"
 
@@ -176,7 +187,7 @@ def build(bld):
             #------------------------------------------------------------------------
             excl.append("*/mouse*.cpp")
         for example_dir in example_dirs:
-            program_files = bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
+            program_files += bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
 
     #------------------------------------------------------------------------
     # Build each source file.
