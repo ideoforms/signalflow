@@ -11,31 +11,31 @@ using namespace libsignal;
 
 int main(int argc, char **argv)
 {
-	AudioGraphRef graph = new AudioGraph();
+    AudioGraphRef graph = new AudioGraph();
 
-	/*------------------------------------------------------------------------
-	 * A SynthSpec contains a description of a synthesis graph.
-	 * It takes a short human-readable name, drawn from [0-9a-zA-Z_-]
-	 *-----------------------------------------------------------------------*/
-	SynthSpecRef spec = new SynthSpec("synth");
+    /*------------------------------------------------------------------------
+     * A SynthSpec contains a description of a synthesis graph.
+     * It takes a short human-readable name, drawn from [0-9a-zA-Z_-]
+     *-----------------------------------------------------------------------*/
+    SynthSpecRef spec = new SynthSpec("synth");
 
-	/*------------------------------------------------------------------------
-	 * ->load() parses the specified JSON file and creates a graph 
-	 * definition from it. 
-	 *-----------------------------------------------------------------------*/
-	if (argc > 1)
-		spec->load(argv[1]);
-	else
-		spec->load("synths/sine-env-delay.json");
+    /*------------------------------------------------------------------------
+     * ->load() parses the specified JSON file and creates a graph 
+     * definition from it. 
+     *-----------------------------------------------------------------------*/
+    if (argc > 1)
+        spec->load(argv[1]);
+    else
+        spec->load("synths/sine-env-delay.json");
 
-	/*------------------------------------------------------------------------
-	 * Instantiate a synth using this spec.
-	 * TODO: Instantiate two synths with different frequencies/pans.
-	 *-----------------------------------------------------------------------*/
-	SynthRef synth = new Synth(spec);
-	graph->add_output(synth->output);
-	graph->start();
-	graph->wait();
+    /*------------------------------------------------------------------------
+     * Instantiate a synth using this spec.
+     * TODO: Instantiate two synths with different frequencies/pans.
+     *-----------------------------------------------------------------------*/
+    SynthRef synth = new Synth(spec);
+    graph->add_output(synth->output);
+    graph->start();
+    graph->wait();
 
-	return 0;
+    return 0;
 }

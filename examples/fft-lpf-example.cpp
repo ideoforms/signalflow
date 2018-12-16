@@ -11,33 +11,33 @@ using namespace libsignal;
 
 int main()
 {
-	/*------------------------------------------------------------------------
-	 * Create the global signal processing graph.
-	 *-----------------------------------------------------------------------*/
-	AudioGraphRef graph = new AudioGraph();
+    /*------------------------------------------------------------------------
+     * Create the global signal processing graph.
+     *-----------------------------------------------------------------------*/
+    AudioGraphRef graph = new AudioGraph();
 
-	/*------------------------------------------------------------------------
-	 * Load and play a sample.
-	 *-----------------------------------------------------------------------*/
-	BufferRef buffer = new Buffer("audio/gliss.aif");
-	NodeRef sampler = new Sampler(buffer, 1.0, true);
+    /*------------------------------------------------------------------------
+     * Load and play a sample.
+     *-----------------------------------------------------------------------*/
+    BufferRef buffer = new Buffer("audio/gliss.aif");
+    NodeRef sampler = new Sampler(buffer, 1.0, true);
 
-	/*------------------------------------------------------------------------
-	 * Perform FFT -> filter -> inverse FFT
-	 *-----------------------------------------------------------------------*/
-	NodeRef fft = new FFT(sampler);
-	NodeRef lpf = new FFTLPF(fft, 400);
-	NodeRef output = new IFFT(lpf);
+    /*------------------------------------------------------------------------
+     * Perform FFT -> filter -> inverse FFT
+     *-----------------------------------------------------------------------*/
+    NodeRef fft = new FFT(sampler);
+    NodeRef lpf = new FFTLPF(fft, 400);
+    NodeRef output = new IFFT(lpf);
 
-	/*------------------------------------------------------------------------
-	 * Pan the output to centre of stereo field.
-	 *-----------------------------------------------------------------------*/
-	NodeRef pan = new Pan(2, output);
+    /*------------------------------------------------------------------------
+     * Pan the output to centre of stereo field.
+     *-----------------------------------------------------------------------*/
+    NodeRef pan = new Pan(2, output);
 
-	/*------------------------------------------------------------------------
-	 * Send to output.
-	 *-----------------------------------------------------------------------*/
-	graph->add_output(pan);
-	graph->start();
-	graph->wait();
+    /*------------------------------------------------------------------------
+     * Send to output.
+     *-----------------------------------------------------------------------*/
+    graph->add_output(pan);
+    graph->start();
+    graph->wait();
 }
