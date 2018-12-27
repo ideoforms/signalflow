@@ -4,20 +4,20 @@
 
 namespace libsignal
 {
-	class Recorder : public Node
-	{
-		public:
-			Recorder(BufferRef buffer = nullptr, NodeRef input = 0.0, bool loop = false);
+    class Recorder : public Node
+    {
+        public:
+            Recorder(BufferRef buffer = nullptr, NodeRef input = 0.0, bool loop = false);
 
-			BufferRef buffer;
+            BufferRef buffer;
 
-			NodeRef input;
+            NodeRef input;
 
-			float phase;
-			bool loop;
+            float phase;
+            bool loop;
 
-			virtual void process(sample **out, int num_frames);
-	};
+            virtual void process(sample **out, int num_frames);
+    };
 
-	REGISTER(Recorder, "recorder");
+    REGISTER(Recorder, "recorder");
 }

@@ -4,15 +4,15 @@
 
 namespace libsignal
 {
-	class Constant : public Node
-	{
-	public:
-		Constant(sample value = 0);
+    class Constant : public Node
+    {
+    public:
+        Constant(sample value = 0);
 
-		float value;
+        float value;
 
-		virtual void process(sample **out, int num_frames);
-	};
+        virtual void process(sample **out, int num_frames);
+    };
 
-	REGISTER(Constant, "constant");
+    REGISTER(Constant, "constant");
 }

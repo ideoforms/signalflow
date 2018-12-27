@@ -9,26 +9,26 @@
 
 namespace libsignal
 {
-	class Sampler : public Node
-	{
-		public:
-			Sampler(BufferRef buffer = nullptr, NodeRef rate = 1.0, NodeRef loop = 0);
+    class Sampler : public Node
+    {
+        public:
+            Sampler(BufferRef buffer = nullptr, NodeRef rate = 1.0, NodeRef loop = 0);
 
-			BufferRef buffer;
+            BufferRef buffer;
 
-			NodeRef input = nullptr;
-			NodeRef rate = nullptr;
+            NodeRef input = nullptr;
+            NodeRef rate = nullptr;
 
-			NodeRef loop = nullptr;
-			NodeRef loop_start = nullptr;
-			NodeRef loop_end = nullptr;
+            NodeRef loop = nullptr;
+            NodeRef loop_start = nullptr;
+            NodeRef loop_end = nullptr;
 
-			virtual void trigger(std::string = SIGNAL_SAMPLER_TRIGGER_SET_POSITION, float value = 0.0);
-			virtual void process(sample **out, int num_frames);
+            virtual void trigger(std::string = SIGNAL_SAMPLER_TRIGGER_SET_POSITION, float value = 0.0);
+            virtual void process(sample **out, int num_frames);
 
-		private:
-			float phase;
-	};
+        private:
+            float phase;
+    };
 
-	REGISTER(Sampler, "sampler");
+    REGISTER(Sampler, "sampler");
 }

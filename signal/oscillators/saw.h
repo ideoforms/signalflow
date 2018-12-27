@@ -4,17 +4,17 @@
 
 namespace libsignal
 {
-	class Saw : public Node
-	{
-	public:
-		Saw(NodeRef frequency = 440);
+    class Saw : public Node
+    {
+    public:
+        Saw(NodeRef frequency = 440);
 
-		NodeRef frequency;
+        NodeRef frequency;
 
-		float phase[SIGNAL_MAX_CHANNELS];
+        float phase[SIGNAL_MAX_CHANNELS];
 
-		virtual void process(sample **out, int num_frames);
-	};
+        virtual void process(sample **out, int num_frames);
+    };
 
-	REGISTER(Saw, "saw");
+    REGISTER(Saw, "saw");
 }
