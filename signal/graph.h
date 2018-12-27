@@ -5,8 +5,6 @@
 
 namespace libsignal
 {
-	class AudioOut_Abstract;
-
 	class AudioGraph
 	{
 		public:
@@ -49,6 +47,9 @@ namespace libsignal
 			 *------------------------------------------------------------------------*/
 			void add_output(SynthRef synth);
 			void add_output(NodeRef node);
+			
+			void remove_output(SynthRef synth);
+			void remove_output(NodeRef node);
 
 			NodeRef add_node(Node *node);
 

@@ -55,6 +55,7 @@ namespace libsignal
 			signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
 		}
 
+		using Node::add_input;
 		virtual void add_input(NodeRef input)
 		{
 			this->inputs.push_back(input);

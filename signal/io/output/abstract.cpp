@@ -40,4 +40,16 @@ namespace libsignal
         }
     }
     
+    void AudioOut_Abstract::add_input(NodeRef node)
+    {
+        inputs.push_back(node);
+        std::string input_name = "input" + std::to_string(this->inputs.size());;
+        this->Node::add_input(input_name, inputs.back());
+    }
+
+    void AudioOut_Abstract::remove_input(NodeRef node)
+    {
+        inputs.remove(node);
+    }
+    
 } // namespace libsignal

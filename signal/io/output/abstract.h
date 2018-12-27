@@ -23,13 +23,9 @@ namespace libsignal
         virtual int stop() = 0;
         virtual int destroy() = 0;
 
-        virtual void add_input(NodeRef node)
-        {
-            inputs.push_back(node);
-            std::string input_name = "input" + std::to_string(this->inputs.size());;
-
-            this->Node::add_input(input_name, inputs.back());
-        }
+        using Node::add_input;
+        virtual void add_input(NodeRef node);
+        virtual void remove_input(NodeRef node);
 
         std::list <NodeRef> inputs;
     };

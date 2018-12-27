@@ -83,12 +83,6 @@ namespace libsignal
 			virtual void _process(sample **out, int num_frames);
 
 			/*------------------------------------------------------------------------
-			 * Connect a new signal input to this node. These connections form
-			 * the overall signal graph. (Now only used by AudioOut units?)
-			 *-----------------------------------------------------------------------*/
-			virtual void add_input(NodeRef input) {}
-
-			/*------------------------------------------------------------------------
 			 * Called after add_input/route to update our routing ins/outs.
 			 *-----------------------------------------------------------------------*/
 			virtual void update_channels();
@@ -96,7 +90,6 @@ namespace libsignal
 			/*------------------------------------------------------------------------
 			 * Register parameters.
 			 *-----------------------------------------------------------------------*/
-			virtual void add_input(std::string name, NodeRef &input);
 			virtual void set_input(std::string name, const NodeRef &input);
 
 			/*------------------------------------------------------------------------
@@ -237,6 +230,10 @@ namespace libsignal
 			NodeRef *ref;
 
 			Node operator+ (Node &other);
+
+		protected:
+
+			virtual void add_input(std::string name, NodeRef &input);
 	};
 
 	class GeneratorNode : public Node

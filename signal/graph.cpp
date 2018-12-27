@@ -157,11 +157,25 @@ namespace libsignal
 
 	void AudioGraph::add_output(SynthRef synth)
 	{
-		this->output->add_input(synth->output);
+		AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
+		output->add_input(synth->output);
 	}
 
 	void AudioGraph::add_output(NodeRef node)
 	{
-		this->output->add_input(node);
+		AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+		output->add_input(node);
+	}
+
+	void AudioGraph::remove_output(SynthRef synth)
+	{
+		AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+		output->remove_input(synth->output);
+	}
+
+	void AudioGraph::remove_output(NodeRef node)
+	{
+		AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+		output->remove_input(node);
 	}
 }
