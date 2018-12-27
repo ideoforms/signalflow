@@ -10,16 +10,9 @@ namespace libsignal
 	class Grain
 	{
 		public:
-			Grain(BufferRef buffer, int start, int length, float rate, float pan) :
-				buffer(buffer), sample_start(start), sample_length(length), rate(rate), pan(pan)
-			{
-				this->samples_done = 0;
-			}
+			Grain(BufferRef buffer, int start, int length, float rate, float pan);
 
-			bool finished()
-			{
-				return this->samples_done >= this->sample_length;
-			}
+			bool finished();
 
 			BufferRef buffer;
 			double sample_start;

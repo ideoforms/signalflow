@@ -7,13 +7,7 @@ namespace libsignal
 	class Square : public Node
 	{
 	public:
-		Square(NodeRef frequency = 440, NodeRef width = 0.5) : frequency(frequency), width(width)
-		{
-			this->name = "square";
-			this->add_input("frequency", this->frequency);
-			this->add_input("width", this->width);
-			memset(this->phase, 0, sizeof(this->phase));
-		};
+		Square(NodeRef frequency = 440, NodeRef width = 0.5);
 
 		NodeRef frequency;
 		NodeRef width;

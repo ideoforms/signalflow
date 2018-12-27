@@ -7,12 +7,7 @@ namespace libsignal
 	class Saw : public Node
 	{
 	public:
-		Saw(NodeRef frequency = 440) : frequency(frequency)
-		{
-			this->name = "saw";
-			this->add_input("frequency", this->frequency);
-			memset(this->phase, 0, sizeof(this->phase));
-		};
+		Saw(NodeRef frequency = 440);
 
 		NodeRef frequency;
 

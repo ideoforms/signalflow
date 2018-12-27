@@ -7,6 +7,13 @@
 namespace libsignal
 {
 
+Sine::Sine(NodeRef frequency) : frequency(frequency)
+{
+	this->name = "sine";
+	this->add_input("frequency", this->frequency);
+	memset(this->phase, 0, sizeof(this->phase));
+}
+
 void Sine::process(sample **out, int num_frames)
 {
 	for (int channel = 0; channel < this->num_output_channels; channel++)
