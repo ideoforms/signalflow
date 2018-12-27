@@ -142,4 +142,127 @@ void Buffer::save(const char *filename)
     #endif
 }
 
+double Buffer::frame_to_offset(double frame)
+{
+    return (double) frame;
+}
+
+double Buffer::offset_to_frame(double offset)
+{
+    return (double) offset;
+}
+
+sample Buffer::get_frame(double frame)
+{
+    if (this->interpolate == SIGNAL_INTERPOLATE_LINEAR)
+    {
+        double frame_frac = (frame - (int) frame);
+        sample rv = ((1.0 - frame_frac) * this->data[0][(int) frame]) + (frame_frac * this->data[0][(int) ceil(frame)]);
+        return rv;
+    }
+    else
+    {
+        return this->data[0][(int) frame];
+    }
+}
+
+sample Buffer::get(double offset)
+{
+    double frame = this->offset_to_frame(offset);
+    return this->get_frame(frame);
+}
+
+void Buffer::fill(sample value)
+{
+    for (int channel = 0; channel < this->num_channels; channel++)
+    {
+        for (int frame = 0; frame < this->num_frames; frame++)
+        {
+            this->data[channel][frame] = value;
+        }
+    }
+}
+
+void Buffer::fill(transfer_fn f)
+{
+    for (int channel = 0; channel < this->num_channels; channel++)
+    {
+        for (int frame = 0; frame < this->num_frames; frame++)
+        {
+            double offset = this->frame_to_offset(frame);
+            this->data[channel][frame] = f(offset);
+        }
+    }
+}
+
+EnvelopeBuffer::EnvelopeBuffer(int length) : Buffer(1, length)
+{
+    /*-------------------------------------------------------------------------
+     * Initialise to a flat envelope at maximum amplitude.
+     *-----------------------------------------------------------------------*/
+    this->fill(1.0);
+}
+
+double EnvelopeBuffer::offset_to_frame(double offset)
+{
+    return map(offset, 0, 1, 0, this->num_frames - 1);
+}
+
+double EnvelopeBuffer::frame_to_offset(double frame)
+{
+    return map(frame, 0, this->num_frames - 1, 0, 1);
+}
+
+void EnvelopeBuffer::fill_exponential(float mu)
+{
+    for (int x = 0; x < this->num_frames; x++)
+        this->data[0][x] = random_exponential_pdf((float) x / this->num_frames, mu);
+}
+
+void EnvelopeBuffer::fill_beta(float a, float b)
+{
+    for (int x = 0; x < this->num_frames; x++)
+        this->data[0][x] = random_beta_pdf((float) x / this->num_frames, a, b);
+}
+
+EnvelopeBufferTriangle::EnvelopeBufferTriangle(int length) : EnvelopeBuffer(length)
+{
+    for (int x = 0; x < length / 2; x++)
+        this->data[0][x] = (float) x / (length / 2);
+    for (int x = 0; x < length / 2; x++)
+        this->data[0][(length / 2) + x] = 1.0 - (float) x / (length / 2);
+}
+
+EnvelopeBufferLinearDecay::EnvelopeBufferLinearDecay(int length) : EnvelopeBuffer(length)
+{
+    for (int x = 0; x < length; x++)
+        this->data[0][x] = 1.0 - (float) x / length;
+}
+
+EnvelopeBufferHanning::EnvelopeBufferHanning(int length) : EnvelopeBuffer(length)
+{
+    for (int x = 0; x < length; x++)
+    {
+        this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (length - 1)));
+    }
+}
+
+WaveShaperBuffer::WaveShaperBuffer(int length) : Buffer(1, length)
+{
+    /*-------------------------------------------------------------------------
+     * Initialise to a 1-to-1 linear mapping.
+     *-----------------------------------------------------------------------*/
+    this->fill([](float input) { return input; });
+}
+
+double WaveShaperBuffer::offset_to_frame(double offset)
+{
+    return map(offset, -1, 1, 0, this->num_frames - 1);
+}
+
+double WaveShaperBuffer::frame_to_offset(double frame)
+{
+    return map(frame, 0, this->num_frames - 1, -1, 1);
+}
+
 }
