@@ -4,29 +4,29 @@
 namespace libsignal
 {
 
-	class Add : public BinaryOpNode
-	{
+    class Add : public BinaryOpNode
+    {
 
-	public:
+    public:
 
-		Add(NodeRef a = 0, NodeRef b = 0) : BinaryOpNode(a, b)
-		{
-			this->name = "add";
-		}
+        Add(NodeRef a = 0, NodeRef b = 0) : BinaryOpNode(a, b)
+        {
+            this->name = "add";
+        }
 
-		virtual void process(sample **out, int num_frames)
-		{
-			for (int frame = 0; frame < num_frames; frame++)
-			{
-				for (int channel = 0; channel < this->num_output_channels; channel++)
-				{
-					out[channel][frame] = input0->out[channel][frame] + input1->out[channel][frame];
-				}
-			}
-		}
+        virtual void process(sample **out, int num_frames)
+        {
+            for (int frame = 0; frame < num_frames; frame++)
+            {
+                for (int channel = 0; channel < this->num_output_channels; channel++)
+                {
+                    out[channel][frame] = input0->out[channel][frame] + input1->out[channel][frame];
+                }
+            }
+        }
 
-	};
+    };
 
-	REGISTER(Add, "add");
+    REGISTER(Add, "add");
 
 }
