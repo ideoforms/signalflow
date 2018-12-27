@@ -8,15 +8,15 @@
 
 namespace libsignal
 {
-	class GraphRenderer
-	{
-		public:
-			GraphRenderer();
-			void render(AudioGraphRef graph);
-			void render_node(NodeRef node);
+    class GraphRenderer
+    {
+        public:
+            GraphRenderer();
+            void render(AudioGraphRef graph);
+            void render_node(NodeRef node);
 
-			std::stringstream nodestream;
-			std::stringstream edgestream;
-			std::set <Node *> rendered_nodes;
-	};
+            std::stringstream nodestream;
+            std::stringstream edgestream;
+            std::set <Node *> rendered_nodes;
+    };
 }

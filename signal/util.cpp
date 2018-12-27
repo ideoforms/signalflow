@@ -43,16 +43,16 @@ void random_init()
 {
     #ifdef HAVE_GSL
     
-	struct timeval tv;
-	gsl_rng_env_setup();
-	rng = gsl_rng_alloc(gsl_rng_default);
-	
-	/*--------------------------------------------------------------------*
-	 * Seed with current time multiplied by microsecond part, to give
-	 * a pretty decent non-correlated seed.
-	 *--------------------------------------------------------------------*/
-	gettimeofday(&tv, 0);
-	random_seed(tv.tv_sec * tv.tv_usec);
+    struct timeval tv;
+    gsl_rng_env_setup();
+    rng = gsl_rng_alloc(gsl_rng_default);
+    
+    /*--------------------------------------------------------------------*
+     * Seed with current time multiplied by microsecond part, to give
+     * a pretty decent non-correlated seed.
+     *--------------------------------------------------------------------*/
+    gettimeofday(&tv, 0);
+    random_seed(tv.tv_sec * tv.tv_usec);
     
     #endif
 }
@@ -61,7 +61,7 @@ void random_seed(long seed)
 {
     #ifdef HAVE_GSL
     
-	gsl_rng_set(rng, seed);
+    gsl_rng_set(rng, seed);
     
     #endif
 }
@@ -71,16 +71,16 @@ void random_seed(long seed)
  *--------------------------------------------------------------------*/
 double random_gaussian(double mean, double sd)
 {
-	// double value = mean + gsl_ran_gaussian(rng, sd);
+    // double value = mean + gsl_ran_gaussian(rng, sd);
     double value = mean + sd * random_gaussian();
-	return value;
+    return value;
 }
 
 double random_gaussian()
 {
     #ifdef HAVE_GSL
     
-	double value = gsl_ran_gaussian(rng, 1);
+    double value = gsl_ran_gaussian(rng, 1);
     
     #else
     
@@ -92,7 +92,7 @@ double random_gaussian()
     
     #endif
     
-	return value;
+    return value;
 }
 
 
@@ -103,7 +103,7 @@ double random_uniform()
 {
     #ifdef HAVE_GSL
     
-	double value = gsl_rng_uniform(rng);
+    double value = gsl_rng_uniform(rng);
     
     #else
     
@@ -111,26 +111,26 @@ double random_uniform()
     
     #endif
     
-	return value;
+    return value;
 }
 
 double random_uniform(double to)
 {
-	double value = random_uniform() * to;
-	return value;
+    double value = random_uniform() * to;
+    return value;
 }
 
 double random_uniform(double from, double to)
 {
-	double value = random_uniform();
-	value = value * (to - from) + from;
-	return value;
+    double value = random_uniform();
+    value = value * (to - from) + from;
+    return value;
 }
 
 bool random_coin(double limit = 0.5)
 {
-	double value = random_uniform();
-	return value < limit;
+    double value = random_uniform();
+    return value < limit;
 }
 
 float random_exponential(float mu)
@@ -225,7 +225,7 @@ unsigned long random_integer(unsigned long to)
 
 unsigned long random_integer(unsigned long from, unsigned long to)
 {
-	return from + (((long) random_uniform(to)) % (to - from));
+    return from + (((long) random_uniform(to)) % (to - from));
 }
 
 
@@ -235,9 +235,9 @@ unsigned long random_integer(unsigned long from, unsigned long to)
  *--------------------------------------------------------------------*/
 double timestamp()
 {
-	timeval tv;
-	gettimeofday(&tv, NULL);
-	return tv.tv_sec + (tv.tv_usec / 1000000.0);	
+    timeval tv;
+    gettimeofday(&tv, NULL);
+    return tv.tv_sec + (tv.tv_usec / 1000000.0);    
 }
 
 /*--------------------------------------------------------------------*
@@ -245,9 +245,9 @@ double timestamp()
  *--------------------------------------------------------------------*/
 double clip(double value, double min, double max)
 {
-	if (value < min) value = min;
-	if (value > max) value = max;
-	return value;
+    if (value < min) value = min;
+    if (value > max) value = max;
+    return value;
 }
 
 /*--------------------------------------------------------------------*
@@ -255,8 +255,8 @@ double clip(double value, double min, double max)
  *--------------------------------------------------------------------*/
 double map(double value, double fromA, double fromB, double toA, double toB)
 {
-	double norm = (value - fromA) / (fromB - fromA);
-	return toA + norm * (toB - toA);
+    double norm = (value - fromA) / (fromB - fromA);
+    return toA + norm * (toB - toA);
 }
 
 /*--------------------------------------------------------------------*
@@ -276,27 +276,27 @@ double explin (double value, double a, double b, double c, double d)
 {
     if (value <= a) return c;
     if (value >= b) return d;
-	return (log(value / a)) / (log(b / a)) * (d - c) + c;
+    return (log(value / a)) / (log(b / a)) * (d - c) + c;
 }
 
 
 float freq_to_midi(float frequency)
 {
-	/*--------------------------------------------------------------------*
-	 * freq_to_midi(): Map a frequency value onto a MIDI note index.
-	 * 440 = A4 = 69
-	 *--------------------------------------------------------------------*/
-	return 69.0 + 12 * log2(frequency / 440.0);
+    /*--------------------------------------------------------------------*
+     * freq_to_midi(): Map a frequency value onto a MIDI note index.
+     * 440 = A4 = 69
+     *--------------------------------------------------------------------*/
+    return 69.0 + 12 * log2(frequency / 440.0);
 }
 
 
 float midi_to_freq(float midi)
 {
-	/*--------------------------------------------------------------------*
-	 * midi_to_freq(): Map a MIDI note to a frequency value.
-	 * 440 = A4 = 69
-	 *--------------------------------------------------------------------*/
-	return 440.0 * powf(2, (midi - 69) / 12.0);
+    /*--------------------------------------------------------------------*
+     * midi_to_freq(): Map a MIDI note to a frequency value.
+     * 440 = A4 = 69
+     *--------------------------------------------------------------------*/
+    return 440.0 * powf(2, (midi - 69) / 12.0);
 }
 
 } /* namespace libsignal */

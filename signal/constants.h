@@ -48,18 +48,18 @@ typedef RingBuffer <sample> SampleRingBuffer;
  *     num_frames frames of the given input
  *-----------------------------------------------------------------------*/
 #define SIGNAL_CHECK_TRIGGER(input, frame) \
-	(input && input->out[0][frame] > input->out[0][frame - 1])
+    (input && input->out[0][frame] > input->out[0][frame - 1])
 #define SIGNAL_PROCESS_TRIGGER(input, frame, name) \
-	if (input && SIGNAL_CHECK_TRIGGER(input, frame)) { this->trigger(name); }
+    if (input && SIGNAL_CHECK_TRIGGER(input, frame)) { this->trigger(name); }
 #define SIGNAL_PROCESS_TRIGGER_BLOCK(input, num_frames, name) \
-	if (input) { for (int frame = 0; frame < num_frames; frame++) { SIGNAL_PROCESS_TRIGGER(input, frame, name); } }
+    if (input) { for (int frame = 0; frame < num_frames; frame++) { SIGNAL_PROCESS_TRIGGER(input, frame, name); } }
 
 typedef enum
 {
-	SIGNAL_SCALE_LIN_LIN,
-	SIGNAL_SCALE_LIN_EXP,
-	SIGNAL_SCALE_EXP_LIN,
-	SIGNAL_SCALE_EXP_EXP
+    SIGNAL_SCALE_LIN_LIN,
+    SIGNAL_SCALE_LIN_EXP,
+    SIGNAL_SCALE_EXP_LIN,
+    SIGNAL_SCALE_EXP_EXP
 } signal_scale_t;
 
 #define N_CHANNELS -1
