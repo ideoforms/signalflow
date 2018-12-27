@@ -229,10 +229,14 @@ namespace libsignal
 			 *-----------------------------------------------------------------------*/
 			NodeRef *ref;
 
-			Node operator+ (Node &other);
+			// Node operator+ (Node &other);
 
 		protected:
 
+			/*------------------------------------------------------------------------
+			 * Creates a new named input.
+			 * Should only ever be used in the class constructor.
+			 *-----------------------------------------------------------------------*/
 			virtual void add_input(std::string name, NodeRef &input);
 	};
 
