@@ -12,27 +12,10 @@ namespace libsignal
 
     public:
 
-        Multiply(NodeRef a = 1.0, NodeRef b = 1.0) : BinaryOpNode(a, b)
-        {
-            this->name = "multiply";
-        }
+        Multiply(NodeRef a = 1.0, NodeRef b = 1.0);
 
-        virtual void process(sample **out, int num_frames)
-        {
-            for (int channel = 0; channel < this->num_output_channels; channel++)
-            {
-                #ifdef __APPLE__
+        virtual void process(sample **out, int num_frames);
 
-                    vDSP_vmul(input0->out[channel], 1, input1->out[channel], 1, out[channel], 1, num_frames);
-
-                #else
-
-                    for (int frame = 0; frame < num_frames; frame++)
-                        out[channel][frame] = input0->out[channel][frame] * input1->out[channel][frame];
-
-                #endif
-            }
-        }
     };
 
     REGISTER(Multiply, "multiply");
