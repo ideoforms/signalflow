@@ -24,6 +24,7 @@ namespace libsignal
         virtual int destroy() = 0;
 
         using Node::add_input;
+        using Node::remove_input;
         virtual void add_input(NodeRef node);
         virtual void remove_input(NodeRef node);
 

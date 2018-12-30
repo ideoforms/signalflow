@@ -239,6 +239,12 @@ namespace libsignal
              * Should only ever be used in the class constructor.
              *-----------------------------------------------------------------------*/
             virtual void add_input(std::string name, NodeRef &input);
+
+            /*------------------------------------------------------------------------
+             * Removing an input is only done by special classes
+             * (Multiplex, AudioOut)
+             *-----------------------------------------------------------------------*/
+            virtual void remove_input(std::string name);
     };
 
     class GeneratorNode : public Node

@@ -125,6 +125,15 @@ void Node::add_input(std::string name, NodeRef &node)
 
 }
 
+void Node::remove_input(std::string name)
+{
+    /*------------------------------------------------------------------------
+     * Only done by special classes (Multiplex, AudioOut)
+     *-----------------------------------------------------------------------*/
+    this->params.erase(name);
+    this->update_channels();
+}
+
 void Node::set_input(std::string name, const NodeRef &node)
 {
     if (this->params.find(name) == this->params.end())

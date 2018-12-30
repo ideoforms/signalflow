@@ -49,6 +49,14 @@ namespace libsignal
 
     void AudioOut_Abstract::remove_input(NodeRef node)
     {
+        for (auto param : this->params)
+        {
+            if (*(param.second) == node)
+            {
+                printf("removing input: %s\n", param.first.c_str());
+                this->Node::remove_input(param.first);
+            }
+        }
         inputs.remove(node);
     }
     
