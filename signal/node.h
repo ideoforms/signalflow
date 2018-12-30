@@ -41,6 +41,7 @@ namespace libsignal
             NodeRef(double x);
             NodeRef(int x);
             NodeRef(std::initializer_list<NodeRef> x);
+            NodeRef(std::vector<NodeRef> x);
 
             NodeRef operator* (NodeRef other);
             NodeRef operator* (double constant);

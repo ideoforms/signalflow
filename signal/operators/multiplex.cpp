@@ -4,11 +4,22 @@
 namespace libsignal
 {
 
-Multiplex::Multiplex(std::initializer_list<NodeRef> inputs) : Node()
+Multiplex::Multiplex()
 {
     this->name = "multiplex";
     this->no_input_automix = true;
+}
 
+Multiplex::Multiplex(std::initializer_list<NodeRef> inputs) : Multiplex()
+{
+    for (NodeRef input : inputs)
+    {
+        this->add_input(input);
+    }
+}
+
+Multiplex::Multiplex(std::vector<NodeRef> inputs) : Multiplex()
+{
     for (NodeRef input : inputs)
     {
         this->add_input(input);

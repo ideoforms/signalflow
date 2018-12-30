@@ -263,6 +263,8 @@ NodeRef::NodeRef(int x) : std::shared_ptr<Node>(new Constant((float) x))
 NodeRef::NodeRef(std::initializer_list<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x))
     { (*this)->ref = this; }
 
+NodeRef::NodeRef(std::vector<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x))
+    { (*this)->ref = this; }
 
 /*------------------------------------------------------------------------
  * Don't explicitly cast to NodeRef here or bad things happen
