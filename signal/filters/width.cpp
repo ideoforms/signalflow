@@ -3,7 +3,7 @@
 namespace libsignal
 {
 
-Width::Width(NodeRef input, NodeRef width)
+Width::Width(NodeRef input, NodeRef width) : UnaryOpNode(input), width(width)
 {
     this->name = "width";
     this->add_input("width", this->width);
