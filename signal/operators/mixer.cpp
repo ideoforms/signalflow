@@ -44,8 +44,8 @@ void Mixer::process(sample **out, int num_frames)
                         channel_distance_max, 0,
                         0, 1);
                 channel_amp = clip(channel_amp, 0, 1);
-                channel_amp = channel_amp * this->amp_compensation;
             }
+            channel_amp = channel_amp * this->amp_compensation;
             
             for (int frame = 0; frame < num_frames; frame++)
             {
@@ -65,7 +65,8 @@ void Mixer::update_channels()
         this->amp_compensation = 1.0;
     }
 
-    signal_debug("Node %s set num_out_channels to %d, num_in_channels %d", this->name.c_str(), this->num_output_channels, this->num_input_channels);
+    signal_debug("Node %s set num_out_channels to %d, num_in_channels %d",
+                 this->name.c_str(), this->num_output_channels, this->num_input_channels);
 }
 
 }
