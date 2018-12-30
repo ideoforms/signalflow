@@ -110,6 +110,13 @@ namespace libsignal
         this->pull_input(this->output, num_frames);
         this->node_count = this->processed_nodes.size();
         signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
+
+        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+        for (auto node : outputs_to_remove)
+        {
+            output->remove_input(node);
+        }
+        outputs_to_remove.clear();
     }
 
     void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
@@ -175,7 +182,6 @@ namespace libsignal
 
     void AudioGraph::remove_output(NodeRef node)
     {
-        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
-        output->remove_input(node);
+        outputs_to_remove.insert(node);
     }
 }
