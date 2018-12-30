@@ -8,6 +8,24 @@
 namespace libsignal
 {
 
+MoogVCF::MoogVCF(NodeRef input, NodeRef cutoff, NodeRef resonance) :
+    UnaryOpNode(input), cutoff(cutoff), resonance(resonance)
+{
+    this->name = "moog";
+    this->add_input("cutoff", this->cutoff);
+    this->add_input("resonance", this->resonance);
+
+    int int_buf_size = SIGNAL_MAX_CHANNELS * sizeof(int);
+    memset(out1, 0, int_buf_size);
+    memset(out2, 0, int_buf_size);
+    memset(out3, 0, int_buf_size);
+    memset(out4, 0, int_buf_size);
+    memset(in1, 0, int_buf_size);
+    memset(in2, 0, int_buf_size);
+    memset(in3, 0, int_buf_size);
+    memset(in4, 0, int_buf_size);
+}
+
 void MoogVCF::process(sample **out, int num_frames)
 {
     for (int channel = 0; channel < num_output_channels; channel++)

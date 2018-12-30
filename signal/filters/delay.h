@@ -12,21 +12,8 @@ namespace libsignal
     class Delay : public UnaryOpNode
     {
         public:
-            Delay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 10.0) :
-                UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
-            {
-                this->name = "delay";
-                this->add_input("delay_time", this->delaytime);
-                this->add_input("feedback", this->feedback);
-
-                for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
-                    buffers.push_back(new SampleRingBuffer(maxdelaytime * this->graph->sample_rate));
-            }
-
-            ~Delay()
-            {
-                // free buffers
-            }
+            Delay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 10.0);
+            ~Delay();
 
             NodeRef delaytime;
             NodeRef feedback;

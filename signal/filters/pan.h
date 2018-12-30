@@ -7,25 +7,13 @@ namespace libsignal
     class Pan : public Node
     {
         public:
-            Pan(int channels = 2, NodeRef input = 2, NodeRef pan = 0.5) :
-                input(input), pan(pan)
-            {
-                this->num_input_channels = 1;
-                this->num_output_channels = channels;
+            Pan(int channels = 2, NodeRef input = 2, NodeRef pan = 0.5);
 
-                this->min_input_channels = this->max_input_channels = 1;
-                this->min_output_channels = this->max_output_channels = channels;
-
-                this->add_input("input", this->input);
-                this->add_input("pan", this->pan);
-
-                this->name = "pan";
-            }
+            virtual void process(sample **out, int num_frames);
 
             NodeRef input;
             NodeRef pan;
 
-            virtual void process(sample **out, int num_frames);
     };
 
     REGISTER(Pan, "pan");

@@ -8,11 +8,7 @@ namespace libsignal
     class WaveShaper : public UnaryOpNode
     {
         public:
-            WaveShaper(NodeRef input = 0.0, BufferRef buffer = nullptr) :
-                UnaryOpNode(input), buffer(buffer)
-            {
-                this->name = "waveshaper";
-            }
+            WaveShaper(NodeRef input = 0.0, BufferRef buffer = nullptr);
 
             BufferRef buffer;
             virtual void process(sample **out, int num_frames);
