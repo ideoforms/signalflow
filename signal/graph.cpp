@@ -68,7 +68,7 @@ namespace libsignal
                 this->pull_input(param_node, num_frames);
 
                 /*------------------------------------------------------------------------
-                 * Automatic upmix.
+                 * Automatic input upmix.
                  *
                  * If the input node produces less channels than demanded, automatically
                  * up-mix its output by replicating the existing channels. This allows
@@ -76,7 +76,7 @@ namespace libsignal
                  * seamlessly without any additional implementation within the node
                  * itself (for example, Multiply(new Sine(440), new Pan(2, ...)))
                  *
-                 * A few nodes must prevent automatic up-mixing from happening.
+                 * A few nodes must prevent automatic input up-mixing from happening.
                  * These include Multiplex and AudioOut.
                  *-----------------------------------------------------------------------*/
                 if (param_node->num_output_channels < node->num_input_channels && !node->no_input_automix)
