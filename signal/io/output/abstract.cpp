@@ -53,7 +53,6 @@ namespace libsignal
         {
             if (*(param.second) == node)
             {
-                printf("removing input: %s\n", param.first.c_str());
                 this->Node::remove_input(param.first);
             }
         }

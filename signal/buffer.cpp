@@ -35,7 +35,7 @@ Buffer::~Buffer()
 {
     for (int channel = 0; channel < this->num_channels; channel++)
     {
-    free(this->data[channel]);
+        free(this->data[channel]);
     }
     free(this->data);
 }

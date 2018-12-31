@@ -57,6 +57,15 @@ Node::Node()
 
 Node::~Node()
 {
+    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    {
+        /*------------------------------------------------------------------------
+         * Memory allocation magic: Pointer to out[] is actually 1 byte off
+         * the original allocated segment (see Node constructor above).
+         *-----------------------------------------------------------------------*/
+        free(this->out[i] - 1);
+    }
+    free(this->out);
 }
 
 /*------------------------------------------------------------------------
