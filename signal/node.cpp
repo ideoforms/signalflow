@@ -111,9 +111,15 @@ void Node::update_channels()
                 max_channels = input->num_output_channels;
         }
 
-        signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), max_channels);
         this->num_input_channels = max_channels;
         this->num_output_channels = max_channels;
+
+        if (this->min_output_channels > this->num_output_channels)
+        {
+            this->num_output_channels = this->min_output_channels;
+        }
+
+        signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
     }
 }
 
