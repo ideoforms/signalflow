@@ -19,8 +19,6 @@ namespace libsignal
     
     void AudioOut_Abstract::process(sample **out, int num_frames)
     {
-        printf("num_output_channels = %d\n", this->num_output_channels);
-
         for (int channel = 0; channel < this->num_output_channels; channel++)
             memset(out[channel], 0, num_frames * sizeof(sample));
         
