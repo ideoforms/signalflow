@@ -1,5 +1,19 @@
 CHANGELOG
 
+## [HEAD](https://github.com/ideoforms/signal/tree/HEAD)
+
+[Full Changelog](https://github.com/ideoforms/signal/compare/v0.3.0...HEAD)
+
+**New features:**
+
+- Node: Ability to stop playback and remove from graph [\#46](https://github.com/ideoforms/signal/issues/46)
+
+**Closed issues:**
+
+- Unify code indentation to use spaces throughout [\#76](https://github.com/ideoforms/signal/issues/76)
+- Add support for initializing NodeRef/Multiplex with std::vector [\#75](https://github.com/ideoforms/signal/issues/75)
+- Monitor: Add support for multichannel monitoring [\#74](https://github.com/ideoforms/signal/issues/74)
+
 ## [v0.3.0](https://github.com/ideoforms/signal/tree/v0.3.0) (2018-07-15)
 [Full Changelog](https://github.com/ideoforms/signal/compare/v0.2.0...v0.3.0)
 
