@@ -16,6 +16,8 @@ namespace libsignal
             virtual void process(sample **out, int num_frames);
 
             NodeRef input;
+
+        private:
             int hop_size;
             int log2N;
             FFTSetup fft_setup;
