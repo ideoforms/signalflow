@@ -62,7 +62,7 @@ namespace libsignal
         private: 
 
             std::set<Node *> processed_nodes;
-            std::set<NodeRef> outputs_to_remove;
+            std::set<NodeRef> output_nodes_to_remove;
     };
 
     class AudioGraphRef : public std::shared_ptr<AudioGraph>
