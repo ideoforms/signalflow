@@ -68,7 +68,6 @@ namespace libsignal
                 }
                 else if (key == "inputs")
                 {
-                    printf("found inputs\n");
                     for (auto input_pair : value.object_items())
                     {
                         std::string input_key = input_pair.first;
