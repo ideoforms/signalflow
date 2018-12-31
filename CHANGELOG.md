@@ -1,8 +1,7 @@
 CHANGELOG
 
-## [HEAD](https://github.com/ideoforms/signal/tree/HEAD)
-
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.3.0...HEAD)
+## [v0.3.1](https://github.com/ideoforms/signal/tree/v0.3.1) (2018-12-31)
+[Full Changelog](https://github.com/ideoforms/signal/compare/v0.3.0...v0.3.1)
 
 **New features:**
 
