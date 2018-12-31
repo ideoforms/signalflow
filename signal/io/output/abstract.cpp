@@ -13,10 +13,14 @@ namespace libsignal
         // this->num_input_channels = 2;
         this->num_output_channels = 2;
         this->no_input_automix = true;
+        this->min_output_channels = 2;
+        this->max_output_channels = 2;
     }
     
     void AudioOut_Abstract::process(sample **out, int num_frames)
     {
+        printf("num_output_channels = %d\n", this->num_output_channels);
+
         for (int channel = 0; channel < this->num_output_channels; channel++)
             memset(out[channel], 0, num_frames * sizeof(sample));
         
