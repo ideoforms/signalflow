@@ -40,7 +40,7 @@ def options(opt):
     opt.add_option('--shared', action='store_true', default=False,
             help='build shared library')
     opt.add_option('--debug', action='store_true', default=False,
-            help='set the level of logging (none, print, warn, info or debug)',)
+            help='enable debug logging')
 
 #------------------------------------------------------------------------
 # Build mode 'dev' enables debugging symbols and disables optimisation.
