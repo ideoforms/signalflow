@@ -9,14 +9,14 @@ namespace libsignal
 class NodeMonitor
 {
     public:
-        NodeMonitor(Node *node, std::string label, float frequency);
+        NodeMonitor(NodeRef node, std::string label, float frequency);
 
         void start();
         void stop();
 
     private:
         void run_thread();
-        Node *node;
+        NodeRef node;
         float frequency;
         std::string label;
         bool running;

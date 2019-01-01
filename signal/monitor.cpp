@@ -3,7 +3,7 @@
 namespace libsignal
 {
 
-NodeMonitor::NodeMonitor(Node *node, std::string label, float frequency)
+NodeMonitor::NodeMonitor(NodeRef node, std::string label, float frequency)
 {
     this->node = node;
     this->frequency = frequency;
