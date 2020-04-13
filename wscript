@@ -135,9 +135,18 @@ def build(bld):
     # shared object, used when generating the link paths of binaries
     # compiled against this lib.
     #------------------------------------------------------------------------
-    source_files = bld.path.ant_glob('lib/vamp-hostsdk/*.cpp')
+    source_files = []
     source_files += bld.path.ant_glob('lib/json11/json11.cpp')
-    source_files += bld.path.ant_glob('signal/**/*.cpp')
+    source_files += bld.path.ant_glob('signal/*.cpp')
+    source_files += bld.path.ant_glob('signal/chance/*.cpp')
+    source_files += bld.path.ant_glob('signal/control/*.cpp')
+    source_files += bld.path.ant_glob('signal/envelope/*.cpp')
+    source_files += bld.path.ant_glob('signal/fft/*.cpp')
+    source_files += bld.path.ant_glob('signal/filters/*.cpp')
+    source_files += bld.path.ant_glob('signal/io/*/*.cpp')
+    source_files += bld.path.ant_glob('signal/operators/*.cpp')
+    source_files += bld.path.ant_glob('signal/oscillators/*.cpp')
+    source_files += bld.path.ant_glob('signal/sequencing/*.cpp')
     if sys.platform == "darwin" or sys.platform == "ios":
         source_files += bld.path.ant_glob('signal/**/*.mm')
 
