@@ -22,8 +22,8 @@
      * Extension to TargetConditionals.h
      * Useful to determine if we're targeting a Mac desktop
      *-----------------------------------------------------------------------*/
-    #ifndef TARGET_OS_OSX
-    #define TARGET_OS_OSX (TARGET_OS_MAC && !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR)
+    #ifndef TARGET_OS_MACOS
+    #define TARGET_OS_MACOS (TARGET_OS_MAC && !TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR)
     #endif
 
 #endif

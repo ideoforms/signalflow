@@ -17,11 +17,12 @@ namespace libsignal
             NodeRef low_freq;
             NodeRef high_freq;
 
+            virtual void process(sample **out, int num_frames);
+
+        private:
             float f1p0[SIGNAL_MAX_CHANNELS], f1p1[SIGNAL_MAX_CHANNELS], f1p2[SIGNAL_MAX_CHANNELS], f1p3[SIGNAL_MAX_CHANNELS];
             float f2p0[SIGNAL_MAX_CHANNELS], f2p1[SIGNAL_MAX_CHANNELS], f2p2[SIGNAL_MAX_CHANNELS], f2p3[SIGNAL_MAX_CHANNELS];
             float sdm1[SIGNAL_MAX_CHANNELS], sdm2[SIGNAL_MAX_CHANNELS], sdm3[SIGNAL_MAX_CHANNELS];
-
-            virtual void process(sample **out, int num_frames);
     };
 
     REGISTER(EQ, "eq");
