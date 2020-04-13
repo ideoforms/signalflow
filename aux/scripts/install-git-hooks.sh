@@ -47,7 +47,7 @@ then
     exit 0
 fi
 
-VERSION_H="\$GIT_REPO_DIR/signal/version.h"
+VERSION_H="\$GIT_REPO_DIR/include/signal/version.h"
 CURRENT_BUILD=\`cat \$VERSION_H | grep SIGNAL_BUILD | cut -d' ' -f3\`
 
 if [ "\$CURRENT_BUILD" = "" ]
