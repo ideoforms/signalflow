@@ -66,7 +66,7 @@ def configure(conf):
         '-Wno-unused-variable'
     ]
     conf.env.LIBPATH = ['/usr/local/lib']
-    conf.env.INCLUDES = ['/usr/local/include', 'lib']
+    conf.env.INCLUDES = ['/usr/local/include', 'include', 'lib']
 
     #------------------------------------------------------------------------
     # Check support for c++11 (required right now)
@@ -137,18 +137,18 @@ def build(bld):
     #------------------------------------------------------------------------
     source_files = []
     source_files += bld.path.ant_glob('lib/json11/json11.cpp')
-    source_files += bld.path.ant_glob('signal/*.cpp')
-    source_files += bld.path.ant_glob('signal/chance/*.cpp')
-    source_files += bld.path.ant_glob('signal/control/*.cpp')
-    source_files += bld.path.ant_glob('signal/envelope/*.cpp')
-    source_files += bld.path.ant_glob('signal/fft/*.cpp')
-    source_files += bld.path.ant_glob('signal/filters/*.cpp')
-    source_files += bld.path.ant_glob('signal/io/*/*.cpp')
-    source_files += bld.path.ant_glob('signal/operators/*.cpp')
-    source_files += bld.path.ant_glob('signal/oscillators/*.cpp')
-    source_files += bld.path.ant_glob('signal/sequencing/*.cpp')
+    source_files += bld.path.ant_glob('src/*.cpp')
+    source_files += bld.path.ant_glob('src/chance/*.cpp')
+    source_files += bld.path.ant_glob('src/control/*.cpp')
+    source_files += bld.path.ant_glob('src/envelope/*.cpp')
+    source_files += bld.path.ant_glob('src/fft/*.cpp')
+    source_files += bld.path.ant_glob('src/filters/*.cpp')
+    source_files += bld.path.ant_glob('src/io/*/*.cpp')
+    source_files += bld.path.ant_glob('src/operators/*.cpp')
+    source_files += bld.path.ant_glob('src/oscillators/*.cpp')
+    source_files += bld.path.ant_glob('src/sequencing/*.cpp')
     if sys.platform == "darwin" or sys.platform == "ios":
-        source_files += bld.path.ant_glob('signal/**/*.mm')
+        source_files += bld.path.ant_glob('src/**/*.mm')
 
     library_params = {
         "source" : source_files,
@@ -217,7 +217,7 @@ def build(bld):
             features = 'cxx cxxprogram',
             source = program_file,
             target = target,
-            includes = [ ".." ],
+            includes = [ "includes", ".." ],
             use = libraries + [ 'signal' ],
         )
     
