@@ -14,6 +14,7 @@ namespace py = pybind11;
 using namespace pybind11::literals;
 
 PYBIND11_DECLARE_HOLDER_TYPE(T, NodeRefTemplate<T>);
+PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>);
 
 PYBIND11_MODULE(libsignal, m)
 {
@@ -56,9 +57,15 @@ PYBIND11_MODULE(libsignal, m)
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), py::arg("attack") = NodeRef(0.1), py::arg("sustain") = NodeRef(0.1), py::arg("release") = NodeRef(0.1), py::arg("clock") = NodeRef(0.0))
         .def(py::init<float, float, float, float>(), "attack"_a = 0.1, "sustain"_a = 0.1, "release"_a = 0.1, "clock"_a=0);
 
+    py::class_<Sampler, Node, NodeRefTemplate<Sampler>>(m, "Sampler")
+        .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1));
+
     py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
         .def("start", &AudioGraph::start)
         .def("add_output", [](AudioGraph &graph, NodeRef a) { graph.add_output(a); });
 
+    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer")
+        .def(py::init<char *>())
+        .def_readonly("num_frames", &Buffer::num_frames);
 }
