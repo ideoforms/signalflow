@@ -162,7 +162,7 @@ def build(bld):
         'src/nodedef.cpp',
     ]
 
-    if Options.options.shared:
+    if Options.options.python:
         source_files += [ 'src/python.cpp' ]
 
     source_files += bld.path.ant_glob('src/operators/*.cpp')
