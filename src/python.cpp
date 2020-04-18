@@ -17,7 +17,13 @@ PYBIND11_MODULE(libsignal, m)
         .def("__add__", [](NodeRef  a, float b)
             { return NodeRef(new Add(a, NodeRef(new Constant(b)))); })
         .def("__radd__", [](NodeRefTemplate<Node>a, float b)
-            { return NodeRef(new Add(a, NodeRef(new Constant(b)))); });
+            { return NodeRef(new Add(a, NodeRef(new Constant(b)))); })
+        .def("__mul__", [](NodeRef a, NodeRef b)
+            { return NodeRef(new Multiply(a, b)); })
+        .def("__mul__", [](NodeRef  a, float b)
+            { return NodeRef(new Multiply(a, NodeRef(new Constant(b)))); })
+        .def("__rmul__", [](NodeRefTemplate<Node>a, float b)
+            { return NodeRef(new Multiply(a, NodeRef(new Constant(b)))); });
 
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant")
         .def(py::init<double>());
@@ -25,6 +31,9 @@ PYBIND11_MODULE(libsignal, m)
     py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
         .def(py::init<NodeRef>(), py::arg("frequency") = NodeRef(440.0))
         .def(py::init<float>(), py::arg("frequency") = NodeRef(440.0));
+
+    py::class_<Pan, Node, NodeRefTemplate<Pan>>(m, "Pan")
+        .def(py::init<int, NodeRef, float>(), py::arg("channels") = 2, py::arg("input") = NodeRef(440.0), py::arg("pan") = NodeRef(0));
 
     py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
