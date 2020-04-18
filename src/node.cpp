@@ -275,8 +275,8 @@ void Node::poll(float frequency, std::string label)
 template <class T>
 NodeRefTemplate<T>::NodeRefTemplate() : std::shared_ptr<T>(nullptr) {}
 
-template <class T>
-NodeRefTemplate<T>::NodeRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) {}
+// template <class T>
+// NodeRefTemplate<T>::NodeRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) {}
 
 template <class T>
 NodeRefTemplate<T>::NodeRefTemplate(double x) : std::shared_ptr<T>(new Constant(x)) {}
@@ -347,9 +347,6 @@ sample NodeRefTemplate<T>::operator[] (int index)
 
 // Explicitly instantiate the class
 template class NodeRefTemplate<Node>;
-template class NodeRefTemplate<Add>;
-template class NodeRefTemplate<Constant>;
-template class NodeRefTemplate<Sine>;
 
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b) : Node(), input0(a), input1(b)
 {

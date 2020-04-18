@@ -161,9 +161,6 @@ def build(bld):
     ]
 
     source_files += bld.path.ant_glob('src/operators/*.cpp')
-    source_files += [ 'src/io/output/soundio.cpp', 'src/io/output/abstract.cpp' ]
-    source_files += [ 'src/fft/fft.cpp' ]
-
     source_files += bld.path.ant_glob('src/chance/*.cpp')
     source_files += bld.path.ant_glob('src/control/*.cpp')
     source_files += bld.path.ant_glob('src/envelope/*.cpp')

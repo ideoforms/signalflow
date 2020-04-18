@@ -24,6 +24,8 @@ namespace libsignal
     class Add;
     class Subtract;
     class Divide;
+    class Multiplex;
+    class Constant;
 
     class Node;
     class AudioGraph;
@@ -38,11 +40,18 @@ namespace libsignal
     {
         public:
             NodeRefTemplate();
-            NodeRefTemplate(T *ptr);
+            // NodeRefTemplate(T *ptr);
             NodeRefTemplate(double x);
             NodeRefTemplate(int x);
             NodeRefTemplate(std::initializer_list<NodeRefTemplate> x);
             NodeRefTemplate(std::vector<NodeRefTemplate> x);
+
+//        NodeRefTemplate() : std::shared_ptr<T>(nullptr) {};
+        NodeRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) {};
+//        NodeRefTemplate(double x) : std::shared_ptr<T>(new Constant(x)) {};
+//        NodeRefTemplate(int x) : std::shared_ptr<T>(new Constant((float) x)) {};
+//        NodeRefTemplate(std::initializer_list<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {};
+//        NodeRefTemplate(std::vector<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {};
 
             NodeRefTemplate operator* (NodeRefTemplate other);
             NodeRefTemplate operator* (double constant);
