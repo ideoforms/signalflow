@@ -223,15 +223,6 @@ namespace libsignal
              *-----------------------------------------------------------------------*/
             int last_num_frames;
 
-            /*------------------------------------------------------------------------
-             * A reference to the NodeRef shared_ptr pointing to this Node.
-             * Necessary so that a node can make outgoing/incoming connections to
-             * other NodeRefs, increasing its own shared_ptr's reference count.
-             *-----------------------------------------------------------------------*/
-            NodeRef *ref;
-
-            // Node operator+ (Node &other);
-
         protected:
 
             /*------------------------------------------------------------------------

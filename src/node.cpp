@@ -51,7 +51,6 @@ Node::Node()
 
     this->no_input_automix = false;
 
-    this->ref = NULL;
     this->monitor = NULL;
 }
 
@@ -270,25 +269,15 @@ void Node::poll(float frequency, std::string label)
 }
 
 /*------------------------------------------------------------------------
- * Default constructors. 
+ * Default constructors.
  *-----------------------------------------------------------------------*/
 
-NodeRef::NodeRef() : std::shared_ptr<Node>(nullptr) { }
-
-NodeRef::NodeRef(Node *ptr) : std::shared_ptr<Node>(ptr)
-    { if (ptr) ptr->ref = this; }
-
-NodeRef::NodeRef(double x) : std::shared_ptr<Node>(new Constant(x))
-    { (*this)->ref = this; }
-
-NodeRef::NodeRef(int x) : std::shared_ptr<Node>(new Constant((float) x))
-    { (*this)->ref = this; }
-
-NodeRef::NodeRef(std::initializer_list<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x))
-    { (*this)->ref = this; }
-
-NodeRef::NodeRef(std::vector<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x))
-    { (*this)->ref = this; }
+NodeRef::NodeRef() : std::shared_ptr<Node>(nullptr) {}
+NodeRef::NodeRef(Node *ptr) : std::shared_ptr<Node>(ptr) {}
+NodeRef::NodeRef(double x) : std::shared_ptr<Node>(new Constant(x)) {}
+NodeRef::NodeRef(int x) : std::shared_ptr<Node>(new Constant((float) x)) {}
+NodeRef::NodeRef(std::initializer_list<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x)) {}
+NodeRef::NodeRef(std::vector<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x)) {}
 
 /*------------------------------------------------------------------------
  * Don't explicitly cast to NodeRef here or bad things happen
