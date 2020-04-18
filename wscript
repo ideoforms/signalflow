@@ -41,6 +41,8 @@ def options(opt):
             help='build shared library')
     opt.add_option('--debug', action='store_true', default=False,
             help='enable debug logging')
+    opt.add_option('--python', action='store_true', default=False,
+            help='build Python .so')
 
 #------------------------------------------------------------------------
 # Build mode 'dev' enables debugging symbols and disables optimisation.
@@ -129,12 +131,13 @@ def build(bld):
     if Options.options.debug:
         bld.define("DEBUG", 1)
     
-    import subprocess
-    pycxxflags = subprocess.Popen([ "python3-config", "--cflags"  ], stdout = subprocess.PIPE).communicate()[0]
-    pyldflags = subprocess.Popen([ "python3-config", "--ldflags", "--libs" ], stdout = subprocess.PIPE).communicate()[0]
-    bld.env.CXXFLAGS += pycxxflags.split()
-    bld.env.CXXFLAGS += [ "-I", "/usr/local/include/pybind11" ]
-    bld.env.LDFLAGS += pyldflags.split()
+    if Options.options.python:
+        import subprocess
+        pycxxflags = subprocess.Popen([ "python3-config", "--cflags"  ], stdout = subprocess.PIPE).communicate()[0]
+        pyldflags = subprocess.Popen([ "python3-config", "--ldflags", "--libs" ], stdout = subprocess.PIPE).communicate()[0]
+        bld.env.CXXFLAGS += pycxxflags.split()
+        bld.env.CXXFLAGS += [ "-I", "/usr/local/include/pybind11" ]
+        bld.env.LDFLAGS += pyldflags.split()
 
     #------------------------------------------------------------------------
     # Build every .cpp file found within signal as a shared library.
@@ -157,8 +160,10 @@ def build(bld):
         'src/synthspec.cpp',
         'src/synthtemplate.cpp',
         'src/nodedef.cpp',
-        'src/python.cpp',
     ]
+
+    if Options.options.shared:
+        source_files += [ 'src/python.cpp' ]
 
     source_files += bld.path.ant_glob('src/operators/*.cpp')
     source_files += bld.path.ant_glob('src/chance/*.cpp')
@@ -180,7 +185,7 @@ def build(bld):
         "install_path" : "@rpath"
     }
 
-    if Options.options.shared:
+    if Options.options.shared or Options.options.python:
         bld.shlib(**library_params)
     else:
         bld.stlib(**library_params)

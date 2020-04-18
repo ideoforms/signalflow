@@ -8,8 +8,10 @@ from libsignal import *
 
 g = AudioGraph()
 g.start()
-# c = Constant(240.0)
-s = Sine(440.0) + 0.1
-# t = Sine(2) + 0.5
+
+t = Sine(2) * 0.5 + 0.5
+f = Sine(1.5) * 440 + 660
+# s = Sine(440.0) * t
+s = Sine(f) * t
 g.add_output(s)
 time.sleep(2)

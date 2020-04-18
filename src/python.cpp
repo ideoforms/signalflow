@@ -35,6 +35,10 @@ PYBIND11_MODULE(libsignal, m)
     py::class_<Pan, Node, NodeRefTemplate<Pan>>(m, "Pan")
         .def(py::init<int, NodeRef, float>(), py::arg("channels") = 2, py::arg("input") = NodeRef(440.0), py::arg("pan") = NodeRef(0));
 
+    py::class_<ASR, Node, NodeRefTemplate<ASR>>(m, "ASR")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(),
+                py::arg("attack") = NodeRef(0.1), py::arg("sustain") = NodeRef(0.1), py::arg("release") = NodeRef(0.1), py::arg("clock") = NodeRef(0.0));
+
     py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
         .def("start", &AudioGraph::start)
