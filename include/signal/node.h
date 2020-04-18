@@ -33,35 +33,38 @@ namespace libsignal
      * Allows us to use a float (or direct node ptr) in place of a NodeRef
      * by specifying conversion constructors.
      *-----------------------------------------------------------------------*/
-    class NodeRef : public std::shared_ptr<Node>
+    template <class T>
+    class NodeRefTemplate : public std::shared_ptr<T>
     {
         public:
-            NodeRef();
-            NodeRef(Node *ptr);
-            NodeRef(double x);
-            NodeRef(int x);
-            NodeRef(std::initializer_list<NodeRef> x);
-            NodeRef(std::vector<NodeRef> x);
+            NodeRefTemplate();
+            NodeRefTemplate(T *ptr);
+            NodeRefTemplate(double x);
+            NodeRefTemplate(int x);
+            NodeRefTemplate(std::initializer_list<NodeRefTemplate> x);
+            NodeRefTemplate(std::vector<NodeRefTemplate> x);
 
-            NodeRef operator* (NodeRef other);
-            NodeRef operator* (double constant);
-            NodeRef operator+ (NodeRef other);
-            NodeRef operator+ (double constant);
-            NodeRef operator- (NodeRef other);
-            NodeRef operator- (double constant);
-            NodeRef operator/ (NodeRef other);
-            NodeRef operator/ (double constant);
+            NodeRefTemplate operator* (NodeRefTemplate other);
+            NodeRefTemplate operator* (double constant);
+            NodeRefTemplate operator+ (NodeRefTemplate other);
+            NodeRefTemplate operator+ (double constant);
+            NodeRefTemplate operator- (NodeRefTemplate other);
+            NodeRefTemplate operator- (double constant);
+            NodeRefTemplate operator/ (NodeRefTemplate other);
+            NodeRefTemplate operator/ (double constant);
             sample operator[] (int index);
 
     };
+    
+    typedef NodeRefTemplate<Node> NodeRef;
 
     /*------------------------------------------------------------------------
      * Mathematical operators where NodeRef is the RHS operand
      *-----------------------------------------------------------------------*/
-    NodeRef operator*(double constant, const NodeRef other);
-    NodeRef operator+(double constant, const NodeRef other);
-    NodeRef operator-(double constant, const NodeRef other);
-    NodeRef operator/(double constant, const NodeRef other);
+//    NodeRef operator*(double constant, const NodeRef other);
+//    NodeRef operator+(double constant, const NodeRef other);
+//    NodeRef operator-(double constant, const NodeRef other);
+//    NodeRef operator/(double constant, const NodeRef other);
 
     class Node
     {

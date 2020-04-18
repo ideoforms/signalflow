@@ -66,7 +66,7 @@ def configure(conf):
         '-Wno-unused-variable'
     ]
     conf.env.LIBPATH = ['/usr/local/lib']
-    conf.env.INCLUDES = ['/usr/local/include', 'include', 'lib']
+    conf.env.INCLUDES = ['/usr/local/include', 'include', 'lib', 'lib/pybind11/include']
 
     #------------------------------------------------------------------------
     # Check support for c++11 (required right now)
@@ -128,6 +128,13 @@ def build(bld):
     #------------------------------------------------------------------------
     if Options.options.debug:
         bld.define("DEBUG", 1)
+    
+    import subprocess
+    pycxxflags = subprocess.Popen([ "python3-config", "--cflags"  ], stdout = subprocess.PIPE).communicate()[0]
+    pyldflags = subprocess.Popen([ "python3-config", "--ldflags", "--libs" ], stdout = subprocess.PIPE).communicate()[0]
+    bld.env.CXXFLAGS += pycxxflags.split()
+    bld.env.CXXFLAGS += [ "-I", "/usr/local/include/pybind11" ]
+    bld.env.LDFLAGS += pyldflags.split()
 
     #------------------------------------------------------------------------
     # Build every .cpp file found within signal as a shared library.
@@ -137,14 +144,32 @@ def build(bld):
     #------------------------------------------------------------------------
     source_files = []
     source_files += bld.path.ant_glob('lib/json11/json11.cpp')
-    source_files += bld.path.ant_glob('src/*.cpp')
+    source_files += [
+        'src/core.cpp',
+        'src/util.cpp',
+        'src/node.cpp',
+        'src/monitor.cpp',
+        'src/graph.cpp',
+        'src/registry.cpp',
+        'src/buffer.cpp',
+        'src/synth.cpp',
+        'src/synthregistry.cpp',
+        'src/synthspec.cpp',
+        'src/synthtemplate.cpp',
+        'src/nodedef.cpp',
+        'src/python.cpp',
+    ]
+
+    source_files += bld.path.ant_glob('src/operators/*.cpp')
+    source_files += [ 'src/io/output/soundio.cpp', 'src/io/output/abstract.cpp' ]
+    source_files += [ 'src/fft/fft.cpp' ]
+
     source_files += bld.path.ant_glob('src/chance/*.cpp')
     source_files += bld.path.ant_glob('src/control/*.cpp')
     source_files += bld.path.ant_glob('src/envelope/*.cpp')
     source_files += bld.path.ant_glob('src/fft/*.cpp')
     source_files += bld.path.ant_glob('src/filters/*.cpp')
     source_files += bld.path.ant_glob('src/io/*/*.cpp')
-    source_files += bld.path.ant_glob('src/operators/*.cpp')
     source_files += bld.path.ant_glob('src/oscillators/*.cpp')
     source_files += bld.path.ant_glob('src/sequencing/*.cpp')
     if sys.platform == "darwin" or sys.platform == "ios":
@@ -197,6 +222,7 @@ def build(bld):
             excl.append("*/mouse*.cpp")
         for example_dir in example_dirs:
             program_files += bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
+        # program_files += [ "examples/hello-world.cpp" ]
 
     #------------------------------------------------------------------------
     # Build each source file.

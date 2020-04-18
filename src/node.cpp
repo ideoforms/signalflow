@@ -272,59 +272,84 @@ void Node::poll(float frequency, std::string label)
  * Default constructors.
  *-----------------------------------------------------------------------*/
 
-NodeRef::NodeRef() : std::shared_ptr<Node>(nullptr) {}
-NodeRef::NodeRef(Node *ptr) : std::shared_ptr<Node>(ptr) {}
-NodeRef::NodeRef(double x) : std::shared_ptr<Node>(new Constant(x)) {}
-NodeRef::NodeRef(int x) : std::shared_ptr<Node>(new Constant((float) x)) {}
-NodeRef::NodeRef(std::initializer_list<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x)) {}
-NodeRef::NodeRef(std::vector<NodeRef> x) : std::shared_ptr<Node>(new Multiplex(x)) {}
+template <class T>
+NodeRefTemplate<T>::NodeRefTemplate() : std::shared_ptr<T>(nullptr) {}
 
-/*------------------------------------------------------------------------
- * Don't explicitly cast to NodeRef here or bad things happen
- * (shared_ptrs freed too early -- causing SIGSEGV when doing
- * sine * 0.25)
- *-----------------------------------------------------------------------*/
-NodeRef NodeRef::operator* (NodeRef other)
+template <class T>
+NodeRefTemplate<T>::NodeRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) {}
+
+template <class T>
+NodeRefTemplate<T>::NodeRefTemplate(double x) : std::shared_ptr<T>(new Constant(x)) {}
+
+template <class T>
+NodeRefTemplate<T>::NodeRefTemplate(int x) : std::shared_ptr<T>(new Constant((float) x)) {}
+
+template <class T>
+NodeRefTemplate<T>::NodeRefTemplate(std::initializer_list<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {}
+
+template <class T>
+NodeRefTemplate<T>::NodeRefTemplate(std::vector<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {}
+
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator* (NodeRefTemplate<T> other)
     { return new Multiply(*this, other); }
 
-NodeRef NodeRef::operator* (double constant)
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator* (double constant)
     { return new Multiply(*this, constant); }
 
-NodeRef operator*(double constant, const NodeRef node)
+template <class T>
+NodeRefTemplate<T> operator*(double constant, const NodeRefTemplate<T> node)
     { return new Multiply(node, constant); }
 
-NodeRef NodeRef::operator+ (NodeRef other)
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator+ (NodeRefTemplate<T> other)
     { return new Add(*this, other); }
 
-NodeRef NodeRef::operator+ (double constant)
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator+ (double constant)
     { return new Add(*this, constant); }
 
-NodeRef operator+(double constant, const NodeRef node)
+template <class T>
+NodeRefTemplate<T> operator+(double constant, const NodeRefTemplate<T> node)
     { return new Add(node, constant); }
 
-NodeRef NodeRef::operator- (NodeRef other)
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator- (NodeRefTemplate<T> other)
     { return new Subtract(*this, other); }
 
-NodeRef NodeRef::operator- (double constant)
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator- (double constant)
     { return new Subtract(*this, constant); }
 
-NodeRef operator-(double constant, const NodeRef node)
+template <class T>
+NodeRefTemplate<T> operator-(double constant, const NodeRefTemplate<T> node)
     { return new Subtract(node, constant); }
 
-NodeRef NodeRef::operator/ (NodeRef other)
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator/ (NodeRefTemplate<T> other)
     { return new Divide(*this, other); }
 
-NodeRef NodeRef::operator/ (double constant)
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::operator/ (double constant)
     { return new Divide(*this, constant); }
 
-NodeRef operator/(double constant, const NodeRef node)
+template <class T>
+NodeRefTemplate<T> operator/(double constant, const NodeRefTemplate<T> node)
     { return new Divide(node, constant); }
 
-sample NodeRef::operator[] (int index)
+template <class T>
+sample NodeRefTemplate<T>::operator[] (int index)
 {
     // unused?
     return (*this)->out[0][index];
 }
+
+// Explicitly instantiate the class
+template class NodeRefTemplate<Node>;
+template class NodeRefTemplate<Add>;
+template class NodeRefTemplate<Constant>;
+template class NodeRefTemplate<Sine>;
 
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b) : Node(), input0(a), input1(b)
 {
