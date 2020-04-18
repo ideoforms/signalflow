@@ -45,6 +45,14 @@ PYBIND11_MODULE(libsignal, m)
         .def(py::init<NodeRef>(), py::arg("frequency") = NodeRef(440.0))
         .def(py::init<float>(), py::arg("frequency") = NodeRef(440.0));
 
+    py::class_<Tick, Node, NodeRefTemplate<Tick>>(m, "Tick")
+        .def(py::init<NodeRef>(), py::arg("frequency") = NodeRef(440.0))
+        .def(py::init<float>(), py::arg("frequency") = NodeRef(440.0));
+
+    py::class_<Dust, Node, NodeRefTemplate<Dust>>(m, "Dust")
+        .def(py::init<NodeRef>(), py::arg("frequency") = NodeRef(440.0))
+        .def(py::init<float>(), py::arg("frequency") = NodeRef(440.0));
+
     py::class_<Square, Node, NodeRefTemplate<Square>>(m, "Square")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = NodeRef(440.0), "width"_a = NodeRef(0.5))
         .def(py::init<float, float>(), "frequency"_a = 440.0, "width"_a = 0.5);
@@ -59,6 +67,10 @@ PYBIND11_MODULE(libsignal, m)
 
     py::class_<Sampler, Node, NodeRefTemplate<Sampler>>(m, "Sampler")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1));
+
+    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef>(),
+            "buffer"_a, "clock"_a = NodeRef(0), "pos"_a = NodeRef(0.5), "grain_length"_a = NodeRef(0.1), "rate"_a = NodeRef(1.0));
 
     py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
