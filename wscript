@@ -224,7 +224,6 @@ def build(bld):
             excl.append("*/mouse*.cpp")
         for example_dir in example_dirs:
             program_files += bld.path.ant_glob(os.path.join(example_dir, "*.cpp"), excl = excl)
-        # program_files += [ "examples/hello-world.cpp" ]
 
     #------------------------------------------------------------------------
     # Build each source file.

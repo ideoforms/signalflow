@@ -20,13 +20,6 @@ namespace libsignal
     /*------------------------------------------------------------------------
      * Forward-declare our operator classes to avoid interdependencies.
      *-----------------------------------------------------------------------*/
-    class Multiply;
-    class Add;
-    class Subtract;
-    class Divide;
-    class Multiplex;
-    class Constant;
-
     class Node;
     class AudioGraph;
     class NodeMonitor;
@@ -57,11 +50,12 @@ namespace libsignal
             sample operator[] (int index);
 
     };
-    
+
     typedef NodeRefTemplate<Node> NodeRef;
 
     /*------------------------------------------------------------------------
      * Mathematical operators where NodeRef is the RHS operand
+     * TODO Test and restore
      *-----------------------------------------------------------------------*/
 //    NodeRef operator*(double constant, const NodeRef other);
 //    NodeRef operator+(double constant, const NodeRef other);
