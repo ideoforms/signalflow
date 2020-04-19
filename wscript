@@ -145,35 +145,24 @@ def build(bld):
     # shared object, used when generating the link paths of binaries
     # compiled against this lib.
     #------------------------------------------------------------------------
-    source_files = []
-    source_files += bld.path.ant_glob('lib/json11/json11.cpp')
-    source_files += [
-        'src/core.cpp',
-        'src/util.cpp',
-        'src/node.cpp',
-        'src/monitor.cpp',
-        'src/graph.cpp',
-        'src/registry.cpp',
-        'src/buffer.cpp',
-        'src/synth.cpp',
-        'src/synthregistry.cpp',
-        'src/synthspec.cpp',
-        'src/synthtemplate.cpp',
-        'src/nodedef.cpp',
+    source_files = [
+        'src/core/core.cpp',
+        'src/core/util.cpp',
+        'src/core/monitor.cpp',
+        'src/core/graph.cpp',
+        'src/buffer/buffer.cpp',
+        'src/synth/synth.cpp',
+        'src/synth/synthregistry.cpp',
+        'src/synth/synthspec.cpp',
+        'src/synth/synthtemplate.cpp',
+        'src/synth/nodedef.cpp',
     ]
+    source_files += bld.path.ant_glob('src/node/**/*.cpp')
+    source_files += [ 'lib/json11/json11.cpp' ]
 
     if Options.options.python:
-        source_files += [ 'src/python.cpp' ]
+        source_files += [ 'src/python/python.cpp' ]
 
-    source_files += bld.path.ant_glob('src/operators/*.cpp')
-    source_files += bld.path.ant_glob('src/chance/*.cpp')
-    source_files += bld.path.ant_glob('src/control/*.cpp')
-    source_files += bld.path.ant_glob('src/envelope/*.cpp')
-    source_files += bld.path.ant_glob('src/fft/*.cpp')
-    source_files += bld.path.ant_glob('src/filters/*.cpp')
-    source_files += bld.path.ant_glob('src/io/*/*.cpp')
-    source_files += bld.path.ant_glob('src/oscillators/*.cpp')
-    source_files += bld.path.ant_glob('src/sequencing/*.cpp')
     if sys.platform == "darwin" or sys.platform == "ios":
         source_files += bld.path.ant_glob('src/**/*.mm')
 
