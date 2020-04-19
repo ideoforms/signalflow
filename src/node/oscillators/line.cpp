@@ -4,8 +4,8 @@
 namespace libsignal
 {
 
-Line::Line(NodeRef time, NodeRef from, NodeRef to) : 
-    time(time), from(from), to(to)
+Line::Line(NodeRef time, NodeRef from, NodeRef to)
+    : time(time), from(from), to(to)
 {
     this->name = "line";
 

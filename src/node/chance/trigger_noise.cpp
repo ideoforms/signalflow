@@ -7,7 +7,8 @@
 namespace libsignal
 {
 
-TriggerNoise::TriggerNoise(NodeRef min, NodeRef max, NodeRef clock) : min(min), max(max), clock(clock)
+TriggerNoise::TriggerNoise(NodeRef min, NodeRef max, NodeRef clock)
+    : min(min), max(max), clock(clock)
 {
     this->name = "trigger_noise";
     this->add_input("min", this->min);

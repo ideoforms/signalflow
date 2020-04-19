@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-LinExp::LinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d) : UnaryOpNode(input), a(a), b(b), c(c), d(d)
+LinExp::LinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
+    : UnaryOpNode(input), a(a), b(b), c(c), d(d)
 {
     this->name = "linexp";
 
@@ -25,7 +26,8 @@ void LinExp::process(sample **out, int num_frames)
     }
 }
 
-Scale::Scale(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d) : UnaryOpNode(input), a(a), b(b), c(c), d(d)
+Scale::Scale(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
+    : UnaryOpNode(input), a(a), b(b), c(c), d(d)
 {
     this->name = "scale";
 
@@ -48,4 +50,3 @@ void Scale::process(sample **out, int num_frames)
 }
 
 }
-

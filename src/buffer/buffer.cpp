@@ -2,13 +2,13 @@
 #include "signal/core/random.h"
 
 #ifdef HAVE_SNDFILE
-    #include <sndfile.h>
+#include <sndfile.h>
 #endif
 
-#include <stdlib.h>
-#include <string.h>
 #include <assert.h>
 #include <math.h>
+#include <stdlib.h>
+#include <string.h>
 #include <vector>
 
 namespace libsignal
@@ -16,7 +16,6 @@ namespace libsignal
 
 Buffer::Buffer()
 {
-
 }
 
 Buffer::Buffer(int num_channels, int num_frames)
@@ -44,7 +43,7 @@ Buffer::Buffer(int num_channels, int num_frames, sample **data)
     }
 }
 
-Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>>data)
+Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>> data)
     : Buffer(num_channels, num_frames)
 {
     for (int channel = 0; channel < this->num_channels; channel++)
@@ -76,7 +75,7 @@ void Buffer::load(std::string filename)
         throw std::runtime_error("Buffer has already been allocated");
     }
 
-    #ifdef HAVE_SNDFILE
+#ifdef HAVE_SNDFILE
 
     SF_INFO info;
     SNDFILE *sndfile = sf_open(filename.c_str(), SFM_READ, &info);
@@ -93,7 +92,7 @@ void Buffer::load(std::string filename)
     {
         long long length = sizeof(sample) * info.frames;
         this->data[channel] = (sample *) malloc(length + 1024);
-        
+
         memset(this->data[channel], 0, length);
     }
 
@@ -125,12 +124,12 @@ void Buffer::load(std::string filename)
 
     sf_close(sndfile);
 
-    #endif
+#endif
 }
 
 void Buffer::save(std::string filename)
 {
-    #ifdef HAVE_SNDFILE
+#ifdef HAVE_SNDFILE
 
     SF_INFO info;
     memset(&info, 0, sizeof(SF_INFO));
@@ -173,7 +172,7 @@ void Buffer::save(std::string filename)
 
     sf_close(sndfile);
 
-    #endif
+#endif
 }
 
 double Buffer::frame_to_offset(double frame)
@@ -229,7 +228,8 @@ void Buffer::fill(transfer_fn f)
     }
 }
 
-EnvelopeBuffer::EnvelopeBuffer(int length) : Buffer(1, length)
+EnvelopeBuffer::EnvelopeBuffer(int length)
+    : Buffer(1, length)
 {
     /*-------------------------------------------------------------------------
      * Initialise to a flat envelope at maximum amplitude.
@@ -259,7 +259,8 @@ void EnvelopeBuffer::fill_beta(float a, float b)
         this->data[0][x] = random_beta_pdf((float) x / this->num_frames, a, b);
 }
 
-EnvelopeBufferTriangle::EnvelopeBufferTriangle(int length) : EnvelopeBuffer(length)
+EnvelopeBufferTriangle::EnvelopeBufferTriangle(int length)
+    : EnvelopeBuffer(length)
 {
     for (int x = 0; x < length / 2; x++)
         this->data[0][x] = (float) x / (length / 2);
@@ -267,13 +268,15 @@ EnvelopeBufferTriangle::EnvelopeBufferTriangle(int length) : EnvelopeBuffer(leng
         this->data[0][(length / 2) + x] = 1.0 - (float) x / (length / 2);
 }
 
-EnvelopeBufferLinearDecay::EnvelopeBufferLinearDecay(int length) : EnvelopeBuffer(length)
+EnvelopeBufferLinearDecay::EnvelopeBufferLinearDecay(int length)
+    : EnvelopeBuffer(length)
 {
     for (int x = 0; x < length; x++)
         this->data[0][x] = 1.0 - (float) x / length;
 }
 
-EnvelopeBufferHanning::EnvelopeBufferHanning(int length) : EnvelopeBuffer(length)
+EnvelopeBufferHanning::EnvelopeBufferHanning(int length)
+    : EnvelopeBuffer(length)
 {
     for (int x = 0; x < length; x++)
     {
@@ -281,7 +284,8 @@ EnvelopeBufferHanning::EnvelopeBufferHanning(int length) : EnvelopeBuffer(length
     }
 }
 
-WaveShaperBuffer::WaveShaperBuffer(int length) : Buffer(1, length)
+WaveShaperBuffer::WaveShaperBuffer(int length)
+    : Buffer(1, length)
 {
     /*-------------------------------------------------------------------------
      * Initialise to a 1-to-1 linear mapping.

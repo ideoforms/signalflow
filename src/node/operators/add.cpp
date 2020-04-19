@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-Add::Add(NodeRef a, NodeRef b) : BinaryOpNode(a, b)
+Add::Add(NodeRef a, NodeRef b)
+    : BinaryOpNode(a, b)
 {
     this->name = "add";
 }

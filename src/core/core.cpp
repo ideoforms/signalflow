@@ -2,9 +2,8 @@
 #include "signal/core/random.h"
 
 #include <iostream>
-#include <stdlib.h>
 #include <stdarg.h>
-
+#include <stdlib.h>
 
 using namespace libsignal;
 
@@ -13,17 +12,17 @@ void signal_init()
     random_init();
 }
 
-void signal_debug(char const * msg, ... )
+void signal_debug(char const *msg, ...)
 {
-    #ifdef DEBUG
+#ifdef DEBUG
 
-        va_list v;
-        va_start(v, msg);
-        vfprintf(stdout, msg, v);
-        fprintf(stdout, "\n");
-        va_end(v);
+    va_list v;
+    va_start(v, msg);
+    vfprintf(stdout, msg, v);
+    fprintf(stdout, "\n");
+    va_end(v);
 
-    #endif
+#endif
 }
 
 void signal_assert(bool equality, char const *msg, ...)
@@ -40,7 +39,7 @@ void signal_assert(bool equality, char const *msg, ...)
     }
 }
 
-void signal_warn(char const * msg, ... )
+void signal_warn(char const *msg, ...)
 {
     va_list v;
     va_start(v, msg);

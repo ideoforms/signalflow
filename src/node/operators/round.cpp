@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-RoundToScale::RoundToScale(NodeRef a) : UnaryOpNode(a)
+RoundToScale::RoundToScale(NodeRef a)
+    : UnaryOpNode(a)
 {
     this->name = "round-to-scale";
 }

@@ -2,13 +2,14 @@
 
 #include "stdlib.h"
 
-#include "signal/core/random.h"
 #include "signal/core/graph.h"
+#include "signal/core/random.h"
 
 namespace libsignal
 {
 
-Dust::Dust(NodeRef frequency) : frequency(frequency)
+Dust::Dust(NodeRef frequency)
+    : frequency(frequency)
 {
     this->steps_remaining = 0;
 
@@ -32,7 +33,6 @@ void Dust::process(sample **out, int num_frames)
         {
             out[channel][frame] = (this->steps_remaining == 0) ? 1 : 0;
         }
-
     }
 }
 

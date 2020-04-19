@@ -1,12 +1,11 @@
 #include "signal/node/registry.h"
-#include "signal/synth/synthspec.h"
 #include "signal/synth/synth.h"
+#include "signal/synth/synthspec.h"
 
 #include <stdlib.h>
 
 namespace libsignal
 {
-
 
 NodeRegistry::NodeRegistry()
 {

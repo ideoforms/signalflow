@@ -4,8 +4,8 @@
 namespace libsignal
 {
 
-Wavetable::Wavetable(BufferRef table, NodeRef frequency) :
-    table(table), frequency(frequency)
+Wavetable::Wavetable(BufferRef table, NodeRef frequency)
+    : table(table), frequency(frequency)
 {
     this->name = "wavetable";
     this->phase = 0.0;
@@ -29,8 +29,8 @@ void Wavetable::process(sample **out, int num_frames)
     }
 }
 
-Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfade) :
-        buffer(buffer), frequency(frequency), crossfade(crossfade)
+Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfade)
+    : buffer(buffer), frequency(frequency), crossfade(crossfade)
 {
     this->name = "wavetable2D";
     this->phase = 0.0;

@@ -4,7 +4,8 @@
 namespace libsignal
 {
 
-Mixer::Mixer(NodeRef input, int channels) : UnaryOpNode(input), channels(channels)
+Mixer::Mixer(NodeRef input, int channels)
+    : UnaryOpNode(input), channels(channels)
 {
     this->name = "mixer";
     this->channels = channels;
@@ -13,7 +14,7 @@ Mixer::Mixer(NodeRef input, int channels) : UnaryOpNode(input), channels(channel
 void Mixer::process(sample **out, int num_frames)
 {
     float out_channel_pan,
-          in_channel_pan;
+        in_channel_pan;
 
     this->zero_output();
 
@@ -41,12 +42,12 @@ void Mixer::process(sample **out, int num_frames)
                 float channel_distance = fabs(in_channel_pan - out_channel_pan);
                 float channel_distance_max = 1.0 / (this->channels - 1);
                 channel_amp = map(channel_distance,
-                        channel_distance_max, 0,
-                        0, 1);
+                                  channel_distance_max, 0,
+                                  0, 1);
                 channel_amp = clip(channel_amp, 0, 1);
             }
             channel_amp = channel_amp * this->amp_compensation;
-            
+
             for (int frame = 0; frame < num_frames; frame++)
             {
                 out[out_channel][frame] += channel_amp * this->input->out[in_channel][frame];
@@ -70,4 +71,3 @@ void Mixer::update_channels()
 }
 
 }
-

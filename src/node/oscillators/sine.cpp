@@ -7,7 +7,8 @@
 namespace libsignal
 {
 
-Sine::Sine(NodeRef frequency) : frequency(frequency)
+Sine::Sine(NodeRef frequency)
+    : frequency(frequency)
 {
     this->name = "sine";
     this->add_input("frequency", this->frequency);
