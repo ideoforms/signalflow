@@ -30,8 +30,10 @@ namespace libsignal
     class Buffer
     {
     public:
+        Buffer(int num_channels, int num_frames, sample **data);
         Buffer(int num_channels, int num_frames);
         Buffer(const char *filename);
+
         virtual ~Buffer();
 
         void open(const char *filename);
@@ -137,12 +139,15 @@ namespace libsignal
             virtual double frame_to_offset(double frame) override;
     };
 
-    class BufferRef : public std::shared_ptr<Buffer>
+    template <class T>
+    class BufferRefTemplate : public std::shared_ptr<T>
     {
         public:
-            using std::shared_ptr<Buffer>::shared_ptr;
+            using std::shared_ptr<T>::shared_ptr;
 
-            BufferRef() : std::shared_ptr<Buffer>(nullptr) { }
-            BufferRef(Buffer *ptr) : std::shared_ptr<Buffer>(ptr) { }
+            BufferRefTemplate() : std::shared_ptr<T>(nullptr) { }
+            BufferRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) { }
     };
+
+    typedef BufferRefTemplate<Buffer> BufferRef;
 }

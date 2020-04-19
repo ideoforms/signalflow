@@ -7,6 +7,7 @@ namespace libsignal
 Wavetable::Wavetable(BufferRef table, NodeRef frequency, bool interpolate) :
     table(table), frequency(frequency), interpolate(interpolate)
 {
+    // TODO Implement interpolation
     this->name = "wavetable";
     this->phase = 0.0;
 
