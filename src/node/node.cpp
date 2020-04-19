@@ -1,27 +1,26 @@
 #include "signal/node/node.h"
 
-#include "signal/node/operators/multiply.h"
 #include "signal/node/operators/add.h"
-#include "signal/node/operators/subtract.h"
 #include "signal/node/operators/divide.h"
+#include "signal/node/operators/multiply.h"
 #include "signal/node/operators/scale.h"
+#include "signal/node/operators/subtract.h"
 
-#include "signal/node/oscillators/constant.h"
 #include "signal/node/operators/multiplex.h"
+#include "signal/node/oscillators/constant.h"
 
 #include "signal/core/core.h"
 #include "signal/core/graph.h"
-#include "signal/core/util.h"
 #include "signal/core/monitor.h"
+#include "signal/core/util.h"
 
+#include <cassert>
 #include <stdio.h>
 #include <stdlib.h>
-#include <cassert>
-
 
 namespace libsignal
 {
-    
+
 extern AudioGraph *shared_graph;
 
 Node::Node()
@@ -136,7 +135,6 @@ void Node::add_input(std::string name, NodeRef &node)
 
     this->params[name] = &node;
     this->update_channels();
-
 }
 
 void Node::remove_input(std::string name)
@@ -201,7 +199,6 @@ void Node::disconnect_inputs()
     }
 }
 
-
 void Node::add_property(std::string name, PropertyRef &value)
 {
     this->properties[name] = &value;
@@ -219,7 +216,7 @@ PropertyRef Node::get_property(std::string name)
 {
     if (this->properties.find(name) == this->properties.end())
         throw std::runtime_error("Node " + this->name + " has no such property: " + name);
-    
+
     return *(this->properties[name]);
 }
 
@@ -236,10 +233,9 @@ void Node::set_buffer(std::string name, BufferRef buffer)
     *(this->buffers[name]) = buffer;
 }
 
-
-// TODO: Assignment operator breaks our paradigm as (I think) we need 
+// TODO: Assignment operator breaks our paradigm as (I think) we need
 // to update the new object's 'ref' pointer to its shared_ptr container...
-// This might be bad practice. 
+// This might be bad practice.
 /*
 template<>
 NodeRef NodeRef::operator= (const NodeRef &other)
@@ -261,10 +257,9 @@ void Node::trigger(std::string name, float value)
 {
 }
 
-
 void Node::poll(float frequency, std::string label)
 {
-    this->monitor = new NodeMonitor(this, label, frequency); 
+    this->monitor = new NodeMonitor(this, label, frequency);
     this->monitor->start();
 }
 
@@ -273,67 +268,95 @@ void Node::poll(float frequency, std::string label)
  *-----------------------------------------------------------------------*/
 
 template <class T>
-NodeRefTemplate<T>::NodeRefTemplate(double x) : std::shared_ptr<T>(new Constant(x)) {}
+NodeRefTemplate<T>::NodeRefTemplate(double x)
+    : std::shared_ptr<T>(new Constant(x)) {}
 
 template <class T>
-NodeRefTemplate<T>::NodeRefTemplate(int x) : std::shared_ptr<T>(new Constant((float) x)) {}
+NodeRefTemplate<T>::NodeRefTemplate(int x)
+    : std::shared_ptr<T>(new Constant((float) x)) {}
 
 template <class T>
-NodeRefTemplate<T>::NodeRefTemplate(std::initializer_list<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {}
+NodeRefTemplate<T>::NodeRefTemplate(std::initializer_list<NodeRefTemplate> x)
+    : std::shared_ptr<T>(new Multiplex(x)) {}
 
 template <class T>
-NodeRefTemplate<T>::NodeRefTemplate(std::vector<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {}
+NodeRefTemplate<T>::NodeRefTemplate(std::vector<NodeRefTemplate> x)
+    : std::shared_ptr<T>(new Multiplex(x)) {}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator* (NodeRefTemplate<T> other)
-    { return new Multiply(*this, other); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator*(NodeRefTemplate<T> other)
+{
+    return new Multiply(*this, other);
+}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator* (double constant)
-    { return new Multiply(*this, constant); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator*(double constant)
+{
+    return new Multiply(*this, constant);
+}
 
 template <class T>
 NodeRefTemplate<T> operator*(double constant, const NodeRefTemplate<T> node)
-    { return new Multiply(node, constant); }
+{
+    return new Multiply(node, constant);
+}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator+ (NodeRefTemplate<T> other)
-    { return new Add(*this, other); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator+(NodeRefTemplate<T> other)
+{
+    return new Add(*this, other);
+}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator+ (double constant)
-    { return new Add(*this, constant); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator+(double constant)
+{
+    return new Add(*this, constant);
+}
 
 template <class T>
 NodeRefTemplate<T> operator+(double constant, const NodeRefTemplate<T> node)
-    { return new Add(node, constant); }
+{
+    return new Add(node, constant);
+}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator- (NodeRefTemplate<T> other)
-    { return new Subtract(*this, other); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator-(NodeRefTemplate<T> other)
+{
+    return new Subtract(*this, other);
+}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator- (double constant)
-    { return new Subtract(*this, constant); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator-(double constant)
+{
+    return new Subtract(*this, constant);
+}
 
 template <class T>
 NodeRefTemplate<T> operator-(double constant, const NodeRefTemplate<T> node)
-    { return new Subtract(node, constant); }
+{
+    return new Subtract(node, constant);
+}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator/ (NodeRefTemplate<T> other)
-    { return new Divide(*this, other); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator/(NodeRefTemplate<T> other)
+{
+    return new Divide(*this, other);
+}
 
 template <class T>
-NodeRefTemplate<T> NodeRefTemplate<T>::operator/ (double constant)
-    { return new Divide(*this, constant); }
+NodeRefTemplate<T> NodeRefTemplate<T>::operator/(double constant)
+{
+    return new Divide(*this, constant);
+}
 
 template <class T>
 NodeRefTemplate<T> operator/(double constant, const NodeRefTemplate<T> node)
-    { return new Divide(node, constant); }
+{
+    return new Divide(node, constant);
+}
 
 template <class T>
-sample NodeRefTemplate<T>::operator[] (int index)
+sample NodeRefTemplate<T>::operator[](int index)
 {
     // unused?
     return (*this)->out[0][index];
@@ -342,13 +365,15 @@ sample NodeRefTemplate<T>::operator[] (int index)
 // Explicitly instantiate the class
 template class NodeRefTemplate<Node>;
 
-BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b) : Node(), input0(a), input1(b)
+BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)
+    : Node(), input0(a), input1(b)
 {
     this->add_input("input0", this->input0);
     this->add_input("input1", this->input1);
 }
 
-UnaryOpNode::UnaryOpNode(NodeRef a) : Node(), input(a)
+UnaryOpNode::UnaryOpNode(NodeRef a)
+    : Node(), input(a)
 {
     this->add_input("input", this->input);
 }
@@ -370,4 +395,3 @@ NodeRef Node::scale(float from, float to, signal_scale_t scale)
 //    { return Add(this, &other); }
 
 } /* namespace libsignal */
-

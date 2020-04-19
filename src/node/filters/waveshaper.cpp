@@ -7,8 +7,8 @@
 namespace libsignal
 {
 
-WaveShaper::WaveShaper(NodeRef input, BufferRef buffer) :
-    UnaryOpNode(input), buffer(buffer)
+WaveShaper::WaveShaper(NodeRef input, BufferRef buffer)
+    : UnaryOpNode(input), buffer(buffer)
 {
     this->name = "waveshaper";
 }
@@ -26,4 +26,3 @@ void WaveShaper::process(sample **out, int num_frames)
 }
 
 }
-

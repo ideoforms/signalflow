@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-Freeze::Freeze(NodeRef input) : UnaryOpNode(input)
+Freeze::Freeze(NodeRef input)
+    : UnaryOpNode(input)
 {
     this->buffer = new Buffer(1, 2048);
 

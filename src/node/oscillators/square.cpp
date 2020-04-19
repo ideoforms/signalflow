@@ -4,7 +4,8 @@
 namespace libsignal
 {
 
-Square::Square(NodeRef frequency, NodeRef width) : frequency(frequency), width(width)
+Square::Square(NodeRef frequency, NodeRef width)
+    : frequency(frequency), width(width)
 {
     this->name = "square";
     this->add_input("frequency", this->frequency);

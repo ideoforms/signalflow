@@ -1,8 +1,8 @@
 #include "signal/synth/synth.h"
 
+#include "signal/core/core.h"
 #include "signal/node/oscillators/constant.h"
 #include "signal/synth/synthregistry.h"
-#include "signal/core/core.h"
 
 #include <iostream>
 #include <memory>
@@ -16,7 +16,8 @@ Synth::Synth(SynthSpecRef synthspec)
     this->output = this->instantiate(&nodedef);
 }
 
-Synth::Synth(SynthTemplateRef synthtemplate) : Synth(synthtemplate->parse())
+Synth::Synth(SynthTemplateRef synthtemplate)
+    : Synth(synthtemplate->parse())
 {
 }
 

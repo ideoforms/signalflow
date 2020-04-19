@@ -26,7 +26,6 @@ SynthSpecRef SynthRegistry::get(std::string name)
     return this->synthspecs[name];
 }
 
-
 Synth *SynthRegistry::create(std::string name)
 {
     if (!this->synthspecs[name])
@@ -37,6 +36,5 @@ Synth *SynthRegistry::create(std::string name)
     Synth *synth = new Synth(this->synthspecs[name]);
     return synth;
 }
-
 
 }

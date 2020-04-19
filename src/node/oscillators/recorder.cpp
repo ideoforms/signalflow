@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-Recorder::Recorder(BufferRef buffer, NodeRef input, bool loop) : buffer(buffer), input(input), loop(loop)
+Recorder::Recorder(BufferRef buffer, NodeRef input, bool loop)
+    : buffer(buffer), input(input), loop(loop)
 {
     this->name = "recorder";
 
@@ -40,6 +41,5 @@ void Recorder::process(sample **out, int num_frames)
         }
     }
 }
-
 
 }

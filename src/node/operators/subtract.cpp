@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-Subtract::Subtract(NodeRef a, NodeRef b) : BinaryOpNode(a, b)
+Subtract::Subtract(NodeRef a, NodeRef b)
+    : BinaryOpNode(a, b)
 {
     this->name = "subtract";
 }

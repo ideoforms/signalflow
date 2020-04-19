@@ -3,8 +3,8 @@
 namespace libsignal
 {
 
-Pan::Pan(int channels, NodeRef input, NodeRef pan) :
-    input(input), pan(pan)
+Pan::Pan(int channels, NodeRef input, NodeRef pan)
+    : input(input), pan(pan)
 {
     this->num_input_channels = 1;
     this->num_output_channels = channels;

@@ -1,27 +1,29 @@
 #pragma once
 
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
+
+namespace libsignal
+{
 
 template <class T>
 class RingBuffer
 {
-    public:
-        RingBuffer(int size);
-        ~RingBuffer();
+public:
+    RingBuffer(int size);
+    ~RingBuffer();
 
-        void append(T value);
-        void extend(T *ptr, int count);
-        T get(int index);
-        T operator [](int index){ return this->get(index); }
+    void append(T value);
+    void extend(T *ptr, int count);
+    T get(int index);
+    T operator[](int index) { return this->get(index); }
 
-    private:
-        T *data = nullptr;
-        int size;
-        int position;
+private:
+    T *data = nullptr;
+    int size;
+    int position;
 };
-
 
 template <class T>
 RingBuffer<T>::RingBuffer(int size)
@@ -62,3 +64,4 @@ T RingBuffer<T>::get(int index)
     return data[new_index];
 }
 
+}

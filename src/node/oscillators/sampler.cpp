@@ -6,7 +6,8 @@
 namespace libsignal
 {
 
-Sampler::Sampler(BufferRef buffer, NodeRef rate, NodeRef loop) : rate(rate), loop(loop)
+Sampler::Sampler(BufferRef buffer, NodeRef rate, NodeRef loop)
+    : rate(rate), loop(loop)
 {
     this->name = "sampler";
 

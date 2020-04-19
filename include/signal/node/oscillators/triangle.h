@@ -1,20 +1,20 @@
-#pragma once 
+#pragma once
 
 #include "signal/node/node.h"
 
 namespace libsignal
 {
-    class Triangle : public Node
-    {
-    public:
-        Triangle(NodeRef frequency = 440);
+class Triangle : public Node
+{
+public:
+    Triangle(NodeRef frequency = 440);
 
-        NodeRef frequency;
+    NodeRef frequency;
 
-        float phase[SIGNAL_MAX_CHANNELS];
+    float phase[SIGNAL_MAX_CHANNELS];
 
-        virtual void process(sample **out, int num_frames);
-    };
+    virtual void process(sample **out, int num_frames);
+};
 
-    REGISTER(Triangle, "triangle");
+REGISTER(Triangle, "triangle");
 }

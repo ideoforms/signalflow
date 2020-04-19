@@ -4,7 +4,8 @@
 namespace libsignal
 {
 
-Triangle::Triangle(NodeRef frequency) : frequency(frequency)
+Triangle::Triangle(NodeRef frequency)
+    : frequency(frequency)
 {
     this->name = "triangle";
     this->add_input("frequency", this->frequency);

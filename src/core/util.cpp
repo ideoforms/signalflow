@@ -4,11 +4,11 @@
 
 #include "signal/core/util.h"
 
-#include <stdlib.h>
+#include <limits.h>
+#include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
-#include <math.h>
-#include <limits.h>
+#include <stdlib.h>
 #include <sys/time.h>
 
 namespace libsignal
@@ -22,7 +22,7 @@ double timestamp()
 {
     timeval tv;
     gettimeofday(&tv, NULL);
-    return tv.tv_sec + (tv.tv_usec / 1000000.0);    
+    return tv.tv_sec + (tv.tv_usec / 1000000.0);
 }
 
 /*--------------------------------------------------------------------*
@@ -30,8 +30,10 @@ double timestamp()
  *--------------------------------------------------------------------*/
 double clip(double value, double min, double max)
 {
-    if (value < min) value = min;
-    if (value > max) value = max;
+    if (value < min)
+        value = min;
+    if (value > max)
+        value = max;
     return value;
 }
 
@@ -47,23 +49,26 @@ double map(double value, double fromA, double fromB, double toA, double toB)
 /*--------------------------------------------------------------------*
  * linexp(): Map a value onto an exponential range.
  *--------------------------------------------------------------------*/
-double linexp (double value, double a, double b, double c, double d)
+double linexp(double value, double a, double b, double c, double d)
 {
-    if (value <= a) return c;
-    if (value >= b) return d;
-    return pow(d/c, (value-a)/(b-a)) * c;
+    if (value <= a)
+        return c;
+    if (value >= b)
+        return d;
+    return pow(d / c, (value - a) / (b - a)) * c;
 }
 
 /*--------------------------------------------------------------------*
  * explin(): Map a value from an exponential to linear range.
  *--------------------------------------------------------------------*/
-double explin (double value, double a, double b, double c, double d)
+double explin(double value, double a, double b, double c, double d)
 {
-    if (value <= a) return c;
-    if (value >= b) return d;
+    if (value <= a)
+        return c;
+    if (value >= b)
+        return d;
     return (log(value / a)) / (log(b / a)) * (d - c) + c;
 }
-
 
 float freq_to_midi(float frequency)
 {
@@ -73,7 +78,6 @@ float freq_to_midi(float frequency)
      *--------------------------------------------------------------------*/
     return 69.0 + 12 * log2(frequency / 440.0);
 }
-
 
 float midi_to_freq(float midi)
 {

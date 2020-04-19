@@ -4,19 +4,18 @@
 namespace libsignal
 {
 
-    class Index : public Node
-    {
+class Index : public Node
+{
 
-    public:
+public:
+    Index(PropertyRef list = {}, NodeRef index = 0);
 
-        Index(PropertyRef list = {}, NodeRef index = 0);
+    virtual void process(sample **out, int num_frames);
 
-        virtual void process(sample **out, int num_frames);
+    PropertyRef list;
+    NodeRef index;
+};
 
-        PropertyRef list;
-        NodeRef index;
-    };
-
-    REGISTER(Index, "index");
+REGISTER(Index, "index");
 
 }

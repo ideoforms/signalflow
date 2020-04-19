@@ -1,15 +1,16 @@
 #include "signal/node/chance/noise.h"
 
-#include <stdlib.h>
-#include "signal/core/random.h"
 #include "signal/core/graph.h"
+#include "signal/core/random.h"
+#include <stdlib.h>
 
 #include <limits>
 
 namespace libsignal
 {
 
-Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max) : frequency(frequency), min(min), max(max)
+Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max)
+    : frequency(frequency), min(min), max(max)
 {
     this->name = "noise";
     this->add_input("frequency", this->frequency);

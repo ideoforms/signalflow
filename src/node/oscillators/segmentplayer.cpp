@@ -6,7 +6,8 @@
 namespace libsignal
 {
 
-SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets) : buffer(buffer)
+SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
+    : buffer(buffer)
 {
     this->name = "segment_player";
 
@@ -18,7 +19,7 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets) : buffer(buff
 
     this->phase = 0.0;
 
-    this->set_property("onsets", { });
+    this->set_property("onsets", {});
     this->trigger();
 }
 
@@ -51,7 +52,7 @@ void SegmentPlayer::trigger(std::string name, float value)
     PropertyRef onsetsref = this->get_property("onsets");
     if (onsetsref)
     {
-        std::vector <float> onsets = onsetsref->float_array_value();
+        std::vector<float> onsets = onsetsref->float_array_value();
         if (onsets.size() > 0)
         {
             int index = random_integer(0, onsets.size());

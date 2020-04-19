@@ -4,7 +4,8 @@
 namespace libsignal
 {
 
-Logistic::Logistic(NodeRef chaos, NodeRef frequency) : chaos(chaos), frequency(frequency)
+Logistic::Logistic(NodeRef chaos, NodeRef frequency)
+    : chaos(chaos), frequency(frequency)
 {
     this->name = "logistic";
     this->add_input("chaos", this->chaos);

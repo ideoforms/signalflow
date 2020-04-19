@@ -1,15 +1,15 @@
 #include "signal/node/filters/resample.h"
 
-#include "signal/node/oscillators/constant.h"
 #include "signal/core/graph.h"
+#include "signal/node/oscillators/constant.h"
 
 #include <stdlib.h>
 
 namespace libsignal
 {
 
-Resample::Resample(NodeRef input, NodeRef sample_rate, NodeRef bit_rate) :
-    UnaryOpNode(input), sample_rate(sample_rate), bit_rate(bit_rate)
+Resample::Resample(NodeRef input, NodeRef sample_rate, NodeRef bit_rate)
+    : UnaryOpNode(input), sample_rate(sample_rate), bit_rate(bit_rate)
 {
     phase = 0.0;
     phase_last = -1.0;

@@ -4,8 +4,8 @@
 namespace libsignal
 {
 
-Tick::Tick(NodeRef frequency) :
-    frequency(frequency)
+Tick::Tick(NodeRef frequency)
+    : frequency(frequency)
 {
     this->name = "tick";
     this->steps_remaining = 0;

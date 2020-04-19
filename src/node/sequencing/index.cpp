@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-Index::Index(PropertyRef list, NodeRef index) : Node(), list(list), index(index)
+Index::Index(PropertyRef list, NodeRef index)
+    : Node(), list(list), index(index)
 {
     this->name = "index";
 
@@ -13,7 +14,7 @@ Index::Index(PropertyRef list, NodeRef index) : Node(), list(list), index(index)
 
 void Index::process(sample **out, int num_frames)
 {
-    std::vector <float> list = this->list->float_array_value();
+    std::vector<float> list = this->list->float_array_value();
 
     for (int frame = 0; frame < num_frames; frame++)
     {

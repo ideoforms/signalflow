@@ -5,25 +5,25 @@
 #include "signal/core/graph.h"
 #include "signal/node/io/output/soundio.h"
 
+#include <iostream>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <iostream>
 
 namespace libsignal
 {
 
 extern AudioIn_Abstract *shared_in;
-    
+
 void read_callback(struct SoundIoInStream *instream,
-        int frame_count_min, int frame_count_max)
+                   int frame_count_min, int frame_count_max)
 {
     const struct SoundIoChannelLayout *layout = &instream->layout;
     struct SoundIoChannelArea *areas;
     int frame_count = frame_count_max;
     int frames_left = frame_count_max;
-    
+
     AudioIn_SoundIO *input = (AudioIn_SoundIO *) shared_in;
 
     /*-----------------------------------------------------------------------*
@@ -44,7 +44,7 @@ void read_callback(struct SoundIoInStream *instream,
         {
             for (int channel = 0; channel < layout->channel_count; channel += 1)
             {
-                float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
+                float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
                 input->buffer->data[channel][input->write_pos] = *ptr;
             }
             input->write_pos = (input->write_pos + 1) % input->buffer->num_frames;
@@ -57,7 +57,8 @@ void read_callback(struct SoundIoInStream *instream,
     }
 }
 
-AudioIn_SoundIO::AudioIn_SoundIO() : AudioIn_Abstract()
+AudioIn_SoundIO::AudioIn_SoundIO()
+    : AudioIn_Abstract()
 {
     // Allocate enough buffer for twice our block size, else
     // we risk overwriting our input buffer from the audio in
@@ -101,7 +102,7 @@ int AudioIn_SoundIO::init()
 
     return 0;
 }
-    
+
 int AudioIn_SoundIO::start()
 {
     return 0;
@@ -111,7 +112,6 @@ int AudioIn_SoundIO::stop()
 {
     return 0;
 }
-
 
 int AudioIn_SoundIO::destroy()
 {
@@ -133,6 +133,5 @@ void AudioIn_SoundIO::process(sample **out, int num_frames)
 }
 
 }
-
 
 #endif

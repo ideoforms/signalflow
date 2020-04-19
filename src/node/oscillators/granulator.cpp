@@ -3,8 +3,8 @@
 namespace libsignal
 {
 
-Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate, NodeRef max_grains) :
-    buffer(buffer), pos(pos), clock(clock), grain_length(grain_length), rate(rate), max_grains(max_grains)
+Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate, NodeRef max_grains)
+    : buffer(buffer), pos(pos), clock(clock), grain_length(grain_length), rate(rate), max_grains(max_grains)
 {
     this->name = "granulator";
 
@@ -58,7 +58,7 @@ void Granulator::process(sample **out, int num_frames)
             out[channel][frame] = 0.0;
 
         std::vector<Grain *>::iterator it;
-        for (it = this->grains.begin(); it < this->grains.end(); )
+        for (it = this->grains.begin(); it < this->grains.end();)
         {
             Grain *grain = *it;
             if (!grain->finished())
@@ -98,8 +98,8 @@ void Granulator::process(sample **out, int num_frames)
     }
 }
 
-Grain::Grain(BufferRef buffer, int start, int length, float rate, float pan) :
-    buffer(buffer), sample_start(start), sample_length(length), rate(rate), pan(pan)
+Grain::Grain(BufferRef buffer, int start, int length, float rate, float pan)
+    : buffer(buffer), sample_start(start), sample_length(length), rate(rate), pan(pan)
 {
     this->samples_done = 0;
 }

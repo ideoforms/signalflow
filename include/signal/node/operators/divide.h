@@ -4,17 +4,15 @@
 namespace libsignal
 {
 
-    class Divide : public BinaryOpNode
-    {
+class Divide : public BinaryOpNode
+{
 
-    public:
+public:
+    Divide(NodeRef a = 1, NodeRef b = 1);
 
-        Divide(NodeRef a = 1, NodeRef b = 1);
+    virtual void process(sample **out, int num_frames);
+};
 
-        virtual void process(sample **out, int num_frames);
-
-    };
-
-    REGISTER(Divide, "divide");
+REGISTER(Divide, "divide");
 
 }

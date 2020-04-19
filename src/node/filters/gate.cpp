@@ -3,8 +3,8 @@
 namespace libsignal
 {
 
-Gate::Gate(NodeRef input, NodeRef threshold) :
-    UnaryOpNode(input), threshold(threshold)
+Gate::Gate(NodeRef input, NodeRef threshold)
+    : UnaryOpNode(input), threshold(threshold)
 {
     this->level = 0.0;
 

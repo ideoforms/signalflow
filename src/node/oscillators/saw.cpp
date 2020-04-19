@@ -4,7 +4,8 @@
 namespace libsignal
 {
 
-Saw::Saw(NodeRef frequency) : frequency(frequency)
+Saw::Saw(NodeRef frequency)
+    : frequency(frequency)
 {
     this->name = "saw";
     this->add_input("frequency", this->frequency);

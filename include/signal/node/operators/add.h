@@ -4,17 +4,15 @@
 namespace libsignal
 {
 
-    class Add : public BinaryOpNode
-    {
+class Add : public BinaryOpNode
+{
 
-    public:
+public:
+    Add(NodeRef a = 0, NodeRef b = 0);
 
-        Add(NodeRef a = 0, NodeRef b = 0);
+    virtual void process(sample **out, int num_frames);
+};
 
-        virtual void process(sample **out, int num_frames);
-
-    };
-
-    REGISTER(Add, "add");
+REGISTER(Add, "add");
 
 }

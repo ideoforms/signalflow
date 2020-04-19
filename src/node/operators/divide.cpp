@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-Divide::Divide(NodeRef a, NodeRef b) : BinaryOpNode(a, b)
+Divide::Divide(NodeRef a, NodeRef b)
+    : BinaryOpNode(a, b)
 {
     this->name = "divide";
 }

@@ -1,76 +1,78 @@
-#pragma once 
+#pragma once
 
 #include "signal/node/node.h"
 #include "signal/synth/synth.h"
 
 namespace libsignal
 {
-    class AudioGraph
-    {
-        public:
 
-            AudioGraph();
-            virtual ~AudioGraph();
+class AudioGraph
+{
+public:
+    AudioGraph();
+    virtual ~AudioGraph();
 
-            /**------------------------------------------------------------------------
-             * Begin audio I/O.
-             *
-             *------------------------------------------------------------------------*/
-            void start();
+    /**------------------------------------------------------------------------
+     * Begin audio I/O.
+     *
+     *------------------------------------------------------------------------*/
+    void start();
 
-            /**------------------------------------------------------------------------
-             * Stop audio I/O.
-             *
-             *------------------------------------------------------------------------*/
-            void stop();
+    /**------------------------------------------------------------------------
+     * Stop audio I/O.
+     *
+     *------------------------------------------------------------------------*/
+    void stop();
 
-            /**------------------------------------------------------------------------
-             * Run forever.
-             *
-             *------------------------------------------------------------------------*/
-            void wait();
+    /**------------------------------------------------------------------------
+     * Run forever.
+     *
+     *------------------------------------------------------------------------*/
+    void wait();
 
-            /**------------------------------------------------------------------------
-             * Perform batch (offline) processing of a given node graph.
-             *
-             *------------------------------------------------------------------------*/
-            void process(const NodeRef &root, int num_frames, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
+    /**------------------------------------------------------------------------
+     * Perform batch (offline) processing of a given node graph.
+     *
+     *------------------------------------------------------------------------*/
+    void process(const NodeRef &root, int num_frames, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
 
-            void pull_input(const NodeRef &node, int num_frames);
-            void pull_input(int num_frames);
+    void pull_input(const NodeRef &node, int num_frames);
+    void pull_input(int num_frames);
 
-            NodeRef get_output();
+    NodeRef get_output();
 
-            /**------------------------------------------------------------------------
-             * TODO Should use polymorphism and a common interface
-             *
-             *------------------------------------------------------------------------*/
-            void add_output(SynthRef synth);
-            void add_output(NodeRef node);
-            
-            void remove_output(SynthRef synth);
-            void remove_output(NodeRef node);
+    /**------------------------------------------------------------------------
+     * TODO Should use polymorphism and a common interface
+     *
+     *------------------------------------------------------------------------*/
+    void add_output(SynthRef synth);
+    void add_output(NodeRef node);
 
-            NodeRef add_node(Node *node);
+    void remove_output(SynthRef synth);
+    void remove_output(NodeRef node);
 
-            NodeRef input = nullptr;
-            NodeRef output = nullptr;
+    NodeRef add_node(Node *node);
 
-            float sample_rate;
-            int node_count;
+    NodeRef input = nullptr;
+    NodeRef output = nullptr;
 
-        private: 
+    float sample_rate;
+    int node_count;
 
-            std::set<Node *> processed_nodes;
-            std::set<NodeRef> output_nodes_to_remove;
-    };
+private:
+    std::set<Node *> processed_nodes;
+    std::set<NodeRef> output_nodes_to_remove;
+};
 
-    class AudioGraphRef : public std::shared_ptr<AudioGraph>
-    {
-        public:
-            using std::shared_ptr<AudioGraph>::shared_ptr;
+class AudioGraphRef : public std::shared_ptr<AudioGraph>
+{
+public:
+    using std::shared_ptr<AudioGraph>::shared_ptr;
 
-            AudioGraphRef() : std::shared_ptr<AudioGraph>(nullptr) { }
-            AudioGraphRef(AudioGraph *ptr) : std::shared_ptr<AudioGraph>(ptr) { }
-    };
+    AudioGraphRef()
+        : std::shared_ptr<AudioGraph>(nullptr) {}
+    AudioGraphRef(AudioGraph *ptr)
+        : std::shared_ptr<AudioGraph>(ptr) {}
+};
+
 }

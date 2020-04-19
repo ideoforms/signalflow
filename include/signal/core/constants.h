@@ -3,9 +3,9 @@
 #include "signal/core/ringbuffer.h"
 
 typedef float sample;
-typedef sample * frame;
+typedef sample *frame;
 
-typedef RingBuffer <sample> SampleRingBuffer;
+typedef RingBuffer<sample> SampleRingBuffer;
 
 /*------------------------------------------------------------------------
  * Max supported number of output channels. Impacts memory usage.
@@ -49,10 +49,19 @@ typedef RingBuffer <sample> SampleRingBuffer;
  *-----------------------------------------------------------------------*/
 #define SIGNAL_CHECK_TRIGGER(input, frame) \
     (input && input->out[0][frame] > input->out[0][frame - 1])
-#define SIGNAL_PROCESS_TRIGGER(input, frame, name) \
-    if (input && SIGNAL_CHECK_TRIGGER(input, frame)) { this->trigger(name); }
+#define SIGNAL_PROCESS_TRIGGER(input, frame, name)   \
+    if (input && SIGNAL_CHECK_TRIGGER(input, frame)) \
+    {                                                \
+        this->trigger(name);                         \
+    }
 #define SIGNAL_PROCESS_TRIGGER_BLOCK(input, num_frames, name) \
-    if (input) { for (int frame = 0; frame < num_frames; frame++) { SIGNAL_PROCESS_TRIGGER(input, frame, name); } }
+    if (input)                                                \
+    {                                                         \
+        for (int frame = 0; frame < num_frames; frame++)      \
+        {                                                     \
+            SIGNAL_PROCESS_TRIGGER(input, frame, name);       \
+        }                                                     \
+    }
 
 typedef enum
 {
@@ -63,4 +72,3 @@ typedef enum
 } signal_scale_t;
 
 #define N_CHANNELS -1
-

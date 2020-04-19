@@ -6,8 +6,8 @@
 namespace libsignal
 {
 
-Delay::Delay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime) :
-    UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
+Delay::Delay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
+    : UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 {
     this->name = "delay";
     this->add_input("delay_time", this->delaytime);

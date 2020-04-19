@@ -1,35 +1,35 @@
 #pragma once
 
-#include "signal/node/node.h"
 #include "signal/core/constants.h"
+#include "signal/node/node.h"
 
 namespace libsignal
 {
-    class FFTZeroPhase : public UnaryOpNode
+class FFTZeroPhase : public UnaryOpNode
+{
+public:
+    FFTZeroPhase(NodeRef input = 0)
+        : UnaryOpNode(input)
     {
-        public:
-            FFTZeroPhase(NodeRef input = 0) :
-                UnaryOpNode(input)
-            {
-                this->name = "zero_phase";
-            }
+        this->name = "zero_phase";
+    }
 
-            virtual void process(sample **out, int num_frames)
+    virtual void process(sample **out, int num_frames)
+    {
+        for (int i = 0; i < num_frames; i++)
+        {
+            if (i > 0 && i < num_frames / 2)
             {
-                for (int i = 0; i < num_frames; i++)
-                {
-                    if (i > 0 && i < num_frames / 2)
-                    {
-                        if (i < num_frames / 4)
-                            out[0][i] = input->out[0][i];
-                        else
-                            out[0][i] = input->out[0][i];
-                    }
-                    else
-                        out[0][i] = input->out[0][i] * 0.1;
-                }
+                if (i < num_frames / 4)
+                    out[0][i] = input->out[0][i];
+                else
+                    out[0][i] = input->out[0][i];
             }
-    };
+            else
+                out[0][i] = input->out[0][i] * 0.1;
+        }
+    }
+};
 
-    REGISTER(FFTZeroPhase, "zero_phase");
+REGISTER(FFTZeroPhase, "zero_phase");
 }

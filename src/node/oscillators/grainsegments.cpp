@@ -34,11 +34,11 @@ void GrainSegments::process(sample **out, int num_frames)
     // printf("sample_rate now = %f\n", this->graph->sample_rate);
     sample frequency = this->target->out[0][0];
     frequency = midi_to_freq(roundf(freq_to_midi(frequency)));
-    std::vector <float> offsets = this->get_property("offsets")->float_array_value();
-    std::vector <float> values = this->get_property("values")->float_array_value();
-    std::vector <float> durations = this->get_property("durations")->float_array_value();
+    std::vector<float> offsets = this->get_property("offsets")->float_array_value();
+    std::vector<float> values = this->get_property("values")->float_array_value();
+    std::vector<float> durations = this->get_property("durations")->float_array_value();
 
-    std::vector <int> indices;
+    std::vector<int> indices;
 
     for (size_t i = 0; i < values.size(); i++)
     {
@@ -62,7 +62,7 @@ void GrainSegments::process(sample **out, int num_frames)
             {
                 int indexindex = random_integer(0, indices.size());
                 int index = indices[indexindex];
-                float offset = offsets[index]; // * this->graph->sample_rate;
+                float offset = offsets[index];     // * this->graph->sample_rate;
                 float duration = durations[index]; // * this->graph->sample_rate;
                 Grain *grain = new Grain(buffer, offset, duration, 1.0, pan);
                 this->grains.push_back(grain);
@@ -74,7 +74,7 @@ void GrainSegments::process(sample **out, int num_frames)
             out[channel][frame] = 0.0;
 
         std::vector<Grain *>::iterator it;
-        for (it = this->grains.begin(); it < this->grains.end(); )
+        for (it = this->grains.begin(); it < this->grains.end();)
         {
             Grain *grain = *it;
             if (!grain->finished())
@@ -113,6 +113,5 @@ void GrainSegments::process(sample **out, int num_frames)
         }
     }
 }
-
 
 }

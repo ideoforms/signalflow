@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-Counter::Counter(NodeRef clock, NodeRef min, NodeRef max) : Node(), clock(clock), min(min), max(max)
+Counter::Counter(NodeRef clock, NodeRef min, NodeRef max)
+    : Node(), clock(clock), min(min), max(max)
 {
     this->name = "counter";
 

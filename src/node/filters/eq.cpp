@@ -1,7 +1,7 @@
 #include "signal/node/filters/eq.h"
 
-#include "signal/node/oscillators/constant.h"
 #include "signal/core/graph.h"
+#include "signal/node/oscillators/constant.h"
 
 #include <stdlib.h>
 
@@ -9,9 +9,8 @@ namespace libsignal
 {
 
 EQ::EQ(NodeRef input, NodeRef low_gain, NodeRef mid_gain, NodeRef high_gain,
-       NodeRef low_freq, NodeRef high_freq) :
-    UnaryOpNode(input), low_gain(low_gain), mid_gain(mid_gain), high_gain(high_gain),
-    low_freq(low_freq), high_freq(high_freq)
+       NodeRef low_freq, NodeRef high_freq)
+    : UnaryOpNode(input), low_gain(low_gain), mid_gain(mid_gain), high_gain(high_gain), low_freq(low_freq), high_freq(high_freq)
 {
     this->name = "eq";
     this->add_input("low_gain", this->low_gain);
@@ -49,19 +48,19 @@ void EQ::process(sample **out, int num_frames)
              * Low-pass filter
              *-----------------------------------------------------------------------*/
             float sample = this->input->out[channel][frame];
-            this->f1p0[channel]  += (lf * (sample   - this->f1p0[channel]));
-            this->f1p1[channel]  += (lf * (this->f1p0[channel] - this->f1p1[channel]));
-            this->f1p2[channel]  += (lf * (this->f1p1[channel] - this->f1p2[channel]));
-            this->f1p3[channel]  += (lf * (this->f1p2[channel] - this->f1p3[channel]));
+            this->f1p0[channel] += (lf * (sample - this->f1p0[channel]));
+            this->f1p1[channel] += (lf * (this->f1p0[channel] - this->f1p1[channel]));
+            this->f1p2[channel] += (lf * (this->f1p1[channel] - this->f1p2[channel]));
+            this->f1p3[channel] += (lf * (this->f1p2[channel] - this->f1p3[channel]));
             low = this->f1p3[channel];
 
             /*------------------------------------------------------------------------
              * High-pass filter
              *-----------------------------------------------------------------------*/
-            this->f2p0[channel]  += (hf * (sample   - this->f2p0[channel]));
-            this->f2p1[channel]  += (hf * (this->f2p0[channel] - this->f2p1[channel]));
-            this->f2p2[channel]  += (hf * (this->f2p1[channel] - this->f2p2[channel]));
-            this->f2p3[channel]  += (hf * (this->f2p2[channel] - this->f2p3[channel]));
+            this->f2p0[channel] += (hf * (sample - this->f2p0[channel]));
+            this->f2p1[channel] += (hf * (this->f2p0[channel] - this->f2p1[channel]));
+            this->f2p2[channel] += (hf * (this->f2p1[channel] - this->f2p2[channel]));
+            this->f2p3[channel] += (hf * (this->f2p2[channel] - this->f2p3[channel]));
             high = this->sdm3[channel] - this->f2p3[channel];
 
             /*------------------------------------------------------------------------
@@ -75,7 +74,7 @@ void EQ::process(sample **out, int num_frames)
 
             this->sdm3[channel] = this->sdm2[channel];
             this->sdm2[channel] = this->sdm1[channel];
-            this->sdm1[channel] = sample;                
+            this->sdm1[channel] = sample;
 
             this->out[channel][frame] = low + mid + high;
         }
