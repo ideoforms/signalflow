@@ -18,3 +18,7 @@ PointerAlignment: Right
 AlignAfterOpenBracket: true
 AlignTrailingComments: true
 BreakConstructorInitializersBeforeComma: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+AllowAllConstructorInitializersOnNextLine: true
+IndentCaseLabels: true
+SpaceAfterCStyleCast: true
