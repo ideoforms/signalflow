@@ -6,31 +6,28 @@
 namespace libsignal
 {
 
-    class LinExp : public UnaryOpNode
-    {
+class LinExp : public UnaryOpNode
+{
 
-    public:
+public:
+    LinExp(NodeRef input = 0, NodeRef a = 0, NodeRef b = 1, NodeRef c = 1, NodeRef d = 10);
 
-        LinExp(NodeRef input = 0, NodeRef a = 0, NodeRef b = 1, NodeRef c = 1, NodeRef d = 10);
+    virtual void process(sample **out, int num_frames);
 
-        virtual void process(sample **out, int num_frames);
+    NodeRef a, b, c, d;
+};
 
-        NodeRef a, b, c, d;
-    };
+class Scale : public UnaryOpNode
+{
 
-    class Scale : public UnaryOpNode
-    {
+public:
+    Scale(NodeRef input = 0, NodeRef a = 0, NodeRef b = 1, NodeRef c = 1, NodeRef d = 10);
 
-    public:
+    virtual void process(sample **out, int num_frames);
 
-        Scale(NodeRef input = 0, NodeRef a = 0, NodeRef b = 1, NodeRef c = 1, NodeRef d = 10);
+    NodeRef a, b, c, d;
+};
 
-        virtual void process(sample **out, int num_frames);
-
-        NodeRef a, b, c, d;
-    };
-
-    REGISTER(LinExp, "linexp");
-    REGISTER(Scale, "scale");
+REGISTER(LinExp, "linexp");
+REGISTER(Scale, "scale");
 }
-

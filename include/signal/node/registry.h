@@ -30,9 +30,9 @@ public:
     Node *create(NodeDefinition definition);
 
     /*------------------------------------------------------------------------
-             * (Function template implementations must be in .h file.)
-             * http://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
-             *-----------------------------------------------------------------------*/
+     * (Function template implementations must be in .h file.)
+     * http://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file
+     *-----------------------------------------------------------------------*/
     template <class T>
     bool add(std::string name)
     {
@@ -41,8 +41,8 @@ public:
     }
 
     /*------------------------------------------------------------------------
-             * Maps node names to constructors
-             *-----------------------------------------------------------------------*/
+     * Maps node names to constructors
+     *-----------------------------------------------------------------------*/
     std::unordered_map<std::string, std::function<Node *()>> classes;
 };
 

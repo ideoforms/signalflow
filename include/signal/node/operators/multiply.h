@@ -6,18 +6,15 @@
 namespace libsignal
 {
 
-    class Multiply : public BinaryOpNode
-    {
+class Multiply : public BinaryOpNode
+{
 
-    public:
+public:
+    Multiply(NodeRef a = 1.0, NodeRef b = 1.0);
 
-        Multiply(NodeRef a = 1.0, NodeRef b = 1.0);
+    virtual void process(sample **out, int num_frames);
+};
 
-        virtual void process(sample **out, int num_frames);
-
-    };
-
-    REGISTER(Multiply, "multiply");
+REGISTER(Multiply, "multiply");
 
 }
-

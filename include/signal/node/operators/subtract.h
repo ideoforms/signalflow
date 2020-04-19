@@ -6,17 +6,15 @@
 namespace libsignal
 {
 
-    class Subtract : public BinaryOpNode
-    {
+class Subtract : public BinaryOpNode
+{
 
-    public:
+public:
+    Subtract(NodeRef a = 0, NodeRef b = 0);
 
-        Subtract(NodeRef a = 0, NodeRef b = 0);
+    virtual void process(sample **out, int num_frames);
+};
 
-        virtual void process(sample **out, int num_frames);
-
-    };
-
-    REGISTER(Subtract, "subtract");
+REGISTER(Subtract, "subtract");
 
 }

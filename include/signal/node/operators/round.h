@@ -10,11 +10,9 @@ class RoundToScale : public UnaryOpNode
 {
 
 public:
-
     RoundToScale(NodeRef a);
 
     virtual void process(sample **out, int num_frames);
-
 };
 
 }
