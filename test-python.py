@@ -1,17 +1,12 @@
 #!/usr/bin/env python3 
 
-import sys
-import time
-sys.path.append("build")
-
 from libsignal import *
 
-g = AudioGraph()
-g.start()
+graph = AudioGraph()
+graph.start()
 
-t = Sine(2) * 0.5 + 0.5
-f = Sine(1.5) * 440 + 660
-# s = Sine(440.0) * t
-s = Sine(f) * t
-g.add_output(s)
-time.sleep(2)
+amp = Sine(2) * 0.5 + 0.5
+freq = Sine(1.5) * 440 + 660
+output = Sine(freq) * amp
+graph.add_output(output)
+graph.wait()
