@@ -1,4 +1,5 @@
 #include <pybind11/pybind11.h>
+#include <pybind11/numpy.h>
 
 #include "signal/node.h"
 #include "signal/signal.h"
@@ -95,7 +96,11 @@ PYBIND11_MODULE(libsignal, m)
 
     py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer")
         .def(py::init<char *>())
-        .def_readonly("num_frames", &Buffer::num_frames);
+        .def_readonly("num_frames", &Buffer::num_frames)
+        .def_readonly("num_channels", &Buffer::num_channels)
+        .def("data", [](Buffer &buf) {
+            return py::array_t<float>({ buf.num_frames }, { sizeof(float) }, buf.data[0]);
+        });
 
     py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")
         .def(py::init<int>());

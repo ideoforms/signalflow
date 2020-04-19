@@ -26,6 +26,15 @@ Buffer::Buffer(int num_channels, int num_frames)
     }
 }
 
+Buffer::Buffer(int num_channels, int num_frames, sample **data)
+    : Buffer(num_channels, num_frames)
+{
+    for (int channel = 0; channel < this->num_channels; channel++)
+    {
+        memcpy(this->data[channel], data[channel], num_frames * sizeof(sample));
+    }
+}
+
 Buffer::Buffer(const char *filename)
 {
     this->open(filename);
@@ -132,7 +141,7 @@ void Buffer::save(const char *filename)
             }
             frame_index++;
         }
-        int count = sf_writef_float(sndfile, buffer, frames_this_write);
+        sf_writef_float(sndfile, buffer, frames_this_write);
         if (frame_index >= this->num_frames)
             break;
     }

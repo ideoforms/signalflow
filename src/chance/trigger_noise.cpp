@@ -39,8 +39,6 @@ void TriggerNoise::process(sample **out, int num_frames)
         {
             if (SIGNAL_CHECK_TRIGGER(clock, frame))
             {
-                float min = this->min->out[channel][frame];
-                float max = this->max->out[channel][frame];
                 this->value[channel] = random_uniform(this->min->out[channel][frame], this->max->out[channel][frame]);
             }
 
