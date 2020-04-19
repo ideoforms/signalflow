@@ -7,13 +7,15 @@
 #include "signal/core/constants.h"
 #include "signal/core/util.h"
 
-#include <math.h>
 #include <memory>
 #include <vector>
+#include <string>
 
-#define SIGNAL_ENVELOPE_BUFFER_LENGTH 1024
-#define SIGNAL_ENVELOPE_BUFFER_HALF_LENGTH (SIGNAL_ENVELOPE_BUFFER_LENGTH / 2)
+#define SIGNAL_ENVELOPE_BUFFER_LENGTH 2048
 
+/**------------------------------------------------------------------------
+ * Algorithm to use when interpolating between samples.
+ *------------------------------------------------------------------------*/
 typedef enum
 {
     SIGNAL_INTERPOLATE_NONE,
@@ -35,12 +37,12 @@ namespace libsignal
         Buffer(int num_channels, int num_frames, sample **data);
         Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>>data);
         Buffer(int num_channels, int num_frames);
-        Buffer(const char *filename);
+        Buffer(std::string filename);
 
         virtual ~Buffer();
 
-        void open(const char *filename);
-        void save(const char *filename);
+        void load(std::string filename);
+        void save(std::string filename);
 
         float sample_rate;
         int num_channels;

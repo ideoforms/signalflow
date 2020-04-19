@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
+#include <math.h>
 #include <vector>
 
 namespace libsignal
@@ -51,9 +52,9 @@ Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>
     }
 }
 
-Buffer::Buffer(const char *filename)
+Buffer::Buffer(std::string filename)
 {
-    this->open(filename);
+    this->load(filename);
 }
 
 Buffer::~Buffer()
@@ -67,7 +68,7 @@ Buffer::~Buffer()
         free(this->data);
 }
 
-void Buffer::open(const char *filename)
+void Buffer::load(std::string filename)
 {
     if (this->data)
     {
@@ -77,7 +78,7 @@ void Buffer::open(const char *filename)
     #ifdef HAVE_SNDFILE
 
     SF_INFO info;
-    SNDFILE *sndfile = sf_open(filename, SFM_READ, &info);
+    SNDFILE *sndfile = sf_open(filename.c_str(), SFM_READ, &info);
 
     if (!sndfile)
     {
@@ -126,7 +127,7 @@ void Buffer::open(const char *filename)
     #endif
 }
 
-void Buffer::save(const char *filename)
+void Buffer::save(std::string filename)
 {
     #ifdef HAVE_SNDFILE
 
@@ -136,7 +137,7 @@ void Buffer::save(const char *filename)
     info.channels = this->num_channels;
     info.samplerate = (int) this->sample_rate;
     info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
-    SNDFILE *sndfile = sf_open(filename, SFM_WRITE, &info);
+    SNDFILE *sndfile = sf_open(filename.c_str(), SFM_WRITE, &info);
 
     if (!sndfile)
     {

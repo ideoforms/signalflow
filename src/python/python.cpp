@@ -95,7 +95,7 @@ PYBIND11_MODULE(libsignal, m)
         .def("add_output", [](AudioGraph &graph, NodeRef a) { graph.add_output(a); });
 
     py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer")
-        .def(py::init<char *>())
+        .def(py::init<std::string>())
         .def(py::init<int, int, std::vector<std::vector<float>>>())
         .def_readonly("num_frames", &Buffer::num_frames)
         .def_readonly("num_channels", &Buffer::num_channels)
