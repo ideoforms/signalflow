@@ -68,12 +68,12 @@ def configure(conf):
         '-Wno-unused-variable'
     ]
     conf.env.LIBPATH = ['/usr/local/lib']
-    conf.env.INCLUDES = ['/usr/local/include', 'include', 'lib', 'lib/pybind11/include']
+    conf.env.INCLUDES = ['/usr/local/include', 'include', 'lib']
 
     #------------------------------------------------------------------------
-    # Check support for c++11 (required right now)
+    # Check support for c++11 (required)
     #------------------------------------------------------------------------
-    conf.check_cxx(cxxflags = [ '-std=c++11' ], mandatory = True)
+    conf.check_cxx(cxxflags=[ '-std=c++11' ], mandatory=True)
 
     #------------------------------------------------------------------------
     # OSX platform-specific flags
