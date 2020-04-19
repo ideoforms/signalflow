@@ -30,7 +30,9 @@ namespace libsignal
     class Buffer
     {
     public:
+        Buffer();
         Buffer(int num_channels, int num_frames, sample **data);
+        Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>>data);
         Buffer(int num_channels, int num_frames);
         Buffer(const char *filename);
 
@@ -42,7 +44,7 @@ namespace libsignal
         float sample_rate;
         int num_channels;
         int num_frames;
-        sample **data;
+        sample **data = NULL;
 
         float duration;
         signal_interpolate_t interpolate;
@@ -142,12 +144,33 @@ namespace libsignal
     template <class T>
     class BufferRefTemplate : public std::shared_ptr<T>
     {
-        public:
-            using std::shared_ptr<T>::shared_ptr;
+    public:
+        using std::shared_ptr<T>::shared_ptr;
 
-            BufferRefTemplate() : std::shared_ptr<T>(nullptr) { }
-            BufferRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) { }
+        BufferRefTemplate() : std::shared_ptr<T>(nullptr) { }
+        BufferRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) { }
     };
 
     typedef BufferRefTemplate<Buffer> BufferRef;
+
+    class InterpolatingBuffer2D : public Buffer
+    {
+        public:
+            InterpolatingBuffer2D(BufferRef bufferA, BufferRef bufferB);
+
+            /**------------------------------------------------------------------------
+             * Perform a waveshaper x -> f(x) transform.
+             *
+             * @param offset Frame #
+             * @param crossfade Fade between bufferA and bufferB, between [0, 1]
+             * @return A transformed sample value, between [-1, 1].
+             *------------------------------------------------------------------------*/
+            sample get2D(double offset, double crossfade);
+
+        private:
+            BufferRef bufferA;
+            BufferRef bufferB;
+    };
+
+    typedef BufferRefTemplate<InterpolatingBuffer2D> BufferRef2D;
 }

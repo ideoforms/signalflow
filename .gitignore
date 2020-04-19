@@ -20,3 +20,4 @@ test-*.cpp
 docs/html
 signal/local.h
 .idea
+*.so

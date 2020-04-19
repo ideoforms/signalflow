@@ -17,8 +17,8 @@ int main()
     freq = new RoundToScale(freq);
 
     int wavetable_size = 4096;
-    sample **wt = new sample*[1];
-    wt[0] = new sample[wavetable_size];
+    std::vector<std::vector<float>>wt(1);
+    wt[0] = std::vector<float>(wavetable_size);
     for (int i = 0; i < wavetable_size; i++)
     {
         wt[0][i] = sin(i * M_PI * 2 / wavetable_size);

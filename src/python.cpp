@@ -1,5 +1,6 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
+#include <pybind11/stl.h>
 
 #include "signal/node.h"
 #include "signal/signal.h"
@@ -96,11 +97,18 @@ PYBIND11_MODULE(libsignal, m)
 
     py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer")
         .def(py::init<char *>())
+        .def(py::init<int, int, std::vector<std::vector<float>>>())
         .def_readonly("num_frames", &Buffer::num_frames)
         .def_readonly("num_channels", &Buffer::num_channels)
         .def("data", [](Buffer &buf) {
             return py::array_t<float>({ buf.num_frames }, { sizeof(float) }, buf.data[0]);
         });
+
+    py::class_<InterpolatingBuffer2D, BufferRefTemplate<InterpolatingBuffer2D>>(m, "Buffer2D")
+        .def(py::init<BufferRef, BufferRef>());
+
+    py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D")
+        .def(py::init<BufferRef2D, NodeRef, NodeRef>(), "buffer"_a, "frequency"_a = NodeRef(440.0), "crossfade"_a = NodeRef(0));
 
     py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")
         .def(py::init<int>());

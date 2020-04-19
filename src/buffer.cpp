@@ -6,9 +6,15 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <vector>
 
 namespace libsignal
 {
+
+Buffer::Buffer()
+{
+
+}
 
 Buffer::Buffer(int num_channels, int num_frames)
 {
@@ -16,7 +22,7 @@ Buffer::Buffer(int num_channels, int num_frames)
     this->num_frames = num_frames;
     this->sample_rate = 44100.0;
     this->duration = this->num_frames / this->sample_rate;
-    this->interpolate = SIGNAL_INTERPOLATE_NONE;
+    this->interpolate = SIGNAL_INTERPOLATE_LINEAR;
 
     this->data = (sample **) malloc(sizeof(void *) * this->num_channels);
     for (int channel = 0; channel < this->num_channels; channel++)
@@ -35,6 +41,15 @@ Buffer::Buffer(int num_channels, int num_frames, sample **data)
     }
 }
 
+Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>>data)
+    : Buffer(num_channels, num_frames)
+{
+    for (int channel = 0; channel < this->num_channels; channel++)
+    {
+        std::copy(data[channel].begin(), data[channel].end(), this->data[channel]);
+    }
+}
+
 Buffer::Buffer(const char *filename)
 {
     this->open(filename);
@@ -44,13 +59,20 @@ Buffer::~Buffer()
 {
     for (int channel = 0; channel < this->num_channels; channel++)
     {
-        free(this->data[channel]);
+        if (this->data && this->data[channel])
+            free(this->data[channel]);
     }
-    free(this->data);
+    if (this->data)
+        free(this->data);
 }
 
 void Buffer::open(const char *filename)
 {
+    if (this->data)
+    {
+        throw std::runtime_error("Buffer has already been allocated");
+    }
+
     #ifdef HAVE_SNDFILE
 
     SF_INFO info;
@@ -272,6 +294,28 @@ double WaveShaperBuffer::offset_to_frame(double offset)
 double WaveShaperBuffer::frame_to_offset(double frame)
 {
     return map(frame, 0, this->num_frames - 1, -1, 1);
+}
+
+InterpolatingBuffer2D::InterpolatingBuffer2D(BufferRef bufferA, BufferRef bufferB)
+    : bufferA(bufferA), bufferB(bufferB)
+{
+    assert(bufferA->num_channels == 1);
+    assert(bufferB->num_channels == 1);
+    assert(bufferA->num_frames == bufferB->num_frames);
+    assert(bufferA->sample_rate == bufferB->sample_rate);
+
+    this->num_channels = 1;
+    this->num_frames = bufferA->num_frames;
+    this->sample_rate = bufferA->sample_rate;
+    this->duration = this->num_frames / this->sample_rate;
+    this->interpolate = SIGNAL_INTERPOLATE_NONE;
+}
+
+sample InterpolatingBuffer2D::get2D(double offset, double crossfade)
+{
+    sample a = this->bufferA->get(offset);
+    sample b = this->bufferB->get(offset);
+    return ((1.0 - crossfade) * a) + (crossfade * b);
 }
 
 }
