@@ -273,12 +273,6 @@ void Node::poll(float frequency, std::string label)
  *-----------------------------------------------------------------------*/
 
 template <class T>
-NodeRefTemplate<T>::NodeRefTemplate() : std::shared_ptr<T>(nullptr) {}
-
-// template <class T>
-// NodeRefTemplate<T>::NodeRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) {}
-
-template <class T>
 NodeRefTemplate<T>::NodeRefTemplate(double x) : std::shared_ptr<T>(new Constant(x)) {}
 
 template <class T>

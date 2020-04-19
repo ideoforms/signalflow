@@ -39,19 +39,12 @@ namespace libsignal
     class NodeRefTemplate : public std::shared_ptr<T>
     {
         public:
-            NodeRefTemplate();
-            // NodeRefTemplate(T *ptr);
+            NodeRefTemplate() : std::shared_ptr<T>(nullptr) { };
+            NodeRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) { };
             NodeRefTemplate(double x);
             NodeRefTemplate(int x);
             NodeRefTemplate(std::initializer_list<NodeRefTemplate> x);
             NodeRefTemplate(std::vector<NodeRefTemplate> x);
-
-//        NodeRefTemplate() : std::shared_ptr<T>(nullptr) {};
-        NodeRefTemplate(T *ptr) : std::shared_ptr<T>(ptr) {};
-//        NodeRefTemplate(double x) : std::shared_ptr<T>(new Constant(x)) {};
-//        NodeRefTemplate(int x) : std::shared_ptr<T>(new Constant((float) x)) {};
-//        NodeRefTemplate(std::initializer_list<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {};
-//        NodeRefTemplate(std::vector<NodeRefTemplate> x) : std::shared_ptr<T>(new Multiplex(x)) {};
 
             NodeRefTemplate operator* (NodeRefTemplate other);
             NodeRefTemplate operator* (double constant);
