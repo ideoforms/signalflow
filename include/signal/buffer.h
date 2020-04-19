@@ -9,6 +9,7 @@
 
 #include <math.h>
 #include <memory>
+#include <vector>
 
 #define SIGNAL_ENVELOPE_BUFFER_LENGTH 1024
 #define SIGNAL_ENVELOPE_BUFFER_HALF_LENGTH (SIGNAL_ENVELOPE_BUFFER_LENGTH / 2)
