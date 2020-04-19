@@ -1,4 +1,5 @@
 #include "signal/node/oscillators/segmentplayer.h"
+#include "signal/core/random.h"
 
 #include <stdlib.h>
 

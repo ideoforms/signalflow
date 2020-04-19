@@ -1,4 +1,5 @@
 #include "signal/buffer/buffer.h"
+#include "signal/core/random.h"
 
 #ifdef HAVE_SNDFILE
     #include <sndfile.h>

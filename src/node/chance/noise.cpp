@@ -1,7 +1,7 @@
 #include "signal/node/chance/noise.h"
 
-#include "stdlib.h"
-#include "signal/core/util.h"
+#include <stdlib.h>
+#include "signal/core/random.h"
 #include "signal/core/graph.h"
 
 #include <limits>

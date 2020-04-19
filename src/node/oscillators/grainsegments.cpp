@@ -1,5 +1,6 @@
 #include "signal/node/oscillators/grainsegments.h"
 #include "signal/core/graph.h"
+#include "signal/core/random.h"
 
 namespace libsignal
 {

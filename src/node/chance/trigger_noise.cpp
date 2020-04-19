@@ -1,6 +1,6 @@
 #include "signal/node/chance/trigger_noise.h"
 
-#include "signal/core/util.h"
+#include "signal/core/random.h"
 
 #include <limits>
 

@@ -1,5 +1,5 @@
 #include "signal/core/core.h"
-#include "signal/core/util.h"
+#include "signal/core/random.h"
 
 #include <iostream>
 #include <stdlib.h>

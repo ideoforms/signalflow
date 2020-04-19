@@ -147,9 +147,10 @@ def build(bld):
     #------------------------------------------------------------------------
     source_files = [
         'src/core/core.cpp',
-        'src/core/util.cpp',
-        'src/core/monitor.cpp',
         'src/core/graph.cpp',
+        'src/core/util.cpp',
+        'src/core/random.cpp',
+        'src/core/monitor.cpp',
         'src/buffer/buffer.cpp',
         'src/synth/synth.cpp',
         'src/synth/synthregistry.cpp',

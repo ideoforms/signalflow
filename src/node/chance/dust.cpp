@@ -2,7 +2,7 @@
 
 #include "stdlib.h"
 
-#include "signal/core/util.h"
+#include "signal/core/random.h"
 #include "signal/core/graph.h"
 
 namespace libsignal
