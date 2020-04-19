@@ -4,19 +4,19 @@
 
 #include "signal/core/graph.h"
 
+#include <iostream>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include <iostream>
 
 namespace libsignal
 {
-    
+
 extern AudioGraph *shared_graph;
-    
+
 void write_callback(struct SoundIoOutStream *outstream,
-        int frame_count_min, int frame_count_max)
+                    int frame_count_min, int frame_count_max)
 {
     const struct SoundIoChannelLayout *layout = &outstream->layout;
     struct SoundIoChannelArea *areas;
@@ -50,14 +50,16 @@ void write_callback(struct SoundIoOutStream *outstream,
         {
             for (int channel = 0; channel < layout->channel_count; channel += 1)
             {
-                float *ptr = (float *)(areas[channel].ptr + areas[channel].step * frame);
+                float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
                 *ptr = shared_graph->output->out[channel][frame];
 
                 /*-----------------------------------------------------------------------*
                  * Hard limiter.
                  *-----------------------------------------------------------------------*/
-                if (*ptr > 1.0) *ptr = 1.0;
-                if (*ptr < -1.0) *ptr = -1.0;
+                if (*ptr > 1.0)
+                    *ptr = 1.0;
+                if (*ptr < -1.0)
+                    *ptr = -1.0;
             }
         }
 
@@ -85,8 +87,8 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
     return -1;
 }
 
-
-AudioOut_SoundIO::AudioOut_SoundIO(AudioGraph *graph) : AudioOut_Abstract(graph)
+AudioOut_SoundIO::AudioOut_SoundIO(AudioGraph *graph)
+    : AudioOut_Abstract(graph)
 {
     this->init();
 }
@@ -130,8 +132,7 @@ int AudioOut_SoundIO::init()
         throw std::runtime_error("libsoundio error: unable to open device: " + std::string(soundio_strerror(err)));
 
     if (this->outstream->layout_error)
-        throw std::runtime_error("libsoundio error: unable to set channel layout: " +
-                std::string(soundio_strerror(this->outstream->layout_error)));
+        throw std::runtime_error("libsoundio error: unable to set channel layout: " + std::string(soundio_strerror(this->outstream->layout_error)));
 
     return 0;
 }
@@ -140,7 +141,7 @@ int AudioOut_SoundIO::start()
 {
     int err;
     if ((err = soundio_outstream_start(outstream)))
-    throw std::runtime_error("libsoundio error: unable to start device: " + std::string(soundio_strerror(err)));
+        throw std::runtime_error("libsoundio error: unable to start device: " + std::string(soundio_strerror(err)));
 
     return 0;
 }
@@ -162,4 +163,3 @@ int AudioOut_SoundIO::destroy()
 } // namespace libsignal
 
 #endif
-

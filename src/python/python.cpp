@@ -1,7 +1,8 @@
+// clang-format off
+
 #include <pybind11/pybind11.h>
 #include <pybind11/numpy.h>
 #include <pybind11/stl.h>
-
 #include "signal/signal.h"
 
 using namespace libsignal;
@@ -113,3 +114,5 @@ PYBIND11_MODULE(libsignal, m)
         .def(py::init<int>());
 
 }
+
+// clang-format on
