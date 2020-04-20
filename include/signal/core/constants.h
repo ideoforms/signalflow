@@ -2,6 +2,8 @@
 
 #include "signal/core/ringbuffer.h"
 
+using namespace libsignal;
+
 typedef float sample;
 typedef sample *frame;
 
