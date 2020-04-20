@@ -152,6 +152,7 @@ def build(bld):
         'src/core/random.cpp',
         'src/core/monitor.cpp',
         'src/buffer/buffer.cpp',
+        'src/buffer/buffer2D.cpp',
         'src/synth/synth.cpp',
         'src/synth/synthregistry.cpp',
         'src/synth/synthspec.cpp',
