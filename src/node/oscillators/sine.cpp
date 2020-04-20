@@ -1,7 +1,6 @@
 #include "signal/node/oscillators/sine.h"
 #include "signal/core/graph.h"
 
-#include <math.h>
 #include <stdio.h>
 
 namespace libsignal

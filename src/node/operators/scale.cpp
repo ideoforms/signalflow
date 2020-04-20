@@ -1,7 +1,5 @@
 #include "signal/node/operators/scale.h"
 
-#include <math.h>
-
 namespace libsignal
 {
 

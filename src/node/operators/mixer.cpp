@@ -1,8 +1,6 @@
 #include "signal/node/operators/mixer.h"
 #include "signal/core/core.h"
 
-#include <math.h>
-
 namespace libsignal
 {
 
