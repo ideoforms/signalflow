@@ -33,7 +33,7 @@ int main()
             wt2[0][i] = 1;
     }
     BufferRef bufferB = new Buffer(1, wavetable_size, wt2);
-    BufferRef2D buffer2D = new InterpolatingBuffer2D(bufferA, bufferB);
+    BufferRef2D buffer2D = new Buffer2D(bufferA, bufferB);
     NodeRef morph = new Saw(2.0);
     morph = morph * 0.5 + 0.5;
 

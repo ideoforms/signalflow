@@ -104,7 +104,7 @@ PYBIND11_MODULE(libsignal, m)
             return py::array_t<float>({ buf.num_frames }, { sizeof(float) }, buf.data[0]);
         });
 
-    py::class_<InterpolatingBuffer2D, BufferRefTemplate<InterpolatingBuffer2D>>(m, "Buffer2D")
+    py::class_<Buffer2D, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
         .def(py::init<BufferRef, BufferRef>());
 
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D")

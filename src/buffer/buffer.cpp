@@ -303,7 +303,7 @@ double WaveShaperBuffer::frame_to_offset(double frame)
     return map(frame, 0, this->num_frames - 1, -1, 1);
 }
 
-InterpolatingBuffer2D::InterpolatingBuffer2D(BufferRef bufferA, BufferRef bufferB)
+Buffer2D::Buffer2D(BufferRef bufferA, BufferRef bufferB)
     : bufferA(bufferA), bufferB(bufferB)
 {
     assert(bufferA->num_channels == 1);
@@ -315,14 +315,13 @@ InterpolatingBuffer2D::InterpolatingBuffer2D(BufferRef bufferA, BufferRef buffer
     this->num_frames = bufferA->num_frames;
     this->sample_rate = bufferA->sample_rate;
     this->duration = this->num_frames / this->sample_rate;
-    this->interpolate = SIGNAL_INTERPOLATE_NONE;
 }
 
-sample InterpolatingBuffer2D::get2D(double offset, double crossfade)
+sample Buffer2D::get2D(double offset_x, double offset_z)
 {
-    sample a = this->bufferA->get(offset);
-    sample b = this->bufferB->get(offset);
-    return ((1.0 - crossfade) * a) + (crossfade * b);
+    sample a = this->bufferA->get(offset_x);
+    sample b = this->bufferB->get(offset_x);
+    return ((1.0 - offset_z) * a) + (offset_z * b);
 }
 
 }

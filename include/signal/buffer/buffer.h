@@ -158,24 +158,25 @@ public:
 
 typedef BufferRefTemplate<Buffer> BufferRef;
 
-class InterpolatingBuffer2D : public Buffer
+class Buffer2D : public Buffer
 {
 public:
-    InterpolatingBuffer2D(BufferRef bufferA, BufferRef bufferB);
+    Buffer2D(BufferRef bufferA, BufferRef bufferB);
 
     /**------------------------------------------------------------------------
      * Perform a waveshaper x -> f(x) transform.
      *
-     * @param offset Frame #
+     * @param offset_x Normalised position in waveform, between [0, 1]
      * @param crossfade Fade between bufferA and bufferB, between [0, 1]
      * @return A transformed sample value, between [-1, 1].
      *------------------------------------------------------------------------*/
-    sample get2D(double offset, double crossfade);
+    sample get2D(double offset_x, double offset_z);
 
 private:
     BufferRef bufferA;
     BufferRef bufferB;
 };
 
-typedef BufferRefTemplate<InterpolatingBuffer2D> BufferRef2D;
+typedef BufferRefTemplate<Buffer2D> BufferRef2D;
+
 }
