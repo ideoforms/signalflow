@@ -1,0 +1,15 @@
+name: ci
+
+on: push
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: |
+        sudo apt-get update -y
+        sudo apt-get install libasound2-dev libsoundio-dev libsndfile1-dev libgsl0-dev -y
+    - name: make
+      run: ./waf
