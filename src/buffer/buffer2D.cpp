@@ -8,10 +8,18 @@ namespace libsignal
 Buffer2D::Buffer2D(BufferRef bufferA, BufferRef bufferB)
     : bufferA(bufferA), bufferB(bufferB)
 {
-    assert(bufferA->num_channels == 1);
-    assert(bufferB->num_channels == 1);
-    assert(bufferA->num_frames == bufferB->num_frames);
-    assert(bufferA->sample_rate == bufferB->sample_rate);
+    if (bufferA->num_channels != 1 || bufferB->num_channels != 1)
+    {
+        throw std::runtime_error("Input buffers to Buffer2D must both be mono");
+    }
+    if (bufferA->num_frames != bufferB->num_frames)
+    {
+        throw std::runtime_error("Input buffers to Buffer2D must both have identical length");
+    }
+    if (bufferA->sample_rate != bufferB->sample_rate)
+    {
+        throw std::runtime_error("Input buffers to Buffer2D must both have identical sample rate");
+    }
 
     this->num_channels = 1;
     this->num_frames = bufferA->num_frames;
