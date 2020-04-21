@@ -26,11 +26,10 @@ Buffer::Buffer(int num_channels, int num_frames)
     this->duration = this->num_frames / this->sample_rate;
     this->interpolate = SIGNAL_INTERPOLATE_LINEAR;
 
-    this->data = (sample **) malloc(sizeof(void *) * this->num_channels);
+    this->data = new sample*[this->num_channels]();
     for (int channel = 0; channel < this->num_channels; channel++)
     {
-        this->data[channel] = (sample *) malloc(sizeof(sample) * this->num_frames);
-        memset(this->data[channel], 0, sizeof(sample) * this->num_frames);
+        this->data[channel] = new sample[this->num_frames]();
     }
 }
 
@@ -62,10 +61,12 @@ Buffer::~Buffer()
     for (int channel = 0; channel < this->num_channels; channel++)
     {
         if (this->data && this->data[channel])
-            free(this->data[channel]);
+            delete this->data[channel];
     }
     if (this->data)
-        free(this->data);
+    {
+        delete this->data;
+    }
 }
 
 void Buffer::load(std::string filename)
@@ -87,11 +88,11 @@ void Buffer::load(std::string filename)
     }
 
     printf("Read %d channels, %ld frames\n", info.channels, (long int) info.frames);
-    this->data = (sample **) malloc(sizeof(void *) * info.channels);
+    this->data = new sample*[info.channels]();
     for (int channel = 0; channel < info.channels; channel++)
     {
         long long length = sizeof(sample) * info.frames;
-        this->data[channel] = (sample *) malloc(length + 1024);
+        this->data[channel] = new sample[length + 1024]();
 
         memset(this->data[channel], 0, length);
     }

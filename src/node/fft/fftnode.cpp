@@ -6,34 +6,35 @@ namespace libsignal
 {
 
 FFTNode::FFTNode(int fft_size)
-        : Node()
+    : Node()
 {
     this->fft_size = fft_size;
     this->num_bins = fft_size / 2;
     this->num_hops = 0;
 
-    this->magnitudes = (sample **) malloc(
-            SIGNAL_MAX_CHANNELS * sizeof(float *));
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++) {
+    this->magnitudes = new float*[SIGNAL_MAX_CHANNELS]();
+    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    {
         this->magnitudes[i] = this->out[i];
     }
 
-    this->phases = (sample **) malloc(
-            SIGNAL_MAX_CHANNELS * sizeof(float *));
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++) {
+    this->phases = new float*[SIGNAL_MAX_CHANNELS]();
+    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    {
         this->phases[i] = this->out[i] + this->num_bins;
     }
 }
 
 FFTNode::~FFTNode()
 {
-    free(this->magnitudes);
-    free(this->phases);
+    delete this->magnitudes;
+    delete this->phases;
 }
 
 FFTOpNode::FFTOpNode(NodeRef input)
-        : FFTNode(input ? ((FFTNode *) input.get())->fft_size
-                        : SIGNAL_DEFAULT_FFT_SIZE), input(input)
+    : FFTNode(input ? ((FFTNode *) input.get())->fft_size
+                    : SIGNAL_DEFAULT_FFT_SIZE)
+    , input(input)
 {
     this->add_input("input", this->input);
 }

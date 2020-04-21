@@ -26,10 +26,10 @@ extern AudioGraph *shared_graph;
 Node::Node()
 {
     this->graph = shared_graph;
-    this->out = (sample **) malloc(SIGNAL_MAX_CHANNELS * sizeof(sample *));
+    this->out = new sample*[SIGNAL_MAX_CHANNELS]();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {
-        this->out[i] = (sample *) calloc(SIGNAL_NODE_BUFFER_SIZE, sizeof(sample));
+        this->out[i] = new sample[SIGNAL_NODE_BUFFER_SIZE]();
 
         /*------------------------------------------------------------------------
          * Memory allocation magic: incrementing the `out` pointer means that
@@ -61,9 +61,9 @@ Node::~Node()
          * Memory allocation magic: Pointer to out[] is actually 1 byte off
          * the original allocated segment (see Node constructor above).
          *-----------------------------------------------------------------------*/
-        free(this->out[i] - 1);
+        delete (this->out[i] - 1);
     }
-    free(this->out);
+    delete this->out;
 }
 
 /*------------------------------------------------------------------------

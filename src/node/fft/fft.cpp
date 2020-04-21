@@ -23,8 +23,8 @@ FFT::FFT(NodeRef input, int fft_size)
     /*------------------------------------------------------------------------
      * Temp buffers for FFT calculations.
      *-----------------------------------------------------------------------*/
-    this->buffer = (sample *) calloc(fft_size, sizeof(sample));
-    this->buffer2 = (sample *) calloc(fft_size, sizeof(sample));
+    this->buffer = new sample[fft_size]();
+    this->buffer2 = new sample[fft_size]();
 
     this->hop_size = 256;
 
@@ -33,25 +33,23 @@ FFT::FFT(NodeRef input, int fft_size)
      * inbuf stores our backlog, so make sure we've allocated enough space.
      * inbuf_size records the current number of frames we have buffered.
      *-----------------------------------------------------------------------*/
-    this->inbuf = (sample *) calloc(SIGNAL_MAX_FFT_SIZE * 2, sizeof(sample));
+    this->inbuf = new sample[SIGNAL_MAX_FFT_SIZE * 2]();
     this->inbuf_size = 0;
 
     /*------------------------------------------------------------------------
      * Hann window for overlap/add
      *-----------------------------------------------------------------------*/
-    this->window = (sample *) calloc(fft_size, sizeof(sample));
-    memset(this->window, 0, sizeof(float) * this->fft_size);
-
+    this->window = new sample[fft_size]();
     vDSP_hann_window(this->window, fft_size, vDSP_HANN_NORM);
 }
 
 FFT::~FFT()
 {
     vDSP_destroy_fftsetup(this->fft_setup);
-    free(this->buffer);
-    free(this->buffer2);
-    free(this->inbuf);
-    free(this->window);
+    delete this->buffer;
+    delete this->buffer2;
+    delete this->inbuf;
+    delete this->window;
 }
 
 void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
@@ -60,9 +58,13 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
     DSPSplitComplex output_split = { out, out + fft_size / 2 };
 
     if (do_window)
+    {
         vDSP_vmul(in, 1, this->window, 1, buffer2, 1, fft_size);
+    }
     else
+    {
         memcpy(buffer2, in, fft_size * sizeof(sample));
+    }
 
     /*------------------------------------------------------------------------
      * Convert from interleaved format (sequential pairs) to split format,

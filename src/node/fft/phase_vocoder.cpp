@@ -12,9 +12,9 @@ FFTPhaseVocoder::FFTPhaseVocoder(NodeRef input)
 
     this->add_input("clock", this->clock);
 
-    this->phase_buffer = (sample *) calloc(this->num_bins, sizeof(sample));
-    this->phase_deriv = (sample *) calloc(this->num_bins, sizeof(sample));
-    this->magnitude_buffer = (sample *) calloc(this->num_bins, sizeof(sample));
+    this->phase_buffer = new sample[this->num_bins]();
+    this->phase_deriv = new sample[this->num_bins]();
+    this->magnitude_buffer = new sample[this->num_bins]();
 
     this->frozen = false;
     this->just_frozen = false;

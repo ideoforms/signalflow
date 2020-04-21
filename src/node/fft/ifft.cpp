@@ -18,21 +18,24 @@ IFFT::IFFT(NodeRef input)
     /*------------------------------------------------------------------------
      * Buffers used in intermediate FFT calculations.
      *-----------------------------------------------------------------------*/
-    this->buffer = (sample *) malloc(this->fft_size * sizeof(sample));
-    this->buffer2 = (sample *) malloc(this->fft_size * sizeof(sample));
+    this->buffer = new sample[this->fft_size]();
+    this->buffer2 = new sample[this->fft_size]();
 
     this->hop_size = 256;
 
     /*------------------------------------------------------------------------
      * Generate a Hann window for overlap-add.
      *-----------------------------------------------------------------------*/
-    this->window = (sample *) calloc(this->fft_size, sizeof(sample));
+    this->window = new sample[this->fft_size]();
     vDSP_hann_window(this->window, this->fft_size, vDSP_HANN_NORM);
 }
 
 IFFT::~IFFT()
 {
-    // free resources
+    vDSP_destroy_fftsetup(this->fft_setup);
+    delete this->buffer;
+    delete this->buffer2;
+    delete this->window;
 }
 
 void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window)
