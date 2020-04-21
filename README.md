@@ -1,6 +1,7 @@
 # signal
 
 [![Build Status](https://travis-ci.org/ideoforms/signal.svg?branch=master)](https://travis-ci.org/ideoforms/signal)
+![ci](https://github.com/ideoforms/signal/workflows/ci/badge.svg)
 
 Signal is an audio synthesis engine designed for structural clarity, lightness of code, and concise expression of complex ideas. It is built with modern standards, taking advantage of the powerful expressive capabilities of c++11 and json.
 
