@@ -38,7 +38,13 @@ PYBIND11_MODULE(libsignal, m)
         .def("__mul__", [](NodeRef a, float b)
             { return NodeRef(new Multiply(a, NodeRef(new Constant(b)))); })
         .def("__rmul__", [](NodeRefTemplate<Node>a, float b)
-            { return NodeRef(new Multiply(a, NodeRef(new Constant(b)))); });
+            { return NodeRef(new Multiply(a, NodeRef(new Constant(b)))); })
+        .def("__div__", [](NodeRef a, NodeRef b)
+            { return NodeRef(new Divide(a, b)); })
+        .def("__div__", [](NodeRef a, float b)
+            { return NodeRef(new Divide(a, NodeRef(new Constant(b)))); })
+        .def("__rdiv__", [](NodeRefTemplate<Node>a, float b)
+            { return NodeRef(new Divide(a, NodeRef(new Constant(b)))); });
 
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant")
         .def(py::init<double>());
@@ -81,7 +87,11 @@ PYBIND11_MODULE(libsignal, m)
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef>(),
             "buffer"_a, "clock"_a = NodeRef(0), "pos"_a = NodeRef(0.5), "grain_length"_a = NodeRef(0.1), "rate"_a = NodeRef(1.0));
 
-    py::class_<AudioGraph>(m, "AudioGraph")
+    py::class_<Delay, Node, NodeRefTemplate<Delay>>(m, "Delay")
+        .def(py::init<NodeRef, float, float, float>(),
+            "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = NodeRef(1.0));
+
+py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
         .def("start", &AudioGraph::start)
         .def("wait", [](AudioGraph &graph)

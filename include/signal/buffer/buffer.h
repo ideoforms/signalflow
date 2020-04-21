@@ -65,6 +65,7 @@ public:
     /**------------------------------------------------------------------------
      * @param frame The absolute frame value to retrieve.
      * @return The raw value stored within that frame.
+     * TODO Add support for buffers with >1 channel.
      *------------------------------------------------------------------------*/
     sample get_frame(double frame);
 
