@@ -83,11 +83,10 @@ void Buffer::load(std::string filename)
 
     if (!sndfile)
     {
-        printf("Failed to read soundfile\n");
-        exit(1);
+        throw std::runtime_error(std::string("Couldn't read audio from path: ") + filename);
     }
 
-    printf("Read %d channels, %ld frames\n", info.channels, (long int) info.frames);
+    std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
     this->data = new sample*[info.channels]();
     for (int channel = 0; channel < info.channels; channel++)
     {
@@ -115,7 +114,9 @@ void Buffer::load(std::string filename)
             ptr++;
         }
         if (count < frames_per_read)
+        {
             break;
+        }
     }
 
     this->num_channels = info.channels;

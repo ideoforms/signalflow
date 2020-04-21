@@ -10,6 +10,7 @@
 #include <memory>
 #include <string>
 #include <vector>
+#include <iostream>
 
 #define SIGNAL_ENVELOPE_BUFFER_LENGTH 2048
 
