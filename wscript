@@ -176,12 +176,15 @@ def build(bld):
         "install_path" : "@rpath"
     }
 
+    build_dir = "build"
+
     if Options.options.shared or Options.options.python:
         bld.shlib(**library_params)
+
+        if Options.options.python and sys.platform == "darwin":
+            shutil.copy(os.path.join(build_dir, "libsignal.dylib"), "libsignal.so")
     else:
         bld.stlib(**library_params)
-
-    build_dir = "build"
 
     #------------------------------------------------------------------------
     # Collate source files to build.
