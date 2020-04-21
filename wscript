@@ -68,7 +68,7 @@ def configure(conf):
         '-Wno-unused-variable'
     ]
     conf.env.LIBPATH = ['/usr/local/lib']
-    conf.env.INCLUDES = ['/usr/local/include', 'include', 'lib']
+    conf.env.INCLUDES = ['/usr/local/include', 'source/include', 'source/lib']
 
     #------------------------------------------------------------------------
     # Check support for c++11 (required)
@@ -145,28 +145,30 @@ def build(bld):
     # shared object, used when generating the link paths of binaries
     # compiled against this lib.
     #------------------------------------------------------------------------
+    source_root = 'source/src'
     source_files = [
-        'src/core/core.cpp',
-        'src/core/graph.cpp',
-        'src/core/util.cpp',
-        'src/core/random.cpp',
-        'src/core/monitor.cpp',
-        'src/buffer/buffer.cpp',
-        'src/buffer/buffer2D.cpp',
-        'src/synth/synth.cpp',
-        'src/synth/synthregistry.cpp',
-        'src/synth/synthspec.cpp',
-        'src/synth/synthtemplate.cpp',
-        'src/synth/nodedef.cpp',
+        'core/core.cpp',
+        'core/graph.cpp',
+        'core/util.cpp',
+        'core/random.cpp',
+        'core/monitor.cpp',
+        'buffer/buffer.cpp',
+        'buffer/buffer2D.cpp',
+        'synth/synth.cpp',
+        'synth/synthregistry.cpp',
+        'synth/synthspec.cpp',
+        'synth/synthtemplate.cpp',
+        'synth/nodedef.cpp',
     ]
-    source_files += bld.path.ant_glob('src/node/**/*.cpp')
-    source_files += [ 'lib/json11/json11.cpp' ]
+    source_files = [ os.path.join(source_root, path) for path in source_files ]
+    source_files += bld.path.ant_glob(os.path.join(source_root, 'node/**/*.cpp'))
+    source_files += [ 'source/lib/json11/json11.cpp' ]
 
     if Options.options.python:
-        source_files += [ 'src/python/python.cpp' ]
+        source_files += [ os.path.join(source_root, 'python/python.cpp') ]
 
     if sys.platform == "darwin" or sys.platform == "ios":
-        source_files += bld.path.ant_glob('src/**/*.mm')
+        source_files += bld.path.ant_glob(os.path.join(source_root, '**/*.mm'))
 
     library_params = {
         "source" : source_files,
@@ -238,7 +240,7 @@ def build(bld):
             features = 'cxx cxxprogram',
             source = program_file,
             target = target,
-            includes = [ "includes", ".." ],
+            # includes = [ "includes", ".." ],
             use = libraries + [ 'signal' ],
         )
     
