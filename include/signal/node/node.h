@@ -1,11 +1,11 @@
 #pragma once
 
-#include "signal/buffer/buffer.h"
 #include "signal/core/constants.h"
 #include "signal/core/platform.h"
 #include "signal/core/property.h"
 #include "signal/core/ringbuffer.h"
 #include "signal/node/registry.h"
+#include "signal/buffer/buffer.h"
 
 #include <memory>
 #include <set>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "fftnode.h"
+#include "signal/node/fft/fftnode.h"
 
 #include <Accelerate/Accelerate.h>
 
@@ -12,12 +12,17 @@ public:
     FFT(NodeRef input = 0.0, int fft_size = SIGNAL_DEFAULT_FFT_SIZE);
     ~FFT();
 
-    virtual void fft(sample *in, sample *out, bool polar = true, bool do_window = true);
     virtual void process(sample **out, int num_frames);
 
     NodeRef input;
 
 private:
+
+    virtual void fft(sample *in,
+                     sample *out,
+                     bool polar = true,
+                     bool do_window = true);
+
     int hop_size;
     int log2N;
     FFTSetup fft_setup;
