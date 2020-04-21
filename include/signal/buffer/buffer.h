@@ -34,9 +34,10 @@ class Buffer
 {
 public:
     Buffer();
+    Buffer(int num_channels, int num_frames);
     Buffer(int num_channels, int num_frames, sample **data);
     Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>> data);
-    Buffer(int num_channels, int num_frames);
+
     Buffer(std::string filename);
 
     virtual ~Buffer();
@@ -44,13 +45,18 @@ public:
     void load(std::string filename);
     void save(std::string filename);
 
-    float sample_rate;
-    int num_channels;
-    int num_frames;
-    sample **data = NULL;
+    /**------------------------------------------------------------------------
+    * @param index A sample offset, between [0, num_frames].
+    * @return A sample value, between [-1, 1].
+    *------------------------------------------------------------------------*/
+    virtual sample get(double offset);
 
-    float duration;
-    signal_interpolate_t interpolate;
+    /**------------------------------------------------------------------------
+     * @param frame The absolute frame value to retrieve.
+     * @return The raw value stored within that frame.
+     * TODO Add support for buffers with >1 channel.
+     *------------------------------------------------------------------------*/
+    sample get_frame(double frame);
 
     /**------------------------------------------------------------------------
      * Map a frame index to an offset in the buffer's native range.
@@ -63,19 +69,6 @@ public:
     virtual double offset_to_frame(double offset);
 
     /**------------------------------------------------------------------------
-     * @param frame The absolute frame value to retrieve.
-     * @return The raw value stored within that frame.
-     * TODO Add support for buffers with >1 channel.
-     *------------------------------------------------------------------------*/
-    sample get_frame(double frame);
-
-    /**------------------------------------------------------------------------
-     * @param index A sample offset, between [0, num_frames].
-     * @return A sample value, between [-1, 1].
-     *------------------------------------------------------------------------*/
-    virtual sample get(double offset);
-
-    /**------------------------------------------------------------------------
      * Fill the buffer with a constant value.
      *------------------------------------------------------------------------*/
     void fill(sample value);
@@ -84,6 +77,14 @@ public:
      * Fill the buffer based on a transfer function
      *------------------------------------------------------------------------*/
     void fill(transfer_fn f);
+
+    float sample_rate;
+    int num_channels;
+    int num_frames;
+    sample **data = NULL;
+
+    float duration;
+    signal_interpolate_t interpolate;
 };
 
 /**-------------------------------------------------------------------------

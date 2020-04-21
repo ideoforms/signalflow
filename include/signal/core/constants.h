@@ -18,7 +18,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
  * Max supported number of FFT bins.
  *-----------------------------------------------------------------------*/
 #define SIGNAL_DEFAULT_FFT_SIZE 1024
-#define SIGNAL_MAX_FFT_SIZE 8192
+#define SIGNAL_MAX_FFT_SIZE 65536
 
 /*------------------------------------------------------------------------
  * Default sample block size unless otherwise specified.
