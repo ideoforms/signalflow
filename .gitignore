@@ -21,3 +21,5 @@ docs/html
 signal/local.h
 .idea
 *.so
+*.dylib
+.eggs
