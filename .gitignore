@@ -22,4 +22,5 @@ signal/local.h
 .idea
 *.so
 *.dylib
+*.egg-info
 .eggs
