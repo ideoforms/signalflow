@@ -31,6 +31,12 @@ typedef sample (*transfer_fn)(sample);
 
 namespace libsignal
 {
+
+template <class T>
+class BufferRefTemplate;
+class Buffer;
+typedef BufferRefTemplate<Buffer> BufferRef;
+
 class Buffer
 {
 public:
@@ -45,6 +51,8 @@ public:
 
     void load(std::string filename);
     void save(std::string filename);
+
+    std::vector<BufferRef> split(int num_frames_per_part);
 
     /**------------------------------------------------------------------------
     * @param index A sample offset, between [0, num_frames].
@@ -159,6 +167,5 @@ public:
         : std::shared_ptr<T>(ptr) {}
 };
 
-typedef BufferRefTemplate<Buffer> BufferRef;
 
 }

@@ -177,6 +177,12 @@ void Buffer::save(std::string filename)
 #endif
 }
 
+std::vector<BufferRef> Buffer::split(int num_frames_per_part)
+{
+    BufferRef sub = this;
+    return std::vector<BufferRef> { sub };
+}
+
 double Buffer::frame_to_offset(double frame)
 {
     return (double) frame;

@@ -68,6 +68,12 @@ set (CMAKE_CXX_FLAGS "-w -undefined dynamic_lookup")
 find_package (Python3 COMPONENTS Interpreter Development)
 include_directories(${Python3_INCLUDE_DIRS})
 
+set(CXXFLAGS
+        -Wall
+        -Wextra
+        -fPIC
+        -pedantic)
+
 file(GLOB_RECURSE EXAMPLES "examples/*.cpp")
 
 foreach (EXAMPLE ${EXAMPLES})
