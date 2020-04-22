@@ -1,4 +1,4 @@
-#include "signal/renderer.h"
+#include "signal/core/renderer.h"
 #include "signal/node/oscillators/constant.h"
 
 namespace libsignal
