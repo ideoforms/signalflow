@@ -15,8 +15,11 @@ namespace py = pybind11;
  *----------------------------------------------------------------------------*/
 using namespace pybind11::literals;
 
-PYBIND11_DECLARE_HOLDER_TYPE(T, NodeRefTemplate<T>);
-PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>);
+/*------------------------------------------------------------------------------
+ * Explicitly specify false to avoid warnings on gcc/linux
+ *----------------------------------------------------------------------------*/
+PYBIND11_DECLARE_HOLDER_TYPE(T, NodeRefTemplate<T>, false)
+PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>, false)
 
 PYBIND11_MODULE(libsignal, m)
 {
