@@ -50,9 +50,9 @@ else()
     message(FATAL_ERROR "Couldn't find libsndfile")
 endif()
 
-find_library(GSL gsl)
+find_package(GSL)
 if (GSL)
-    message("Found libgls")
+    message("Found libgsl")
     add_definitions(-DHAVE_GSL)
 else()
     message(FATAL_ERROR "Couldn't find libgsl")
@@ -77,7 +77,7 @@ endif()
 
 add_library(signal SHARED ${SRC})
 target_link_libraries(signal ${SNDFILE} ${SOUNDIO})
-target_link_libraries(signal -lgsl -lgslcblas)
+target_link_libraries(signal GSL::gsl GSL::gslcblas)
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_libraries(signal
         "-framework Accelerate"
