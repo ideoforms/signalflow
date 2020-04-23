@@ -11,7 +11,13 @@ jobs:
       run: |
         sudo apt-get update -y
         sudo apt-get install libasound2-dev libsoundio-dev libsndfile1-dev libgsl0-dev -y
-    - name: configure
+        sudo apt-get install python3-setuptools python3-pip
+        sudo pip3 install pytest
+    - name: Configure
       run: mkdir build && cd build && cmake ..
-    - name: make
+    - name: Make
       run: cd build && make -j8
+    - name: Python build
+      run: python3 setup.py build
+    - name: Python test
+      run: python3 setup.py test
