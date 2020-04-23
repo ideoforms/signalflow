@@ -31,11 +31,6 @@ else()
     # add_compile_options(-O3 -funroll-loops)
 endif()
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
-    add_link_options(-w -undefined dynamic_lookup)
-endif()
-
 #-------------------------------------------------------------------------------
 # Dependencies
 #-------------------------------------------------------------------------------
@@ -74,15 +69,22 @@ if (CMAKE_BUILD_PYTHON)
     set(SRC ${SRC} source/src/python/python.cpp)
     find_package (Python3 COMPONENTS Interpreter Development)
     include_directories(${Python3_INCLUDE_DIRS})
+    if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+        set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+        add_link_options(-w -undefined dynamic_lookup)
+    endif()
 endif()
 
 add_library(signal SHARED ${SRC})
-target_link_libraries(signal ${GSL} ${SNDFILE} ${SOUNDIO})
-target_link_libraries(signal
-    "-framework Accelerate"
-    "-framework Accelerate"
-    "-framework AppKit"
-)
+target_link_libraries(signal ${SNDFILE} ${SOUNDIO})
+target_link_libraries(signal -lgsl -lgslcblas)
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    target_link_libraries(signal
+        "-framework Accelerate"
+        "-framework Accelerate"
+        "-framework AppKit"
+    )
+endif()
 
 if (CMAKE_BUILD_PYTHON)
     target_link_libraries(signal ${Python3_LIBRARIES})

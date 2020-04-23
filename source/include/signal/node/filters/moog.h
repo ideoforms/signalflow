@@ -26,5 +26,5 @@ private:
         in4[SIGNAL_MAX_CHANNELS];
 };
 
-REGISTER(MoogVCF, "moog");
+REGISTER(MoogVCF, "moog")
 }

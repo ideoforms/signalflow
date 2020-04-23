@@ -28,9 +28,9 @@ public:
     NodeRef button_index = 0;
 };
 
-REGISTER(MouseX, "mousex");
-REGISTER(MouseY, "mousey");
-REGISTER(MouseDown, "mousedown");
+REGISTER(MouseX, "mousex")
+REGISTER(MouseY, "mousey")
+REGISTER(MouseDown, "mousedown")
 }
 
 #endif /* __APPLE__ */

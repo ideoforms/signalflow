@@ -24,5 +24,5 @@ public:
     virtual void process(sample **out, int num_frames);
 };
 
-REGISTER(Delay, "delay");
+REGISTER(Delay, "delay")
 }

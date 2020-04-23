@@ -22,5 +22,5 @@ public:
 
 };
 
-REGISTER(FFTPhaseVocoder, "fft_phase_vocoder");
+REGISTER(FFTPhaseVocoder, "fft_phase_vocoder")
 }

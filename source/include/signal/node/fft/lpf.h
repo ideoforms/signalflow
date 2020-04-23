@@ -14,5 +14,5 @@ public:
 
 };
 
-REGISTER(FFTLPF, "fft_lpf");
+REGISTER(FFTLPF, "fft_lpf")
 }

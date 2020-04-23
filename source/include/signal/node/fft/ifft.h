@@ -24,5 +24,5 @@ public:
     virtual void process(sample **out, int num_frames);
 };
 
-REGISTER(IFFT, "ifft");
+REGISTER(IFFT, "ifft")
 }

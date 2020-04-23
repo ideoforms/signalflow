@@ -15,5 +15,5 @@ public:
     NodeRef pan;
 };
 
-REGISTER(Pan, "pan");
+REGISTER(Pan, "pan")
 }

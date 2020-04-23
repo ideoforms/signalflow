@@ -21,5 +21,5 @@ private:
     sample sample_last[SIGNAL_MAX_CHANNELS];
 };
 
-REGISTER(Resample, "resample");
+REGISTER(Resample, "resample")
 }

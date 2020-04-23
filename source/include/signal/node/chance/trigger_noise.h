@@ -19,5 +19,5 @@ public:
     virtual void trigger(std::string = SIGNAL_DEFAULT_TRIGGER, float value = 0.0);
 };
 
-REGISTER(TriggerNoise, "trigger_noise");
+REGISTER(TriggerNoise, "trigger_noise")
 }

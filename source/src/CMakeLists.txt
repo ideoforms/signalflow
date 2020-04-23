@@ -57,7 +57,6 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/control/mouse.mm
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/nodedef.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synth.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthregistry.cpp
@@ -65,4 +64,10 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthtemplate.cpp
     PARENT_SCOPE
 )
-# python/python.cpp
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    set(SRC ${SRC} 
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/control/mouse.mm
+        PARENT_SCOPE
+    )
+endif()

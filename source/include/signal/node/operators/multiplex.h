@@ -26,6 +26,6 @@ public:
     std::list<NodeRef> inputs;
 };
 
-REGISTER(Multiplex, "multiplex");
+REGISTER(Multiplex, "multiplex")
 
 }

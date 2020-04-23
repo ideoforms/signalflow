@@ -20,6 +20,6 @@ public:
     int counter[SIGNAL_MAX_CHANNELS];
 };
 
-REGISTER(Counter, "counter");
+REGISTER(Counter, "counter")
 
 }

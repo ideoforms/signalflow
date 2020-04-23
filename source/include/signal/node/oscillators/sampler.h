@@ -30,5 +30,5 @@ private:
     float phase;
 };
 
-REGISTER(Sampler, "sampler");
+REGISTER(Sampler, "sampler")
 }

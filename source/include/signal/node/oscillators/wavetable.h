@@ -33,6 +33,6 @@ private:
     float phase;
 };
 
-REGISTER(Wavetable, "wavetable");
-REGISTER(Wavetable2D, "wavetable2D");
+REGISTER(Wavetable, "wavetable")
+REGISTER(Wavetable2D, "wavetable2D")
 }

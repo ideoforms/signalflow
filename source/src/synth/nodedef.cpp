@@ -51,4 +51,4 @@ void NodeDefinition::set_value(float value)
     this->is_constant = true;
 }
 
-};
+}

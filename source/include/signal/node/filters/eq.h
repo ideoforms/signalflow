@@ -25,5 +25,5 @@ private:
     float sdm1[SIGNAL_MAX_CHANNELS], sdm2[SIGNAL_MAX_CHANNELS], sdm3[SIGNAL_MAX_CHANNELS];
 };
 
-REGISTER(EQ, "eq");
+REGISTER(EQ, "eq")
 }
