@@ -14,4 +14,4 @@ jobs:
     - name: configure
       run: mkdir build && cd build && cmake ..
     - name: make
-      run: make -j8
+      run: cd build && make -j8
