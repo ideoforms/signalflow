@@ -13,5 +13,5 @@ public:
 
 };
 
-REGISTER(FFTZeroPhase, "zero_phase");
+REGISTER(FFTZeroPhase, "zero_phase")
 }

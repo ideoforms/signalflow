@@ -15,5 +15,5 @@ public:
     int steps_remaining;
 };
 
-REGISTER(Tick, "tick");
+REGISTER(Tick, "tick")
 }

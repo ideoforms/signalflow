@@ -33,5 +33,5 @@ private:
     sample *window;
 };
 
-REGISTER(FFT, "fft");
+REGISTER(FFT, "fft")
 }

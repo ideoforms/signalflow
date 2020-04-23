@@ -16,5 +16,5 @@ public:
     virtual void process(sample **out, int num_frames);
 };
 
-REGISTER(Saw, "saw");
+REGISTER(Saw, "saw")
 }

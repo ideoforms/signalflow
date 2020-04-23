@@ -19,5 +19,5 @@ private:
     int steps_remaining[SIGNAL_MAX_CHANNELS];
 };
 
-REGISTER(Logistic, "logistic");
+REGISTER(Logistic, "logistic")
 }

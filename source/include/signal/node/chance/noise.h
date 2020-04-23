@@ -36,5 +36,5 @@ private:
     float step_change[SIGNAL_MAX_CHANNELS];
 };
 
-REGISTER(Noise, "noise");
+REGISTER(Noise, "noise")
 }

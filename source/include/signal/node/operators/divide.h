@@ -13,6 +13,6 @@ public:
     virtual void process(sample **out, int num_frames);
 };
 
-REGISTER(Divide, "divide");
+REGISTER(Divide, "divide")
 
 }

@@ -12,5 +12,5 @@ public:
 
 };
 
-REGISTER(FFTNoiseGate, "fft_noise_gate");
+REGISTER(FFTNoiseGate, "fft_noise_gate")
 }

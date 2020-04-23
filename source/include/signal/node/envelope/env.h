@@ -22,6 +22,6 @@ public:
     virtual void process(sample **out, int num_frames);
 };
 
-REGISTER(ASR, "env-asr");
+REGISTER(ASR, "env-asr")
 
 }

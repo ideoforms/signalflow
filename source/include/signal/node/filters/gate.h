@@ -18,5 +18,5 @@ private:
     float level;
 };
 
-REGISTER(Gate, "gate");
+REGISTER(Gate, "gate")
 }

@@ -17,5 +17,5 @@ private:
     int steps_remaining;
 };
 
-REGISTER(Dust, "dust");
+REGISTER(Dust, "dust")
 }

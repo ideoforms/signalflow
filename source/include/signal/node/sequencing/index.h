@@ -16,6 +16,6 @@ public:
     NodeRef index;
 };
 
-REGISTER(Index, "index");
+REGISTER(Index, "index")
 
 }

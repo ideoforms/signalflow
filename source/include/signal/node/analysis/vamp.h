@@ -209,7 +209,7 @@ public:
     }
 };
 
-REGISTER(VampAnalysis, "vamp");
-REGISTER(VampEventExtractor, "vamp_events");
-REGISTER(VampSegmenter, "vamp_segmenter");
+REGISTER(VampAnalysis, "vamp")
+REGISTER(VampEventExtractor, "vamp_events")
+REGISTER(VampSegmenter, "vamp_segmenter")
 }

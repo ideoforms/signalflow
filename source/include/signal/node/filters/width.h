@@ -13,5 +13,5 @@ public:
     NodeRef width;
 };
 
-REGISTER(Width, "width");
+REGISTER(Width, "width")
 }

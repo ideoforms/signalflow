@@ -22,5 +22,5 @@ private:
     int step_target;
 };
 
-REGISTER(Line, "line");
+REGISTER(Line, "line")
 }

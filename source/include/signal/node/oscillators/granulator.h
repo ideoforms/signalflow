@@ -46,5 +46,5 @@ private:
     std::vector<Grain *> grains;
 };
 
-REGISTER(Granulator, "granulator");
+REGISTER(Granulator, "granulator")
 }

@@ -31,4 +31,4 @@ void Freeze::trigger(std::string name, float value)
     this->trig = true;
 }
 
-};
+}
