@@ -179,8 +179,20 @@ void Buffer::save(std::string filename)
 
 std::vector<BufferRef> Buffer::split(int num_frames_per_part)
 {
-    BufferRef sub = this;
-    return std::vector<BufferRef> { sub };
+    if (this->num_channels != 1)
+    {
+        throw std::runtime_error("split currently only supports mono buffers");
+    }
+
+    int buffer_count = this->num_frames / num_frames_per_part;
+    std::vector<BufferRef>bufs(buffer_count);
+    for (int i = 0; i < buffer_count; i++)
+    {
+        sample *ptr = this->data[0] + (i * num_frames_per_part);
+        BufferRef buf = new Buffer(1, num_frames_per_part, &ptr);
+        bufs[i] = buf;
+    }
+    return bufs;
 }
 
 double Buffer::frame_to_offset(double frame)
