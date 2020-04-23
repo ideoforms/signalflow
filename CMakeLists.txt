@@ -50,13 +50,9 @@ else()
     message(FATAL_ERROR "Couldn't find libsndfile")
 endif()
 
-find_package(GSL)
-if (GSL::gsl)
-    message("Found libgsl")
-    add_definitions(-DHAVE_GSL)
-else()
-    message(FATAL_ERROR "Couldn't find libgsl")
-endif()
+find_package(GSL REQUIRED)
+message("Found libgsl")
+add_definitions(-DHAVE_GSL)
 
 #-------------------------------------------------------------------------------
 # Specify source files and target libraries
