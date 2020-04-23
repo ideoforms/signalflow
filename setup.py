@@ -22,7 +22,7 @@ class CMakeBuild(build_ext):
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg, '-j8']
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
-                      '-DPYTHON_EXECUTABLE=' + sys.executable,
+                      '-DCMAKE_BUILD_PYTHON=1',
                       '-DCMAKE_BUILD_TYPE=' + cfg]
 
         env = os.environ.copy()
@@ -40,6 +40,6 @@ setup(
     ext_modules=[CMakeExtension('libsignal')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
-    setup_requires = ['pytest-runner'],
-    tests_require = ['pytest']
+    setup_requires=['pytest-runner'],
+    tests_require=['pytest']
 )
