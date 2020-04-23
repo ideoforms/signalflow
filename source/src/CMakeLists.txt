@@ -62,12 +62,12 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthregistry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthspec.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthtemplate.cpp
-    PARENT_SCOPE
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(SRC ${SRC} 
         ${CMAKE_CURRENT_SOURCE_DIR}/node/control/mouse.mm
-        PARENT_SCOPE
     )
 endif()
+
+set(SRC ${SRC} PARENT_SCOPE)
