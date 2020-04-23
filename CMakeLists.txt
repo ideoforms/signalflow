@@ -51,7 +51,7 @@ else()
 endif()
 
 find_package(GSL)
-if (GSL)
+if (GSL::gsl)
     message("Found libgsl")
     add_definitions(-DHAVE_GSL)
 else()
