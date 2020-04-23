@@ -76,7 +76,8 @@ if (CMAKE_BUILD_PYTHON)
 endif()
 
 add_library(signal SHARED ${SRC})
-target_link_libraries(signal ${GSL} ${SNDFILE} ${SOUNDIO})
+target_link_libraries(signal ${SNDFILE} ${SOUNDIO})
+target_link_libraries(signal -lgsl -lgslcblas)
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_libraries(signal
         "-framework Accelerate"

@@ -12,7 +12,6 @@ set(EXAMPLES ${EXAMPLES}
     ${CMAKE_CURRENT_SOURCE_DIR}/trigger-example.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/waveshaper-example.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wavetable-2d-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/wavetable-2d-load.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wavetable-example.cpp
 )
 
