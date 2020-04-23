@@ -98,7 +98,7 @@ void Buffer::load(std::string filename)
 
     int frames_per_read = 1024;
     int samples_per_read = frames_per_read * info.channels;
-    sample buffer[samples_per_read];
+    sample *buffer = new sample[samples_per_read];
     int ptr = 0;
 
     while (true)
@@ -118,6 +118,8 @@ void Buffer::load(std::string filename)
             break;
         }
     }
+
+    delete [] buffer;
 
     this->num_channels = info.channels;
     this->num_frames = info.frames;
@@ -149,7 +151,7 @@ void Buffer::save(std::string filename)
 
     int frames_per_write = 1024;
     int samples_per_write = frames_per_write * info.channels;
-    sample buffer[samples_per_write];
+    sample *buffer = new sample[samples_per_write];
     int frame_index = 0;
 
     while (true)
@@ -171,6 +173,8 @@ void Buffer::save(std::string filename)
         if (frame_index >= this->num_frames)
             break;
     }
+
+    delete [] buffer;
 
     sf_close(sndfile);
 
