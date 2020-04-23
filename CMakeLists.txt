@@ -91,12 +91,4 @@ endif()
 #-------------------------------------------------------------------------------
 # Build examples
 #-------------------------------------------------------------------------------
-if (NOT CMAKE_BUILD_PYTHON)
-    file(GLOB_RECURSE EXAMPLES "examples/*.cpp")
-
-    foreach (EXAMPLE ${EXAMPLES})
-        get_filename_component(EXAMPLE_NAME ${EXAMPLE} NAME_WE)
-        add_executable(${EXAMPLE_NAME} ${EXAMPLE})
-        target_link_libraries(${EXAMPLE_NAME} signal)
-    endforeach()
-endif()
+add_subdirectory("examples")
