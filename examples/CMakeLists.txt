@@ -1,27 +1,26 @@
 set(EXAMPLES ${EXAMPLES}
-    ${CMAKE_CURRENT_SOURCE_DIR}/audio-in-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/buffer-save-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/granulator-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/hello-world.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/index-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/json-load-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/sine-field-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/spooky-wobble.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/supersaw-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/synth-template-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/trigger-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/waveshaper-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/wavetable-2d-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/wavetable-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/flanger-example.cpp
+    audio-in-example.cpp
+    buffer-save-example.cpp
+    granulator-example.cpp
+    hello-world.cpp
+    index-example.cpp
+    json-load-example.cpp
+    sine-field-example.cpp
+    spooky-wobble.cpp
+    supersaw-example.cpp
+    synth-template-example.cpp
+    trigger-example.cpp
+    waveshaper-example.cpp
+    wavetable-2d-example.cpp
+    wavetable-example.cpp
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(EXAMPLES ${EXAMPLES}
-        ${CMAKE_CURRENT_SOURCE_DIR}/fft-lpf-example.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/fft-phase-vocoder-example.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/fft-sound-freeze.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/mouse-control-example.cpp
+        fft-lpf-example.cpp
+        fft-phase-vocoder-example.cpp
+        fft-sound-freeze.cpp
+        mouse-control-example.cpp
     )
 endif()
 
