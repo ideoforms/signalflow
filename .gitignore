@@ -25,3 +25,5 @@ signal/local.h
 *.egg-info
 .eggs
 __pycache__
+dist
+cmake-build-debug
