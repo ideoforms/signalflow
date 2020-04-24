@@ -74,11 +74,6 @@ Buffer::~Buffer()
 
 void Buffer::load(std::string filename)
 {
-    if (this->data)
-    {
-        throw std::runtime_error("Buffer has already been allocated");
-    }
-
 #ifdef HAVE_SNDFILE
 
     SF_INFO info;
@@ -89,20 +84,49 @@ void Buffer::load(std::string filename)
         throw std::runtime_error(std::string("Couldn't read audio from path: ") + filename);
     }
 
-    std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
-    this->data = new sample*[info.channels]();
-    for (int channel = 0; channel < info.channels; channel++)
+    if (this->data)
     {
-        long long length = sizeof(sample) * info.frames;
-        this->data[channel] = new sample[length + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE]();
+        /*------------------------------------------------------------------------
+         * If the buffer has already been allocated, we want to read as many
+         * frames as possible into the existing allocation. Check that the
+         * existing config is compatible with the audio file.
+         *-----------------------------------------------------------------------*/
+        if (this->num_channels != info.channels)
+        {
+            throw std::runtime_error(std::string("Can't read audio: audio file channel count does not match buffer"));
+        }
+        if (this->sample_rate != info.samplerate)
+        {
+            throw std::runtime_error(std::string("Can't read audio: audio file sample rate does not match buffer"));
+        }
+    }
+    else
+    {
+        /*------------------------------------------------------------------------
+         * Buffer has not yet been allocated. Allocate memory and populate
+         * property fields.
+         * TODO: Sample rate isn't properly handled yet.
+         *-----------------------------------------------------------------------*/
+        this->data = new sample *[info.channels]();
 
-        memset(this->data[channel], 0, length);
+        for (int channel = 0; channel < info.channels; channel++)
+        {
+            long long length = sizeof(sample) * info.frames;
+            this->data[channel] = new sample[length + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE]();
+
+            memset(this->data[channel], 0, length);
+        }
+
+        this->num_channels = info.channels;
+        this->num_frames = info.frames;
+        this->sample_rate = info.samplerate;
+        this->duration = this->num_frames / this->sample_rate;
     }
 
     int frames_per_read = SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE;
     int samples_per_read = frames_per_read * info.channels;
     sample *buffer = new sample[samples_per_read];
-    int ptr = 0;
+    int total_frames_read = 0;
 
     while (true)
     {
@@ -112,9 +136,19 @@ void Buffer::load(std::string filename)
             // TODO: Vector-accelerated de-interleave
             for (int channel = 0; channel < info.channels; channel++)
             {
-                this->data[channel][ptr] = buffer[frame * info.channels + channel];
+                this->data[channel][total_frames_read] = buffer[frame * info.channels + channel];
             }
-            ptr++;
+            total_frames_read++;
+
+            /*------------------------------------------------------------------------
+             * Check whether we've hit the limit of this Buffer, which can happen
+             * in the case of pre-allocated buffers loading a determinate # samples
+             * from memory.
+             *-----------------------------------------------------------------------*/
+            if (total_frames_read >= this->num_frames)
+            {
+                break;
+            }
         }
         if (count < frames_per_read)
         {
@@ -124,12 +158,9 @@ void Buffer::load(std::string filename)
 
     delete [] buffer;
 
-    this->num_channels = info.channels;
-    this->num_frames = info.frames;
-    this->sample_rate = info.samplerate;
-    this->duration = this->num_frames / this->sample_rate;
-
     sf_close(sndfile);
+
+    std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
 
 #endif
 }
