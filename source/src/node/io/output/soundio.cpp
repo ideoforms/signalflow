@@ -10,6 +10,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+static bool is_processing = false;
+
 namespace libsignal
 {
 
@@ -18,6 +20,8 @@ extern AudioGraph *shared_graph;
 void write_callback(struct SoundIoOutStream *outstream,
                     int frame_count_min, int frame_count_max)
 {
+    is_processing = true;
+
     const struct SoundIoChannelLayout *layout = &outstream->layout;
     struct SoundIoChannelArea *areas;
     int frame_count = frame_count_max;
@@ -68,6 +72,8 @@ void write_callback(struct SoundIoOutStream *outstream,
 
         frames_left -= frame_count;
     }
+
+    is_processing = false;
 }
 
 int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
@@ -153,6 +159,10 @@ int AudioOut_SoundIO::stop()
 
 int AudioOut_SoundIO::destroy()
 {
+    while (is_processing)
+    {
+    }
+
     soundio_outstream_destroy(this->outstream);
     soundio_device_unref(this->device);
     soundio_destroy(this->soundio);
