@@ -26,14 +26,14 @@ Delay::~Delay()
 
 void Delay::process(sample **out, int num_frames)
 {
-    for (int frame = 0; frame < num_frames; frame++)
+    for (int channel = 0; channel < this->num_input_channels; channel++)
     {
-        sample delay = this->delaytime->out[0][frame];
-        sample feedback = this->feedback->out[0][frame];
-        float offset = delay * this->graph->sample_rate;
-
-        for (int channel = 0; channel < this->num_input_channels; channel++)
+        for (int frame = 0; frame < num_frames; frame++)
         {
+            sample delay = this->delaytime->out[channel][frame];
+            sample feedback = this->feedback->out[channel][frame];
+            float offset = delay * this->graph->sample_rate;
+
             sample rv = buffers[channel]->get(-offset);
             out[channel][frame] = rv;
             buffers[channel]->append(input->out[channel][frame] + (feedback * rv));

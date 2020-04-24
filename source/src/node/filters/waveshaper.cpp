@@ -1,9 +1,5 @@
 #include "signal/node/filters/waveshaper.h"
 
-#include "signal/node/oscillators/constant.h"
-
-#include <stdlib.h>
-
 namespace libsignal
 {
 

@@ -284,6 +284,10 @@ NodeRefTemplate<T>::NodeRefTemplate(std::vector<NodeRefTemplate> x)
     : std::shared_ptr<T>(new Multiplex(x)) {}
 
 template <class T>
+NodeRefTemplate<T>::NodeRefTemplate(std::vector<float> x)
+    : std::shared_ptr<T>(new Multiplex(x)) {}
+
+template <class T>
 NodeRefTemplate<T> NodeRefTemplate<T>::operator*(NodeRefTemplate<T> other)
 {
     return new Multiply(*this, other);

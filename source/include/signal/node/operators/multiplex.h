@@ -15,6 +15,7 @@ public:
     Multiplex();
     Multiplex(std::initializer_list<NodeRef> inputs);
     Multiplex(std::vector<NodeRef> inputs);
+    Multiplex(std::vector<float> inputs);
 
     virtual void process(sample **out, int num_frames);
     virtual void update_channels();

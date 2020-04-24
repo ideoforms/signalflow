@@ -21,6 +21,7 @@ using namespace pybind11::literals;
 PYBIND11_DECLARE_HOLDER_TYPE(T, NodeRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>, false)
 
+
 PYBIND11_MODULE(libsignal, m)
 {
     py::class_<Node, NodeRefTemplate<Node>>(m, "Node")
@@ -52,9 +53,13 @@ PYBIND11_MODULE(libsignal, m)
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant")
         .def(py::init<double>());
 
+    // This is best practice for Node signatures.
+    // For multichannel expansion, arrays of noderefs/floats are valid.
     py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
-        .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440.0))
-        .def(py::init<float>(),   "frequency"_a = NodeRef(440.0));
+        .def(py::init<NodeRef>(),               "frequency"_a = NodeRef(440.0))
+        .def(py::init<float>(),                 "frequency"_a = NodeRef(440.0))
+        .def(py::init<std::vector<NodeRef>>(),  "frequency"_a = NodeRef(440.0))
+        .def(py::init<std::vector<float>>(),    "frequency"_a = NodeRef(440.0));
 
     py::class_<Tick, Node, NodeRefTemplate<Tick>>(m, "Tick")
         .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440.0))
@@ -91,10 +96,12 @@ PYBIND11_MODULE(libsignal, m)
             "buffer"_a, "clock"_a = NodeRef(0), "pos"_a = NodeRef(0.5), "grain_length"_a = NodeRef(0.1), "rate"_a = NodeRef(1.0));
 
     py::class_<Delay, Node, NodeRefTemplate<Delay>>(m, "Delay")
-        .def(py::init<NodeRef, float, float, float>(),
-            "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = NodeRef(1.0));
+        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0)
+        .def(py::init<NodeRef, NodeRef, float, float>(),   "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0)
+        .def(py::init<NodeRef, float, NodeRef, float>(),   "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0)
+        .def(py::init<NodeRef, float, float, float>(),     "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0);
 
-py::class_<AudioGraph>(m, "AudioGraph")
+    py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
         .def("start", &AudioGraph::start)
         .def("wait", [](AudioGraph &graph)

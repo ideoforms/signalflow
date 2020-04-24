@@ -40,6 +40,7 @@ public:
     NodeRefTemplate(int x);
     NodeRefTemplate(std::initializer_list<NodeRefTemplate> x);
     NodeRefTemplate(std::vector<NodeRefTemplate> x);
+    NodeRefTemplate(std::vector<float> x);
 
     NodeRefTemplate operator*(NodeRefTemplate other);
     NodeRefTemplate operator*(double constant);

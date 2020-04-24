@@ -1,4 +1,5 @@
 #include "signal/node/operators/multiplex.h"
+#include "signal/node/oscillators/constant.h"
 #include "signal/core/core.h"
 
 namespace libsignal
@@ -25,6 +26,15 @@ Multiplex::Multiplex(std::vector<NodeRef> inputs)
     for (NodeRef input : inputs)
     {
         this->add_input(input);
+    }
+}
+
+Multiplex::Multiplex(std::vector<float> inputs)
+    : Multiplex()
+{
+    for (float input : inputs)
+    {
+        this->add_input(new Constant(input));
     }
 }
 
