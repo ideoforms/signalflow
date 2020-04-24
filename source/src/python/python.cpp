@@ -136,6 +136,20 @@ PYBIND11_MODULE(libsignal, m)
     py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")
         .def(py::init<int>());
 
+    py::class_<SynthTemplate>(m, "SynthTemplate")
+        .def(py::init<std::string>())
+        .def("add_input", &SynthTemplate::add_input)
+        .def("set_output", &SynthTemplate::set_output)
+        .def("parse", &SynthTemplate::parse);
+
+    py::class_<Synth>(m, "Synth")
+        .def(py::init<SynthTemplate *>())
+        .def("set_input", [](Synth &synth, std::string name, float value)
+        {
+            synth.set_input(name, value);
+        })
+        .def_readonly("output", &Synth::output);
+
 }
 
 // clang-format on
