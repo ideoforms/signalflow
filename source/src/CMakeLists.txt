@@ -11,7 +11,8 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/logistic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/noise.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/trigger_noise.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/env.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/adsr.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/asr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fftnode.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/ifft.cpp
