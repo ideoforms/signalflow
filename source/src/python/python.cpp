@@ -83,7 +83,8 @@ PYBIND11_MODULE(libsignal, m)
 
     py::class_<ASR, Node, NodeRefTemplate<ASR>>(m, "ASR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0))
-        .def(py::init<float,   float,   float,   float  >(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0));
+        .def(py::init<float,   float,   float,   float  >(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0))
+        .def(py::init<float,   float,   float,   NodeRef>(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0));
 
     py::class_<Sampler, Node, NodeRefTemplate<Sampler>>(m, "Sampler")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1))
