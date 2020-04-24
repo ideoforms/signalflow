@@ -30,7 +30,7 @@ void Delay::process(sample **out, int num_frames)
     {
         sample d = this->delaytime->out[0][frame];
         sample f = this->feedback->out[0][frame];
-        int offset = d * this->graph->sample_rate;
+        float offset = d * this->graph->sample_rate;
 
         for (int channel = 0; channel < this->num_input_channels; channel++)
         {

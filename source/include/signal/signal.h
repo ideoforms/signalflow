@@ -6,7 +6,7 @@
 #include <signal/core/graph.h>
 #include <signal/core/property.h>
 #include <signal/core/random.h>
-#include <signal/core/ringbuffer.h>
+#include <signal/buffer/ringbuffer.h>
 #include <signal/core/util.h>
 #include <signal/core/version.h>
 

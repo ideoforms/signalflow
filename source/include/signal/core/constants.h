@@ -1,6 +1,6 @@
 #pragma once
 
-#include "signal/core/ringbuffer.h"
+#include "signal/buffer/ringbuffer.h"
 
 using namespace libsignal;
 
@@ -45,7 +45,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
 
 /*------------------------------------------------------------------------
  * Macros to aid in processing trigger inputs, for sample-rate and
- * block-rate tirggers.
+ * block-rate triggers.
  *
  * SIGNAL_CHECK_TRIGGER checks whether the specified frame of a given
  *     input has a rising edge, returning true or false
@@ -69,6 +69,15 @@ typedef RingBuffer<sample> SampleRingBuffer;
             SIGNAL_PROCESS_TRIGGER(input, frame, name);       \
         }                                                     \
     }
+
+/**------------------------------------------------------------------------
+* Algorithm to use when interpolating between samples.
+*------------------------------------------------------------------------*/
+enum signal_interpolation_mode_t : unsigned int
+{
+    SIGNAL_INTERPOLATION_NONE,
+    SIGNAL_INTERPOLATION_LINEAR
+};
 
 typedef enum
 {

@@ -15,15 +15,6 @@
 #define SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH 2048
 
 /**------------------------------------------------------------------------
- * Algorithm to use when interpolating between samples.
- *------------------------------------------------------------------------*/
-typedef enum
-{
-    SIGNAL_INTERPOLATION_NONE,
-    SIGNAL_INTERPOLATION_LINEAR
-} signal_interpolation_mode_t;
-
-/**------------------------------------------------------------------------
  * Typedef for a sample -> sample transfer function.
  * Convenient for lambda-based features.
  *------------------------------------------------------------------------*/

@@ -55,6 +55,7 @@ Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>
 
 Buffer::Buffer(std::string filename)
 {
+    this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
     this->load(filename);
 }
 
@@ -196,6 +197,10 @@ std::vector<BufferRef> Buffer::split(int num_frames_per_part)
     {
         sample *ptr = this->data[0] + (i * num_frames_per_part);
         BufferRef buf = new Buffer(1, num_frames_per_part, &ptr);
+
+        // Is there a better way to initialise all properties of the buffer?
+        buf->interpolate = this->interpolate;
+
         bufs[i] = buf;
     }
     return bufs;
