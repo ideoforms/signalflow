@@ -12,16 +12,16 @@
 #include <vector>
 #include <iostream>
 
-#define SIGNAL_ENVELOPE_BUFFER_LENGTH 2048
+#define SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH 2048
 
 /**------------------------------------------------------------------------
  * Algorithm to use when interpolating between samples.
  *------------------------------------------------------------------------*/
 typedef enum
 {
-    SIGNAL_INTERPOLATE_NONE,
-    SIGNAL_INTERPOLATE_LINEAR
-} signal_interpolate_t;
+    SIGNAL_INTERPOLATION_NONE,
+    SIGNAL_INTERPOLATION_LINEAR
+} signal_interpolation_mode_t;
 
 /**------------------------------------------------------------------------
  * Typedef for a sample -> sample transfer function.
@@ -93,7 +93,7 @@ public:
     sample **data = NULL;
 
     float duration;
-    signal_interpolate_t interpolate;
+    signal_interpolation_mode_t interpolate;
 };
 
 /**-------------------------------------------------------------------------
@@ -104,7 +104,7 @@ public:
 class EnvelopeBuffer : public Buffer
 {
 public:
-    EnvelopeBuffer(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBuffer(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 
     /**------------------------------------------------------------------------
      * @param position An envelope position between [0, 1].
@@ -119,19 +119,19 @@ public:
 class EnvelopeBufferTriangle : public EnvelopeBuffer
 {
 public:
-    EnvelopeBufferTriangle(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBufferTriangle(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 };
 
 class EnvelopeBufferLinearDecay : public EnvelopeBuffer
 {
 public:
-    EnvelopeBufferLinearDecay(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBufferLinearDecay(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 };
 
 class EnvelopeBufferHanning : public EnvelopeBuffer
 {
 public:
-    EnvelopeBufferHanning(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBufferHanning(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 };
 
 /*-------------------------------------------------------------------------
@@ -143,7 +143,7 @@ public:
 class WaveShaperBuffer : public Buffer
 {
 public:
-    WaveShaperBuffer(int length = SIGNAL_ENVELOPE_BUFFER_LENGTH);
+    WaveShaperBuffer(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 
     /**------------------------------------------------------------------------
      * Perform a waveshaper x -> f(x) transform.

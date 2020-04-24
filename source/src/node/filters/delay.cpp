@@ -34,10 +34,9 @@ void Delay::process(sample **out, int num_frames)
 
         for (int channel = 0; channel < this->num_input_channels; channel++)
         {
-            sample rv = input->out[channel][frame] + f * buffers[channel]->get(-offset);
+            sample rv = buffers[channel]->get(-offset);
             out[channel][frame] = rv;
-            buffers[channel]->append(rv);
-            // TODO should copy bulk samples rather than appending single
+            buffers[channel]->append(input->out[channel][frame]);
         }
     }
 }

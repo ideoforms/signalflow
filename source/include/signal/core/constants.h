@@ -23,6 +23,11 @@ typedef RingBuffer<sample> SampleRingBuffer;
 /*------------------------------------------------------------------------
  * Default sample block size unless otherwise specified.
  *-----------------------------------------------------------------------*/
+#define SIGNAL_DEFAULT_SAMPLE_RATE 44100
+
+/*------------------------------------------------------------------------
+ * Default sample block size unless otherwise specified.
+ *-----------------------------------------------------------------------*/
 #define SIGNAL_DEFAULT_BLOCK_SIZE 256
 
 /*------------------------------------------------------------------------

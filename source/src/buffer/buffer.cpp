@@ -1,15 +1,17 @@
 #include "signal/buffer/buffer.h"
 #include "signal/core/random.h"
+#include "signal/core/constants.h"
 
 #ifdef HAVE_SNDFILE
 #include <sndfile.h>
 #endif
 
-#include <assert.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <vector>
+
+#define SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE 1024
 
 namespace libsignal
 {
@@ -22,9 +24,9 @@ Buffer::Buffer(int num_channels, int num_frames)
 {
     this->num_channels = num_channels;
     this->num_frames = num_frames;
-    this->sample_rate = 44100.0;
+    this->sample_rate = SIGNAL_DEFAULT_SAMPLE_RATE;
     this->duration = this->num_frames / this->sample_rate;
-    this->interpolate = SIGNAL_INTERPOLATE_LINEAR;
+    this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
 
     this->data = new sample*[this->num_channels]();
     for (int channel = 0; channel < this->num_channels; channel++)
@@ -91,12 +93,12 @@ void Buffer::load(std::string filename)
     for (int channel = 0; channel < info.channels; channel++)
     {
         long long length = sizeof(sample) * info.frames;
-        this->data[channel] = new sample[length + 1024]();
+        this->data[channel] = new sample[length + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE]();
 
         memset(this->data[channel], 0, length);
     }
 
-    int frames_per_read = 1024;
+    int frames_per_read = SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE;
     int samples_per_read = frames_per_read * info.channels;
     sample *buffer = new sample[samples_per_read];
     int ptr = 0;
@@ -149,7 +151,7 @@ void Buffer::save(std::string filename)
         exit(1);
     }
 
-    int frames_per_write = 1024;
+    int frames_per_write = SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE;
     int samples_per_write = frames_per_write * info.channels;
     sample *buffer = new sample[samples_per_write];
     int frame_index = 0;
@@ -211,7 +213,7 @@ double Buffer::offset_to_frame(double offset)
 
 sample Buffer::get_frame(double frame)
 {
-    if (this->interpolate == SIGNAL_INTERPOLATE_LINEAR)
+    if (this->interpolate == SIGNAL_INTERPOLATION_LINEAR)
     {
         double frame_frac = (frame - (int) frame);
         sample rv = ((1.0 - frame_frac) * this->data[0][(int) frame]) + (frame_frac * this->data[0][(int) ceil(frame)]);
