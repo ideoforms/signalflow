@@ -1,6 +1,6 @@
 set(EXAMPLES ${EXAMPLES}
     ${CMAKE_CURRENT_SOURCE_DIR}/audio-in-example.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/audio-write-example.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/buffer-save-example.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/granulator-example.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/hello-world.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/index-example.cpp
@@ -13,6 +13,7 @@ set(EXAMPLES ${EXAMPLES}
     ${CMAKE_CURRENT_SOURCE_DIR}/waveshaper-example.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wavetable-2d-example.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/wavetable-example.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/flanger-example.cpp
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")

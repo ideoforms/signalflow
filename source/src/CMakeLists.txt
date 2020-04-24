@@ -26,6 +26,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/moog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/pan.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/resample.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/rms.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/waveshaper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/width.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp

@@ -4,10 +4,8 @@ namespace libsignal
 {
 
 NodeMonitor::NodeMonitor(NodeRef node, std::string label, float frequency)
+    : node(node), frequency(frequency), label(label)
 {
-    this->node = node;
-    this->frequency = frequency;
-
     if (label == "")
         this->label = this->node->name;
     else
@@ -22,7 +20,7 @@ void NodeMonitor::start()
 
 void NodeMonitor::run_thread()
 {
-    float sleep_time = 1000000.0 * (1.0 / this->frequency);
+    float sleep_time = 1e6 * (1.0 / this->frequency);
     char buffer[1024];
     while (this->running)
     {
