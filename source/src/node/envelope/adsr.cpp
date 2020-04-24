@@ -20,6 +20,7 @@ ADSR::ADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeRef release, Node
 void ADSR::process(sample **out, int num_frames)
 {
     sample rv;
+    float phase_step = 1.0f / this->graph->sample_rate;
 
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -28,7 +29,7 @@ void ADSR::process(sample **out, int num_frames)
         float sustain = this->sustain->out[0][frame];
         float release = this->release->out[0][frame];
         float gate = this->gate->out[0][frame];
-        if (gate == 0.0)
+        if (gate == 0.0 && !this->released)
         {
             this->released = true;
         }
@@ -39,6 +40,7 @@ void ADSR::process(sample **out, int num_frames)
              * Attack phase.
              *-----------------------------------------------------------------------*/
             rv = (this->phase / attack);
+            this->phase += phase_step;
         }
         else if (this->phase <= attack + decay)
         {
@@ -47,6 +49,7 @@ void ADSR::process(sample **out, int num_frames)
              *-----------------------------------------------------------------------*/
             float proportion_through_decay = ((this->phase - attack) / decay);
             rv = sustain + (1.0 - proportion_through_decay) * (1.0 - sustain);
+            this->phase += phase_step;
         }
         else
         {
@@ -70,10 +73,9 @@ void ADSR::process(sample **out, int num_frames)
                      *-----------------------------------------------------------------------*/
                     rv = 0.0;
                 }
+                this->phase += phase_step;
             }
         }
-
-        this->phase += 1.0 / this->graph->sample_rate;
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {

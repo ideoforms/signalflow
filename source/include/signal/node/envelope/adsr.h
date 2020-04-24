@@ -21,7 +21,7 @@ public:
 
 private:
     float phase;
-    bool released;
+    bool released = false;
 
 };
 
