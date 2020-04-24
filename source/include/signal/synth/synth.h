@@ -23,14 +23,19 @@ public:
     std::set<NodeRef> nodes;
 };
 
-class SynthRef : public std::shared_ptr<Synth>
+template <class T>
+class SynthRefTemplate : public std::shared_ptr<T>
 {
 public:
-    SynthRef()
-        : std::shared_ptr<Synth>(nullptr) {}
-    SynthRef(Synth *ptr)
-        : std::shared_ptr<Synth>(ptr) {}
-    SynthRef(SynthSpecRef synthspec)
-        : std::shared_ptr<Synth>(new Synth(synthspec)) {}
+    SynthRefTemplate()
+        : std::shared_ptr<T>(nullptr) {}
+    SynthRefTemplate(Synth *ptr)
+        : std::shared_ptr<T>(ptr) {}
+    SynthRefTemplate(SynthSpecRef synthspec)
+        : std::shared_ptr<T>(new T(synthspec)) {}
 };
+
+typedef SynthRefTemplate<Synth> SynthRef;
+
+
 }

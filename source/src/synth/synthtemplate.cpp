@@ -11,8 +11,8 @@ SynthTemplate::SynthTemplate(std::string name)
 }
 
 /*------------------------------------------------------------------------
-     * TEMPLATING 
-     *-----------------------------------------------------------------------*/
+ * TEMPLATING
+ *-----------------------------------------------------------------------*/
 
 NodeRef SynthTemplate::add_input(std::string name, sample default_value)
 {
@@ -45,10 +45,11 @@ void SynthTemplate::set_output(const NodeRef &out)
 }
 
 /*------------------------------------------------------------------------
-     * Scans the graph synthtemplate beginning from its inputs and outputs.
-     *-----------------------------------------------------------------------*/
+ * Scans the graph synthtemplate beginning from its inputs and outputs.
+ *-----------------------------------------------------------------------*/
 SynthSpecRef SynthTemplate::parse()
 {
+    // TODO: Currently have parsed property in this object and spec
     if (!this->parsed)
     {
         signal_assert(this->output != nullptr, "SynthTemplate %s: output is not set", this->name.c_str());
@@ -58,6 +59,7 @@ SynthSpecRef SynthTemplate::parse()
         this->spec = new SynthSpec(this->name);
         spec->output_def = this->parse_root(r);
         spec->parsed = true;
+        this->parsed = true;
     }
     return this->spec;
 }

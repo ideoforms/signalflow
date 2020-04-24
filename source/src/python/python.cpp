@@ -20,7 +20,9 @@ using namespace pybind11::literals;
  *----------------------------------------------------------------------------*/
 PYBIND11_DECLARE_HOLDER_TYPE(T, NodeRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>, false)
-
+PYBIND11_DECLARE_HOLDER_TYPE(T, SynthRefTemplate<T>, false)
+PYBIND11_DECLARE_HOLDER_TYPE(T, SynthTemplateRefTemplate<T>, false)
+PYBIND11_DECLARE_HOLDER_TYPE(T, SynthSpecRefTemplate<T>, false)
 
 PYBIND11_MODULE(libsignal, m)
 {
@@ -86,6 +88,10 @@ PYBIND11_MODULE(libsignal, m)
         .def(py::init<float,   float,   float,   float  >(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0))
         .def(py::init<float,   float,   float,   NodeRef>(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0));
 
+    py::class_<ADSR, Node, NodeRefTemplate<ADSR>>(m, "ADSR")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "decay"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "gate"_a = NodeRef(0))
+        .def(py::init<float,   float,   float,   float, NodeRef>(),   "attack"_a = NodeRef(0.1), "decay"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "gate"_a = NodeRef(0));
+
     py::class_<Sampler, Node, NodeRefTemplate<Sampler>>(m, "Sampler")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1))
         .def(py::init<BufferRef, float,   NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1))
@@ -136,14 +142,14 @@ PYBIND11_MODULE(libsignal, m)
     py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")
         .def(py::init<int>());
 
-    py::class_<SynthTemplate>(m, "SynthTemplate")
+    py::class_<SynthTemplate, SynthTemplateRefTemplate<SynthTemplate>>(m, "SynthTemplate")
         .def(py::init<std::string>())
         .def("add_input", &SynthTemplate::add_input)
         .def("set_output", &SynthTemplate::set_output)
         .def("parse", &SynthTemplate::parse);
 
-    py::class_<Synth>(m, "Synth")
-        .def(py::init<SynthTemplate *>())
+    py::class_<Synth, SynthRefTemplate<Synth>>(m, "Synth")
+        .def(py::init<SynthTemplateRef>())
         .def("set_input", [](Synth &synth, std::string name, float value)
         {
             synth.set_input(name, value);

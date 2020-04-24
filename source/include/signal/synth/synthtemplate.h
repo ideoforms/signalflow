@@ -37,13 +37,16 @@ private:
     std::unordered_map<std::string, Node *> inputs;
 };
 
-class SynthTemplateRef : public std::shared_ptr<SynthTemplate>
+template <class T>
+class SynthTemplateRefTemplate : public std::shared_ptr<T>
 {
 public:
-    SynthTemplateRef()
-        : std::shared_ptr<SynthTemplate>(nullptr) {}
-    SynthTemplateRef(SynthTemplate *ptr)
-        : std::shared_ptr<SynthTemplate>(ptr) {}
+    SynthTemplateRefTemplate()
+        : std::shared_ptr<T>(nullptr) {}
+    SynthTemplateRefTemplate(T *ptr)
+        : std::shared_ptr<T>(ptr) {}
 };
+
+typedef SynthTemplateRefTemplate<SynthTemplate> SynthTemplateRef;
 
 }
