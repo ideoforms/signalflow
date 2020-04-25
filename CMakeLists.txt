@@ -25,7 +25,7 @@ include_directories(
 
 if (DEBUG)
     message("Building in debug mode")
-    add_compile_options(-ggdb3 -O0)
+    add_compile_options(-ggdb3 -O0 -DDEBUG)
 else()
     message("Building in release mode")
     # add_compile_options(-O3 -funroll-loops)
