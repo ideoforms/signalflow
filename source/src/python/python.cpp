@@ -50,7 +50,8 @@ PYBIND11_MODULE(libsignal, m)
         .def("__div__", [](NodeRef a, float b)
             { return a / NodeRef(b); })
         .def("__rdiv__", [](NodeRefTemplate<Node>a, float b)
-            { return a / NodeRef(b); });
+            { return a / NodeRef(b); })
+        .def_readonly("name", &Node::name);
 
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant")
         .def(py::init<double>());
@@ -82,6 +83,9 @@ PYBIND11_MODULE(libsignal, m)
     py::class_<Pan, Node, NodeRefTemplate<Pan>>(m, "Pan")
         .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = NodeRef(440.0), "pan"_a = NodeRef(0))
         .def(py::init<int, NodeRef, float  >(), "channels"_a = 2, "input"_a = NodeRef(440.0), "pan"_a = NodeRef(0));
+
+    py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn")
+        .def(py::init<>());
 
     py::class_<ASR, Node, NodeRefTemplate<ASR>>(m, "ASR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0))
@@ -151,6 +155,10 @@ PYBIND11_MODULE(libsignal, m)
     py::class_<Synth, SynthRefTemplate<Synth>>(m, "Synth")
         .def(py::init<SynthTemplateRef>())
         .def("set_input", [](Synth &synth, std::string name, float value)
+        {
+            synth.set_input(name, value);
+        })
+        .def("set_input", [](Synth &synth, std::string name, NodeRef value)
         {
             synth.set_input(name, value);
         })
