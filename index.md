@@ -10,14 +10,11 @@ signal is an audio synthesis engine designed for structural clarity, lightness o
 ```cpp
 AudioGraphRef graph = new AudioGraph();
 
-SynthTemplateRef tmp = new SynthTemplate("ping");
-NodeRef sine = tmp->add_node(new Sine(440));
-NodeRef env = tmp->add_node(new ASR(0.01, 0.1, 5.0));
-NodeRef pan = tmp->add_node(new Pan(2, env * sine, 0.5));
-tmp->set_output(pan);
+NodeRef sine = new Sine(440);
+NodeRef env = new ASR(0.01, 0.1, 5.0);
+NodeRef stereo = new Pan(2, env * sine, 0.5);
 
-SynthRef synth = new Synth(tmp);
-graph->add_output(synth);
+graph->add_output(stereo);
 graph->start();
 ```
 
