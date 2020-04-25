@@ -27,3 +27,4 @@ signal/local.h
 __pycache__
 dist
 cmake-build-debug
+.cmake-build-debug
