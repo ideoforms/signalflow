@@ -59,6 +59,7 @@ SynthSpecRef SynthTemplate::parse()
         this->spec = new SynthSpec(this->name);
         spec->output_def = this->parse_root(r);
         spec->parsed = true;
+        spec->nodedefs = this->nodedefs;
         this->parsed = true;
     }
     return this->spec;
@@ -92,6 +93,8 @@ NodeDefinition SynthTemplate::parse_root(const NodeRef &node)
     {
         def.input_name = input_name;
     }
+
+    this->nodedefs[def.id] = def;
 
     return def;
 }

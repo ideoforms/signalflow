@@ -37,17 +37,17 @@ void SynthSpec::load(std::string filename)
     auto json = Json::parse(buf, err);
     if (!err.empty())
     {
-        signal_warn("Failed: %s\n", err.c_str());
+        throw std::runtime_error("An error occurred when parsing JSON: " + err);
     }
 
     if (!json.is_array())
     {
-        signal_warn("Cannot parse JSON (root element must be array)\n");
-        return;
+        throw std::runtime_error("Cannot parse JSON (root element must be array)");
     }
+
     for (auto element : json.array_items())
     {
-        NodeDefinition node;
+        NodeDefinition nodedef;
         bool is_output = false;
         for (auto pair : element.object_items())
         {
@@ -56,11 +56,11 @@ void SynthSpec::load(std::string filename)
 
             if (key == "node")
             {
-                node.set_name(value.string_value());
+                nodedef.set_name(value.string_value());
             }
             else if (key == "id")
             {
-                node.set_id(value.int_value());
+                nodedef.set_id(value.int_value());
             }
             else if (key == "is_output")
             {
@@ -75,30 +75,30 @@ void SynthSpec::load(std::string filename)
 
                     if (input_value.is_number())
                     {
-                        node.add_input(input_key, input_value.number_value());
+                        nodedef.add_input(input_key, input_value.number_value());
                     }
                     else if (input_value.is_object())
                     {
                         int id = input_value["id"].int_value();
                         NodeDefinition *ptr = this->get_node_def(id);
-                        node.add_input(input_key, ptr);
+                        nodedef.add_input(input_key, ptr);
                     }
                 }
             }
         }
-        signal_debug("Adding node with name %s\n", node.name.c_str());
-        this->add_node_def(node);
+        signal_debug("Adding node with name %s\n", nodedef.name.c_str());
+        this->add_node_def(nodedef);
         if (is_output)
         {
-            this->set_output(node);
+            this->set_output(nodedef);
         }
     }
 
     /*------------------------------------------------------------------------
-         * Set `parsed` to indicate we have a complete NodeDef tree
-         * (normally used to indicate the completion of template-based
-         * construction)
-         *-----------------------------------------------------------------------*/
+     * Set `parsed` to indicate we have a complete NodeDef tree
+     * (normally used to indicate the completion of template-based
+     * construction)
+     *-----------------------------------------------------------------------*/
     this->parsed = true;
 }
 
@@ -125,6 +125,32 @@ void SynthSpec::set_output(NodeDefinition def)
 NodeDefinition SynthSpec::get_root()
 {
     return this->output_def;
+}
+
+void SynthSpec::print()
+{
+    std::cout << "SynthSpec " << this->name << " (" << this->nodedefs.size() << " nodes)" << std::endl;
+    this->print(&this->output_def, 0);
+}
+
+void SynthSpec::print(NodeDefinition *root, int depth)
+{
+    std::cout << std::string(depth * 2, ' ');
+    std::cout << " * " << root->name << " (id = " << root->id << ") " << std::endl;
+    for (auto pair : root->params)
+    {
+        std::cout << std::string((depth + 1) * 2 + 1, ' ');
+
+        if (pair.second->name == "constant")
+        {
+            std::cout << pair.first << ": " << pair.second->value << std::endl;
+        }
+        else
+        {
+            std::cout << pair.first << ":" << std::endl;
+            this->print(pair.second, depth + 1);
+        }
+    }
 }
 
 }

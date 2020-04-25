@@ -35,6 +35,9 @@ int main()
      *-----------------------------------------------------------------------*/
     tmp->set_output(pan);
 
+    SynthSpecRef spec = tmp->parse();
+    spec->print();
+
     /*------------------------------------------------------------------------
      * Instantiate two synths that use this template.
      * Pan one hard left, and one hard right.

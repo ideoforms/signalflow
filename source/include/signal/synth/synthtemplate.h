@@ -33,6 +33,7 @@ private:
 
     std::string get_input_name(const NodeRef &node);
     NodeDefinition parse_root(const NodeRef &node);
+    std::unordered_map<int, NodeDefinition> nodedefs;
 
     std::unordered_map<std::string, Node *> inputs;
 };

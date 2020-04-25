@@ -36,6 +36,11 @@ public:
     void store();
 
     /**----------------------------------------------------------------------------------
+     * Print a representation to stdout
+     *---------------------------------------------------------------------------------*/
+    void print();
+
+    /**----------------------------------------------------------------------------------
      * Returns true if this SynthSpec is ready to be played.
      *---------------------------------------------------------------------------------*/
     bool is_ready();
@@ -43,6 +48,8 @@ public:
     std::string name;
 
     // private:
+
+    void print(NodeDefinition *root, int depth);
 
     NodeDefinition output_def;
     bool parsed = false;
