@@ -1,6 +1,8 @@
 #include "signal/core/graph.h"
 #include "signal/core/core.h"
 #include "signal/node/node.h"
+#include "signal/node/oscillators/constant.h"
+
 #include "signal/synth/synth.h"
 
 #include "signal/node/io/output/abstract.h"
@@ -184,4 +186,33 @@ void AudioGraph::remove_output(NodeRef node)
 {
     output_nodes_to_remove.insert(node);
 }
+
+void AudioGraph::print()
+{
+    std::cout << "AudioGraph" << std::endl;
+    this->print(this->output, 0);
+}
+
+void AudioGraph::print(NodeRef &root, int depth)
+{
+    std::cout << std::string(depth * 2, ' ');
+    std::cout << " * " << root->name << std::endl;
+    for (auto pair : root->params)
+    {
+        std::cout << std::string((depth + 1) * 2 + 1, ' ');
+
+        NodeRef param_node = *(pair.second);
+        if (param_node->name == "constant")
+        {
+            Constant *constant = (Constant *) (param_node.get());
+            std::cout << pair.first << ": " << constant->value << std::endl;
+        }
+        else
+        {
+            std::cout << pair.first << ":" << std::endl;
+            this->print(param_node, depth + 1);
+        }
+    }
+}
+
 }

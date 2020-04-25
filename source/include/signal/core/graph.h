@@ -31,6 +31,12 @@ public:
     void wait();
 
     /**------------------------------------------------------------------------
+     * Print graph structure.
+     *
+     *------------------------------------------------------------------------*/
+    void print();
+
+    /**------------------------------------------------------------------------
      * Perform batch (offline) processing of a given node graph.
      *
      *------------------------------------------------------------------------*/
@@ -62,6 +68,8 @@ public:
 private:
     std::set<Node *> processed_nodes;
     std::set<NodeRef> output_nodes_to_remove;
+
+    void print(NodeRef &root, int depth);
 };
 
 class AudioGraphRef : public std::shared_ptr<AudioGraph>
