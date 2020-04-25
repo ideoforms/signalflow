@@ -12,11 +12,6 @@
 #include "signal/core/core.h"
 #include "signal/core/graph.h"
 #include "signal/core/monitor.h"
-#include "signal/core/util.h"
-
-#include <cassert>
-#include <stdio.h>
-#include <stdlib.h>
 
 namespace libsignal
 {

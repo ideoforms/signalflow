@@ -52,6 +52,7 @@ int main()
      *-----------------------------------------------------------------------*/
     graph->add_output(synth1->output);
     graph->add_output(synth2->output);
+    graph->print();
     graph->start();
 
     while (true)

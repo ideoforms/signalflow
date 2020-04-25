@@ -175,7 +175,7 @@ public:
      * Properties may be ints, floats, strings or arrays.
      *
      * Similar to `inputs`, each property actually points to a local 
-     * PropertyRef field which must be separatedly allocated on the object.
+     * PropertyRef field which must be separately allocated on the object.
      *-----------------------------------------------------------------------*/
     std::unordered_map<std::string, PropertyRef *> properties;
 
@@ -241,17 +241,6 @@ protected:
     virtual void remove_input(std::string name);
 };
 
-class GeneratorNode : public Node
-{
-public:
-    GeneratorNode()
-        : Node()
-    {
-        this->num_input_channels = 0;
-        this->num_output_channels = 1;
-    }
-};
-
 class UnaryOpNode : public Node
 {
 public:
@@ -268,4 +257,5 @@ public:
     NodeRef input0;
     NodeRef input1;
 };
+
 }
