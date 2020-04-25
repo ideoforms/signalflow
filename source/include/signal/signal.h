@@ -90,6 +90,7 @@
  * Sequencing
  *-----------------------------------------------------------------------*/
 #include <signal/node/sequencing/index.h>
+#include <signal/node/sequencing/counter.h>
 
 /*------------------------------------------------------------------------
  * Analysis and MIR
