@@ -1,0 +1,77 @@
+#!/usr/bin/env python3
+
+
+# pip3 install robotpy-cppheaderparser
+import sys
+import glob
+import pprint
+import CppHeaderParser
+
+# source_files = glob.glob("source/include/signal/node/oscillators/*.h")
+# source_files = glob.glob("source/include/signal/node/oscillators/square.h")
+source_files = glob.glob("source/include/signal/node/operators/mixer.h")
+
+def generate_header(class_name, parameters):
+    """
+    py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
+    .def(py::init<NodeRef>(),               "frequency"_a = NodeRef(440.0))
+    .def(py::init<float>(),                 "frequency"_a = NodeRef(440.0))
+    .def(py::init<std::vector<NodeRef>>(),  "frequency"_a = NodeRef(440.0))
+    .def(py::init<std::vector<float>>(),    "frequency"_a = NodeRef(440.0));
+    """
+    # print(class_name, parameters)
+    output = 'py::class_<{class_name}, Node, NodeRefTemplate<{class_name}>>(m, "{class_name}")\n'.format(class_name=class_name)
+    parameter_perms = [[]]
+    for parameter in parameters:
+        if parameter["type"] == "NodeRef":
+            perms_out = []
+            for perm in parameter_perms:
+                for t in [ "NodeRef", "float", "std::vector<NodeRef>", "std::vector<float>" ]:
+                    perms_out.append(perm + [ t ])
+            parameter_perms = perms_out
+        else:
+            for perm in parameter_perms:
+                perm += [ parameter["type"] ]
+    for perm in parameter_perms:
+        perm_list = ", ".join(perm)
+        output += '    .def(py::init<{perm_list}>()'.format(perm_list=perm_list);
+        for parameter in parameters:
+            default = "NodeRef(%s)" % parameter["default"]
+            output += ', "{name}"_a = {default}'.format(name=parameter["name"], default=default)
+        output += ')\n'
+    output = output[:-1] + ";\n"
+    print(output)
+
+for source_file in source_files:
+    try:
+        header = CppHeaderParser.CppHeader(source_file)
+    except CppHeaderParser.CppParseError as e:
+        print(e)
+        sys.exit(1)
+
+    for class_name, value in header.classes.items():
+        parent_class = None
+        if "inherits" in value and len(value["inherits"]):
+            parent_class = value["inherits"][0]["class"]
+            if parent_class not in [ "Node", "UnaryOpNode", "BinaryOpNode" ]:
+                continue
+        else:
+            continue
+
+        # print(class_name)
+        for method in value["methods"]["public"]:
+            if method["constructor"]:
+                parameters = []
+                for parameter in method["parameters"]:
+                    p_type = parameter["type"]
+                    p_name = parameter["name"]
+                    p_default = None
+                    if "defaultValue" in parameter:
+                        p_default = parameter["defaultValue"]
+                    # print(" - ", p_type, p_name, p_default)
+                    parameters.append({
+                            "type" : p_type,
+                            "name" : p_name,
+                            "default" : p_default
+                            })
+                generate_header(class_name, parameters)
