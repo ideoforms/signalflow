@@ -1,28 +1,11 @@
 // clang-format off
 
-#include <pybind11/pybind11.h>
-#include <pybind11/numpy.h>
-#include <pybind11/stl.h>
-#include "signal/signal.h"
+#include "signal/python/python.h"
 
-using namespace libsignal;
-
-namespace py = pybind11;
-
-/*------------------------------------------------------------------------------
- * Exposes the _a literal which is equivalent to py::arg
- * https://pybind11.readthedocs.io/en/stable/basics.html
- *----------------------------------------------------------------------------*/
-using namespace pybind11::literals;
-
-/*------------------------------------------------------------------------------
- * Explicitly specify false to avoid warnings on gcc/linux
- *----------------------------------------------------------------------------*/
-PYBIND11_DECLARE_HOLDER_TYPE(T, NodeRefTemplate<T>, false)
-PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>, false)
-PYBIND11_DECLARE_HOLDER_TYPE(T, SynthRefTemplate<T>, false)
-PYBIND11_DECLARE_HOLDER_TYPE(T, SynthTemplateRefTemplate<T>, false)
-PYBIND11_DECLARE_HOLDER_TYPE(T, SynthSpecRefTemplate<T>, false)
+void init_python_nodes(py::module &m);
+void init_python_buffer(py::module &m);
+void init_python_graph(py::module &m);
+void init_python_synth(py::module &m);
 
 PYBIND11_MODULE(libsignal, m)
 {
@@ -56,155 +39,10 @@ PYBIND11_MODULE(libsignal, m)
             { return a / NodeRef(b); })
         .def_readonly("name", &Node::name);
 
-    /*--------------------------------------------------------------------------------
-     * Node subclasses
-     *-------------------------------------------------------------------------------*/
-    py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant")
-        .def(py::init<double>());
-
-    // This is best practice for Node signatures.
-    // For multichannel expansion, arrays of noderefs/floats are valid.
-    py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
-        .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440))
-        .def(py::init<float>(), "frequency"_a = NodeRef(440))
-        .def(py::init<std::vector<NodeRef>>(), "frequency"_a = NodeRef(440))
-        .def(py::init<std::vector<float>>(), "frequency"_a = NodeRef(440));
-
-    py::class_<Saw, Node, NodeRefTemplate<Saw>>(m, "Saw")
-        .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440))
-        .def(py::init<float>(), "frequency"_a = NodeRef(440))
-        .def(py::init<std::vector<NodeRef>>(), "frequency"_a = NodeRef(440))
-        .def(py::init<std::vector<float>>(), "frequency"_a = NodeRef(440));
-
-    py::class_<Square, Node, NodeRefTemplate<Square>>(m, "Square")
-        .def(py::init<NodeRef, NodeRef>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<NodeRef, float>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<NodeRef, std::vector<NodeRef>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<NodeRef, std::vector<float>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<float, NodeRef>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<float, float>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<float, std::vector<NodeRef>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<float, std::vector<float>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<NodeRef>, NodeRef>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<NodeRef>, float>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<NodeRef>, std::vector<float>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<float>, NodeRef>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<float>, float>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<float>, std::vector<NodeRef>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5))
-        .def(py::init<std::vector<float>, std::vector<float>>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5));
-
-    py::class_<Tick, Node, NodeRefTemplate<Tick>>(m, "Tick")
-        .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440.0))
-        .def(py::init<float>(),   "frequency"_a = NodeRef(440.0));
-
-    py::class_<Dust, Node, NodeRefTemplate<Dust>>(m, "Dust")
-        .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440.0))
-        .def(py::init<float>(),   "frequency"_a = NodeRef(440.0));
-
-    py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable")
-        .def(py::init<BufferRef, NodeRef>(), "buffer"_a, "frequency"_a = NodeRef(440.0))
-        .def(py::init<BufferRef, float>(),   "buffer"_a, "frequency"_a = NodeRef(440.0));
-
-    py::class_<Pan, Node, NodeRefTemplate<Pan>>(m, "Pan")
-        .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = NodeRef(440.0), "pan"_a = NodeRef(0))
-        .def(py::init<int, NodeRef, float  >(), "channels"_a = 2, "input"_a = NodeRef(440.0), "pan"_a = NodeRef(0));
-
-    py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn")
-        .def(py::init<>());
-
-    py::class_<Mixer, Node, NodeRefTemplate<Mixer>>(m, "Mixer")
-        .def(py::init<NodeRef, int>(), "input"_a = NodeRef(0), "channels"_a = NodeRef(1))
-        .def(py::init<float, int>(), "input"_a = NodeRef(0), "channels"_a = NodeRef(1))
-        .def(py::init<std::vector<NodeRef>, int>(), "input"_a = NodeRef(0), "channels"_a = NodeRef(1))
-        .def(py::init<std::vector<float>, int>(), "input"_a = NodeRef(0), "channels"_a = NodeRef(1));
-
-    py::class_<ASR, Node, NodeRefTemplate<ASR>>(m, "ASR")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0))
-        .def(py::init<float,   float,   float,   float  >(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0))
-        .def(py::init<float,   float,   float,   NodeRef>(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0));
-
-    py::class_<ADSR, Node, NodeRefTemplate<ADSR>>(m, "ADSR")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "decay"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "gate"_a = NodeRef(0))
-        .def(py::init<float,   float,   float,   float, NodeRef>(),   "attack"_a = NodeRef(0.1), "decay"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "gate"_a = NodeRef(0));
-
-    py::class_<Sampler, Node, NodeRefTemplate<Sampler>>(m, "Sampler")
-        .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1))
-        .def(py::init<BufferRef, float,   NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1))
-        .def(py::init<BufferRef, NodeRef, float  >(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1))
-        .def(py::init<BufferRef, float,   float  >(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1));
-
-    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef>(),
-            "buffer"_a, "clock"_a = NodeRef(0), "pos"_a = NodeRef(0.5), "grain_length"_a = NodeRef(0.1), "rate"_a = NodeRef(1.0));
-
-    py::class_<Delay, Node, NodeRefTemplate<Delay>>(m, "Delay")
-        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0)
-        .def(py::init<NodeRef, NodeRef, float, float>(),   "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0)
-        .def(py::init<NodeRef, float, NodeRef, float>(),   "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0)
-        .def(py::init<NodeRef, float, float, float>(),     "input"_a, "delaytime"_a = NodeRef(0.1), "feedback"_a = NodeRef(0.5), "maxdelaytime"_a = 1.0);
-
-    py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D")
-        .def(py::init<BufferRef2D, NodeRef, NodeRef>(), "buffer"_a, "frequency"_a = NodeRef(440.0), "crossfade"_a = NodeRef(0));
-
-    /*--------------------------------------------------------------------------------
-     * Graph
-     *-------------------------------------------------------------------------------*/
-    py::class_<AudioGraph>(m, "AudioGraph")
-        .def(py::init<>())
-        .def("start", &AudioGraph::start)
-        .def("wait", [](AudioGraph &graph)
-        {
-            // Interruptible wait
-            // https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-properly-handle-ctrl-c-in-long-running-functions
-            for (;;) {
-                if (PyErr_CheckSignals() != 0)
-                    throw py::error_already_set();
-            }
-        })
-        .def("add_output", [](AudioGraph &graph, NodeRef a) { graph.add_output(a); });
-
-    /*--------------------------------------------------------------------------------
-     * Buffer
-     *-------------------------------------------------------------------------------*/
-    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer")
-        .def(py::init<std::string>())
-        .def(py::init<int, int>())
-        .def(py::init<int, int, std::vector<std::vector<float>>>())
-        .def_readonly("num_frames", &Buffer::num_frames)
-        .def_readonly("num_channels", &Buffer::num_channels)
-        .def("load", &Buffer::load)
-        .def("data", [](Buffer &buf) {
-            return py::array_t<float>({ buf.num_frames }, { sizeof(float) }, buf.data[0]);
-        });
-
-    py::class_<Buffer2D, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
-        .def(py::init<BufferRef, BufferRef>());
-
-    py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")
-        .def(py::init<int>());
-
-    /*--------------------------------------------------------------------------------
-     * Synth
-     *-------------------------------------------------------------------------------*/
-    py::class_<SynthTemplate, SynthTemplateRefTemplate<SynthTemplate>>(m, "SynthTemplate")
-        .def(py::init<std::string>())
-        .def("add_input", &SynthTemplate::add_input)
-        .def("set_output", &SynthTemplate::set_output)
-        .def("parse", &SynthTemplate::parse);
-
-    py::class_<Synth, SynthRefTemplate<Synth>>(m, "Synth")
-        .def(py::init<SynthTemplateRef>())
-        .def("set_input", [](Synth &synth, std::string name, float value)
-        {
-            synth.set_input(name, value);
-        })
-        .def("set_input", [](Synth &synth, std::string name, NodeRef value)
-        {
-            synth.set_input(name, value);
-        })
-        .def_readonly("output", &Synth::output);
-
+    init_python_nodes(m);
+    init_python_graph(m);
+    init_python_buffer(m);
+    init_python_synth(m);
 }
 
 // clang-format on

@@ -62,7 +62,14 @@ add_subdirectory("source/src")
 set(SRC ${SRC} source/lib/json11/json11.cpp)
 
 if (CMAKE_BUILD_PYTHON)
-    set(SRC ${SRC} source/src/python/python.cpp)
+    set(SRC ${SRC}
+        source/src/python/python.cpp
+        source/src/python/nodes.cpp
+        source/src/python/graph.cpp
+        source/src/python/buffer.cpp
+        source/src/python/synth.cpp
+
+    )
     find_package (Python3 COMPONENTS Interpreter Development)
     include_directories(${Python3_INCLUDE_DIRS})
     if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
