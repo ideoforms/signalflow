@@ -66,6 +66,17 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthtemplate.cpp
 )
 
+if (CMAKE_BUILD_PYTHON)
+    set(SRC ${SRC}
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/python.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/node.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/nodes.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/graph.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/buffer.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/synth.cpp
+    )
+endif()
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(SRC ${SRC} 
         ${CMAKE_CURRENT_SOURCE_DIR}/node/control/mouse.mm
