@@ -40,30 +40,40 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
      *-----------------------------------------------------------------------*/
     NodeRegistry *registry = NodeRegistry::global();
 
-    Node *node = registry->create(nodedef->name);
-    NodeRef noderef = NodeRef(node);
+    NodeRef noderef;
 
-    /*------------------------------------------------------------------------
-     * Update the synth's internal collection of node refs.
-     *-----------------------------------------------------------------------*/
-    this->nodes.insert(noderef);
-
-    for (auto param : nodedef->params)
+    if (!nodedef->input_name.empty() && this->inputs[nodedef->input_name])
     {
-        std::string param_name = param.first;
-        NodeRef param_node = this->instantiate(param.second);
-        noderef->set_input(param_name, param_node);
+        noderef = this->inputs[nodedef->input_name];
     }
-
-    if (nodedef->is_constant)
+    else
     {
-        Constant *constant = (Constant *) node;
-        constant->value = nodedef->value;
-    }
+        Node *node = registry->create(nodedef->name);
+        noderef = NodeRef(node);
 
-    if (!nodedef->input_name.empty())
-    {
-        this->inputs[nodedef->input_name] = noderef;
+        /*------------------------------------------------------------------------
+         * Update the synth's internal collection of node refs.
+         *-----------------------------------------------------------------------*/
+        this->nodes.insert(noderef);
+
+        for (auto param : nodedef->params)
+        {
+            std::string param_name = param.first;
+            NodeRef param_node = this->instantiate(param.second);
+            noderef->set_input(param_name, param_node);
+        }
+
+        if (nodedef->is_constant)
+        {
+            Constant *constant = (Constant *) node;
+            constant->value = nodedef->value;
+        }
+
+        if (!nodedef->input_name.empty())
+        {
+            std::cout << "populated input " << nodedef->input_name << std::endl;
+            this->inputs[nodedef->input_name] = noderef;
+        }
     }
 
     return noderef;
@@ -94,7 +104,7 @@ void Synth::set_input(std::string name, NodeRef value)
             if ((param.second)->get() == current.get())
             {
                 // Update routing
-                // printf("Updating '%s' input of %s\n", param.first.c_str(), node->name.c_str());
+                printf("Updating '%s' input of %s\n", param.first.c_str(), node->name.c_str());
                 node->set_input(param.first, value);
             }
         }

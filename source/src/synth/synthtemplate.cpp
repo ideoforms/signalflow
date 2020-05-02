@@ -53,11 +53,11 @@ SynthSpecRef SynthTemplate::parse()
     if (!this->parsed)
     {
         signal_assert(this->output != nullptr, "SynthTemplate %s: output is not set", this->name.c_str());
-        const NodeRef &r = this->output;
+        const NodeRef &root = this->output;
         this->last_id = 0;
 
         this->spec = new SynthSpec(this->name);
-        spec->output_def = this->parse_root(r);
+        spec->output_def = this->parse_root(root);
         spec->parsed = true;
         spec->nodedefs = this->nodedefs;
         this->parsed = true;

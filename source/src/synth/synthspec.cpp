@@ -143,7 +143,14 @@ void SynthSpec::print(NodeDefinition *root, int depth)
 
         if (pair.second->name == "constant")
         {
-            std::cout << pair.first << ": " << pair.second->value << std::endl;
+            std::cout << pair.first << ": " << pair.second->value;
+
+            if (pair.second->input_name != "")
+            {
+                std::cout << " (synth input: " << pair.second->input_name << ")" << std::endl;
+            }
+
+            std::cout << std::endl;
         }
         else
         {

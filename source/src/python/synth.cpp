@@ -24,5 +24,6 @@ void init_python_synth(py::module &m)
         })
         .def_readonly("output", &Synth::output);
 
-    py::class_<SynthSpec, SynthSpecRefTemplate<SynthSpec>>(m, "SynthSpec");
+    py::class_<SynthSpec, SynthSpecRefTemplate<SynthSpec>>(m, "SynthSpec")
+        .def("print", [](SynthSpec &synthspec) { synthspec.print(); });
 }
