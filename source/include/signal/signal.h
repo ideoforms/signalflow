@@ -111,4 +111,5 @@
 #include <signal/node/fft/ifft.h>
 #include <signal/node/fft/lpf.h>
 #include <signal/node/fft/phase_vocoder.h>
+#include <signal/node/fft/noise_gate.h>
 #endif
