@@ -19,6 +19,8 @@ typedef RingBuffer<sample> SampleRingBuffer;
  *-----------------------------------------------------------------------*/
 #define SIGNAL_DEFAULT_FFT_SIZE 1024
 #define SIGNAL_MAX_FFT_SIZE 65536
+#define SIGNAL_DEFAULT_FFT_HOP_SIZE 256
+
 
 /*------------------------------------------------------------------------
  * Default sample block size unless otherwise specified.
@@ -35,6 +37,8 @@ typedef RingBuffer<sample> SampleRingBuffer;
  * Needed because nodes such as AudioOut may be instantiated before the
  * audio hardware's sample rate is known.
  *-----------------------------------------------------------------------*/
+// TODO Want this to be as short as possible but needs to be overridden by FFT units
+// #define SIGNAL_NODE_BUFFER_SIZE 2048
 #define SIGNAL_NODE_BUFFER_SIZE 44100
 
 /*------------------------------------------------------------------------

@@ -26,7 +26,7 @@ FFT::FFT(NodeRef input, int fft_size)
     this->buffer = new sample[fft_size]();
     this->buffer2 = new sample[fft_size]();
 
-    this->hop_size = 256;
+    this->hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE;
 
     /*------------------------------------------------------------------------
      * To perform an FFT, we have to enqueue at least `fft_size` samples.

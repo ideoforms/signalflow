@@ -21,7 +21,7 @@ IFFT::IFFT(NodeRef input)
     this->buffer = new sample[this->fft_size]();
     this->buffer2 = new sample[this->fft_size]();
 
-    this->hop_size = 256;
+    this->hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE;
 
     /*------------------------------------------------------------------------
      * Generate a Hann window for overlap-add.
@@ -98,8 +98,9 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window)
 void IFFT::process(sample **out, int num_frames)
 {
     /*------------------------------------------------------------------------
-     * Move previously-written data to front of buffer (the "overlap" of
-     * overlap-add); zero anything after that point.
+     * Move data written in previous calls to process() to the front of the
+     * output buffer (the "overlap" of overlap-add). Zero anything after that
+     * point.
      *-----------------------------------------------------------------------*/
     int previous_offset = this->num_hops * this->hop_size;
     int previous_overflow = this->fft_size * 2 * sizeof(sample);
