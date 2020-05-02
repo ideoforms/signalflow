@@ -12,7 +12,7 @@ namespace libsignal
 class Delay : public UnaryOpNode
 {
 public:
-    Delay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 10.0);
+    Delay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 0.5);
     ~Delay();
 
     NodeRef delaytime;
