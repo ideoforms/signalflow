@@ -80,6 +80,11 @@ void Node::_process(sample **out, int num_frames)
     this->last_num_frames = num_frames;
 }
 
+void Node::process(int num_frames)
+{
+    this->process(this->out, num_frames);
+}
+
 void Node::process(sample **out, int num_frames)
 {
     throw std::runtime_error("Node::process (should never be called)");
@@ -97,7 +102,6 @@ void Node::update_channels()
             if (!ptr || !*ptr)
                 continue;
             std::string param_name = param.first;
-            // signal_debug("%s: update_channels (%s)", this->name.c_str(), param_name.c_str());
 
             NodeRef input = *ptr;
             if (input->num_output_channels > max_channels)
@@ -120,7 +124,7 @@ void Node::add_input(std::string name, NodeRef &node)
 {
     /*------------------------------------------------------------------------
      * Update each input's channel count first, allowing up-mix to
-     * perculate to the root of the graph.
+     * percolate to the root of the graph.
      *-----------------------------------------------------------------------*/
     if (node)
     {
@@ -144,7 +148,9 @@ void Node::remove_input(std::string name)
 void Node::set_input(std::string name, const NodeRef &node)
 {
     if (this->params.find(name) == this->params.end())
+    {
         throw std::runtime_error("Node " + this->name + " has no such param: " + name);
+    }
 
     NodeRef current_input = *(this->params[name]);
     if (current_input)
@@ -227,20 +233,6 @@ void Node::set_buffer(std::string name, BufferRef buffer)
 
     *(this->buffers[name]) = buffer;
 }
-
-// TODO: Assignment operator breaks our paradigm as (I think) we need
-// to update the new object's 'ref' pointer to its shared_ptr container...
-// This might be bad practice.
-/*
-template<>
-NodeRef NodeRef::operator= (const NodeRef &other)
-{
-    printf("UNITREF ASSIGN, HERE BE DRAGONS\n");
-    // if (this != other)
-    //    (*this)->ref = other->ref;
-    return *this;
-}
-*/
 
 void Node::zero_output()
 {
@@ -389,8 +381,5 @@ NodeRef Node::scale(float from, float to, signal_scale_t scale)
             return nullptr;
     }
 }
-
-// Node Node::operator+ (Node &other)
-//    { return Add(this, &other); }
 
 } /* namespace libsignal */

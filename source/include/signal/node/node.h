@@ -69,13 +69,17 @@ class Node
 
 public:
     Node();
-    Node(double x);
     virtual ~Node();
 
     /*------------------------------------------------------------------------
      * The main generation/processing method.
      *-----------------------------------------------------------------------*/
     virtual void process(sample **out, int num_frames);
+
+    /*------------------------------------------------------------------------
+     * If no buffer pointer given, output to the Node's default output buffer.
+     *-----------------------------------------------------------------------*/
+    virtual void process(int num_frames);
 
     /*------------------------------------------------------------------------
      * Wrapper around process(), called by AudioGraph.pull_input,

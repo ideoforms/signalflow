@@ -17,27 +17,40 @@ void init_python_node(py::module &m)
             { return a + b; })
         .def("__add__", [](NodeRef a, float b)
             { return a + NodeRef(b); })
-        .def("__radd__", [](NodeRefTemplate<Node>a, float b)
-            { return a + NodeRef(b); })
+        .def("__radd__", [](NodeRef a, float b)
+            { return NodeRef(b) + a; })
         .def("__sub__", [](NodeRef a, NodeRef b)
             { return a - b; })
         .def("__sub__", [](NodeRef a, float b)
             { return a - NodeRef(b); })
-        .def("__rsub__", [](NodeRefTemplate<Node>a, float b)
-            { return a - NodeRef(b); })
+        .def("__rsub__", [](NodeRef a, float b)
+            { return NodeRef(b) - a; })
         .def("__mul__", [](NodeRef a, NodeRef b)
             { return a * b; })
         .def("__mul__", [](NodeRef a, float b)
             { return a * NodeRef(b); })
-        .def("__rmul__", [](NodeRefTemplate<Node>a, float b)
-            { return a * NodeRef(b); })
-        .def("__div__", [](NodeRef a, NodeRef b)
+        .def("__rmul__", [](NodeRef a, float b)
+            { return NodeRef(b) * a; })
+        .def("__truediv__", [](NodeRef a, NodeRef b)
             { return a / b; })
-        .def("__div__", [](NodeRef a, float b)
+        .def("__truediv__", [](NodeRef a, float b)
             { return a / NodeRef(b); })
-        .def("__rdiv__", [](NodeRefTemplate<Node>a, float b)
-            { return a / NodeRef(b); })
-        .def_readonly("name", &Node::name);
+        .def("__rtruediv__", [](NodeRef a, float b)
+            { return NodeRef(b) / a; })
+        .def_readonly("name", &Node::name)
+        .def_property_readonly("inputs", [](Node& node) {
+            std::unordered_map<std::string, NodeRef>inputs(node.params.size());
+            for (auto input : node.params)
+            {
+                inputs[input.first] = *(input.second);
+            }
+            return inputs;
+        })
+        .def("process", [](Node& node, int num_frames) { node.process(num_frames); })
+        .def_property_readonly("output_buffer", [](Node &node)
+        {
+            return py::array_t<float>({ 1024 }, { sizeof(float) }, node.out[0]);
+        });
 
     py::implicitly_convertible<int, Node>();
     py::implicitly_convertible<float, Node>();
