@@ -46,6 +46,7 @@ void init_python_node(py::module &m)
             }
             return inputs;
         })
+        .def("trigger", [](Node& node) { node.trigger(); })
         .def("process", [](Node& node, int num_frames) { node.process(num_frames); })
         .def_property_readonly("output_buffer", [](Node &node)
         {

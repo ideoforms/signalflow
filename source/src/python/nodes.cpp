@@ -62,4 +62,15 @@ void init_python_nodes(py::module &m)
 
     py::class_<TriggerNoise, Node, NodeRefTemplate<TriggerNoise>>(m, "TriggerNoise")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "min"_a = NodeRef(0.0), "max"_a = NodeRef(0.1), "clock"_a = NodeRef(0));
+
+    #ifdef __APPLE__
+
+    py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
+        .def(py::init<NodeRef, int>(), "input"_a = NodeRef(0.0), "fft_size"_a = 1024);
+    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder")
+        .def(py::init<NodeRef>(), "input"_a = NodeRef(0.0));
+    py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT")
+        .def(py::init<NodeRef>(), "input"_a = NodeRef(0.0));
+
+    #endif
 }
