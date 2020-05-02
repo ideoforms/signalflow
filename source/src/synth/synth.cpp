@@ -71,7 +71,6 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
 
         if (!nodedef->input_name.empty())
         {
-            std::cout << "populated input " << nodedef->input_name << std::endl;
             this->inputs[nodedef->input_name] = noderef;
         }
     }
