@@ -38,6 +38,15 @@ Multiplex::Multiplex(std::vector<float> inputs)
     }
 }
 
+Multiplex::Multiplex(std::vector<int> inputs)
+    : Multiplex()
+{
+    for (int input : inputs)
+    {
+        this->add_input(new Constant(input));
+    }
+}
+
 void Multiplex::process(sample **out, int num_frames)
 {
     int global_channel = 0;
