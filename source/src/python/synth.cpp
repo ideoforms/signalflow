@@ -13,6 +13,7 @@ void init_python_synth(py::module &m)
 
     py::class_<Synth, SynthRefTemplate<Synth>>(m, "Synth")
         .def(py::init<SynthTemplateRef>())
+        .def(py::init<SynthSpecRef>())
         .def("set_input", [](Synth &synth, std::string name, float value)
         {
             synth.set_input(name, value);
@@ -22,4 +23,6 @@ void init_python_synth(py::module &m)
             synth.set_input(name, value);
         })
         .def_readonly("output", &Synth::output);
+
+    py::class_<SynthSpec, SynthSpecRefTemplate<SynthSpec>>(m, "SynthSpec");
 }

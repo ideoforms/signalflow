@@ -18,11 +18,10 @@ void init_python_nodes(py::module &m)
     // This is best practice for Node signatures.
     // For multichannel expansion, arrays of noderefs/floats are valid.
     py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
-        .def(py::init<NodeRefTemplate<Node>>(), "frequency"_a = NodeRef(440));
-//        .def(py::init<float>(), "frequency"_a = NodeRef(440))
-//        .def(py::init<std::vector<NodeRef>>(), "frequency"_a = NodeRef(440))
-//        .def(py::init<std::vector<float>>(), "frequency"_a = NodeRef(440))
-//        .def_readwrite("frequency", &Sine::frequency);
+        .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440))
+        .def(py::init<float>(), "frequency"_a = NodeRef(440))
+        .def(py::init<std::vector<NodeRef>>(), "frequency"_a = NodeRef(440))
+        .def(py::init<std::vector<float>>(), "frequency"_a = NodeRef(440));
 
     py::class_<Saw, Node, NodeRefTemplate<Saw>>(m, "Saw")
         .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440))
@@ -94,11 +93,4 @@ void init_python_nodes(py::module &m)
 
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D")
         .def(py::init<BufferRef2D, NodeRef, NodeRef>(), "buffer"_a, "frequency"_a = NodeRef(440.0), "crossfade"_a = NodeRef(0));
-
-    py::class_<Resample, Node, NodeRefTemplate<Resample>>(m, "Resample")
-        .def(py::init<NodeRefTemplate<Node>, NodeRefTemplate<Node>, NodeRefTemplate<Node>>(), "input"_a, "sample_rate"_a = 22050, "bit_rate"_a = 8);
-
-    py::class_<TriggerNoise, Node, NodeRefTemplate<TriggerNoise>>(m, "TriggerNoise")
-        // .def(py::init<NodeRef, NodeRef, NodeRef>(), "min"_a = NodeRef(0.0), "max"_a = NodeRef(0.1), "clock"_a = NodeRef(0));
-        .def(py::init<NodeRefTemplate<Node>, NodeRefTemplate<Node>, NodeRefTemplate<Node>>());
 }

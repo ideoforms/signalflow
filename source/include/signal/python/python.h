@@ -1,5 +1,3 @@
-// clang-format off
-
 #pragma once
 
 #include <pybind11/pybind11.h>
@@ -25,5 +23,3 @@ PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, SynthRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, SynthTemplateRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, SynthSpecRefTemplate<T>, false)
-
-// clang-format on
