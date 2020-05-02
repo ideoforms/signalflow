@@ -18,7 +18,7 @@ namespace libsignal
 {
 
 /*------------------------------------------------------------------------
- * Forward-declare our operator classes to avoid interdependencies.
+ * Forward-declare key classes to avoid interdependencies.
  *-----------------------------------------------------------------------*/
 class Node;
 class AudioGraph;
@@ -93,17 +93,9 @@ public:
     virtual void update_channels();
 
     /*------------------------------------------------------------------------
-     * Register parameters.
+     * Set inputs.
      *-----------------------------------------------------------------------*/
     virtual void set_input(std::string name, const NodeRef &input);
-
-    /*------------------------------------------------------------------------
-     * Register an output.
-     * Note that this must be mirrored with a call to `set_input` on the
-     * output node.
-     *-----------------------------------------------------------------------*/
-    virtual void add_output(Node *target, std::string name);
-    virtual void remove_output(Node *target, std::string name);
 
     /*------------------------------------------------------------------------
      * Disconnect inputs and outputs.
@@ -112,16 +104,14 @@ public:
     virtual void disconnect_outputs();
 
     /*------------------------------------------------------------------------
-     * Register properties.
+     * Get/set properties.
      *-----------------------------------------------------------------------*/
-    virtual void add_property(std::string name, PropertyRef &property);
     virtual void set_property(std::string name, const PropertyRef &value);
     virtual PropertyRef get_property(std::string name);
 
     /*------------------------------------------------------------------------
-     * Register buffer params.
+     * Get/set buffers.
      *-----------------------------------------------------------------------*/
-    virtual void add_buffer(std::string name, BufferRef &buffer);
     virtual void set_buffer(std::string name, BufferRef buffer);
 
     /*------------------------------------------------------------------------
@@ -130,15 +120,9 @@ public:
     virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1);
 
     /*------------------------------------------------------------------------
-     * Sets our output buffer to zero.
-     *-----------------------------------------------------------------------*/
-    virtual void zero_output();
-
-    /*------------------------------------------------------------------------
      * Outputs the node's value at a user-specified frequency.
      *-----------------------------------------------------------------------*/
     virtual void poll(float frequency = 1.0, std::string label = "");
-    NodeMonitor *monitor;
 
     /*------------------------------------------------------------------------
      * Returns a new Node that scales the output of this node from
@@ -221,15 +205,9 @@ public:
     /*------------------------------------------------------------------------
      * Buffer containing this node's output.
      * TODO: Point this partway through a bigger frame buffer so that
-     * its history can be read for delay lines etc.
+     *       its history can be read for delay lines etc.
      *-----------------------------------------------------------------------*/
     sample **out;
-
-    /*------------------------------------------------------------------------
-     * Stores the number of frames in the previous processing block. Used
-     * to populate frame history in out[-1].
-     *-----------------------------------------------------------------------*/
-    int last_num_frames;
 
 protected:
     /*------------------------------------------------------------------------
@@ -243,6 +221,41 @@ protected:
      * (Multiplex, AudioOut)
      *-----------------------------------------------------------------------*/
     virtual void remove_input(std::string name);
+
+    /*------------------------------------------------------------------------
+     * Register an output.
+     * Note that this must be mirrored with a call to `set_input` on the
+     * output node.
+     *-----------------------------------------------------------------------*/
+    virtual void add_output(Node *target, std::string name);
+    virtual void remove_output(Node *target, std::string name);
+
+    /*------------------------------------------------------------------------
+      * Register properties.
+      *-----------------------------------------------------------------------*/
+    virtual void add_property(std::string name, PropertyRef &property);
+
+    /*------------------------------------------------------------------------
+     * Register buffer params.
+     *-----------------------------------------------------------------------*/
+    virtual void add_buffer(std::string name, BufferRef &buffer);
+
+    /*------------------------------------------------------------------------
+     * Sets our output buffer to zero.
+     *-----------------------------------------------------------------------*/
+    virtual void zero_output();
+
+private:
+    /*------------------------------------------------------------------------
+     * Stores the number of frames in the previous processing block. Used
+     * to populate frame history in out[-1].
+     *-----------------------------------------------------------------------*/
+    int last_num_frames;
+
+    /*------------------------------------------------------------------------
+     * Used for polling this output of this node.
+     *-----------------------------------------------------------------------*/
+    NodeMonitor *monitor;
 };
 
 class UnaryOpNode : public Node
