@@ -98,7 +98,7 @@ void Synth::set_input(std::string name, NodeRef value)
     NodeRef current = this->inputs[name];
     for (NodeRef node : this->nodes)
     {
-        for (auto param : node->params)
+        for (auto param : node->inputs)
         {
             if ((param.second)->get() == current.get())
             {

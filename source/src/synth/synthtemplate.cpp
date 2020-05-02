@@ -77,7 +77,7 @@ NodeDefinition SynthTemplate::parse_root(const NodeRef &node)
     }
     else
     {
-        for (auto param : node->params)
+        for (auto param : node->inputs)
         {
             NodeRef param_node = *(param.second);
             if (param_node)

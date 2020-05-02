@@ -25,7 +25,7 @@ public:
     virtual void add_input(NodeRef input);
     virtual void set_input(std::string name, const NodeRef &node);
 
-    std::list<NodeRef> inputs;
+    std::list<NodeRef> input_list;
 };
 
 REGISTER(Multiplex, "multiplex")

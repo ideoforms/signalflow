@@ -22,7 +22,7 @@ void AudioOut_Abstract::process(sample **out, int num_frames)
     for (int channel = 0; channel < this->num_output_channels; channel++)
         memset(out[channel], 0, num_frames * sizeof(sample));
 
-    for (NodeRef input : this->inputs)
+    for (NodeRef input : this->audio_inputs)
     {
         for (int channel = 0; channel < input->num_output_channels; channel++)
         {
@@ -44,22 +44,22 @@ void AudioOut_Abstract::process(sample **out, int num_frames)
 
 void AudioOut_Abstract::add_input(NodeRef node)
 {
-    inputs.push_back(node);
-    std::string input_name = "input" + std::to_string(this->inputs.size());
+    audio_inputs.push_back(node);
+    std::string input_name = "input" + std::to_string(this->audio_inputs.size());
     ;
-    this->Node::add_input(input_name, inputs.back());
+    this->Node::add_input(input_name, audio_inputs.back());
 }
 
 void AudioOut_Abstract::remove_input(NodeRef node)
 {
-    for (auto param : this->params)
+    for (auto param : this->inputs)
     {
         if (*(param.second) == node)
         {
             this->Node::remove_input(param.first);
         }
     }
-    inputs.remove(node);
+    audio_inputs.remove(node);
 }
 
 } // namespace libsignal

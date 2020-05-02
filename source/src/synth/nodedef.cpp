@@ -9,7 +9,7 @@ NodeDefinition::NodeDefinition()
 
 NodeDefinition::~NodeDefinition()
 {
-    // free params
+    // free inputs
 }
 
 NodeDefinition::NodeDefinition(std::string name)

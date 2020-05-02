@@ -95,7 +95,7 @@ void Node::update_channels()
     if (this->min_input_channels == N_CHANNELS)
     {
         int max_channels = 1;
-        for (auto param : this->params)
+        for (auto param : this->inputs)
         {
             NodeRef *ptr = param.second;
             // A param may be registered but not yet set
@@ -132,7 +132,7 @@ void Node::add_input(std::string name, NodeRef &node)
         node->add_output(this, name);
     }
 
-    this->params[name] = &node;
+    this->inputs[name] = &node;
     this->update_channels();
 }
 
@@ -141,24 +141,24 @@ void Node::remove_input(std::string name)
     /*------------------------------------------------------------------------
      * Only done by special classes (Multiplex, AudioOut)
      *-----------------------------------------------------------------------*/
-    this->params.erase(name);
+    this->inputs.erase(name);
     this->update_channels();
 }
 
 void Node::set_input(std::string name, const NodeRef &node)
 {
-    if (this->params.find(name) == this->params.end())
+    if (this->inputs.find(name) == this->inputs.end())
     {
         throw std::runtime_error("Node " + this->name + " has no such param: " + name);
     }
 
-    NodeRef current_input = *(this->params[name]);
+    NodeRef current_input = *(this->inputs[name]);
     if (current_input)
     {
         current_input->remove_output(this, name);
     }
 
-    *(this->params[name]) = node;
+    *(this->inputs[name]) = node;
     this->update_channels();
     node->update_channels();
 
@@ -194,7 +194,7 @@ void Node::disconnect_outputs()
 
 void Node::disconnect_inputs()
 {
-    for (auto param : this->params)
+    for (auto param : this->inputs)
     {
         this->set_input(param.first, 0);
     }

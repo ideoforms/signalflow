@@ -50,7 +50,7 @@ Multiplex::Multiplex(std::vector<int> inputs)
 void Multiplex::process(sample **out, int num_frames)
 {
     int global_channel = 0;
-    for (NodeRef input : this->inputs)
+    for (NodeRef input : this->input_list)
     {
         for (int this_channel = 0; this_channel < input->num_output_channels; this_channel++)
         {
@@ -63,7 +63,7 @@ void Multiplex::process(sample **out, int num_frames)
 void Multiplex::update_channels()
 {
     this->num_input_channels = 0;
-    for (NodeRef input : this->inputs)
+    for (NodeRef input : this->input_list)
     {
         this->num_input_channels += input->num_output_channels;
     }
@@ -78,18 +78,18 @@ void Multiplex::update_channels()
 
 void Multiplex::add_input(NodeRef input)
 {
-    this->inputs.push_back(input);
+    this->input_list.push_back(input);
     std::string input_name = "input" + std::to_string(this->inputs.size());
     ;
-    this->Node::add_input(input_name, inputs.back());
+    this->Node::add_input(input_name, input_list.back());
 }
 
 void Multiplex::set_input(std::string name, const NodeRef &node)
 {
-    if (this->params.find(name) == this->params.end())
+    if (this->inputs.find(name) == this->inputs.end())
     {
-        this->inputs.push_back(node);
-        this->Node::add_input(name, inputs.back());
+        this->input_list.push_back(node);
+        this->Node::add_input(name, input_list.back());
     }
 
     this->Node::set_input(name, node);

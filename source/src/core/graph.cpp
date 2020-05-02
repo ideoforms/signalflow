@@ -55,15 +55,15 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
         return;
     }
 
-    if (!(node->params.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
+    if (!(node->inputs.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
     {
-        signal_debug("Node %s has no registered params", node->name.c_str());
+        signal_debug("Node %s has no registered inputs", node->name.c_str());
     }
 
     /*------------------------------------------------------------------------
      * Pull our inputs before we generate our own outputs.
      *-----------------------------------------------------------------------*/
-    for (auto param : node->params)
+    for (auto param : node->inputs)
     {
         NodeRef param_node = *(param.second);
         if (param_node)
@@ -197,7 +197,7 @@ void AudioGraph::print(NodeRef &root, int depth)
 {
     std::cout << std::string(depth * 2, ' ');
     std::cout << " * " << root->name << std::endl;
-    for (auto pair : root->params)
+    for (auto pair : root->inputs)
     {
         std::cout << std::string((depth + 1) * 2 + 1, ' ');
 

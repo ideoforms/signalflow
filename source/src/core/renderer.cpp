@@ -39,7 +39,7 @@ void GraphRenderer::render_node(NodeRef node)
     /*------------------------------------------------------------------------
      * Collate edges, titled based on their node input
      *-----------------------------------------------------------------------*/
-    for (auto param : node->params)
+    for (auto param : node->inputs)
     {
         NodeRef value = *(param.second);
         if (value)

@@ -139,12 +139,12 @@ public:
      * Hash table of parameters: (name, pointer to NodeRef)
      * Must be a pointer, rather than the NodeRef itself, as the actual
      * storage for the pointer is held directly in the node's named
-     * parameter field (e.g. node->frequency, node->pan). The params
+     * parameter field (e.g. node->frequency, node->pan). The inputs
      * dict is a lookup table which stores pointers to the fields, so that
      * they can be populated when the node is instantiated, such as from
      * a graph of NodeDefs.
      *-----------------------------------------------------------------------*/
-    std::unordered_map<std::string, NodeRef *> params;
+    std::unordered_map<std::string, NodeRef *> inputs;
 
     /*------------------------------------------------------------------------
      * Set of outputs.
@@ -236,7 +236,7 @@ protected:
     virtual void add_property(std::string name, PropertyRef &property);
 
     /*------------------------------------------------------------------------
-     * Register buffer params.
+     * Register buffer inputs.
      *-----------------------------------------------------------------------*/
     virtual void add_buffer(std::string name, BufferRef &buffer);
 

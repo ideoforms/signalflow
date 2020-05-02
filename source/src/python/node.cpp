@@ -39,8 +39,8 @@ void init_python_node(py::module &m)
             { return NodeRef(b) / a; })
         .def_readonly("name", &Node::name)
         .def_property_readonly("inputs", [](Node& node) {
-            std::unordered_map<std::string, NodeRef>inputs(node.params.size());
-            for (auto input : node.params)
+            std::unordered_map<std::string, NodeRef>inputs(node.inputs.size());
+            for (auto input : node.inputs)
             {
                 inputs[input.first] = *(input.second);
             }
