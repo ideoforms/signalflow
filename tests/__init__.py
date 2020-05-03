@@ -26,6 +26,7 @@ def distutils_dir_name(dir_name):
 build_dir = os.path.join("build", distutils_dir_name("lib"))
 sys.path.append(build_dir)
 
+# must match SIGNAL_NODE_BUFFER_SIZE
 DEFAULT_BUFFER_LENGTH = 1024
 
 def process_tree(node):

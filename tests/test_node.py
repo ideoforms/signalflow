@@ -9,27 +9,27 @@ def test_add():
 
     c = a + b
     process_tree(c)
-    assert np.all(c.output_buffer == 3)
+    assert np.all(c.output_buffer[0] == 3)
 
     c = a + b + 2
     process_tree(c)
-    assert np.all(c.output_buffer == 5)
+    assert np.all(c.output_buffer[0] == 5)
 
     c = a + 1
     process_tree(c)
-    assert np.all(c.output_buffer == 2)
+    assert np.all(c.output_buffer[0] == 2)
 
     c = a + 1.5
     process_tree(c)
-    assert np.all(c.output_buffer == 2.5)
+    assert np.all(c.output_buffer[0] == 2.5)
 
     c = 3 + a
     process_tree(c)
-    assert np.all(c.output_buffer == 4)
+    assert np.all(c.output_buffer[0] == 4)
 
     c = 3.5 + a
     process_tree(c)
-    assert np.all(c.output_buffer == 4.5)
+    assert np.all(c.output_buffer[0] == 4.5)
 
 def test_subtract():
     a = Constant(1)
@@ -37,27 +37,27 @@ def test_subtract():
 
     c = a - b
     process_tree(c)
-    assert np.all(c.output_buffer == -1)
+    assert np.all(c.output_buffer[0] == -1)
 
     c = a - b - 2
     process_tree(c)
-    assert np.all(c.output_buffer == -3)
+    assert np.all(c.output_buffer[0] == -3)
 
     c = a - 1
     process_tree(c)
-    assert np.all(c.output_buffer == 0)
+    assert np.all(c.output_buffer[0] == 0)
 
     c = a - 1.5
     process_tree(c)
-    assert np.all(c.output_buffer == -0.5)
+    assert np.all(c.output_buffer[0] == -0.5)
 
     c = 3 - a
     process_tree(c)
-    assert np.all(c.output_buffer == 2)
+    assert np.all(c.output_buffer[0] == 2)
 
     c = 3.5 - a
     process_tree(c)
-    assert np.all(c.output_buffer == 2.5)
+    assert np.all(c.output_buffer[0] == 2.5)
 
 def test_multiply():
     a = Constant(2)
@@ -65,27 +65,27 @@ def test_multiply():
 
     c = a * b
     process_tree(c)
-    assert np.all(c.output_buffer == 6)
+    assert np.all(c.output_buffer[0] == 6)
 
     c = a * b * 2
     process_tree(c)
-    assert np.all(c.output_buffer == 12)
+    assert np.all(c.output_buffer[0] == 12)
 
     c = a * 2
     process_tree(c)
-    assert np.all(c.output_buffer == 4)
+    assert np.all(c.output_buffer[0] == 4)
 
     c = a * 1.5
     process_tree(c)
-    assert np.all(c.output_buffer == 3)
+    assert np.all(c.output_buffer[0] == 3)
 
     c = 3 * a
     process_tree(c)
-    assert np.all(c.output_buffer == 6)
+    assert np.all(c.output_buffer[0] == 6)
 
     c = 3.5 * a
     process_tree(c)
-    assert np.all(c.output_buffer == 7)
+    assert np.all(c.output_buffer[0] == 7)
 
 def test_divide():
     a = Constant(1)
@@ -93,24 +93,24 @@ def test_divide():
 
     c = a / b
     process_tree(c)
-    assert np.all(c.output_buffer == 0.5)
+    assert np.all(c.output_buffer[0] == 0.5)
 
     c = a / b / 2
     process_tree(c)
-    assert np.all(c.output_buffer == 0.25)
+    assert np.all(c.output_buffer[0] == 0.25)
 
     c = a / 2
     process_tree(c)
-    assert np.all(c.output_buffer == 0.5)
+    assert np.all(c.output_buffer[0] == 0.5)
 
     c = a / 2.5
     process_tree(c)
-    assert np.all(c.output_buffer == 0.4)
+    assert np.all(c.output_buffer[0] == 0.4)
 
     c = 3 / b
     process_tree(c)
-    assert np.all(c.output_buffer == 1.5)
+    assert np.all(c.output_buffer[0] == 1.5)
 
     c = 3.5 / b
     process_tree(c)
-    assert np.all(c.output_buffer == 1.75)
+    assert np.all(c.output_buffer[0] == 1.75)

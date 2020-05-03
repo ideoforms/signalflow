@@ -58,7 +58,10 @@ void init_python_node(py::module &m)
         .def("process", [](Node& node, int num_frames) { node.process(num_frames); })
         .def_property_readonly("output_buffer", [](Node &node)
         {
-            return py::array_t<float>({ 1024 }, { sizeof(float) }, node.out[0]);
+            return py::array_t<float>(
+                { SIGNAL_MAX_CHANNELS, 1024 },
+                { sizeof(float) * 1024, sizeof(float) },
+                node.out[0]);
         });
 
     py::implicitly_convertible<int, Node>();

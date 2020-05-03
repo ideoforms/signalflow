@@ -19,8 +19,8 @@ def test_expansion(graph):
     assert freq.inputs["input1"].name == "constant"
 
     process_tree(a)
-    assert np.all(freq.inputs["input0"].output_buffer == 0.0)
-    assert np.all(freq.inputs["input1"].output_buffer == 1.0)
+    assert np.all(freq.inputs["input0"].output_buffer[0] == 0.0)
+    assert np.all(freq.inputs["input1"].output_buffer[0] == 1.0)
 
     a = Square([ 440, 441, 442 ], [ 0.3, 0.7 ])
     assert a.num_input_channels == 3
