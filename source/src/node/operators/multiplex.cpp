@@ -8,7 +8,7 @@ namespace libsignal
 Multiplex::Multiplex()
 {
     this->name = "multiplex";
-    this->no_input_automix = true;
+    this->no_input_upmix = true;
 }
 
 Multiplex::Multiplex(std::initializer_list<NodeRef> inputs)

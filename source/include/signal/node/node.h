@@ -82,17 +82,6 @@ public:
     virtual void process(int num_frames);
 
     /*------------------------------------------------------------------------
-     * Wrapper around process(), called by AudioGraph.pull_input,
-     * which handles caching of earlier frames etc.
-     *-----------------------------------------------------------------------*/
-    virtual void _process(sample **out, int num_frames);
-
-    /*------------------------------------------------------------------------
-     * Called after add_input/route to update our routing ins/outs.
-     *-----------------------------------------------------------------------*/
-    virtual void update_channels();
-
-    /*------------------------------------------------------------------------
      * Set inputs.
      *-----------------------------------------------------------------------*/
     virtual void set_input(std::string name, const NodeRef &input);
@@ -200,7 +189,6 @@ public:
         max_input_channels,
         min_output_channels,
         max_output_channels;
-    bool no_input_automix;
 
     /*------------------------------------------------------------------------
      * Buffer containing this node's output.
@@ -245,6 +233,15 @@ protected:
      *-----------------------------------------------------------------------*/
     virtual void zero_output();
 
+    /*------------------------------------------------------------------------
+     * If a node currently has N input channels but M>N channels are
+     * requested, its input will be automatically upmixed by the containing
+     * AudioGraph by duplicating the existing channels until M is reached.
+     *
+     * If this is disabled, no upmixing takes place.
+     *-----------------------------------------------------------------------*/
+    bool no_input_upmix;
+
 private:
     /*------------------------------------------------------------------------
      * Stores the number of frames in the previous processing block. Used
@@ -256,6 +253,23 @@ private:
      * Used for polling this output of this node.
      *-----------------------------------------------------------------------*/
     NodeMonitor *monitor;
+
+    /*------------------------------------------------------------------------
+     * Wrapper around process(), called by AudioGraph.pull_input,
+     * which handles caching of earlier frames etc.
+     *-----------------------------------------------------------------------*/
+    virtual void _process(sample **out, int num_frames);
+
+    /*------------------------------------------------------------------------
+     * Called after add_input/route to update our routing ins/outs,
+     * called by AudioGraph
+     *-----------------------------------------------------------------------*/
+    virtual void update_channels();
+
+    /*------------------------------------------------------------------------
+     * Allow AudioGraph to access private methods
+     *-----------------------------------------------------------------------*/
+    friend class AudioGraph;
 };
 
 class UnaryOpNode : public Node

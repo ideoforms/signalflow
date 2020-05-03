@@ -43,7 +43,7 @@ Node::Node()
     this->num_output_channels = 1;
     this->last_num_frames = 0;
 
-    this->no_input_automix = false;
+    this->no_input_upmix = false;
 
     this->monitor = NULL;
 }

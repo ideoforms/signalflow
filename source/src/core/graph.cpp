@@ -82,7 +82,7 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
              * A few nodes must prevent automatic input up-mixing from happening.
              * These include Multiplex and AudioOut.
              *-----------------------------------------------------------------------*/
-            if (param_node->num_output_channels < node->num_input_channels && !node->no_input_automix)
+            if (param_node->num_output_channels < node->num_input_channels && !node->no_input_upmix)
             {
                 signal_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
                              node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);

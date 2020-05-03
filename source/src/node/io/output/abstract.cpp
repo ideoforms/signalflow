@@ -12,7 +12,7 @@ AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
     this->name = "audioout";
     // this->num_input_channels = 2;
     this->num_output_channels = 2;
-    this->no_input_automix = true;
+    this->no_input_upmix = true;
     this->min_output_channels = 2;
     this->max_output_channels = 2;
 }
