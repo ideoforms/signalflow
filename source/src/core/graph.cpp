@@ -118,17 +118,17 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
 
 void AudioGraph::pull_input(int num_frames)
 {
-    this->processed_nodes.clear();
-    this->pull_input(this->output, num_frames);
-    this->node_count = this->processed_nodes.size();
-    signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
-
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
     for (auto node : output_nodes_to_remove)
     {
         output->remove_input(node);
     }
     output_nodes_to_remove.clear();
+    this->processed_nodes.clear();
+
+    this->pull_input(this->output, num_frames);
+    this->node_count = this->processed_nodes.size();
+    signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 }
 
 void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)

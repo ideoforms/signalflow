@@ -60,7 +60,7 @@ void init_python_node(py::module &m)
         {
             return py::array_t<float>(
                 { SIGNAL_MAX_CHANNELS, 1024 },
-                { sizeof(float) * 1024, sizeof(float) },
+                { sizeof(float) * 44100, sizeof(float) },
                 node.out[0]);
         });
 

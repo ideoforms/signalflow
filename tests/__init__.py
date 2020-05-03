@@ -24,17 +24,16 @@ def distutils_dir_name(dir_name):
                     version=sys.version_info)
 
 build_dir = os.path.join("build", distutils_dir_name("lib"))
-sys.path.append(build_dir)
+sys.path.insert(0, build_dir)
 
 # must match SIGNAL_NODE_BUFFER_SIZE
 DEFAULT_BUFFER_LENGTH = 1024
 
 def process_tree(node):
     for _, input in node.inputs.items():
-        for _, input_l2 in input.inputs.items():
-            input_l2.process(DEFAULT_BUFFER_LENGTH)
-        input.process(DEFAULT_BUFFER_LENGTH)
+        process_tree(input)
     node.process(DEFAULT_BUFFER_LENGTH)
+
 
 @pytest.fixture(scope="module")
 def graph():

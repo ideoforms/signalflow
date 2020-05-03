@@ -22,9 +22,16 @@ Node::Node()
 {
     this->graph = shared_graph;
     this->out = new sample*[SIGNAL_MAX_CHANNELS]();
+
+    sample **out_channels = new sample*[SIGNAL_MAX_CHANNELS * SIGNAL_NODE_BUFFER_SIZE];
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {
-        this->out[i] = new sample[SIGNAL_NODE_BUFFER_SIZE]();
+        /*------------------------------------------------------------------------
+         * Allocate all channels in one contiguous chunk. This is needed to
+         * ensure a consistent stride between channels, to communicate 2D sample
+         * matrices to Python.
+         *-----------------------------------------------------------------------*/
+        this->out[i] = ((sample *) out_channels) + (SIGNAL_NODE_BUFFER_SIZE * i);
 
         /*------------------------------------------------------------------------
          * Memory allocation magic: incrementing the `out` pointer means that
@@ -50,14 +57,11 @@ Node::Node()
 
 Node::~Node()
 {
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
-    {
-        /*------------------------------------------------------------------------
-         * Memory allocation magic: Pointer to out[] is actually 1 byte off
-         * the original allocated segment (see Node constructor above).
-         *-----------------------------------------------------------------------*/
-        delete (this->out[i] - 1);
-    }
+    /*------------------------------------------------------------------------
+     * Memory allocation magic: Pointer to out[] is actually 1 byte off
+     * the original allocated segment (see Node constructor above).
+     *-----------------------------------------------------------------------*/
+    delete (this->out[0] - 1);
     delete this->out;
 }
 
