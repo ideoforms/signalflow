@@ -103,7 +103,6 @@ void Synth::set_input(std::string name, NodeRef value)
             if ((param.second)->get() == current.get())
             {
                 // Update routing
-                printf("Updating '%s' input of %s\n", param.first.c_str(), node->name.c_str());
                 node->set_input(param.first, value);
             }
         }
