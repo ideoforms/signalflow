@@ -1,12 +1,7 @@
 from libsignal import Constant
 import numpy as np
 
-DEFAULT_BUFFER_LENGTH = 1024
-
-def process_tree(node):
-    for input in node.inputs.values():
-        input.process(DEFAULT_BUFFER_LENGTH)
-    node.process(DEFAULT_BUFFER_LENGTH)
+from . import process_tree
 
 def test_add():
     a = Constant(1)
@@ -119,5 +114,3 @@ def test_divide():
     c = 3.5 / b
     process_tree(c)
     assert np.all(c.output_buffer == 1.75)
-
-assert True

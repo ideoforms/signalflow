@@ -2,12 +2,10 @@
 
 namespace libsignal
 {
-AudioGraph *shared_graph = NULL;
 
 AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
 {
     this->graph = graph;
-    shared_graph = graph;
 
     this->name = "audioout";
     // this->num_input_channels = 2;

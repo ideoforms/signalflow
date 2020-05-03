@@ -8,6 +8,7 @@ void init_python_graph(py::module &m)
     py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
         .def("start", &AudioGraph::start)
+        .def_readonly("sample_rate", &AudioGraph::sample_rate)
         .def("wait", [](AudioGraph &graph)
         {
             // Interruptible wait

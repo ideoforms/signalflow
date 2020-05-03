@@ -1,2 +1,2 @@
 #define SIGNAL_VERSION "0.3.1"
-#define SIGNAL_BUILD 696
+#define SIGNAL_BUILD 697

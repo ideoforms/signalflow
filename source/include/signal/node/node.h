@@ -172,7 +172,7 @@ public:
 
     /*------------------------------------------------------------------------
      * Number of actual in/out channels. This should always reflect
-     * the number of audio channels allocated in our `out` buffer,
+     * the number of audio channels in use.
      *-----------------------------------------------------------------------*/
     int num_input_channels;
     int num_output_channels;

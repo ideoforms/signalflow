@@ -14,9 +14,17 @@
 namespace libsignal
 {
 
+AudioGraph *shared_graph = NULL;
+
 AudioGraph::AudioGraph()
 {
     signal_init();
+
+    if (shared_graph)
+    {
+        throw std::runtime_error("Graph already instantiated");
+    }
+    shared_graph = this;
 
     AudioOut *audioout = new AudioOut(this);
     this->output = audioout;
@@ -34,6 +42,7 @@ AudioGraph::~AudioGraph()
 {
     AudioOut *audioout = (AudioOut *) this->output.get();
     audioout->destroy();
+    shared_graph = NULL;
 }
 
 void AudioGraph::wait()

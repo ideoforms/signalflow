@@ -38,6 +38,14 @@ void init_python_node(py::module &m)
         .def("__rtruediv__", [](NodeRef a, float b)
             { return NodeRef(b) / a; })
         .def_readonly("name", &Node::name)
+
+        .def_readonly("num_output_channels", &Node::num_output_channels)
+        .def_readonly("min_output_channels", &Node::min_output_channels)
+        .def_readonly("max_output_channels", &Node::max_output_channels)
+        .def_readonly("num_input_channels", &Node::num_input_channels)
+        .def_readonly("min_input_channels", &Node::min_input_channels)
+        .def_readonly("max_input_channels", &Node::max_input_channels)
+
         .def_property_readonly("inputs", [](Node& node) {
             std::unordered_map<std::string, NodeRef>inputs(node.inputs.size());
             for (auto input : node.inputs)

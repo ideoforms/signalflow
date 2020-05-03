@@ -95,17 +95,17 @@ void Node::update_channels()
     if (this->min_input_channels == N_CHANNELS)
     {
         int max_channels = 1;
-        for (auto param : this->inputs)
+        for (auto input : this->inputs)
         {
-            NodeRef *ptr = param.second;
+            NodeRef *ptr = input.second;
             // A param may be registered but not yet set
             if (!ptr || !*ptr)
                 continue;
-            std::string param_name = param.first;
+            std::string param_name = input.first;
 
-            NodeRef input = *ptr;
-            if (input->num_output_channels > max_channels)
-                max_channels = input->num_output_channels;
+            NodeRef input_node = *ptr;
+            if (input_node->num_output_channels > max_channels)
+                max_channels = input_node->num_output_channels;
         }
 
         this->num_input_channels = max_channels;
