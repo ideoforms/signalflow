@@ -34,6 +34,12 @@ def process_tree(node):
         process_tree(input)
     node.process(DEFAULT_BUFFER_LENGTH)
 
+def count_zero_crossings(array):
+    count = 0
+    for index in range(len(array)):
+        if array[index - 1] <= 0 and array[index] > 0:
+            count += 1
+    return count
 
 @pytest.fixture(scope="module")
 def graph():
