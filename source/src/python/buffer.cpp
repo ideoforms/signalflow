@@ -17,8 +17,12 @@ void init_python_buffer(py::module &m)
 
         .def("load", &Buffer::load)
         .def("save", &Buffer::save)
-        .def("data", [](Buffer &buf) {
-            return py::array_t<float>({ buf.num_frames }, { sizeof(float) }, buf.data[0]);
+        .def_property_readonly("data", [](Buffer &buf) {
+            return py::array_t<float>(
+                { buf.num_channels, buf.num_frames },
+                { sizeof(float) * buf.num_frames, sizeof(float) },
+                buf.data[0]
+            );
         });
 
     py::class_<Buffer2D, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")

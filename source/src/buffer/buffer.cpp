@@ -28,10 +28,12 @@ Buffer::Buffer(int num_channels, int num_frames)
     this->duration = this->num_frames / this->sample_rate;
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
 
+    // contiguous allocation
     this->data = new sample*[this->num_channels]();
+    sample *data_channels = new sample[this->num_channels * this->num_frames]();
     for (int channel = 0; channel < this->num_channels; channel++)
     {
-        this->data[channel] = new sample[this->num_frames]();
+        this->data[channel] = (sample *) (data_channels + this->num_frames * channel);
     }
 }
 
@@ -61,13 +63,9 @@ Buffer::Buffer(std::string filename)
 
 Buffer::~Buffer()
 {
-    for (int channel = 0; channel < this->num_channels; channel++)
-    {
-        if (this->data && this->data[channel])
-            delete this->data[channel];
-    }
     if (this->data)
     {
+        delete this->data[0];
         delete this->data;
     }
 }
