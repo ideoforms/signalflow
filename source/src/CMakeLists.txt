@@ -47,8 +47,6 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/grainsegments.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/granulator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/line.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/recorder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/sampler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/saw.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/segmentplayer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/sine.cpp
@@ -56,6 +54,8 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/tick.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/triangle.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/wavetable.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/recorder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/sampler.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp

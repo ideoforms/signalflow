@@ -47,6 +47,9 @@ void init_python_nodes(py::module &m)
     py::class_<Sampler, Node, NodeRefTemplate<Sampler>>(m, "Sampler")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1));
 
+    py::class_<Recorder, Node, NodeRefTemplate<Recorder>>(m, "Recorder")
+        .def(py::init<BufferRef, NodeRef, bool>(), "buffer"_a, "input"_a = NodeRef(0.0), "loop"_a = false);
+
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef>(),
              "buffer"_a, "clock"_a = NodeRef(0), "pos"_a = NodeRef(0.5), "grain_length"_a = NodeRef(0.1), "rate"_a = NodeRef(1.0));

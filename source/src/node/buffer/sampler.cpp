@@ -1,4 +1,4 @@
-#include "signal/node/oscillators/sampler.h"
+#include "signal/node/buffer/sampler.h"
 #include "signal/core/graph.h"
 
 #include <stdlib.h>

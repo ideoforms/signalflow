@@ -48,14 +48,18 @@
 #include <signal/node/oscillators/constant.h>
 #include <signal/node/oscillators/granulator.h>
 #include <signal/node/oscillators/line.h>
-#include <signal/node/oscillators/recorder.h>
-#include <signal/node/oscillators/sampler.h>
 #include <signal/node/oscillators/saw.h>
 #include <signal/node/oscillators/sine.h>
 #include <signal/node/oscillators/square.h>
 #include <signal/node/oscillators/tick.h>
 #include <signal/node/oscillators/triangle.h>
 #include <signal/node/oscillators/wavetable.h>
+
+/*------------------------------------------------------------------------
+ * Generators
+ *-----------------------------------------------------------------------*/
+#include <signal/node/buffer/recorder.h>
+#include <signal/node/buffer/sampler.h>
 
 /*------------------------------------------------------------------------
  * Random processes

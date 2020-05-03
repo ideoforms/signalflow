@@ -1,4 +1,4 @@
-#include "signal/node/oscillators/recorder.h"
+#include "signal/node/buffer/recorder.h"
 
 namespace libsignal
 {
