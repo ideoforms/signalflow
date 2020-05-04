@@ -46,6 +46,8 @@ void init_python_node(py::module &m)
         .def_readonly("min_input_channels", &Node::min_input_channels)
         .def_readonly("max_input_channels", &Node::max_input_channels)
 
+        .def("set_buffer", &Node::set_buffer)
+
         .def_property_readonly("inputs", [](Node& node) {
             std::unordered_map<std::string, NodeRef>inputs(node.inputs.size());
             for (auto input : node.inputs)

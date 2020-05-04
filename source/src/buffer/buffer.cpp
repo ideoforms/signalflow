@@ -158,7 +158,8 @@ void Buffer::load(std::string filename)
 
     sf_close(sndfile);
 
-    std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
+    // TODO Logging
+    // std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
 
 #endif
 }
