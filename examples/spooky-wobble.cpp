@@ -30,7 +30,7 @@ int main()
     /*------------------------------------------------------------------------
      * Add some occasional pops.
      *-----------------------------------------------------------------------*/
-    NodeRef dust = new Dust(1);
+    NodeRef dust = new RandomImpulse(1);
     NodeRef dust_pan = new Pan(2, dust, 0.5);
     graph->add_output(dust_pan);
 

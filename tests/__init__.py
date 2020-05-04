@@ -26,13 +26,12 @@ def distutils_dir_name(dir_name):
 build_dir = os.path.join("build", distutils_dir_name("lib"))
 sys.path.insert(0, build_dir)
 
-# must match SIGNAL_NODE_BUFFER_SIZE
 DEFAULT_BUFFER_LENGTH = 1024
 
-def process_tree(node):
+def process_tree(node, num_frames=DEFAULT_BUFFER_LENGTH):
     for _, input in node.inputs.items():
-        process_tree(input)
-    node.process(DEFAULT_BUFFER_LENGTH)
+        process_tree(input, num_frames)
+    node.process(num_frames)
 
 def count_zero_crossings(array):
     count = 0

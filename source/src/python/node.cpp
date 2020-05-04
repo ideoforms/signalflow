@@ -55,16 +55,20 @@ void init_python_node(py::module &m)
             return inputs;
         })
         .def("trigger", [](Node& node) { node.trigger(); })
-        .def("process", [](Node& node, int num_frames) { node.process(num_frames); })
+        .def("process", [](Node& node, int num_frames) {
+            node.process(num_frames);
+            node.last_num_frames = num_frames;
+        })
         .def("process", [](Node& node, Buffer &buffer) {
             std::cout << "node " << node.name << " processing " << buffer.num_frames << " frames to " << buffer.data[0][0] << std::endl;
             node.process(buffer.data, buffer.num_frames);
+            node.last_num_frames = buffer.num_frames;
         })
         .def_property_readonly("output_buffer", [](Node &node)
         {
             return py::array_t<float>(
-                { SIGNAL_MAX_CHANNELS, 1024 },
-                { sizeof(float) * 44100, sizeof(float) },
+                { SIGNAL_MAX_CHANNELS, node.last_num_frames },
+                { sizeof(float) * SIGNAL_NODE_BUFFER_SIZE, sizeof(float) },
                 node.out[0]);
         });
 

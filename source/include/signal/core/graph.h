@@ -62,7 +62,7 @@ public:
     NodeRef input = nullptr;
     NodeRef output = nullptr;
 
-    float sample_rate;
+    int sample_rate;
     int node_count;
 
 private:

@@ -24,7 +24,7 @@ int main()
         NodeRef sine = new Sine(random_uniform(220, 1660));
         NodeRef resample = new Resample(sine, 11025, 12);
         NodeRef noise = new Noise(0.3, true, 1.0, 2);
-        NodeRef dust = new Dust(noise);
+        NodeRef dust = new RandomImpulse(noise);
         NodeRef env = new ASR(0.005, 0.01, 0.05);
         env->set_input("clock", dust);
 

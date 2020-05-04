@@ -10,3 +10,5 @@ def test_process():
     graph = AudioGraph()
     a = Sine(440)
     a.process(1024)
+    assert a.output_buffer.shape == (32, 1024)
+    del graph

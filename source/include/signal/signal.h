@@ -64,9 +64,9 @@
 /*------------------------------------------------------------------------
  * Random processes
  *-----------------------------------------------------------------------*/
-#include <signal/node/chance/dust.h>
 #include <signal/node/chance/logistic.h>
 #include <signal/node/chance/noise.h>
+#include <signal/node/chance/random_impulse.h>
 #include <signal/node/chance/trigger_noise.h>
 
 /*------------------------------------------------------------------------

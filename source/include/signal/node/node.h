@@ -197,6 +197,12 @@ public:
      *-----------------------------------------------------------------------*/
     sample **out;
 
+    /*------------------------------------------------------------------------
+     * Stores the number of frames in the previous processing block. Used
+     * to populate frame history in out[-1].
+     *-----------------------------------------------------------------------*/
+    int last_num_frames;
+
 protected:
     /*------------------------------------------------------------------------
      * Creates a new named input.
@@ -243,12 +249,6 @@ protected:
     bool no_input_upmix;
 
 private:
-    /*------------------------------------------------------------------------
-     * Stores the number of frames in the previous processing block. Used
-     * to populate frame history in out[-1].
-     *-----------------------------------------------------------------------*/
-    int last_num_frames;
-
     /*------------------------------------------------------------------------
      * Used for polling this output of this node.
      *-----------------------------------------------------------------------*/

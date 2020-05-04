@@ -86,6 +86,12 @@ enum signal_interpolation_mode_t : unsigned int
     SIGNAL_INTERPOLATION_LINEAR
 };
 
+enum signal_event_distribution_t : unsigned int
+{
+    SIGNAL_EVENT_DISTRIBUTION_UNIFORM,
+    SIGNAL_EVENT_DISTRIBUTION_POISSON
+};
+
 typedef enum
 {
     SIGNAL_SCALE_LIN_LIN,

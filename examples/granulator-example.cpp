@@ -25,10 +25,10 @@ int main()
     BufferRef buffer = new Buffer("audio/gliss.aif");
 
     /*------------------------------------------------------------------------
-     * Dust creates an impulse train with randomised interval, at a 
+     * RandomImpulse creates an impulse train with randomised interval, at a 
      * given mean frequency. This is used to trigger grains.
      *-----------------------------------------------------------------------*/
-    NodeRef dust = new Dust(100.0);
+    NodeRef dust = new RandomImpulse(100.0);
 
     /*------------------------------------------------------------------------
      * Set position, length and pan to oscillating randomised values.

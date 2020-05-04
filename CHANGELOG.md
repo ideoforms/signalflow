@@ -88,7 +88,7 @@ CHANGELOG
 - Synthesis nodes: `Sine`, `Square`, `Granulator`, `Wavetable`
 - Control nodes: `Tick`, `Line`, `ASR`
 - Effects nodes: `Delay`, `Gate`, `Pan`, `Resample`, `Width`
-- Chance nodes: `Dust`, `Noise`
+- Chance nodes: `RandomImpulse`, `Noise`
 - `Buffer` object to store fixed buffers of sample data
 - `RingBuffer` for circular buffering
 - Global `Registry` to store and instantiate `Node` objects by identifier

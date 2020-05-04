@@ -7,7 +7,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/core/random.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/renderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/util.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/dust.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/random_impulse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/logistic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/noise.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/trigger_noise.cpp

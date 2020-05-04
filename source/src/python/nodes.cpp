@@ -26,8 +26,8 @@ void init_python_nodes(py::module &m)
     py::class_<Tick, Node, NodeRefTemplate<Tick>>(m, "Tick")
         .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440.0));
 
-    py::class_<Dust, Node, NodeRefTemplate<Dust>>(m, "Dust")
-        .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440.0));
+    py::class_<RandomImpulse, Node, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
+        .def(py::init<NodeRef, signal_event_distribution_t>(), "frequency"_a = NodeRef(440.0), "distribution"_a = SIGNAL_EVENT_DISTRIBUTION_UNIFORM);
 
     py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable")
         .def(py::init<BufferRef, NodeRef>(), "buffer"_a, "frequency"_a = NodeRef(440.0));
