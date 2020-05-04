@@ -1,5 +1,6 @@
 #include "signal/python/python.h"
 
+void init_python_constants(py::module &m);
 void init_python_node(py::module &m);
 void init_python_nodes(py::module &m);
 void init_python_buffer(py::module &m);
@@ -8,6 +9,7 @@ void init_python_synth(py::module &m);
 
 PYBIND11_MODULE(libsignal, m)
 {
+    init_python_constants(m);
     init_python_node(m);
     init_python_nodes(m);
     init_python_graph(m);

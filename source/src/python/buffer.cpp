@@ -14,6 +14,11 @@ void init_python_buffer(py::module &m)
         .def_readonly("num_channels", &Buffer::num_channels)
         .def_readonly("sample_rate", &Buffer::sample_rate)
         .def_readonly("duration", &Buffer::duration)
+        .def_readwrite("interpolate", &Buffer::interpolate)
+
+        .def("get", &Buffer::get)
+        .def("get_frame", &Buffer::get_frame)
+        .def("fill", [](Buffer &buf, float sample) { buf.fill(sample); })
 
         .def("load", &Buffer::load)
         .def("save", &Buffer::save)

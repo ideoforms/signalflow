@@ -247,6 +247,15 @@ double Buffer::offset_to_frame(double offset)
 
 sample Buffer::get_frame(double frame)
 {
+    if (frame > this->num_frames - 1)
+    {
+        frame = this->num_frames - 1;
+    }
+    else if (frame < 0)
+    {
+        frame = 0;
+    }
+
     if (this->interpolate == SIGNAL_INTERPOLATION_LINEAR)
     {
         double frame_frac = (frame - (int) frame);

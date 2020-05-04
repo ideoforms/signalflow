@@ -69,6 +69,7 @@ set(SRC ${SRC}
 if (CMAKE_BUILD_PYTHON)
     set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/python/python.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/constants.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/python/node.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/python/nodes.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/python/graph.cpp
