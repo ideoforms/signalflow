@@ -74,6 +74,9 @@ typedef RingBuffer<sample> SampleRingBuffer;
         }                                                     \
     }
 
+#define SIGNAL_CHECK_GRAPH() \
+    if (!this->graph) { throw std::runtime_error("Couldn't instantiate Node as no AudioGraph exists"); }
+
 /**------------------------------------------------------------------------
 * Algorithm to use when interpolating between samples.
 *------------------------------------------------------------------------*/

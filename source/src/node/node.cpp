@@ -23,7 +23,7 @@ Node::Node()
     this->graph = shared_graph;
     this->out = new sample*[SIGNAL_MAX_CHANNELS]();
 
-    sample **out_channels = new sample*[SIGNAL_MAX_CHANNELS * SIGNAL_NODE_BUFFER_SIZE];
+    sample *out_channels = new sample[SIGNAL_MAX_CHANNELS * SIGNAL_NODE_BUFFER_SIZE]();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {
         /*------------------------------------------------------------------------
@@ -31,7 +31,7 @@ Node::Node()
          * ensure a consistent stride between channels, to communicate 2D sample
          * matrices to Python.
          *-----------------------------------------------------------------------*/
-        this->out[i] = ((sample *) out_channels) + (SIGNAL_NODE_BUFFER_SIZE * i);
+        this->out[i] = out_channels + (SIGNAL_NODE_BUFFER_SIZE * i);
 
         /*------------------------------------------------------------------------
          * Memory allocation magic: incrementing the `out` pointer means that

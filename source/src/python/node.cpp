@@ -56,6 +56,10 @@ void init_python_node(py::module &m)
         })
         .def("trigger", [](Node& node) { node.trigger(); })
         .def("process", [](Node& node, int num_frames) { node.process(num_frames); })
+        .def("process", [](Node& node, Buffer &buffer) {
+            std::cout << "node " << node.name << " processing " << buffer.num_frames << " frames to " << buffer.data[0][0] << std::endl;
+            node.process(buffer.data, buffer.num_frames);
+        })
         .def_property_readonly("output_buffer", [](Node &node)
         {
             return py::array_t<float>(

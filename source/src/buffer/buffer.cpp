@@ -33,7 +33,7 @@ Buffer::Buffer(int num_channels, int num_frames)
     sample *data_channels = new sample[this->num_channels * this->num_frames]();
     for (int channel = 0; channel < this->num_channels; channel++)
     {
-        this->data[channel] = (sample *) (data_channels + this->num_frames * channel);
+        this->data[channel] = data_channels + (this->num_frames * channel);
     }
 }
 
@@ -177,8 +177,7 @@ void Buffer::save(std::string filename)
 
     if (!sndfile)
     {
-        printf("Failed to write soundfile (%d)\n", sf_error(NULL));
-        exit(1);
+        throw std::runtime_error(std::string("Failed to write soundfile (") + std::string(sf_strerror(NULL)) + ")");
     }
 
     int frames_per_write = SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE;
