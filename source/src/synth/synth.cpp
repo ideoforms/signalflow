@@ -1,6 +1,7 @@
 #include "signal/synth/synth.h"
 
 #include "signal/core/core.h"
+#include "signal/core/graph.h"
 #include "signal/node/oscillators/constant.h"
 #include "signal/synth/synthregistry.h"
 
@@ -10,8 +11,11 @@
 namespace libsignal
 {
 
+extern AudioGraph *shared_graph;
+
 Synth::Synth()
 {
+    this->graph = shared_graph;
     this->auto_free = false;
 }
 
@@ -36,6 +40,16 @@ Synth::Synth(std::string name)
         NodeDefinition nodedef = synthspec->get_root();
         this->output = this->instantiate(&nodedef);
     }
+}
+
+signal_synth_state_t Synth::get_state()
+{
+    return this->state;
+}
+
+void Synth::set_state(signal_synth_state_t state)
+{
+    this->state = state;
 }
 
 NodeRef Synth::instantiate(NodeDefinition *nodedef)
@@ -121,12 +135,15 @@ void Synth::set_input(std::string name, NodeRef value)
 
 void Synth::disconnect()
 {
+    /*
     this->output->disconnect_outputs();
     for (auto input : this->inputs)
     {
         std::string name = input.first;
         this->set_input(name, nullptr);
     }
+     */
+    this->graph->remove_output(this->output);
 }
 
 bool Synth::get_auto_free()
@@ -138,10 +155,14 @@ void Synth::set_auto_free(bool value)
     this->auto_free = value;
 }
 
-
-void Synth::node_state_changed(NodeRef node)
+void Synth::node_state_changed(Node *node)
 {
-
+    if (node->get_state() == SIGNAL_NODE_STATE_FINISHED && this->auto_free)
+    {
+        std::cout << " - Node finished, setting Synth state to finished" << std::endl;
+        this->set_state(SIGNAL_SYNTH_STATE_FINISHED);
+        this->disconnect();
+    }
 }
 
 }

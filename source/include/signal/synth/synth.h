@@ -6,6 +6,14 @@
 
 namespace libsignal
 {
+
+typedef enum
+{
+    SIGNAL_SYNTH_STATE_ACTIVE,
+    SIGNAL_SYNTH_STATE_FINISHED
+} signal_synth_state_t;
+
+
 class Synth
 {
 public:
@@ -14,12 +22,13 @@ public:
     Synth(SynthTemplateRef synthtemplate);
     Synth(std::string name);
 
+    signal_synth_state_t get_state();
     void set_input(std::string name, float value);
     void set_input(std::string name, NodeRef value);
     void disconnect();
     bool get_auto_free();
     void set_auto_free(bool value);
-    void node_state_changed(NodeRef node);
+    void node_state_changed(Node *node);
 
     NodeRef output;
     std::unordered_map<std::string, NodeRef> inputs;
@@ -27,7 +36,10 @@ public:
 
 private:
     NodeRef instantiate(NodeDefinition *nodedef);
+    void set_state(signal_synth_state_t state);
     bool auto_free;
+    signal_synth_state_t state;
+    AudioGraph *graph;
 };
 
 

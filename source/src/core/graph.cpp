@@ -196,11 +196,13 @@ void AudioGraph::add_output(NodeRef node)
 
 void AudioGraph::remove_output(SynthRef synth)
 {
+    printf("adding output to list\n");
     output_nodes_to_remove.insert(synth->output);
 }
 
 void AudioGraph::remove_output(NodeRef node)
 {
+    printf("adding output to list\n");
     output_nodes_to_remove.insert(node);
 }
 

@@ -46,7 +46,9 @@ void write_callback(struct SoundIoOutStream *outstream,
         int err;
 
         if ((err = soundio_outstream_begin_write(outstream, &areas, &frame_count)))
+        {
             throw std::runtime_error("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
+        }
 
         shared_graph->pull_input(frame_count);
 

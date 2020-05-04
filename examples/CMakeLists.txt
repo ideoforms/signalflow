@@ -13,13 +13,11 @@ set(EXAMPLES ${EXAMPLES}
     waveshaper-example.cpp
     wavetable-2d-example.cpp
     wavetable-example.cpp
+    synth-auto-free.cpp
 )
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(EXAMPLES ${EXAMPLES}
-        fft-lpf-example.cpp
-        fft-phase-vocoder-example.cpp
-        fft-sound-freeze.cpp
         mouse-control-example.cpp
     )
 endif()

@@ -24,44 +24,36 @@ int main()
      * Create a named input that can be used to modulate parameters of
      * the synth.
      *-----------------------------------------------------------------------*/
-    NodeRef base_freq = tmp->add_input("base_freq", 40.0);
-    NodeRef freq = tmp->add_node(new Noise(2.0, true, 40, 160));
-    NodeRef sine = tmp->add_node(new Sine(freq + base_freq));
-    NodeRef pan_position = tmp->add_input("pan", 0.5);
-    NodeRef pan = tmp->add_node(new Pan(2, sine, pan_position));
-
-    /*------------------------------------------------------------------------
-     * Set the output of the synth.
-     *-----------------------------------------------------------------------*/
-    tmp->set_output(pan);
+    NodeRef freq = tmp->add_input("freq", 40.0);
+    NodeRef width = tmp->add_input("width", 0.5);
+    NodeRef pan = tmp->add_input("pan", 0.5);
+    NodeRef square = new Square(freq, width);
+    NodeRef asr = new ASR(0.0, 0.0, 1.3);
+    NodeRef shaped = square * asr * 0.05;
+    NodeRef stereo = new Pan(2, shaped, pan);
+    // NodeRef delay = new Delay(stereo, 0.1, 0.9, 0.5);
+    // NodeRef output = stereo + delay * 0.3;
+    NodeRef output = stereo * 0.2;
+    tmp->set_output(output);
 
     SynthSpecRef spec = tmp->parse();
     spec->print();
 
-    /*------------------------------------------------------------------------
-     * Instantiate two synths that use this template.
-     * Pan one hard left, and one hard right.
-     *-----------------------------------------------------------------------*/
-    SynthRef synth1 = new Synth(tmp);
-    synth1->set_input("pan", -1);
-    SynthRef synth2 = new Synth(tmp);
-    synth2->set_input("pan", 1);
-
-    /*------------------------------------------------------------------------
-     * Connect the synths to our graph's output.
-     *-----------------------------------------------------------------------*/
-    graph->add_output(synth1->output);
-    graph->add_output(synth2->output);
-    graph->print();
     graph->start();
+    graph->poll(2);
+
+    std::set<SynthRef> synths;
 
     while (true)
     {
-        float freq = random_uniform(40, 800);
-        synth1->set_input("base_freq", freq);
-        usleep(250000);
-        synth2->set_input("base_freq", freq);
-        usleep(250000);
+        float freq = 110 * int(powf(8, random_uniform(0, 1)));
+        SynthRef synth = new Synth(spec);
+        synths.insert(synth);
+        synth->set_auto_free(true);
+        synth->set_input("freq", freq);
+        synth->set_input("width", random_uniform(0.3, 0.7));
+        graph->add_output(synth);
+        usleep(1000000);
     }
 
     return 0;

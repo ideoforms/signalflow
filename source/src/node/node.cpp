@@ -259,8 +259,10 @@ void Node::set_buffer(std::string name, BufferRef buffer)
 
 void Node::zero_output()
 {
-    for (int i = 0; i < this->num_output_channels; i++)
-        memset(this->out[i], 0, SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
+    for (int channel = 0; channel < this->num_output_channels; channel++)
+    {
+        memset(this->out[channel], 0, SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
+    }
 }
 
 Synth *Node::get_synth()

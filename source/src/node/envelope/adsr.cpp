@@ -72,6 +72,11 @@ void ADSR::process(sample **out, int num_frames)
                      * Envelope has finished.
                      *-----------------------------------------------------------------------*/
                     rv = 0.0;
+
+                    if (this->state == SIGNAL_NODE_STATE_ACTIVE)
+                    {
+                        this->set_state(SIGNAL_NODE_STATE_FINISHED);
+                    }
                 }
                 this->phase += phase_step;
             }
