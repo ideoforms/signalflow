@@ -13,10 +13,10 @@ public:
     Synth(SynthTemplateRef synthtemplate);
     Synth(std::string name);
 
-
     void set_input(std::string name, float value);
     void set_input(std::string name, NodeRef value);
     void disconnect();
+    void set_auto_free(bool value);
 
     NodeRef output;
     std::unordered_map<std::string, NodeRef> inputs;
@@ -24,6 +24,7 @@ public:
 
 private:
     NodeRef instantiate(NodeDefinition *nodedef);
+    bool auto_free;
 };
 
 template <class T>

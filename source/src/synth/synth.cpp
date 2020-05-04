@@ -75,6 +75,8 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
         }
     }
 
+    noderef->set_synth(this);
+
     return noderef;
 }
 
@@ -116,7 +118,7 @@ void Synth::disconnect()
     for (auto input : this->inputs)
     {
         std::string name = input.first;
-        this->set_input(name, 0);
+        this->set_input(name, nullptr);
     }
 }
 

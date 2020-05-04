@@ -43,6 +43,8 @@ public:
     void load(std::string filename);
     void save(std::string filename);
 
+    // TODO split(N) would normally denote how many parts to split into.
+    //      split(chunk_size=) / split(split_count=) ?
     std::vector<BufferRef> split(int num_frames_per_part);
 
     /**------------------------------------------------------------------------

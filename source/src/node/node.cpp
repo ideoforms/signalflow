@@ -22,6 +22,7 @@ Node::Node()
 {
     this->graph = shared_graph;
     this->out = new sample*[SIGNAL_MAX_CHANNELS]();
+    this->state = SIGNAL_NODE_STATE_ACTIVE;
 
     sample *out_channels = new sample[SIGNAL_MAX_CHANNELS * SIGNAL_NODE_BUFFER_SIZE]();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
@@ -140,15 +141,6 @@ void Node::add_input(std::string name, NodeRef &node)
     this->update_channels();
 }
 
-void Node::remove_input(std::string name)
-{
-    /*------------------------------------------------------------------------
-     * Only done by special classes (Multiplex, AudioOut)
-     *-----------------------------------------------------------------------*/
-    this->inputs.erase(name);
-    this->update_channels();
-}
-
 void Node::set_input(std::string name, const NodeRef &node)
 {
     if (this->inputs.find(name) == this->inputs.end())
@@ -169,6 +161,15 @@ void Node::set_input(std::string name, const NodeRef &node)
     node->add_output(this, name);
 }
 
+void Node::remove_input(std::string name)
+{
+    /*------------------------------------------------------------------------
+     * Only done by special classes (Multiplex, AudioOut)
+     *-----------------------------------------------------------------------*/
+    this->inputs.erase(name);
+    this->update_channels();
+}
+
 void Node::add_output(Node *target, std::string name)
 {
     this->outputs.insert(std::make_pair(target, name));
@@ -177,6 +178,14 @@ void Node::add_output(Node *target, std::string name)
 void Node::remove_output(Node *target, std::string name)
 {
     this->outputs.erase(std::make_pair(target, name));
+}
+
+void Node::disconnect_inputs()
+{
+    for (auto param : this->inputs)
+    {
+        this->set_input(param.first, 0);
+    }
 }
 
 void Node::disconnect_outputs()
@@ -193,14 +202,6 @@ void Node::disconnect_outputs()
         Node *target = output.first;
         std::string name = output.second;
         target->set_input(name, 0);
-    }
-}
-
-void Node::disconnect_inputs()
-{
-    for (auto param : this->inputs)
-    {
-        this->set_input(param.first, 0);
     }
 }
 
@@ -244,6 +245,20 @@ void Node::zero_output()
         memset(this->out[i], 0, SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
 }
 
+Synth *Node::get_synth()
+{
+    return this->synth;
+}
+
+void Node::set_synth(Synth *synth)
+{
+    if (this->synth)
+    {
+        throw std::runtime_error("This Node is already part of a Synth");
+    }
+    this->synth = synth;
+}
+
 void Node::trigger(std::string name, float value)
 {
 }
@@ -254,8 +269,40 @@ void Node::poll(float frequency, std::string label)
     this->monitor->start();
 }
 
+NodeRef Node::scale(float from, float to, signal_scale_t scale)
+{
+    switch (scale)
+    {
+        case SIGNAL_SCALE_LIN_LIN:
+            return new Scale(this, -1, 1, from, to);
+        case SIGNAL_SCALE_LIN_EXP:
+            return new LinExp(this, -1, 1, from, to);
+        default:
+            return nullptr;
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+#pragma mark -
+///////////////////////////////////////////////////////////////////////////////
+
+BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)
+    : Node(), input0(a), input1(b)
+{
+    this->add_input("input0", this->input0);
+    this->add_input("input1", this->input1);
+}
+
+UnaryOpNode::UnaryOpNode(NodeRef a)
+    : Node(), input(a)
+{
+    this->add_input("input", this->input);
+}
+
+#pragma mark -
+
 /*------------------------------------------------------------------------
- * Default constructors.
+ * NodeRef
  *-----------------------------------------------------------------------*/
 
 template <class T>
@@ -359,31 +406,5 @@ sample NodeRefTemplate<T>::operator[](int index)
 
 // Explicitly instantiate the class
 template class NodeRefTemplate<Node>;
-
-BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)
-    : Node(), input0(a), input1(b)
-{
-    this->add_input("input0", this->input0);
-    this->add_input("input1", this->input1);
-}
-
-UnaryOpNode::UnaryOpNode(NodeRef a)
-    : Node(), input(a)
-{
-    this->add_input("input", this->input);
-}
-
-NodeRef Node::scale(float from, float to, signal_scale_t scale)
-{
-    switch (scale)
-    {
-        case SIGNAL_SCALE_LIN_LIN:
-            return new Scale(this, -1, 1, from, to);
-        case SIGNAL_SCALE_LIN_EXP:
-            return new LinExp(this, -1, 1, from, to);
-        default:
-            return nullptr;
-    }
-}
 
 } /* namespace libsignal */

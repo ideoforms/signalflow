@@ -24,6 +24,12 @@ class Node;
 class AudioGraph;
 class NodeMonitor;
 
+typedef enum
+{
+    SIGNAL_NODE_STATE_ACTIVE,
+    SIGNAL_NODE_STATE_FINISHED
+} signal_node_state_t;
+
 /*------------------------------------------------------------------------
  * Allows us to use a float (or direct node ptr) in place of a NodeRef
  * by specifying conversion constructors.
@@ -120,6 +126,11 @@ public:
     virtual NodeRef scale(float from, float to, signal_scale_t scale = SIGNAL_SCALE_LIN_LIN);
 
     /*------------------------------------------------------------------------
+     * Get the Synth that this node is part of.
+     *-----------------------------------------------------------------------*/
+    Synth *get_synth();
+
+    /*------------------------------------------------------------------------
      * Human-readable name identifier [a-z0-9-]
      *----------------------------------------------------------------------*/
     std::string name;
@@ -168,7 +179,7 @@ public:
      *
      * TODO: Should be an AudioGraphRef
      *-----------------------------------------------------------------------*/
-    AudioGraph *graph;
+    AudioGraph *graph = nullptr;
 
     /*------------------------------------------------------------------------
      * Number of actual in/out channels. This should always reflect
@@ -196,6 +207,11 @@ public:
      *       its history can be read for delay lines etc.
      *-----------------------------------------------------------------------*/
     sample **out;
+
+    /*------------------------------------------------------------------------
+     * Node state
+     *-----------------------------------------------------------------------*/
+    signal_node_state_t state;
 
     /*------------------------------------------------------------------------
      * Stores the number of frames in the previous processing block. Used
@@ -240,6 +256,11 @@ protected:
     virtual void zero_output();
 
     /*------------------------------------------------------------------------
+     * Set the Synth that this node is part of.
+     *-----------------------------------------------------------------------*/
+    virtual void set_synth(Synth *synth);
+
+    /*------------------------------------------------------------------------
      * If a node currently has N input channels but M>N channels are
      * requested, its input will be automatically upmixed by the containing
      * AudioGraph by duplicating the existing channels until M is reached.
@@ -267,9 +288,15 @@ private:
     virtual void update_channels();
 
     /*------------------------------------------------------------------------
-     * Allow AudioGraph to access private methods
+     * Pointer to the Synth that this node is a part of, if any.
+     *-----------------------------------------------------------------------*/
+    Synth *synth = nullptr;
+
+    /*------------------------------------------------------------------------
+     * Allow friends to access private methods
      *-----------------------------------------------------------------------*/
     friend class AudioGraph;
+    friend class Synth;
 };
 
 class UnaryOpNode : public Node

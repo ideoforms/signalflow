@@ -8,6 +8,7 @@ void init_python_synth(py::module &m)
     py::class_<SynthTemplate, SynthTemplateRefTemplate<SynthTemplate>>(m, "SynthTemplate")
         .def(py::init<std::string>())
         .def("add_input", &SynthTemplate::add_input)
+        .def("add_node", &SynthTemplate::add_node)
         .def("set_output", &SynthTemplate::set_output)
         .def("parse", &SynthTemplate::parse);
 
@@ -22,8 +23,11 @@ void init_python_synth(py::module &m)
         {
             synth.set_input(name, value);
         })
-        .def_readonly("output", &Synth::output);
+        .def_readonly("output", &Synth::output)
+        .def_readonly("nodes", &Synth::nodes)
+        .def_readonly("inputs", &Synth::inputs);
 
     py::class_<SynthSpec, SynthSpecRefTemplate<SynthSpec>>(m, "SynthSpec")
-        .def("print", [](SynthSpec &synthspec) { synthspec.print(); });
+        .def("print", [](SynthSpec &synthspec) { synthspec.print(); })
+        .def_readonly("name", &SynthSpec::name);
 }

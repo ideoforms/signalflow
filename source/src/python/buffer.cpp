@@ -17,6 +17,7 @@ void init_python_buffer(py::module &m)
         .def_readonly("duration", &Buffer::duration)
         .def_readwrite("interpolate", &Buffer::interpolate)
 
+        .def("split", &Buffer::split)
         .def("get", &Buffer::get)
         .def("get_frame", &Buffer::get_frame)
         .def("fill", [](Buffer &buf, float sample) { buf.fill(sample); })
