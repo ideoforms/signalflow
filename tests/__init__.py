@@ -46,5 +46,3 @@ def graph():
     yield graph
     del graph
     graph = None
-    import gc
-    gc.collect()
