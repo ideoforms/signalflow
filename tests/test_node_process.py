@@ -12,3 +12,6 @@ def test_process():
     a.process(1024)
     assert a.output_buffer.shape == (32, 1024)
     del graph
+    graph = None
+    import gc
+    gc.collect()
