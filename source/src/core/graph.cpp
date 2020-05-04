@@ -1,5 +1,6 @@
 #include "signal/core/graph.h"
 #include "signal/core/core.h"
+#include "signal/core/graph-monitor.h"
 #include "signal/node/node.h"
 #include "signal/node/oscillators/constant.h"
 
@@ -30,6 +31,8 @@ AudioGraph::AudioGraph()
     this->output = audioout;
     this->sample_rate = audioout->sample_rate;
     this->node_count = 0;
+    this->cpu_usage = 0.0;
+    this->monitor = NULL;
 }
 
 void AudioGraph::start()
@@ -118,6 +121,10 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
 
 void AudioGraph::pull_input(int num_frames)
 {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
+
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
     for (auto node : output_nodes_to_remove)
     {
@@ -129,6 +136,12 @@ void AudioGraph::pull_input(int num_frames)
     this->pull_input(this->output, num_frames);
     this->node_count = this->processed_nodes.size();
     signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
+
+    gettimeofday(&tv, NULL);
+    double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
+    double dt = t1 - t0;
+    double t_max = (double) num_frames / this->sample_rate;
+    this->cpu_usage = dt / t_max;
 }
 
 void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
@@ -162,11 +175,6 @@ void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
     }
 
     signal_debug("AudioGraph: Offline process completed");
-}
-
-NodeRef AudioGraph::add_node(Node *node)
-{
-    return NodeRef(node);
 }
 
 NodeRef AudioGraph::get_output()
@@ -223,5 +231,29 @@ void AudioGraph::print(NodeRef &root, int depth)
         }
     }
 }
+
+void AudioGraph::poll(float frequency)
+{
+    if (frequency > 0)
+    {
+        if (this->monitor)
+        {
+            throw std::runtime_error("AudioGraph is already polling state");
+        }
+        this->monitor = new AudioGraphMonitor(this, frequency);
+        this->monitor->start();
+    }
+}
+
+int AudioGraph::get_node_count()
+{
+    return this->node_count;
+}
+
+float AudioGraph::get_cpu_usage()
+{
+    return this->cpu_usage;
+}
+
 
 }

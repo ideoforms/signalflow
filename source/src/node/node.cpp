@@ -11,7 +11,7 @@
 
 #include "signal/core/core.h"
 #include "signal/core/graph.h"
-#include "signal/core/monitor.h"
+#include "signal/node/node-monitor.h"
 
 namespace libsignal
 {
@@ -54,6 +54,7 @@ Node::Node()
     this->no_input_upmix = false;
 
     this->monitor = NULL;
+    this->synth = NULL;
 }
 
 Node::~Node()
@@ -132,9 +133,15 @@ signal_node_state_t Node::get_state()
 
 void Node::set_state(signal_node_state_t state)
 {
-    this->state = state;
+    if (state != this->state)
+    {
+        this->state = state;
+        if (this->synth)
+        {
+            this->synth->node_state_changed(this);
+        }
+    }
 }
-
 
 void Node::add_input(std::string name, NodeRef &node)
 {

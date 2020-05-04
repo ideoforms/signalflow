@@ -1,24 +1,23 @@
-#include "signal/node/node.h"
+#include "signal/core/graph.h"
 
 #include <thread>
-#include <unistd.h>
+#include <memory>
 
 namespace libsignal
 {
 
-class NodeMonitor
+class AudioGraphMonitor
 {
 public:
-    NodeMonitor(NodeRef node, std::string label, float frequency);
+    AudioGraphMonitor(AudioGraphRef graph, float frequency);
 
     void start();
     void stop();
 
 private:
     void run_thread();
-    NodeRef node;
+    AudioGraphRef graph;
     float frequency;
-    std::string label;
     bool running;
     std::shared_ptr<std::thread> thread;
 };

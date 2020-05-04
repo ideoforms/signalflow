@@ -23,6 +23,7 @@ void init_python_synth(py::module &m)
         {
             synth.set_input(name, value);
         })
+        .def_property("auto_free", &Synth::get_auto_free, &Synth::set_auto_free)
         .def_readonly("output", &Synth::output)
         .def_readonly("nodes", &Synth::nodes)
         .def_readonly("inputs", &Synth::inputs);

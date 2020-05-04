@@ -10,7 +10,13 @@
 namespace libsignal
 {
 
+Synth::Synth()
+{
+    this->auto_free = false;
+}
+
 Synth::Synth(SynthSpecRef synthspec)
+    : Synth()
 {
     NodeDefinition nodedef = synthspec->get_root();
     this->output = this->instantiate(&nodedef);
@@ -22,6 +28,7 @@ Synth::Synth(SynthTemplateRef synthtemplate)
 }
 
 Synth::Synth(std::string name)
+    : Synth()
 {
     SynthSpecRef synthspec = SynthRegistry::global()->get(name);
     if (synthspec)
@@ -73,9 +80,9 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
         {
             this->inputs[nodedef->input_name] = noderef;
         }
-    }
 
-    noderef->set_synth(this);
+        noderef->set_synth(this);
+    }
 
     return noderef;
 }
@@ -120,6 +127,21 @@ void Synth::disconnect()
         std::string name = input.first;
         this->set_input(name, nullptr);
     }
+}
+
+bool Synth::get_auto_free()
+{
+    return this->auto_free;
+}
+void Synth::set_auto_free(bool value)
+{
+    this->auto_free = value;
+}
+
+
+void Synth::node_state_changed(NodeRef node)
+{
+
 }
 
 }

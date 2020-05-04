@@ -14,3 +14,7 @@ def test_synth(graph):
     assert len(synth.inputs) == 0
     assert synth.output.name == "sine"
     assert synth.output.synth == synth
+    assert synth.auto_free == False
+
+    synth.auto_free = True
+    assert synth.auto_free == True

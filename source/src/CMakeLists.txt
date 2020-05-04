@@ -3,11 +3,11 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/buffer/buffer2D.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/core.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/graph.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/core/monitor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/core/graph-monitor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/random.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/renderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/util.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/random_impulse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/random_impulse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/logistic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/noise.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/chance/trigger_noise.cpp
@@ -35,6 +35,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/abstract.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/soundio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/node.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/node-monitor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/add.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/divide.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/mixer.cpp

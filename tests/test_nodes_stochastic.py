@@ -3,7 +3,6 @@ from libsignal import SIGNAL_EVENT_DISTRIBUTION_POISSON
 from . import graph, process_tree
 
 import numpy as np
-import pytest
 
 def test_random_impulse(graph):
     frequency = 1000

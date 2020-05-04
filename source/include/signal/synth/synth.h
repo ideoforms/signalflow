@@ -9,6 +9,7 @@ namespace libsignal
 class Synth
 {
 public:
+    Synth();
     Synth(SynthSpecRef synthspec);
     Synth(SynthTemplateRef synthtemplate);
     Synth(std::string name);
@@ -16,7 +17,9 @@ public:
     void set_input(std::string name, float value);
     void set_input(std::string name, NodeRef value);
     void disconnect();
+    bool get_auto_free();
     void set_auto_free(bool value);
+    void node_state_changed(NodeRef node);
 
     NodeRef output;
     std::unordered_map<std::string, NodeRef> inputs;
@@ -26,6 +29,7 @@ private:
     NodeRef instantiate(NodeDefinition *nodedef);
     bool auto_free;
 };
+
 
 template <class T>
 class SynthRefTemplate : public std::shared_ptr<T>

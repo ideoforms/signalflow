@@ -1,4 +1,4 @@
-#include "signal/core/monitor.h"
+#include "signal/node/node-monitor.h"
 
 namespace libsignal
 {

@@ -9,9 +9,11 @@ void init_python_graph(py::module &m)
         .def(py::init<>())
         .def("start", &AudioGraph::start)
         .def("print", [](AudioGraph &graph) { graph.print(); })
+        .def("poll", &AudioGraph::poll)
         .def("pull_input", [](AudioGraph &graph, int num_frames) { graph.pull_input(num_frames); })
         .def_readonly("sample_rate", &AudioGraph::sample_rate)
-        .def_readonly("node_count", &AudioGraph::node_count)
+        .def_property_readonly("node_count", &AudioGraph::get_node_count)
+        .def_property_readonly("cpu_usage", &AudioGraph::get_cpu_usage)
         .def("wait", [](AudioGraph &graph)
         {
             // Interruptible wait

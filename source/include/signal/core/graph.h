@@ -6,6 +6,8 @@
 namespace libsignal
 {
 
+class AudioGraphMonitor;
+
 class AudioGraph
 {
 public:
@@ -37,6 +39,12 @@ public:
     void print();
 
     /**------------------------------------------------------------------------
+     * Poll graph state every so often.
+     *
+     *------------------------------------------------------------------------*/
+    void poll(float frequency);
+
+    /**------------------------------------------------------------------------
      * Perform batch (offline) processing of a given node graph.
      *
      *------------------------------------------------------------------------*/
@@ -57,19 +65,22 @@ public:
     void remove_output(SynthRef synth);
     void remove_output(NodeRef node);
 
-    NodeRef add_node(Node *node);
+    int get_node_count();
+    float get_cpu_usage();
 
     NodeRef input = nullptr;
     NodeRef output = nullptr;
 
     int sample_rate;
-    int node_count;
 
 private:
     std::set<Node *> processed_nodes;
     std::set<NodeRef> output_nodes_to_remove;
 
     void print(NodeRef &root, int depth);
+    AudioGraphMonitor *monitor;
+    int node_count;
+    float cpu_usage;
 };
 
 class AudioGraphRef : public std::shared_ptr<AudioGraph>
