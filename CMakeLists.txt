@@ -8,13 +8,15 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
 
 #-------------------------------------------------------------------------------
-# Shared compiler flags
+# Shared compiler flags.
 #-------------------------------------------------------------------------------
 add_compile_options(
     -Wall
+    -pedantic
     -Wno-gnu-zero-variadic-macro-arguments
+    -Wno-vla-extension
     -fPIC
-    -pedantic)
+)
 
 include_directories(
     /usr/local/include
@@ -26,9 +28,12 @@ include_directories(
 if (DEBUG)
     message("Building in debug mode")
     add_compile_options(-ggdb3 -O0 -DDEBUG)
-else()
+elseif (RELEASE)
     message("Building in release mode")
     add_compile_options(-O3 -funroll-loops)
+else()
+    message("Building in dev mode")
+    add_compile_options(-O0)
 endif()
 
 #-------------------------------------------------------------------------------
