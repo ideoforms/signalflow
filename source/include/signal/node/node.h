@@ -88,6 +88,11 @@ public:
     virtual void process(int num_frames);
 
     /*------------------------------------------------------------------------
+     * Get state.
+     *-----------------------------------------------------------------------*/
+    virtual signal_node_state_t get_state();
+
+    /*------------------------------------------------------------------------
      * Set inputs.
      *-----------------------------------------------------------------------*/
     virtual void set_input(std::string name, const NodeRef &input);
@@ -220,6 +225,11 @@ public:
     int last_num_frames;
 
 protected:
+    /*------------------------------------------------------------------------
+     * Set node run state.
+     *-----------------------------------------------------------------------*/
+    virtual void set_state(signal_node_state_t state);
+
     /*------------------------------------------------------------------------
      * Creates a new named input.
      * Should only ever be used in the class constructor.

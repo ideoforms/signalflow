@@ -21,6 +21,7 @@ void ASR::trigger(std::string name, float value)
     if (name == SIGNAL_DEFAULT_TRIGGER)
     {
         this->phase = 0.0;
+        this->state = SIGNAL_NODE_STATE_ACTIVE;
     }
 }
 
@@ -63,6 +64,11 @@ void ASR::process(sample **out, int num_frames)
              * Envelope has finished.
              *-----------------------------------------------------------------------*/
             rv = 0.0;
+
+            if (this->state == SIGNAL_NODE_STATE_ACTIVE)
+            {
+                this->set_state(SIGNAL_NODE_STATE_FINISHED);
+            }
         }
 
         this->phase += 1.0 / this->graph->sample_rate;

@@ -125,6 +125,17 @@ void Node::update_channels()
     }
 }
 
+signal_node_state_t Node::get_state()
+{
+    return this->state;
+}
+
+void Node::set_state(signal_node_state_t state)
+{
+    this->state = state;
+}
+
+
 void Node::add_input(std::string name, NodeRef &node)
 {
     /*------------------------------------------------------------------------
