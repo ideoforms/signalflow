@@ -60,7 +60,6 @@ void init_python_node(py::module &m)
             node.last_num_frames = num_frames;
         })
         .def("process", [](Node& node, Buffer &buffer) {
-            std::cout << "node " << node.name << " processing " << buffer.num_frames << " frames to " << buffer.data[0][0] << std::endl;
             node.process(buffer.data, buffer.num_frames);
             node.last_num_frames = buffer.num_frames;
         })
