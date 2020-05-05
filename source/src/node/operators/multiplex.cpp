@@ -14,6 +14,11 @@ Multiplex::Multiplex()
 Multiplex::Multiplex(std::initializer_list<NodeRef> inputs)
     : Multiplex()
 {
+    if (inputs.size() > SIGNAL_MAX_CHANNELS)
+    {
+        throw std::runtime_error("Multiplex: Input has too many channels");
+    }
+
     for (NodeRef input : inputs)
     {
         this->add_input(input);
@@ -23,6 +28,11 @@ Multiplex::Multiplex(std::initializer_list<NodeRef> inputs)
 Multiplex::Multiplex(std::vector<NodeRef> inputs)
     : Multiplex()
 {
+    if (inputs.size() > SIGNAL_MAX_CHANNELS)
+    {
+        throw std::runtime_error("Multiplex: Input has too many channels");
+    }
+
     for (NodeRef input : inputs)
     {
         this->add_input(input);
@@ -32,6 +42,11 @@ Multiplex::Multiplex(std::vector<NodeRef> inputs)
 Multiplex::Multiplex(std::vector<float> inputs)
     : Multiplex()
 {
+    if (inputs.size() > SIGNAL_MAX_CHANNELS)
+    {
+        throw std::runtime_error("Multiplex: Input has too many channels");
+    }
+
     for (float input : inputs)
     {
         this->add_input(new Constant(input));
@@ -41,6 +56,11 @@ Multiplex::Multiplex(std::vector<float> inputs)
 Multiplex::Multiplex(std::vector<int> inputs)
     : Multiplex()
 {
+    if (inputs.size() > SIGNAL_MAX_CHANNELS)
+    {
+        throw std::runtime_error("Multiplex: Input has too many channels");
+    }
+
     for (int input : inputs)
     {
         this->add_input(new Constant(input));

@@ -39,7 +39,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
  *-----------------------------------------------------------------------*/
 // TODO Want this to be as short as possible but needs to be overridden by FFT units
 // #define SIGNAL_NODE_BUFFER_SIZE 2048
-#define SIGNAL_NODE_BUFFER_SIZE 44100
+#define SIGNAL_NODE_BUFFER_SIZE 48000
 
 /*------------------------------------------------------------------------
  * The default trigger name, used when node->trigger() is called
@@ -75,7 +75,8 @@ typedef RingBuffer<sample> SampleRingBuffer;
     }
 
 #define SIGNAL_CHECK_GRAPH() \
-    if (!this->graph) { throw std::runtime_error("Couldn't instantiate Node as no AudioGraph exists"); }
+    if (!this->graph) { throw std::runtime_error("Error in call to Node::process: Can't process node as no AudioGraph exists"); } \
+    if (num_frames > SIGNAL_NODE_BUFFER_SIZE) { throw std::runtime_error("Error in call to Node::process: Attempted to write too many frames"); }
 
 /**------------------------------------------------------------------------
 * Algorithm to use when interpolating between samples.

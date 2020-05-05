@@ -19,6 +19,8 @@ RandomImpulse::RandomImpulse(NodeRef frequency, signal_event_distribution_t dist
 
 void RandomImpulse::process(sample **out, int num_frames)
 {
+    SIGNAL_CHECK_GRAPH()
+
     for (int frame = 0; frame < num_frames; frame++)
     {
         float freq = this->frequency->out[0][frame];

@@ -36,7 +36,7 @@ def process_tree(node, num_frames=DEFAULT_BUFFER_LENGTH):
 def count_zero_crossings(array):
     count = 0
     for index in range(len(array)):
-        if array[index - 1] <= 0 and array[index] > 0:
+        if (array[index - 1] <= 0 or index == 0) and array[index] > 0:
             count += 1
     return count
 

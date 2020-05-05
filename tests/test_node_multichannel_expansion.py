@@ -1,5 +1,6 @@
 from libsignal import Sine, Square
 import numpy as np
+import math
 
 from . import process_tree, count_zero_crossings
 from . import graph
@@ -36,8 +37,8 @@ def test_expansion_multi(graph):
     assert np.all(a.inputs["width"].output_buffer[1] == 0.7)
     assert np.all(a.inputs["width"].output_buffer[2] == 0.0)
 
-    assert count_zero_crossings(a.output_buffer[0]) == int(440 * DEFAULT_BUFFER_LENGTH / graph.sample_rate + 0.5)
-    assert count_zero_crossings(a.output_buffer[1]) == int(880 * DEFAULT_BUFFER_LENGTH / graph.sample_rate + 0.5)
+    assert count_zero_crossings(a.output_buffer[0]) == math.ceil(440 * DEFAULT_BUFFER_LENGTH / graph.sample_rate)
+    assert count_zero_crossings(a.output_buffer[1]) == math.ceil(880 * DEFAULT_BUFFER_LENGTH / graph.sample_rate)
     assert count_zero_crossings(a.output_buffer[2]) == 0
 
     #--------------------------------------------------------------------------------
@@ -54,9 +55,9 @@ def test_expansion_multi(graph):
     assert np.all(a.inputs["width"].output_buffer[0] == 0.3)
     assert np.all(a.inputs["width"].output_buffer[1] == 0.7)
     assert np.all(a.inputs["width"].output_buffer[2] == 0.3)
-    assert count_zero_crossings(a.output_buffer[0]) == int(440 * DEFAULT_BUFFER_LENGTH / graph.sample_rate + 0.5)
-    assert count_zero_crossings(a.output_buffer[1]) == int(880 * DEFAULT_BUFFER_LENGTH / graph.sample_rate + 0.5)
-    assert count_zero_crossings(a.output_buffer[2]) == int(1320 * DEFAULT_BUFFER_LENGTH / graph.sample_rate + 0.5)
+    assert count_zero_crossings(a.output_buffer[0]) == math.ceil(440 * DEFAULT_BUFFER_LENGTH / graph.sample_rate)
+    assert count_zero_crossings(a.output_buffer[1]) == math.ceil(880 * DEFAULT_BUFFER_LENGTH / graph.sample_rate)
+    assert count_zero_crossings(a.output_buffer[2]) == math.ceil(1320 * DEFAULT_BUFFER_LENGTH / graph.sample_rate)
 
     graph.remove_output(a)
     graph.pull_input(1024)
