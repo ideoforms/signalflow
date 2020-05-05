@@ -21,26 +21,7 @@ extern AudioGraph *shared_graph;
 Node::Node()
 {
     this->graph = shared_graph;
-    this->out = new sample*[SIGNAL_MAX_CHANNELS]();
     this->state = SIGNAL_NODE_STATE_ACTIVE;
-
-    sample *out_channels = new sample[SIGNAL_MAX_CHANNELS * SIGNAL_NODE_BUFFER_SIZE]();
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
-    {
-        /*------------------------------------------------------------------------
-         * Allocate all channels in one contiguous chunk. This is needed to
-         * ensure a consistent stride between channels, to communicate 2D sample
-         * matrices to Python.
-         *-----------------------------------------------------------------------*/
-        this->out[i] = out_channels + (SIGNAL_NODE_BUFFER_SIZE * i);
-
-        /*------------------------------------------------------------------------
-         * Memory allocation magic: incrementing the `out` pointer means that
-         * we can query out[-1] which holds the last frame of the previous
-         * block. 
-         *-----------------------------------------------------------------------*/
-        this->out[i] = this->out[i] + 1;
-    }
 
     this->min_input_channels = N_CHANNELS;
     this->max_input_channels = N_CHANNELS;
@@ -55,6 +36,10 @@ Node::Node()
 
     this->monitor = NULL;
     this->synth = NULL;
+
+    this->out = NULL;
+    this->output_buffer_length = SIGNAL_NODE_BUFFER_SIZE;
+    this->allocate_output_buffer();
 }
 
 Node::~Node()
@@ -64,7 +49,7 @@ Node::~Node()
      * the original allocated segment (see Node constructor above).
      *-----------------------------------------------------------------------*/
     delete (this->out[0] - 1);
-    delete this->out;
+    delete (this->out);
 }
 
 /*------------------------------------------------------------------------
@@ -122,7 +107,44 @@ void Node::update_channels()
             this->num_output_channels = this->min_output_channels;
         }
 
+        this->allocate_output_buffer();
+
         signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
+    }
+}
+
+void Node::allocate_output_buffer()
+{
+    if (this->out)
+    {
+        delete (this->out[0] - 1);
+        delete (this->out);
+    }
+
+    int output_buffer_count = SIGNAL_MAX_CHANNELS;
+
+    if (output_buffer_count < this->num_output_channels)
+    {
+        output_buffer_count = this->num_output_channels;
+    }
+
+    this->out = new sample *[output_buffer_count]();
+    sample *out_channels = new sample[output_buffer_count * this->output_buffer_length]();
+    for (int i = 0; i < output_buffer_count; i++)
+    {
+        /*------------------------------------------------------------------------
+         * Allocate all channels in one contiguous chunk. This is needed to
+         * ensure a consistent stride between channels, to communicate 2D sample
+         * matrices to Python.
+         *-----------------------------------------------------------------------*/
+        this->out[i] = out_channels + (this->output_buffer_length * i);
+
+        /*------------------------------------------------------------------------
+         * Memory allocation magic: incrementing the `out` pointer means that
+         * we can query out[-1] which holds the last frame of the previous
+         * block.
+         *-----------------------------------------------------------------------*/
+        this->out[i] = this->out[i] + 1;
     }
 }
 

@@ -12,6 +12,9 @@ FFTNode::FFTNode(int fft_size)
     this->num_bins = fft_size / 2;
     this->num_hops = 0;
 
+    this->output_buffer_length = SIGNAL_MAX_FFT_SIZE;
+    this->allocate_output_buffer();
+
     this->magnitudes = new float*[SIGNAL_MAX_CHANNELS]();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {

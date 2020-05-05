@@ -66,8 +66,8 @@ void Mixer::update_channels()
         this->amp_compensation = 1.0;
     }
 
-    signal_debug("Node %s set num_out_channels to %d, num_in_channels %d",
-                 this->name.c_str(), this->num_output_channels, this->num_input_channels);
+    signal_debug("Node mixer set num_out_channels to %d, num_in_channels %d\n",
+                 this->num_output_channels, this->num_input_channels);
 }
 
 }

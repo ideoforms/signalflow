@@ -28,10 +28,14 @@ sys.path.insert(0, build_dir)
 
 DEFAULT_BUFFER_LENGTH = 1024
 
-def process_tree(node, num_frames=DEFAULT_BUFFER_LENGTH):
+def process_tree(node, buffer=None, num_frames=DEFAULT_BUFFER_LENGTH):
     for _, input in node.inputs.items():
         process_tree(input, num_frames)
-    node.process(num_frames)
+
+    if buffer:
+        node.process(buffer)
+    else:
+        node.process(num_frames)
 
 def count_zero_crossings(array):
     count = 0

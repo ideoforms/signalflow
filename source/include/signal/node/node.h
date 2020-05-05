@@ -226,6 +226,16 @@ public:
 
 protected:
     /*------------------------------------------------------------------------
+      * Called after add_input/route to update our routing ins/outs,
+      * called by AudioGraph
+      *-----------------------------------------------------------------------*/
+    virtual void update_channels();
+
+    /*------------------------------------------------------------------------
+     * Allocate memory for output buffers.
+     *-----------------------------------------------------------------------*/
+    virtual void allocate_output_buffer();
+    /*------------------------------------------------------------------------
      * Set node run state.
      *-----------------------------------------------------------------------*/
     virtual void set_state(signal_node_state_t state);
@@ -271,6 +281,11 @@ protected:
     virtual void set_synth(Synth *synth);
 
     /*------------------------------------------------------------------------
+     * Output buffer length, in samples.
+     *-----------------------------------------------------------------------*/
+    int output_buffer_length;
+
+    /*------------------------------------------------------------------------
      * If a node currently has N input channels but M>N channels are
      * requested, its input will be automatically upmixed by the containing
      * AudioGraph by duplicating the existing channels until M is reached.
@@ -290,12 +305,6 @@ private:
      * which handles caching of earlier frames etc.
      *-----------------------------------------------------------------------*/
     virtual void _process(sample **out, int num_frames);
-
-    /*------------------------------------------------------------------------
-     * Called after add_input/route to update our routing ins/outs,
-     * called by AudioGraph
-     *-----------------------------------------------------------------------*/
-    virtual void update_channels();
 
     /*------------------------------------------------------------------------
      * Pointer to the Synth that this node is a part of, if any.
