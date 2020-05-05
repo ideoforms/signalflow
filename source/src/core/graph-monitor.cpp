@@ -1,4 +1,5 @@
 #include "signal/core/graph-monitor.h"
+#include <unistd.h>
 
 namespace libsignal
 {

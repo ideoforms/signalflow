@@ -11,6 +11,7 @@
 #include "signal/node/io/output/soundio.h"
 
 #include <unistd.h>
+#include <sys/time.h>
 
 namespace libsignal
 {
