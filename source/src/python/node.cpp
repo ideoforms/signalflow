@@ -70,7 +70,7 @@ void init_python_node(py::module &m)
         {
             return py::array_t<float>(
                 { SIGNAL_MAX_CHANNELS, node.last_num_frames },
-                { sizeof(float) * SIGNAL_NODE_BUFFER_SIZE, sizeof(float) },
+                { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
                 node.out[0]);
         });
 

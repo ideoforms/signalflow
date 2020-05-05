@@ -131,6 +131,11 @@ public:
     virtual NodeRef scale(float from, float to, signal_scale_t scale = SIGNAL_SCALE_LIN_LIN);
 
     /*------------------------------------------------------------------------
+     * Get the number of samples in the node's output buffer, per channel.
+     *-----------------------------------------------------------------------*/
+    int get_output_buffer_length();
+
+    /*------------------------------------------------------------------------
      * Get the Synth that this node is part of.
      *-----------------------------------------------------------------------*/
     Synth *get_synth();
