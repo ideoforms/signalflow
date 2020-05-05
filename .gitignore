@@ -25,5 +25,4 @@ signal/local.h
 .eggs
 __pycache__
 dist
-cmake-build-debug
-.cmake-build-debug
+.cmake-*
