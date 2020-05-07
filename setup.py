@@ -17,11 +17,9 @@ class CMakeBuild(build_ext):
             self.build_extension(ext)
 
     def build_extension(self, ext):
-        extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
-
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg, '-j8']
-        cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
+        cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + self.build_lib,
                       '-DCMAKE_BUILD_PYTHON=1',
                       '-DCMAKE_BUILD_TYPE=' + cfg]
 

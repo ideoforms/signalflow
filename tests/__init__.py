@@ -9,7 +9,6 @@ import os
 import sys
 import pytest
 import sysconfig
-import libsignal
 
 #------------------------------------------------------------------------
 # Add the build path of the .so to Python's path, so that it can be
@@ -25,6 +24,7 @@ def distutils_dir_name(dir_name):
 
 build_dir = os.path.join("build", distutils_dir_name("lib"))
 sys.path.insert(0, build_dir)
+import libsignal
 
 DEFAULT_BUFFER_LENGTH = 1024
 
