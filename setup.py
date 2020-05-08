@@ -17,7 +17,7 @@ class CMakeBuild(build_ext):
             self.build_extension(ext)
 
     def build_extension(self, ext):
-        extdir = os.path.abspath(os.path.dirname(self.get_ext_fullpath(ext.name)))
+        extdir = os.path.abspath(self.build_lib)
 
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg, '-j8']

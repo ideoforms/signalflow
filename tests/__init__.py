@@ -24,7 +24,6 @@ def distutils_dir_name(dir_name):
 
 build_dir = os.path.join("build", distutils_dir_name("lib"))
 sys.path.insert(0, build_dir)
-
 import libsignal
 
 DEFAULT_BUFFER_LENGTH = 1024
