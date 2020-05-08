@@ -9,6 +9,7 @@ Mixer::Mixer(NodeRef input, int channels)
 {
     this->name = "mixer";
     this->channels = channels;
+    this->update_channels();
 }
 
 void Mixer::process(sample **out, int num_frames)

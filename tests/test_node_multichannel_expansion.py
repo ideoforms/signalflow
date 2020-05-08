@@ -1,4 +1,4 @@
-from libsignal import Sine, Square
+from libsignal import Sine, Square, Mixer, Buffer
 import numpy as np
 import math
 
@@ -12,6 +12,10 @@ def test_expansion_mono(graph):
     assert a.num_input_channels == 1
 
 def test_expansion_multi(graph):
+    """
+    When passed an array as an argument, the input is automatically converted
+    into a Multiplex and the output number of channels should be increased.
+    """
     a = Sine([ 0.0, 1.0 ])
     assert a.num_output_channels == 2
     assert a.num_input_channels == 2
@@ -25,6 +29,7 @@ def test_expansion_multi(graph):
     assert np.all(frequency.inputs["input0"].output_buffer[0] == 0.0)
     assert np.all(frequency.inputs["input1"].output_buffer[0] == 1.0)
 
+def test_expansion_upmix(graph):
     a = Square([ 440, 880, 1320 ], [ 0.3, 0.7 ])
     assert a.num_input_channels == 3
     assert a.num_output_channels == 3
@@ -65,3 +70,20 @@ def test_expansion_multi(graph):
     # Only remaining note is the abstract audio output node
     #--------------------------------------------------------------------------------
     assert graph.node_count == 1
+
+def get_peak_frequencies(samples, sample_rate):
+    import scipy.signal
+    magnitudes = np.abs(np.fft.rfft(samples))
+    peaks, _ = scipy.signal.find_peaks(magnitudes)
+    peaks = peaks * sample_rate / len(samples)
+    return peaks
+
+def test_expansion_max_channels(graph):
+    frequencies = 1000 + np.arange(32) * 100
+    a = Sine(frequencies)
+    mixer = Mixer(a, 1)
+    b = Buffer(1, DEFAULT_BUFFER_LENGTH)
+    process_tree(mixer, buffer=b)
+    peak_frequencies = get_peak_frequencies(b.data[0], b.sample_rate)
+    peak_frequencies_rounded = np.round(peak_frequencies, -2)
+    assert np.array_equal(peak_frequencies_rounded, frequencies)

@@ -64,7 +64,12 @@ void init_python_node(py::module &m)
             node.process(num_frames);
             node.last_num_frames = num_frames;
         })
-        .def("process", [](Node& node, Buffer &buffer) {
+        .def("process", [](Node& node, Buffer &buffer)
+        {
+            if (node.num_output_channels != buffer.num_channels)
+            {
+                throw std::runtime_error("Buffer and Node output channels don't match");
+            }
             node.process(buffer.data, buffer.num_frames);
             node.last_num_frames = buffer.num_frames;
         })
@@ -78,5 +83,10 @@ void init_python_node(py::module &m)
 
     py::implicitly_convertible<int, Node>();
     py::implicitly_convertible<float, Node>();
+
+    // python native lists
     py::implicitly_convertible<py::list, Node>();
+
+    // numpy arrays
+    py::implicitly_convertible<py::array, Node>();
 }
