@@ -19,6 +19,6 @@ jobs:
     - name: Make
       run: cd build && make -j8
     - name: Python build
-      run: python3.7 setup.py build
+      run: python3 setup.py build
     - name: Python test
-      run: python3.7 setup.py test
+      run: python3 setup.py test
