@@ -9,10 +9,10 @@ jobs:
     - uses: actions/checkout@v2
     - name: Install dependencies
       run: |
+        sudo rm -rf /home/linuxbrew
         sudo apt-get update -y
         sudo apt-get install libasound2-dev libsoundio-dev libsndfile1-dev libgsl0-dev -y
         sudo apt-get install python3 python3-setuptools python3-pip python3-numpy
-        sudo apt-get remove linuxbrew-wrapper
         sudo pip3 install pytest
     - name: Configure
       run: mkdir build && cd build && cmake ..
