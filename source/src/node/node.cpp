@@ -181,11 +181,21 @@ void Node::add_input(std::string name, NodeRef &node)
     this->update_channels();
 }
 
+NodeRef Node::get_input(std::string name)
+{
+    if (this->inputs.find(name) == this->inputs.end())
+    {
+        throw std::runtime_error("Node " + this->name + " has no such input: " + name);
+    }
+
+    return *(this->inputs[name]);
+}
+
 void Node::set_input(std::string name, const NodeRef &node)
 {
     if (this->inputs.find(name) == this->inputs.end())
     {
-        throw std::runtime_error("Node " + this->name + " has no such param: " + name);
+        throw std::runtime_error("Node " + this->name + " has no such input: " + name);
     }
 
     NodeRef current_input = *(this->inputs[name]);

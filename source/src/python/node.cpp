@@ -57,6 +57,8 @@ void init_python_node(py::module &m)
             }
             return inputs;
         })
+        .def("set_input", &Node::set_input)
+        .def("get_input", &Node::get_input)
         .def("trigger", [](Node& node) { node.trigger(); })
         .def("process", [](Node& node, int num_frames) {
             node.process(num_frames);

@@ -93,8 +93,9 @@ public:
     virtual signal_node_state_t get_state();
 
     /*------------------------------------------------------------------------
-     * Set inputs.
+     * Get/set inputs.
      *-----------------------------------------------------------------------*/
+    virtual NodeRef get_input(std::string name);
     virtual void set_input(std::string name, const NodeRef &input);
 
     /*------------------------------------------------------------------------
