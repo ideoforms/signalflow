@@ -10,8 +10,9 @@ void init_python_buffer(py::module &m)
         .def(py::init<int, int>())
         .def(py::init<int, int, std::vector<std::vector<float>>>())
 
-        .def_readonly("num_frames", &Buffer::num_frames)
         .def("__len__", [](Buffer &buf) { return buf.num_frames; })
+
+        .def_readonly("num_frames", &Buffer::num_frames)
         .def_readonly("num_channels", &Buffer::num_channels)
         .def_readonly("sample_rate", &Buffer::sample_rate)
         .def_readonly("duration", &Buffer::duration)
@@ -24,7 +25,8 @@ void init_python_buffer(py::module &m)
 
         .def("load", &Buffer::load)
         .def("save", &Buffer::save)
-        .def_property_readonly("data", [](Buffer &buf) {
+        .def_property_readonly("data", [](Buffer &buf)
+        {
             return py::array_t<float>(
                 { buf.num_channels, buf.num_frames },
                 { sizeof(float) * buf.num_frames, sizeof(float) },

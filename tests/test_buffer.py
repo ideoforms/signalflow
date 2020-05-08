@@ -33,6 +33,7 @@ def test_buffer_interpolate():
 def test_buffer_fill():
     b = Buffer(4, 44100)
     b.fill(0.5)
+    assert b.data.shape == (4, 44100)
     assert np.all(b.data[0] == 0.5)
     assert np.all(b.data[1] == 0.5)
     assert np.all(b.data[2] == 0.5)
@@ -42,6 +43,7 @@ def test_buffer_split():
     b = Buffer(1, 8192)
     b.fill(1)
     buffers = b.split(2048)
+    assert len(buffers) == 4
     for buf in buffers:
         assert buf.num_channels == 1
         assert buf.num_frames == 2048
@@ -49,6 +51,7 @@ def test_buffer_split():
 
 def test_buffer_load():
     b = Buffer("examples/audio/gliss.aif")
+    assert b.data.shape == (1, 262856)
     assert b.num_frames == 262856
     assert b.num_channels == 1
     assert b.sample_rate == 44100
@@ -57,6 +60,7 @@ def test_buffer_load():
     assert rms == pytest.approx(0.08339643)
 
 def test_buffer_save():
-    b = Buffer(1, 44100)
-    # TODO
+    buf_len = 44100
+    rand_buf = np.array([ np.random.uniform(size=buf_len) ])
+    b = Buffer(1, 44100, rand_buf)
 
