@@ -42,6 +42,10 @@ Synth::Synth(std::string name)
     }
 }
 
+Synth::~Synth()
+{
+}
+
 signal_synth_state_t Synth::get_state()
 {
     return this->state;
@@ -135,15 +139,7 @@ void Synth::set_input(std::string name, NodeRef value)
 
 void Synth::disconnect()
 {
-    /*
-    this->output->disconnect_outputs();
-    for (auto input : this->inputs)
-    {
-        std::string name = input.first;
-        this->set_input(name, nullptr);
-    }
-     */
-    this->graph->remove_output(this->output);
+    this->graph->remove_output(this);
 }
 
 bool Synth::get_auto_free()
@@ -159,7 +155,6 @@ void Synth::node_state_changed(Node *node)
 {
     if (node->get_state() == SIGNAL_NODE_STATE_FINISHED && this->auto_free)
     {
-        std::cout << " - Node finished, setting Synth state to finished" << std::endl;
         this->set_state(SIGNAL_SYNTH_STATE_FINISHED);
         this->disconnect();
     }

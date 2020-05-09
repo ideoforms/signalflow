@@ -46,6 +46,8 @@ void init_python_graph(py::module &m)
                 }
             }
         })
-        .def("add_output", [](AudioGraph &graph, NodeRef a) { graph.add_output(a); })
-        .def("remove_output", [](AudioGraph &graph, NodeRef a) { graph.remove_output(a); });
+        .def("add_output", [](AudioGraph &graph, NodeRef node) { graph.add_output(node); })
+        .def("add_output", [](AudioGraph &graph, SynthRef synth) { graph.add_output(synth); })
+        .def("remove_output", [](AudioGraph &graph, NodeRef node) { graph.remove_output(node); });
+
 }

@@ -116,8 +116,13 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
             }
         }
     }
+
     node->_process(node->out, num_frames);
-    this->processed_nodes.insert(node.get());
+
+    if (node->name != "constant")
+    {
+        this->processed_nodes.insert(node.get());
+    }
 }
 
 void AudioGraph::pull_input(int num_frames)
@@ -127,11 +132,25 @@ void AudioGraph::pull_input(int num_frames)
     double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
 
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
-    for (auto node : output_nodes_to_remove)
+    for (auto node : nodes_to_remove)
     {
         output->remove_input(node);
     }
-    output_nodes_to_remove.clear();
+    nodes_to_remove.clear();
+
+    for (auto synth : synths_to_remove)
+    {
+        for (auto synthref : synths)
+        {
+            if (synthref.get() == synth)
+            {
+                synths.erase(synthref);
+                break;
+            }
+        }
+    }
+    this->synths_to_remove.clear();
+
     this->processed_nodes.clear();
 
     this->pull_input(this->output, num_frames);
@@ -187,6 +206,7 @@ void AudioGraph::add_output(SynthRef synth)
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
     output->add_input(synth->output);
+    this->synths.insert(synth);
 }
 
 void AudioGraph::add_output(NodeRef node)
@@ -197,12 +217,18 @@ void AudioGraph::add_output(NodeRef node)
 
 void AudioGraph::remove_output(SynthRef synth)
 {
-    output_nodes_to_remove.insert(synth->output);
+    this->remove_output(synth.get());
+}
+
+void AudioGraph::remove_output(Synth *synth)
+{
+    synths_to_remove.insert(synth);
+    nodes_to_remove.insert(synth->output);
 }
 
 void AudioGraph::remove_output(NodeRef node)
 {
-    output_nodes_to_remove.insert(node);
+    nodes_to_remove.insert(node);
 }
 
 void AudioGraph::print()
@@ -249,6 +275,11 @@ void AudioGraph::poll(float frequency)
 int AudioGraph::get_node_count()
 {
     return this->node_count;
+}
+
+int AudioGraph::get_synth_count()
+{
+    return (int) this->synths.size();
 }
 
 float AudioGraph::get_cpu_usage()

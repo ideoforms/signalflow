@@ -11,7 +11,17 @@ Sine::Sine(NodeRef frequency)
 {
     this->name = "sine";
     this->add_input("frequency", this->frequency);
-    memset(this->phase, 0, sizeof(this->phase));
+    this->allocate_memory();
+}
+
+void Sine::allocate_memory()
+{
+    this->phase = new float[this->num_output_channels]();
+}
+
+void Sine::free_memory()
+{
+    delete [] this->phase;
 }
 
 void Sine::process(sample **out, int num_frames)

@@ -62,10 +62,12 @@ public:
     void add_output(SynthRef synth);
     void add_output(NodeRef node);
 
+    void remove_output(Synth *synth);
     void remove_output(SynthRef synth);
     void remove_output(NodeRef node);
 
     int get_node_count();
+    int get_synth_count();
     float get_cpu_usage();
 
     NodeRef input = nullptr;
@@ -75,7 +77,9 @@ public:
 
 private:
     std::set<Node *> processed_nodes;
-    std::set<NodeRef> output_nodes_to_remove;
+    std::set<NodeRef> nodes_to_remove;
+    std::set<SynthRef> synths;
+    std::set<Synth *> synths_to_remove;
 
     void print(NodeRef &root, int depth);
     AudioGraphMonitor *monitor;

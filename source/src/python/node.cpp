@@ -48,6 +48,8 @@ void init_python_node(py::module &m)
         .def_readonly("max_input_channels", &Node::max_input_channels)
 
         .def("set_buffer", &Node::set_buffer)
+        .def("poll", [](Node &node, float frequency = 1.0) { node.poll(frequency); })
+        .def("poll", [](Node &node, float frequency = 1.0, std::string label = "") { node.poll(frequency, label); })
 
         .def_property_readonly("inputs", [](Node& node) {
             std::unordered_map<std::string, NodeRef>inputs(node.inputs.size());

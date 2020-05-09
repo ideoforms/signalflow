@@ -27,6 +27,7 @@ public:
     virtual void remove_input(NodeRef node);
 
     std::list<NodeRef> audio_inputs;
+    int input_index;
 };
 
 } // namespace libsignal

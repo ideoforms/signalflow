@@ -13,6 +13,7 @@ AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
     this->no_input_upmix = true;
     this->min_output_channels = 2;
     this->max_output_channels = 2;
+    this->input_index = 0;
 }
 
 void AudioOut_Abstract::process(sample **out, int num_frames)
@@ -42,19 +43,26 @@ void AudioOut_Abstract::process(sample **out, int num_frames)
 void AudioOut_Abstract::add_input(NodeRef node)
 {
     audio_inputs.push_back(node);
-    std::string input_name = "input" + std::to_string(this->audio_inputs.size());
-    ;
+    std::string input_name = "input" + std::to_string(input_index);
+    this->input_index++;
     this->Node::add_input(input_name, audio_inputs.back());
 }
 
 void AudioOut_Abstract::remove_input(NodeRef node)
 {
+    bool removed = false;
     for (auto param : this->inputs)
     {
         if (*(param.second) == node)
         {
             this->Node::remove_input(param.first);
+            removed = true;
+            break;
         }
+    }
+    if (!removed)
+    {
+        throw std::runtime_error("Couldn't find node to remove");
     }
     audio_inputs.remove(node);
 }

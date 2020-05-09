@@ -27,7 +27,10 @@ void AudioGraphMonitor::run_thread()
     while (this->running)
     {
         float cpu_usage = this->graph->get_cpu_usage() * 100.0;
-        std::cout << "AudioGraph: " << this->graph->get_node_count() << " active nodes, " << cpu_usage << "% CPU usage" << std::endl;
+        std::cout << "AudioGraph: " <<
+            this->graph->get_node_count() << " active nodes, " <<
+            this->graph->get_synth_count() << " synths, " <<
+            cpu_usage << "% CPU usage" << std::endl;
         usleep(sleep_time);
     }
 }

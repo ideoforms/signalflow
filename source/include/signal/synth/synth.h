@@ -21,6 +21,7 @@ public:
     Synth(SynthSpecRef synthspec);
     Synth(SynthTemplateRef synthtemplate);
     Synth(std::string name);
+    virtual ~Synth();
 
     signal_synth_state_t get_state();
     void set_input(std::string name, float value);

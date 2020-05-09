@@ -10,9 +10,11 @@ public:
     Sine(NodeRef frequency = 440);
 
     NodeRef frequency;
-    float phase[SIGNAL_MAX_CHANNELS];
+    float *phase;
 
     virtual void process(sample **out, int num_frames);
+    void allocate_memory();
+    void free_memory();
 };
 
 REGISTER(Sine, "sine")
