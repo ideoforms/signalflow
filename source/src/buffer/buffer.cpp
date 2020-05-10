@@ -1,6 +1,7 @@
 #include "signal/buffer/buffer.h"
 #include "signal/core/random.h"
 #include "signal/core/constants.h"
+#include "signal/core/graph.h"
 
 #ifdef HAVE_SNDFILE
 #include <sndfile.h>
@@ -16,6 +17,8 @@
 namespace libsignal
 {
 
+extern AudioGraph *shared_graph;
+
 Buffer::Buffer()
 {
 }
@@ -24,7 +27,7 @@ Buffer::Buffer(int num_channels, int num_frames)
 {
     this->num_channels = num_channels;
     this->num_frames = num_frames;
-    this->sample_rate = SIGNAL_DEFAULT_SAMPLE_RATE;
+    this->sample_rate = shared_graph->sample_rate;
     this->duration = this->num_frames / this->sample_rate;
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
 

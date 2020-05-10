@@ -340,8 +340,6 @@ int Node::get_output_buffer_length()
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-#pragma mark -
-///////////////////////////////////////////////////////////////////////////////
 
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)
     : Node(), input0(a), input1(b)
@@ -355,8 +353,6 @@ UnaryOpNode::UnaryOpNode(NodeRef a)
 {
     this->add_input("input", this->input);
 }
-
-#pragma mark -
 
 /*------------------------------------------------------------------------
  * NodeRef
