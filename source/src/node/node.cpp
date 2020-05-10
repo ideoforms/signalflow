@@ -48,8 +48,7 @@ Node::~Node()
      * Memory allocation magic: Pointer to out[] is actually 1 byte off
      * the original allocated segment (see Node constructor above).
      *-----------------------------------------------------------------------*/
-    delete (this->out[0] - 1);
-    delete (this->out);
+    this->free_output_buffer();
 }
 
 /*------------------------------------------------------------------------
@@ -162,6 +161,13 @@ void Node::allocate_output_buffer()
     }
 
     this->num_output_channels_allocated = output_buffer_count;
+}
+
+void Node::free_output_buffer()
+{
+    delete (this->out[0] - 1);
+    delete (this->out);
+    this->out = NULL;
 }
 
 signal_node_state_t Node::get_state()

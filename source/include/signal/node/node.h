@@ -241,6 +241,8 @@ protected:
      * Allocate memory for output buffers.
      *-----------------------------------------------------------------------*/
     virtual void allocate_output_buffer();
+    virtual void free_output_buffer();
+
     /*------------------------------------------------------------------------
      * Set node run state.
      *-----------------------------------------------------------------------*/
