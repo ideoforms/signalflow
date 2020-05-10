@@ -81,7 +81,7 @@ def get_peak_frequencies(samples, sample_rate):
 def test_expansion_max_channels(graph):
     frequencies = 1000 + np.arange(32) * 100
     a = Sine(frequencies)
-    mixer = Mixer(a, 1)
+    mixer = Mixer(1, a)
     b = Buffer(1, DEFAULT_BUFFER_LENGTH)
     process_tree(mixer, buffer=b)
     peak_frequencies = get_peak_frequencies(b.data[0], b.sample_rate)
