@@ -22,7 +22,7 @@ header_root = os.path.join(top_level, "source", "include")
 source_files = glob.glob("%s/signal/node/*/*.h" % header_root) + glob.glob("%s/signal/node/*/*/*.h" % header_root)
 source_files = list(filter(lambda path: not "/io/" in path, source_files))
 
-def generate_class_bindings(class_name, parameters):
+def generate_class_bindings(class_name, parameter_sets):
     """
     py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
     .def(py::init<NodeRef>(),               "frequency"_a = NodeRef(440.0))
@@ -34,24 +34,10 @@ def generate_class_bindings(class_name, parameters):
         return ""
 
     output = 'py::class_<{class_name}, Node, NodeRefTemplate<{class_name}>>(m, "{class_name}")\n'.format(class_name=class_name)
-    parameter_perms = [[]]
-    for parameter in parameters:
-        if parameter["type"] == "NodeRef":
-            perms_out = []
-            for perm in parameter_perms:
-                # for t in [ "NodeRef", "float", "std::vector<NodeRef>", "std::vector<float>" ]:
-                # for t in [ "NodeRef", "float" ]:
-                # for t in [ "NodeRef", "float" ]:
-                for t in [ "NodeRef" ]:
-                    perms_out.append(perm + [ t ])
-            parameter_perms = perms_out
-        else:
-            for perm in parameter_perms:
-                perm += [ parameter["type"] ]
-    for perm in parameter_perms:
-        perm_list = ", ".join(perm)
-        output += '    .def(py::init<{perm_list}>()'.format(perm_list=perm_list);
-        for parameter in parameters:
+    for parameter_set in parameter_sets:
+        parameter_type_list = ", ".join([ parameter["type"] for parameter in parameter_set ])
+        output += '    .def(py::init<{parameter_type_list}>()'.format(parameter_type_list=parameter_type_list);
+        for parameter in parameter_set:
             if parameter["default"]:
                 default = parameter["default"]
                 # property defaults
@@ -83,7 +69,7 @@ def generate_all_bindings():
             else:
                 continue
 
-            # print(class_name)
+            constructor_parameter_sets = []
             for method in value["methods"]["public"]:
                 if method["constructor"]:
                     parameters = []
@@ -102,9 +88,11 @@ def generate_all_bindings():
                                 "name" : p_name,
                                 "default" : p_default
                                 })
-                    output += generate_class_bindings(class_name, parameters)
-                    output = output.strip()
-                    output += "\n\n"
+                    constructor_parameter_sets.append(parameters)
+            if constructor_parameter_sets:
+                output += generate_class_bindings(class_name, constructor_parameter_sets)
+                output = output.strip()
+                output += "\n\n"
     return output
 
 bindings = generate_all_bindings()
