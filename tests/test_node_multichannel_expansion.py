@@ -53,7 +53,7 @@ def test_expansion_upmix(graph):
     a = Square([ 440, 880, 1320 ], [ 0.3, 0.7 ])
     graph.add_output(a)
     graph.pull_input(1024)
-    assert graph.node_count == 9
+    assert graph.node_count == 4
     assert np.all(a.inputs["frequency"].output_buffer[0] == 440.0)
     assert np.all(a.inputs["frequency"].output_buffer[1] == 880.0)
     assert np.all(a.inputs["frequency"].output_buffer[2] == 1320.0)

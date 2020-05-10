@@ -30,7 +30,7 @@ int main()
      * Downmixing 6 channels to 2 creates a stereo spread of six sawtooths
      * between the L and R speaker.
      *-----------------------------------------------------------------------*/
-    NodeRef mix = new Mixer(saw, 2);
+    NodeRef mix = new Mixer(2, saw);
 
     /*------------------------------------------------------------------------
      * To add some life, add a resonant filter with wandering cutoff

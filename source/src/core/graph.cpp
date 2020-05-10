@@ -121,7 +121,8 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
 
     node->_process(node->out, num_frames);
 
-    this->processed_nodes.insert(node.get());
+    if (node->name != "constant")
+        this->processed_nodes.insert(node.get());
 }
 
 void AudioGraph::pull_input(int num_frames)
