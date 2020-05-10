@@ -64,7 +64,7 @@ def generate_all_bindings():
             parent_class = None
             if "inherits" in value and len(value["inherits"]):
                 parent_class = value["inherits"][0]["class"]
-                if parent_class not in [ "Node", "UnaryOpNode", "BinaryOpNode" ]:
+                if parent_class not in [ "Node", "UnaryOpNode", "BinaryOpNode", "FFTNode", "FFTOpNode" ]:
                     continue
             else:
                 continue
