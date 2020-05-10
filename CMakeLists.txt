@@ -13,10 +13,15 @@ set(CMAKE_MACOSX_RPATH 1)
 add_compile_options(
     -Wall
     -pedantic
-    -Wno-gnu-zero-variadic-macro-arguments
-    -Wno-vla-extension
     -fPIC
 )
+
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    add_compile_options(
+        -Wno-gnu-zero-variadic-macro-arguments
+        -Wno-vla-extension
+    )
+endif()
 
 include_directories(
     /usr/local/include
@@ -63,8 +68,8 @@ add_definitions(-DHAVE_GSL)
 # For builds of the Python bindings, add Python dependencies and flags
 #-------------------------------------------------------------------------------
 if (CMAKE_BUILD_PYTHON)
-    find_package (Python3 COMPONENTS Interpreter Development)
-    include_directories(${Python3_INCLUDE_DIRS})
+    find_package (PythonLibs 3)
+    include_directories(${PYTHON_INCLUDE_DIR})
     if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
         add_link_options(-w -undefined dynamic_lookup)
@@ -94,7 +99,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif()
 
 if (CMAKE_BUILD_PYTHON)
-    target_link_libraries(signal ${Python3_LIBRARIES})
+    target_link_libraries(signal ${PYTHON_LIBRARY})
 else()
     #-------------------------------------------------------------------------------
     # Build examples
