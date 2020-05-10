@@ -20,6 +20,7 @@ import CppHeaderParser
 top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).decode().strip()
 header_root = os.path.join(top_level, "source", "include")
 source_files = glob.glob("%s/signal/node/*/*.h" % header_root) + glob.glob("%s/signal/node/*/*/*.h" % header_root)
+source_files = list(filter(lambda path: not "/io/" in path, source_files))
 
 def generate_class_bindings(class_name, parameters):
     """
@@ -52,7 +53,11 @@ def generate_class_bindings(class_name, parameters):
         output += '    .def(py::init<{perm_list}>()'.format(perm_list=perm_list);
         for parameter in parameters:
             if parameter["default"]:
-                default = "NodeRef(%s)" % parameter["default"]
+                default = parameter["default"]
+                # property defaults
+                if default == "{}":
+                    default = 0
+                default = "%s" % default
                 output += ', "{name}"_a = {default}'.format(name=parameter["name"], default=default)
             else:
                 output += ', "{name}"_a'.format(name=parameter["name"])
@@ -98,13 +103,13 @@ def generate_all_bindings():
                                 "default" : p_default
                                 })
                     output += generate_class_bindings(class_name, parameters)
-                    output += "\n"
+                    output = output.strip()
+                    output += "\n\n"
     return output
 
 bindings = generate_all_bindings()
-bindings = re.sub("\n", "\n\t", bindings)
-output = '''
-#include "signal/python/python.h"
+bindings = re.sub("\n", "\n    ", bindings)
+output = '''#include "signal/python/python.h"
 
 void init_python_nodes(py::module &m)
 {{
