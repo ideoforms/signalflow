@@ -24,7 +24,6 @@ public:
     virtual ~Synth();
 
     signal_synth_state_t get_state();
-    void set_input(std::string name, float value);
     void set_input(std::string name, NodeRef value);
     void disconnect();
     bool get_auto_free();

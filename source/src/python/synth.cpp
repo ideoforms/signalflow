@@ -15,14 +15,7 @@ void init_python_synth(py::module &m)
     py::class_<Synth, SynthRefTemplate<Synth>>(m, "Synth")
         .def(py::init<SynthTemplateRef>())
         .def(py::init<SynthSpecRef>())
-        .def("set_input", [](Synth &synth, std::string name, float value)
-        {
-            synth.set_input(name, value);
-        })
-        .def("set_input", [](Synth &synth, std::string name, NodeRef value)
-        {
-            synth.set_input(name, value);
-        })
+        .def("set_input", &Synth::set_input)
         .def_property("auto_free", &Synth::get_auto_free, &Synth::set_auto_free)
         .def_readonly("output", &Synth::output)
         .def_readonly("nodes", &Synth::nodes)

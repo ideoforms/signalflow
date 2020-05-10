@@ -105,15 +105,6 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
     return noderef;
 }
 
-void Synth::set_input(std::string name, float value)
-{
-    NodeRef current = this->inputs[name];
-    signal_assert(this->inputs[name] != nullptr, "Synth has no such parameter: %s", name.c_str());
-    NodeRef input = this->inputs[name];
-    Constant *constant = (Constant *) input.get();
-    constant->value = value;
-}
-
 void Synth::set_input(std::string name, NodeRef value)
 {
     /*------------------------------------------------------------------------
