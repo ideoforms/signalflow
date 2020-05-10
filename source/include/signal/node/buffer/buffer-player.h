@@ -9,10 +9,10 @@
 
 namespace libsignal
 {
-class Sampler : public Node
+class BufferPlayer : public Node
 {
 public:
-    Sampler(BufferRef buffer = nullptr, NodeRef rate = 1.0, NodeRef loop = 0);
+    BufferPlayer(BufferRef buffer = nullptr, NodeRef rate = 1.0, NodeRef loop = 0);
 
     BufferRef buffer;
 
@@ -30,5 +30,5 @@ private:
     float phase;
 };
 
-REGISTER(Sampler, "sampler")
+REGISTER(BufferPlayer, "buffer-player")
 }

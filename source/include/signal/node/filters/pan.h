@@ -4,10 +4,10 @@
 
 namespace libsignal
 {
-class Pan : public Node
+class LinearPanner : public Node
 {
 public:
-    Pan(int channels = 2, NodeRef input = 2, NodeRef pan = 0.5);
+    LinearPanner(int channels = 2, NodeRef input = 2, NodeRef pan = 0.5);
 
     virtual void process(sample **out, int num_frames);
 
@@ -15,5 +15,5 @@ public:
     NodeRef pan;
 };
 
-REGISTER(Pan, "pan")
+REGISTER(LinearPanner, "linear-panner")
 }

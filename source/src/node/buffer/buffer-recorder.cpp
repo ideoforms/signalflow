@@ -1,12 +1,12 @@
-#include "signal/node/buffer/recorder.h"
+#include "signal/node/buffer/buffer-recorder.h"
 
 namespace libsignal
 {
 
-Recorder::Recorder(BufferRef buffer, NodeRef input, bool loop)
+BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
     : buffer(buffer), input(input), loop(loop)
 {
-    this->name = "recorder";
+    this->name = "buffer-recorder";
 
     this->add_buffer("buffer", this->buffer);
     this->add_input("input", this->input);
@@ -20,7 +20,7 @@ Recorder::Recorder(BufferRef buffer, NodeRef input, bool loop)
     this->min_output_channels = this->max_output_channels = 0;
 }
 
-void Recorder::process(sample **out, int num_frames)
+void BufferRecorder::process(sample **out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

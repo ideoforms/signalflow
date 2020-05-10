@@ -58,16 +58,16 @@
 /*------------------------------------------------------------------------
  * Generators
  *-----------------------------------------------------------------------*/
-#include <signal/node/buffer/recorder.h>
-#include <signal/node/buffer/sampler.h>
+#include <signal/node/buffer/buffer-player.h>
+#include <signal/node/buffer/buffer-recorder.h>
 
 /*------------------------------------------------------------------------
  * Random processes
  *-----------------------------------------------------------------------*/
 #include <signal/node/stochastic/logistic.h>
 #include <signal/node/stochastic/noise.h>
-#include <signal/node/stochastic/random_impulse.h>
-#include <signal/node/stochastic/trigger_noise.h>
+#include <signal/node/stochastic/random-impulse.h>
+#include <signal/node/stochastic/trigger-noise.h>
 
 /*------------------------------------------------------------------------
  * Envelopes

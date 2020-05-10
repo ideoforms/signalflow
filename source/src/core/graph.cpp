@@ -92,7 +92,7 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
              * up-mix its output by replicating the existing channels. This allows
              * operations between multi-channel and mono-channel inputs to work
              * seamlessly without any additional implementation within the node
-             * itself (for example, Multiply(new Sine(440), new Pan(2, ...)))
+             * itself (for example, Multiply(new Sine(440), new LinearPanner(2, ...)))
              *
              * A few nodes must prevent automatic input up-mixing from happening.
              * These include Multiplex and AudioOut.

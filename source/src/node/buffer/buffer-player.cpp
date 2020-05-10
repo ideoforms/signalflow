@@ -1,4 +1,4 @@
-#include "signal/node/buffer/sampler.h"
+#include "signal/node/buffer/buffer-player.h"
 #include "signal/core/graph.h"
 
 #include <stdlib.h>
@@ -6,10 +6,10 @@
 namespace libsignal
 {
 
-Sampler::Sampler(BufferRef buffer, NodeRef rate, NodeRef loop)
+BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
     : rate(rate), loop(loop)
 {
-    this->name = "sampler";
+    this->name = "buffer-player";
 
     this->add_buffer("buffer", this->buffer);
     this->add_input("rate", this->rate);
@@ -30,7 +30,7 @@ Sampler::Sampler(BufferRef buffer, NodeRef rate, NodeRef loop)
     this->trigger();
 }
 
-void Sampler::process(sample **out, int num_frames)
+void BufferPlayer::process(sample **out, int num_frames)
 {
     sample s;
 
@@ -65,7 +65,7 @@ void Sampler::process(sample **out, int num_frames)
     }
 }
 
-void Sampler::trigger(std::string name, float value)
+void BufferPlayer::trigger(std::string name, float value)
 {
     if (name == SIGNAL_SAMPLER_TRIGGER_SET_POSITION)
     {

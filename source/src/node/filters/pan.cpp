@@ -3,7 +3,7 @@
 namespace libsignal
 {
 
-Pan::Pan(int channels, NodeRef input, NodeRef pan)
+LinearPanner::LinearPanner(int channels, NodeRef input, NodeRef pan)
     : input(input), pan(pan)
 {
     this->num_input_channels = 1;
@@ -15,10 +15,10 @@ Pan::Pan(int channels, NodeRef input, NodeRef pan)
     this->add_input("input", this->input);
     this->add_input("pan", this->pan);
 
-    this->name = "pan";
+    this->name = "linear-panner";
 }
 
-void Pan::process(sample **out, int num_frames)
+void LinearPanner::process(sample **out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

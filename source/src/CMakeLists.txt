@@ -7,10 +7,10 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/core/random.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/renderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/util.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random_impulse.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-impulse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/logistic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/noise.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/trigger_noise.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/trigger-noise.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/adsr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/asr.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft.cpp
@@ -56,8 +56,8 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/impulse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/triangle.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/wavetable.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/recorder.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/sampler.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-recorder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-player.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp

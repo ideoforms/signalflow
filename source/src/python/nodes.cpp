@@ -32,7 +32,7 @@ void init_python_nodes(py::module &m)
     py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable")
         .def(py::init<BufferRef, NodeRef>(), "buffer"_a, "frequency"_a = NodeRef(440.0));
 
-    py::class_<Pan, Node, NodeRefTemplate<Pan>>(m, "Pan")
+    py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
         .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = NodeRef(440.0), "pan"_a = NodeRef(0));
 
     py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn")
@@ -44,10 +44,10 @@ void init_python_nodes(py::module &m)
     py::class_<ADSR, Node, NodeRefTemplate<ADSR>>(m, "ADSR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "decay"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "gate"_a = NodeRef(0));
 
-    py::class_<Sampler, Node, NodeRefTemplate<Sampler>>(m, "Sampler")
+    py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a, "rate"_a = NodeRef(1.0), "loop"_a = NodeRef(1));
 
-    py::class_<Recorder, Node, NodeRefTemplate<Recorder>>(m, "Recorder")
+    py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder")
         .def(py::init<BufferRef, NodeRef, bool>(), "buffer"_a, "input"_a = NodeRef(0.0), "loop"_a = false);
 
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
