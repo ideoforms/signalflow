@@ -292,6 +292,11 @@ protected:
     int output_buffer_length;
 
     /*------------------------------------------------------------------------
+     * Number of output channels currently allocated.
+     *-----------------------------------------------------------------------*/
+    int num_output_channels_allocated;
+
+    /*------------------------------------------------------------------------
      * If a node currently has N input channels but M>N channels are
      * requested, its input will be automatically upmixed by the containing
      * AudioGraph by duplicating the existing channels until M is reached.

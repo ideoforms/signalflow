@@ -127,11 +127,18 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
 
 void AudioGraph::pull_input(int num_frames)
 {
+    /*------------------------------------------------------------------------
+     * Timestamp the start of processing to measure CPU usage.
+     *-----------------------------------------------------------------------*/
     struct timeval tv;
     gettimeofday(&tv, NULL);
     double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
 
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+
+    /*------------------------------------------------------------------------
+     * Disconnect any nodes and synths that are scheduled to be removed.
+     *-----------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
         output->remove_input(node);
@@ -151,12 +158,19 @@ void AudioGraph::pull_input(int num_frames)
     }
     this->synths_to_remove.clear();
 
+    /*------------------------------------------------------------------------
+     * Clear the record of processed nodes, and begin recursing through the
+     * node tree to process each node in turn.
+     *-----------------------------------------------------------------------*/
     this->processed_nodes.clear();
-
     this->pull_input(this->output, num_frames);
     this->node_count = this->processed_nodes.size();
     signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 
+    /*------------------------------------------------------------------------
+     * Calculate CPU usage (approximately) by measuring the % of time
+     * within the audio I/O callback that was used for processing.
+     *-----------------------------------------------------------------------*/
     gettimeofday(&tv, NULL);
     double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
     double dt = t1 - t0;

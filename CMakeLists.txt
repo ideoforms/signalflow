@@ -30,10 +30,10 @@ include_directories(
     source/lib/pybind11/include
 )
 
-if (DEBUG)
+if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     message("Building in debug mode")
     add_compile_options(-ggdb3 -O0 -DDEBUG)
-elseif (RELEASE)
+elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     message("Building in release mode")
     add_compile_options(-O3 -funroll-loops)
 else()

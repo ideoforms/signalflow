@@ -117,8 +117,22 @@ void Node::allocate_output_buffer()
 {
     if (this->out)
     {
-        delete (this->out[0] - 1);
-        delete (this->out);
+        if (this->num_output_channels <= this->num_output_channels_allocated)
+        {
+            /*------------------------------------------------------------------------
+             * If enough channels are already allocated, don't do anything.
+             *-----------------------------------------------------------------------*/
+            return;
+        }
+        else
+        {
+            /*------------------------------------------------------------------------
+             * If not enough channels are allocated, dealloc the current allocations
+             * and start from scratch.
+             *-----------------------------------------------------------------------*/
+            delete (this->out[0] - 1);
+            delete (this->out);
+        }
     }
 
     int output_buffer_count = SIGNAL_MAX_CHANNELS;
@@ -146,6 +160,8 @@ void Node::allocate_output_buffer()
          *-----------------------------------------------------------------------*/
         this->out[i] = this->out[i] + 1;
     }
+
+    this->num_output_channels_allocated = output_buffer_count;
 }
 
 signal_node_state_t Node::get_state()
