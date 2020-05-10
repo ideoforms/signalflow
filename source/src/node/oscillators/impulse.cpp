@@ -1,18 +1,18 @@
-#include "signal/node/oscillators/tick.h"
+#include "signal/node/oscillators/impulse.h"
 #include "signal/core/graph.h"
 
 namespace libsignal
 {
 
-Tick::Tick(NodeRef frequency)
+Impulse::Impulse(NodeRef frequency)
     : frequency(frequency)
 {
-    this->name = "tick";
+    this->name = "impulse";
     this->steps_remaining = 0;
     this->add_input("frequency", this->frequency);
 }
 
-void Tick::process(sample **out, int num_frames)
+void Impulse::process(sample **out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

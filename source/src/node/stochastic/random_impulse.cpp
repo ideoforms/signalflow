@@ -1,4 +1,4 @@
-#include "signal/node/chance/random_impulse.h"
+#include "signal/node/stochastic/random_impulse.h"
 
 #include "stdlib.h"
 

@@ -47,11 +47,11 @@
  *-----------------------------------------------------------------------*/
 #include <signal/node/oscillators/constant.h>
 #include <signal/node/oscillators/granulator.h>
+#include <signal/node/oscillators/impulse.h>
 #include <signal/node/oscillators/line.h>
 #include <signal/node/oscillators/saw.h>
 #include <signal/node/oscillators/sine.h>
 #include <signal/node/oscillators/square.h>
-#include <signal/node/oscillators/tick.h>
 #include <signal/node/oscillators/triangle.h>
 #include <signal/node/oscillators/wavetable.h>
 
@@ -64,10 +64,10 @@
 /*------------------------------------------------------------------------
  * Random processes
  *-----------------------------------------------------------------------*/
-#include <signal/node/chance/logistic.h>
-#include <signal/node/chance/noise.h>
-#include <signal/node/chance/random_impulse.h>
-#include <signal/node/chance/trigger_noise.h>
+#include <signal/node/stochastic/logistic.h>
+#include <signal/node/stochastic/noise.h>
+#include <signal/node/stochastic/random_impulse.h>
+#include <signal/node/stochastic/trigger_noise.h>
 
 /*------------------------------------------------------------------------
  * Envelopes

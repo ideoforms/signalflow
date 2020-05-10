@@ -1,4 +1,4 @@
-#include "signal/node/chance/noise.h"
+#include "signal/node/stochastic/noise.h"
 
 #include "signal/core/graph.h"
 #include "signal/core/random.h"

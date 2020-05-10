@@ -1,4 +1,4 @@
-#include "signal/node/chance/logistic.h"
+#include "signal/node/stochastic/logistic.h"
 #include "signal/core/graph.h"
 
 namespace libsignal

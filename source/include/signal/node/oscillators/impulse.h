@@ -4,10 +4,11 @@
 
 namespace libsignal
 {
-class Tick : public Node
+
+class Impulse : public Node
 {
 public:
-    Tick(NodeRef frequency = 1.0);
+    Impulse(NodeRef frequency = 1.0);
 
     virtual void process(sample **out, int num_frames);
 
@@ -15,5 +16,6 @@ public:
     int steps_remaining;
 };
 
-REGISTER(Tick, "tick")
+REGISTER(Impulse, "impulse")
+
 }

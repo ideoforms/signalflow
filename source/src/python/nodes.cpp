@@ -23,7 +23,7 @@ void init_python_nodes(py::module &m)
     py::class_<Square, Node, NodeRefTemplate<Square>>(m, "Square")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = NodeRef(440), "width"_a = NodeRef(0.5));
 
-    py::class_<Tick, Node, NodeRefTemplate<Tick>>(m, "Tick")
+    py::class_<Impulse, Node, NodeRefTemplate<Impulse>>(m, "Impulse")
         .def(py::init<NodeRef>(), "frequency"_a = NodeRef(440.0));
 
     py::class_<RandomImpulse, Node, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
