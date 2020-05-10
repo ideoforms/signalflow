@@ -7,7 +7,7 @@ void init_python_nodes(py::module &m)
      *-------------------------------------------------------------------------------*/
 
     py::class_<Mixer, Node, NodeRefTemplate<Mixer>>(m, "Mixer")
-        .def(py::init<NodeRef, int>(), "input"_a = NodeRef(0), "channels"_a = NodeRef(1));
+        .def(py::init<int, NodeRef>(), "channels"_a = NodeRef(1), "input"_a = NodeRef(0));
 
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant")
         .def(py::init<double>());
@@ -77,6 +77,13 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "input"_a = NodeRef(0.0));
     py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT")
         .def(py::init<NodeRef>(), "input"_a = NodeRef(0.0));
+    py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = NodeRef(0.0), "level"_a = 0.5, "smoothing"_a = 0.9);
 
-    #endif
+    py::class_<MouseX, Node, NodeRefTemplate<MouseX>>(m, "MouseX")
+        .def(py::init<>());
+    py::class_<MouseY, Node, NodeRefTemplate<MouseY>>(m, "MouseY")
+        .def(py::init<>());
+
+#endif
 }

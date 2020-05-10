@@ -20,6 +20,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/noise_gate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/phase_vocoder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/zero_phase.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/tonality.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delay.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/eq.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/freeze.cpp

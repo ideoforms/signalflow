@@ -12,7 +12,7 @@ class Mixer : public UnaryOpNode
 {
 
 public:
-    Mixer(NodeRef input = 0, int channels = 1);
+    Mixer(int channels = 1, NodeRef input = 0);
 
     virtual void process(sample **out, int num_frames);
     virtual void update_channels();

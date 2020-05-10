@@ -61,6 +61,8 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
 {
     /*------------------------------------------------------------------------
      * If this node has already been processed this timestep, return.
+     * TODO: This will become increasingly costly as the # nodes increases.
+     *       Timestamp and consider adding a flag in Node?
      *-----------------------------------------------------------------------*/
     if (this->processed_nodes.find(node.get()) != processed_nodes.end())
     {
@@ -119,10 +121,7 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
 
     node->_process(node->out, num_frames);
 
-    if (node->name != "constant")
-    {
-        this->processed_nodes.insert(node.get());
-    }
+    this->processed_nodes.insert(node.get());
 }
 
 void AudioGraph::pull_input(int num_frames)

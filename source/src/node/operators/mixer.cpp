@@ -4,18 +4,17 @@
 namespace libsignal
 {
 
-Mixer::Mixer(NodeRef input, int channels)
+Mixer::Mixer(int channels, NodeRef input)
     : UnaryOpNode(input), channels(channels)
 {
     this->name = "mixer";
-    this->channels = channels;
     this->update_channels();
 }
 
 void Mixer::process(sample **out, int num_frames)
 {
     float out_channel_pan,
-        in_channel_pan;
+          in_channel_pan;
 
     this->zero_output();
 
