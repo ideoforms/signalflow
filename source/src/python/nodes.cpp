@@ -38,10 +38,10 @@ void init_python_nodes(py::module &m)
     py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn")
         .def(py::init<>());
 
-    py::class_<ASR, Node, NodeRefTemplate<ASR>>(m, "ASR")
+    py::class_<EnvelopeASR, Node, NodeRefTemplate<EnvelopeASR>>(m, "EnvelopeASR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "clock"_a = NodeRef(0));
 
-    py::class_<ADSR, Node, NodeRefTemplate<ADSR>>(m, "ADSR")
+    py::class_<EnvelopeADSR, Node, NodeRefTemplate<EnvelopeADSR>>(m, "EnvelopeADSR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = NodeRef(0.1), "decay"_a = NodeRef(0.1), "sustain"_a = NodeRef(0.1), "release"_a = NodeRef(0.1), "gate"_a = NodeRef(0));
 
     py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")

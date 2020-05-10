@@ -4,12 +4,12 @@
 namespace libsignal
 {
 
-ADSR::ADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeRef release, NodeRef gate)
+EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeRef release, NodeRef gate)
     : attack(attack), decay(decay), sustain(sustain), release(release), gate(gate)
 {
     this->phase = 0.0;
 
-    this->name = "env-adsr";
+    this->name = "envelope-adsr";
     this->add_input("attack", this->attack);
     this->add_input("decay", this->decay);
     this->add_input("sustain", this->sustain);
@@ -17,7 +17,7 @@ ADSR::ADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeRef release, Node
     this->add_input("gate", this->gate);
 }
 
-void ADSR::process(sample **out, int num_frames)
+void EnvelopeADSR::process(sample **out, int num_frames)
 {
     sample rv;
     float phase_step = 1.0f / this->graph->sample_rate;

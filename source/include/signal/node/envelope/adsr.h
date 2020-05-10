@@ -6,10 +6,10 @@
 namespace libsignal
 {
 
-class ADSR : public Node
+class EnvelopeADSR : public Node
 {
 public:
-    ADSR(NodeRef attack = 0.1, NodeRef decay = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef gate = 0);
+    EnvelopeADSR(NodeRef attack = 0.1, NodeRef decay = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef gate = 0);
 
     NodeRef attack;
     NodeRef decay;
@@ -25,6 +25,6 @@ private:
 
 };
 
-REGISTER(ADSR, "env-adsr")
+REGISTER(EnvelopeADSR, "envelope-adsr")
 
 }

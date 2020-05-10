@@ -6,10 +6,10 @@
 namespace libsignal
 {
 
-class ASR : public Node
+class EnvelopeASR : public Node
 {
 public:
-    ASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef clock = nullptr);
+    EnvelopeASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef clock = nullptr);
 
     NodeRef attack;
     NodeRef sustain;
@@ -22,6 +22,6 @@ public:
     virtual void process(sample **out, int num_frames);
 };
 
-REGISTER(ASR, "env-asr")
+REGISTER(EnvelopeASR, "envelope-asr")
 
 }

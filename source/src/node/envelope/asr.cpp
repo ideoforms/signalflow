@@ -4,19 +4,19 @@
 namespace libsignal
 {
 
-ASR::ASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock)
+EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock)
     : attack(attack), sustain(sustain), release(release), clock(clock)
 {
     this->phase = 0.0;
 
-    this->name = "env-asr";
+    this->name = "envelope-asr";
     this->add_input("attack", this->attack);
     this->add_input("sustain", this->sustain);
     this->add_input("release", this->release);
     this->add_input("clock", this->clock);
 }
 
-void ASR::trigger(std::string name, float value)
+void EnvelopeASR::trigger(std::string name, float value)
 {
     if (name == SIGNAL_DEFAULT_TRIGGER)
     {
@@ -25,7 +25,7 @@ void ASR::trigger(std::string name, float value)
     }
 }
 
-void ASR::process(sample **out, int num_frames)
+void EnvelopeASR::process(sample **out, int num_frames)
 {
     sample rv;
 
