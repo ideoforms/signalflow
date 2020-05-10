@@ -44,7 +44,7 @@ int main()
      * Create Granulator object, with 50 grains per second.
      * MouseY determines the playback rate.
      *-----------------------------------------------------------------------*/
-    NodeRef granulator = new Granulator(buffer, new Tick(50), pos, 0.2, mousey * 2.0);
+    NodeRef granulator = new Granulator(buffer, new Impulse(50), pos, 0.2, mousey * 2.0);
     granulator->set_input("max_grains", 50);
     graph->add_output(granulator * 0.2);
     graph->start();

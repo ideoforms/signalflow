@@ -29,10 +29,10 @@ int main()
     BufferRef buffer = new Buffer(2, graph->sample_rate * 5.0);
 
     /*------------------------------------------------------------------------
-     * Create a Recorder to perform a one-shot recording of the input.
+     * Create a BufferRecorder to perform a one-shot recording of the input.
      * It must be connected to the graph's output to trigger processing.
      *-----------------------------------------------------------------------*/
-    NodeRef recorder = new Recorder(buffer, input);
+    NodeRef recorder = new BufferRecorder(buffer, input);
     graph->add_output(recorder);
 
     NodeRef rms = new RMS(input);

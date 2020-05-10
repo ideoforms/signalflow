@@ -20,7 +20,7 @@ int main()
      * Load and play a sample.
      *-----------------------------------------------------------------------*/
     BufferRef buffer = new Buffer("audio/gliss.aif");
-    NodeRef sampler = new Sampler(buffer, 1.0, true);
+    NodeRef sampler = new BufferPlayer(buffer, 1.0, true);
 
     /*------------------------------------------------------------------------
      * Perform FFT -> filter -> inverse FFT
@@ -32,7 +32,7 @@ int main()
     /*------------------------------------------------------------------------
      * Pan the output to centre of stereo field.
      *-----------------------------------------------------------------------*/
-    NodeRef pan = new Pan(2, output);
+    NodeRef pan = new LinearPanner(2, output);
 
     /*------------------------------------------------------------------------
      * Send to output.

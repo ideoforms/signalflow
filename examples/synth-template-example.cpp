@@ -30,7 +30,7 @@ int main()
     NodeRef square = new Square(freq, width);
     NodeRef asr = new ASR(0.0, 0.0, 1.3);
     NodeRef shaped = square * asr * 0.05;
-    NodeRef stereo = new Pan(2, shaped, pan);
+    NodeRef stereo = new LinearPanner(2, shaped, pan);
     // NodeRef delay = new Delay(stereo, 0.1, 0.9, 0.5);
     // NodeRef output = stereo + delay * 0.3;
     NodeRef output = stereo * 0.2;

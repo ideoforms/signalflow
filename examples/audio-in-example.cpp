@@ -29,20 +29,20 @@ int main()
     BufferRef buffer = new Buffer(2, graph->sample_rate * 1.0);
 
     /*------------------------------------------------------------------------
-     * Create a Recorder to perform a one-shot recording of the input.
+     * Create a BufferRecorder to perform a one-shot recording of the input.
      *-----------------------------------------------------------------------*/
-    NodeRef recorder = new Recorder(buffer, input);
+    NodeRef recorder = new BufferRecorder(buffer, input);
     graph->add_output(recorder);
 
     /*------------------------------------------------------------------------
-     * Create a parallel series of Samplers to play back the recording.
+     * Create a parallel series of BufferPlayers to play back the recording.
      * Add a varispeed effect with interpolated Noise objects assigned to
      * the sampler's rate input.
      *-----------------------------------------------------------------------*/
     for (int i = 0; i < 5; i++)
     {
         NodeRef rate = new Noise(0.5, true, 0.3, 1.8);
-        NodeRef sampler = new Sampler(buffer, rate, true);
+        NodeRef sampler = new BufferPlayer(buffer, rate, true);
 
         /*------------------------------------------------------------------------
          * Attenuate the output level so we don't distort.

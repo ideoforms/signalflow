@@ -27,7 +27,7 @@ int main()
     NodeRef wavetable = new Wavetable(buffer, freq * 2.0);
     NodeRef delay = new Delay(wavetable, 0.1, 0.3);
 
-    NodeRef pan = new Pan(2, delay);
+    NodeRef pan = new LinearPanner(2, delay);
 
     NodeRef attenuated = pan * 0.2;
     graph->add_output(attenuated);
