@@ -84,6 +84,6 @@ def test_expansion_max_channels(graph):
     mixer = Mixer(1, a)
     b = Buffer(1, DEFAULT_BUFFER_LENGTH)
     process_tree(mixer, buffer=b)
-    peak_frequencies = get_peak_frequencies(b.data[0], b.sample_rate)
+    peak_frequencies = get_peak_frequencies(b.data[0], graph.sample_rate)
     peak_frequencies_rounded = np.round(peak_frequencies, -2)
     assert np.array_equal(peak_frequencies_rounded, frequencies)
