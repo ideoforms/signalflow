@@ -2,8 +2,9 @@ from libsignal import Buffer
 from libsignal import SIGNAL_INTERPOLATION_NONE, SIGNAL_INTERPOLATION_LINEAR
 import numpy as np
 import pytest
+from . import graph
 
-def test_buffer():
+def test_buffer(graph):
     b = Buffer(1, 32)
     assert b.num_channels == 1
     assert b.num_frames == 32
@@ -15,7 +16,7 @@ def test_buffer():
     assert b.num_frames == len(data[0])
     assert np.array_equal(data, b.data)
 
-def test_buffer_interpolate():
+def test_buffer_interpolate(graph):
     b = Buffer(1, 2, np.array([[ 1, 2 ]]))
     assert b.get(0) == 1
     assert b.get(1) == 2
@@ -30,7 +31,7 @@ def test_buffer_interpolate():
     assert b.get(0.5) == 1
     assert b.get(0.25) == 1
 
-def test_buffer_fill():
+def test_buffer_fill(graph):
     b = Buffer(4, 44100)
     b.fill(0.5)
     assert b.data.shape == (4, 44100)
@@ -39,7 +40,7 @@ def test_buffer_fill():
     assert np.all(b.data[2] == 0.5)
     assert np.all(b.data[3] == 0.5)
 
-def test_buffer_split():
+def test_buffer_split(graph):
     b = Buffer(1, 8192)
     b.fill(1)
     buffers = b.split(2048)
@@ -49,7 +50,7 @@ def test_buffer_split():
         assert buf.num_frames == 2048
         assert np.all(b.data[0] == 1)
 
-def test_buffer_load():
+def test_buffer_load(graph):
     b = Buffer("examples/audio/gliss.aif")
     assert b.data.shape == (1, 262856)
     assert b.num_frames == 262856
@@ -59,7 +60,7 @@ def test_buffer_load():
     rms = np.sqrt(np.mean(np.square(b.data[0])))
     assert rms == pytest.approx(0.08339643)
 
-def test_buffer_save():
+def test_buffer_save(graph):
     buf_len = 44100
     rand_buf = np.array([ np.random.uniform(size=buf_len) ])
     b = Buffer(1, 44100, rand_buf)
