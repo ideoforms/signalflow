@@ -4,6 +4,9 @@
 #include "signal/synth/nodedef.h"
 #include "signal/synth/synthspec.h"
 
+#include <unordered_map>
+#include <set>
+
 namespace libsignal
 {
 class SynthTemplate
@@ -34,8 +37,9 @@ private:
     std::string get_input_name(const NodeRef &node);
     NodeDefinition parse_root(const NodeRef &node);
     std::unordered_map<int, NodeDefinition> nodedefs;
-
     std::unordered_map<std::string, Node *> inputs;
+    std::set<NodeRef>parsed_nodes;
+    std::set<NodeRef>nodes;
 };
 
 template <class T>

@@ -18,6 +18,7 @@ NodeRef SynthTemplate::add_input(std::string name, sample default_value)
 {
     NodeRef placeholder(default_value);
     this->inputs[name] = placeholder.get();
+    nodes.insert(placeholder);
     return placeholder;
 }
 
@@ -36,6 +37,7 @@ std::string SynthTemplate::get_input_name(const NodeRef &node)
 
 NodeRef SynthTemplate::add_node(NodeRef node)
 {
+    nodes.insert(node);
     return node;
 }
 
@@ -61,6 +63,13 @@ SynthSpecRef SynthTemplate::parse()
         spec->parsed = true;
         spec->nodedefs = this->nodedefs;
         this->parsed = true;
+        for (auto node : nodes)
+        {
+            if (parsed_nodes.find(node) == parsed_nodes.end())
+            {
+                throw std::runtime_error("SynthTemplate contains unconnected node (" + node->name + ").");
+            }
+        }
     }
     return this->spec;
 }
@@ -95,6 +104,7 @@ NodeDefinition SynthTemplate::parse_root(const NodeRef &node)
     }
 
     this->nodedefs[def.id] = def;
+    this->parsed_nodes.insert(node);
 
     return def;
 }
