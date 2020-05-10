@@ -57,7 +57,6 @@ void SegmentPlayer::trigger(std::string name, float value)
         {
             int index = random_integer(0, onsets.size());
             this->phase = onsets[index];
-            printf("set phase: %f\n", this->phase);
         }
     }
 }

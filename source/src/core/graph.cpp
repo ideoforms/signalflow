@@ -200,7 +200,6 @@ void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
     /*------------------------------------------------------------------------
      * Process remaining samples.
      *-----------------------------------------------------------------------*/
-    printf("Processed %d frames, total %d\n", index, num_frames);
     if (index < num_frames)
     {
         signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);

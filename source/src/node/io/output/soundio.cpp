@@ -70,7 +70,9 @@ void write_callback(struct SoundIoOutStream *outstream,
         }
 
         if ((err = soundio_outstream_end_write(outstream)))
+        {
             throw std::runtime_error("libsoundio error on end write: " + std::string(soundio_strerror(err)));
+        }
 
         frames_left -= frame_count;
     }
@@ -86,11 +88,10 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
         struct SoundIoDevice *device = soundio_get_output_device(soundio, i);
         if (strcmp(device->name, name) == 0)
         {
-            printf("Found device %s: %d\n", name, i);
             return i;
         }
     }
-    fprintf(stderr, "Couldn't find output device %s\n", name);
+    std::cerr << "Couldn't find output device" << std::string(name) << std::endl;
 
     return -1;
 }
@@ -134,7 +135,7 @@ int AudioOut_SoundIO::init()
 
     this->sample_rate = this->outstream->sample_rate;
 
-    fprintf(stderr, "Output device: %s (%dHz)\n", device->name, this->sample_rate);
+    std::cerr << "Output device: " << device->name << " (" << this->sample_rate << "Hz)" << std::endl;
 
     if ((err = soundio_outstream_open(this->outstream)))
         throw std::runtime_error("libsoundio error: unable to open device: " + std::string(soundio_strerror(err)));

@@ -112,7 +112,10 @@ void Synth::set_input(std::string name, NodeRef value)
      * Iterate over this synth's nodes, replacing the prior input with
      * the new node. (Inefficient, should be rethought.)
      *-----------------------------------------------------------------------*/
-    signal_assert(this->inputs[name] != nullptr, "Synth has no such parameter: %s", name.c_str());
+    if (this->inputs[name] == nullptr)
+    {
+        throw std::runtime_error("Synth has no such parameter: " + name);
+    }
     NodeRef current = this->inputs[name];
     for (NodeRef node : this->nodes)
     {

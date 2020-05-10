@@ -23,11 +23,10 @@ Node *NodeRegistry::create(std::string name)
 {
     if (!this->classes[name])
     {
-        fprintf(stderr, "Could not instantiate object (unknown type: %s)\n", name.c_str());
-        exit(1);
+        throw std::runtime_error("Could not instantiate Node (unknown type: " + name + ")");
     }
-    Node *object = this->classes[name]();
-    return object;
+    Node *node = this->classes[name]();
+    return node;
 }
 
 }

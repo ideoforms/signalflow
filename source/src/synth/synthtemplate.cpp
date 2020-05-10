@@ -54,7 +54,10 @@ SynthSpecRef SynthTemplate::parse()
     // TODO: Currently have parsed property in this object and spec
     if (!this->parsed)
     {
-        signal_assert(this->output != nullptr, "SynthTemplate %s: output is not set", this->name.c_str());
+        if (this->output == nullptr)
+        {
+            throw std::runtime_error("SynthTemplate " + this->name + ": output is not set");
+        }
         const NodeRef &root = this->output;
         this->last_id = 0;
 

@@ -30,8 +30,7 @@ Synth *SynthRegistry::create(std::string name)
 {
     if (!this->synthspecs[name])
     {
-        fprintf(stderr, "Could not instantiate synth (unknown name: %s)\n", name.c_str());
-        exit(1);
+        throw std::runtime_error("Could not instantiate synth (unknown name: " + name + ")");
     }
     Synth *synth = new Synth(this->synthspecs[name]);
     return synth;
