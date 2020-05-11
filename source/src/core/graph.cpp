@@ -49,11 +49,25 @@ AudioGraph::~AudioGraph()
     shared_graph = NULL;
 }
 
-void AudioGraph::wait()
+void AudioGraph::wait(float time)
 {
+    struct timeval tv;
+    gettimeofday(&tv, NULL);
+    double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
+
     while (true)
     {
-        usleep(100000);
+        usleep(10000);
+        if (time)
+        {
+            gettimeofday(&tv, NULL);
+            double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
+            double dt = t1 - t0;
+            if (dt > time)
+            {
+                break;
+            }
+        }
     }
 }
 
