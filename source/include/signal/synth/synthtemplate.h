@@ -30,12 +30,10 @@ public:
 
 private:
     NodeRef output = nullptr;
-    SynthSpecRef spec = nullptr;
-    bool parsed = false;
     int last_id = 0;
 
-    std::string get_input_name(const NodeRef &node);
-    NodeDefinition parse_root(const NodeRef &node);
+    std::string _get_input_name(const NodeRef &node);
+    NodeDefinition _parse_from_node(const NodeRef &node);
     std::unordered_map<int, NodeDefinition> nodedefs;
     std::unordered_map<std::string, Node *> inputs;
     std::set<NodeRef>parsed_nodes;

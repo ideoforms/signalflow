@@ -17,12 +17,12 @@ SynthTemplate::SynthTemplate(std::string name)
 NodeRef SynthTemplate::add_input(std::string name, sample default_value)
 {
     NodeRef placeholder(default_value);
-    this->inputs[name] = placeholder.get();
+    this->inputs[name] = placeholder;
     nodes.insert(placeholder);
     return placeholder;
 }
 
-std::string SynthTemplate::get_input_name(const NodeRef &node)
+std::string SynthTemplate::_get_input_name(const NodeRef &node)
 {
     for (auto input : this->inputs)
     {
@@ -52,32 +52,29 @@ void SynthTemplate::set_output(const NodeRef &out)
 SynthSpecRef SynthTemplate::parse()
 {
     // TODO: Currently have parsed property in this object and spec
-    if (!this->parsed)
+    if (this->output == nullptr)
     {
-        if (this->output == nullptr)
-        {
-            throw std::runtime_error("SynthTemplate " + this->name + ": output is not set");
-        }
-        const NodeRef &root = this->output;
-        this->last_id = 0;
+        throw std::runtime_error("SynthTemplate " + this->name + ": output is not set");
+    }
+    const NodeRef &root = this->output;
+    this->last_id = 0;
 
-        this->spec = new SynthSpec(this->name);
-        spec->output_def = this->parse_root(root);
-        spec->parsed = true;
-        spec->nodedefs = this->nodedefs;
-        this->parsed = true;
-        for (auto node : nodes)
+    SynthSpecRef spec = new SynthSpec(this->name);
+    spec->output_def = this->_parse_from_node(root);
+    spec->parsed = true;
+    spec->nodedefs = this->nodedefs;
+    for (auto node : nodes)
+    {
+        if (parsed_nodes.find(node) == parsed_nodes.end())
         {
-            if (parsed_nodes.find(node) == parsed_nodes.end())
-            {
-                throw std::runtime_error("SynthTemplate contains unconnected node (" + node->name + ").");
-            }
+            throw std::runtime_error("SynthTemplate contains unconnected node (" + node->name + ").");
         }
     }
-    return this->spec;
+
+    return spec;
 }
 
-NodeDefinition SynthTemplate::parse_root(const NodeRef &node)
+NodeDefinition SynthTemplate::_parse_from_node(const NodeRef &node)
 {
     NodeDefinition def(node->name);
     def.set_id(this->last_id++);
@@ -94,13 +91,13 @@ NodeDefinition SynthTemplate::parse_root(const NodeRef &node)
             NodeRef param_node = *(param.second);
             if (param_node)
             {
-                NodeDefinition param_def = this->parse_root(param_node);
+                NodeDefinition param_def = this->_parse_from_node(param_node);
                 def.add_input(param.first, &param_def);
             }
         }
     }
 
-    std::string input_name = this->get_input_name(node);
+    std::string input_name = this->_get_input_name(node);
     if (!input_name.empty())
     {
         def.input_name = input_name;
@@ -111,4 +108,5 @@ NodeDefinition SynthTemplate::parse_root(const NodeRef &node)
 
     return def;
 }
+
 }

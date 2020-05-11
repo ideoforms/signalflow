@@ -30,9 +30,23 @@ public:
     void set_auto_free(bool value);
     void node_state_changed(Node *node);
 
-    NodeRef output;
+    NodeRef output = nullptr;
     std::unordered_map<std::string, NodeRef> inputs;
     std::set<NodeRef> nodes;
+
+    /*----------------------------------------------------------------------------------
+     * Methods for creating a Synth template from live Node objects.
+     *---------------------------------------------------------------------------------*/
+    NodeRef add_input(std::string name, sample default_value = 0);
+    NodeRef add_node(NodeRef node);
+    void set_output(NodeRef out);
+
+    /*----------------------------------------------------------------------------------
+     * Parse a template from live Node objects to create a network of NodeDefs
+     *---------------------------------------------------------------------------------*/
+    SynthSpecRef parse();
+
+    std::string name;
 
 private:
     NodeRef instantiate(NodeDefinition *nodedef);
@@ -40,6 +54,16 @@ private:
     bool auto_free;
     signal_synth_state_t state;
     AudioGraph *graph;
+
+    /*----------------------------------------------------------------------------------
+     * Template stuff
+     *---------------------------------------------------------------------------------*/
+    int last_id = 0;
+
+    std::string _get_input_name(const NodeRef &node);
+    NodeDefinition _parse_from_node(const NodeRef &node);
+    std::unordered_map<int, NodeDefinition> nodedefs;
+    std::set<NodeRef>parsed_nodes;
 };
 
 
