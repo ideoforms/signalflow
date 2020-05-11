@@ -65,7 +65,6 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synth.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthregistry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthspec.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthtemplate.cpp
 )
 
 if (CMAKE_BUILD_PYTHON)

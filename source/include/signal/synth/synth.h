@@ -2,7 +2,6 @@
 
 #include "signal/synth/nodedef.h"
 #include "signal/synth/synthspec.h"
-#include "signal/synth/synthtemplate.h"
 
 namespace libsignal
 {
@@ -19,7 +18,6 @@ class Synth
 public:
     Synth();
     Synth(SynthSpecRef synthspec);
-    Synth(SynthTemplateRef synthtemplate);
     Synth(std::string name);
     virtual ~Synth();
 

@@ -26,11 +26,6 @@ Synth::Synth(SynthSpecRef synthspec)
     this->output = this->instantiate(&nodedef);
 }
 
-Synth::Synth(SynthTemplateRef synthtemplate)
-    : Synth(synthtemplate->parse())
-{
-}
-
 Synth::Synth(std::string name)
     : Synth()
 {
@@ -192,14 +187,14 @@ void Synth::set_output(NodeRef out)
 }
 
 /*------------------------------------------------------------------------
- * Scans the graph synthtemplate beginning from its inputs and outputs.
+ * Scans the synth graph beginning from its outputs.
  *-----------------------------------------------------------------------*/
 SynthSpecRef Synth::parse()
 {
     // TODO: Currently have parsed property in this object and spec
     if (this->output == nullptr)
     {
-        throw std::runtime_error("SynthTemplate " + this->name + ": output is not set");
+        throw std::runtime_error("Synth " + this->name + ": output is not set");
     }
     NodeRef root = this->output;
     this->last_id = 0;
@@ -212,7 +207,7 @@ SynthSpecRef Synth::parse()
     {
         if (parsed_nodes.find(node) == parsed_nodes.end())
         {
-            throw std::runtime_error("SynthTemplate contains unconnected node (" + node->name + ").");
+            throw std::runtime_error("Synth contains unconnected node (" + node->name + ").");
         }
     }
 

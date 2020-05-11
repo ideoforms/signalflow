@@ -15,7 +15,6 @@
 #include <signal/synth/nodedef.h>
 #include <signal/synth/synth.h>
 #include <signal/synth/synthspec.h>
-#include <signal/synth/synthtemplate.h>
 
 #include <signal/node/node.h>
 #include <signal/node/registry.h>

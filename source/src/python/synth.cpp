@@ -5,15 +5,7 @@ void init_python_synth(py::module &m)
     /*--------------------------------------------------------------------------------
      * Synth
      *-------------------------------------------------------------------------------*/
-    py::class_<SynthTemplate, SynthTemplateRefTemplate<SynthTemplate>>(m, "SynthTemplate")
-        .def(py::init<std::string>())
-        .def("add_input", &SynthTemplate::add_input)
-        .def("add_node", &SynthTemplate::add_node)
-        .def("set_output", &SynthTemplate::set_output)
-        .def("parse", &SynthTemplate::parse);
-
     py::class_<Synth, SynthRefTemplate<Synth>>(m, "Synth")
-        .def(py::init<SynthTemplateRef>())
         .def(py::init<SynthSpecRef>())
         .def(py::init<>())
         .def("set_input", &Synth::set_input)
