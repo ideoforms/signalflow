@@ -34,7 +34,7 @@ PatchSpecRef create_synth()
     NodeRef output = stereo * 0.2;
     patch->set_output(output);
 
-    PatchSpecRef ref = patch->parse();
+    PatchSpecRef ref = patch->create_spec();
     return ref;
 }
 

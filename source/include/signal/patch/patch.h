@@ -42,7 +42,7 @@ public:
     /*----------------------------------------------------------------------------------
      * Parse a template from live Node objects to create a network of NodeDefs
      *---------------------------------------------------------------------------------*/
-    PatchSpecRef parse();
+    PatchSpecRef create_spec();
 
     std::string name;
 

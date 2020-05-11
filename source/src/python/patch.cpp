@@ -18,7 +18,7 @@ void init_python_patch(py::module &m)
         .def("add_input", &Patch::add_input)
         .def("add_node", &Patch::add_node)
         .def("set_output", &Patch::set_output)
-        .def("parse", &Patch::parse);
+        .def("create_spec", &Patch::create_spec);
 
     py::class_<PatchSpec, PatchSpecRefTemplate<PatchSpec>>(m, "PatchSpec")
         .def("print", [](PatchSpec &patchspec) { patchspec.print(); })

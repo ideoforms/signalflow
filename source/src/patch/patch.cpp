@@ -189,7 +189,7 @@ void Patch::set_output(NodeRef out)
 /*------------------------------------------------------------------------
  * Scans the patch graph beginning from its outputs.
  *-----------------------------------------------------------------------*/
-PatchSpecRef Patch::parse()
+PatchSpecRef Patch::create_spec()
 {
     // TODO: Currently have parsed property in this object and spec
     if (this->output == nullptr)

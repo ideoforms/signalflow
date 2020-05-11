@@ -8,7 +8,7 @@ set(EXAMPLES ${EXAMPLES}
     sine-field-example.cpp
     spooky-wobble.cpp
     supersaw-example.cpp
-    patch-template-example.cpp
+    patch-example.cpp
     trigger-example.cpp
     waveshaper-example.cpp
     wavetable-2d-example.cpp

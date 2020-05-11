@@ -6,7 +6,7 @@ def test_patch(graph):
     prototype = Patch()
     sine = prototype.add_node(Sine(440))
     prototype.set_output(sine)
-    spec = prototype.parse()
+    spec = prototype.create_spec()
 
     patch = Patch(spec)
     assert len(patch.nodes) == 2
@@ -24,7 +24,7 @@ def test_patch_free(graph):
     envelope = prototype.add_node(EnvelopeASR(0.0, 0.0, 0.01))
     output = sine * envelope
     prototype.set_output(output)
-    spec = prototype.parse()
+    spec = prototype.create_spec()
 
     patch = Patch(spec)
     patch.auto_free = True
