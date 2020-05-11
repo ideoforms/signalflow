@@ -61,7 +61,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/synth/nodedef.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/synth/nodespec.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synth.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthregistry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthspec.cpp

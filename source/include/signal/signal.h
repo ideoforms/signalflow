@@ -12,7 +12,7 @@
 
 #include <signal/buffer/buffer.h>
 
-#include <signal/synth/nodedef.h>
+#include <signal/synth/nodespec.h>
 #include <signal/synth/synth.h>
 #include <signal/synth/synthspec.h>
 

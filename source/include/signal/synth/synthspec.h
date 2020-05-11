@@ -1,7 +1,7 @@
 #pragma once
 
 #include "signal/node/node.h"
-#include "signal/synth/nodedef.h"
+#include "signal/synth/nodespec.h"
 
 namespace libsignal
 {
@@ -12,12 +12,12 @@ public:
     SynthSpec(std::string name);
 
     /*----------------------------------------------------------------------------------
-     * Methods for creating a SynthSpec from NodeDefinitions.
+     * Methods for creating a SynthSpec from NodeSpecs.
      *---------------------------------------------------------------------------------*/
-    void add_node_def(NodeDefinition def);
-    void set_output(NodeDefinition def);
-    NodeDefinition *get_node_def(int id);
-    NodeDefinition get_root();
+    void add_node_def(NodeSpec def);
+    void set_output(NodeSpec def);
+    NodeSpec *get_node_def(int id);
+    NodeSpec get_root();
 
     /*----------------------------------------------------------------------------------
      * Save a SynthSpec to disk.
@@ -49,13 +49,13 @@ public:
 
     // private:
 
-    void print(NodeDefinition *root, int depth);
+    void print(NodeSpec *root, int depth);
 
-    NodeDefinition output_def;
+    NodeSpec output_def;
     bool parsed = false;
     int last_id = 0;
 
-    std::unordered_map<int, NodeDefinition> nodedefs;
+    std::unordered_map<int, NodeSpec> nodespecs;
 };
 
 template <class T>

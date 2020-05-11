@@ -3,7 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
-#include "signal/synth/nodedef.h"
+#include "signal/synth/nodespec.h"
 
 #define REGISTER(CLASS, NAME) static bool CLASS##OK = NodeRegistry::global()->add<CLASS>(NAME);
 
@@ -27,7 +27,7 @@ public:
     static NodeRegistry *global();
 
     Node *create(std::string name);
-    Node *create(NodeDefinition definition);
+    Node *create(NodeSpec definition);
 
     /*------------------------------------------------------------------------
      * (Function template implementations must be in .h file.)

@@ -22,8 +22,8 @@ Synth::Synth()
 Synth::Synth(SynthSpecRef synthspec)
     : Synth()
 {
-    NodeDefinition nodedef = synthspec->get_root();
-    this->output = this->instantiate(&nodedef);
+    NodeSpec nodespec = synthspec->get_root();
+    this->output = this->instantiate(&nodespec);
 }
 
 Synth::Synth(std::string name)
@@ -32,8 +32,8 @@ Synth::Synth(std::string name)
     SynthSpecRef synthspec = SynthRegistry::global()->get(name);
     if (synthspec)
     {
-        NodeDefinition nodedef = synthspec->get_root();
-        this->output = this->instantiate(&nodedef);
+        NodeSpec nodespec = synthspec->get_root();
+        this->output = this->instantiate(&nodespec);
     }
 }
 
@@ -51,10 +51,10 @@ void Synth::set_state(signal_synth_state_t state)
     this->state = state;
 }
 
-NodeRef Synth::instantiate(NodeDefinition *nodedef)
+NodeRef Synth::instantiate(NodeSpec *nodespec)
 {
     /*------------------------------------------------------------------------
-     * Recursively instantiate the subgraph specified in NodeDefinition.
+     * Recursively instantiate the subgraph specified in NodeSpec.
      * Does not currently support graphs that route one node to multiple
      * inputs.
      *-----------------------------------------------------------------------*/
@@ -62,13 +62,13 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
 
     NodeRef noderef;
 
-    if (!nodedef->input_name.empty() && this->inputs[nodedef->input_name])
+    if (!nodespec->input_name.empty() && this->inputs[nodespec->input_name])
     {
-        noderef = this->inputs[nodedef->input_name];
+        noderef = this->inputs[nodespec->input_name];
     }
     else
     {
-        Node *node = registry->create(nodedef->name);
+        Node *node = registry->create(nodespec->name);
         noderef = NodeRef(node);
 
         /*------------------------------------------------------------------------
@@ -76,22 +76,22 @@ NodeRef Synth::instantiate(NodeDefinition *nodedef)
          *-----------------------------------------------------------------------*/
         this->nodes.insert(noderef);
 
-        for (auto param : nodedef->params)
+        for (auto param : nodespec->params)
         {
             std::string param_name = param.first;
             NodeRef param_node = this->instantiate(param.second);
             noderef->set_input(param_name, param_node);
         }
 
-        if (nodedef->is_constant)
+        if (nodespec->is_constant)
         {
             Constant *constant = (Constant *) node;
-            constant->value = nodedef->value;
+            constant->value = nodespec->value;
         }
 
-        if (!nodedef->input_name.empty())
+        if (!nodespec->input_name.empty())
         {
-            this->inputs[nodedef->input_name] = noderef;
+            this->inputs[nodespec->input_name] = noderef;
         }
 
         noderef->set_synth(this);
@@ -202,7 +202,7 @@ SynthSpecRef Synth::parse()
     SynthSpecRef spec = new SynthSpec(this->name);
     spec->output_def = this->_parse_from_node(root);
     spec->parsed = true;
-    spec->nodedefs = this->nodedefs;
+    spec->nodespecs = this->nodespecs;
     for (auto node : nodes)
     {
         if (parsed_nodes.find(node) == parsed_nodes.end())
@@ -214,9 +214,9 @@ SynthSpecRef Synth::parse()
     return spec;
 }
 
-NodeDefinition Synth::_parse_from_node(const NodeRef &node)
+NodeSpec Synth::_parse_from_node(const NodeRef &node)
 {
-    NodeDefinition def(node->name);
+    NodeSpec def(node->name);
     def.set_id(this->last_id++);
 
     if (node->name == "constant")
@@ -231,7 +231,7 @@ NodeDefinition Synth::_parse_from_node(const NodeRef &node)
             NodeRef param_node = *(param.second);
             if (param_node)
             {
-                NodeDefinition param_def = this->_parse_from_node(param_node);
+                NodeSpec param_def = this->_parse_from_node(param_node);
                 def.add_input(param.first, &param_def);
             }
         }
@@ -243,7 +243,7 @@ NodeDefinition Synth::_parse_from_node(const NodeRef &node)
         def.input_name = input_name;
     }
 
-    this->nodedefs[def.id] = def;
+    this->nodespecs[def.id] = def;
     this->parsed_nodes.insert(node);
 
     return def;

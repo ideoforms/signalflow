@@ -47,7 +47,7 @@ void SynthSpec::load(std::string filename)
 
     for (auto element : json.array_items())
     {
-        NodeDefinition nodedef;
+        NodeSpec nodespec;
         bool is_output = false;
         for (auto pair : element.object_items())
         {
@@ -56,11 +56,11 @@ void SynthSpec::load(std::string filename)
 
             if (key == "node")
             {
-                nodedef.set_name(value.string_value());
+                nodespec.set_name(value.string_value());
             }
             else if (key == "id")
             {
-                nodedef.set_id(value.int_value());
+                nodespec.set_id(value.int_value());
             }
             else if (key == "is_output")
             {
@@ -75,22 +75,22 @@ void SynthSpec::load(std::string filename)
 
                     if (input_value.is_number())
                     {
-                        nodedef.add_input(input_key, input_value.number_value());
+                        nodespec.add_input(input_key, input_value.number_value());
                     }
                     else if (input_value.is_object())
                     {
                         int id = input_value["id"].int_value();
-                        NodeDefinition *ptr = this->get_node_def(id);
-                        nodedef.add_input(input_key, ptr);
+                        NodeSpec *ptr = this->get_node_def(id);
+                        nodespec.add_input(input_key, ptr);
                     }
                 }
             }
         }
-        signal_debug("Adding node with name %s\n", nodedef.name.c_str());
-        this->add_node_def(nodedef);
+        signal_debug("Adding node with name %s\n", nodespec.name.c_str());
+        this->add_node_def(nodespec);
         if (is_output)
         {
-            this->set_output(nodedef);
+            this->set_output(nodespec);
         }
     }
 
@@ -107,33 +107,33 @@ void SynthSpec::store()
     SynthRegistry::global()->add(this->name, this);
 }
 
-void SynthSpec::add_node_def(NodeDefinition def)
+void SynthSpec::add_node_def(NodeSpec def)
 {
-    this->nodedefs[def.id] = def;
+    this->nodespecs[def.id] = def;
 }
 
-NodeDefinition *SynthSpec::get_node_def(int id)
+NodeSpec *SynthSpec::get_node_def(int id)
 {
-    return &(this->nodedefs[id]);
+    return &(this->nodespecs[id]);
 }
 
-void SynthSpec::set_output(NodeDefinition def)
+void SynthSpec::set_output(NodeSpec def)
 {
     this->output_def = def;
 }
 
-NodeDefinition SynthSpec::get_root()
+NodeSpec SynthSpec::get_root()
 {
     return this->output_def;
 }
 
 void SynthSpec::print()
 {
-    std::cout << "SynthSpec " << this->name << " (" << this->nodedefs.size() << " nodes)" << std::endl;
+    std::cout << "SynthSpec " << this->name << " (" << this->nodespecs.size() << " nodes)" << std::endl;
     this->print(&this->output_def, 0);
 }
 
-void SynthSpec::print(NodeDefinition *root, int depth)
+void SynthSpec::print(NodeSpec *root, int depth)
 {
     std::cout << std::string(depth * 2, ' ');
     std::cout << " * " << root->name << " (id = " << root->id << ") " << std::endl;
