@@ -1,18 +1,18 @@
 #pragma once
 
 #include "signal/node/node.h"
-#include "signal/synth/nodespec.h"
+#include "signal/patch/nodespec.h"
 
 namespace libsignal
 {
 
-class SynthSpec
+class PatchSpec
 {
 public:
-    SynthSpec(std::string name);
+    PatchSpec(std::string name);
 
     /*----------------------------------------------------------------------------------
-     * Methods for creating a SynthSpec from NodeSpecs.
+     * Methods for creating a PatchSpec from NodeSpecs.
      *---------------------------------------------------------------------------------*/
     void add_node_def(NodeSpec def);
     void set_output(NodeSpec def);
@@ -20,17 +20,17 @@ public:
     NodeSpec get_root();
 
     /*----------------------------------------------------------------------------------
-     * Save a SynthSpec to disk.
+     * Save a PatchSpec to disk.
      *---------------------------------------------------------------------------------*/
     void save(std::string filename);
 
     /*----------------------------------------------------------------------------------
-     * Load a SynthSpec from disk.
+     * Load a PatchSpec from disk.
      *---------------------------------------------------------------------------------*/
     void load(std::string filename);
 
     /*----------------------------------------------------------------------------------
-     * Store a SynthSpec to the global SynthRegistry so that it can be
+     * Store a PatchSpec to the global PatchRegistry so that it can be
      * instantiated by name.
      *---------------------------------------------------------------------------------*/
     void store();
@@ -41,7 +41,7 @@ public:
     void print();
 
     /**----------------------------------------------------------------------------------
-     * Returns true if this SynthSpec is ready to be played.
+     * Returns true if this PatchSpec is ready to be played.
      *---------------------------------------------------------------------------------*/
     bool is_ready();
 
@@ -59,15 +59,15 @@ public:
 };
 
 template <class T>
-class SynthSpecRefTemplate : public std::shared_ptr<T>
+class PatchSpecRefTemplate : public std::shared_ptr<T>
 {
 public:
-    SynthSpecRefTemplate()
+    PatchSpecRefTemplate()
         : std::shared_ptr<T>(nullptr) {}
-    SynthSpecRefTemplate(SynthSpec *ptr)
+    PatchSpecRefTemplate(PatchSpec *ptr)
         : std::shared_ptr<T>(ptr) {}
 };
 
-typedef SynthSpecRefTemplate<SynthSpec> SynthSpecRef;
+typedef PatchSpecRefTemplate<PatchSpec> PatchSpecRef;
 
 }

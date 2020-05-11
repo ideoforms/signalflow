@@ -1,9 +1,9 @@
-#include "signal/synth/synth.h"
+#include "signal/patch/patch.h"
 
 #include "signal/core/core.h"
 #include "signal/core/graph.h"
 #include "signal/node/oscillators/constant.h"
-#include "signal/synth/synthregistry.h"
+#include "signal/patch/patchregistry.h"
 
 #include <iostream>
 #include <memory>
@@ -13,45 +13,45 @@ namespace libsignal
 
 extern AudioGraph *shared_graph;
 
-Synth::Synth()
+Patch::Patch()
 {
     this->graph = shared_graph;
     this->auto_free = false;
 }
 
-Synth::Synth(SynthSpecRef synthspec)
-    : Synth()
+Patch::Patch(PatchSpecRef patchspec)
+    : Patch()
 {
-    NodeSpec nodespec = synthspec->get_root();
+    NodeSpec nodespec = patchspec->get_root();
     this->output = this->instantiate(&nodespec);
 }
 
-Synth::Synth(std::string name)
-    : Synth()
+Patch::Patch(std::string name)
+    : Patch()
 {
-    SynthSpecRef synthspec = SynthRegistry::global()->get(name);
-    if (synthspec)
+    PatchSpecRef patchspec = PatchRegistry::global()->get(name);
+    if (patchspec)
     {
-        NodeSpec nodespec = synthspec->get_root();
+        NodeSpec nodespec = patchspec->get_root();
         this->output = this->instantiate(&nodespec);
     }
 }
 
-Synth::~Synth()
+Patch::~Patch()
 {
 }
 
-signal_synth_state_t Synth::get_state()
+signal_patch_state_t Patch::get_state()
 {
     return this->state;
 }
 
-void Synth::set_state(signal_synth_state_t state)
+void Patch::set_state(signal_patch_state_t state)
 {
     this->state = state;
 }
 
-NodeRef Synth::instantiate(NodeSpec *nodespec)
+NodeRef Patch::instantiate(NodeSpec *nodespec)
 {
     /*------------------------------------------------------------------------
      * Recursively instantiate the subgraph specified in NodeSpec.
@@ -72,7 +72,7 @@ NodeRef Synth::instantiate(NodeSpec *nodespec)
         noderef = NodeRef(node);
 
         /*------------------------------------------------------------------------
-         * Update the synth's internal collection of node refs.
+         * Update the patch's internal collection of node refs.
          *-----------------------------------------------------------------------*/
         this->nodes.insert(noderef);
 
@@ -94,22 +94,22 @@ NodeRef Synth::instantiate(NodeSpec *nodespec)
             this->inputs[nodespec->input_name] = noderef;
         }
 
-        noderef->set_synth(this);
+        noderef->set_patch(this);
     }
 
     return noderef;
 }
 
-void Synth::set_input(std::string name, NodeRef value)
+void Patch::set_input(std::string name, NodeRef value)
 {
     /*------------------------------------------------------------------------
      * Replace a named input with another node.
-     * Iterate over this synth's nodes, replacing the prior input with
+     * Iterate over this patch's nodes, replacing the prior input with
      * the new node. (Inefficient, should be rethought.)
      *-----------------------------------------------------------------------*/
     if (this->inputs[name] == nullptr)
     {
-        throw std::runtime_error("Synth has no such parameter: " + name);
+        throw std::runtime_error("Patch has no such parameter: " + name);
     }
     NodeRef current = this->inputs[name];
     for (NodeRef node : this->nodes)
@@ -126,21 +126,21 @@ void Synth::set_input(std::string name, NodeRef value)
     this->inputs[name] = value;
 }
 
-void Synth::disconnect()
+void Patch::disconnect()
 {
     this->graph->remove_output(this);
 }
 
-bool Synth::get_auto_free()
+bool Patch::get_auto_free()
 {
     return this->auto_free;
 }
-void Synth::set_auto_free(bool value)
+void Patch::set_auto_free(bool value)
 {
     this->auto_free = value;
 }
 
-void Synth::node_state_changed(Node *node)
+void Patch::node_state_changed(Node *node)
 {
     if (node->get_state() == SIGNAL_NODE_STATE_FINISHED && this->auto_free)
     {
@@ -153,7 +153,7 @@ void Synth::node_state_changed(Node *node)
  * TEMPLATING
  *-----------------------------------------------------------------------*/
 
-NodeRef Synth::add_input(std::string name, sample default_value)
+NodeRef Patch::add_input(std::string name, sample default_value)
 {
     NodeRef placeholder(default_value);
     this->inputs[name] = placeholder;
@@ -161,7 +161,7 @@ NodeRef Synth::add_input(std::string name, sample default_value)
     return placeholder;
 }
 
-std::string Synth::_get_input_name(const NodeRef &node)
+std::string Patch::_get_input_name(const NodeRef &node)
 {
     for (auto input : this->inputs)
     {
@@ -174,32 +174,32 @@ std::string Synth::_get_input_name(const NodeRef &node)
     return "";
 }
 
-NodeRef Synth::add_node(NodeRef node)
+NodeRef Patch::add_node(NodeRef node)
 {
     nodes.insert(node);
     return node;
 }
 
-void Synth::set_output(NodeRef out)
+void Patch::set_output(NodeRef out)
 {
-    // check if out is in synth
+    // check if out is in patch
     this->output = out;
 }
 
 /*------------------------------------------------------------------------
- * Scans the synth graph beginning from its outputs.
+ * Scans the patch graph beginning from its outputs.
  *-----------------------------------------------------------------------*/
-SynthSpecRef Synth::parse()
+PatchSpecRef Patch::parse()
 {
     // TODO: Currently have parsed property in this object and spec
     if (this->output == nullptr)
     {
-        throw std::runtime_error("Synth " + this->name + ": output is not set");
+        throw std::runtime_error("Patch " + this->name + ": output is not set");
     }
     NodeRef root = this->output;
     this->last_id = 0;
 
-    SynthSpecRef spec = new SynthSpec(this->name);
+    PatchSpecRef spec = new PatchSpec(this->name);
     spec->output_def = this->_parse_from_node(root);
     spec->parsed = true;
     spec->nodespecs = this->nodespecs;
@@ -207,14 +207,14 @@ SynthSpecRef Synth::parse()
     {
         if (parsed_nodes.find(node) == parsed_nodes.end())
         {
-            throw std::runtime_error("Synth contains unconnected node (" + node->name + ").");
+            throw std::runtime_error("Patch contains unconnected node (" + node->name + ").");
         }
     }
 
     return spec;
 }
 
-NodeSpec Synth::_parse_from_node(const NodeRef &node)
+NodeSpec Patch::_parse_from_node(const NodeRef &node)
 {
     NodeSpec def(node->name);
     def.set_id(this->last_id++);

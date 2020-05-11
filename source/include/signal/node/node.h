@@ -137,9 +137,9 @@ public:
     int get_output_buffer_length();
 
     /*------------------------------------------------------------------------
-     * Get the Synth that this node is part of.
+     * Get the Patch that this node is part of.
      *-----------------------------------------------------------------------*/
-    Synth *get_synth();
+    Patch *get_patch();
 
     /*------------------------------------------------------------------------
      * Human-readable name identifier [a-z0-9-]
@@ -284,9 +284,9 @@ protected:
     virtual void zero_output();
 
     /*------------------------------------------------------------------------
-     * Set the Synth that this node is part of.
+     * Set the Patch that this node is part of.
      *-----------------------------------------------------------------------*/
-    virtual void set_synth(Synth *synth);
+    virtual void set_patch(Patch *patch);
 
     /*------------------------------------------------------------------------
      * Output buffer length, in samples.
@@ -320,15 +320,15 @@ private:
     virtual void _process(sample **out, int num_frames);
 
     /*------------------------------------------------------------------------
-     * Pointer to the Synth that this node is a part of, if any.
+     * Pointer to the Patch that this node is a part of, if any.
      *-----------------------------------------------------------------------*/
-    Synth *synth = nullptr;
+    Patch *patch = nullptr;
 
     /*------------------------------------------------------------------------
      * Allow friends to access private methods
      *-----------------------------------------------------------------------*/
     friend class AudioGraph;
-    friend class Synth;
+    friend class Patch;
 };
 
 class UnaryOpNode : public Node

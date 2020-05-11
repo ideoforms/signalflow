@@ -38,7 +38,7 @@ void init_python_node(py::module &m)
         .def("__rtruediv__", [](NodeRef a, float b)
             { return NodeRef(b) / a; })
         .def_readonly("name", &Node::name)
-        .def_property_readonly("synth", &Node::get_synth)
+        .def_property_readonly("patch", &Node::get_patch)
 
         .def_readonly("num_output_channels", &Node::num_output_channels)
         .def_readonly("min_output_channels", &Node::min_output_channels)

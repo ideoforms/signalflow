@@ -1,7 +1,7 @@
 #pragma once
 
-#include "signal/synth/nodespec.h"
-#include "signal/synth/synthspec.h"
+#include "signal/patch/nodespec.h"
+#include "signal/patch/patchspec.h"
 
 namespace libsignal
 {
@@ -10,18 +10,18 @@ typedef enum
 {
     SIGNAL_SYNTH_STATE_ACTIVE,
     SIGNAL_SYNTH_STATE_FINISHED
-} signal_synth_state_t;
+} signal_patch_state_t;
 
 
-class Synth
+class Patch
 {
 public:
-    Synth();
-    Synth(SynthSpecRef synthspec);
-    Synth(std::string name);
-    virtual ~Synth();
+    Patch();
+    Patch(PatchSpecRef patchspec);
+    Patch(std::string name);
+    virtual ~Patch();
 
-    signal_synth_state_t get_state();
+    signal_patch_state_t get_state();
     void set_input(std::string name, NodeRef value);
     void disconnect();
     bool get_auto_free();
@@ -33,7 +33,7 @@ public:
     std::set<NodeRef> nodes;
 
     /*----------------------------------------------------------------------------------
-     * Methods for creating a Synth template from live Node objects.
+     * Methods for creating a Patch template from live Node objects.
      *---------------------------------------------------------------------------------*/
     NodeRef add_input(std::string name, sample default_value = 0);
     NodeRef add_node(NodeRef node);
@@ -42,15 +42,15 @@ public:
     /*----------------------------------------------------------------------------------
      * Parse a template from live Node objects to create a network of NodeDefs
      *---------------------------------------------------------------------------------*/
-    SynthSpecRef parse();
+    PatchSpecRef parse();
 
     std::string name;
 
 private:
     NodeRef instantiate(NodeSpec *nodespec);
-    void set_state(signal_synth_state_t state);
+    void set_state(signal_patch_state_t state);
     bool auto_free;
-    signal_synth_state_t state;
+    signal_patch_state_t state;
     AudioGraph *graph;
 
     /*----------------------------------------------------------------------------------
@@ -66,18 +66,18 @@ private:
 
 
 template <class T>
-class SynthRefTemplate : public std::shared_ptr<T>
+class PatchRefTemplate : public std::shared_ptr<T>
 {
 public:
-    SynthRefTemplate()
+    PatchRefTemplate()
         : std::shared_ptr<T>(nullptr) {}
-    SynthRefTemplate(Synth *ptr)
+    PatchRefTemplate(Patch *ptr)
         : std::shared_ptr<T>(ptr) {}
-    SynthRefTemplate(SynthSpecRef synthspec)
-        : std::shared_ptr<T>(new T(synthspec)) {}
+    PatchRefTemplate(PatchSpecRef patchspec)
+        : std::shared_ptr<T>(new T(patchspec)) {}
 };
 
-typedef SynthRefTemplate<Synth> SynthRef;
+typedef PatchRefTemplate<Patch> PatchRef;
 
 
 }

@@ -4,7 +4,7 @@
 #include "signal/node/node.h"
 #include "signal/node/oscillators/constant.h"
 
-#include "signal/synth/synth.h"
+#include "signal/patch/patch.h"
 
 #include "signal/node/io/output/abstract.h"
 #include "signal/node/io/output/ios.h"
@@ -151,7 +151,7 @@ void AudioGraph::pull_input(int num_frames)
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
 
     /*------------------------------------------------------------------------
-     * Disconnect any nodes and synths that are scheduled to be removed.
+     * Disconnect any nodes and patchs that are scheduled to be removed.
      *-----------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
@@ -159,18 +159,18 @@ void AudioGraph::pull_input(int num_frames)
     }
     nodes_to_remove.clear();
 
-    for (auto synth : synths_to_remove)
+    for (auto patch : patchs_to_remove)
     {
-        for (auto synthref : synths)
+        for (auto patchref : patchs)
         {
-            if (synthref.get() == synth)
+            if (patchref.get() == patch)
             {
-                synths.erase(synthref);
+                patchs.erase(patchref);
                 break;
             }
         }
     }
-    this->synths_to_remove.clear();
+    this->patchs_to_remove.clear();
 
     /*------------------------------------------------------------------------
      * Clear the record of processed nodes, and begin recursing through the
@@ -229,11 +229,11 @@ NodeRef AudioGraph::get_output()
     return this->output;
 }
 
-void AudioGraph::add_output(SynthRef synth)
+void AudioGraph::add_output(PatchRef patch)
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
-    output->add_input(synth->output);
-    this->synths.insert(synth);
+    output->add_input(patch->output);
+    this->patchs.insert(patch);
 }
 
 void AudioGraph::add_output(NodeRef node)
@@ -242,15 +242,15 @@ void AudioGraph::add_output(NodeRef node)
     output->add_input(node);
 }
 
-void AudioGraph::remove_output(SynthRef synth)
+void AudioGraph::remove_output(PatchRef patch)
 {
-    this->remove_output(synth.get());
+    this->remove_output(patch.get());
 }
 
-void AudioGraph::remove_output(Synth *synth)
+void AudioGraph::remove_output(Patch *patch)
 {
-    synths_to_remove.insert(synth);
-    nodes_to_remove.insert(synth->output);
+    patchs_to_remove.insert(patch);
+    nodes_to_remove.insert(patch->output);
 }
 
 void AudioGraph::remove_output(NodeRef node)
@@ -304,9 +304,9 @@ int AudioGraph::get_node_count()
     return this->node_count;
 }
 
-int AudioGraph::get_synth_count()
+int AudioGraph::get_patch_count()
 {
-    return (int) this->synths.size();
+    return (int) this->patchs.size();
 }
 
 float AudioGraph::get_cpu_usage()

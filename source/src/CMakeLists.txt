@@ -61,10 +61,10 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/synth/nodespec.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/synth/synth.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthregistry.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/synth/synthspec.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/patch/nodespec.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patchregistry.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patchspec.cpp
 )
 
 if (CMAKE_BUILD_PYTHON)
@@ -75,7 +75,7 @@ if (CMAKE_BUILD_PYTHON)
         ${CMAKE_CURRENT_SOURCE_DIR}/python/nodes.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/python/graph.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/python/buffer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/python/synth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/patch.cpp
     )
 endif()
 

@@ -3,7 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
-#include "signal/synth/nodespec.h"
+#include "signal/patch/nodespec.h"
 
 #define REGISTER(CLASS, NAME) static bool CLASS##OK = NodeRegistry::global()->add<CLASS>(NAME);
 
@@ -11,7 +11,7 @@ namespace libsignal
 {
 
 class Node;
-class Synth;
+class Patch;
 
 template <typename T>
 Node *create()

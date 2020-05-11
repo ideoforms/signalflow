@@ -1,10 +1,10 @@
-#include "signal/synth/synthspec.h"
+#include "signal/patch/patchspec.h"
 
 #include "json11/json11.hpp"
 #include "signal/core/core.h"
 #include "signal/node/oscillators/constant.h"
 #include "signal/node/registry.h"
-#include "signal/synth/synthregistry.h"
+#include "signal/patch/patchregistry.h"
 
 #include <fstream>
 #include <iostream>
@@ -13,16 +13,16 @@ using namespace json11;
 
 namespace libsignal
 {
-SynthSpec::SynthSpec(std::string name)
+PatchSpec::PatchSpec(std::string name)
 {
     this->name = name;
 }
 
-void SynthSpec::save(std::string filename)
+void PatchSpec::save(std::string filename)
 {
 }
 
-void SynthSpec::load(std::string filename)
+void PatchSpec::load(std::string filename)
 {
     std::string buf;
     std::string line;
@@ -102,38 +102,38 @@ void SynthSpec::load(std::string filename)
     this->parsed = true;
 }
 
-void SynthSpec::store()
+void PatchSpec::store()
 {
-    SynthRegistry::global()->add(this->name, this);
+    PatchRegistry::global()->add(this->name, this);
 }
 
-void SynthSpec::add_node_def(NodeSpec def)
+void PatchSpec::add_node_def(NodeSpec def)
 {
     this->nodespecs[def.id] = def;
 }
 
-NodeSpec *SynthSpec::get_node_def(int id)
+NodeSpec *PatchSpec::get_node_def(int id)
 {
     return &(this->nodespecs[id]);
 }
 
-void SynthSpec::set_output(NodeSpec def)
+void PatchSpec::set_output(NodeSpec def)
 {
     this->output_def = def;
 }
 
-NodeSpec SynthSpec::get_root()
+NodeSpec PatchSpec::get_root()
 {
     return this->output_def;
 }
 
-void SynthSpec::print()
+void PatchSpec::print()
 {
-    std::cout << "SynthSpec " << this->name << " (" << this->nodespecs.size() << " nodes)" << std::endl;
+    std::cout << "PatchSpec " << this->name << " (" << this->nodespecs.size() << " nodes)" << std::endl;
     this->print(&this->output_def, 0);
 }
 
-void SynthSpec::print(NodeSpec *root, int depth)
+void PatchSpec::print(NodeSpec *root, int depth)
 {
     std::cout << std::string(depth * 2, ' ');
     std::cout << " * " << root->name << " (id = " << root->id << ") " << std::endl;
@@ -147,7 +147,7 @@ void SynthSpec::print(NodeSpec *root, int depth)
 
             if (pair.second->input_name != "")
             {
-                std::cout << " (synth input: " << pair.second->input_name << ")" << std::endl;
+                std::cout << " (patch input: " << pair.second->input_name << ")" << std::endl;
             }
 
             std::cout << std::endl;

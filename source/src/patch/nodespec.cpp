@@ -1,4 +1,4 @@
-#include "signal/synth/nodespec.h"
+#include "signal/patch/nodespec.h"
 
 namespace libsignal
 {

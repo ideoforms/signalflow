@@ -12,9 +12,9 @@
 
 #include <signal/buffer/buffer.h>
 
-#include <signal/synth/nodespec.h>
-#include <signal/synth/synth.h>
-#include <signal/synth/synthspec.h>
+#include <signal/patch/nodespec.h>
+#include <signal/patch/patch.h>
+#include <signal/patch/patchspec.h>
 
 #include <signal/node/node.h>
 #include <signal/node/registry.h>

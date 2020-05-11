@@ -1,6 +1,6 @@
 #include "signal/node/registry.h"
-#include "signal/synth/synth.h"
-#include "signal/synth/synthspec.h"
+#include "signal/patch/patch.h"
+#include "signal/patch/patchspec.h"
 
 #include <stdlib.h>
 

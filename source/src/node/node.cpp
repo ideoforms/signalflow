@@ -35,7 +35,7 @@ Node::Node()
     this->no_input_upmix = false;
 
     this->monitor = NULL;
-    this->synth = NULL;
+    this->patch = NULL;
 
     this->out = NULL;
     this->output_buffer_length = SIGNAL_NODE_BUFFER_SIZE;
@@ -180,9 +180,9 @@ void Node::set_state(signal_node_state_t state)
     if (state != this->state)
     {
         this->state = state;
-        if (this->synth)
+        if (this->patch)
         {
-            this->synth->node_state_changed(this);
+            this->patch->node_state_changed(this);
         }
     }
 }
@@ -319,18 +319,18 @@ void Node::zero_output()
     }
 }
 
-Synth *Node::get_synth()
+Patch *Node::get_patch()
 {
-    return this->synth;
+    return this->patch;
 }
 
-void Node::set_synth(Synth *synth)
+void Node::set_patch(Patch *patch)
 {
-    if (this->synth)
+    if (this->patch)
     {
-        throw std::runtime_error("This Node is already part of a Synth");
+        throw std::runtime_error("This Node is already part of a Patch");
     }
-    this->synth = synth;
+    this->patch = patch;
 }
 
 void Node::trigger(std::string name, float value)

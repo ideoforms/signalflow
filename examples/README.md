@@ -26,7 +26,7 @@ from a `std::vector`. Note that the first argument to Index is a
 static property, not a node.
 
 **[json-load-example.cpp](json-load-example.cpp)**  
-Demonstrates loading a synth spec from a JSON graph description.
+Demonstrates loading a patch spec from a JSON graph description.
 Optional pathname to a JSON file can be passed in argv.
 
 **[mouse-control-example.cpp](mouse-control-example.cpp)**  
@@ -43,7 +43,7 @@ Tape-wobble effect with crackle.
 Demonstrates using Signal's multichannel expansion and mixdown
 to create complex harmonics.
 
-**[synth-template-example.cpp](synth-template-example.cpp)**  
+**[patch-template-example.cpp](patch-template-example.cpp)**
 Demonstrates the creation of a reusable graph of nodes, that can
 be subsequently replicated for polyphonic output.
 
