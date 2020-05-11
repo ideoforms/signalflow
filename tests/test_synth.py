@@ -1,5 +1,5 @@
 from libsignal import SynthTemplate, SynthSpec, Synth
-from libsignal import Sine
+from libsignal import Sine, EnvelopeASR
 from . import graph
 
 def test_synth(graph):
@@ -18,3 +18,15 @@ def test_synth(graph):
 
     synth.auto_free = True
     assert synth.auto_free == True
+
+def test_synth_free(graph):
+    synth_template = SynthTemplate("template")
+    sine = synth_template.add_node(Sine(440))
+    envelope = synth_template.add_node(EnvelopeASR(0.0, 0.0, 0.01))
+    output = sine * envelope
+    synth_template.set_output(output)
+    synth_spec = synth_template.parse()
+    synth = Synth(synth_spec)
+    synth.auto_free = True
+    assert synth_spec.name == "template"
+
