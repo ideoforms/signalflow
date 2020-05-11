@@ -181,7 +181,6 @@ public:
 
                 if (value != last_value && (!isnan(value) || !isnan(last_value)))
                 {
-                    printf("value %f, last_value %f\n", value, last_value);
                     if (!isnan(value))
                     {
                         std::vector<float> values = this->get_property("values")->float_array_value();
