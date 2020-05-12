@@ -19,11 +19,15 @@ void Impulse::process(sample **out, int num_frames)
         sample rv = 0;
         if (this->steps_remaining <= 0)
         {
+            rv = 1;
             float freq_in = this->frequency->out[0][frame];
             if (freq_in > 0)
             {
                 this->steps_remaining = this->graph->get_sample_rate() / this->frequency->out[0][frame];
-                rv = 1;
+            }
+            else
+            {
+                this->steps_remaining = INT_MAX;
             }
         }
         else

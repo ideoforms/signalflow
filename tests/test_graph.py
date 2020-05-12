@@ -16,5 +16,5 @@ def test_graph_sample_rate():
     sine = Sine(10)
     process_tree(sine, buf)
     assert count_zero_crossings(buf.data[0]) == 10
-    
+
     del graph
