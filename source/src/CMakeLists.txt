@@ -22,6 +22,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/zero_phase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/tonality.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/comb.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/allpass.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/eq.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/freeze.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/gate.cpp

@@ -1,4 +1,4 @@
-#include "signal/node/filters/delays/comb.h"
+#include "signal/node/filters/delays/allpass.h"
 #include "signal/node/oscillators/constant.h"
 
 #include <stdlib.h>
@@ -6,10 +6,10 @@
 namespace libsignal
 {
 
-CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
+AllpassDelay::AllpassDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
     : UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 {
-    this->name = "comb-delay";
+    this->name = "allpass-delay";
     this->add_input("delay_time", this->delaytime);
     this->add_input("feedback", this->feedback);
 
@@ -20,7 +20,7 @@ CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float m
     }
 }
 
-CombDelay::~CombDelay()
+AllpassDelay::~AllpassDelay()
 {
     for (auto buffer : buffers)
     {
@@ -28,7 +28,7 @@ CombDelay::~CombDelay()
     }
 }
 
-void CombDelay::process(sample **out, int num_frames)
+void AllpassDelay::process(sample **out, int num_frames)
 {
     SIGNAL_CHECK_GRAPH();
 
@@ -40,9 +40,10 @@ void CombDelay::process(sample **out, int num_frames)
             sample feedback = this->feedback->out[channel][frame];
             float offset = delay * this->graph->get_sample_rate();
 
-            sample rv = input->out[channel][frame] + (feedback * buffers[channel]->get(-offset));
+            sample v = input->out[channel][frame] - feedback * buffers[channel]->get(-offset);
+            sample rv = feedback * v + buffers[channel]->get(-offset);
             out[channel][frame] = rv;
-            buffers[channel]->append(rv);
+            buffers[channel]->append(v);
         }
     }
 }

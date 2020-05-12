@@ -34,7 +34,10 @@ void init_python_nodes(py::module &m)
     
     py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
-    
+
+    py::class_<AllpassDelay, Node, NodeRefTemplate<AllpassDelay>>(m, "AllpassDelay")
+        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
+
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
         .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);
     

@@ -74,11 +74,11 @@
 #include <signal/node/envelope/adsr.h>
 #include <signal/node/envelope/asr.h>
 
-
 /*------------------------------------------------------------------------
  * Effects
  *-----------------------------------------------------------------------*/
 #include <signal/node/filters/delays/comb.h>
+#include <signal/node/filters/delays/allpass.h>
 #include <signal/node/filters/eq.h>
 #include <signal/node/filters/freeze.h>
 #include <signal/node/filters/gate.h>
