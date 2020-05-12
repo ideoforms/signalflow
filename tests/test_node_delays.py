@@ -1,4 +1,4 @@
-from libsignal import Impulse, Delay, Buffer
+from libsignal import Impulse, CombDelay, Buffer
 from . import graph
 from . import process_tree
 
@@ -11,7 +11,7 @@ def test_delay(graph):
     # feedback = 0
     # Input signal is passed through unmodified
     i = Impulse(0)
-    a = Delay(i, 0.1, 0.0)
+    a = CombDelay(i, 0.1, 0.0)
     b = Buffer(1, 1000)
     process_tree(a, buffer=b)
     assert b.data[0][0] == 1.0
@@ -20,7 +20,7 @@ def test_delay(graph):
     # feedback = 0.5
     # Input signal is passed through with 50% feedback
     i = Impulse(0)
-    a = Delay(i, 0.1, 0.5)
+    a = CombDelay(i, 0.1, 0.5)
     b = Buffer(1, 1000)
     process_tree(a, buffer=b)
     assert b.data[0][0] == 1.0

@@ -8,7 +8,7 @@
 
 /*------------------------------------------------------------------------
  * Unsightly workaround to prevent namespace collisions
- * (with Delay object).
+ * (with CombDelay object).
  *-----------------------------------------------------------------------*/
 #define VIMAGE_H
 #include <Accelerate/Accelerate.h>

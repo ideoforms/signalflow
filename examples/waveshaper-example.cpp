@@ -40,7 +40,7 @@ int main()
     /*------------------------------------------------------------------------
      * Add some delay and stereo width modulation.
      *-----------------------------------------------------------------------*/
-    NodeRef delay = new Delay(shaper, 0.5, 0.5, 0.5);
+    NodeRef delay = new CombDelay(shaper, 0.5, 0.5, 0.5);
     NodeRef width = new Sine(0.2);
     NodeRef throb = new Width(delay, width->scale(0.5, 1));
 

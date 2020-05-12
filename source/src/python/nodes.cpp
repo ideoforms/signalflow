@@ -32,7 +32,7 @@ void init_python_nodes(py::module &m)
     py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
     
-    py::class_<Delay, Node, NodeRefTemplate<Delay>>(m, "Delay")
+    py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
     
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")

@@ -1,4 +1,4 @@
-#include "signal/node/filters/delay.h"
+#include "signal/node/filters/delays/comb.h"
 #include "signal/node/oscillators/constant.h"
 
 #include <stdlib.h>
@@ -6,7 +6,7 @@
 namespace libsignal
 {
 
-Delay::Delay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
+CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
     : UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 {
     this->name = "delay";
@@ -20,12 +20,12 @@ Delay::Delay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelayt
     }
 }
 
-Delay::~Delay()
+CombDelay::~CombDelay()
 {
     // free buffers
 }
 
-void Delay::process(sample **out, int num_frames)
+void CombDelay::process(sample **out, int num_frames)
 {
     SIGNAL_CHECK_GRAPH();
 

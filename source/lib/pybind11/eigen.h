@@ -412,7 +412,7 @@ private:
                 ((props::row_major ? props::inner_stride : props::outer_stride) == 1 ? array::c_style :
                  (props::row_major ? props::outer_stride : props::inner_stride) == 1 ? array::f_style : 0)>;
     static constexpr bool need_writeable = is_eigen_mutable_map<Type>::value;
-    // Delay construction (these have no default constructor)
+    // CombDelay construction (these have no default constructor)
     std::unique_ptr<MapType> map;
     std::unique_ptr<Type> ref;
     // Our array.  When possible, this is just a numpy array pointing to the source data, but

@@ -78,7 +78,7 @@
 /*------------------------------------------------------------------------
  * Effects
  *-----------------------------------------------------------------------*/
-#include <signal/node/filters/delay.h>
+#include <signal/node/filters/delays/comb.h>
 #include <signal/node/filters/eq.h>
 #include <signal/node/filters/freeze.h>
 #include <signal/node/filters/gate.h>

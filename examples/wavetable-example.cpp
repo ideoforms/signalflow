@@ -25,7 +25,7 @@ int main()
     }
     BufferRef buffer = new Buffer(1, wavetable_size, wt);
     NodeRef wavetable = new Wavetable(buffer, freq * 2.0);
-    NodeRef delay = new Delay(wavetable, 0.1, 0.3);
+    NodeRef delay = new CombDelay(wavetable, 0.1, 0.3);
 
     NodeRef pan = new LinearPanner(2, delay);
 

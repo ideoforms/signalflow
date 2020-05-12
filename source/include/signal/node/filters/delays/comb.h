@@ -9,11 +9,11 @@
 
 namespace libsignal
 {
-class Delay : public UnaryOpNode
+class CombDelay : public UnaryOpNode
 {
 public:
-    Delay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 0.5);
-    ~Delay();
+    CombDelay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 0.5);
+    ~CombDelay();
 
     NodeRef delaytime;
     NodeRef feedback;
@@ -24,5 +24,5 @@ public:
     virtual void process(sample **out, int num_frames);
 };
 
-REGISTER(Delay, "delay")
+REGISTER(CombDelay, "delay")
 }

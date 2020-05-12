@@ -29,7 +29,7 @@ PatchSpecRef create_synth()
     NodeRef asr    = patch->add_node(new EnvelopeASR(0.0, 0.0, 1.3));
     NodeRef shaped = patch->add_node(square * asr * 0.05);
     NodeRef stereo = patch->add_node(new LinearPanner(2, shaped, pan));
-    NodeRef delay = new Delay(stereo, 0.1, 0.9, 0.5);
+    NodeRef delay = new CombDelay(stereo, 0.1, 0.9, 0.5);
     // NodeRef output = stereo + delay * 0.3;
     NodeRef output = stereo * 0.2;
     patch->set_output(output);
