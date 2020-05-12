@@ -1,5 +1,6 @@
 #include "signal/node/oscillators/impulse.h"
 #include "signal/core/graph.h"
+#include <limits.h>
 
 namespace libsignal
 {
