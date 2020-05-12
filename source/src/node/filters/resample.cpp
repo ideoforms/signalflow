@@ -24,7 +24,7 @@ void Resample::process(sample **out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {
-        float phase_increment = this->sample_rate->out[0][frame] / this->graph->sample_rate;
+        float phase_increment = this->sample_rate->out[0][frame] / this->graph->get_sample_rate();
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {

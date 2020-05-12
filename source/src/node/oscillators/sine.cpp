@@ -34,7 +34,7 @@ void Sine::process(sample **out, int num_frames)
         {
             float freq = this->frequency->out[channel][frame];
             out[channel][frame] = sin(this->phase[channel] * M_PI * 2.0);
-            this->phase[channel] += freq / this->graph->sample_rate;
+            this->phase[channel] += freq / this->graph->get_sample_rate();
 
             while (this->phase[channel] > 1.0)
                 this->phase[channel] -= 1.0;

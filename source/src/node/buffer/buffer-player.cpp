@@ -69,7 +69,7 @@ void BufferPlayer::trigger(std::string name, float value)
 {
     if (name == SIGNAL_SAMPLER_TRIGGER_SET_POSITION)
     {
-        this->phase = value * this->graph->sample_rate;
+        this->phase = value * this->graph->get_sample_rate();
     }
 }
 

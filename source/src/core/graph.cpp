@@ -299,6 +299,20 @@ void AudioGraph::poll(float frequency)
     }
 }
 
+int AudioGraph::get_sample_rate()
+{
+    return this->sample_rate;
+}
+
+void AudioGraph::set_sample_rate(int sample_rate)
+{
+    if (sample_rate <= 0)
+    {
+        throw std::runtime_error("Sample rate cannot be <= 0");
+    }
+    this->sample_rate = sample_rate;
+}
+
 int AudioGraph::get_node_count()
 {
     return this->node_count;

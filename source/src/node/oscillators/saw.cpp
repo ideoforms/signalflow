@@ -22,7 +22,7 @@ void Saw::process(sample **out, int num_frames)
 
             out[channel][frame] = rv;
 
-            this->phase[channel] += this->frequency->out[channel][frame] / this->graph->sample_rate;
+            this->phase[channel] += this->frequency->out[channel][frame] / this->graph->get_sample_rate();
             while (this->phase[channel] >= 1.0)
                 this->phase[channel] -= 1.0;
         }

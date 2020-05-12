@@ -21,7 +21,7 @@ void FFTLPF::process(sample **out, int num_frames)
      * Calculate a normalised cutoff value [0, 1]
      *-----------------------------------------------------------------------*/
     float cutoff = this->frequency->out[0][0];
-    float cutoff_norm = (float) cutoff / (this->graph->sample_rate / 2.0);
+    float cutoff_norm = (float) cutoff / (this->graph->get_sample_rate() / 2.0);
 
     /*------------------------------------------------------------------------
      * Calculate the bin above which we want to set magnitude = 0

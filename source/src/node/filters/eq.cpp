@@ -41,8 +41,8 @@ void EQ::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float lf = 2 * sin(M_PI * ((double) this->low_freq->out[channel][frame] / this->graph->sample_rate));
-            float hf = 2 * sin(M_PI * ((double) this->high_freq->out[channel][frame] / this->graph->sample_rate));
+            float lf = 2 * sin(M_PI * ((double) this->low_freq->out[channel][frame] / this->graph->get_sample_rate()));
+            float hf = 2 * sin(M_PI * ((double) this->high_freq->out[channel][frame] / this->graph->get_sample_rate()));
 
             /*------------------------------------------------------------------------
              * Low-pass filter

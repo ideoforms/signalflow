@@ -66,14 +66,18 @@ public:
     void remove_output(PatchRef patch);
     void remove_output(NodeRef node);
 
+    /**------------------------------------------------------------------------
+     * Get/set audio sample rate
+     *------------------------------------------------------------------------*/
+    int get_sample_rate();
+    void set_sample_rate(int sample_rate);
+
     int get_node_count();
     int get_patch_count();
     float get_cpu_usage();
 
     NodeRef input = nullptr;
     NodeRef output = nullptr;
-
-    int sample_rate;
 
 private:
     std::set<Node *> processed_nodes;
@@ -83,6 +87,7 @@ private:
 
     void print(NodeRef &root, int depth);
     AudioGraphMonitor *monitor;
+    int sample_rate;
     int node_count;
     float cpu_usage;
 };

@@ -23,7 +23,7 @@ void Wavetable::process(sample **out, int num_frames)
 
         this->out[0][frame] = rv;
 
-        this->phase += (frequency / this->graph->sample_rate);
+        this->phase += (frequency / this->graph->get_sample_rate());
         while (this->phase >= 1.0)
             this->phase -= 1.0;
     }
@@ -49,7 +49,7 @@ void Wavetable2D::process(sample **out, int num_frames)
 
         this->out[0][frame] = rv;
 
-        this->phase += (frequency / this->graph->sample_rate);
+        this->phase += (frequency / this->graph->get_sample_rate());
         while (this->phase >= 1.0)
             this->phase -= 1.0;
     }

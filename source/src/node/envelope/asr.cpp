@@ -71,7 +71,7 @@ void EnvelopeASR::process(sample **out, int num_frames)
             }
         }
 
-        this->phase += 1.0 / this->graph->sample_rate;
+        this->phase += 1.0 / this->graph->get_sample_rate();
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {

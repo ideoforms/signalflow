@@ -27,7 +27,7 @@ Buffer::Buffer(int num_channels, int num_frames)
 {
     this->num_channels = num_channels;
     this->num_frames = num_frames;
-    this->sample_rate = shared_graph->sample_rate;
+    this->sample_rate = shared_graph->get_sample_rate();
     this->duration = this->num_frames / this->sample_rate;
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
 

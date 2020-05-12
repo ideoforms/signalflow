@@ -42,7 +42,7 @@ void Noise::process(sample **out, int num_frames)
             float max = this->max->out[channel][frame];
             float frequency = this->frequency->out[channel][frame];
             if (!frequency)
-                frequency = this->graph->sample_rate;
+                frequency = this->graph->get_sample_rate();
 
             if (this->steps_remaining[channel] <= 0)
             {
@@ -51,7 +51,7 @@ void Noise::process(sample **out, int num_frames)
 
                 if (frequency > 0)
                 {
-                    this->steps_remaining[channel] = random_integer(0, this->graph->sample_rate / (frequency / 2.0));
+                    this->steps_remaining[channel] = random_integer(0, this->graph->get_sample_rate() / (frequency / 2.0));
                     if (this->steps_remaining[channel] == 0)
                         this->steps_remaining[channel] = 1;
                     this->step_change[channel] = (target - this->value[channel]) / this->steps_remaining[channel];

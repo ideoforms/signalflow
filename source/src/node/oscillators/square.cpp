@@ -27,7 +27,7 @@ void Square::process(sample **out, int num_frames)
 
             out[channel][frame] = rv;
 
-            this->phase[channel] += 1.0 / (this->graph->sample_rate / frequency);
+            this->phase[channel] += 1.0 / (this->graph->get_sample_rate() / frequency);
             if (this->phase[channel] >= 1.0)
                 this->phase[channel] -= 1.0;
         }

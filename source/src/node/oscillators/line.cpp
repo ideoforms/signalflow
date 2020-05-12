@@ -31,7 +31,7 @@ void Line::process(sample **out, int num_frames)
                 float to = this->to->out[channel][frame];
                 float time = this->time->out[channel][frame];
 
-                this->step_target = this->graph->sample_rate * time;
+                this->step_target = this->graph->get_sample_rate() * time;
                 this->value = from;
                 this->value_change_per_step = (to - from) / this->step_target;
             }

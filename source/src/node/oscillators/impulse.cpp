@@ -22,7 +22,7 @@ void Impulse::process(sample **out, int num_frames)
             float freq_in = this->frequency->out[0][frame];
             if (freq_in > 0)
             {
-                this->steps_remaining = this->graph->sample_rate / this->frequency->out[0][frame];
+                this->steps_remaining = this->graph->get_sample_rate() / this->frequency->out[0][frame];
                 rv = 1;
             }
         }

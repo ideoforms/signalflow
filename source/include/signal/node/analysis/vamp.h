@@ -52,7 +52,7 @@ public:
         PluginLoader *loader = PluginLoader::getInstance();
         PluginLoader::PluginKey key = loader->composePluginKey(vamp_plugin_library, vamp_plugin_feature);
 
-        this->plugin = loader->loadPlugin(key, this->graph->sample_rate, PluginLoader::ADAPT_ALL);
+        this->plugin = loader->loadPlugin(key, this->graph->get_sample_rate(), PluginLoader::ADAPT_ALL);
 
         if (!this->plugin)
             throw std::runtime_error("Failed to load Vamp plugin: " + plugin_id);
@@ -83,7 +83,7 @@ public:
 
     virtual void process(sample **out, int num_frames)
     {
-        RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
+        RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
         Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
         if (features[this->output_index].size())
         {
@@ -132,7 +132,7 @@ public:
 
     virtual void process(sample **out, int num_frames)
     {
-        RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
+        RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
         Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
         if (features[this->output_index].size())
         {
@@ -140,8 +140,8 @@ public:
 
             if (feature.hasTimestamp)
             {
-                long ts = RealTime::realTime2Frame(feature.timestamp, this->graph->sample_rate);
-                printf("Got ts: %ld (%f)\n", ts, this->graph->sample_rate);
+                long ts = RealTime::realTime2Frame(feature.timestamp, this->graph->get_sample_rate());
+                printf("Got ts: %ld (%f)\n", ts, this->graph->get_sample_rate());
                 std::vector<float> timestamps = this->get_property("timestamps")->float_array_value();
                 timestamps.push_back(ts);
                 this->set_property("timestamps", timestamps);
@@ -167,7 +167,7 @@ public:
 
     virtual void process(sample **out, int num_frames)
     {
-        RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->sample_rate);
+        RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
         Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
         if (features[this->output_index].size())
         {
@@ -175,7 +175,7 @@ public:
 
             if (feature.values.size() > 0)
             {
-                long timestamp = RealTime::realTime2Frame(feature.timestamp, this->graph->sample_rate);
+                long timestamp = RealTime::realTime2Frame(feature.timestamp, this->graph->get_sample_rate());
                 float value = feature.values[0];
                 value = midi_to_freq(roundf(freq_to_midi(value)));
 

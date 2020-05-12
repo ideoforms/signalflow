@@ -24,7 +24,7 @@ void Logistic::process(sample **out, int num_frames)
         {
             float frequency = this->frequency->out[channel][frame];
             if (!frequency)
-                frequency = this->graph->sample_rate;
+                frequency = this->graph->get_sample_rate();
 
             if (this->steps_remaining[channel] <= 0)
             {
@@ -33,7 +33,7 @@ void Logistic::process(sample **out, int num_frames)
 
                 if (frequency > 0)
                 {
-                    this->steps_remaining[channel] = this->graph->sample_rate / (frequency / 2);
+                    this->steps_remaining[channel] = this->graph->get_sample_rate() / (frequency / 2);
                 }
                 else
                 {

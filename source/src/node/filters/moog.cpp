@@ -30,7 +30,7 @@ void MoogVCF::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float cutoff = map(this->cutoff->out[channel][frame], 0, this->graph->sample_rate / 2, 0.005, 1);
+            float cutoff = map(this->cutoff->out[channel][frame], 0, this->graph->get_sample_rate() / 2, 0.005, 1);
             float resonance = this->resonance->out[channel][frame];
             float f = cutoff * 1.16;
             float fb = resonance * (1.0 - 0.15 * f * f);

@@ -31,7 +31,7 @@ GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, Pr
 
 void GrainSegments::process(sample **out, int num_frames)
 {
-    // printf("sample_rate now = %f\n", this->graph->sample_rate);
+    // printf("sample_rate now = %f\n", this->graph->get_sample_rate());
     sample frequency = this->target->out[0][0];
     frequency = midi_to_freq(roundf(freq_to_midi(frequency)));
     std::vector<float> offsets = this->get_property("offsets")->float_array_value();
@@ -62,8 +62,8 @@ void GrainSegments::process(sample **out, int num_frames)
             {
                 int indexindex = random_integer(0, indices.size());
                 int index = indices[indexindex];
-                float offset = offsets[index];     // * this->graph->sample_rate;
-                float duration = durations[index]; // * this->graph->sample_rate;
+                float offset = offsets[index];     // * this->graph->get_sample_rate();
+                float duration = durations[index]; // * this->graph->get_sample_rate();
                 Grain *grain = new Grain(buffer, offset, duration, 1.0, pan);
                 this->grains.push_back(grain);
             }

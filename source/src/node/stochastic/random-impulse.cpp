@@ -37,11 +37,11 @@ void RandomImpulse::process(sample **out, int num_frames)
             {
                 if (this->distribution == SIGNAL_EVENT_DISTRIBUTION_UNIFORM)
                 {
-                    this->steps_remaining = random_integer(0, this->graph->sample_rate / (freq / 2.0));
+                    this->steps_remaining = random_integer(0, this->graph->get_sample_rate() / (freq / 2.0));
                 }
                 else if (this->distribution == SIGNAL_EVENT_DISTRIBUTION_POISSON)
                 {
-                    this->steps_remaining = this->graph->sample_rate * -logf(1.0 - random_uniform()) / freq;
+                    this->steps_remaining = this->graph->get_sample_rate() * -logf(1.0 - random_uniform()) / freq;
                 }
             }
             this->steps_remaining--;
