@@ -2,6 +2,7 @@ from libsignal import Buffer
 from libsignal import SIGNAL_INTERPOLATION_NONE, SIGNAL_INTERPOLATION_LINEAR
 import numpy as np
 import pytest
+import os
 from . import graph
 
 def test_buffer(graph):
@@ -69,4 +70,5 @@ def test_buffer_save(graph):
     b2 = Buffer(BUFFER_FILENAME)
     assert b2.num_channels == 1
     assert b2.num_frames == buf_len
-    assert b2.data[0]
+    assert np.all(b2.data[0] - rand_buf < 0.0001)
+    os.unlink(BUFFER_FILENAME)
