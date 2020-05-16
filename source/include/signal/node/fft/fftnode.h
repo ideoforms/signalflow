@@ -13,6 +13,7 @@ public:
     sample **magnitudes;
     sample **phases;
     int fft_size;
+    int hop_size;
     int num_bins;
     int num_hops;
 };

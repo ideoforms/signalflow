@@ -10,6 +10,7 @@ FFTNode::FFTNode(int fft_size)
 {
     this->fft_size = fft_size;
     this->num_bins = fft_size / 2;
+    this->hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE;
     this->num_hops = 0;
 
     this->output_buffer_length = SIGNAL_MAX_FFT_SIZE;

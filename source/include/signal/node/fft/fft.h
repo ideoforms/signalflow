@@ -23,7 +23,6 @@ private:
                      bool polar = true,
                      bool do_window = true);
 
-    int hop_size;
     int log2N;
     FFTSetup fft_setup;
     sample *buffer;

@@ -13,7 +13,6 @@ public:
 
     ~IFFT();
 
-    int hop_size;
     int log2N;
     FFTSetup fft_setup;
     sample *buffer;
