@@ -110,3 +110,8 @@ else()
     add_subdirectory("examples")
 endif()
 
+#-------------------------------------------------------------------------------
+# Install shared lib and all includes
+#-------------------------------------------------------------------------------
+install(TARGETS signal DESTINATION lib)
+install(DIRECTORY source/include/signal DESTINATION include)
