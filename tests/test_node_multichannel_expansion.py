@@ -1,10 +1,11 @@
 from libsignal import Sine, Square, Mixer, Buffer
+import scipy.signal
 import numpy as np
 import math
 
 from . import process_tree, count_zero_crossings
-from . import graph
 from . import DEFAULT_BUFFER_LENGTH
+from . import graph
 
 def test_expansion_mono(graph):
     a = Sine(1)
@@ -72,7 +73,6 @@ def test_expansion_upmix(graph):
     assert graph.node_count == 1
 
 def get_peak_frequencies(samples, sample_rate):
-    import scipy.signal
     magnitudes = np.abs(np.fft.rfft(samples))
     peaks, _ = scipy.signal.find_peaks(magnitudes)
     peaks = peaks * sample_rate / len(samples)

@@ -1,4 +1,4 @@
-#include "signal/node/oscillators/granulator.h"
+#include "signal/node/buffer/granulator.h"
 
 namespace libsignal
 {

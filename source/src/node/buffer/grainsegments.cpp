@@ -1,4 +1,4 @@
-#include "signal/node/oscillators/grainsegments.h"
+#include "signal/node/buffer/grainsegments.h"
 #include "signal/core/graph.h"
 #include "signal/core/random.h"
 

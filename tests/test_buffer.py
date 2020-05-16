@@ -64,4 +64,9 @@ def test_buffer_save(graph):
     buf_len = 44100
     rand_buf = np.array([ np.random.uniform(size=buf_len) ])
     b = Buffer(1, 44100, rand_buf)
-
+    BUFFER_FILENAME = ".tmp.wav"
+    b.save(BUFFER_FILENAME)
+    b2 = Buffer(BUFFER_FILENAME)
+    assert b2.num_channels == 1
+    assert b2.num_frames == buf_len
+    assert b2.data[0]

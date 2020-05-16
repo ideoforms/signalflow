@@ -1,5 +1,6 @@
 from libsignal import AudioGraph, Buffer, Sine
 from . import process_tree, count_zero_crossings
+import pytest
 
 def test_graph():
     graph = AudioGraph()
@@ -11,6 +12,9 @@ def test_graph_sample_rate():
     assert graph.sample_rate > 0
     graph.sample_rate = 1000
     assert graph.sample_rate == 1000
+
+    with pytest.raises(Exception):
+        graph.sample_rate = 0
 
     buf = Buffer(1, 1000)
     sine = Sine(10)
