@@ -37,27 +37,39 @@ graph->wait();
 
 ## Installation
 
+### Dependencies
+
 #### macOS
 
-To build with Homebrew dependencies:
+To install dependencies with Homebrew:
 
 ```
 brew install libsndfile libsoundio gsl
-./waf
 ```
 
-#### Linux (Ubuntu 14)
+#### Linux, Raspberry Pi
 
-* `apt-get install git cmake g++ libasound2-dev libgsl0-dev libsndfile1-dev libsoundio-dev`
+```
+apt-get install git cmake g++ libasound2-dev libgsl0-dev libsndfile1-dev libsoundio-dev
+```
 * `./waf`
 
-#### Raspberry Pi
+### Build (C++)
 
-Requires Raspbian jessie (for `g++ 4.9`).
+```
+mkdir build
+cd build
+cmake ..
+make -j8
+```
 
-* `apt-get install git cmake libasound2-dev libgsl0-dev libsndfile1-dev`
-* Install [libsoundio](https://github.com/andrewrk/libsoundio) (latest GitHub version required)
-* `./waf`
+### Build (Python)
+
+```
+python3 setup.py build
+python3 setup.py test
+python3 setup.py install
+```
 
 ## Examples
 
