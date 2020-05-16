@@ -15,44 +15,22 @@ using namespace libsignal;
 AudioGraphRef graph = new AudioGraph();
 
 /*------------------------------------------------------------------------
- * A SynthTemplate constructs a reusable synthesis graph.
- * Objects whose names end in Ref are std::shared_ptr smart pointers,
- * for automatic memory management.
- *-----------------------------------------------------------------------*/
-SynthTemplateRef tmp = new SynthTemplate("ping");
-
-/*------------------------------------------------------------------------
  * Initializing Sine with an array of frequencies creates a stereo output.
  *-----------------------------------------------------------------------*/
-NodeRef sine = tmp->add_node(new Sine({ 440, 880 }));
+NodeRef sine = new Sine({ 440, 880 });
 
 /*------------------------------------------------------------------------
  * Simple attack/sustain/release envelope with linear curves.
  *-----------------------------------------------------------------------*/
-NodeRef env = tmp->add_node(new ASR(0.01, 0.1, 0.5));
+NodeRef env = new EnvelopeASR(0.01, 0.1, 0.5);
 
 /*------------------------------------------------------------------------
  * Operator overloading: Modulate the sine wave's amplitude with the
  * output of the ASR envelope.
  *-----------------------------------------------------------------------*/
-NodeRef ping = tmp->add_node(sine * env);
+NodeRef ping = sine * env;
 
-/*------------------------------------------------------------------------
- * Single-tap delay line with feedback.
- *-----------------------------------------------------------------------*/
-NodeRef delay = tmp->add_node(new Delay(ping, 0.5, 0.5));
-
-/*------------------------------------------------------------------------
- * A SynthTemplate must have a single output node. 
- *-----------------------------------------------------------------------*/
-tmp->set_output(delay);
-
-/*------------------------------------------------------------------------
- * Instantiate the synth and route it to the audio output,
- * then start the AudioGraph and run forever.
- *-----------------------------------------------------------------------*/
-SynthRef synth = new Synth(tmp);
-graph->add_output(synth);
+graph->add_output(ping);
 graph->start();
 graph->wait();
 ```
