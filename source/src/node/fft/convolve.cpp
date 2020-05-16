@@ -14,6 +14,10 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
     this->num_partitions = ceil((buffer->num_frames - this->fft_size) / this->hop_size) + 1;
     this->ir_partitions.resize(this->num_partitions);
     this->input_history.resize(this->num_partitions);
+    this->output_partition_polar = new sample[this->fft_size]();
+    this->output_partition_cartesian = new sample[this->fft_size]();
+    this->output_sum_cartesian = new sample[this->fft_size]();
+    this->output_sum_polar = new sample[this->fft_size]();
 
     printf("Buffer length %d frames, fft size %d, hop size %d, doing %d partitions\n",
         buffer->num_frames, this->fft_size, this->hop_size, this->num_partitions);
@@ -46,39 +50,61 @@ void FFTConvolve::process(sample **out, int num_frames)
     for (int hop = 0; hop < this->num_hops; hop++)
     {
         /*------------------------------------------------------------------------
+         * Each hop, roll the partition buffer backwards.
+         *-----------------------------------------------------------------------*/
+        for (int partition_index = this->num_partitions - 2; partition_index >= 0; partition_index--)
+        {
+            memcpy(this->input_history[partition_index + 1],
+                   this->input_history[partition_index],
+                   sizeof(sample) * this->fft_size);
+        }
+        memcpy(this->input_history[0],
+               this->input->out[hop],
+               sizeof(sample) * this->fft_size);
+
+        memset(output_sum_cartesian, 0, sizeof(sample) * this->fft_size);
+
+        /*------------------------------------------------------------------------
          * Iterate over fft_size frames as each block contains a whole
          * fft of samples.
          *-----------------------------------------------------------------------*/
-        for (int frame = 0; frame < this->fft_size; frame++)
+        for (int partition_index = 0; partition_index < this->num_partitions; partition_index++)
         {
+            for (int frame = 0; frame < this->fft_size; frame++)
+            {
                 if (frame < this->num_bins)
                 {
                     /*------------------------------------------------------------------------
                      * Magnitudes
                      *-----------------------------------------------------------------------*/
-                    this->out[hop][frame] = this->input->out[hop][frame] * this->ir_partitions[0][frame];
+                    this->output_partition_polar[frame * 2] = this->input_history[partition_index][frame] * this->ir_partitions[partition_index][frame];
                 }
                 else
                 {
                     /*------------------------------------------------------------------------
                      * Phases
                      *-----------------------------------------------------------------------*/
-                    this->out[hop][frame] = this->input->out[hop][frame] + this->ir_partitions[0][frame];
+                    this->output_partition_polar[(frame - num_bins) * 2 + 1] = this->input_history[partition_index][frame] + this->ir_partitions[partition_index][frame];
                 }
-        }
+            }
 
-        /*------------------------------------------------------------------------
-         * Each hop, roll the partition buffer backwards.
-         *-----------------------------------------------------------------------*/
-        for (int partition_index = 1; partition_index < this->num_partitions; partition_index++)
-        {
-            memcpy(this->input_history[partition_index - 1],
-                   this->input_history[partition_index],
-                   sizeof(sample) * this->fft_size);
-        }
-        memcpy(this->input_history[this->num_partitions - 1],
-               this->input->out[hop],
-               sizeof(sample) * this->fft_size);
+            vDSP_rect(this->output_partition_polar, 2,
+                      this->output_partition_cartesian, 2,
+                      this->num_bins);
+
+            vDSP_vadd(this->output_partition_cartesian, 1,
+                      this->output_sum_cartesian, 1,
+                      this->output_sum_cartesian, 1,
+                      this->fft_size);
+        } // partitions
+
+        vDSP_polar(this->output_sum_cartesian, 2,
+                   this->output_sum_polar, 2,
+                   this->num_bins);
+        DSPSplitComplex buffer_split = { this->out[hop], this->out[hop] + this->num_bins };
+        vDSP_ctoz((DSPComplex *) this->output_sum_polar, 2,
+                  &buffer_split, 1,
+                  this->num_bins);
     }
 }
 
