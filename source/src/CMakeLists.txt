@@ -7,6 +7,9 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/core/random.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/renderer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/core/util.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/node.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/node-monitor.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-impulse.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/logistic.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/noise.cpp
@@ -23,6 +26,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/tonality.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/comb.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/allpass.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/onetap.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/eq.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/freeze.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/gate.cpp
@@ -36,8 +40,6 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/soundio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/abstract.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/soundio.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/node.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/node-monitor.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/add.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/divide.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/mixer.cpp
@@ -47,11 +49,8 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/scale.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/subtract.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/constant.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/grainsegments.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/granulator.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/line.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/saw.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/segmentplayer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/sine.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/square.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/impulse.cpp
@@ -59,7 +58,9 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/wavetable.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-recorder.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-player.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/grainsegments.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulator.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/segment-player.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/patch/nodespec.cpp

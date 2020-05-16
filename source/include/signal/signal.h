@@ -44,8 +44,8 @@
 /*------------------------------------------------------------------------
  * Generators
  *-----------------------------------------------------------------------*/
+#include <signal/node/buffer/granulator.h>
 #include <signal/node/oscillators/constant.h>
-#include <signal/node/oscillators/granulator.h>
 #include <signal/node/oscillators/impulse.h>
 #include <signal/node/oscillators/line.h>
 #include <signal/node/oscillators/saw.h>
@@ -79,6 +79,7 @@
  *-----------------------------------------------------------------------*/
 #include <signal/node/filters/delays/comb.h>
 #include <signal/node/filters/delays/allpass.h>
+#include <signal/node/filters/delays/onetap.h>
 #include <signal/node/filters/eq.h>
 #include <signal/node/filters/freeze.h>
 #include <signal/node/filters/gate.h>

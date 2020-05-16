@@ -69,7 +69,10 @@ T RingBuffer<T>::get(double index)
     frame = fmod(frame, this->size);
 
     double frame_frac = (frame - (int) frame);
-    T rv = ((1.0 - frame_frac) * data[(int) frame]) + (frame_frac * data[(int) ceil(frame)]);
+    int frame_index = (int) frame;
+    int next_frame_index = ((int) ceil(frame)) % size;
+
+    T rv = ((1.0 - frame_frac) * data[frame_index]) + (frame_frac * data[next_frame_index]);
 
     return rv;
 }
