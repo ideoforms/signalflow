@@ -31,6 +31,8 @@ private:
     sample *inbuf;
     int inbuf_size;
     sample *window;
+
+    friend class FFTConvolve;
 };
 
 REGISTER(FFT, "fft")

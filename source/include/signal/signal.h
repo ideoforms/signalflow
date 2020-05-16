@@ -117,4 +117,5 @@
 #include <signal/node/fft/phase_vocoder.h>
 #include <signal/node/fft/noise_gate.h>
 #include <signal/node/fft/tonality.h>
+#include <signal/node/fft/convolve.h>
 #endif
