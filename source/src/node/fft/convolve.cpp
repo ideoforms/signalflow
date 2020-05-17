@@ -14,6 +14,7 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
     this->num_partitions = ceil((buffer->num_frames - this->fft_size) / this->hop_size) + 1;
     this->ir_partitions.resize(this->num_partitions);
     this->input_history.resize(this->num_partitions);
+    this->output_partition_polar_split = new sample[this->fft_size]();
     this->output_partition_polar = new sample[this->fft_size]();
     this->output_partition_cartesian = new sample[this->fft_size]();
     this->output_sum_cartesian = new sample[this->fft_size]();
@@ -70,23 +71,22 @@ void FFTConvolve::process(sample **out, int num_frames)
          *-----------------------------------------------------------------------*/
         for (int partition_index = 0; partition_index < this->num_partitions; partition_index++)
         {
-            for (int frame = 0; frame < this->fft_size; frame++)
-            {
-                if (frame < this->num_bins)
-                {
-                    /*------------------------------------------------------------------------
-                     * Magnitudes
-                     *-----------------------------------------------------------------------*/
-                    this->output_partition_polar[frame * 2] = this->input_history[partition_index][frame] * this->ir_partitions[partition_index][frame];
-                }
-                else
-                {
-                    /*------------------------------------------------------------------------
-                     * Phases
-                     *-----------------------------------------------------------------------*/
-                    this->output_partition_polar[(frame - num_bins) * 2 + 1] = this->input_history[partition_index][frame] + this->ir_partitions[partition_index][frame];
-                }
-            }
+            vDSP_vmul(this->input_history[partition_index], 1,
+                      this->ir_partitions[partition_index], 1,
+                      this->output_partition_polar_split, 1,
+                      this->num_bins);
+            vDSP_vadd(this->input_history[partition_index] + this->num_bins, 1,
+                      this->ir_partitions[partition_index] + this->num_bins, 1,
+                      this->output_partition_polar_split + this->num_bins, 1,
+                      this->num_bins);
+
+            const DSPSplitComplex output_partition_polar_split_struct = {
+                this->output_partition_polar_split,
+                this->output_partition_polar_split + num_bins
+            };
+            vDSP_ztoc(&output_partition_polar_split_struct, 1,
+                      (DSPComplex *) this->output_partition_polar, 2,
+                      num_bins);
 
             vDSP_rect(this->output_partition_polar, 2,
                       this->output_partition_cartesian, 2,

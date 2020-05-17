@@ -17,6 +17,7 @@ public:
     int num_partitions;
     std::vector <sample *> ir_partitions;
     std::vector <sample *> input_history;
+    sample *output_partition_polar_split;
     sample *output_partition_polar;
     sample *output_partition_cartesian;
     sample *output_sum_cartesian;
