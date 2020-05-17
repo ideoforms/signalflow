@@ -9,7 +9,9 @@ namespace libsignal
 class FFT : public FFTNode
 {
 public:
-    FFT(NodeRef input = 0.0, int fft_size = SIGNAL_DEFAULT_FFT_SIZE);
+    FFT(NodeRef input = 0.0,
+        int fft_size = SIGNAL_DEFAULT_FFT_SIZE,
+        int hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE);
     ~FFT();
 
     virtual void process(sample **out, int num_frames);

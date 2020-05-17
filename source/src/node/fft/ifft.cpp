@@ -21,8 +21,6 @@ IFFT::IFFT(NodeRef input)
     this->buffer = new sample[this->fft_size]();
     this->buffer2 = new sample[this->fft_size]();
 
-    this->hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE;
-
     /*------------------------------------------------------------------------
      * Generate a Hann window for overlap-add.
      *-----------------------------------------------------------------------*/

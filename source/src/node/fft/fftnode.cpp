@@ -5,12 +5,12 @@
 namespace libsignal
 {
 
-FFTNode::FFTNode(int fft_size)
+FFTNode::FFTNode(int fft_size, int hop_size)
     : Node()
 {
     this->fft_size = fft_size;
     this->num_bins = fft_size / 2;
-    this->hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE;
+    this->hop_size = hop_size;
     this->num_hops = 0;
 
     this->output_buffer_length = SIGNAL_MAX_FFT_SIZE;
@@ -37,8 +37,8 @@ FFTNode::~FFTNode()
 }
 
 FFTOpNode::FFTOpNode(NodeRef input)
-    : FFTNode(input ? ((FFTNode *) input.get())->fft_size
-                    : SIGNAL_DEFAULT_FFT_SIZE)
+    : FFTNode(input ? ((FFTNode *) input.get())->fft_size : SIGNAL_DEFAULT_FFT_SIZE,
+              input ? ((FFTNode *) input.get())->hop_size : SIGNAL_DEFAULT_FFT_HOP_SIZE)
     , input(input)
 {
     this->add_input("input", this->input);

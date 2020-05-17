@@ -7,7 +7,7 @@ namespace libsignal
 class FFTNode : public Node
 {
 public:
-    FFTNode(int fft_size);
+    FFTNode(int fft_size, int hop_size);
     ~FFTNode();
 
     sample **magnitudes;

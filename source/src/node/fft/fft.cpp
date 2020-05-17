@@ -7,8 +7,8 @@
 namespace libsignal
 {
 
-FFT::FFT(NodeRef input, int fft_size)
-    : FFTNode(fft_size), input(input)
+FFT::FFT(NodeRef input, int fft_size, int hop_size)
+    : FFTNode(fft_size, hop_size), input(input)
 {
     this->name = "fft";
 
