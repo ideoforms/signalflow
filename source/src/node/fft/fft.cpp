@@ -107,21 +107,28 @@ void FFT::process(sample **out, int num_frames)
      * Append the incoming buffer onto our inbuf.
      * Perform repeated window and FFT by stepping forward hop_size frames.
      *-----------------------------------------------------------------------*/
+     if (num_frames > this->get_output_buffer_length())
+     {
+        throw std::runtime_error("FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
+    }
     memcpy(this->inbuf + this->inbuf_size, this->input->out[0], num_frames * sizeof(sample));
     this->inbuf_size += num_frames;
 
     /*------------------------------------------------------------------------
      * Calculate the number of hops to perform.
-     * Each hop is stored in an output channel so we can't have > 32.
+     * Each hop is stored in an out put channel so we can't have > 32.
      *-----------------------------------------------------------------------*/
-    this->num_hops = (this->inbuf_size - this->fft_size) / this->hop_size;
+    this->num_hops = ceilf((this->inbuf_size - this->fft_size + 1.0f) / this->hop_size);
     if (this->num_hops < 0)
         this->num_hops = 0;
-    assert(this->num_hops <= SIGNAL_MAX_CHANNELS);
+    if (this->num_hops > SIGNAL_MAX_CHANNELS)
+    {
+        throw std::runtime_error("FFT: Too many hops. Try passing in a smaller audio buffer.");
+    }
 
     for (int hop = 0; hop < this->num_hops; hop++)
     {
-        this->fft(this->inbuf + (hop * this->hop_size), this->out[hop]);
+        this->fft(this->inbuf + (hop * this->hop_size), out[hop]);
     }
 
     int frames_processed = this->hop_size * this->num_hops;

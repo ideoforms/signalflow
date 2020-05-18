@@ -97,13 +97,20 @@ void IFFT::process(sample **out, int num_frames)
 {
     /*------------------------------------------------------------------------
      * Move data written in previous calls to process() to the front of the
-     * output buffer (the "overlap" of overlap-add). Zero anything after that
-     * point.
+     * output buffer. Zero anything after that point.
      *-----------------------------------------------------------------------*/
     int previous_offset = this->num_hops * this->hop_size;
-    int previous_overflow = this->fft_size * 2 * sizeof(sample);
-    memcpy(out[0], out[0] + previous_offset, previous_overflow);
-    memset(out[0] + previous_overflow, 0, previous_overflow);
+    // int previous_offset = num_frames;
+    int previous_overflow = this->fft_size;
+    int previous_overflow_bytes = previous_overflow * sizeof(sample);
+    memcpy(out[0], out[0] + previous_offset, previous_overflow_bytes);
+    int buffer_size_bytes = this->get_output_buffer_length() * sizeof(sample);
+    memset(out[0] + previous_overflow, 0, buffer_size_bytes - previous_overflow_bytes);
+    if (previous_overflow > this->get_output_buffer_length())
+    {
+        printf("runtime error (fft size %d, previous overflow %d)\n", this->fft_size, previous_overflow);
+        throw std::runtime_error("IFFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
+    }
 
     /*------------------------------------------------------------------------
      *
