@@ -21,7 +21,7 @@ void Wavetable::process(sample **out, int num_frames)
         int index = this->phase * this->table->num_frames;
         float rv = this->table->get(index);
 
-        this->out[0][frame] = rv;
+        out[0][frame] = rv;
 
         this->phase += (frequency / this->graph->get_sample_rate());
         while (this->phase >= 1.0)
@@ -47,7 +47,7 @@ void Wavetable2D::process(sample **out, int num_frames)
         int index = this->phase * this->buffer->num_frames;
         float rv = this->buffer->get2D(index, this->crossfade->out[0][frame]);
 
-        this->out[0][frame] = rv;
+        out[0][frame] = rv;
 
         this->phase += (frequency / this->graph->get_sample_rate());
         while (this->phase >= 1.0)

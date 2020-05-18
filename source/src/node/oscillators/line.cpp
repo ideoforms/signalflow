@@ -42,7 +42,7 @@ void Line::process(sample **out, int num_frames)
                 this->step++;
             }
 
-            this->out[channel][frame] = this->value;
+            out[channel][frame] = this->value;
         }
     }
 }

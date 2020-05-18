@@ -41,7 +41,7 @@ void Logistic::process(sample **out, int num_frames)
                 }
             }
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
 
             this->steps_remaining[channel]--;
         }

@@ -76,7 +76,7 @@ void EQ::process(sample **out, int num_frames)
             this->sdm2[channel] = this->sdm1[channel];
             this->sdm1[channel] = sample;
 
-            this->out[channel][frame] = low + mid + high;
+            out[channel][frame] = low + mid + high;
         }
     }
 }

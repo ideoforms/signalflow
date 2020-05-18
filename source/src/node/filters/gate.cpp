@@ -34,7 +34,7 @@ void Gate::process(sample **out, int num_frames)
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            this->out[channel][frame] = this->input->out[channel][frame] * level;
+            out[channel][frame] = this->input->out[channel][frame] * level;
         }
     }
 }

@@ -36,7 +36,7 @@ void Impulse::process(sample **out, int num_frames)
             this->steps_remaining--;
         }
 
-        this->out[0][frame] = rv;
+        out[0][frame] = rv;
     }
 }
 

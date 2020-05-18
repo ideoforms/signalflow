@@ -67,7 +67,7 @@ void MoogVCF::process(sample **out, int num_frames)
             out4[channel] = out3[channel] + 0.3 * in4[channel] + (1 - f) * out4[channel];
             in4[channel] = out3[channel];
 
-            this->out[channel][frame] = out4[channel];
+            out[channel][frame] = out4[channel];
         }
     }
 }

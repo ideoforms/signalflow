@@ -71,7 +71,7 @@ void Noise::process(sample **out, int num_frames)
 
             this->value[channel] += this->step_change[channel];
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
 
             this->steps_remaining[channel]--;
         }
