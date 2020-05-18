@@ -32,15 +32,6 @@ void init_python_nodes(py::module &m)
     py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
     
-    py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay")
-        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
-
-    py::class_<AllpassDelay, Node, NodeRefTemplate<AllpassDelay>>(m, "AllpassDelay")
-        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
-
-    py::class_<OneTapDelay, Node, NodeRefTemplate<OneTapDelay>>(m, "OneTapDelay")
-        .def(py::init<NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "maxdelaytime"_a = 0.5);
-
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
         .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);
     
@@ -90,9 +81,6 @@ void init_python_nodes(py::module &m)
     py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
     
-    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "grain_length"_a = 0.1, "rate"_a = 1.0, "max_grains"_a = 2048);
-    
     py::class_<Square, Node, NodeRefTemplate<Square>>(m, "Square")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "width"_a = 0.5);
     
@@ -129,19 +117,22 @@ void init_python_nodes(py::module &m)
 #ifdef __APPLE__
 
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
-        .def(py::init<NodeRef, int>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE);
+        .def(py::init<NodeRef, int, int>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE);
     
     py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
     
     py::class_<FFTNode, Node, NodeRefTemplate<FFTNode>>(m, "FFTNode")
-        .def(py::init<int>(), "fft_size"_a);
+        .def(py::init<int, int>(), "fft_size"_a, "hop_size"_a);
     
     py::class_<FFTOpNode, Node, NodeRefTemplate<FFTOpNode>>(m, "FFTOpNode")
         .def(py::init<NodeRef>(), "input"_a = nullptr);
     
     py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT")
         .def(py::init<NodeRef>(), "input"_a = nullptr);
+    
+    py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve")
+        .def(py::init<NodeRef, BufferRef>(), "input"_a = nullptr, "buffer"_a = nullptr);
     
     py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder")
         .def(py::init<NodeRef>(), "input"_a = nullptr);
@@ -157,13 +148,26 @@ void init_python_nodes(py::module &m)
     
     py::class_<MouseDown, Node, NodeRefTemplate<MouseDown>>(m, "MouseDown")
         .def(py::init<NodeRef>(), "button_index"_a = 0);
+
 #endif
     
     py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0);
     
+    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "grain_length"_a = 0.1, "rate"_a = 1.0, "max_grains"_a = 2048);
+    
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder")
         .def(py::init<BufferRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "loop"_a = false);
+    
+    py::class_<AllpassDelay, Node, NodeRefTemplate<AllpassDelay>>(m, "AllpassDelay")
+        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
+    
+    py::class_<OneTapDelay, Node, NodeRefTemplate<OneTapDelay>>(m, "OneTapDelay")
+        .def(py::init<NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "maxdelaytime"_a = 0.5);
+    
+    py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay")
+        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
     
     
 }
