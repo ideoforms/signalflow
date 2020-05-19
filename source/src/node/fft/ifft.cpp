@@ -103,9 +103,9 @@ void IFFT::process(sample **out, int num_frames)
     // int previous_offset = num_frames;
     int previous_overflow = this->fft_size;
     int previous_overflow_bytes = previous_overflow * sizeof(sample);
-    memcpy(out[0], out[0] + previous_offset, previous_overflow_bytes);
+    // memcpy(out[0], out[0] + previous_offset, previous_overflow_bytes);
     int buffer_size_bytes = this->get_output_buffer_length() * sizeof(sample);
-    memset(out[0] + previous_overflow, 0, buffer_size_bytes - previous_overflow_bytes);
+    // memset(out[0] + previous_overflow, 0, buffer_size_bytes - previous_overflow_bytes);
     if (previous_overflow > this->get_output_buffer_length())
     {
         printf("runtime error (fft size %d, previous overflow %d)\n", this->fft_size, previous_overflow);

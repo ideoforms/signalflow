@@ -23,7 +23,7 @@ private:
     virtual void fft(sample *in,
                      sample *out,
                      bool polar = true,
-                     bool do_window = true);
+                     bool do_window = false);
 
     int log2N;
     FFTSetup fft_setup;

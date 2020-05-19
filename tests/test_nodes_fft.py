@@ -34,3 +34,19 @@ def test_fft(graph):
 
     assert np.all(np.abs(angles_py[1:512] - angles_out[1:512]) < 0.0001)
     assert np.all(np.abs(mags_py[1:512] - mags_out[1:512]) < 0.0001)
+
+def test_fft_ifft(graph):
+    if no_fft:
+        return
+
+    buffer_a = Buffer(1, 1024)
+    buffer_b = Buffer(1, 1024)
+
+    sine = Sine(440)
+    process_tree(sine, buffer_a)
+
+    fft = FFT(Sine(440), fft_size=1024, hop_size=1024)
+    ifft = IFFT(fft)
+    process_tree(ifft, buffer_b)
+
+    assert np.all(np.abs(buffer_a.data[0] - buffer_b.data[0]) < 0.000001)
