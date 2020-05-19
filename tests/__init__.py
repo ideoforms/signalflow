@@ -29,8 +29,11 @@ import libsignal
 DEFAULT_BUFFER_LENGTH = 1024
 
 def process_tree(node, buffer=None, num_frames=DEFAULT_BUFFER_LENGTH):
+    if buffer is not None:
+        num_frames = buffer.num_frames
     for _, input in node.inputs.items():
-        process_tree(input, num_frames)
+        if input is not None:
+            process_tree(input, num_frames=num_frames)
 
     if buffer:
         node.process(buffer)
