@@ -118,7 +118,8 @@ void FFT::process(sample **out, int num_frames)
      * Calculate the number of hops to perform.
      * Each hop is stored in an out put channel so we can't have > 32.
      *-----------------------------------------------------------------------*/
-    this->num_hops = ceilf((this->inbuf_size - this->fft_size + 1.0f) / this->hop_size);
+
+    this->num_hops = ceilf((this->inbuf_size - this->fft_size + 1.0) / this->hop_size);
     if (this->num_hops < 0)
         this->num_hops = 0;
     if (this->num_hops > SIGNAL_MAX_CHANNELS)
