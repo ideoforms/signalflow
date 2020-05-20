@@ -29,7 +29,7 @@ def test_fft(graph):
     mags_py = np.abs(spectrum)[:512]
     angles_py = np.angle(spectrum)[:512]
 
-    fft = FFT(Sine(440), fft_size=1024, hop_size=1024)
+    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=False)
     process_tree(fft, buffer_b)
 
     # Apple vDSP applies a scaling factor of 2x after forward FFT
@@ -37,6 +37,35 @@ def test_fft(graph):
     angles_out = np.copy(buffer_b.data[0][512:])
 
     assert np.all(np.abs(angles_py[1:512] - angles_out[1:512]) < 0.0001)
+    assert np.all(np.abs(mags_py[1:512] - mags_out[1:512]) < 0.0001)
+
+def test_fft_windowed(graph):
+    if no_fft:
+        return
+
+    #----------------------------------------------------------------
+    # Verify that single-hop FFT output matches numpy's fft
+    #----------------------------------------------------------------
+    buffer_a = Buffer(1, 1024)
+    buffer_b = Buffer(1, 1024)
+
+    process_tree(Sine(440), buffer_a)
+
+    # Modify to match the symmetry of vDSP FFT
+    window = np.hanning(buffer_a.num_frames + 1)[:buffer_a.num_frames]
+    windowed = buffer_a.data[0] * window
+    spectrum = np.fft.rfft(windowed)
+    mags_py = np.abs(spectrum)[:512]
+    angles_py = np.angle(spectrum)[:512]
+
+    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=True)
+    process_tree(fft, buffer_b)
+
+    # Apple vDSP applies a scaling factor of 2x after forward FFT
+    mags_out = np.copy(buffer_b.data[0][:512]) / 2
+    angles_out = np.copy(buffer_b.data[0][512:])
+
+    # phases are mismatched for some reason
     assert np.all(np.abs(mags_py[1:512] - mags_out[1:512]) < 0.0001)
 
 def test_fft_ifft(graph):
@@ -52,7 +81,7 @@ def test_fft_ifft(graph):
 
         process_tree(Sine(440), buffer_a)
 
-        fft = FFT(Sine(440), fft_size=1024, hop_size=1024)
+        fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=False)
         ifft = IFFT(fft)
         process_tree(ifft, buffer_b)
 
@@ -73,7 +102,7 @@ def test_fft_ifft_split(graph):
 
     process_tree(Sine(440), buffer_a)
 
-    fft = FFT(Sine(440), fft_size=1024, hop_size=1024)
+    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=False)
     ifft = IFFT(fft)
     process_tree(ifft, buffer_b1)
     process_tree(ifft, buffer_b2)
@@ -93,7 +122,7 @@ def test_fft_convolve(graph):
     buffer_b = Buffer(1, 1024)
     process_tree(Sine(440), buffer_b)
 
-    fft = FFT(Sine(440), fft_size=1024, hop_size=1024)
+    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=False)
     convolve = FFTConvolve(fft, buffer_a)
     ifft = IFFT(convolve) * 0.5
     buffer_c = Buffer(1, 1024)
@@ -114,7 +143,7 @@ def test_fft_convolve_split(graph):
     envelope = EnvelopeASR(0, 0, envelope_duration_seconds) * Sine(440)
     process_tree(envelope, buffer_ir)
 
-    fft = FFT(Impulse(0), fft_size=1024, hop_size=1024)
+    fft = FFT(Impulse(0), fft_size=1024, hop_size=1024, do_window=False)
     convolve = FFTConvolve(fft, buffer_ir)
     ifft = IFFT(convolve) * 0.5
 

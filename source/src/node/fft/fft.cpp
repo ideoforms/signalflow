@@ -7,8 +7,8 @@
 namespace libsignal
 {
 
-FFT::FFT(NodeRef input, int fft_size, int hop_size)
-    : FFTNode(fft_size, hop_size), input(input)
+FFT::FFT(NodeRef input, int fft_size, int hop_size, bool do_window)
+    : FFTNode(fft_size, hop_size), input(input), do_window(do_window)
 {
     this->name = "fft";
 
@@ -28,17 +28,17 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size)
 
     /*------------------------------------------------------------------------
      * To perform an FFT, we have to enqueue at least `fft_size` samples.
-     * inbuf stores our backlog, so make sure we've allocated enough space.
-     * inbuf_size records the current number of frames we have buffered.
+     * input_buffer stores our backlog, so make sure we've allocated enough space.
+     * input_buffer_size records the current number of frames we have buffered.
      *-----------------------------------------------------------------------*/
-    this->inbuf = new sample[SIGNAL_MAX_FFT_SIZE * 2]();
-    this->inbuf_size = 0;
+    this->input_buffer = new sample[SIGNAL_MAX_FFT_SIZE * 2]();
+    this->input_buffer_size = 0;
 
     /*------------------------------------------------------------------------
      * Hann window for overlap/add
      *-----------------------------------------------------------------------*/
     this->window = new sample[fft_size]();
-    vDSP_hann_window(this->window, fft_size, vDSP_HANN_NORM);
+    vDSP_hann_window(this->window, fft_size, vDSP_HANN_DENORM);
 }
 
 FFT::~FFT()
@@ -46,7 +46,7 @@ FFT::~FFT()
     vDSP_destroy_fftsetup(this->fft_setup);
     delete this->buffer;
     delete this->buffer2;
-    delete this->inbuf;
+    delete this->input_buffer;
     delete this->window;
 }
 
@@ -104,22 +104,22 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
 void FFT::process(sample **out, int num_frames)
 {
     /*------------------------------------------------------------------------
-     * Append the incoming buffer onto our inbuf.
+     * Append the incoming buffer onto our input_buffer.
      * Perform repeated window and FFT by stepping forward hop_size frames.
      *-----------------------------------------------------------------------*/
      if (num_frames > this->get_output_buffer_length())
      {
         throw std::runtime_error("FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
     }
-    memcpy(this->inbuf + this->inbuf_size, this->input->out[0], num_frames * sizeof(sample));
-    this->inbuf_size += num_frames;
+    memcpy(this->input_buffer + this->input_buffer_size, this->input->out[0], num_frames * sizeof(sample));
+    this->input_buffer_size += num_frames;
 
     /*------------------------------------------------------------------------
      * Calculate the number of hops to perform.
      * Each hop is stored in an out put channel so we can't have > 32.
      *-----------------------------------------------------------------------*/
 
-    this->num_hops = ceilf((this->inbuf_size - this->fft_size + 1.0) / this->hop_size);
+    this->num_hops = ceilf((this->input_buffer_size - this->fft_size + 1.0) / this->hop_size);
     if (this->num_hops < 0)
         this->num_hops = 0;
     if (this->num_hops > SIGNAL_MAX_CHANNELS)
@@ -129,14 +129,17 @@ void FFT::process(sample **out, int num_frames)
 
     for (int hop = 0; hop < this->num_hops; hop++)
     {
-        this->fft(this->inbuf + (hop * this->hop_size), out[hop]);
+        this->fft(this->input_buffer + (hop * this->hop_size),
+                  out[hop],
+                  true,
+                  this->do_window);
     }
 
     int frames_processed = this->hop_size * this->num_hops;
-    int frames_remaining = this->inbuf_size - frames_processed;
+    int frames_remaining = this->input_buffer_size - frames_processed;
 
-    memcpy(this->inbuf, this->inbuf + frames_processed, frames_remaining * sizeof(sample));
-    this->inbuf_size -= frames_processed;
+    memcpy(this->input_buffer, this->input_buffer + frames_processed, frames_remaining * sizeof(sample));
+    this->input_buffer_size -= frames_processed;
 }
 
 }

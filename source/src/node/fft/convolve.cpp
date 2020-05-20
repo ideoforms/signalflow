@@ -28,7 +28,10 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
     {
         this->ir_partitions[i] = new sample[this->fft_size]();
         this->input_history[i] = new sample[this->fft_size]();
-        fft->fft(this->buffer->data[0] + i * this->hop_size, this->ir_partitions[i]);
+        fft->fft(this->buffer->data[0] + i * this->hop_size,
+                 this->ir_partitions[i],
+                 true,
+                 false);
     }
     delete fft;
 
