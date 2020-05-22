@@ -53,6 +53,7 @@ def generate_class_bindings(class_name, parameter_sets):
 
 def generate_all_bindings():
     output = ""
+    output += generate_class_bindings("AudioIn", [[]]) + "\n"
     for source_file in source_files:
         try:
             header = CppHeaderParser.CppHeader(source_file)
@@ -90,9 +91,13 @@ def generate_all_bindings():
                                 })
                     constructor_parameter_sets.append(parameters)
             if constructor_parameter_sets:
+                if class_name == "FFT":
+                    output += "#ifdef __APPLE__\n\n"
                 output += generate_class_bindings(class_name, constructor_parameter_sets)
                 output = output.strip()
                 output += "\n\n"
+                if class_name == "MouseDown":
+                    output += "#endif\n\n"
     return output
 
 bindings = generate_all_bindings()

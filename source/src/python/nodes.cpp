@@ -5,6 +5,9 @@ void init_python_nodes(py::module &m)
     /*--------------------------------------------------------------------------------
      * Node subclasses
      *-------------------------------------------------------------------------------*/
+    py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn")
+        .def(py::init<>());
+    
     py::class_<Width, Node, NodeRefTemplate<Width>>(m, "Width")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
     
@@ -113,8 +116,8 @@ void init_python_nodes(py::module &m)
     
     py::class_<EnvelopeADSR, Node, NodeRefTemplate<EnvelopeADSR>>(m, "EnvelopeADSR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "decay"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "gate"_a = 0);
-
-#ifdef __APPLE__
+    
+    #ifdef __APPLE__
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
     
@@ -141,10 +144,8 @@ void init_python_nodes(py::module &m)
     
     py::class_<MouseDown, Node, NodeRefTemplate<MouseDown>>(m, "MouseDown")
         .def(py::init<NodeRef>(), "button_index"_a = 0);
-
-#endif
-
-    py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
+    
+    #endifpy::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0);
     
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
