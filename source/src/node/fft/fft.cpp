@@ -73,7 +73,7 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
      * as required by the vDSP real-to-complex functions.
      * 
      * Stride of 2 is the smallest permissible value, denoting no gap
-     * between "pairs" of samples".
+     * between "pairs" of samples.
      *-----------------------------------------------------------------------*/
     vDSP_ctoz((DSPComplex *) buffer2, 2, &buffer_split, 1, fft_size / 2);
 
