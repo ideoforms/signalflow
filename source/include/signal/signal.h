@@ -80,6 +80,7 @@
 #include <signal/node/filters/delays/comb.h>
 #include <signal/node/filters/delays/allpass.h>
 #include <signal/node/filters/delays/onetap.h>
+#include <signal/node/filters/delays/stutter.h>
 #include <signal/node/filters/eq.h>
 #include <signal/node/filters/freeze.h>
 #include <signal/node/filters/gate.h>

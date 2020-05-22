@@ -118,6 +118,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "decay"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "gate"_a = 0);
     
     #ifdef __APPLE__
+    
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
     
@@ -145,7 +146,9 @@ void init_python_nodes(py::module &m)
     py::class_<MouseDown, Node, NodeRefTemplate<MouseDown>>(m, "MouseDown")
         .def(py::init<NodeRef>(), "button_index"_a = 0);
     
-    #endifpy::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
+    #endif
+    
+    py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0);
     
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
@@ -159,6 +162,9 @@ void init_python_nodes(py::module &m)
     
     py::class_<OneTapDelay, Node, NodeRefTemplate<OneTapDelay>>(m, "OneTapDelay")
         .def(py::init<NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "maxdelaytime"_a = 0.5);
+    
+    py::class_<Stutter, Node, NodeRefTemplate<Stutter>>(m, "Stutter")
+        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "stutter_time"_a = 0.1, "stutter_count"_a = 1, "max_stutter_time"_a = 1.0);
     
     py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
