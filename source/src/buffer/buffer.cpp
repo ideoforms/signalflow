@@ -31,6 +31,11 @@ Buffer::Buffer(int num_channels, int num_frames)
     this->duration = this->num_frames / this->sample_rate;
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
 
+    if (shared_graph == NULL)
+    {
+        throw std::runtime_error("No AudioGraph has been instantiated");
+    }
+
     // contiguous allocation
     this->data = new sample*[this->num_channels]();
     sample *data_channels = new sample[this->num_channels * this->num_frames]();
@@ -299,6 +304,26 @@ void Buffer::fill(transfer_fn f)
         }
     }
 }
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
+{
+    Buffer *buffer = (Buffer *) this->get();
+
+    std::vector <std::vector<sample>>output(buffer->num_channels);
+    for (int channel = 0; channel < buffer->num_channels; channel++)
+    {
+        output[channel].resize(buffer->num_frames);
+        for (int frame = 0; frame < buffer->num_frames; frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] * constant;
+        }
+    }
+    return new Buffer(buffer->num_channels, buffer->num_frames, output);
+}
+
+template class BufferRefTemplate<Buffer>;
+
 
 EnvelopeBuffer::EnvelopeBuffer(int length)
     : Buffer(1, length)

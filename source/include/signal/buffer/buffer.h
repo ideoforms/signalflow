@@ -158,6 +158,7 @@ public:
         : std::shared_ptr<T>(nullptr) {}
     BufferRefTemplate(T *ptr)
         : std::shared_ptr<T>(ptr) {}
+    BufferRefTemplate operator*(double constant);
 };
 
 
