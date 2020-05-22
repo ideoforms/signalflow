@@ -14,11 +14,13 @@ public:
     Stutter(NodeRef input = 0.0,
             NodeRef stutter_time = 0.1,
             NodeRef stutter_count = 1,
+            NodeRef clock = nullptr,
             float max_stutter_time = 1.0);
     ~Stutter();
 
     NodeRef stutter_time;
     NodeRef stutter_count;
+    NodeRef clock;
     float max_stutter_time;
 
     virtual void process(sample **out, int num_frames);

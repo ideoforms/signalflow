@@ -5,12 +5,13 @@
 namespace libsignal
 {
 
-Stutter::Stutter(NodeRef input, NodeRef stutter_time, NodeRef stutter_count, float max_stutter_time)
-    : UnaryOpNode(input), stutter_time(stutter_time), stutter_count(stutter_count), max_stutter_time(max_stutter_time)
+Stutter::Stutter(NodeRef input, NodeRef stutter_time, NodeRef stutter_count, NodeRef clock, float max_stutter_time)
+    : UnaryOpNode(input), stutter_time(stutter_time), stutter_count(stutter_count), clock(clock), max_stutter_time(max_stutter_time)
 {
     this->name = "stutter";
     this->add_input("stutter_time", this->stutter_time);
     this->add_input("stutter_count", this->stutter_count);
+    this->add_input("clock", this->clock);
 
     this->stutter_index.resize(SIGNAL_MAX_CHANNELS);
     this->stutter_sample_buffer_offset.resize(SIGNAL_MAX_CHANNELS);
@@ -59,6 +60,8 @@ void Stutter::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
+            SIGNAL_PROCESS_TRIGGER(this->clock, frame, SIGNAL_DEFAULT_TRIGGER);
+
             if (this->stutters_to_do[channel] > 0)
             {
                 this->stutter_samples_remaining[channel]--;

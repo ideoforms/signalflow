@@ -164,7 +164,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "maxdelaytime"_a = 0.5);
     
     py::class_<Stutter, Node, NodeRefTemplate<Stutter>>(m, "Stutter")
-        .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "stutter_time"_a = 0.1, "stutter_count"_a = 1, "max_stutter_time"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "stutter_time"_a = 0.1, "stutter_count"_a = 1, "clock"_a = nullptr, "max_stutter_time"_a = 1.0);
     
     py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
