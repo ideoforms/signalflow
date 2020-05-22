@@ -12,6 +12,7 @@ public:
     FFT(NodeRef input = 0.0,
         int fft_size = SIGNAL_DEFAULT_FFT_SIZE,
         int hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE,
+        int window_size = 0,
         bool do_window = true);
     ~FFT();
 
@@ -32,8 +33,8 @@ private:
     sample *buffer2;
     sample *input_buffer;
     int input_buffer_size;
+
     sample *window;
-    bool do_window;
 
     friend class FFTConvolve;
 };

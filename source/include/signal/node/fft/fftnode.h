@@ -7,7 +7,7 @@ namespace libsignal
 class FFTNode : public Node
 {
 public:
-    FFTNode(int fft_size, int hop_size);
+    FFTNode(int fft_size, int hop_size, int window_size, bool do_window);
     ~FFTNode();
 
     sample **magnitudes;
@@ -16,6 +16,8 @@ public:
     int hop_size;
     int num_bins;
     int num_hops;
+    int window_size;
+    bool do_window;
 };
 
 class FFTOpNode : public FFTNode

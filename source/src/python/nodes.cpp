@@ -113,20 +113,13 @@ void init_python_nodes(py::module &m)
     
     py::class_<EnvelopeADSR, Node, NodeRefTemplate<EnvelopeADSR>>(m, "EnvelopeADSR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "decay"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "gate"_a = 0);
-    
-#ifdef __APPLE__
 
+#ifdef __APPLE__
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
-        .def(py::init<NodeRef, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE, "do_window"_a = true);
+        .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
     
     py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
-    
-    py::class_<FFTNode, Node, NodeRefTemplate<FFTNode>>(m, "FFTNode")
-        .def(py::init<int, int>(), "fft_size"_a, "hop_size"_a);
-    
-    py::class_<FFTOpNode, Node, NodeRefTemplate<FFTOpNode>>(m, "FFTOpNode")
-        .def(py::init<NodeRef>(), "input"_a = nullptr);
     
     py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT")
         .def(py::init<NodeRef>(), "input"_a = nullptr);
@@ -150,7 +143,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "button_index"_a = 0);
 
 #endif
-    
+
     py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0);
     

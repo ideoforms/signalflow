@@ -7,8 +7,8 @@
 namespace libsignal
 {
 
-FFT::FFT(NodeRef input, int fft_size, int hop_size, bool do_window)
-    : FFTNode(fft_size, hop_size), input(input), do_window(do_window)
+FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_window)
+    : FFTNode(fft_size, hop_size, window_size, do_window), input(input)
 {
     this->name = "fft";
 
@@ -38,7 +38,18 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, bool do_window)
      * Hann window for overlap/add
      *-----------------------------------------------------------------------*/
     this->window = new sample[fft_size]();
-    vDSP_hann_window(this->window, fft_size, vDSP_HANN_DENORM);
+
+    if (do_window)
+    {
+        vDSP_hann_window(this->window, this->window_size, vDSP_HANN_DENORM);
+    }
+    else
+    {
+        for (int i = 0; i < this->window_size; i++)
+        {
+            this->window[i] = 1.0;
+        }
+    }
 }
 
 FFT::~FFT()
@@ -55,14 +66,7 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
     DSPSplitComplex buffer_split = { buffer, buffer + fft_size / 2 };
     DSPSplitComplex output_split = { out, out + fft_size / 2 };
 
-    if (do_window)
-    {
-        vDSP_vmul(in, 1, this->window, 1, buffer2, 1, fft_size);
-    }
-    else
-    {
-        memcpy(buffer2, in, fft_size * sizeof(sample));
-    }
+    vDSP_vmul(in, 1, this->window, 1, buffer2, 1, fft_size);
 
     /*------------------------------------------------------------------------
      * Convert from interleaved format (sequential pairs) to split format,

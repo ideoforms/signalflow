@@ -20,7 +20,8 @@ typedef RingBuffer<sample> SampleRingBuffer;
 #define SIGNAL_DEFAULT_FFT_SIZE 1024
 #define SIGNAL_MAX_FFT_SIZE 65536
 #define SIGNAL_DEFAULT_FFT_HOP_SIZE 128
-
+#define SIGNAL_DEFAULT_FFT_WINDOW_SIZE 0
+#define SIGNAL_DEFAULT_FFT_DO_WINDOW true
 
 /*------------------------------------------------------------------------
  * Default sample block size unless otherwise specified.
