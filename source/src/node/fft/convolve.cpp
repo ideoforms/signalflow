@@ -12,6 +12,8 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
     this->name = "fft-convolve";
 
     this->num_partitions = ceil((buffer->num_frames - this->fft_size) / this->hop_size) + 1;
+    if (this->num_partitions < 1)
+        this->num_partitions = 1;
     this->ir_partitions.resize(this->num_partitions);
     this->input_history.resize(this->num_partitions);
     this->output_partition_polar_split = new sample[this->fft_size]();

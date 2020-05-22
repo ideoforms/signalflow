@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
+
 namespace libsignal
 {
 
@@ -86,6 +87,20 @@ float midi_to_freq(float midi)
      * 440 = A4 = 69
      *--------------------------------------------------------------------*/
     return 440.0 * powf(2, (midi - 69) / 12.0);
+}
+
+void signal_save_block_to_file(sample *block, int num_samples, std::string filename)
+{
+    FILE *fd = fopen(filename.c_str(), "w");
+    if (!fd)
+    {
+        throw std::runtime_error("Couldn't open file for write: " + filename);
+    }
+    for (int i = 0; i < num_samples; i++)
+    {
+        fprintf(fd, "%f\n", block[i]);
+    }
+    fclose(fd);
 }
 
 } /* namespace libsignal */
