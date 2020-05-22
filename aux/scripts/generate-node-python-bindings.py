@@ -30,7 +30,7 @@ def generate_class_bindings(class_name, parameter_sets):
     .def(py::init<std::vector<NodeRef>>(),  "frequency"_a = NodeRef(440.0))
     .def(py::init<std::vector<float>>(),    "frequency"_a = NodeRef(440.0));
     """
-    if class_name in [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase" ]:
+    if class_name in [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode" ]:
         return ""
 
     output = 'py::class_<{class_name}, Node, NodeRefTemplate<{class_name}>>(m, "{class_name}")\n'.format(class_name=class_name)
