@@ -19,7 +19,11 @@ public:
     sample *buffer2;
     sample *window;
 
-    virtual void ifft(sample *in, sample *out, bool polar = true, bool do_window = false);
+    virtual void ifft(sample *in,
+                      sample *out,
+                      bool polar = true,
+                      bool do_window = false,
+                      float scale_factor = 1.0);
     virtual void process(sample **out, int num_frames);
 };
 

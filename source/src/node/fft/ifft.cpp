@@ -36,7 +36,7 @@ IFFT::~IFFT()
     delete this->window;
 }
 
-void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window)
+void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale_factor)
 {
     /*------------------------------------------------------------------------
      * Set up pointers to memory spaces so we can treat input and buffer
@@ -78,14 +78,16 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window)
     /*------------------------------------------------------------------------
      * Scale down (Required by vDSP)
      *-----------------------------------------------------------------------*/
-    float scale = 1.0 / (fft_size * 2.0);
+    float scale = scale_factor / (fft_size * 2.0);
     vDSP_vsmul(buffer2, 1, &scale, buffer2, 1, fft_size);
 
     /*------------------------------------------------------------------------
      * Apply Hann window (for overlap-add)
      *-----------------------------------------------------------------------*/
     if (do_window)
+    {
         vDSP_vmul(buffer2, 1, this->window, 1, buffer2, 1, fft_size);
+    }
 
     /*------------------------------------------------------------------------
      * Add to output buffer (for overlap/add)
@@ -124,7 +126,11 @@ void IFFT::process(sample **out, int num_frames)
      *-----------------------------------------------------------------------*/
     for (int hop = 0; hop < this->num_hops; hop++)
     {
-        this->ifft(this->input->out[hop], this->out[0] + (hop * hop_size));
+        this->ifft(this->input->out[hop],
+                   this->out[0] + (hop * hop_size),
+                   true,
+                   false,
+                   1.0 / this->num_hops);
     }
 
     if (out != this->out)
