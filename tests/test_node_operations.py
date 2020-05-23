@@ -114,3 +114,31 @@ def test_divide():
     c = 3.5 / b
     process_tree(c)
     assert np.all(c.output_buffer[0] == 1.75)
+
+def test_pow():
+    a = Constant(2)
+    b = Constant(4)
+
+    c = a ** b
+    process_tree(c)
+    assert np.all(c.output_buffer[0] == 16)
+
+    c = b ** a
+    process_tree(c)
+    assert np.all(c.output_buffer[0] == 16)
+
+    c = a ** 2
+    process_tree(c)
+    assert np.all(c.output_buffer[0] == 4)
+
+    c = b ** 2.5
+    process_tree(c)
+    assert np.all(c.output_buffer[0] == 32)
+
+    c = 2 ** a
+    process_tree(c)
+    assert np.all(c.output_buffer[0] == 4)
+
+    c = 4 ** a
+    process_tree(c)
+    assert np.all(c.output_buffer[0] == 16)

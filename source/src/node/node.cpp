@@ -5,6 +5,7 @@
 #include "signal/node/operators/multiply.h"
 #include "signal/node/operators/scale.h"
 #include "signal/node/operators/subtract.h"
+#include "signal/node/operators/pow.h"
 
 #include "signal/node/operators/multiplex.h"
 #include "signal/node/oscillators/constant.h"

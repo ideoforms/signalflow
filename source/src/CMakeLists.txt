@@ -47,6 +47,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/mixer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/multiplex.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/multiply.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/pow.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/round.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/scale.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/subtract.cpp

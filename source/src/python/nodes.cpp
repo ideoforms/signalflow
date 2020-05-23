@@ -72,6 +72,9 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<int >>(), "inputs"_a)
         .def(py::init<std::vector<float >>(), "inputs"_a);
     
+    py::class_<Pow, Node, NodeRefTemplate<Pow>>(m, "Pow")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+    
     py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable")
         .def(py::init<BufferRef, NodeRef>(), "table"_a = nullptr, "frequency"_a = 440);
     

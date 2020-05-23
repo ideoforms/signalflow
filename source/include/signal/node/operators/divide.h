@@ -1,3 +1,5 @@
+#pragma once
+
 #include "signal/core/constants.h"
 #include "signal/node/node.h"
 
