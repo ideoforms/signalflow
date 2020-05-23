@@ -52,7 +52,6 @@ brew install libsndfile libsoundio gsl
 ```
 apt-get install git cmake g++ libasound2-dev libgsl0-dev libsndfile1-dev libsoundio-dev
 ```
-* `./waf`
 
 ### Build (C++)
 
