@@ -43,6 +43,19 @@ void init_python_node(py::module &m)
             { return new Pow(a, b); })
         .def("__rpow__", [](NodeRef a, float b)
             { return new Pow(b, a); })
+        .def("__sub__", [](NodeRef a, float b)
+            { return new Pow(b, a); })
+        .def("__getitem__", [](NodeRef a, int index)
+            { return new ChannelSelect(a, index); })
+        .def("__getitem__", [](NodeRef a, py::slice slice)
+            {
+                ssize_t start, stop, step, slicelength;
+                if (!slice.compute(a->num_output_channels, &start, &stop, &step, &slicelength))
+                {
+                    throw py::error_already_set();
+                }
+                return new ChannelSelect(a, start, stop, step);
+            })
         .def_readonly("name", &Node::name)
         .def_property_readonly("patch", &Node::get_patch)
 

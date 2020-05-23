@@ -1,4 +1,4 @@
-from libsignal import Constant
+from libsignal import Constant, ChannelArray
 import numpy as np
 
 from . import process_tree
@@ -142,3 +142,40 @@ def test_pow():
     c = 4 ** a
     process_tree(c)
     assert np.all(c.output_buffer[0] == 16)
+
+def test_subscript():
+    a = ChannelArray([ 1, 2, 3, 4 ])
+    process_tree(a)
+    assert np.all(a.output_buffer[0] == 1)
+    assert np.all(a.output_buffer[1] == 2)
+    assert np.all(a.output_buffer[2] == 3)
+    assert np.all(a.output_buffer[3] == 4)
+
+    b = a[0]
+    process_tree(b)
+    assert np.all(b.output_buffer[0] == 1)
+    assert np.all(b.output_buffer[1] == 0)
+    b = a[1]
+    process_tree(b)
+    assert np.all(b.output_buffer[0] == 2)
+    assert np.all(b.output_buffer[1] == 0)
+    b = a[2]
+    process_tree(b)
+    assert np.all(b.output_buffer[0] == 3)
+    assert np.all(b.output_buffer[1] == 0)
+    b = a[3]
+    process_tree(b)
+    assert np.all(b.output_buffer[0] == 4)
+    assert np.all(b.output_buffer[1] == 0)
+
+    b = a[0:2]
+    process_tree(b)
+    assert np.all(b.output_buffer[0] == 1)
+    assert np.all(b.output_buffer[1] == 2)
+    assert np.all(b.output_buffer[2] == 0)
+
+    b = a[0:4:2]
+    process_tree(b)
+    assert np.all(b.output_buffer[0] == 1)
+    assert np.all(b.output_buffer[1] == 3)
+    assert np.all(b.output_buffer[2] == 0)

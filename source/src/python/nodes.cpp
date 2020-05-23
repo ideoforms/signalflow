@@ -50,6 +50,9 @@ void init_python_nodes(py::module &m)
     py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
     
+    py::class_<ChannelSelect, Node, NodeRefTemplate<ChannelSelect>>(m, "ChannelSelect")
+        .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 1, "step"_a = 1);
+    
     py::class_<Multiply, Node, NodeRefTemplate<Multiply>>(m, "Multiply")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1.0, "b"_a = 1.0);
     
