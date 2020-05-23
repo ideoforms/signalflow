@@ -8,15 +8,15 @@
 namespace libsignal
 {
 
-class Multiplex : public Node
+class ChannelArray : public Node
 {
 
 public:
-    Multiplex();
-    Multiplex(std::initializer_list<NodeRef> inputs);
-    Multiplex(std::vector<NodeRef> inputs);
-    Multiplex(std::vector<int> inputs);
-    Multiplex(std::vector<float> inputs);
+    ChannelArray();
+    ChannelArray(std::initializer_list<NodeRef> inputs);
+    ChannelArray(std::vector<NodeRef> inputs);
+    ChannelArray(std::vector<int> inputs);
+    ChannelArray(std::vector<float> inputs);
 
     virtual void process(sample **out, int num_frames);
     virtual void update_channels();
@@ -28,6 +28,6 @@ public:
     std::list<NodeRef> input_list;
 };
 
-REGISTER(Multiplex, "multiplex")
+REGISTER(ChannelArray, "channel-array")
 
 }

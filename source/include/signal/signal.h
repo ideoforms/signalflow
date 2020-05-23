@@ -23,9 +23,9 @@
  * Operators
  *-----------------------------------------------------------------------*/
 #include <signal/node/operators/add.h>
+#include <signal/node/operators/channel-array.h>
 #include <signal/node/operators/divide.h>
 #include <signal/node/operators/mixer.h>
-#include <signal/node/operators/multiplex.h>
 #include <signal/node/operators/multiply.h>
 #include <signal/node/operators/pow.h>
 #include <signal/node/operators/round.h>

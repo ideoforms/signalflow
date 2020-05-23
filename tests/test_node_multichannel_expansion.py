@@ -15,14 +15,14 @@ def test_expansion_mono(graph):
 def test_expansion_multi(graph):
     """
     When passed an array as an argument, the input is automatically converted
-    into a Multiplex and the output number of channels should be increased.
+    into a ChannelArray and the output number of channels should be increased.
     """
     a = Sine([ 0.0, 1.0 ])
     assert a.num_output_channels == 2
     assert a.num_input_channels == 2
 
     frequency = a.inputs["frequency"]
-    assert frequency.name == "multiplex"
+    assert frequency.name == "channel-array"
     assert frequency.inputs["input0"].name == "constant"
     assert frequency.inputs["input1"].name == "constant"
 

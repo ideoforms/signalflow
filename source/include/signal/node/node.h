@@ -256,7 +256,7 @@ protected:
 
     /*------------------------------------------------------------------------
      * Removing an input is only done by special classes
-     * (Multiplex, AudioOut)
+     * (ChannelArray, AudioOut)
      *-----------------------------------------------------------------------*/
     virtual void remove_input(std::string name);
 

@@ -20,7 +20,7 @@ int main()
      * Create 6 mono channels of sawtooth with varying frequencies.
      * This is shorthand for:
      *
-     * NodeRef multiplex = new Multiplex({ 58.3, 59.1, 60.0, 60.3, 60.5 });
+     * NodeRef multiplex = new ChannelArray({ 58.3, 59.1, 60.0, 60.3, 60.5 });
      * NodeRef saw = new Saw(multiplex);
      *-----------------------------------------------------------------------*/
     NodeRef saw = new Saw({ 58.3, 59.1, 60.0, 60.3, 60.5 });

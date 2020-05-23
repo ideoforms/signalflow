@@ -65,7 +65,7 @@ void init_python_nodes(py::module &m)
     py::class_<Mixer, Node, NodeRefTemplate<Mixer>>(m, "Mixer")
         .def(py::init<int, NodeRef>(), "channels"_a = 1, "input"_a = 0);
     
-    py::class_<Multiplex, Node, NodeRefTemplate<Multiplex>>(m, "Multiplex")
+    py::class_<ChannelArray, Node, NodeRefTemplate<ChannelArray>>(m, "ChannelArray")
         .def(py::init<>())
         .def(py::init<std::initializer_list<NodeRef >>(), "inputs"_a)
         .def(py::init<std::vector<NodeRef >>(), "inputs"_a)

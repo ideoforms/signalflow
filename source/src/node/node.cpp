@@ -7,7 +7,7 @@
 #include "signal/node/operators/subtract.h"
 #include "signal/node/operators/pow.h"
 
-#include "signal/node/operators/multiplex.h"
+#include "signal/node/operators/channel-array.h"
 #include "signal/node/oscillators/constant.h"
 
 #include "signal/core/core.h"
@@ -237,7 +237,7 @@ void Node::set_input(std::string name, const NodeRef &node)
 void Node::remove_input(std::string name)
 {
     /*------------------------------------------------------------------------
-     * Only done by special classes (Multiplex, AudioOut)
+     * Only done by special classes (ChannelArray, AudioOut)
      *-----------------------------------------------------------------------*/
     this->inputs.erase(name);
     this->update_channels();
@@ -391,15 +391,15 @@ NodeRefTemplate<T>::NodeRefTemplate(int x)
 
 template <class T>
 NodeRefTemplate<T>::NodeRefTemplate(std::initializer_list<NodeRefTemplate> x)
-    : std::shared_ptr<T>(new Multiplex(x)) {}
+    : std::shared_ptr<T>(new ChannelArray(x)) {}
 
 template <class T>
 NodeRefTemplate<T>::NodeRefTemplate(std::vector<NodeRefTemplate> x)
-    : std::shared_ptr<T>(new Multiplex(x)) {}
+    : std::shared_ptr<T>(new ChannelArray(x)) {}
 
 template <class T>
 NodeRefTemplate<T>::NodeRefTemplate(std::vector<float> x)
-    : std::shared_ptr<T>(new Multiplex(x)) {}
+    : std::shared_ptr<T>(new ChannelArray(x)) {}
 
 template <class T>
 NodeRefTemplate<T> NodeRefTemplate<T>::operator*(NodeRefTemplate<T> other)

@@ -1,18 +1,18 @@
-#include "signal/node/operators/multiplex.h"
-#include "signal/node/oscillators/constant.h"
+#include "signal/node/operators/channel-array.h"
 #include "signal/core/core.h"
+#include "signal/node/oscillators/constant.h"
 
 namespace libsignal
 {
 
-Multiplex::Multiplex()
+ChannelArray::ChannelArray()
 {
-    this->name = "multiplex";
+    this->name = "channel-array";
     this->no_input_upmix = true;
 }
 
-Multiplex::Multiplex(std::initializer_list<NodeRef> inputs)
-    : Multiplex()
+ChannelArray::ChannelArray(std::initializer_list<NodeRef> inputs)
+    : ChannelArray()
 {
     for (NodeRef input : inputs)
     {
@@ -20,8 +20,8 @@ Multiplex::Multiplex(std::initializer_list<NodeRef> inputs)
     }
 }
 
-Multiplex::Multiplex(std::vector<NodeRef> inputs)
-    : Multiplex()
+ChannelArray::ChannelArray(std::vector<NodeRef> inputs)
+    : ChannelArray()
 {
     for (NodeRef input : inputs)
     {
@@ -29,8 +29,8 @@ Multiplex::Multiplex(std::vector<NodeRef> inputs)
     }
 }
 
-Multiplex::Multiplex(std::vector<float> inputs)
-    : Multiplex()
+ChannelArray::ChannelArray(std::vector<float> inputs)
+    : ChannelArray()
 {
     for (float input : inputs)
     {
@@ -38,8 +38,8 @@ Multiplex::Multiplex(std::vector<float> inputs)
     }
 }
 
-Multiplex::Multiplex(std::vector<int> inputs)
-    : Multiplex()
+ChannelArray::ChannelArray(std::vector<int> inputs)
+    : ChannelArray()
 {
     for (int input : inputs)
     {
@@ -47,7 +47,7 @@ Multiplex::Multiplex(std::vector<int> inputs)
     }
 }
 
-void Multiplex::process(sample **out, int num_frames)
+void ChannelArray::process(sample **out, int num_frames)
 {
     int global_channel = 0;
     for (NodeRef input : this->input_list)
@@ -60,7 +60,7 @@ void Multiplex::process(sample **out, int num_frames)
     }
 }
 
-void Multiplex::update_channels()
+void ChannelArray::update_channels()
 {
     this->num_input_channels = 0;
     for (NodeRef input : this->input_list)
@@ -78,7 +78,7 @@ void Multiplex::update_channels()
     this->allocate_output_buffer();
 }
 
-void Multiplex::add_input(NodeRef input)
+void ChannelArray::add_input(NodeRef input)
 {
     this->input_list.push_back(input);
     std::string input_name = "input" + std::to_string(this->inputs.size());
@@ -86,7 +86,7 @@ void Multiplex::add_input(NodeRef input)
     this->Node::add_input(input_name, input_list.back());
 }
 
-void Multiplex::set_input(std::string name, const NodeRef &node)
+void ChannelArray::set_input(std::string name, const NodeRef &node)
 {
     if (this->inputs.find(name) == this->inputs.end())
     {
