@@ -16,7 +16,7 @@ Line::Line(NodeRef from, NodeRef to, NodeRef time)
     this->value = 0.0;
     this->value_change_per_step = 0.0;
     this->step = 0;
-    this->step_target = 0;
+    this->duration_samples = 0;
 }
 
 void Line::process(sample **out, int num_frames)
@@ -25,24 +25,24 @@ void Line::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (!step_target)
+            if (!duration_samples)
             {
                 float from = this->from->out[channel][frame];
                 float to = this->to->out[channel][frame];
                 float time = this->time->out[channel][frame];
 
-                this->step_target = this->graph->get_sample_rate() * time;
+                this->duration_samples = this->graph->get_sample_rate() * time - 1;
                 this->value = from;
-                this->value_change_per_step = (to - from) / this->step_target;
+                this->value_change_per_step = (to - from) / this->duration_samples;
             }
 
-            if (this->step < this->step_target)
+            out[channel][frame] = this->value;
+
+            if (this->step < this->duration_samples)
             {
                 this->value += this->value_change_per_step;
                 this->step++;
             }
-
-            out[channel][frame] = this->value;
         }
     }
 }

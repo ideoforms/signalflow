@@ -19,7 +19,7 @@ private:
     float value;
     float value_change_per_step;
     int step;
-    int step_target;
+    int duration_samples;
 };
 
 REGISTER(Line, "line")

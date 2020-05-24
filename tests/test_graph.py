@@ -24,7 +24,6 @@ def test_graph_sample_rate():
 
     del graph
 
-"""
 def test_graph_cyclic():
     graph = AudioGraph()
     graph.sample_rate = 1000
@@ -32,7 +31,8 @@ def test_graph_cyclic():
     m1 = line * 1
     m2 = line * 2
     add = m1 + m2
+    graph.add_output(add)
     buf = Buffer(1, 1000)
-    process_tree(add, buf)
-    assert np.array_equal(buf.data[0], np.linspace(0, 3, graph.sample_rate))
-"""
+    graph.render_to_buffer(buf)
+    assert np.all(np.abs(buf.data[0] - np.linspace(0, 3, graph.sample_rate)) < 0.00001)
+    del graph
