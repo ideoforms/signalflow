@@ -126,11 +126,12 @@ void IFFT::process(sample **out, int num_frames)
      *-----------------------------------------------------------------------*/
     for (int hop = 0; hop < this->num_hops; hop++)
     {
+        float scale_factor = hop_size / fft_size;
         this->ifft(this->input->out[hop],
                    this->out[0] + (hop * hop_size),
                    true,
                    false,
-                   1.0 / this->num_hops);
+                   scale_factor);
     }
 
     if (out != this->out)
