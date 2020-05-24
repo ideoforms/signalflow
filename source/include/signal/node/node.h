@@ -307,6 +307,12 @@ protected:
      *-----------------------------------------------------------------------*/
     bool no_input_upmix;
 
+    /*------------------------------------------------------------------------
+     * Flag indicating whether the node has been processed within this
+     * graph traversal.
+     *-----------------------------------------------------------------------*/
+    bool has_rendered;
+
 private:
     /*------------------------------------------------------------------------
      * Used for polling this output of this node.

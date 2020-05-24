@@ -79,6 +79,7 @@ void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
      * TODO: This will become increasingly costly as the # nodes increases.
      *       Timestamp and consider adding a flag in Node?
      *-----------------------------------------------------------------------*/
+    // if (node->has_rendered)
     if (this->processed_nodes.find(node.get()) != processed_nodes.end())
     {
         signal_debug("Already processed node %s, skipping", node->name.c_str());

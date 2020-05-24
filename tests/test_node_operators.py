@@ -145,6 +145,7 @@ def test_pow():
 
 def test_subscript():
     a = ChannelArray([ 1, 2, 3, 4 ])
+    assert a.num_output_channels == 4
     process_tree(a)
     assert np.all(a.output_buffer[0] == 1)
     assert np.all(a.output_buffer[1] == 2)
@@ -153,6 +154,7 @@ def test_subscript():
 
     b = a[0]
     process_tree(b)
+    assert b.num_output_channels == 1
     assert np.all(b.output_buffer[0] == 1)
     assert np.all(b.output_buffer[1] == 0)
     b = a[1]

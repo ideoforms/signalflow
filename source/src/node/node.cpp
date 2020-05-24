@@ -83,6 +83,7 @@ void Node::process(sample **out, int num_frames)
 
 void Node::update_channels()
 {
+    // TODO change min_input_channels to a flag. match_input_channels?
     if (this->min_input_channels == N_CHANNELS)
     {
         int max_channels = 1;
