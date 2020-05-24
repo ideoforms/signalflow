@@ -144,9 +144,7 @@ void AudioGraph::pull_input(int num_frames)
     /*------------------------------------------------------------------------
      * Timestamp the start of processing to measure CPU usage.
      *-----------------------------------------------------------------------*/
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
+    double t0 = timestamp();
 
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
 
@@ -185,8 +183,7 @@ void AudioGraph::pull_input(int num_frames)
      * Calculate CPU usage (approximately) by measuring the % of time
      * within the audio I/O callback that was used for processing.
      *-----------------------------------------------------------------------*/
-    gettimeofday(&tv, NULL);
-    double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
+    double t1 = timestamp();
     double dt = t1 - t0;
     double t_max = (double) num_frames / this->sample_rate;
     this->cpu_usage = dt / t_max;
