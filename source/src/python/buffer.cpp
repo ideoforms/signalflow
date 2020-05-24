@@ -10,6 +10,11 @@ void init_python_buffer(py::module &m)
         .def(py::init<int, int>())
         .def(py::init<int, int, std::vector<std::vector<float>>>())
 
+        .def("__mul__", [](BufferRef a, float b)
+            { return a * b; })
+        .def("__rmul__", [](BufferRef a, float b)
+            { return a * b; })
+
         .def("__len__", [](Buffer &buf) { return buf.num_frames; })
 
         .def_readonly("num_frames", &Buffer::num_frames)
