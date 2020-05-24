@@ -50,7 +50,7 @@ void write_callback(struct SoundIoOutStream *outstream,
             throw std::runtime_error("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
         }
 
-        shared_graph->pull_input(frame_count);
+        shared_graph->render(frame_count);
 
         for (int frame = 0; frame < frame_count; frame++)
         {
@@ -135,13 +135,25 @@ int AudioOut_SoundIO::init()
 
     this->sample_rate = this->outstream->sample_rate;
 
-    std::cerr << "Output device: " << device->name << " (" << this->sample_rate << "Hz)" << std::endl;
-
     if ((err = soundio_outstream_open(this->outstream)))
+    {
         throw std::runtime_error("libsoundio error: unable to open device: " + std::string(soundio_strerror(err)));
+    }
 
     if (this->outstream->layout_error)
+    {
         throw std::runtime_error("libsoundio error: unable to set channel layout: " + std::string(soundio_strerror(this->outstream->layout_error)));
+    }
+
+    this->num_output_channels = this->outstream->layout.channel_count;
+    int buffer_size = this->outstream->software_latency * this->outstream->sample_rate;
+    std::string s = num_output_channels == 1 ? "" : "s";
+
+    std::cerr << "Output device: " << device->name << " (" <<
+        sample_rate << "Hz, " <<
+        "buffer " << buffer_size << ", " <<
+        num_output_channels << " channel" << s <<
+        ")" << std::endl;
 
     return 0;
 }

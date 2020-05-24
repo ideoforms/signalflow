@@ -53,7 +53,7 @@ def test_expansion_upmix(graph):
     #--------------------------------------------------------------------------------
     a = Square([ 440, 880, 1320 ], [ 0.3, 0.7 ])
     graph.add_output(a)
-    graph.pull_input(1024)
+    graph.render(1024)
     assert graph.node_count == 4
     assert np.all(a.inputs["frequency"].output_buffer[0] == 440.0)
     assert np.all(a.inputs["frequency"].output_buffer[1] == 880.0)
@@ -66,7 +66,7 @@ def test_expansion_upmix(graph):
     assert count_zero_crossings(a.output_buffer[2]) == math.ceil(1320 * DEFAULT_BUFFER_LENGTH / graph.sample_rate)
 
     graph.remove_output(a)
-    graph.pull_input(1024)
+    graph.render(1024)
     #--------------------------------------------------------------------------------
     # Only remaining note is the abstract audio output node
     #--------------------------------------------------------------------------------

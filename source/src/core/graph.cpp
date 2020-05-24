@@ -11,6 +11,7 @@
 #include "signal/node/io/output/soundio.h"
 
 #include <unistd.h>
+#include <string.h>
 #include <sys/time.h>
 
 namespace libsignal
@@ -71,7 +72,7 @@ void AudioGraph::wait(float time)
     }
 }
 
-void AudioGraph::pull_input(const NodeRef &node, int num_frames)
+void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
 {
     /*------------------------------------------------------------------------
      * If this node has already been processed this timestep, return.
@@ -97,7 +98,7 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
         NodeRef param_node = *(param.second);
         if (param_node)
         {
-            this->pull_input(param_node, num_frames);
+            this->traverse_graph(param_node, num_frames);
 
             /*------------------------------------------------------------------------
              * Automatic input upmix.
@@ -139,21 +140,16 @@ void AudioGraph::pull_input(const NodeRef &node, int num_frames)
         this->processed_nodes.insert(node.get());
 }
 
-void AudioGraph::pull_input(int num_frames)
+void AudioGraph::reset_graph()
 {
-    /*------------------------------------------------------------------------
-     * Timestamp the start of processing to measure CPU usage.
-     *-----------------------------------------------------------------------*/
-    double t0 = timestamp();
-
-    AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+    AudioOut_Abstract *audio_output = (AudioOut_Abstract *) this->output.get();
 
     /*------------------------------------------------------------------------
      * Disconnect any nodes and patchs that are scheduled to be removed.
      *-----------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
-        output->remove_input(node);
+        audio_output->remove_input(node);
     }
     nodes_to_remove.clear();
 
@@ -175,7 +171,17 @@ void AudioGraph::pull_input(int num_frames)
      * node tree to process each node in turn.
      *-----------------------------------------------------------------------*/
     this->processed_nodes.clear();
-    this->pull_input(this->output, num_frames);
+}
+
+void AudioGraph::render(int num_frames)
+{
+    /*------------------------------------------------------------------------
+     * Timestamp the start of processing to measure CPU usage.
+     *-----------------------------------------------------------------------*/
+    double t0 = timestamp();
+
+    this->reset_graph();
+    this->traverse_graph(this->output, num_frames);
     this->node_count = this->processed_nodes.size();
     signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 
@@ -187,6 +193,30 @@ void AudioGraph::pull_input(int num_frames)
     double dt = t1 - t0;
     double t_max = (double) num_frames / this->sample_rate;
     this->cpu_usage = dt / t_max;
+}
+
+void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
+{
+    // TODO get_num_output_channels()
+    int channel_count = buffer->num_channels;
+    if (buffer->num_channels > this->output->num_output_channels)
+    {
+        throw std::runtime_error("Buffer cannot have more channels than the audio graph (" +
+            std::to_string(buffer->num_channels) + " != " + std::to_string(channel_count) + ")");
+    }
+    int block_count = ceilf((float) buffer->num_frames / block_size);
+
+    for (int block_index = 0; block_index < block_count; block_index++)
+    {
+        int block_frames = (block_index == block_count - 1 ? buffer->num_frames % block_size : block_size);
+        this->render(block_frames);
+        for (int channel_index = 0; channel_index < channel_count; channel_index++)
+        {
+            memcpy(buffer->data[channel_index] + (block_index * block_size),
+                   this->output->out[channel_index],
+                   block_frames * sizeof(sample));
+        }
+    }
 }
 
 void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
@@ -204,7 +234,7 @@ void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
     {
         signal_debug("AudioGraph: Processing frame %d...", index);
         this->processed_nodes.clear();
-        this->pull_input(root, block_size);
+        this->traverse_graph(root, block_size);
         index += block_size;
     }
 
@@ -215,7 +245,7 @@ void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
     {
         signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);
         this->processed_nodes.clear();
-        this->pull_input(root, num_frames - index);
+        this->traverse_graph(root, num_frames - index);
     }
 
     signal_debug("AudioGraph: Offline process completed");

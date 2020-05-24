@@ -51,7 +51,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
     
     py::class_<ChannelSelect, Node, NodeRefTemplate<ChannelSelect>>(m, "ChannelSelect")
-        .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 1, "step"_a = 1);
+        .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 0, "step"_a = 1);
     
     py::class_<Multiply, Node, NodeRefTemplate<Multiply>>(m, "Multiply")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1.0, "b"_a = 1.0);
@@ -103,7 +103,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "frequency"_a = 440);
     
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "time"_a = 1.0, "from"_a = 0.0, "to"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0);
     
     py::class_<Noise, Node, NodeRefTemplate<Noise>>(m, "Noise")
         .def(py::init<NodeRef, bool, NodeRef, NodeRef>(), "frequency"_a = 0.0, "interpolate"_a = true, "min"_a = 0.0, "max"_a = 1.0);
@@ -128,6 +128,9 @@ void init_python_nodes(py::module &m)
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
     
+    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder")
+        .def(py::init<NodeRef>(), "input"_a = nullptr);
+    
     py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
     
@@ -136,9 +139,6 @@ void init_python_nodes(py::module &m)
     
     py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = nullptr, "buffer"_a = nullptr);
-    
-    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder")
-        .def(py::init<NodeRef>(), "input"_a = nullptr);
     
     py::class_<FFTLPF, Node, NodeRefTemplate<FFTLPF>>(m, "FFTLPF")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 2000);

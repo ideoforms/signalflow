@@ -50,8 +50,11 @@ public:
      *------------------------------------------------------------------------*/
     void process(const NodeRef &root, int num_frames, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
 
-    void pull_input(const NodeRef &node, int num_frames);
-    void pull_input(int num_frames);
+    void render(int num_frames);
+    void render_to_buffer(BufferRef buffer, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
+
+    void traverse_graph(const NodeRef &node, int num_frames);
+    void reset_graph();
 
     NodeRef get_output();
 

@@ -92,13 +92,25 @@ int AudioIn_SoundIO::init()
     this->instream->read_callback = read_callback;
     this->instream->sample_rate = device->sample_rate_current;
 
-    std::cerr << "Input device: " << device->name << " (" << device->sample_rate_current << "Hz)" << std::endl;
-
     if ((err = soundio_instream_open(this->instream)))
+    {
         throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
+    }
 
     if ((err = soundio_instream_start(instream)))
+    {
         throw std::runtime_error("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
+    }
+
+    this->num_output_channels = this->instream->layout.channel_count;
+    int buffer_size = this->instream->software_latency * this->instream->sample_rate;
+    std::string s = num_output_channels == 1 ? "" : "s";
+
+    std::cerr << "Input device: " << device->name << " (" <<
+              this->instream->sample_rate << "Hz, " <<
+              "buffer " << buffer_size << ", " <<
+              num_output_channels << " channel" << s <<
+              ")" << std::endl;
 
     return 0;
 }
