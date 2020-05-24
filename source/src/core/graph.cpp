@@ -76,11 +76,8 @@ void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
 {
     /*------------------------------------------------------------------------
      * If this node has already been processed this timestep, return.
-     * TODO: This will become increasingly costly as the # nodes increases.
-     *       Timestamp and consider adding a flag in Node?
      *-----------------------------------------------------------------------*/
-    // if (node->has_rendered)
-    if (this->processed_nodes.find(node.get()) != processed_nodes.end())
+    if (node->has_rendered)
     {
         signal_debug("Already processed node %s, skipping", node->name.c_str());
         return;
@@ -138,7 +135,10 @@ void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
     node->_process(node->out, num_frames);
 
     if (node->name != "constant")
-        this->processed_nodes.insert(node.get());
+    {
+        node->has_rendered = true;
+        this->node_count++;
+    }
 }
 
 void AudioGraph::reset_graph()
@@ -146,7 +146,7 @@ void AudioGraph::reset_graph()
     AudioOut_Abstract *audio_output = (AudioOut_Abstract *) this->output.get();
 
     /*------------------------------------------------------------------------
-     * Disconnect any nodes and patchs that are scheduled to be removed.
+     * Disconnect any nodes and patches that are scheduled to be removed.
      *-----------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
@@ -154,24 +154,37 @@ void AudioGraph::reset_graph()
     }
     nodes_to_remove.clear();
 
-    for (auto patch : patchs_to_remove)
+    for (auto patch : patches_to_remove)
     {
-        for (auto patchref : patchs)
+        for (auto patchref : patches)
         {
             if (patchref.get() == patch)
             {
-                patchs.erase(patchref);
+                patches.erase(patchref);
                 break;
             }
         }
     }
-    this->patchs_to_remove.clear();
+    this->patches_to_remove.clear();
 
     /*------------------------------------------------------------------------
-     * Clear the record of processed nodes, and begin recursing through the
-     * node tree to process each node in turn.
+     * Clear the record of processed nodes.
      *-----------------------------------------------------------------------*/
-    this->processed_nodes.clear();
+    this->node_count = 0;
+    this->reset_graph(this->output);
+}
+
+void AudioGraph::reset_graph(NodeRef node)
+{
+    node->has_rendered = false;
+    for (auto input : node->inputs)
+    {
+        NodeRef input_node = *(input.second);
+        if (input_node && input_node->has_rendered)
+        {
+            this->reset_graph(input_node);
+        }
+    }
 }
 
 void AudioGraph::render(int num_frames)
@@ -183,7 +196,6 @@ void AudioGraph::render(int num_frames)
 
     this->reset_graph();
     this->traverse_graph(this->output, num_frames);
-    this->node_count = this->processed_nodes.size();
     signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 
     /*------------------------------------------------------------------------
@@ -234,7 +246,7 @@ void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
     while (index < (num_frames - block_size))
     {
         signal_debug("AudioGraph: Processing frame %d...", index);
-        this->processed_nodes.clear();
+        this->reset_graph();
         this->traverse_graph(root, block_size);
         index += block_size;
     }
@@ -245,7 +257,7 @@ void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
     if (index < num_frames)
     {
         signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);
-        this->processed_nodes.clear();
+        this->reset_graph();
         this->traverse_graph(root, num_frames - index);
     }
 
@@ -261,7 +273,7 @@ void AudioGraph::add_output(PatchRef patch)
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
     output->add_input(patch->output);
-    this->patchs.insert(patch);
+    this->patches.insert(patch);
 }
 
 void AudioGraph::add_output(NodeRef node)
@@ -277,7 +289,7 @@ void AudioGraph::remove_output(PatchRef patch)
 
 void AudioGraph::remove_output(Patch *patch)
 {
-    patchs_to_remove.insert(patch);
+    patches_to_remove.insert(patch);
     nodes_to_remove.insert(patch->output);
 }
 
@@ -348,7 +360,7 @@ int AudioGraph::get_node_count()
 
 int AudioGraph::get_patch_count()
 {
-    return (int) this->patchs.size();
+    return (int) this->patches.size();
 }
 
 float AudioGraph::get_cpu_usage()

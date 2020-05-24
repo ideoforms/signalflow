@@ -38,6 +38,7 @@ Node::Node()
     this->monitor = NULL;
     this->patch = NULL;
 
+    this->has_rendered = false;
     this->out = NULL;
     this->output_buffer_length = SIGNAL_NODE_BUFFER_SIZE;
     this->allocate_output_buffer();
