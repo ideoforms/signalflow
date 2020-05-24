@@ -4,14 +4,14 @@
 namespace libsignal
 {
 
-Line::Line(NodeRef time, NodeRef from, NodeRef to)
-    : time(time), from(from), to(to)
+Line::Line(NodeRef from, NodeRef to, NodeRef time)
+    : from(from), to(to), time(time)
 {
     this->name = "line";
 
-    this->add_input("time", this->time);
     this->add_input("from", this->from);
     this->add_input("to", this->to);
+    this->add_input("time", this->time);
 
     this->value = 0.0;
     this->value_change_per_step = 0.0;

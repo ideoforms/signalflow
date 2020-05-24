@@ -7,13 +7,13 @@ namespace libsignal
 class Line : public Node
 {
 public:
-    Line(NodeRef time = 1.0, NodeRef from = 0.0, NodeRef to = 1.0);
+    Line(NodeRef from = 0.0, NodeRef to = 1.0, NodeRef time = 1.0);
 
     virtual void process(sample **out, int num_frames);
 
-    NodeRef time;
     NodeRef from;
     NodeRef to;
+    NodeRef time;
 
 private:
     float value;
