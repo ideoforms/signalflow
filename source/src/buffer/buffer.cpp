@@ -113,14 +113,14 @@ void Buffer::load(std::string filename)
          * property fields.
          * TODO: Sample rate isn't properly handled yet.
          *-----------------------------------------------------------------------*/
+
+        // Contiguous allocation is required for Python bindings
         this->data = new sample *[info.channels]();
+        sample *data_channels = new sample[info.channels * (info.frames + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE)]();
 
         for (int channel = 0; channel < info.channels; channel++)
         {
-            long long length = sizeof(sample) * info.frames;
-            this->data[channel] = new sample[length + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE]();
-
-            memset(this->data[channel], 0, length);
+            this->data[channel] = data_channels + (info.frames + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE) * channel;
         }
 
         this->num_channels = info.channels;
