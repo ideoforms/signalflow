@@ -81,6 +81,8 @@ void init_python_node(py::module &m)
         .def("set_input", &Node::set_input)
         .def("get_input", &Node::get_input)
         .def("trigger", [](Node& node) { node.trigger(); })
+        .def("trigger", [](Node& node, std::string name) { node.trigger(name); })
+        .def("trigger", [](Node& node, std::string name, float value) { node.trigger(name, value); })
         .def("process", [](Node& node, int num_frames) {
             node.process(num_frames);
             node.last_num_frames = num_frames;
