@@ -128,9 +128,6 @@ void init_python_nodes(py::module &m)
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
     
-    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder")
-        .def(py::init<NodeRef>(), "input"_a = nullptr);
-    
     py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
     
@@ -140,8 +137,14 @@ void init_python_nodes(py::module &m)
     py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = nullptr, "buffer"_a = nullptr);
     
+    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder")
+        .def(py::init<NodeRef>(), "input"_a = nullptr);
+    
     py::class_<FFTLPF, Node, NodeRefTemplate<FFTLPF>>(m, "FFTLPF")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 2000);
+    
+    py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder")
+        .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
     
     py::class_<MouseX, Node, NodeRefTemplate<MouseX>>(m, "MouseX")
         .def(py::init<>());

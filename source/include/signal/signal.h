@@ -118,6 +118,7 @@
 #include <signal/node/fft/ifft.h>
 #include <signal/node/fft/lpf.h>
 #include <signal/node/fft/phase_vocoder.h>
+#include <signal/node/fft/continuous_pv.h>
 #include <signal/node/fft/noise_gate.h>
 #include <signal/node/fft/tonality.h>
 #include <signal/node/fft/convolve.h>

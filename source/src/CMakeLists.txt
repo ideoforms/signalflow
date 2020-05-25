@@ -22,6 +22,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/lpf.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/noise_gate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/phase_vocoder.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/continuous_pv.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/zero_phase.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/tonality.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/convolve.cpp

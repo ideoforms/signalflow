@@ -54,6 +54,8 @@ public:
     void render_to_buffer(BufferRef buffer, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
 
     void traverse_graph(const NodeRef &node, int num_frames);
+    void reset_graph();
+    void reset_graph(NodeRef root);
 
     NodeRef get_output();
 
@@ -85,9 +87,6 @@ private:
     std::set<NodeRef> nodes_to_remove;
     std::set<PatchRef> patches;
     std::set<Patch *> patches_to_remove;
-
-    void reset_graph();
-    void reset_graph(NodeRef root);
 
     void print(NodeRef &root, int depth);
     AudioGraphMonitor *monitor;
