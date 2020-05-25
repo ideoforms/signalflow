@@ -2,6 +2,7 @@
 
 #include "signal/node/fft/continuous_pv.h"
 #include "signal/core/graph.h"
+#include "signal/core/random.h"
 
 namespace libsignal
 {
@@ -21,6 +22,7 @@ FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
     this->phase_buffer = new sample[this->num_bins]();
     this->phase_deriv = new sample[this->num_bins]();
     this->phase_buffer_last = new sample[this->num_bins]();
+    this->prefilled_fft_buffer = false;
 }
 
 void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
@@ -28,20 +30,28 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
     FFTNode *fftin = (FFTNode *) this->input.get();
     this->num_hops = num_frames / hop_size;
 
+    if (!prefilled_fft_buffer)
+    {
+        this->graph->reset_graph(this->input);
+        this->graph->traverse_graph(this->input, fft_size);
+        this->prefilled_fft_buffer = true;
+    }
+
     this->graph->reset_graph(this->input);
     this->graph->traverse_graph(this->input, hop_size);
 
     for (int frame = 0; frame < this->num_bins; frame++)
     {
-        this->phase_buffer[frame] = this->phase_buffer_last[frame];
-        this->phase_deriv[frame] = fftin->phases[0][frame] - this->phase_buffer_last[frame];
+        this->phase_buffer[frame] = random_uniform(-M_PI, M_PI);
+        // this->phase_buffer[frame] = fftin->phases[0][frame];
+        this->phase_deriv[frame] = fftin->phases[0][frame];
         this->magnitude_buffer[frame] = fftin->magnitudes[0][frame];
     }
     for (int frame = 0; frame < this->num_bins; frame++)
     {
-        this->phase_buffer_last[frame] = this->phase_buffer[frame];
     }
 
+    this->num_hops = 1;
     for (int hop = 0; hop < this->num_hops; hop++)
     {
         /*------------------------------------------------------------------------
@@ -57,7 +67,7 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
             else
             {
                 /*------------------------------------------------------------------------
-                 * copy magnitudes in to out;
+                 * Copy magnitudes in to out;
                  * for phases, increase by phase_deriv per hop
                  *-----------------------------------------------------------------------*/
                 int phase_index = frame - num_bins;
