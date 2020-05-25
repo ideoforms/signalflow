@@ -28,7 +28,7 @@ FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
 void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
 {
     FFTNode *fftin = (FFTNode *) this->input.get();
-    this->num_hops = num_frames / hop_size;
+    this->num_hops = 1;
 
     if (!prefilled_fft_buffer)
     {
@@ -47,11 +47,7 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
         this->phase_deriv[frame] = fftin->phases[0][frame];
         this->magnitude_buffer[frame] = fftin->magnitudes[0][frame];
     }
-    for (int frame = 0; frame < this->num_bins; frame++)
-    {
-    }
 
-    this->num_hops = 1;
     for (int hop = 0; hop < this->num_hops; hop++)
     {
         /*------------------------------------------------------------------------
