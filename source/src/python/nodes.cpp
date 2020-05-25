@@ -132,7 +132,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
     
     py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT")
-        .def(py::init<NodeRef>(), "input"_a = nullptr);
+        .def(py::init<NodeRef, bool>(), "input"_a = nullptr, "do_window"_a = false);
     
     py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = nullptr, "buffer"_a = nullptr);
