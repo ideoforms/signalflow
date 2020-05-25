@@ -7,8 +7,8 @@
 namespace libsignal
 {
 
-IFFT::IFFT(NodeRef input)
-    : FFTOpNode(input)
+IFFT::IFFT(NodeRef input, bool do_window)
+    : FFTOpNode(input), do_window(do_window)
 {
     this->name = "ifft";
 
@@ -101,13 +101,13 @@ void IFFT::process(sample **out, int num_frames)
      * Move data written in previous calls to process() to the front of the
      * output buffer. Zero anything after that point.
      *-----------------------------------------------------------------------*/
-    // int previous_offset = this->num_hops * this->hop_size;
     int previous_offset = num_frames;
     int previous_overflow = this->fft_size;
     int previous_overflow_bytes = previous_overflow * sizeof(sample);
-    memcpy(this->out[0], this->out[0] + previous_offset, previous_overflow_bytes);
+    memmove(this->out[0], this->out[0] + previous_offset, previous_overflow_bytes);
     int buffer_size_bytes = this->get_output_buffer_length() * sizeof(sample);
     memset(this->out[0] + previous_overflow, 0, buffer_size_bytes - previous_overflow_bytes);
+
     if (previous_overflow > this->get_output_buffer_length())
     {
         printf("Runtime error (fft size %d, previous overflow %d)\n", this->fft_size, previous_overflow);
@@ -127,10 +127,11 @@ void IFFT::process(sample **out, int num_frames)
     for (int hop = 0; hop < this->num_hops; hop++)
     {
         float scale_factor = (float) hop_size / fft_size;
+        scale_factor = (float) num_frames / fft_size;
         this->ifft(this->input->out[hop],
                    this->out[0] + (hop * hop_size),
                    true,
-                   false,
+                   this->do_window,
                    scale_factor);
     }
 

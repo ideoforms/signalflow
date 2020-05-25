@@ -9,7 +9,7 @@ namespace libsignal
 class IFFT : public FFTOpNode
 {
 public:
-    IFFT(NodeRef input = nullptr);
+    IFFT(NodeRef input = nullptr, bool do_window = false);
 
     ~IFFT();
 
@@ -18,6 +18,7 @@ public:
     sample *buffer;
     sample *buffer2;
     sample *window;
+    bool do_window;
 
     virtual void ifft(sample *in,
                       sample *out,
