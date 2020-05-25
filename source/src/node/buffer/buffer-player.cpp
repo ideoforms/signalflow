@@ -71,6 +71,10 @@ void BufferPlayer::trigger(std::string name, float value)
     {
         this->phase = value * this->graph->get_sample_rate();
     }
+    else
+    {
+        throw std::runtime_error("Unknown trigger: " + name);
+    }
 }
 
 }
