@@ -33,6 +33,7 @@ AudioGraph::AudioGraph()
     this->output = audioout;
     this->sample_rate = audioout->sample_rate;
     this->node_count = 0;
+    this->_node_count_tmp = 0;
     this->cpu_usage = 0.0;
     this->monitor = NULL;
 }
@@ -137,7 +138,7 @@ void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
     if (node->name != "constant")
     {
         node->has_rendered = true;
-        this->node_count++;
+        this->_node_count_tmp++;
     }
 }
 
@@ -170,7 +171,7 @@ void AudioGraph::reset_graph()
     /*------------------------------------------------------------------------
      * Clear the record of processed nodes.
      *-----------------------------------------------------------------------*/
-    this->node_count = 0;
+    this->_node_count_tmp = 0;
     this->reset_graph(this->output);
 }
 
@@ -196,6 +197,7 @@ void AudioGraph::render(int num_frames)
 
     this->reset_graph();
     this->traverse_graph(this->output, num_frames);
+    this->node_count = this->_node_count_tmp;
     signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 
     /*------------------------------------------------------------------------
