@@ -35,6 +35,8 @@ public:
     Buffer(int num_channels, int num_frames);
     Buffer(int num_channels, int num_frames, sample **data);
     Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>> data);
+    Buffer(std::vector<std::vector<sample>> data);
+    Buffer(std::vector<sample> data);
 
     Buffer(std::string filename);
 

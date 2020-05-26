@@ -63,6 +63,17 @@ Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>
     }
 }
 
+Buffer::Buffer(std::vector<std::vector<sample>> data)
+    : Buffer(data.size(), data[0].size(), data)
+{
+
+}
+
+Buffer::Buffer(std::vector<sample> data)
+    : Buffer(1, data.size(), std::vector<std::vector<sample>>({ data }))
+{
+}
+
 Buffer::Buffer(std::string filename)
 {
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;

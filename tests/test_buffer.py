@@ -17,6 +17,17 @@ def test_buffer(graph):
     assert b.num_frames == len(data[0])
     assert np.array_equal(data, b.data)
 
+    b = Buffer(data)
+    assert b.num_channels == 2
+    assert b.num_frames == len(data[0])
+    assert np.array_equal(data, b.data)
+
+    data_1d = np.array([ -1, 0, 1, 2 ])
+    b = Buffer(data_1d)
+    assert b.num_channels == 1
+    assert b.num_frames == len(data_1d)
+    assert np.array_equal(data_1d, b.data[0])
+
 def test_buffer_interpolate(graph):
     b = Buffer(1, 2, np.array([[ 1, 2 ]]))
     assert b.get(0) == 1

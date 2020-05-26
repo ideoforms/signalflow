@@ -9,6 +9,8 @@ void init_python_buffer(py::module &m)
         .def(py::init<std::string>())
         .def(py::init<int, int>())
         .def(py::init<int, int, std::vector<std::vector<float>>>())
+        .def(py::init<std::vector<std::vector<float>>>())
+        .def(py::init<std::vector<float>>())
 
         .def("__mul__", [](BufferRef a, float b)
             { return a * b; })
