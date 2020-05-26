@@ -111,8 +111,9 @@ void FFT::process(sample **out, int num_frames)
      * Append the incoming buffer onto our input_buffer.
      * Perform repeated window and FFT by stepping forward hop_size frames.
      *-----------------------------------------------------------------------*/
-     if (num_frames > this->get_output_buffer_length())
-     {
+    if (num_frames + this->input_buffer_size > this->get_output_buffer_length())
+    {
+        fprintf(stderr, "FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds\n");
         throw std::runtime_error("FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
     }
     memcpy(this->input_buffer + this->input_buffer_size, this->input->out[0], num_frames * sizeof(sample));
