@@ -11,7 +11,15 @@ void init_python_buffer(py::module &m)
         .def(py::init<int, int, std::vector<std::vector<float>>>())
         .def(py::init<std::vector<std::vector<float>>>())
         .def(py::init<std::vector<float>>())
-
+        .def("__getitem__", [](BufferRef a, int b)
+        {
+            if (b < 0 || b >= a->num_channels)
+            {
+                throw std::runtime_error("Invalid channel index: " + std::to_string(b));
+            }
+            std::vector<sample>a_vec(a->data[b], a->data[b] + a->num_frames);
+            return new Buffer(a_vec);
+        })
         .def("__mul__", [](BufferRef a, float b)
             { return a * b; })
         .def("__rmul__", [](BufferRef a, float b)

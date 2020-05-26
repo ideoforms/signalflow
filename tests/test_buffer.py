@@ -28,6 +28,21 @@ def test_buffer(graph):
     assert b.num_frames == len(data_1d)
     assert np.array_equal(data_1d, b.data[0])
 
+def test_buffer_subscript(graph):
+    data = np.array([[ -1, 0, 1 ], [ 2, 3, 4 ]])
+    b = Buffer(data)
+    b0 = b[0]
+    b1 = b[1]
+    assert b0.num_channels == 1
+    assert np.array_equal(b0.data[0], data[0])
+    assert b1.num_channels == 1
+    assert np.array_equal(b1.data[0], data[1])
+
+    with pytest.raises(Exception):
+        _ = b[2]
+    with pytest.raises(Exception):
+        _ = b[-1]
+
 def test_buffer_interpolate(graph):
     b = Buffer(1, 2, np.array([[ 1, 2 ]]))
     assert b.get(0) == 1
