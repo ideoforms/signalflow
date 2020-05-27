@@ -55,19 +55,10 @@ Node::~Node()
 
 /*------------------------------------------------------------------------
  * Called directly by AudioGraph, this function wraps around the
- * subclassed process() method and handles extra bits of magic,
- * including populating the buffer history so that the value of the
- * previous frame can be checked.
+ * subclassed process() method and handles extra bits of magic.
  *-----------------------------------------------------------------------*/
 void Node::_process(sample **out, int num_frames)
 {
-    if (this->last_num_frames > 0)
-    {
-        for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
-        {
-            out[i][-1] = out[i][last_num_frames - 1];
-        }
-    }
     this->process(out, num_frames);
     this->last_num_frames = num_frames;
 }
@@ -132,7 +123,7 @@ void Node::allocate_output_buffer()
              * If not enough channels are allocated, dealloc the current allocations
              * and start from scratch.
              *-----------------------------------------------------------------------*/
-            delete (this->out[0] - 1);
+            delete (this->out[0]);
             delete (this->out);
         }
     }
@@ -154,13 +145,6 @@ void Node::allocate_output_buffer()
          * matrices to Python.
          *-----------------------------------------------------------------------*/
         this->out[i] = out_channels + (this->output_buffer_length * i);
-
-        /*------------------------------------------------------------------------
-         * Memory allocation magic: incrementing the `out` pointer means that
-         * we can query out[-1] which holds the last frame of the previous
-         * block.
-         *-----------------------------------------------------------------------*/
-        this->out[i] = this->out[i] + 1;
     }
 
     this->num_output_channels_allocated = output_buffer_count;
@@ -168,7 +152,7 @@ void Node::allocate_output_buffer()
 
 void Node::free_output_buffer()
 {
-    delete (this->out[0] - 1);
+    delete (this->out[0]);
     delete (this->out);
     this->out = NULL;
 }
