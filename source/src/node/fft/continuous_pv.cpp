@@ -25,6 +25,10 @@ FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
     this->prefilled_fft_buffer = false;
 }
 
+void FFTContinuousPhaseVocoder::trigger(std::string name, float value)
+{//   this->prefilled_fft_buffer = false;
+}
+
 void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
 {
     FFTNode *fftin = (FFTNode *) this->input.get();
@@ -32,8 +36,11 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
 
     if (!prefilled_fft_buffer)
     {
-        this->graph->reset_graph(this->input);
-        this->graph->traverse_graph(this->input, fft_size);
+        for (int i = 0; i < fft_size / SIGNAL_NODE_BUFFER_SIZE; i++)
+        {
+            this->graph->reset_graph(this->input);
+            this->graph->traverse_graph(this->input, SIGNAL_NODE_BUFFER_SIZE);
+        }
         this->prefilled_fft_buffer = true;
     }
 
@@ -44,9 +51,10 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
     {
         this->phase_buffer[frame] = random_uniform(-M_PI, M_PI);
         // this->phase_buffer[frame] = fftin->phases[0][frame];
-        this->phase_deriv[frame] = fftin->phases[0][frame];
-        this->magnitude_buffer[frame] = fftin->magnitudes[0][frame];
     }
+
+    memcpy(this->phase_deriv, fftin->phases[0], this->num_bins * sizeof(sample));
+    memcpy(this->magnitude_buffer, fftin->magnitudes[0], this->num_bins * sizeof(sample));
 
     for (int hop = 0; hop < this->num_hops; hop++)
     {
