@@ -14,6 +14,9 @@ void init_python_nodes(py::module &m)
     py::class_<Resample, Node, NodeRefTemplate<Resample>>(m, "Resample")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "sample_rate"_a = 22050, "bit_rate"_a = 8);
     
+    py::class_<BiquadFilter, Node, NodeRefTemplate<BiquadFilter>>(m, "BiquadFilter")
+        .def(py::init<NodeRef, signal_filter_type_t, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNAL_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.707, "peak_gain"_a = 0.0);
+    
     py::class_<RMS, Node, NodeRefTemplate<RMS>>(m, "RMS")
         .def(py::init<NodeRef>(), "input"_a = 0.0);
     

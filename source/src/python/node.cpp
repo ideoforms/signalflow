@@ -103,6 +103,16 @@ void init_python_node(py::module &m)
                 { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
                 node.out[0]);
         });
+        
+    py::enum_<signal_filter_type_t>(m, "signal_filter_type_t", py::arithmetic(), "Filter type")
+        .value("SIGNAL_FILTER_TYPE_LOW_PASS", SIGNAL_FILTER_TYPE_LOW_PASS, "Low-pass filter")
+        .value("SIGNAL_FILTER_TYPE_HIGH_PASS", SIGNAL_FILTER_TYPE_HIGH_PASS, "High-pass filter")
+        .value("SIGNAL_FILTER_TYPE_BAND_PASS", SIGNAL_FILTER_TYPE_BAND_PASS, "Band-pass filter")
+        .value("SIGNAL_FILTER_TYPE_NOTCH", SIGNAL_FILTER_TYPE_NOTCH, "Notch filter")
+        .value("SIGNAL_FILTER_TYPE_PEAK", SIGNAL_FILTER_TYPE_PEAK, "Peak filter")
+        .value("SIGNAL_FILTER_TYPE_LOW_SHELF", SIGNAL_FILTER_TYPE_LOW_SHELF, "Low-shelf filter")
+        .value("SIGNAL_FILTER_TYPE_HIGH_SHELF", SIGNAL_FILTER_TYPE_HIGH_SHELF, "High-shelf filter")
+        .export_values();
 
     py::implicitly_convertible<int, Node>();
     py::implicitly_convertible<float, Node>();
