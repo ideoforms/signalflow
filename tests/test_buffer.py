@@ -17,11 +17,14 @@ def test_buffer(graph):
     assert b.num_frames == len(data[0])
     assert np.array_equal(data, b.data)
 
+def test_buffer_instantiate_2d_array(graph):
+    data = np.array([[ -1, 0, 1 ], [ -1, 0, 1 ]])
     b = Buffer(data)
     assert b.num_channels == 2
     assert b.num_frames == len(data[0])
     assert np.array_equal(data, b.data)
 
+def test_buffer_instantiate_1d_array(graph):
     data_1d = np.array([ -1, 0, 1, 2 ])
     b = Buffer(data_1d)
     assert b.num_channels == 1
