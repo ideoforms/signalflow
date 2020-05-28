@@ -26,6 +26,7 @@ double explin(double value, double a, double b, double c, double d);
 float freq_to_midi(float frequency);
 float midi_to_freq(float midi);
 
-void signal_save_block_to_file(sample *block, int num_samples, std::string filename);
+void signal_save_block_to_text_file(sample *block, int num_samples, std::string filename);
+void signal_save_block_to_wav_file(sample *block, int num_samples, std::string filename);
 
 }

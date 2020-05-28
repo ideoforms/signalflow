@@ -180,6 +180,10 @@ void Buffer::load(std::string filename)
     // TODO Logging
     // std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
 
+#else
+
+    throw std::runtime_error("Can't load audio data as libsndfile was not detected at compile time");
+
 #endif
 }
 
@@ -228,6 +232,10 @@ void Buffer::save(std::string filename)
     delete [] buffer;
 
     sf_close(sndfile);
+
+#else
+    
+    throw std::runtime_error("Can't save audio data as libsndfile was not detected at compile time");
 
 #endif
 }

@@ -3,6 +3,7 @@
  *--------------------------------------------------------------------*/
 
 #include "signal/core/util.h"
+#include "signal/buffer/buffer.h"
 
 #include <limits.h>
 #include <math.h>
@@ -89,7 +90,7 @@ float midi_to_freq(float midi)
     return 440.0 * powf(2, (midi - 69) / 12.0);
 }
 
-void signal_save_block_to_file(sample *block, int num_samples, std::string filename)
+void signal_save_block_to_text_file(sample *block, int num_samples, std::string filename)
 {
     FILE *fd = fopen(filename.c_str(), "w");
     if (!fd)
@@ -101,6 +102,12 @@ void signal_save_block_to_file(sample *block, int num_samples, std::string filen
         fprintf(fd, "%f\n", block[i]);
     }
     fclose(fd);
+}
+
+void signal_save_block_to_wav_file(sample *block, int num_samples, std::string filename)
+{
+    BufferRef buf = new Buffer(1, num_samples, &block);
+    buf->save(filename);
 }
 
 } /* namespace libsignal */
