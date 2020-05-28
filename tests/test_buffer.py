@@ -28,6 +28,11 @@ def test_buffer(graph):
     assert b.num_frames == len(data_1d)
     assert np.array_equal(data_1d, b.data[0])
 
+def test_buffer_multiply(graph):
+    b = Buffer([ 1, 1.5, 2, 2.5 ])
+    b = b * 2
+    assert np.array_equal(b.data[0], [ 2, 3, 4, 5 ])
+
 def test_buffer_subscript(graph):
     data = np.array([[ -1, 0, 1 ], [ 2, 3, 4 ]])
     b = Buffer(data)
