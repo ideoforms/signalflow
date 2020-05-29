@@ -113,7 +113,7 @@
 #include <signal/node/control/mouse.h>
 
 /*------------------------------------------------------------------------
- * Spectral processing
+ * FFT
  *-----------------------------------------------------------------------*/
 #ifdef __APPLE__
 #include <signal/node/fft/fft.h>
@@ -124,4 +124,5 @@
 #include <signal/node/fft/noise_gate.h>
 #include <signal/node/fft/tonality.h>
 #include <signal/node/fft/convolve.h>
+#include <signal/node/fft/find-peaks.h>
 #endif
