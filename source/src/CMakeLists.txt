@@ -40,6 +40,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/rms.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/waveshaper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/width.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/maximiser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/soundio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/abstract.cpp

@@ -44,9 +44,8 @@
 #include <signal/node/io/input/soundio.h>
 
 /*------------------------------------------------------------------------
- * Generators
+ * Oscillators
  *-----------------------------------------------------------------------*/
-#include <signal/node/buffer/granulator.h>
 #include <signal/node/oscillators/constant.h>
 #include <signal/node/oscillators/impulse.h>
 #include <signal/node/oscillators/line.h>
@@ -57,10 +56,11 @@
 #include <signal/node/oscillators/wavetable.h>
 
 /*------------------------------------------------------------------------
- * Generators
+ * Buffer players
  *-----------------------------------------------------------------------*/
 #include <signal/node/buffer/buffer-player.h>
 #include <signal/node/buffer/buffer-recorder.h>
+#include <signal/node/buffer/granulator.h>
 
 /*------------------------------------------------------------------------
  * Random processes
@@ -87,6 +87,7 @@
 #include <signal/node/filters/eq.h>
 #include <signal/node/filters/freeze.h>
 #include <signal/node/filters/gate.h>
+#include <signal/node/filters/maximiser.h>
 #include <signal/node/filters/moog.h>
 #include <signal/node/filters/pan.h>
 #include <signal/node/filters/resample.h>
