@@ -8,6 +8,8 @@ SampleAndHold::SampleAndHold(NodeRef input, NodeRef clock)
 {
     this->name = "sample-and-hold";
     this->add_input("clock", this->clock);
+    this->values.resize(SIGNAL_MAX_CHANNELS);
+    this->values.clear();
 }
 
 void SampleAndHold::process(sample **out, int num_frames)
