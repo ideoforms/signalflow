@@ -90,6 +90,18 @@ float midi_to_freq(float midi)
     return 440.0 * powf(2, (midi - 69) / 12.0);
 }
 
+float signal_db_to_amp(float db)
+{
+    return powf(10.0f, db * 0.05f);
+}
+
+float signal_amp_to_db(float amp)
+{
+    amp = MAX(amp, 1e-9);
+    amp = MIN(amp, 1e9);
+    return 20.0f * log10f(amp);
+}
+
 void signal_save_block_to_text_file(sample *block, int num_samples, std::string filename)
 {
     FILE *fd = fopen(filename.c_str(), "w");
