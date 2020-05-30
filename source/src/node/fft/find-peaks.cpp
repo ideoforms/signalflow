@@ -55,14 +55,15 @@ sample get_min_magnitude_in_range(sample *bins, int index_left, int index_right)
     return min_magnitude;
 }
 
-FFTFindPeaks::FFTFindPeaks(NodeRef input, int count, NodeRef prominence, NodeRef threshold)
-    : FFTOpNode(input), prominence(prominence), threshold(threshold), count(count)
+FFTFindPeaks::FFTFindPeaks(NodeRef input, NodeRef prominence, NodeRef threshold, int count, bool interpolate)
+    : FFTOpNode(input), prominence(prominence), threshold(threshold), count(count), interpolate(interpolate)
 {
     this->name = "fft-find-peaks";
     this->num_output_channels = this->min_output_channels = this->max_output_channels = count;
     this->update_channels();
 
     this->add_input("prominence", this->prominence);
+    this->add_input("threshold", this->threshold);
 }
 
 void FFTFindPeaks::process(sample **out, int num_frames)
@@ -71,6 +72,7 @@ void FFTFindPeaks::process(sample **out, int num_frames)
     this->num_hops = fftnode->num_hops;
 
     std::vector <Peak>peaks(this->num_bins);
+    peaks.clear();
     int peak_count = 0;
 
     for (int hop = 0; hop < 1; hop++)
@@ -93,9 +95,16 @@ void FFTFindPeaks::process(sample **out, int num_frames)
                 sample prominence = mags_in[bin_index] / max_min_contour;
                 if (prominence > this->prominence->out[0][0] && peak_count < count)
                 {
-                    float peak_freq = (float) bin_index * graph->get_sample_rate() / this->fft_size;
-                    // printf("Found peak at frequency: %f, prominence = %f\n", peak_freq, prominence);
-                    peaks[peak_count++] = Peak(peak_freq, mags_in[bin_index]);
+                    float p = 0.0;
+                    if (this->interpolate)
+                    {
+                        float alpha = signal_amp_to_db(mags_in[bin_index - 1]);
+                        float beta = signal_amp_to_db(mags_in[bin_index]);
+                        float gamma = signal_amp_to_db(mags_in[bin_index + 1]);
+                        p = (alpha == beta && beta == gamma) ? 0.0f : 0.5f * (alpha - gamma) / (alpha - 2.0f * beta + gamma);
+                    }
+                    float frequency = (bin_index + p) * graph->get_sample_rate() / this->fft_size;
+                    peaks[peak_count++] = Peak(frequency, mags_in[bin_index]);
                 }
             }
         }

@@ -91,7 +91,7 @@ def generate_all_bindings():
                                 })
                     constructor_parameter_sets.append(parameters)
             if constructor_parameter_sets:
-                if class_name == "FFT":
+                if class_name == "FFTFindPeaks":
                     output += "#ifdef __APPLE__\n\n"
                 output += generate_class_bindings(class_name, constructor_parameter_sets)
                 output = output.strip()
