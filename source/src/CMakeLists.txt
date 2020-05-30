@@ -33,7 +33,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/stutter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/biquad.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/eq.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/freeze.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/sample-and-hold.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/gate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/moog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/pan.cpp

@@ -85,7 +85,7 @@
 #include <signal/node/filters/delays/stutter.h>
 #include <signal/node/filters/biquad.h>
 #include <signal/node/filters/eq.h>
-#include <signal/node/filters/freeze.h>
+#include <signal/node/filters/sample-and-hold.h>
 #include <signal/node/filters/gate.h>
 #include <signal/node/filters/maximiser.h>
 #include <signal/node/filters/moog.h>

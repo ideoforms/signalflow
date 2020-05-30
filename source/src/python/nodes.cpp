@@ -8,6 +8,9 @@ void init_python_nodes(py::module &m)
     py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn")
         .def(py::init<>());
     
+    py::class_<SampleAndHold, Node, NodeRefTemplate<SampleAndHold>>(m, "SampleAndHold")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a, "clock"_a = nullptr);
+    
     py::class_<Width, Node, NodeRefTemplate<Width>>(m, "Width")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
     
@@ -25,9 +28,6 @@ void init_python_nodes(py::module &m)
     
     py::class_<MoogVCF, Node, NodeRefTemplate<MoogVCF>>(m, "MoogVCF")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "cutoff"_a = 200.0, "resonance"_a = 0.0);
-    
-    py::class_<Freeze, Node, NodeRefTemplate<Freeze>>(m, "Freeze")
-        .def(py::init<NodeRef>(), "input"_a = 0);
     
     py::class_<EQ, Node, NodeRefTemplate<EQ>>(m, "EQ")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "low_gain"_a = 1.0, "mid_gain"_a = 1.0, "high_gain"_a = 1.0, "low_freq"_a = 500, "high_freq"_a = 5000);
@@ -128,6 +128,9 @@ void init_python_nodes(py::module &m)
     
     py::class_<EnvelopeADSR, Node, NodeRefTemplate<EnvelopeADSR>>(m, "EnvelopeADSR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "decay"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "gate"_a = 0);
+    
+    py::class_<FFTFindPeaks, Node, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks")
+        .def(py::init<NodeRef, int, NodeRef>(), "input"_a = 0, "count"_a = 8, "prominence"_a = 1);
     
     #ifdef __APPLE__
     
