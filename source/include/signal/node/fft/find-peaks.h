@@ -9,7 +9,7 @@ class FFTFindPeaks : public FFTOpNode
 {
 public:
     FFTFindPeaks(NodeRef input = 0, int count = 8,
-                 NodeRef prominence = 1, NodeRef threshold = 1e-6);
+                 NodeRef prominence = 1, NodeRef threshold = 0.000001);
     virtual void process(sample **out, int num_frames);
 
     NodeRef prominence = nullptr;

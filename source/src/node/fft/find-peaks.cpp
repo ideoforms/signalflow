@@ -6,6 +6,16 @@
 namespace libsignal
 {
 
+class Peak
+{
+public:
+    Peak() {}
+    Peak(float frequency, float magnitude) : frequency(frequency), magnitude(magnitude) {}
+    float frequency;
+    float magnitude;
+};
+
+
 int find_prev_bin_with_magnitude(sample *bins, int index)
 {
     sample magnitude = bins[index];
@@ -60,7 +70,7 @@ void FFTFindPeaks::process(sample **out, int num_frames)
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;
 
-    std::vector <sample>peaks(this->count);
+    std::vector <Peak>peaks(this->num_bins);
     int peak_count = 0;
 
     for (int hop = 0; hop < 1; hop++)
@@ -85,10 +95,16 @@ void FFTFindPeaks::process(sample **out, int num_frames)
                 {
                     float peak_freq = (float) bin_index * graph->get_sample_rate() / this->fft_size;
                     // printf("Found peak at frequency: %f, prominence = %f\n", peak_freq, prominence);
-                    peaks[peak_count++] = peak_freq;
+                    peaks[peak_count++] = Peak(peak_freq, mags_in[bin_index]);
                 }
             }
         }
+
+        std::sort (peaks.begin(), peaks.begin() + peak_count, [](const Peak & a, const Peak & b) -> bool
+        {
+            return a.magnitude > b.magnitude;
+        });
+
         for (int channel = 0; channel < count; channel++)
         {
             if (channel < peak_count)
@@ -96,7 +112,7 @@ void FFTFindPeaks::process(sample **out, int num_frames)
                 int peak_index = channel;
                 for (int bin_index = 0; bin_index < num_frames; bin_index++)
                 {
-                    out[peak_index][bin_index] = peaks[peak_index];
+                    out[peak_index][bin_index] = peaks[peak_index].frequency;
                 }
             }
             else
