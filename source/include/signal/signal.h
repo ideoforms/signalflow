@@ -92,6 +92,7 @@
 #include <signal/node/filters/pan.h>
 #include <signal/node/filters/resample.h>
 #include <signal/node/filters/rms.h>
+#include <signal/node/filters/smooth.h>
 #include <signal/node/filters/waveshaper.h>
 #include <signal/node/filters/width.h>
 

@@ -9,7 +9,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<>());
     
     py::class_<SampleAndHold, Node, NodeRefTemplate<SampleAndHold>>(m, "SampleAndHold")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a, "clock"_a = nullptr);
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "clock"_a = nullptr);
     
     py::class_<Width, Node, NodeRefTemplate<Width>>(m, "Width")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
@@ -22,6 +22,9 @@ void init_python_nodes(py::module &m)
     
     py::class_<RMS, Node, NodeRefTemplate<RMS>>(m, "RMS")
         .def(py::init<NodeRef>(), "input"_a = 0.0);
+    
+    py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);
     
     py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
         .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 2, "pan"_a = 0.5);
