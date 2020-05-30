@@ -133,7 +133,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "decay"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "gate"_a = 0);
     
     py::class_<FFTFindPeaks, Node, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks")
-        .def(py::init<NodeRef, int, NodeRef>(), "input"_a = 0, "count"_a = 8, "prominence"_a = 1);
+        .def(py::init<NodeRef, int, NodeRef, NodeRef>(), "input"_a = 0, "count"_a = 8, "prominence"_a = 1, "threshold"_a = 1e - 6);
     
     #ifdef __APPLE__
     

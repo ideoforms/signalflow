@@ -45,8 +45,8 @@ sample get_min_magnitude_in_range(sample *bins, int index_left, int index_right)
     return min_magnitude;
 }
 
-FFTFindPeaks::FFTFindPeaks(NodeRef input, int count, NodeRef prominence)
-    : FFTOpNode(input), count(count), prominence(prominence)
+FFTFindPeaks::FFTFindPeaks(NodeRef input, int count, NodeRef prominence, NodeRef threshold)
+    : FFTOpNode(input), prominence(prominence), threshold(threshold), count(count)
 {
     this->name = "fft-find-peaks";
     this->num_output_channels = this->min_output_channels = this->max_output_channels = count;
@@ -68,17 +68,19 @@ void FFTFindPeaks::process(sample **out, int num_frames)
         sample *mags_in = this->input->out[hop];
         for (int bin_index = 2; bin_index < this->num_bins - 1; bin_index++)
         {
-            if (mags_in[bin_index] > mags_in[bin_index - 1] && mags_in[bin_index] > mags_in[bin_index + 1])
+            if (mags_in[bin_index] > this->threshold->out[0][0] &&
+                mags_in[bin_index] > mags_in[bin_index - 1] &&
+                mags_in[bin_index] > mags_in[bin_index + 1])
             {
-                // is a peak
+                // is a peak above threshold
                 int index_left = find_prev_bin_with_magnitude(mags_in, bin_index);
                 int index_right = find_next_bin_with_magnitude(mags_in, bin_index, this->num_bins);
                 sample min_contour_left = get_min_magnitude_in_range(mags_in, index_left, bin_index);
                 sample min_contour_right = get_min_magnitude_in_range(mags_in, bin_index + 1, index_right);
-                sample min_contour = MIN(min_contour_left, min_contour_right);
-                if (min_contour == 0)
-                    min_contour = 1e-9;
-                sample prominence = mags_in[bin_index] / min_contour;
+                sample max_min_contour = MAX(min_contour_left, min_contour_right);
+                if (max_min_contour == 0)
+                    max_min_contour = 1e-9;
+                sample prominence = mags_in[bin_index] / max_min_contour;
                 if (prominence > this->prominence->out[0][0] && peak_count < count)
                 {
                     float peak_freq = (float) bin_index * graph->get_sample_rate() / this->fft_size;
