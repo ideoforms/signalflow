@@ -32,20 +32,18 @@ private:
                      bool polar = true,
                      bool do_window = true);
 
-    int log2N;
-
 #ifdef __APPLE__
     FFTSetup fft_setup;
+    sample *buffer;
+    sample *buffer2;
+    int log2N;
 #else
     fftwf_complex *fftw_buffer;
 #endif
 
-    sample *buffer;
-    sample *buffer2;
+    sample *window;
     sample *input_buffer;
     int input_buffer_size;
-
-    sample *window;
 
     friend class FFTConvolve;
 };

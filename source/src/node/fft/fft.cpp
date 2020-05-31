@@ -12,22 +12,20 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
 
     this->add_input("input", this->input);
 
+#ifdef __APPLE__
     /*------------------------------------------------------------------------
      * Initial FFT setup.
      *-----------------------------------------------------------------------*/
     this->log2N = (int) log2((float) fft_size);
-
-#ifdef __APPLE__
     this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
-#else
-    this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
-#endif
-
     /*------------------------------------------------------------------------
      * Temp buffers for FFT calculations.
      *-----------------------------------------------------------------------*/
     this->buffer = new sample[fft_size]();
     this->buffer2 = new sample[fft_size]();
+#else
+    this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
+#endif
 
     /*------------------------------------------------------------------------
      * To perform an FFT, we have to enqueue at least `fft_size` samples.
@@ -66,10 +64,9 @@ FFT::~FFT()
 {
 #ifdef __APPLE__
     vDSP_destroy_fftsetup(this->fft_setup);
-#else
-#endif
     delete this->buffer;
     delete this->buffer2;
+#endif
     delete this->input_buffer;
     delete this->window;
 }
