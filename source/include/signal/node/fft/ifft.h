@@ -2,7 +2,11 @@
 
 #include "signal/node/fft/fftnode.h"
 
+#ifdef __APPLE__
 #include <Accelerate/Accelerate.h>
+#else
+#include <fftw3.h>
+#endif
 
 namespace libsignal
 {
@@ -13,10 +17,15 @@ public:
 
     ~IFFT();
 
+#ifdef __APPLE__
     int log2N;
     FFTSetup fft_setup;
     sample *buffer;
     sample *buffer2;
+#else
+    fftwf_complex *fftw_buffer;
+#endif
+
     sample *window;
     bool do_window;
 

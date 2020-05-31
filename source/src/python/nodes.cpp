@@ -134,6 +134,9 @@ void init_python_nodes(py::module &m)
     
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNAL_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNAL_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
+    
+    py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT")
+        .def(py::init<NodeRef, bool>(), "input"_a = nullptr, "do_window"_a = false);
 
     #ifdef __APPLE__
     
@@ -142,9 +145,6 @@ void init_python_nodes(py::module &m)
     
     py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
-    
-    py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT")
-        .def(py::init<NodeRef, bool>(), "input"_a = nullptr, "do_window"_a = false);
     
     py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = nullptr, "buffer"_a = nullptr);

@@ -1,8 +1,8 @@
-from libsignal import Buffer
-from libsignal import Sine, Impulse, FFT
+from libsignal import Buffer, EnvelopeASR
+from libsignal import Sine, Impulse, FFT, IFFT
 
 try:
-    from libsignal import IFFT, FFTConvolve, EnvelopeASR
+    from libsignal import FFTConvolve
     no_fft = False
 except:
     #----------------------------------------------------------------
@@ -69,9 +69,6 @@ def test_fft_windowed(graph):
     assert np.all(np.abs(mags_py[1:512] - mags_out[1:512]) < 0.0001)
 
 def test_fft_ifft(graph):
-    if no_fft:
-        return
-
     #----------------------------------------------------------------
     # Verify that fft -> ifft returns the same output
     #----------------------------------------------------------------
@@ -85,7 +82,7 @@ def test_fft_ifft(graph):
         ifft = IFFT(fft)
         process_tree(ifft, buffer_b)
 
-        assert np.all(np.abs(buffer_a.data[0] - buffer_b.data[0]) < 0.00001)
+        assert np.all(np.abs(buffer_a.data[0] - buffer_b.data[0]) < 0.001)
 
 def test_fft_ifft_split(graph):
     if no_fft:

@@ -1,8 +1,4 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/ifft.h"
-
-#include <Accelerate/Accelerate.h>
 
 namespace libsignal
 {
@@ -12,32 +8,46 @@ IFFT::IFFT(NodeRef input, bool do_window)
 {
     this->name = "ifft";
 
+#ifdef __APPLE__
     this->log2N = (int) log2((float) this->fft_size);
     this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
-
     /*------------------------------------------------------------------------
      * Buffers used in intermediate FFT calculations.
      *-----------------------------------------------------------------------*/
     this->buffer = new sample[this->fft_size]();
     this->buffer2 = new sample[this->fft_size]();
+#else
+    this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
+#endif
 
     /*------------------------------------------------------------------------
      * Generate a Hann window for overlap-add.
      *-----------------------------------------------------------------------*/
     this->window = new sample[this->fft_size]();
+
+#ifdef __APPLE__
     vDSP_hann_window(this->window, this->fft_size, vDSP_HANN_NORM);
+#else
+    for (int i = 0; i < this->window_size; i++)
+    {
+        this->window[i] = 0.5 - 0.5 * cosf(i * M_PI * 2.0 / this->window_size);
+    }
+#endif
 }
 
 IFFT::~IFFT()
 {
+#ifdef __APPLE__
     vDSP_destroy_fftsetup(this->fft_setup);
     delete this->buffer;
     delete this->buffer2;
+#endif
     delete this->window;
 }
 
 void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale_factor)
 {
+#ifdef __APPLE__
     /*------------------------------------------------------------------------
      * Set up pointers to memory spaces so we can treat input and buffer
      * as split-valued complex pairs.
@@ -93,6 +103,27 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
      * Add to output buffer (for overlap/add)
      *-----------------------------------------------------------------------*/
     vDSP_vadd(buffer2, 1, out, 1, out, 1, fft_size);
+
+#else
+    // fftw3f
+    float *rev = (float *) this->fftw_buffer;
+    float *mags = in;
+    float *phases = in + this->num_bins;
+    for (int i = 0; i < num_bins; i++)
+    {
+        rev[i * 2] = mags[i] * cosf(phases[i]);
+        rev[i * 2 + 1] = mags[i] * sinf(phases[i]);
+    }
+
+    fftwf_plan pi = fftwf_plan_dft_c2r_1d(fft_size, (fftwf_complex *) rev, out, FFTW_ESTIMATE);
+    fftwf_execute(pi);
+    fftwf_destroy_plan(pi);
+
+    for (int i = 0; i < fft_size; i++)
+    {
+        out[i] = out[i] / (2 * fft_size);
+    }
+#endif
 }
 
 void IFFT::process(sample **out, int num_frames)
@@ -143,5 +174,3 @@ void IFFT::process(sample **out, int num_frames)
 }
 
 }
-
-#endif
