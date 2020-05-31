@@ -35,7 +35,7 @@ void Maximiser::process(sample **out, int num_frames)
     float ceiling = this->ceiling->out[0][0];
     float attack_time = this->attack_time->out[0][0];
     float release_time = this->release_time->out[0][0];
-    float gain_change_per_sample;
+    float gain_change_per_sample = 0.0;
 
     if (max_sample_after_gain < ceiling)
     {
