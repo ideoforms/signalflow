@@ -136,7 +136,24 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
 void IFFT::process(sample **out, int num_frames)
 {
     /*------------------------------------------------------------------------
-     * Perform as many hops as the FFT nodes earlier in the chain.
+     * Move data written in previous calls to process() to the front of the
+     * output buffer. Zero anything after that point.
+     *-----------------------------------------------------------------------*/
+    int previous_offset = num_frames;
+    int previous_overflow = this->fft_size;
+    int previous_overflow_bytes = previous_overflow * sizeof(sample);
+    memmove(this->out[0], this->out[0] + previous_offset, previous_overflow_bytes);
+    int buffer_size_bytes = this->get_output_buffer_length() * sizeof(sample);
+    memset(this->out[0] + previous_overflow, 0, buffer_size_bytes - previous_overflow_bytes);
+
+    if (previous_overflow > this->get_output_buffer_length())
+    {
+        printf("Runtime error (fft size %d, previous overflow %d)\n", this->fft_size, previous_overflow);
+        throw std::runtime_error("IFFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
+    }
+
+    /*------------------------------------------------------------------------
+     *
      *-----------------------------------------------------------------------*/
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;
@@ -161,24 +178,6 @@ void IFFT::process(sample **out, int num_frames)
     {
         memcpy(out[0], this->out[0], num_frames * sizeof(sample));
     }
-
-    /*------------------------------------------------------------------------
-     * Move data written in previous calls to process() to the front of the
-     * output buffer. Zero anything after that point.
-     *-----------------------------------------------------------------------*/
-    int offset = num_frames;
-    int overflow_frames = this->fft_size;
-    int overflow_bytes = overflow_frames * sizeof(sample);
-    memmove(this->out[0], this->out[0] + offset, overflow_bytes);
-
-    if (overflow_frames > this->get_output_buffer_length())
-    {
-        printf("Runtime error (fft size %d, overflow %d)\n", this->fft_size, overflow_frames);
-        throw std::runtime_error("IFFT: Moving overlapped segments would exceed memory bounds");
-    }
-
-    int buffer_size_bytes = this->get_output_buffer_length() * sizeof(sample);
-    memset(this->out[0] + overflow_frames, 0, buffer_size_bytes - overflow_bytes);
 }
 
 }
