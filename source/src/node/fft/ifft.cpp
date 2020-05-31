@@ -119,8 +119,15 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
     fftwf_execute(pi);
     fftwf_destroy_plan(pi);
 
+    /*------------------------------------------------------------------------
+     * Apply window and scale down (fftw IFFT output is scaled up by fft_size)
+     *-----------------------------------------------------------------------*/
     for (int i = 0; i < fft_size; i++)
     {
+        if (do_window)
+        {
+            out[i] *= this->window[i];
+        }
         out[i] = out[i] / (2 * fft_size);
     }
 #endif

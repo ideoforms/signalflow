@@ -38,6 +38,7 @@ private:
     sample *buffer2;
     int log2N;
 #else
+    sample *buffer;
     fftwf_complex *fftw_buffer;
 #endif
 

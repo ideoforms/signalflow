@@ -21,11 +21,12 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
     /*------------------------------------------------------------------------
      * Temp buffers for FFT calculations.
      *-----------------------------------------------------------------------*/
-    this->buffer = new sample[fft_size]();
     this->buffer2 = new sample[fft_size]();
 #else
     this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
 #endif
+
+    this->buffer = new sample[fft_size]();
 
     /*------------------------------------------------------------------------
      * To perform an FFT, we have to enqueue at least `fft_size` samples.
@@ -64,9 +65,9 @@ FFT::~FFT()
 {
 #ifdef __APPLE__
     vDSP_destroy_fftsetup(this->fft_setup);
-    delete this->buffer;
     delete this->buffer2;
 #endif
+    delete this->buffer;
     delete this->input_buffer;
     delete this->window;
 }
@@ -77,6 +78,9 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
     DSPSplitComplex buffer_split = { buffer, buffer + fft_size / 2 };
     DSPSplitComplex output_split = { out, out + fft_size / 2 };
 
+    /*------------------------------------------------------------------------
+     * Apply window
+     *-----------------------------------------------------------------------*/
     vDSP_vmul(in, 1, this->window, 1, buffer2, 1, fft_size);
 
     /*------------------------------------------------------------------------
@@ -114,9 +118,22 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
     {
         vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out, 2, fft_size / 2);
     }
+
 #else
-    // fftw
-    fftwf_plan fftw_plan = fftwf_plan_dft_r2c_1d(fft_size, in, this->fftw_buffer, FFTW_ESTIMATE);
+
+    /*------------------------------------------------------------------------
+     * Apply window
+     *-----------------------------------------------------------------------*/
+    for (int i = 0; i < this->fft_size; i++)
+    {
+        this->buffer[i] = in[i] * this->window[i];
+    }
+
+    /*------------------------------------------------------------------------
+     * Execute FFT
+     * TODO: Plan should be initialised in constructor
+     *-----------------------------------------------------------------------*/
+    fftwf_plan fftw_plan = fftwf_plan_dft_r2c_1d(fft_size, this->buffer, this->fftw_buffer, FFTW_ESTIMATE);
     fftwf_execute(fftw_plan);
 
     if (polar)
