@@ -1,7 +1,6 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/find-peaks.h"
 #include "signal/core/graph.h"
+#include <algorithm>
 
 namespace libsignal
 {
@@ -135,9 +134,4 @@ void FFTFindPeaks::process(sample **out, int num_frames)
     }
 }
 
-
-
 }
-
-
-#endif

@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/phase_vocoder.h"
 
 namespace libsignal
@@ -95,5 +93,3 @@ void FFTPhaseVocoder::process(sample **out, int num_frames)
 }
 
 }
-
-#endif

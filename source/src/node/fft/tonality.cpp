@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/tonality.h"
 
 #include <algorithm>
@@ -59,6 +57,3 @@ void FFTTonality::process(sample **out, int num_frames)
 }
 
 }
-
-
-#endif

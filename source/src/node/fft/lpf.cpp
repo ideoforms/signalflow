@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/lpf.h"
 #include "signal/core/graph.h"
 
@@ -54,5 +52,3 @@ void FFTLPF::process(sample **out, int num_frames)
 }
 
 }
-
-#endif

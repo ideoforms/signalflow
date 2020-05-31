@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/continuous_pv.h"
 #include "signal/core/graph.h"
 #include "signal/core/random.h"
@@ -85,5 +83,3 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
 }
 
 }
-
-#endif

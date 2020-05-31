@@ -17,6 +17,9 @@ import pprint
 import subprocess
 import CppHeaderParser
 
+omitted_classes = [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode" ]
+macos_only_classes = [ "MouseX", "MouseY", "MouseDown", "FFTConvolve" ]
+
 top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).decode().strip()
 header_root = os.path.join(top_level, "source", "include")
 source_files = glob.glob("%s/signal/node/*/*.h" % header_root) + glob.glob("%s/signal/node/*/*/*.h" % header_root)
@@ -30,7 +33,7 @@ def generate_class_bindings(class_name, parameter_sets):
     .def(py::init<std::vector<NodeRef>>(),  "frequency"_a = NodeRef(440.0))
     .def(py::init<std::vector<float>>(),    "frequency"_a = NodeRef(440.0));
     """
-    if class_name in [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode" ]:
+    if class_name in omitted_classes:
         return ""
 
     output = 'py::class_<{class_name}, Node, NodeRefTemplate<{class_name}>>(m, "{class_name}")\n'.format(class_name=class_name)
@@ -91,12 +94,12 @@ def generate_all_bindings():
                                 })
                     constructor_parameter_sets.append(parameters)
             if constructor_parameter_sets:
-                if class_name == "FFTFindPeaks":
+                if class_name in macos_only_classes:
                     output += "#ifdef __APPLE__\n\n"
                 output += generate_class_bindings(class_name, constructor_parameter_sets)
                 output = output.strip()
                 output += "\n\n"
-                if class_name == "MouseDown":
+                if class_name in macos_only_classes:
                     output += "#endif\n\n"
     return output
 

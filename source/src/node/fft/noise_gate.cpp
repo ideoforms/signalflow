@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/noise_gate.h"
 
 #include <algorithm>
@@ -81,5 +79,3 @@ void FFTNoiseGate::process(sample **out, int num_frames)
 
 }
 
-
-#endif

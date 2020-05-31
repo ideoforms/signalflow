@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/zero_phase.h"
 
 namespace libsignal
@@ -28,5 +26,3 @@ void FFTZeroPhase::process(sample **out, int num_frames)
 }
 
 }
-
-#endif
