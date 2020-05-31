@@ -1,6 +1,8 @@
+from libsignal import Buffer
+from libsignal import Sine, Impulse, FFT
+
 try:
-    from libsignal import Sine, Impulse, FFT, IFFT, FFTConvolve, EnvelopeASR
-    from libsignal import Buffer
+    from libsignal import IFFT, FFTConvolve, EnvelopeASR
     no_fft = False
 except:
     #----------------------------------------------------------------
@@ -14,9 +16,6 @@ from . import process_tree
 import numpy as np
 
 def test_fft(graph):
-    if no_fft:
-        return
-
     #----------------------------------------------------------------
     # Verify that single-hop FFT output matches numpy's fft
     #----------------------------------------------------------------
@@ -33,6 +32,7 @@ def test_fft(graph):
     process_tree(fft, buffer_b)
 
     # Apple vDSP applies a scaling factor of 2x after forward FFT
+    # TODO: Fix this (and remove scaling factor in fftw forward fft)
     mags_out = np.copy(buffer_b.data[0][:512]) / 2
     angles_out = np.copy(buffer_b.data[0][512:])
 

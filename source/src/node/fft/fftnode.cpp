@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/fftnode.h"
 
 namespace libsignal
@@ -54,5 +52,3 @@ void FFTOpNode::set_input(std::string name, const NodeRef &node)
 }
 
 }
-
-#endif

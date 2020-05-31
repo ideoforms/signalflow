@@ -116,8 +116,9 @@
 /*------------------------------------------------------------------------
  * FFT
  *-----------------------------------------------------------------------*/
-#ifdef __APPLE__
 #include <signal/node/fft/fft.h>
+
+#ifdef __APPLE__
 #include <signal/node/fft/ifft.h>
 #include <signal/node/fft/lpf.h>
 #include <signal/node/fft/phase_vocoder.h>

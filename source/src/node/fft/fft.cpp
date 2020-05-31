@@ -1,5 +1,3 @@
-#ifdef __APPLE__
-
 #include "signal/node/fft/fft.h"
 
 #include <assert.h>
@@ -18,7 +16,12 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
      * Initial FFT setup.
      *-----------------------------------------------------------------------*/
     this->log2N = (int) log2((float) fft_size);
+
+#ifdef __APPLE__
     this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
+#else
+    this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
+#endif
 
     /*------------------------------------------------------------------------
      * Temp buffers for FFT calculations.
@@ -41,7 +44,14 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
 
     if (do_window)
     {
+#ifdef __APPLE__
         vDSP_hann_window(this->window, this->window_size, vDSP_HANN_DENORM);
+#else
+        for (int i = 0; i < this->window_size; i++)
+        {
+            this->window[i] = 0.5 - 0.5 * cosf(i * M_PI * 2.0 / this->window_size);
+        }
+#endif
     }
     else
     {
@@ -54,7 +64,10 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
 
 FFT::~FFT()
 {
+#ifdef __APPLE__
     vDSP_destroy_fftsetup(this->fft_setup);
+#else
+#endif
     delete this->buffer;
     delete this->buffer2;
     delete this->input_buffer;
@@ -63,6 +76,7 @@ FFT::~FFT()
 
 void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
 {
+#ifdef __APPLE__
     DSPSplitComplex buffer_split = { buffer, buffer + fft_size / 2 };
     DSPSplitComplex output_split = { out, out + fft_size / 2 };
 
@@ -71,7 +85,7 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
     /*------------------------------------------------------------------------
      * Convert from interleaved format (sequential pairs) to split format,
      * as required by the vDSP real-to-complex functions.
-     * 
+     *
      * Stride of 2 is the smallest permissible value, denoting no gap
      * between "pairs" of samples.
      *-----------------------------------------------------------------------*/
@@ -103,6 +117,29 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
     {
         vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out, 2, fft_size / 2);
     }
+#else
+    // fftw
+    fftwf_plan fftw_plan = fftwf_plan_dft_r2c_1d(fft_size, in, this->fftw_buffer, FFTW_ESTIMATE);
+    fftwf_execute(fftw_plan);
+
+    if (polar)
+    {
+        for (int i = 0; i < this->num_bins; i++)
+        {
+            float re = fftw_buffer[i][0];
+            float im = fftw_buffer[i][1];
+            float mag = sqrtf(re * re + im * im);
+            float phase = atan2(im, re);
+            out[i] = mag * 2.0;
+            out[this->num_bins + i] = phase;
+        }
+    }
+    else
+    {
+        throw std::runtime_error("Cartesian output not yet implemented");
+    }
+
+#endif
 }
 
 void FFT::process(sample **out, int num_frames)
@@ -148,5 +185,3 @@ void FFT::process(sample **out, int num_frames)
 }
 
 }
-
-#endif
