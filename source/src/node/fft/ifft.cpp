@@ -8,7 +8,7 @@ IFFT::IFFT(NodeRef input, bool do_window)
 {
     this->name = "ifft";
 
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     this->log2N = (int) log2((float) this->fft_size);
     this->fft_setup = vDSP_create_fftsetup(this->log2N, FFT_RADIX2);
     /*------------------------------------------------------------------------
@@ -16,7 +16,7 @@ IFFT::IFFT(NodeRef input, bool do_window)
      *-----------------------------------------------------------------------*/
     this->buffer = new sample[this->fft_size]();
     this->buffer2 = new sample[this->fft_size]();
-#else
+#elif defined(FFT_FFTW)
     this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
 #endif
 
@@ -25,9 +25,9 @@ IFFT::IFFT(NodeRef input, bool do_window)
      *-----------------------------------------------------------------------*/
     this->window = new sample[this->fft_size]();
 
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     vDSP_hann_window(this->window, this->fft_size, vDSP_HANN_NORM);
-#else
+#elif defined(FFT_FFTW)
     for (int i = 0; i < this->window_size; i++)
     {
         this->window[i] = 0.5 - 0.5 * cosf(i * M_PI * 2.0 / this->window_size);
@@ -37,7 +37,7 @@ IFFT::IFFT(NodeRef input, bool do_window)
 
 IFFT::~IFFT()
 {
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     vDSP_destroy_fftsetup(this->fft_setup);
     delete this->buffer;
     delete this->buffer2;
@@ -47,7 +47,7 @@ IFFT::~IFFT()
 
 void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale_factor)
 {
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     /*------------------------------------------------------------------------
      * Set up pointers to memory spaces so we can treat input and buffer
      * as split-valued complex pairs.
@@ -104,7 +104,8 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
      *-----------------------------------------------------------------------*/
     vDSP_vadd(buffer2, 1, out, 1, out, 1, fft_size);
 
-#else
+#elif defined(FFT_FFTW)
+
     // fftw3f
     float *rev = (float *) this->fftw_buffer;
     float *mags = in;

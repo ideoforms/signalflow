@@ -2,9 +2,9 @@
 
 #include "signal/node/fft/fftnode.h"
 
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
 #include <Accelerate/Accelerate.h>
-#else
+#elif defined(FFT_FFTW)
 #include <fftw3.h>
 #endif
 
@@ -17,12 +17,12 @@ public:
 
     ~IFFT();
 
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     int log2N;
     FFTSetup fft_setup;
     sample *buffer;
     sample *buffer2;
-#else
+#elif defined(FFT_FFTW)
     fftwf_complex *fftw_buffer;
 #endif
 

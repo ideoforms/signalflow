@@ -9,6 +9,14 @@ typedef sample *frame;
 
 typedef RingBuffer<sample> SampleRingBuffer;
 
+// #define FFT_FFTW
+
+#if defined(__APPLE__) && !defined(FFT_FFTW)
+#define FFT_ACCELERATE
+#else
+#define FFT_FFTW
+#endif
+
 /*------------------------------------------------------------------------
  * Max supported number of output channels. Impacts memory usage.
  *-----------------------------------------------------------------------*/

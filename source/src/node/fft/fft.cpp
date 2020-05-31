@@ -12,7 +12,7 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
 
     this->add_input("input", this->input);
 
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     /*------------------------------------------------------------------------
      * Initial FFT setup.
      *-----------------------------------------------------------------------*/
@@ -22,7 +22,7 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
      * Temp buffers for FFT calculations.
      *-----------------------------------------------------------------------*/
     this->buffer2 = new sample[fft_size]();
-#else
+#elif defined(FFT_FFTW)
     this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
 #endif
 
@@ -43,9 +43,9 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
 
     if (do_window)
     {
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
         vDSP_hann_window(this->window, this->window_size, vDSP_HANN_DENORM);
-#else
+#elif defined(FFT_FFTW)
         for (int i = 0; i < this->window_size; i++)
         {
             this->window[i] = 0.5 - 0.5 * cosf(i * M_PI * 2.0 / this->window_size);
@@ -63,7 +63,7 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
 
 FFT::~FFT()
 {
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     vDSP_destroy_fftsetup(this->fft_setup);
     delete this->buffer2;
 #endif
@@ -74,7 +74,7 @@ FFT::~FFT()
 
 void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
 {
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     DSPSplitComplex buffer_split = { buffer, buffer + fft_size / 2 };
     DSPSplitComplex output_split = { out, out + fft_size / 2 };
 
@@ -119,7 +119,7 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
         vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out, 2, fft_size / 2);
     }
 
-#else
+#elif defined(FFT_FFTW)
 
     /*------------------------------------------------------------------------
      * Apply window

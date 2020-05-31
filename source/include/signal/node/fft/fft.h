@@ -3,9 +3,9 @@
 #include "signal/node/fft/fftnode.h"
 
 
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
 #include <Accelerate/Accelerate.h>
-#else
+#elif defined(FFT_FFTW)
 #include <fftw3.h>
 #endif
 
@@ -32,12 +32,12 @@ private:
                      bool polar = true,
                      bool do_window = true);
 
-#ifdef __APPLE__
+#if defined(FFT_ACCELERATE)
     FFTSetup fft_setup;
     sample *buffer;
     sample *buffer2;
     int log2N;
-#else
+#elif defined(FFT_FFTW)
     sample *buffer;
     fftwf_complex *fftw_buffer;
 #endif
