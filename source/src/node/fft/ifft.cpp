@@ -109,7 +109,10 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
     /*------------------------------------------------------------------------
      * Apply Hann window (for overlap-add)
      *-----------------------------------------------------------------------*/
-    vDSP_vmul(buffer2, 1, this->window, 1, buffer2, 1, fft_size);
+    if (do_window)
+    {
+        vDSP_vmul(buffer2, 1, this->window, 1, buffer2, 1, fft_size);
+    }
 
     /*------------------------------------------------------------------------
      * Add to output buffer (for overlap/add)
