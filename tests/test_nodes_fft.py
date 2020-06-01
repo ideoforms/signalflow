@@ -43,7 +43,7 @@ def test_fft_windowed(graph):
     #----------------------------------------------------------------
     # Verify that single-hop FFT output matches numpy's fft
     #----------------------------------------------------------------
-    buffer_a = Buffer(1, 1026)
+    buffer_a = Buffer(1, 1024)
     buffer_b = Buffer(1, 1026)
 
     process_tree(Sine(440), buffer_a)
@@ -52,11 +52,11 @@ def test_fft_windowed(graph):
     window = np.hanning(buffer_a.num_frames + 1)[:buffer_a.num_frames]
     windowed = buffer_a.data[0] * window
     spectrum = np.fft.rfft(windowed)
-    # spectrum = np.fft.rfft(buffer_a.data[0])
+    spectrum = np.fft.rfft(buffer_a.data[0])
     mags_py = np.abs(spectrum)[:513]
     angles_py = np.angle(spectrum)[:513]
 
-    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=True)
+    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=False)
     process_tree(fft, buffer_b)
 
     # Apple vDSP applies a scaling factor of 2x after forward FFT
