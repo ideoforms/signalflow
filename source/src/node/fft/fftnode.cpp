@@ -6,10 +6,13 @@ namespace libsignal
 FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)
     : Node(), fft_size(fft_size), hop_size(hop_size), window_size(window_size ? window_size : fft_size), do_window(do_window)
 {
+    /*------------------------------------------------------------------------
+     * Extra bin to store Nyquist frequency.
+     *-----------------------------------------------------------------------*/
     this->num_bins = fft_size / 2;
     this->num_hops = 0;
 
-    this->output_buffer_length = SIGNAL_MAX_FFT_SIZE;
+    this->output_buffer_length = SIGNAL_MAX_FFT_SIZE + 2;
     this->free_output_buffer();
     this->allocate_output_buffer();
 

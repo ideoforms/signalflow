@@ -21,12 +21,12 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
     /*------------------------------------------------------------------------
      * Temp buffers for FFT calculations.
      *-----------------------------------------------------------------------*/
-    this->buffer2 = new sample[fft_size]();
+    this->buffer2 = new sample[this->num_bins * 2]();
 #elif defined(FFT_FFTW)
     this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
 #endif
 
-    this->buffer = new sample[fft_size]();
+    this->buffer = new sample[this->num_bins * 2]();
 
     /*------------------------------------------------------------------------
      * To perform an FFT, we have to enqueue at least `fft_size` samples.
@@ -75,8 +75,8 @@ FFT::~FFT()
 void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
 {
 #if defined(FFT_ACCELERATE)
-    DSPSplitComplex buffer_split = { buffer, buffer + fft_size / 2 };
-    DSPSplitComplex output_split = { out, out + fft_size / 2 };
+    DSPSplitComplex buffer_split = { buffer, buffer + num_bins };
+    DSPSplitComplex output_split = { out, out + num_bins };
 
     /*------------------------------------------------------------------------
      * Apply window
@@ -106,9 +106,9 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
      *-----------------------------------------------------------------------*/
     if (polar)
     {
-        vDSP_ztoc(&buffer_split, 1, (DSPComplex *) buffer2, 2, fft_size / 2);
-        vDSP_polar(buffer2, 2, buffer, 2, fft_size / 2);
-        vDSP_ctoz((DSPComplex *) buffer, 2, &output_split, 1, fft_size / 2);
+        vDSP_ztoc(&buffer_split, 1, (DSPComplex *) buffer2, 2, num_bins);
+        vDSP_polar(buffer2, 2, buffer, 2, num_bins);
+        vDSP_ctoz((DSPComplex *) buffer, 2, &output_split, 1, num_bins);
     }
 
     /*------------------------------------------------------------------------
@@ -116,7 +116,7 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
      *-----------------------------------------------------------------------*/
     else
     {
-        vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out, 2, fft_size / 2);
+        vDSP_ztoc(&buffer_split, 1, (DSPComplex *) out, 2, num_bins);
     }
 
 #elif defined(FFT_FFTW)
@@ -194,7 +194,9 @@ void FFT::process(sample **out, int num_frames)
     int frames_processed = this->hop_size * this->num_hops;
     int frames_remaining = this->input_buffer_size - frames_processed;
 
-    memcpy(this->input_buffer, this->input_buffer + frames_processed, frames_remaining * sizeof(sample));
+    memcpy(this->input_buffer,
+           this->input_buffer + frames_processed,
+           frames_remaining * sizeof(sample));
     this->input_buffer_size -= frames_processed;
 }
 

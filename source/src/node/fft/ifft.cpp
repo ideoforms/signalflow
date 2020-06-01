@@ -14,10 +14,10 @@ IFFT::IFFT(NodeRef input, bool do_window)
     /*------------------------------------------------------------------------
      * Buffers used in intermediate FFT calculations.
      *-----------------------------------------------------------------------*/
-    this->buffer = new sample[this->fft_size]();
-    this->buffer2 = new sample[this->fft_size]();
+    this->buffer = new sample[this->num_bins * 2]();
+    this->buffer2 = new sample[this->num_bins * 2]();
 #elif defined(FFT_FFTW)
-    this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * (this->num_bins + 1));
+    this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * this->num_bins);
 #endif
 
     /*------------------------------------------------------------------------
@@ -52,23 +52,23 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
      * Set up pointers to memory spaces so we can treat input and buffer
      * as split-valued complex pairs.
      *-----------------------------------------------------------------------*/
-    DSPSplitComplex buffer_split = { buffer, buffer + fft_size / 2 };
-    DSPSplitComplex input_split = { in, in + fft_size / 2 };
+    DSPSplitComplex buffer_split = { buffer, buffer + num_bins };
+    DSPSplitComplex input_split = { in, in + num_bins };
 
     /*------------------------------------------------------------------------
      * Convert magnitude/phase to complex values.
      * Received values are split but vDSP_rect requires that pairs be
      * given sequentially, thus do a small dance.
      *-----------------------------------------------------------------------*/
-    vDSP_ztoc(&input_split, 1, (DSPComplex *) this->buffer, 2, fft_size / 2);
-    vDSP_rect(this->buffer, 2, this->buffer2, 2, fft_size / 2);
+    vDSP_ztoc(&input_split, 1, (DSPComplex *) this->buffer, 2, num_bins);
+    vDSP_rect(this->buffer, 2, this->buffer2, 2, num_bins);
 
     /*------------------------------------------------------------------------
      * 1. Expecting polar values
      *-----------------------------------------------------------------------*/
     if (polar)
     {
-        vDSP_ctoz((DSPComplex *) this->buffer2, 2, &buffer_split, 1, fft_size / 2);
+        vDSP_ctoz((DSPComplex *) this->buffer2, 2, &buffer_split, 1, num_bins);
     }
 
     /*------------------------------------------------------------------------
@@ -76,14 +76,14 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
      *-----------------------------------------------------------------------*/
     else
     {
-        vDSP_ctoz((DSPComplex *) this->input->out[0], 2, &buffer_split, 1, fft_size / 2);
+        vDSP_ctoz((DSPComplex *) this->input->out[0], 2, &buffer_split, 1, num_bins);
     }
 
     /*------------------------------------------------------------------------
      * Perform inverse FFT
      *-----------------------------------------------------------------------*/
     vDSP_fft_zrip(fft_setup, &buffer_split, 1, log2N, FFT_INVERSE);
-    vDSP_ztoc(&buffer_split, 1, (DSPComplex *) this->buffer2, 2, fft_size / 2);
+    vDSP_ztoc(&buffer_split, 1, (DSPComplex *) this->buffer2, 2, num_bins);
 
     /*------------------------------------------------------------------------
      * Scale down (Required by vDSP)
