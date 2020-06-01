@@ -9,7 +9,7 @@ typedef sample *frame;
 
 typedef RingBuffer<sample> SampleRingBuffer;
 
-// #define FFT_FFTW
+#define FFT_FFTW
 
 #if defined(__APPLE__) && !defined(FFT_FFTW)
 #define FFT_ACCELERATE
