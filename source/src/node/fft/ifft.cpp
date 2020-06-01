@@ -95,6 +95,8 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
     /*------------------------------------------------------------------------
      * Perform inverse FFT
      *-----------------------------------------------------------------------*/
+    float nyquist = buffer_split.realp[num_bins-1];
+    buffer_split.imagp[0] = nyquist;
     vDSP_fft_zrip(fft_setup, &buffer_split, 1, log2N, FFT_INVERSE);
     vDSP_ztoc(&buffer_split, 1, (DSPComplex *) this->buffer2, 2, num_bins);
 

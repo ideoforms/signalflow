@@ -9,7 +9,7 @@ FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)
     /*------------------------------------------------------------------------
      * Extra bin to store Nyquist frequency.
      *-----------------------------------------------------------------------*/
-    this->num_bins = fft_size / 2;
+    this->num_bins = fft_size / 2 + 1;
     this->num_hops = 0;
 
     /*------------------------------------------------------------------------

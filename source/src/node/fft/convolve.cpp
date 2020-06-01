@@ -16,11 +16,11 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
         this->num_partitions = 1;
     this->ir_partitions.resize(this->num_partitions);
     this->input_history.resize(this->num_partitions);
-    this->output_partition_polar_split = new sample[this->fft_size]();
-    this->output_partition_polar = new sample[this->fft_size]();
-    this->output_partition_cartesian = new sample[this->fft_size]();
-    this->output_sum_cartesian = new sample[this->fft_size]();
-    this->output_sum_polar = new sample[this->fft_size]();
+    this->output_partition_polar_split = new sample[this->num_bins * 2]();
+    this->output_partition_polar = new sample[this->num_bins * 2]();
+    this->output_partition_cartesian = new sample[this->num_bins * 2]();
+    this->output_sum_cartesian = new sample[this->num_bins * 2]();
+    this->output_sum_polar = new sample[this->num_bins * 2]();
 
     printf("Buffer length %d frames, fft size %d, hop size %d, doing %d partitions\n",
         buffer->num_frames, this->fft_size, this->hop_size, this->num_partitions);
@@ -28,8 +28,8 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
     FFT *fft = new FFT(nullptr, this->fft_size, this->hop_size, this->window_size, false);
     for (int i = 0; i < this->num_partitions; i++)
     {
-        this->ir_partitions[i] = new sample[this->fft_size]();
-        this->input_history[i] = new sample[this->fft_size]();
+        this->ir_partitions[i] = new sample[this->num_bins * 2]();
+        this->input_history[i] = new sample[this->num_bins * 2]();
         fft->fft(this->buffer->data[0] + i * this->hop_size,
                  this->ir_partitions[i],
                  true,
@@ -62,13 +62,13 @@ void FFTConvolve::process(sample **out, int num_frames)
         {
             memcpy(this->input_history[partition_index + 1],
                    this->input_history[partition_index],
-                   sizeof(sample) * this->fft_size);
+                   sizeof(sample) * this->num_bins * 2);
         }
         memcpy(this->input_history[0],
                this->input->out[hop],
-               sizeof(sample) * this->fft_size);
+               sizeof(sample) * this->num_bins * 2);
 
-        memset(output_sum_cartesian, 0, sizeof(sample) * this->fft_size);
+        memset(output_sum_cartesian, 0, sizeof(sample) * this->num_bins * 2);
 
         /*------------------------------------------------------------------------
          * Iterate over fft_size frames as each block contains a whole
@@ -100,7 +100,7 @@ void FFTConvolve::process(sample **out, int num_frames)
             vDSP_vadd(this->output_partition_cartesian, 1,
                       this->output_sum_cartesian, 1,
                       this->output_sum_cartesian, 1,
-                      this->fft_size);
+                      this->num_bins * 2);
         } // partitions
 
         vDSP_polar(this->output_sum_cartesian, 2,
