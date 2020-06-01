@@ -12,6 +12,9 @@ FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)
     this->num_bins = fft_size / 2;
     this->num_hops = 0;
 
+    /*------------------------------------------------------------------------
+     * Extra 2 floats to store complex Nyquist coefficients.
+     *-----------------------------------------------------------------------*/
     this->output_buffer_length = SIGNAL_MAX_FFT_SIZE + 2;
     this->free_output_buffer();
     this->allocate_output_buffer();

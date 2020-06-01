@@ -14,34 +14,47 @@ IFFT::IFFT(NodeRef input, bool do_window)
     /*------------------------------------------------------------------------
      * Buffers used in intermediate FFT calculations.
      *-----------------------------------------------------------------------*/
-    this->buffer = new sample[this->num_bins * 2]();
     this->buffer2 = new sample[this->num_bins * 2]();
 #elif defined(FFT_FFTW)
     this->fftw_buffer = (fftwf_complex *) fftwf_malloc(sizeof(fftwf_complex) * this->num_bins);
 #endif
 
+    this->buffer = new sample[this->num_bins * 2]();
+
     /*------------------------------------------------------------------------
      * Generate a Hann window for overlap-add.
+     * Needs to be fft_size, not window_size, because any samples outside
+     * of the window_size should be zero'd.
      *-----------------------------------------------------------------------*/
     this->window = new sample[this->fft_size]();
 
-#if defined(FFT_ACCELERATE)
-    vDSP_hann_window(this->window, this->fft_size, vDSP_HANN_NORM);
-#elif defined(FFT_FFTW)
-    for (int i = 0; i < this->window_size; i++)
+    if (this->do_window)
     {
-        this->window[i] = 0.5 - 0.5 * cosf(i * M_PI * 2.0 / this->window_size);
-    }
+#if defined(FFT_ACCELERATE)
+        vDSP_hann_window(this->window, this->fft_size, vDSP_HANN_NORM);
+#elif defined(FFT_FFTW)
+        for (int i = 0; i < this->window_size; i++)
+        {
+            this->window[i] = 0.5 - 0.5 * cosf(i * M_PI * 2.0 / this->window_size);
+        }
 #endif
+    }
+    else
+    {
+        for (int i = 0; i < this->window_size; i++)
+        {
+            this->window[i] = 1.0;
+        }
+    }
 }
 
 IFFT::~IFFT()
 {
 #if defined(FFT_ACCELERATE)
     vDSP_destroy_fftsetup(this->fft_setup);
-    delete this->buffer;
     delete this->buffer2;
 #endif
+    delete this->buffer;
     delete this->window;
 }
 
@@ -94,10 +107,7 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
     /*------------------------------------------------------------------------
      * Apply Hann window (for overlap-add)
      *-----------------------------------------------------------------------*/
-    if (do_window)
-    {
-        vDSP_vmul(buffer2, 1, this->window, 1, buffer2, 1, fft_size);
-    }
+    vDSP_vmul(buffer2, 1, this->window, 1, buffer2, 1, fft_size);
 
     /*------------------------------------------------------------------------
      * Add to output buffer (for overlap/add)
@@ -107,29 +117,28 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
 #elif defined(FFT_FFTW)
 
     // fftw3f
-    float *rev = (float *) this->fftw_buffer;
+    float *fftw_buffer_floats = (float *) this->fftw_buffer;
     float *mags = in;
     float *phases = in + this->num_bins;
     for (int i = 0; i < num_bins; i++)
     {
-        rev[i * 2] = mags[i] * cosf(phases[i]);
-        rev[i * 2 + 1] = mags[i] * sinf(phases[i]);
+        fftw_buffer_floats[i * 2] = mags[i] * cosf(phases[i]);
+        fftw_buffer_floats[i * 2 + 1] = mags[i] * sinf(phases[i]);
     }
 
-    fftwf_plan pi = fftwf_plan_dft_c2r_1d(fft_size, (fftwf_complex *) rev, out, FFTW_ESTIMATE);
+    fftwf_plan pi = fftwf_plan_dft_c2r_1d(fft_size, (fftwf_complex *) fftw_buffer_floats, this->buffer, FFTW_ESTIMATE);
     fftwf_execute(pi);
     fftwf_destroy_plan(pi);
 
     /*------------------------------------------------------------------------
-     * Apply window and scale down (fftw IFFT output is scaled up by fft_size)
+     * Apply window and scale down (fftw IFFT output is scaled up by
+     * fft_size). Add the scaled output to the out buffer for overlap-add.
      *-----------------------------------------------------------------------*/
     for (int i = 0; i < fft_size; i++)
     {
-        if (do_window)
-        {
-            out[i] *= this->window[i];
-        }
-        out[i] = out[i] / (2 * fft_size);
+        this->buffer[i] *= this->window[i];
+        this->buffer[i] = this->buffer[i] / (2 * fft_size);
+        out[i] += this->buffer[i];
     }
 #endif
 }
