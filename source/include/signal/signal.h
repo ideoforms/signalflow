@@ -3,6 +3,7 @@
  *-----------------------------------------------------------------------*/
 #include <signal/core/constants.h>
 #include <signal/core/core.h>
+#include <signal/core/exceptions.h>
 #include <signal/core/graph.h>
 #include <signal/core/property.h>
 #include <signal/core/random.h>

@@ -1,9 +1,16 @@
 from libsignal import Buffer
 from libsignal import SIGNAL_INTERPOLATION_NONE, SIGNAL_INTERPOLATION_LINEAR
+from libsignal import GraphNotCreatedException
 import numpy as np
 import pytest
 import os
 from . import graph
+
+def test_buffer_no_graph():
+    try:
+        b = Buffer(1, 32)
+    except GraphNotCreatedException:
+        pass
 
 def test_buffer(graph):
     b = Buffer(1, 32)

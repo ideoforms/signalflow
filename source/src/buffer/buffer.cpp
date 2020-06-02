@@ -2,6 +2,7 @@
 #include "signal/core/random.h"
 #include "signal/core/constants.h"
 #include "signal/core/graph.h"
+#include "signal/core/exceptions.h"
 
 #ifdef HAVE_SNDFILE
 #include <sndfile.h>
@@ -25,16 +26,16 @@ Buffer::Buffer()
 
 Buffer::Buffer(int num_channels, int num_frames)
 {
+    if (shared_graph == NULL)
+    {
+        throw libsignal::graph_not_created_exception();
+    }
+
     this->num_channels = num_channels;
     this->num_frames = num_frames;
     this->sample_rate = shared_graph->get_sample_rate();
     this->duration = this->num_frames / this->sample_rate;
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
-
-    if (shared_graph == NULL)
-    {
-        throw std::runtime_error("No AudioGraph has been instantiated");
-    }
 
     // contiguous allocation
     this->data = new sample*[this->num_channels]();
