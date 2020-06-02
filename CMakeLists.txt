@@ -67,14 +67,15 @@ find_package(GSL REQUIRED)
 message("Found libgsl")
 add_definitions(-DHAVE_GSL)
 
-if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    find_library(FFTW3F fftw3f)
-    if (FFTW3F)
-        message("Found fftw3f")
-    else()
+find_library(FFTW3F fftw3f)
+if (FFTW3F)
+    message("Found fftw3f")
+else()
+    if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
         message(FATAL_ERROR "Couldn't find fftw3f")
     endif()
 endif()
+
 
 #-------------------------------------------------------------------------------
 # For builds of the Python bindings, add Python dependencies and flags
@@ -105,11 +106,9 @@ target_link_libraries(signal GSL::gsl GSL::gslcblas)
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_libraries(signal
         "-framework Accelerate"
-        "-framework Accelerate"
         "-framework AppKit"
     )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    message("Linking with FFTW3")
     target_link_libraries(signal ${FFTW3F})
 endif()
 
