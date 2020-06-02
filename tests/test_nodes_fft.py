@@ -52,19 +52,15 @@ def test_fft_windowed(graph):
     window = np.hanning(buffer_a.num_frames + 1)[:buffer_a.num_frames]
     windowed = buffer_a.data[0] * window
     spectrum = np.fft.rfft(windowed)
-    spectrum = np.fft.rfft(buffer_a.data[0])
     mags_py = np.abs(spectrum)[:513]
     angles_py = np.angle(spectrum)[:513]
 
-    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=False)
+    fft = FFT(Sine(440), fft_size=1024, hop_size=1024, do_window=True)
     process_tree(fft, buffer_b)
 
     # Apple vDSP applies a scaling factor of 2x after forward FFT
     mags_out = np.copy(buffer_b.data[0][:513]) / 2
     angles_out = np.copy(buffer_b.data[0][513:])
-
-    print(mags_py)
-    print(mags_out)
 
     # phases are mismatched for some reason
     assert np.all(np.abs(mags_py - mags_out) < 0.0001)
