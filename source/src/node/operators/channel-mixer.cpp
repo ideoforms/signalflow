@@ -7,7 +7,7 @@ namespace libsignal
 ChannelMixer::ChannelMixer(int channels, NodeRef input)
     : UnaryOpNode(input), channels(channels)
 {
-    this->name = "mixer";
+    this->name = "channel-mixer";
     this->update_channels();
 }
 

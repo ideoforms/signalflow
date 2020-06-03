@@ -22,6 +22,6 @@ public:
     float amp_compensation;
 };
 
-REGISTER(ChannelMixer, "mixer")
+REGISTER(ChannelMixer, "channel-mixer")
 
 }

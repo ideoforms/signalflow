@@ -1,4 +1,4 @@
-#include "signal/node/fft/noise_gate.h"
+#include "signal/node/fft/noise-gate.h"
 
 #include <algorithm>
 #include <array>

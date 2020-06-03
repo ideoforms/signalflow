@@ -35,5 +35,5 @@ private:
     std::vector<Grain *> grains;
 };
 
-REGISTER(GrainSegments, "grain_segments")
+REGISTER(GrainSegments, "grain-segments")
 }

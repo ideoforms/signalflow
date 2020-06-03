@@ -8,7 +8,7 @@ namespace libsignal
 GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, PropertyRef offsets, PropertyRef values, PropertyRef durations)
     : buffer(buffer), clock(clock), target(target), offsets(offsets), values(values), durations(durations)
 {
-    this->name = "grain_segments";
+    this->name = "grain-segments";
 
     this->add_input("clock", this->clock);
     this->add_input("target", this->target);

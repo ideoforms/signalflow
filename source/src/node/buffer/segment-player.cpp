@@ -9,7 +9,7 @@ namespace libsignal
 SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
     : buffer(buffer)
 {
-    this->name = "segment_player";
+    this->name = "segment-player";
 
     this->num_input_channels = 0;
     this->num_output_channels = buffer->num_channels;

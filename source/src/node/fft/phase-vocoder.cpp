@@ -1,4 +1,4 @@
-#include "signal/node/fft/phase_vocoder.h"
+#include "signal/node/fft/phase-vocoder.h"
 
 namespace libsignal
 {
@@ -6,7 +6,7 @@ namespace libsignal
 FFTPhaseVocoder::FFTPhaseVocoder(NodeRef input)
     : FFTOpNode(input)
 {
-    this->name = "fft_phase_vocoder";
+    this->name = "fft-phase-vocoder";
 
     this->add_input("clock", this->clock);
 

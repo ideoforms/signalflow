@@ -18,7 +18,7 @@ BiquadFilter::BiquadFilter(NodeRef input,
                            NodeRef peak_gain)
     : UnaryOpNode(input), filter_type(filter_type), cutoff(cutoff), resonance(resonance), peak_gain(peak_gain)
 {
-    this->name = "moog";
+    this->name = "biquad-filter";
 
     this->add_input("cutoff", this->cutoff);
     this->add_input("resonance", this->resonance);

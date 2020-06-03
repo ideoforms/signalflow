@@ -56,6 +56,10 @@ void init_python_node(py::module &m)
                 }
                 return new ChannelSelect(a, start, stop, step);
             })
+        .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value)
+            { a->set_input(attr, value); })
+        .def("__getattr__", [](NodeRef a, std::string attr)
+          { return a->get_input(attr); })
         .def_readonly("name", &Node::name)
         .def_property_readonly("patch", &Node::get_patch)
 

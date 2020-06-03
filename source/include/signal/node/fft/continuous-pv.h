@@ -24,5 +24,5 @@ public:
     bool prefilled_fft_buffer;
 };
 
-REGISTER(FFTContinuousPhaseVocoder, "fft_continuous_phase_vocoder")
+REGISTER(FFTContinuousPhaseVocoder, "fft-continuous-pv")
 }

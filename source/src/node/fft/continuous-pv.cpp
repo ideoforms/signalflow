@@ -1,4 +1,4 @@
-#include "signal/node/fft/continuous_pv.h"
+#include "signal/node/fft/continuous-pv.h"
 #include "signal/core/graph.h"
 #include "signal/core/random.h"
 
@@ -14,7 +14,7 @@ FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
               input(input), rate(rate)
 
 {
-    this->name = "fft_continuous_pv";
+    this->name = "fft-continuous-pv";
 
     this->magnitude_buffer = new sample[this->num_bins]();
     this->phase_buffer = new sample[this->num_bins]();

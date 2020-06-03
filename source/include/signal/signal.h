@@ -117,14 +117,14 @@
 /*------------------------------------------------------------------------
  * FFT
  *-----------------------------------------------------------------------*/
+#include <signal/node/fft/continuous-pv.h>
 #include <signal/node/fft/fft.h>
+#include <signal/node/fft/find-peaks.h>
 #include <signal/node/fft/ifft.h>
 #include <signal/node/fft/lpf.h>
-#include <signal/node/fft/phase_vocoder.h>
-#include <signal/node/fft/continuous_pv.h>
-#include <signal/node/fft/noise_gate.h>
+#include <signal/node/fft/noise-gate.h>
+#include <signal/node/fft/phase-vocoder.h>
 #include <signal/node/fft/tonality.h>
-#include <signal/node/fft/find-peaks.h>
 
 #ifdef __APPLE__
 #include <signal/node/fft/convolve.h>

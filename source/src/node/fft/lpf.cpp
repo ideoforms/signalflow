@@ -6,7 +6,7 @@ namespace libsignal
 
 FFTLPF::FFTLPF(NodeRef input, NodeRef frequency) : FFTOpNode(input), frequency(frequency)
 {
-    this->name = "fft_lpf";
+    this->name = "fft-lpf";
     this->add_input("frequency", this->frequency);
 }
 

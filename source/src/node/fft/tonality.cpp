@@ -10,7 +10,7 @@ namespace libsignal
 FFTTonality::FFTTonality(NodeRef input, NodeRef level, NodeRef smoothing)
     : FFTOpNode(input), level(level), smoothing(smoothing)
 {
-    this->name = "fft_tonality";
+    this->name = "fft-tonality";
     this->add_input("level", this->level);
     this->add_input("smoothing", this->smoothing);
 }

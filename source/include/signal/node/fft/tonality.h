@@ -15,6 +15,6 @@ public:
     NodeRef smoothing = nullptr;
 };
 
-REGISTER(FFTTonality, "fft_tonality")
+REGISTER(FFTTonality, "fft-tonality")
 
 }

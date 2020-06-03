@@ -17,5 +17,5 @@ public:
     virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
 };
 
-REGISTER(SegmentPlayer, "segment_player")
+REGISTER(SegmentPlayer, "segment-player")
 }

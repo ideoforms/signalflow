@@ -13,7 +13,7 @@ RandomImpulse::RandomImpulse(NodeRef frequency, signal_event_distribution_t dist
 {
     this->steps_remaining = 0;
 
-    this->name = "random_impulse";
+    this->name = "random-impulse";
     this->add_input("frequency", this->frequency);
 }
 

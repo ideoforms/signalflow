@@ -19,5 +19,5 @@ private:
     int steps_remaining;
 };
 
-REGISTER(RandomImpulse, "random_impulse")
+REGISTER(RandomImpulse, "random-impulse")
 }
