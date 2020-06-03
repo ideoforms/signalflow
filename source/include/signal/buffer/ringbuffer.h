@@ -1,6 +1,5 @@
 #pragma once
 
-#include "signal/core/constants.h"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

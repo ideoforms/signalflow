@@ -96,7 +96,6 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
      * Perform single-precision FFT, in-place (overwriting real values).
      *-----------------------------------------------------------------------*/
     vDSP_fft_zrip(fft_setup, &buffer_split, 1, log2N, FFT_FORWARD);
-    float dc = buffer_split.realp[0];
     float nyquist = buffer_split.imagp[0];
     buffer_split.imagp[0] = 0;
     if (buffer_split.realp[num_bins - 1] != 0 || buffer_split.imagp[num_bins - 1] != 0)
