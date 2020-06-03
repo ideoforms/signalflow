@@ -40,7 +40,7 @@ def test_fft(graph):
     mags_out = np.copy(buffer_b.data[0][:num_bins]) / 2
     angles_out = np.copy(buffer_b.data[0][num_bins:])
 
-    assert np.all(np.abs(mags_py - mags_out) < 0.0001)
+    assert np.all(np.abs(mags_py - mags_out) < 0.001)
     assert np.all(np.abs(angles_py - angles_out) < 0.001)
 
 def test_fft_windowed(graph):
