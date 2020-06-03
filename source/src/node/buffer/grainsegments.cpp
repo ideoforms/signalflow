@@ -18,6 +18,8 @@ GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, Pr
     this->set_property("values", this->values);
     this->set_property("durations", this->durations);
 
+    this->add_buffer(" buffer", buffer);
+
     // this->envelope = new EnvelopeBufferHanning();
     this->envelope = new EnvelopeBuffer();
     this->add_buffer("envelope", this->envelope);

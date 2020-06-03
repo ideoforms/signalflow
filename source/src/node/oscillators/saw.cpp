@@ -7,6 +7,8 @@ namespace libsignal
 Saw::Saw(NodeRef frequency)
     : frequency(frequency)
 {
+    SIGNAL_CHECK_GRAPH();
+
     this->name = "saw";
     this->add_input("frequency", this->frequency);
     memset(this->phase, 0, sizeof(this->phase));

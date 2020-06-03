@@ -1,4 +1,4 @@
-from libsignal import Sine, Square, Mixer, Buffer
+from libsignal import Sine, Square, ChannelMixer, Buffer
 import scipy.signal
 import numpy as np
 import math
@@ -81,7 +81,7 @@ def get_peak_frequencies(samples, sample_rate):
 def test_expansion_max_channels(graph):
     frequencies = 1000 + np.arange(32) * 100
     a = Sine(frequencies)
-    mixer = Mixer(1, a)
+    mixer = ChannelMixer(1, a)
     b = Buffer(1, DEFAULT_BUFFER_LENGTH)
     process_tree(mixer, buffer=b)
     peak_frequencies = get_peak_frequencies(b.data[0], graph.sample_rate)

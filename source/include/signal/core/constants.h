@@ -1,6 +1,7 @@
 #pragma once
 
 #include "signal/buffer/ringbuffer.h"
+#include "signal/core/exceptions.h"
 
 using namespace libsignal;
 
@@ -82,7 +83,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
     }
 
 #define SIGNAL_CHECK_GRAPH() \
-    if (!this->graph) { throw std::runtime_error("Error: No AudioGraph exists"); }
+    if (!this->graph) { throw libsignal::graph_not_created_exception(); }
 
 #define SIGNAL_CHECK_NUM_FRAMES() \
     if (num_frames > SIGNAL_NODE_BUFFER_SIZE && out == this->out) { throw std::runtime_error("Error in call to Node::process: Attempted to write too many frames"); }

@@ -26,11 +26,11 @@ int main()
     NodeRef saw = new Saw({ 58.3, 59.1, 60.0, 60.3, 60.5 });
 
     /*------------------------------------------------------------------------
-     * Mixer up-mixes or down-mixes between different numbers of channels.
+     * ChannelMixer up-mixes or down-mixes between different numbers of channels.
      * Downmixing 6 channels to 2 creates a stereo spread of six sawtooths
      * between the L and R speaker.
      *-----------------------------------------------------------------------*/
-    NodeRef mix = new Mixer(2, saw);
+    NodeRef mix = new ChannelMixer(2, saw);
 
     /*------------------------------------------------------------------------
      * To add some life, add a resonant filter with wandering cutoff

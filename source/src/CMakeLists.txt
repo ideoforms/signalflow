@@ -49,7 +49,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/soundio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/add.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/divide.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/mixer.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-mixer.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-array.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-select.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/multiply.cpp

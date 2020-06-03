@@ -6,6 +6,11 @@ namespace libsignal
 BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
     : buffer(buffer), input(input), loop(loop)
 {
+    if (!buffer)
+    {
+        throw std::runtime_error("No buffer specified");
+    }
+
     this->name = "buffer-recorder";
 
     this->add_buffer("buffer", this->buffer);

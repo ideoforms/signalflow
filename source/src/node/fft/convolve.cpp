@@ -11,6 +11,10 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
 {
     this->name = "fft-convolve";
 
+    if (!buffer)
+    {
+        throw std::runtime_error("No buffer specified");
+    }
     this->num_partitions = ceil((buffer->num_frames - this->fft_size) / this->hop_size) + 1;
     if (this->num_partitions < 1)
         this->num_partitions = 1;

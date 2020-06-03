@@ -117,7 +117,7 @@ void init_python_nodes(py::module &m)
     py::class_<Multiply, Node, NodeRefTemplate<Multiply>>(m, "Multiply")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1.0, "b"_a = 1.0);
     
-    py::class_<Mixer, Node, NodeRefTemplate<Mixer>>(m, "Mixer")
+    py::class_<ChannelMixer, Node, NodeRefTemplate<ChannelMixer>>(m, "ChannelMixer")
         .def(py::init<int, NodeRef>(), "channels"_a = 1, "input"_a = 0);
     
     py::class_<Pow, Node, NodeRefTemplate<Pow>>(m, "Pow")

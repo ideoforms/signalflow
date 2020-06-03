@@ -62,7 +62,7 @@ public:
 typedef NodeRefTemplate<Node> NodeRef;
 
 /*------------------------------------------------------------------------
- * Mathematical operators where NodeRef is the RHS operand
+ * Mathematical operator where NodeRef is the RHS operand
  * TODO Test and restore
  *-----------------------------------------------------------------------*/
 //    NodeRef operator*(double constant, const NodeRef other);

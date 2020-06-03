@@ -9,6 +9,8 @@ namespace libsignal
 BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
     : rate(rate), loop(loop)
 {
+    SIGNAL_CHECK_GRAPH();
+
     this->name = "buffer-player";
 
     this->add_buffer("buffer", this->buffer);

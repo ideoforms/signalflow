@@ -1,17 +1,17 @@
-#include "signal/node/operators/mixer.h"
+#include "signal/node/operators/channel-mixer.h"
 #include "signal/core/core.h"
 
 namespace libsignal
 {
 
-Mixer::Mixer(int channels, NodeRef input)
+ChannelMixer::ChannelMixer(int channels, NodeRef input)
     : UnaryOpNode(input), channels(channels)
 {
     this->name = "mixer";
     this->update_channels();
 }
 
-void Mixer::process(sample **out, int num_frames)
+void ChannelMixer::process(sample **out, int num_frames)
 {
     float out_channel_pan,
           in_channel_pan;
@@ -56,7 +56,7 @@ void Mixer::process(sample **out, int num_frames)
     }
 }
 
-void Mixer::update_channels()
+void ChannelMixer::update_channels()
 {
     this->num_input_channels = this->min_input_channels = this->max_input_channels = this->input->num_output_channels;
     this->num_output_channels = this->min_output_channels = this->max_output_channels = this->channels;

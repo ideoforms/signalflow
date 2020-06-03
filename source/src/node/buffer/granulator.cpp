@@ -14,6 +14,8 @@ Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef gra
     this->add_input("rate", this->rate);
     this->add_input("max_grains", this->max_grains);
 
+    this->add_buffer("buffer", buffer);
+
     this->envelope = new EnvelopeBufferTriangle();
     this->add_buffer("envelope", envelope);
 

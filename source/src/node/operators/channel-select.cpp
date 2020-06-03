@@ -6,6 +6,11 @@ namespace libsignal
 ChannelSelect::ChannelSelect(NodeRef input, int offset, int maximum, int step)
     : UnaryOpNode(input), offset(offset), maximum(maximum ? maximum : offset + 1), step(step)
 {
+    if (!input)
+    {
+        throw std::runtime_error("ChannelSelect: No input specified");
+    }
+
     this->name = "channel-select";
 
     this->min_input_channels = this->max_input_channels = this->num_input_channels = this->input->num_output_channels;

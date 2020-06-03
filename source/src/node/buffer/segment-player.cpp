@@ -14,6 +14,8 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
     this->num_input_channels = 0;
     this->num_output_channels = buffer->num_channels;
 
+    this->add_buffer("buffer", buffer);
+
     this->min_input_channels = this->max_input_channels = 0;
     this->min_output_channels = this->max_output_channels = this->num_output_channels;
 
