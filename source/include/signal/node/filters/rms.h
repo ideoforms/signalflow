@@ -11,7 +11,6 @@ public:
     RMS(NodeRef input = 0.0);
 
     virtual void process(sample **out, int num_frames);
-
 };
 
 REGISTER(RMS, "rms")

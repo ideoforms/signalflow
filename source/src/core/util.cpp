@@ -2,8 +2,8 @@
  * util.cpp: Helper utilities.
  *--------------------------------------------------------------------*/
 
-#include "signal/core/util.h"
 #include "signal/buffer/buffer.h"
+#include "signal/core/util.h"
 
 #include <limits.h>
 #include <math.h>
@@ -11,7 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/time.h>
-
 
 namespace libsignal
 {

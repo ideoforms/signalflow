@@ -33,7 +33,6 @@ public:
     virtual void process(sample **out, int num_frames);
 
 private:
-
     virtual void _recalculate();
 
     float a0, a1, a2, b1, b2;

@@ -19,13 +19,13 @@ FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)
     this->free_output_buffer();
     this->allocate_output_buffer();
 
-    this->magnitudes = new float*[SIGNAL_MAX_CHANNELS]();
+    this->magnitudes = new float *[SIGNAL_MAX_CHANNELS]();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {
         this->magnitudes[i] = this->out[i];
     }
 
-    this->phases = new float*[SIGNAL_MAX_CHANNELS]();
+    this->phases = new float *[SIGNAL_MAX_CHANNELS]();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {
         this->phases[i] = this->out[i] + this->num_bins;

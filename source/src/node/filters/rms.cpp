@@ -3,7 +3,8 @@
 namespace libsignal
 {
 
-RMS::RMS(NodeRef input) : UnaryOpNode(input)
+RMS::RMS(NodeRef input)
+    : UnaryOpNode(input)
 {
     this->name = "rms";
 }
@@ -24,7 +25,6 @@ void RMS::process(sample **out, int num_frames)
         {
             out[channel][frame] = rms;
         }
-
     }
 }
 

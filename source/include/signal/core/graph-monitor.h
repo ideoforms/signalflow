@@ -1,7 +1,7 @@
 #include "signal/core/graph.h"
 
-#include <thread>
 #include <memory>
+#include <thread>
 
 namespace libsignal
 {

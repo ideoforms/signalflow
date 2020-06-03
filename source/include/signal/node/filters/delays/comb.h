@@ -1,8 +1,8 @@
 #pragma once
 
+#include "signal/buffer/ringbuffer.h"
 #include "signal/core/constants.h"
 #include "signal/core/graph.h"
-#include "signal/buffer/ringbuffer.h"
 #include "signal/node/node.h"
 
 #include <vector>

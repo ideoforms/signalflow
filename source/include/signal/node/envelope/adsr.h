@@ -22,7 +22,6 @@ public:
 private:
     float phase;
     bool released = false;
-
 };
 
 REGISTER(EnvelopeADSR, "envelope-adsr")

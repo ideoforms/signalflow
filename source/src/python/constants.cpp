@@ -10,7 +10,7 @@ void init_python_constants(py::module &m)
         .value("SIGNAL_INTERPOLATION_LINEAR", SIGNAL_INTERPOLATION_LINEAR, "Linear interpolation")
         .export_values();
 
-    py::enum_<signal_event_distribution_t >(m, "signal_event_distribution_t", py::arithmetic(), "signal_event_distribution_t")
+    py::enum_<signal_event_distribution_t>(m, "signal_event_distribution_t", py::arithmetic(), "signal_event_distribution_t")
         .value("SIGNAL_EVENT_DISTRIBUTION_UNIFORM", SIGNAL_EVENT_DISTRIBUTION_UNIFORM, "Uniform distribution")
         .value("SIGNAL_EVENT_DISTRIBUTION_POISSON", SIGNAL_EVENT_DISTRIBUTION_POISSON, "Poisson distribution")
         .export_values();

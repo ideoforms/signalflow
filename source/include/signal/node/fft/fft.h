@@ -2,7 +2,6 @@
 
 #include "signal/node/fft/fftnode.h"
 
-
 #if defined(FFT_ACCELERATE)
 #include <Accelerate/Accelerate.h>
 #elif defined(FFT_FFTW)
@@ -26,7 +25,6 @@ public:
     NodeRef input;
 
 private:
-
     virtual void fft(sample *in,
                      sample *out,
                      bool polar = true,

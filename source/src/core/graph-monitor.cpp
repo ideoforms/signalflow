@@ -7,7 +7,6 @@ namespace libsignal
 AudioGraphMonitor::AudioGraphMonitor(AudioGraphRef graph, float frequency)
     : graph(graph), frequency(frequency)
 {
-
 }
 
 void AudioGraphMonitor::start()
@@ -31,10 +30,7 @@ void AudioGraphMonitor::run_thread()
         int patch_count = this->graph->get_patch_count();
         std::string patches = (patch_count == 1 ? "patch" : "patches");
         float cpu_usage = this->graph->get_cpu_usage() * 100.0;
-        std::cout << "AudioGraph: " <<
-            this->graph->get_node_count() << " active " << nodes << ", " <<
-            this->graph->get_patch_count() << " " << patches << ", " <<
-            cpu_usage << "% CPU usage" << std::endl;
+        std::cout << "AudioGraph: " << this->graph->get_node_count() << " active " << nodes << ", " << this->graph->get_patch_count() << " " << patches << ", " << cpu_usage << "% CPU usage" << std::endl;
         usleep(sleep_time);
     }
 }

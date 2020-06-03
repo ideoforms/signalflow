@@ -1,8 +1,8 @@
 #include "signal/buffer/buffer.h"
-#include "signal/core/random.h"
 #include "signal/core/constants.h"
-#include "signal/core/graph.h"
 #include "signal/core/exceptions.h"
+#include "signal/core/graph.h"
+#include "signal/core/random.h"
 
 #ifdef HAVE_SNDFILE
 #include <sndfile.h>
@@ -38,7 +38,7 @@ Buffer::Buffer(int num_channels, int num_frames)
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
 
     // contiguous allocation
-    this->data = new sample*[this->num_channels]();
+    this->data = new sample *[this->num_channels]();
     sample *data_channels = new sample[this->num_channels * this->num_frames]();
     for (int channel = 0; channel < this->num_channels; channel++)
     {
@@ -67,7 +67,6 @@ Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>
 Buffer::Buffer(std::vector<std::vector<sample>> data)
     : Buffer(data.size(), data[0].size(), data)
 {
-
 }
 
 Buffer::Buffer(std::vector<sample> data)
@@ -174,7 +173,7 @@ void Buffer::load(std::string filename)
         }
     }
 
-    delete [] buffer;
+    delete[] buffer;
 
     sf_close(sndfile);
 
@@ -230,12 +229,12 @@ void Buffer::save(std::string filename)
             break;
     }
 
-    delete [] buffer;
+    delete[] buffer;
 
     sf_close(sndfile);
 
 #else
-    
+
     throw std::runtime_error("Can't save audio data as libsndfile was not detected at compile time");
 
 #endif
@@ -249,7 +248,7 @@ std::vector<BufferRef> Buffer::split(int num_frames_per_part)
     }
 
     int buffer_count = this->num_frames / num_frames_per_part;
-    std::vector<BufferRef>bufs(buffer_count);
+    std::vector<BufferRef> bufs(buffer_count);
     for (int i = 0; i < buffer_count; i++)
     {
         sample *ptr = this->data[0] + (i * num_frames_per_part);
@@ -330,7 +329,7 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
 {
     Buffer *buffer = (Buffer *) this->get();
 
-    std::vector <std::vector<sample>>output(buffer->num_channels);
+    std::vector<std::vector<sample>> output(buffer->num_channels);
     for (int channel = 0; channel < buffer->num_channels; channel++)
     {
         output[channel].resize(buffer->num_frames);
@@ -343,7 +342,6 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
 }
 
 template class BufferRefTemplate<Buffer>;
-
 
 EnvelopeBuffer::EnvelopeBuffer(int length)
     : Buffer(1, length)

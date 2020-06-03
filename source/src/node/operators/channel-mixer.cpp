@@ -1,5 +1,5 @@
-#include "signal/node/operators/channel-mixer.h"
 #include "signal/core/core.h"
+#include "signal/node/operators/channel-mixer.h"
 
 namespace libsignal
 {
@@ -14,7 +14,7 @@ ChannelMixer::ChannelMixer(int channels, NodeRef input)
 void ChannelMixer::process(sample **out, int num_frames)
 {
     float out_channel_pan,
-          in_channel_pan;
+        in_channel_pan;
 
     this->zero_output();
 

@@ -149,11 +149,8 @@ int AudioOut_SoundIO::init()
     int buffer_size = this->outstream->software_latency * this->outstream->sample_rate;
     std::string s = num_output_channels == 1 ? "" : "s";
 
-    std::cerr << "Output device: " << device->name << " (" <<
-        sample_rate << "Hz, " <<
-        "buffer " << buffer_size << ", " <<
-        num_output_channels << " channel" << s <<
-        ")" << std::endl;
+    std::cerr << "Output device: " << device->name << " (" << sample_rate << "Hz, "
+              << "buffer " << buffer_size << ", " << num_output_channels << " channel" << s << ")" << std::endl;
 
     return 0;
 }

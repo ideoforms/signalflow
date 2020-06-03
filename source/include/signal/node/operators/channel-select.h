@@ -20,7 +20,6 @@ private:
     int offset;
     int maximum;
     int step;
-
 };
 
 REGISTER(ChannelSelect, "channel-select")

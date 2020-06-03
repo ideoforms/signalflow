@@ -1,7 +1,7 @@
 #pragma once
 
-#include "signal/core/constants.h"
 #include "signal/buffer/ringbuffer.h"
+#include "signal/core/constants.h"
 #include "signal/node/node.h"
 
 #include <vector>
@@ -27,12 +27,11 @@ public:
     virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
 
 private:
-
     std::vector<SampleRingBuffer *> buffers;
-    std::vector <int> stutter_index;
-    std::vector <int> stutters_to_do;
-    std::vector <int> stutter_sample_buffer_offset;
-    std::vector <int> stutter_samples_remaining;
+    std::vector<int> stutter_index;
+    std::vector<int> stutters_to_do;
+    std::vector<int> stutter_sample_buffer_offset;
+    std::vector<int> stutter_samples_remaining;
 };
 
 REGISTER(Stutter, "stutter")

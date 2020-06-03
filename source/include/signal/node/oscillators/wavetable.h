@@ -1,8 +1,8 @@
 #pragma once
 
-#include "signal/node/node.h"
 #include "signal/buffer/buffer.h"
 #include "signal/buffer/buffer2D.h"
+#include "signal/node/node.h"
 
 namespace libsignal
 {

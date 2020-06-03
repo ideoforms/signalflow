@@ -1,5 +1,5 @@
-#include "signal/node/filters/delays/stutter.h"
 #include "signal/core/graph.h"
+#include "signal/node/filters/delays/stutter.h"
 #include "signal/node/oscillators/constant.h"
 
 namespace libsignal
@@ -91,7 +91,6 @@ void Stutter::process(sample **out, int num_frames)
                     int buffer_sample_offset = -this->stutter_samples_remaining[channel];
                     this->out[channel][frame] = this->buffers[channel]->get(buffer_sample_offset);
                 }
-
             }
             else
             {

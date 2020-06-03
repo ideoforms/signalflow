@@ -1,6 +1,6 @@
-#include "signal/core/graph.h"
 #include "signal/core/core.h"
 #include "signal/core/graph-monitor.h"
+#include "signal/core/graph.h"
 #include "signal/node/node.h"
 #include "signal/node/oscillators/constant.h"
 
@@ -10,9 +10,9 @@
 #include "signal/node/io/output/ios.h"
 #include "signal/node/io/output/soundio.h"
 
-#include <unistd.h>
 #include <string.h>
 #include <sys/time.h>
+#include <unistd.h>
 
 namespace libsignal
 {
@@ -216,8 +216,7 @@ void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
     int channel_count = buffer->num_channels;
     if (buffer->num_channels > this->output->num_output_channels)
     {
-        throw std::runtime_error("Buffer cannot have more channels than the audio graph (" +
-            std::to_string(buffer->num_channels) + " != " + std::to_string(channel_count) + ")");
+        throw std::runtime_error("Buffer cannot have more channels than the audio graph (" + std::to_string(buffer->num_channels) + " != " + std::to_string(channel_count) + ")");
     }
     int block_count = ceilf((float) buffer->num_frames / block_size);
 
@@ -369,6 +368,5 @@ float AudioGraph::get_cpu_usage()
 {
     return this->cpu_usage;
 }
-
 
 }

@@ -11,19 +11,16 @@ void init_python_buffer(py::module &m)
         .def(py::init<int, int, std::vector<std::vector<float>>>())
         .def(py::init<std::vector<std::vector<float>>>())
         .def(py::init<std::vector<float>>())
-        .def("__getitem__", [](BufferRef a, int b)
-        {
+        .def("__getitem__", [](BufferRef a, int b) {
             if (b < 0 || b >= a->num_channels)
             {
                 throw std::runtime_error("Invalid channel index: " + std::to_string(b));
             }
-            std::vector<sample>a_vec(a->data[b], a->data[b] + a->num_frames);
+            std::vector<sample> a_vec(a->data[b], a->data[b] + a->num_frames);
             return new Buffer(a_vec);
         })
-        .def("__mul__", [](BufferRef a, float b)
-            { return a * b; })
-        .def("__rmul__", [](BufferRef a, float b)
-            { return a * b; })
+        .def("__mul__", [](BufferRef a, float b) { return a * b; })
+        .def("__rmul__", [](BufferRef a, float b) { return a * b; })
 
         .def("__len__", [](Buffer &buf) { return buf.num_frames; })
 
@@ -40,13 +37,11 @@ void init_python_buffer(py::module &m)
 
         .def("load", &Buffer::load)
         .def("save", &Buffer::save)
-        .def_property_readonly("data", [](Buffer &buf)
-        {
+        .def_property_readonly("data", [](Buffer &buf) {
             return py::array_t<float>(
                 { buf.num_channels, buf.num_frames },
                 { sizeof(float) * buf.num_frames, sizeof(float) },
-                buf.data[0]
-            );
+                buf.data[0]);
         });
 
     py::class_<Buffer2D, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")

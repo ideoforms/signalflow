@@ -1,6 +1,6 @@
-#include "signal/node/fft/continuous-pv.h"
 #include "signal/core/graph.h"
 #include "signal/core/random.h"
+#include "signal/node/fft/continuous-pv.h"
 
 namespace libsignal
 {
@@ -9,9 +9,11 @@ FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
     : FFTNode(input ? ((FFTNode *) input.get())->fft_size : SIGNAL_DEFAULT_FFT_SIZE,
               input ? ((FFTNode *) input.get())->hop_size : SIGNAL_DEFAULT_FFT_HOP_SIZE,
               input ? ((FFTNode *) input.get())->window_size : SIGNAL_DEFAULT_FFT_WINDOW_SIZE,
-              input ? ((FFTNode *) input.get())->do_window : SIGNAL_DEFAULT_FFT_DO_WINDOW),
+              input ? ((FFTNode *) input.get())->do_window : SIGNAL_DEFAULT_FFT_DO_WINDOW)
+    ,
 
-              input(input), rate(rate)
+    input(input)
+    , rate(rate)
 
 {
     this->name = "fft-continuous-pv";
@@ -24,7 +26,7 @@ FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
 }
 
 void FFTContinuousPhaseVocoder::trigger(std::string name, float value)
-{//   this->prefilled_fft_buffer = false;
+{ //   this->prefilled_fft_buffer = false;
 }
 
 void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)

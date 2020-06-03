@@ -27,7 +27,7 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
     this->output_sum_polar = new sample[this->num_bins * 2]();
 
     printf("Buffer length %d frames, fft size %d, hop size %d, doing %d partitions\n",
-        buffer->num_frames, this->fft_size, this->hop_size, this->num_partitions);
+           buffer->num_frames, this->fft_size, this->hop_size, this->num_partitions);
 
     FFT *fft = new FFT(nullptr, this->fft_size, this->hop_size, this->window_size, false);
     for (int i = 0; i < this->num_partitions; i++)
@@ -114,8 +114,8 @@ void FFTConvolve::process(sample **out, int num_frames)
         vDSP_ctoz((DSPComplex *) this->output_sum_polar, 2,
                   &buffer_split, 1,
                   this->num_bins);
-//        this->out[hop][0] = this->input->out[hop][0];
-//        this->out[hop][this->num_bins] = this->input->out[hop][this->num_bins];
+        //        this->out[hop][0] = this->input->out[hop][0];
+        //        this->out[hop][this->num_bins] = this->input->out[hop][this->num_bins];
     }
 }
 

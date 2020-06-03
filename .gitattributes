@@ -1,0 +1,5 @@
+# To set up clang-format filter:
+# git config --global filter.clang-format.clean clang-format
+# git config --global filter.clang-format.smudge cat
+*.cpp filter=clang-format
+*.h filter=clang-format

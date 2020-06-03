@@ -15,8 +15,7 @@ void init_python_graph(py::module &m)
         .def_property("sample_rate", &AudioGraph::get_sample_rate, &AudioGraph::set_sample_rate)
         .def_property_readonly("node_count", &AudioGraph::get_node_count)
         .def_property_readonly("cpu_usage", &AudioGraph::get_cpu_usage)
-        .def("wait", [](AudioGraph &graph)
-        {
+        .def("wait", [](AudioGraph &graph) {
             // Interruptible wait
             // https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-properly-handle-ctrl-c-in-long-running-functions
             for (;;)
@@ -25,8 +24,7 @@ void init_python_graph(py::module &m)
                     throw py::error_already_set();
             }
         })
-        .def("wait", [](AudioGraph &graph, float timeout_seconds)
-        {
+        .def("wait", [](AudioGraph &graph, float timeout_seconds) {
             timeval tv;
             gettimeofday(&tv, NULL);
             double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
@@ -50,5 +48,4 @@ void init_python_graph(py::module &m)
         .def("add_output", [](AudioGraph &graph, NodeRef node) { graph.add_output(node); })
         .def("add_output", [](AudioGraph &graph, PatchRef patch) { graph.add_output(patch); })
         .def("remove_output", [](AudioGraph &graph, NodeRef node) { graph.remove_output(node); });
-
 }

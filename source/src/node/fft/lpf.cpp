@@ -1,10 +1,11 @@
-#include "signal/node/fft/lpf.h"
 #include "signal/core/graph.h"
+#include "signal/node/fft/lpf.h"
 
 namespace libsignal
 {
 
-FFTLPF::FFTLPF(NodeRef input, NodeRef frequency) : FFTOpNode(input), frequency(frequency)
+FFTLPF::FFTLPF(NodeRef input, NodeRef frequency)
+    : FFTOpNode(input), frequency(frequency)
 {
     this->name = "fft-lpf";
     this->add_input("frequency", this->frequency);

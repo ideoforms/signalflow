@@ -1,10 +1,10 @@
 #pragma once
 
+#include "signal/core/constants.h"
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <math.h>
-#include "signal/core/constants.h"
 
 enum signal_interpolation_mode_t : unsigned int;
 
@@ -41,7 +41,7 @@ RingBuffer<T>::RingBuffer(int size)
 template <class T>
 RingBuffer<T>::~RingBuffer()
 {
-    delete [] this->data;
+    delete[] this->data;
 }
 
 template <class T>

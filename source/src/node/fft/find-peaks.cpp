@@ -1,5 +1,5 @@
-#include "signal/node/fft/find-peaks.h"
 #include "signal/core/graph.h"
+#include "signal/node/fft/find-peaks.h"
 #include <algorithm>
 
 namespace libsignal
@@ -9,11 +9,11 @@ class Peak
 {
 public:
     Peak() {}
-    Peak(float frequency, float magnitude) : frequency(frequency), magnitude(magnitude) {}
+    Peak(float frequency, float magnitude)
+        : frequency(frequency), magnitude(magnitude) {}
     float frequency;
     float magnitude;
 };
-
 
 int find_prev_bin_with_magnitude(sample *bins, int index)
 {
@@ -70,7 +70,7 @@ void FFTFindPeaks::process(sample **out, int num_frames)
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;
 
-    std::vector <Peak>peaks(this->num_bins);
+    std::vector<Peak> peaks(this->num_bins);
     peaks.clear();
     int peak_count = 0;
 
@@ -79,9 +79,7 @@ void FFTFindPeaks::process(sample **out, int num_frames)
         sample *mags_in = this->input->out[hop];
         for (int bin_index = 2; bin_index < this->num_bins - 1; bin_index++)
         {
-            if (mags_in[bin_index] > this->threshold->out[0][0] &&
-                mags_in[bin_index] > mags_in[bin_index - 1] &&
-                mags_in[bin_index] > mags_in[bin_index + 1])
+            if (mags_in[bin_index] > this->threshold->out[0][0] && mags_in[bin_index] > mags_in[bin_index - 1] && mags_in[bin_index] > mags_in[bin_index + 1])
             {
                 // is a peak above threshold
                 int index_left = find_prev_bin_with_magnitude(mags_in, bin_index);
@@ -108,8 +106,7 @@ void FFTFindPeaks::process(sample **out, int num_frames)
             }
         }
 
-        std::sort (peaks.begin(), peaks.begin() + peak_count, [](const Peak & a, const Peak & b) -> bool
-        {
+        std::sort(peaks.begin(), peaks.begin() + peak_count, [](const Peak &a, const Peak &b) -> bool {
             return a.magnitude > b.magnitude;
         });
 

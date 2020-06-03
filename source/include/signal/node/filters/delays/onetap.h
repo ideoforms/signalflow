@@ -1,7 +1,7 @@
 #pragma once
 
-#include "signal/core/constants.h"
 #include "signal/buffer/ringbuffer.h"
+#include "signal/core/constants.h"
 #include "signal/node/node.h"
 
 #include <vector>

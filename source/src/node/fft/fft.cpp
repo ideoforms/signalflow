@@ -99,11 +99,11 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
     float dc = buffer_split.realp[0];
     float nyquist = buffer_split.imagp[0];
     buffer_split.imagp[0] = 0;
-    if (buffer_split.realp[num_bins-1] != 0 || buffer_split.imagp[num_bins-1] != 0)
+    if (buffer_split.realp[num_bins - 1] != 0 || buffer_split.imagp[num_bins - 1] != 0)
     {
         // throw std::runtime_error("Bin should be zero");
     }
-    buffer_split.realp[num_bins-1] = nyquist;
+    buffer_split.realp[num_bins - 1] = nyquist;
 
     /*------------------------------------------------------------------------
      * Now, calculate magnitudes and phases, stored in our output buffer.

@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 
-
 namespace libsignal
 {
 
@@ -74,8 +73,6 @@ void FFTNoiseGate::process(sample **out, int num_frames)
         }
         */
     }
-
 }
 
 }
-

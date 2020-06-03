@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <array>
 
-
 namespace libsignal
 {
 
@@ -32,11 +31,11 @@ void FFTTonality::process(sample **out, int num_frames)
         float one_minus_smoothing = 1.0 - smoothing;
         for (int bin_index = 1; bin_index < num_bins; bin_index++)
         {
-            mags_smoothed[bin_index] = (mags_smoothed[bin_index-1] * smoothing) + (mags_smoothed[bin_index] * one_minus_smoothing);
+            mags_smoothed[bin_index] = (mags_smoothed[bin_index - 1] * smoothing) + (mags_smoothed[bin_index] * one_minus_smoothing);
         }
         for (int bin_index = num_bins - 2; bin_index >= 0; bin_index--)
         {
-            mags_smoothed[bin_index] = (mags_smoothed[bin_index+1] * smoothing) + (mags_smoothed[bin_index] * one_minus_smoothing);
+            mags_smoothed[bin_index] = (mags_smoothed[bin_index + 1] * smoothing) + (mags_smoothed[bin_index] * one_minus_smoothing);
         }
 
         for (int frame = 0; frame < this->fft_size; frame++)
@@ -53,7 +52,6 @@ void FFTTonality::process(sample **out, int num_frames)
             }
         }
     }
-
 }
 
 }

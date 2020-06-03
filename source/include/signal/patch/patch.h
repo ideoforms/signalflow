@@ -12,7 +12,6 @@ typedef enum
     SIGNAL_SYNTH_STATE_FINISHED
 } signal_patch_state_t;
 
-
 class Patch
 {
 public:
@@ -61,9 +60,8 @@ private:
     std::string _get_input_name(const NodeRef &node);
     NodeSpec _parse_from_node(const NodeRef &node);
     std::unordered_map<int, NodeSpec> nodespecs;
-    std::set<NodeRef>parsed_nodes;
+    std::set<NodeRef> parsed_nodes;
 };
-
 
 template <class T>
 class PatchRefTemplate : public std::shared_ptr<T>
@@ -78,6 +76,5 @@ public:
 };
 
 typedef PatchRefTemplate<Patch> PatchRef;
-
 
 }

@@ -3,9 +3,9 @@
 #include "signal/node/operators/add.h"
 #include "signal/node/operators/divide.h"
 #include "signal/node/operators/multiply.h"
+#include "signal/node/operators/pow.h"
 #include "signal/node/operators/scale.h"
 #include "signal/node/operators/subtract.h"
-#include "signal/node/operators/pow.h"
 
 #include "signal/node/operators/channel-array.h"
 #include "signal/node/oscillators/constant.h"
@@ -63,8 +63,7 @@ void Node::_process(sample **out, int num_frames)
 {
     if (out == this->out && num_frames > this->output_buffer_length)
     {
-        throw std::runtime_error("Buffer size too small (" + std::to_string(num_frames) +
-                " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
+        throw std::runtime_error("Buffer size too small (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
     }
     if (this->last_num_frames > 0)
     {

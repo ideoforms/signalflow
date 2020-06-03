@@ -1,5 +1,5 @@
-#include "signal/node/filters/biquad.h"
 #include "signal/core/graph.h"
+#include "signal/node/filters/biquad.h"
 
 #include <stdlib.h>
 
@@ -94,21 +94,21 @@ void BiquadFilter::_recalculate()
         case SIGNAL_FILTER_TYPE_PEAK:
             if (peak_gain >= 0) // boost
             {
-                norm = 1 / (1 + 1/Q * K + K * K);
-                a0 = (1 + V/Q * K + K * K) * norm;
+                norm = 1 / (1 + 1 / Q * K + K * K);
+                a0 = (1 + V / Q * K + K * K) * norm;
                 a1 = 2 * (K * K - 1) * norm;
-                a2 = (1 - V/Q * K + K * K) * norm;
+                a2 = (1 - V / Q * K + K * K) * norm;
                 b1 = a1;
-                b2 = (1 - 1/Q * K + K * K) * norm;
+                b2 = (1 - 1 / Q * K + K * K) * norm;
             }
             else // cut
             {
-                norm = 1 / (1 + V/Q * K + K * K);
-                a0 = (1 + 1/Q * K + K * K) * norm;
+                norm = 1 / (1 + V / Q * K + K * K);
+                a0 = (1 + 1 / Q * K + K * K) * norm;
                 a1 = 2 * (K * K - 1) * norm;
-                a2 = (1 - 1/Q * K + K * K) * norm;
+                a2 = (1 - 1 / Q * K + K * K) * norm;
                 b1 = a1;
-                b2 = (1 - V/Q * K + K * K) * norm;
+                b2 = (1 - V / Q * K + K * K) * norm;
             }
             break;
 
@@ -116,20 +116,20 @@ void BiquadFilter::_recalculate()
             if (peak_gain >= 0) // boost
             {
                 norm = 1 / (1 + sqrt(2) * K + K * K);
-                a0 = (1 + sqrt(2*V) * K + V * K * K) * norm;
+                a0 = (1 + sqrt(2 * V) * K + V * K * K) * norm;
                 a1 = 2 * (V * K * K - 1) * norm;
-                a2 = (1 - sqrt(2*V) * K + V * K * K) * norm;
+                a2 = (1 - sqrt(2 * V) * K + V * K * K) * norm;
                 b1 = 2 * (K * K - 1) * norm;
                 b2 = (1 - sqrt(2) * K + K * K) * norm;
             }
             else // cut
             {
-                norm = 1 / (1 + sqrt(2*V) * K + V * K * K);
+                norm = 1 / (1 + sqrt(2 * V) * K + V * K * K);
                 a0 = (1 + sqrt(2) * K + K * K) * norm;
                 a1 = 2 * (K * K - 1) * norm;
                 a2 = (1 - sqrt(2) * K + K * K) * norm;
                 b1 = 2 * (V * K * K - 1) * norm;
-                b2 = (1 - sqrt(2*V) * K + V * K * K) * norm;
+                b2 = (1 - sqrt(2 * V) * K + V * K * K) * norm;
             }
             break;
 
@@ -137,20 +137,20 @@ void BiquadFilter::_recalculate()
             if (peak_gain >= 0) // boost
             {
                 norm = 1 / (1 + sqrt(2) * K + K * K);
-                a0 = (V + sqrt(2*V) * K + K * K) * norm;
+                a0 = (V + sqrt(2 * V) * K + K * K) * norm;
                 a1 = 2 * (K * K - V) * norm;
-                a2 = (V - sqrt(2*V) * K + K * K) * norm;
+                a2 = (V - sqrt(2 * V) * K + K * K) * norm;
                 b1 = 2 * (K * K - 1) * norm;
                 b2 = (1 - sqrt(2) * K + K * K) * norm;
             }
             else
-            {    // cut
-                norm = 1 / (V + sqrt(2*V) * K + K * K);
+            { // cut
+                norm = 1 / (V + sqrt(2 * V) * K + K * K);
                 a0 = (1 + sqrt(2) * K + K * K) * norm;
                 a1 = 2 * (K * K - 1) * norm;
                 a2 = (1 - sqrt(2) * K + K * K) * norm;
                 b1 = 2 * (K * K - V) * norm;
-                b2 = (V - sqrt(2*V) * K + K * K) * norm;
+                b2 = (V - sqrt(2 * V) * K + K * K) * norm;
             }
             break;
     }

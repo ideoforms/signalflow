@@ -14,8 +14,7 @@ public:
 
 private:
     NodeRef smooth;
-    std::vector <sample> values;
-
+    std::vector<sample> values;
 };
 
 REGISTER(Smooth, "smooth")

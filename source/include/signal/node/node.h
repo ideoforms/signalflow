@@ -1,18 +1,18 @@
 #pragma once
 
+#include "signal/buffer/buffer.h"
+#include "signal/buffer/ringbuffer.h"
 #include "signal/core/constants.h"
 #include "signal/core/platform.h"
 #include "signal/core/property.h"
-#include "signal/buffer/ringbuffer.h"
 #include "signal/node/registry.h"
-#include "signal/buffer/buffer.h"
 
+#include <math.h>
 #include <memory>
 #include <set>
 #include <string>
 #include <unordered_map>
 #include <vector>
-#include <math.h>
 
 namespace libsignal
 {

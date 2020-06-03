@@ -1,5 +1,5 @@
-#include "signal/node/oscillators/sine.h"
 #include "signal/core/graph.h"
+#include "signal/node/oscillators/sine.h"
 
 #include <stdio.h>
 
@@ -21,7 +21,7 @@ void Sine::allocate_memory()
 
 void Sine::free_memory()
 {
-    delete [] this->phase;
+    delete[] this->phase;
 }
 
 void Sine::process(sample **out, int num_frames)

@@ -15,8 +15,7 @@ public:
 
 private:
     NodeRef clock;
-    std::vector <sample> values;
-
+    std::vector<sample> values;
 };
 
 REGISTER(SampleAndHold, "sample-and-hold")

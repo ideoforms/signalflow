@@ -19,7 +19,6 @@ public:
     bool just_frozen;
 
     NodeRef clock = nullptr;
-
 };
 
 REGISTER(FFTPhaseVocoder, "fft_phase_vocoder")

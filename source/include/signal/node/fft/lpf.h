@@ -11,7 +11,6 @@ public:
     virtual void process(sample **out, int num_frames);
 
     NodeRef frequency;
-
 };
 
 REGISTER(FFTLPF, "fft-lpf")
