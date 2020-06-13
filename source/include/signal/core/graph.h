@@ -36,13 +36,14 @@ public:
      * Print graph structure.
      *
      *------------------------------------------------------------------------*/
-    void print();
+    void show_structure();
 
     /**------------------------------------------------------------------------
-     * Poll graph state every so often.
+     * Print current graph status (node count, patch count, CPU usage).
+     * If frequency is n on-zero, show status every `frequency` seconds.
      *
      *------------------------------------------------------------------------*/
-    void poll(float frequency);
+    void show_status(float frequency = 0.0);
 
     /**------------------------------------------------------------------------
      * Perform batch (offline) processing of a given node graph.
@@ -88,7 +89,7 @@ private:
     std::set<PatchRef> patches;
     std::set<Patch *> patches_to_remove;
 
-    void print(NodeRef &root, int depth);
+    void show_structure(NodeRef &root, int depth);
     AudioGraphMonitor *monitor;
     int sample_rate;
     int node_count;

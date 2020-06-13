@@ -299,13 +299,13 @@ void AudioGraph::remove_output(NodeRef node)
     nodes_to_remove.insert(node);
 }
 
-void AudioGraph::print()
+void AudioGraph::show_structure()
 {
     std::cout << "AudioGraph" << std::endl;
-    this->print(this->output, 0);
+    this->show_structure(this->output, 0);
 }
 
-void AudioGraph::print(NodeRef &root, int depth)
+void AudioGraph::show_structure(NodeRef &root, int depth)
 {
     std::cout << std::string(depth * 2, ' ');
     std::cout << " * " << root->name << std::endl;
@@ -322,12 +322,12 @@ void AudioGraph::print(NodeRef &root, int depth)
         else
         {
             std::cout << pair.first << ":" << std::endl;
-            this->print(param_node, depth + 1);
+            this->show_structure(param_node, depth + 1);
         }
     }
 }
 
-void AudioGraph::poll(float frequency)
+void AudioGraph::show_status(float frequency)
 {
     if (frequency > 0)
     {
