@@ -22,16 +22,15 @@ PatchSpecRef create_synth()
      * Create a named input that can be used to modulate parameters of
      * the patch.
      *-----------------------------------------------------------------------*/
-    NodeRef freq   = patch->add_input("freq", 440.0);
-    NodeRef width  = patch->add_input("width", 0.5);
-    NodeRef pan    = patch->add_input("pan", 0.5);
+    NodeRef freq = patch->add_input("freq", 440.0);
+    NodeRef width = patch->add_input("width", 0.5);
+    NodeRef pan = patch->add_input("pan", 0.5);
     NodeRef square = patch->add_node(new Square(freq, width));
-    NodeRef asr    = patch->add_node(new EnvelopeASR(0.0, 0.0, 1.3));
+    NodeRef asr = patch->add_node(new EnvelopeASR(0.0, 0.0, 1.3));
     NodeRef shaped = patch->add_node(square * asr * 0.05);
     NodeRef stereo = patch->add_node(new LinearPanner(2, shaped, pan));
     NodeRef delay = new CombDelay(stereo, 0.1, 0.9, 0.5);
-    // NodeRef output = stereo + delay * 0.3;
-    NodeRef output = stereo * 0.2;
+    NodeRef output = stereo + delay * 0.3;
     patch->set_output(output);
 
     PatchSpecRef ref = patch->create_spec();
@@ -46,7 +45,7 @@ int main()
     spec->print();
 
     graph->start();
-    graph->poll(2);
+    graph->show_status(2);
 
     std::set<PatchRef> synths;
 
@@ -64,4 +63,3 @@ int main()
 
     return 0;
 }
-
