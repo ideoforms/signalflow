@@ -25,6 +25,11 @@ void LinearPanner::process(sample **out, int num_frames)
         sample pan = this->pan->out[0][frame];
         sample in = this->input->out[0][frame];
 
+        if (pan < 0)
+            pan = 0.0f;
+        if (pan > 1)
+            pan = 1.0;
+
         if (this->num_output_channels == 2)
         {
             out[0][frame] = in * (1.0 - pan);
