@@ -148,8 +148,11 @@ void Node::allocate_output_buffer()
         output_buffer_count = this->num_output_channels;
     }
 
+    /*------------------------------------------------------------------------
+     * Add +1 sample to account for memory allocation magic
+     *-----------------------------------------------------------------------*/
     this->out = new sample *[output_buffer_count]();
-    sample *out_channels = new sample[output_buffer_count * this->output_buffer_length]();
+    sample *out_channels = new sample[output_buffer_count * (this->output_buffer_length + 1)]();
     for (int i = 0; i < output_buffer_count; i++)
     {
         /*------------------------------------------------------------------------
