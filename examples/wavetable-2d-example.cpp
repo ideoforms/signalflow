@@ -4,8 +4,8 @@
  * Demonstrates using the `Wavetable` oscillator to generate periodic
  * waveforms from a fixed audio buffer.
  *-----------------------------------------------------------------------*/
-#include <signal/signal.h>
 #include <math.h>
+#include <signal/signal.h>
 
 using namespace libsignal;
 
@@ -15,7 +15,7 @@ int main()
 
     int wavetable_size = 4096;
 
-    std::vector<std::vector<float>>wt(1);
+    std::vector<std::vector<float>> wt(1);
     wt[0] = std::vector<float>(wavetable_size);
     for (int i = 0; i < wavetable_size; i++)
     {
@@ -23,7 +23,7 @@ int main()
     }
     BufferRef bufferA = new Buffer(1, wavetable_size, wt);
 
-    std::vector<std::vector<float>>wt2(1);
+    std::vector<std::vector<float>> wt2(1);
     wt2[0] = std::vector<float>(wavetable_size);
     for (int i = 0; i < wavetable_size; i++)
     {
@@ -33,7 +33,9 @@ int main()
             wt2[0][i] = 1;
     }
     BufferRef bufferB = new Buffer(1, wavetable_size, wt2);
-    BufferRef2D buffer2D = new Buffer2D(bufferA, bufferB);
+
+    std::vector<BufferRef> buffers({ bufferA, bufferB });
+    BufferRef2D buffer2D = new Buffer2D(buffers);
     NodeRef morph = new Saw(2.0);
     morph = morph * 0.5 + 0.5;
 
@@ -48,4 +50,3 @@ int main()
     graph->start();
     graph->wait();
 }
-
