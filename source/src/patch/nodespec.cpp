@@ -37,12 +37,17 @@ void NodeSpec::add_input(std::string name, NodeSpec *def)
 {
     NodeSpec *def_copy = new NodeSpec();
     *def_copy = *def;
-    this->params[name] = def_copy;
+    this->inputs[name] = def_copy;
 }
 
 void NodeSpec::add_input(std::string name, float value)
 {
-    this->params[name] = new NodeSpec("constant", value);
+    this->inputs[name] = new NodeSpec("constant", value);
+}
+
+void NodeSpec::add_buffer_input(std::string name)
+{
+    this->buffer_inputs[name] = new BufferSpec("name");
 }
 
 void NodeSpec::set_value(float value)

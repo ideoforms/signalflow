@@ -56,6 +56,7 @@ public:
     int last_id = 0;
 
     std::unordered_map<int, NodeSpec> nodespecs;
+    // std::set<std::string, BufferSpec> buffer_inputs;
 };
 
 template <class T>

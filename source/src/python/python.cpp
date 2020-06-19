@@ -10,6 +10,13 @@ void init_python_exceptions(py::module &m);
 
 PYBIND11_MODULE(libsignal, m)
 {
+    m.doc() = R"pbdoc(
+    signalflow
+    ----------
+
+    A framework for audio DSP.
+    )pbdoc";
+
     init_python_constants(m);
     init_python_node(m);
     init_python_nodes(m);

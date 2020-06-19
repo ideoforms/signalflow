@@ -22,6 +22,7 @@ public:
 
     signal_patch_state_t get_state();
     void set_input(std::string name, NodeRef value);
+    void set_input(std::string name, BufferRef value);
     void disconnect();
     bool get_auto_free();
     void set_auto_free(bool value);
@@ -29,12 +30,14 @@ public:
 
     NodeRef output = nullptr;
     std::unordered_map<std::string, NodeRef> inputs;
+    std::unordered_map<std::string, BufferRef> buffer_inputs;
     std::set<NodeRef> nodes;
 
     /*----------------------------------------------------------------------------------
      * Methods for creating a Patch template from live Node objects.
      *---------------------------------------------------------------------------------*/
     NodeRef add_input(std::string name, sample default_value = 0);
+    BufferRef add_buffer_input(std::string name);
     NodeRef add_node(NodeRef node);
     void set_output(NodeRef out);
 

@@ -23,6 +23,7 @@ public:
     NodeRef loop_start = nullptr;
     NodeRef loop_end = nullptr;
 
+    virtual void set_buffer(std::string, BufferRef buffer);
     virtual void trigger(std::string = SIGNAL_SAMPLER_TRIGGER_SET_POSITION, float value = 0.0);
     virtual void process(sample **out, int num_frames);
 

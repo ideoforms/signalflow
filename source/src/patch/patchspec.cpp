@@ -137,7 +137,7 @@ void PatchSpec::print(NodeSpec *root, int depth)
 {
     std::cout << std::string(depth * 2, ' ');
     std::cout << " * " << root->name << " (id = " << root->id << ") " << std::endl;
-    for (auto pair : root->params)
+    for (auto pair : root->inputs)
     {
         std::cout << std::string((depth + 1) * 2 + 1, ' ');
 

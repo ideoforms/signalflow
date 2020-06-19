@@ -59,7 +59,6 @@ NodeRef Patch::instantiate(NodeSpec *nodespec)
      * inputs.
      *-----------------------------------------------------------------------*/
     NodeRegistry *registry = NodeRegistry::global();
-
     NodeRef noderef;
 
     if (!nodespec->input_name.empty() && this->inputs[nodespec->input_name])
@@ -76,11 +75,11 @@ NodeRef Patch::instantiate(NodeSpec *nodespec)
          *-----------------------------------------------------------------------*/
         this->nodes.insert(noderef);
 
-        for (auto param : nodespec->params)
+        for (auto input : nodespec->inputs)
         {
-            std::string param_name = param.first;
-            NodeRef param_node = this->instantiate(param.second);
-            noderef->set_input(param_name, param_node);
+            std::string input_name = input.first;
+            NodeRef input_node = this->instantiate(input.second);
+            noderef->set_input(input_name, input_node);
         }
 
         if (nodespec->is_constant)
@@ -126,6 +125,26 @@ void Patch::set_input(std::string name, NodeRef value)
     this->inputs[name] = value;
 }
 
+void Patch::set_input(std::string name, BufferRef value)
+{
+    if (this->buffer_inputs[name] == nullptr)
+    {
+        throw std::runtime_error("Patch has no such buffer parameter: " + name);
+    }
+    BufferRef current = this->buffer_inputs[name];
+    for (NodeRef node : this->nodes)
+    {
+        for (auto param : node->buffers)
+        {
+            if ((param.second)->get() == current.get())
+            {
+                // Update routing
+                node->set_buffer(param.first, value);
+            }
+        }
+    }
+}
+
 void Patch::disconnect()
 {
     this->graph->remove_output(this);
@@ -161,6 +180,13 @@ NodeRef Patch::add_input(std::string name, sample default_value)
     return placeholder;
 }
 
+BufferRef Patch::add_buffer_input(std::string name)
+{
+    BufferRef placeholder = new Buffer();
+    this->buffer_inputs[name] = placeholder;
+    return placeholder;
+}
+
 std::string Patch::_get_input_name(const NodeRef &node)
 {
     for (auto input : this->inputs)
@@ -177,6 +203,7 @@ std::string Patch::_get_input_name(const NodeRef &node)
 NodeRef Patch::add_node(NodeRef node)
 {
     nodes.insert(node);
+    node->patch = this;
     return node;
 }
 
@@ -203,6 +230,11 @@ PatchSpecRef Patch::create_spec()
     spec->output_def = this->_parse_from_node(root);
     spec->parsed = true;
     spec->nodespecs = this->nodespecs;
+
+    //    std::copy(this->buffer_inputs.begin(),
+    //              this->buffer_inputs.end(),
+    //              std::inserter(spec->buffer_inputs, spec->buffer_inputs.begin()));
+
     for (auto node : nodes)
     {
         if (parsed_nodes.find(node) == parsed_nodes.end())
