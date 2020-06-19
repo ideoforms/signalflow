@@ -244,7 +244,7 @@ std::vector<BufferRef> Buffer::split(int num_frames_per_part)
 {
     if (this->num_channels != 1)
     {
-        throw std::runtime_error("split currently only supports mono buffers");
+        throw std::runtime_error("Buffer::split currently only supports mono buffers");
     }
 
     int buffer_count = this->num_frames / num_frames_per_part;
