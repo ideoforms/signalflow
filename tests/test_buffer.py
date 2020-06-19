@@ -1,4 +1,4 @@
-from libsignal import Buffer
+from libsignal import Buffer, Buffer2D
 from libsignal import SIGNAL_INTERPOLATION_NONE, SIGNAL_INTERPOLATION_LINEAR
 from libsignal import GraphNotCreatedException
 import numpy as np
@@ -113,3 +113,18 @@ def test_buffer_save(graph):
     assert b2.num_frames == buf_len
     assert np.all(b2.data[0] - rand_buf < 0.0001)
     os.unlink(BUFFER_FILENAME)
+
+def test_buffer_2d(graph):
+    b1 = Buffer([ 1, 5, 9 ])
+    b2 = Buffer([ 3, 4, 5 ])
+    assert b1.get(0) == 1
+    assert b2.get(0) == 3
+
+    b2d = Buffer2D(b1, b2)
+    assert b2d.get2D(0, 0) == 1
+    assert b2d.get2D(2, 0) == 9
+    assert b2d.get2D(0, 1) == 3
+    assert b2d.get2D(2, 1) == 5
+    assert b2d.get2D(0, 0.5) == 2
+    assert b2d.get2D(2, 0.5) == 7
+    assert b2d.get2D(1.5, 0.5) == 5.75

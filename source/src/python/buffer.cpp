@@ -5,9 +5,12 @@ void init_python_buffer(py::module &m)
     /*--------------------------------------------------------------------------------
      * Buffer
      *-------------------------------------------------------------------------------*/
-    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer")
+    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer", "A buffer of audio samples")
         .def(py::init<std::string>())
-        .def(py::init<int, int>())
+        .def(py::init<int, int>(), R"pbdoc(
+            Init
+            ----
+        )pbdoc")
         .def(py::init<int, int, std::vector<std::vector<float>>>())
         .def(py::init<std::vector<std::vector<float>>>())
         .def(py::init<std::vector<float>>())
@@ -18,6 +21,9 @@ void init_python_buffer(py::module &m)
             }
             std::vector<sample> a_vec(a->data[b], a->data[b] + a->num_frames);
             return new Buffer(a_vec);
+        })
+        .def("__str__", [](BufferRef a) {
+            return "Buffer (" + std::to_string(a->num_channels) + " channels, " + std::to_string(a->num_frames) + " frames)";
         })
         .def("__mul__", [](BufferRef a, float b) { return a * b; })
         .def("__rmul__", [](BufferRef a, float b) { return a * b; })
@@ -45,7 +51,8 @@ void init_python_buffer(py::module &m)
         });
 
     py::class_<Buffer2D, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
-        .def(py::init<BufferRef, BufferRef>());
+        .def(py::init<BufferRef, BufferRef>())
+        .def("get2D", &Buffer2D::get2D);
 
     py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")
         .def(py::init<int>());
