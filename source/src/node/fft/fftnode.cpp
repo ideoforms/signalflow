@@ -46,6 +46,11 @@ FFTOpNode::FFTOpNode(NodeRef input)
     , input(input)
 {
     this->add_input("input", this->input);
+
+    if (dynamic_cast<FFTNode *>(input.get()) == nullptr)
+    {
+        throw std::runtime_error("Input to FFT operation nodes must be an FFT node");
+    }
 }
 
 void FFTOpNode::set_input(std::string name, const NodeRef &node)
