@@ -51,7 +51,7 @@ void init_python_buffer(py::module &m)
         });
 
     py::class_<Buffer2D, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
-        .def(py::init<BufferRef, BufferRef>())
+        .def(py::init<std::vector<BufferRef>>())
         .def("get2D", &Buffer2D::get2D);
 
     py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")

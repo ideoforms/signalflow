@@ -14,7 +14,8 @@ namespace libsignal
 class Buffer2D : public Buffer
 {
 public:
-    Buffer2D(BufferRef bufferA, BufferRef bufferB);
+    Buffer2D(std::vector<BufferRef> buffers);
+    virtual ~Buffer2D();
 
     /**------------------------------------------------------------------------
      * Query a sample in the 2D buffer space.
@@ -26,8 +27,7 @@ public:
     sample get2D(double offset_x, double offset_z);
 
 private:
-    BufferRef bufferA;
-    BufferRef bufferB;
+    int num_buffers = 0;
 };
 
 typedef BufferRefTemplate<Buffer2D> BufferRef2D;

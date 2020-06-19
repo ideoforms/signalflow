@@ -116,15 +116,27 @@ def test_buffer_save(graph):
 
 def test_buffer_2d(graph):
     b1 = Buffer([ 1, 5, 9 ])
-    b2 = Buffer([ 3, 4, 5 ])
-    assert b1.get(0) == 1
-    assert b2.get(0) == 3
+    b2 = Buffer([ 2, 4, 5 ])
+    b3 = Buffer([ 5, 5, 5 ])
 
-    b2d = Buffer2D(b1, b2)
-    assert b2d.get2D(0, 0) == 1
-    assert b2d.get2D(2, 0) == 9
-    assert b2d.get2D(0, 1) == 3
-    assert b2d.get2D(2, 1) == 5
-    assert b2d.get2D(0, 0.5) == 2
-    assert b2d.get2D(2, 0.5) == 7
-    assert b2d.get2D(1.5, 0.5) == 5.75
+    b2d = Buffer2D([ b1, b2, b3 ])
+
+    assert b2d.get2D(0, 0.00) == 1
+    assert b2d.get2D(0, 0.25) == 1.5
+    assert b2d.get2D(0, 0.50) == 2
+    assert b2d.get2D(0, 0.75) == 3.5
+    assert b2d.get2D(0, 1.00) == 5
+
+    assert b2d.get2D(2, 0.00) == 9
+    assert b2d.get2D(2, 0.25) == 7
+    assert b2d.get2D(2, 0.50) == 5
+    assert b2d.get2D(2, 0.75) == 5
+    assert b2d.get2D(2, 1.00) == 5
+
+    assert b2d.get2D(1.5, 0.00) == 7
+    assert b2d.get2D(1.5, 0.25) == 5.75
+    assert b2d.get2D(1.5, 0.50) == 4.5
+    assert b2d.get2D(1.5, 0.75) == 4.75
+    assert b2d.get2D(1.5, 1.00) == 5
+
+    # TODO: Test with no interpolation
