@@ -25,7 +25,7 @@ void ChannelMixer::process(sample **out, int num_frames)
          * leftmost channel = 0, rightmost channel = 1
          *-----------------------------------------------------------------------*/
         if (this->channels > 1)
-            out_channel_pan = map(out_channel, 0, this->channels - 1, 0, 1);
+            out_channel_pan = signal_scale_lin_lin(out_channel, 0, this->channels - 1, 0, 1);
         else
             out_channel_pan = 0.5;
 
@@ -35,16 +35,16 @@ void ChannelMixer::process(sample **out, int num_frames)
             if (this->channels > 1)
             {
                 if (this->num_input_channels > 1)
-                    in_channel_pan = map(in_channel, 0, this->num_input_channels - 1, 0, 1);
+                    in_channel_pan = signal_scale_lin_lin(in_channel, 0, this->num_input_channels - 1, 0, 1);
                 else
                     in_channel_pan = 0.5;
 
                 float channel_distance = fabs(in_channel_pan - out_channel_pan);
                 float channel_distance_max = 1.0 / (this->channels - 1);
-                channel_amp = map(channel_distance,
-                                  channel_distance_max, 0,
-                                  0, 1);
-                channel_amp = clip(channel_amp, 0, 1);
+                channel_amp = signal_scale_lin_lin(channel_distance,
+                                                   channel_distance_max, 0,
+                                                   0, 1);
+                channel_amp = signal_clip(channel_amp, 0, 1);
             }
             channel_amp = channel_amp * this->amp_compensation;
 

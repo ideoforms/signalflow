@@ -354,12 +354,12 @@ EnvelopeBuffer::EnvelopeBuffer(int length)
 
 double EnvelopeBuffer::offset_to_frame(double offset)
 {
-    return map(offset, 0, 1, 0, this->num_frames - 1);
+    return signal_scale_lin_lin(offset, 0, 1, 0, this->num_frames - 1);
 }
 
 double EnvelopeBuffer::frame_to_offset(double frame)
 {
-    return map(frame, 0, this->num_frames - 1, 0, 1);
+    return signal_scale_lin_lin(frame, 0, this->num_frames - 1, 0, 1);
 }
 
 void EnvelopeBuffer::fill_exponential(float mu)
@@ -410,12 +410,12 @@ WaveShaperBuffer::WaveShaperBuffer(int length)
 
 double WaveShaperBuffer::offset_to_frame(double offset)
 {
-    return map(offset, -1, 1, 0, this->num_frames - 1);
+    return signal_scale_lin_lin(offset, -1, 1, 0, this->num_frames - 1);
 }
 
 double WaveShaperBuffer::frame_to_offset(double frame)
 {
-    return map(frame, 0, this->num_frames - 1, -1, 1);
+    return signal_scale_lin_lin(frame, 0, this->num_frames - 1, -1, 1);
 }
 
 }

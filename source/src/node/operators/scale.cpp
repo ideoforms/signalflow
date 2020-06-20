@@ -6,7 +6,7 @@ namespace libsignal
 LinExp::LinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
     : UnaryOpNode(input), a(a), b(b), c(c), d(d)
 {
-    this->name = "linexp";
+    this->name = "scale-lin-exp";
 
     this->add_input("a", this->a);
     this->add_input("b", this->b);

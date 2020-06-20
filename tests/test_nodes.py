@@ -23,5 +23,9 @@ def test_nodes_general():
                 if a:
                     name = a.name
                     assert name not in names
+
+                    #--------------------------------------------------------------------------------
+                    # Check that all name properties are from the char class [a..z0..9-]
+                    #--------------------------------------------------------------------------------
                     assert re.match("^[a-z0-9-]+$", name)
                     names.append(name)

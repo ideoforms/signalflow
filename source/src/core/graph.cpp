@@ -193,7 +193,7 @@ void AudioGraph::render(int num_frames)
     /*------------------------------------------------------------------------
      * Timestamp the start of processing to measure CPU usage.
      *-----------------------------------------------------------------------*/
-    double t0 = timestamp();
+    double t0 = signal_timestamp();
 
     this->reset_graph();
     this->traverse_graph(this->output, num_frames);
@@ -204,7 +204,7 @@ void AudioGraph::render(int num_frames)
      * Calculate CPU usage (approximately) by measuring the % of time
      * within the audio I/O callback that was used for processing.
      *-----------------------------------------------------------------------*/
-    double t1 = timestamp();
+    double t1 = signal_timestamp();
     double dt = t1 - t0;
     double t_max = (double) num_frames / this->sample_rate;
     this->cpu_usage = dt / t_max;

@@ -19,7 +19,7 @@ namespace libsignal
  * timestamp(): Return microsecond-accurate timestamp.
  * Useful for monitoring function runtimes.
  *--------------------------------------------------------------------*/
-double timestamp()
+double signal_timestamp()
 {
     timeval tv;
     gettimeofday(&tv, NULL);
@@ -27,9 +27,9 @@ double timestamp()
 }
 
 /*--------------------------------------------------------------------*
- * clip(): Constrain a value within two bounds.
+ * signal_clip(): Constrain a value within two bounds.
  *--------------------------------------------------------------------*/
-double clip(double value, double min, double max)
+double signal_clip(double value, double min, double max)
 {
     if (value < min)
         value = min;
@@ -39,18 +39,18 @@ double clip(double value, double min, double max)
 }
 
 /*--------------------------------------------------------------------*
- * map(): Map a value onto a linear range.
+ * signal_scale_lin_lin(): Map a value onto a linear range.
  *--------------------------------------------------------------------*/
-double map(double value, double fromA, double fromB, double toA, double toB)
+double signal_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB)
 {
     double norm = (value - fromA) / (fromB - fromA);
     return toA + norm * (toB - toA);
 }
 
 /*--------------------------------------------------------------------*
- * linexp(): Map a value onto an exponential range.
+ * scale_lin_exp(): Map a value onto an exponential range.
  *--------------------------------------------------------------------*/
-double linexp(double value, double a, double b, double c, double d)
+double signal_scale_lin_exp(double value, double a, double b, double c, double d)
 {
     if (value <= a)
         return c;
@@ -60,9 +60,9 @@ double linexp(double value, double a, double b, double c, double d)
 }
 
 /*--------------------------------------------------------------------*
- * explin(): Map a value from an exponential to linear range.
+ * signal_scale_exp_lin(): Map a value from an exponential to linear range.
  *--------------------------------------------------------------------*/
-double explin(double value, double a, double b, double c, double d)
+double signal_scale_exp_lin(double value, double a, double b, double c, double d)
 {
     if (value <= a)
         return c;
@@ -71,19 +71,19 @@ double explin(double value, double a, double b, double c, double d)
     return (log(value / a)) / (log(b / a)) * (d - c) + c;
 }
 
-float freq_to_midi(float frequency)
+float signal_frequency_to_midi_note(float frequency)
 {
     /*--------------------------------------------------------------------*
-     * freq_to_midi(): Map a frequency value onto a MIDI note index.
+     * signal_frequency_to_midi_note(): Map a frequency value onto a MIDI note index.
      * 440 = A4 = 69
      *--------------------------------------------------------------------*/
     return 69.0 + 12 * log2(frequency / 440.0);
 }
 
-float midi_to_freq(float midi)
+float signal_midi_note_to_frequency(float midi)
 {
     /*--------------------------------------------------------------------*
-     * midi_to_freq(): Map a MIDI note to a frequency value.
+     * signal_midi_note_to_frequency(): Map a MIDI note to a frequency value.
      * 440 = A4 = 69
      *--------------------------------------------------------------------*/
     return 440.0 * powf(2, (midi - 69) / 12.0);

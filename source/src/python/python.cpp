@@ -7,6 +7,7 @@ void init_python_buffer(py::module &m);
 void init_python_graph(py::module &m);
 void init_python_patch(py::module &m);
 void init_python_exceptions(py::module &m);
+void init_python_util(py::module &m);
 
 PYBIND11_MODULE(libsignal, m)
 {
@@ -24,4 +25,5 @@ PYBIND11_MODULE(libsignal, m)
     init_python_buffer(m);
     init_python_patch(m);
     init_python_exceptions(m);
+    init_python_util(m);
 }

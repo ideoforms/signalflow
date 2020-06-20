@@ -16,9 +16,9 @@ void RoundToScale::process(sample **out, int num_frames)
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
             float value = this->input->out[channel][frame];
-            float midi = freq_to_midi(value);
+            float midi = signal_frequency_to_midi_note(value);
             float midi_rounded = roundf(midi);
-            float freq = midi_to_freq(midi_rounded);
+            float freq = signal_midi_note_to_frequency(midi_rounded);
             out[channel][frame] = freq;
         }
     }

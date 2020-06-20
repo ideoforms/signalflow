@@ -87,6 +87,7 @@ if (CMAKE_BUILD_PYTHON)
         ${CMAKE_CURRENT_SOURCE_DIR}/python/graph.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/python/buffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/python/patch.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/python/util.cpp
     )
 endif()
 

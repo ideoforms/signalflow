@@ -28,6 +28,6 @@ public:
     NodeRef a, b, c, d;
 };
 
-REGISTER(LinExp, "linexp")
+REGISTER(LinExp, "scale-lin-exp")
 REGISTER(Scale, "scale")
 }

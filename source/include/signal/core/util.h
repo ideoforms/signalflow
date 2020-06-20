@@ -17,15 +17,15 @@
 namespace libsignal
 {
 
-double timestamp();
+double signal_timestamp();
 
-double clip(double value, double min, double max);
-double map(double value, double fromA, double fromB, double toA, double toB);
-double linexp(double value, double a, double b, double c, double d);
-double explin(double value, double a, double b, double c, double d);
+double signal_clip(double value, double min, double max);
+double signal_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB);
+double signal_scale_lin_exp(double value, double a, double b, double c, double d);
+double signal_scale_exp_lin(double value, double a, double b, double c, double d);
 
-float freq_to_midi(float frequency);
-float midi_to_freq(float midi);
+float signal_frequency_to_midi_note(float frequency);
+float signal_midi_note_to_frequency(float midi);
 
 float signal_db_to_amp(float db);
 float signal_amp_to_db(float amp);
