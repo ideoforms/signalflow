@@ -93,8 +93,11 @@ typedef RingBuffer<sample> SampleRingBuffer;
     }
 
 /**------------------------------------------------------------------------
-* Algorithm to use when interpolating between samples.
-*------------------------------------------------------------------------*/
+ * Algorithm to use when interpolating between samples.
+ *
+ * Specifying explicit underlying type allows us to forward-declare
+ * enums in class files.
+ *------------------------------------------------------------------------*/
 enum signal_interpolation_mode_t : unsigned int
 {
     SIGNAL_INTERPOLATION_NONE,
@@ -107,12 +110,18 @@ enum signal_event_distribution_t : unsigned int
     SIGNAL_EVENT_DISTRIBUTION_POISSON
 };
 
-typedef enum
+typedef enum : unsigned int
 {
     SIGNAL_SCALE_LIN_LIN,
     SIGNAL_SCALE_LIN_EXP,
     SIGNAL_SCALE_EXP_LIN,
     SIGNAL_SCALE_EXP_EXP
 } signal_scale_t;
+
+typedef enum : unsigned int
+{
+    SIGNAL_CURVE_LINEAR,
+    SIGNAL_CURVE_EXPONENTIAL
+} signal_curve_t;
 
 #define N_CHANNELS -1

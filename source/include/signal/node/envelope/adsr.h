@@ -21,6 +21,7 @@ public:
 
 private:
     float phase;
+    signal_curve_t curve;
     bool released = false;
 };
 

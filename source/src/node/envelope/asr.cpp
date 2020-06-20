@@ -1,5 +1,5 @@
-#include "signal/node/envelope/asr.h"
 #include "signal/core/graph.h"
+#include "signal/node/envelope/asr.h"
 
 namespace libsignal
 {
@@ -10,6 +10,8 @@ EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeR
     this->phase = 0.0;
 
     this->name = "envelope-asr";
+    this->curve = SIGNAL_CURVE_EXPONENTIAL;
+
     this->add_input("attack", this->attack);
     this->add_input("sustain", this->sustain);
     this->add_input("release", this->release);
@@ -72,6 +74,18 @@ void EnvelopeASR::process(sample **out, int num_frames)
         }
 
         this->phase += 1.0 / this->graph->get_sample_rate();
+
+        if (this->curve == SIGNAL_CURVE_EXPONENTIAL)
+        {
+            rv = signal_db_to_amp((rv - 1) * 60);
+        }
+        else if (this->curve == SIGNAL_CURVE_LINEAR)
+        {
+        }
+        else
+        {
+            throw std::runtime_error("Invalid curve value");
+        }
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {

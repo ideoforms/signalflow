@@ -1,5 +1,5 @@
-#include "signal/node/envelope/adsr.h"
 #include "signal/core/graph.h"
+#include "signal/node/envelope/adsr.h"
 
 namespace libsignal
 {
@@ -10,6 +10,7 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
     this->phase = 0.0;
 
     this->name = "envelope-adsr";
+    this->curve = SIGNAL_CURVE_EXPONENTIAL;
     this->add_input("attack", this->attack);
     this->add_input("decay", this->decay);
     this->add_input("sustain", this->sustain);
@@ -80,6 +81,18 @@ void EnvelopeADSR::process(sample **out, int num_frames)
                 }
                 this->phase += phase_step;
             }
+        }
+
+        if (this->curve == SIGNAL_CURVE_EXPONENTIAL)
+        {
+            rv = signal_db_to_amp((rv - 1) * 60);
+        }
+        else if (this->curve == SIGNAL_CURVE_LINEAR)
+        {
+        }
+        else
+        {
+            throw std::runtime_error("Invalid curve value");
         }
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
