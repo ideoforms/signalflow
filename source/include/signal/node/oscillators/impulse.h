@@ -13,7 +13,7 @@ public:
     virtual void process(sample **out, int num_frames);
 
     NodeRef frequency;
-    int steps_remaining;
+    std::vector<int> steps_remaining;
 };
 
 REGISTER(Impulse, "impulse")

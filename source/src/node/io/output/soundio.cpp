@@ -131,7 +131,7 @@ int AudioOut_SoundIO::init()
     this->outstream->format = SoundIoFormatFloat32NE;
     this->outstream->write_callback = write_callback;
     this->outstream->sample_rate = this->device->sample_rate_current;
-    this->outstream->software_latency = 1024 / 44100.0;
+    this->outstream->software_latency = 256 / 44100.0;
 
     this->sample_rate = this->outstream->sample_rate;
 

@@ -59,6 +59,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
  *
  * SIGNAL_CHECK_TRIGGER checks whether the specified frame of a given
  *     input has a rising edge, returning true or false
+ * SIGNAL_CHECK_CHANNEL_TRIGGER ditto, for a specific channel
  * SIGNAL_PROCESS_TRIGGER checks whether the specified frame of a given
  *     input has a rising edge, and performs this->trigger(name) if so
  * SIGNAL_PROCESS_TRIGGER_BLOCK repeats the above operation over
@@ -66,6 +67,10 @@ typedef RingBuffer<sample> SampleRingBuffer;
  *-----------------------------------------------------------------------*/
 #define SIGNAL_CHECK_TRIGGER(input, frame) \
     (input && input->out[0][frame] > input->out[0][frame - 1])
+
+#define SIGNAL_CHECK_CHANNEL_TRIGGER(input, channel, frame) \
+    (input && input->out[channel][frame] > input->out[channel][frame - 1])
+
 #define SIGNAL_PROCESS_TRIGGER(input, frame, name)   \
     if (input && SIGNAL_CHECK_TRIGGER(input, frame)) \
     {                                                \

@@ -16,7 +16,7 @@ public:
     NodeRef release;
     NodeRef clock = nullptr;
 
-    float phase;
+    std::vector<float> phase;
     signal_curve_t curve;
 
     virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
