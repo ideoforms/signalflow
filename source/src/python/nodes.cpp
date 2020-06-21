@@ -78,8 +78,11 @@ void init_python_nodes(py::module &m)
     py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0);
 
-    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "grain_length"_a = 0.1, "rate"_a = 1.0, "max_grains"_a = 2048);
+    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator", "Granulate input")
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "grain_length"_a = 0.1, "rate"_a = 1.0, "max_grains"_a = 2048, R"pbdoc(
+            Init
+            ----
+        )pbdoc");
 
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder")
         .def(py::init<BufferRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "loop"_a = false);
