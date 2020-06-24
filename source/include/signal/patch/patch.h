@@ -21,6 +21,7 @@ public:
     virtual ~Patch();
 
     signal_patch_state_t get_state();
+    void set_input(std::string name, float value);
     void set_input(std::string name, NodeRef value);
     void set_input(std::string name, BufferRef value);
     void disconnect();

@@ -97,6 +97,7 @@ public:
      *-----------------------------------------------------------------------*/
     virtual NodeRef get_input(std::string name);
     virtual void set_input(std::string name, const NodeRef &input);
+    virtual void set_input(std::string name, float value);
 
     /*------------------------------------------------------------------------
      * Disconnect inputs and outputs.

@@ -99,6 +99,26 @@ NodeRef Patch::instantiate(NodeSpec *nodespec)
     return noderef;
 }
 
+void Patch::set_input(std::string name, float value)
+{
+    if (this->inputs[name] == nullptr)
+    {
+        throw std::runtime_error("Patch has no such parameter: " + name);
+    }
+    NodeRef current = this->inputs[name];
+    if (current->name == "constant")
+    {
+        printf("set_input %f\n", value);
+
+        Constant *current_constant = (Constant *) current.get();
+        current_constant->value = value;
+    }
+    else
+    {
+        printf("name: %s\n", current->name.c_str());
+    }
+}
+
 void Patch::set_input(std::string name, NodeRef value)
 {
     /*------------------------------------------------------------------------

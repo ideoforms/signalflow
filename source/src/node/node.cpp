@@ -231,6 +231,15 @@ void Node::set_input(std::string name, const NodeRef &node)
     }
 
     NodeRef current_input = *(this->inputs[name]);
+
+    //    if (node->name == "constant" && current_input && current_input->name == "constant")
+    //    {
+    //        Constant *constant = (Constant *) current_input.get();
+    //        Constant *new_constant = (Constant *) node.get();
+    //        constant->value = new_constant->value;
+    //    }
+    //    else
+    //    {
     if (current_input)
     {
         current_input->remove_output(this, name);
@@ -241,6 +250,27 @@ void Node::set_input(std::string name, const NodeRef &node)
     node->update_channels();
 
     node->add_output(this, name);
+    //    }
+}
+
+void Node::set_input(std::string name, float value)
+{
+    if (this->inputs.find(name) == this->inputs.end())
+    {
+        throw std::runtime_error("Node " + this->name + " has no such input: " + name);
+    }
+
+    NodeRef current_input = *(this->inputs[name]);
+
+    if (current_input && current_input->name == "constant")
+    {
+        Constant *constant = (Constant *) current_input.get();
+        constant->value = value;
+    }
+    else
+    {
+        throw std::runtime_error("Can't set input");
+    }
 }
 
 void Node::remove_input(std::string name)

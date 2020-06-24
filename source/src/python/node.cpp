@@ -63,7 +63,8 @@ void init_python_node(py::module &m)
             }
             return inputs;
         })
-        .def("set_input", &Node::set_input)
+        .def("set_input", [](Node &node, std::string name, float value) { node.set_input(name, value); })
+        .def("set_input", [](Node &node, std::string name, NodeRef noderef) { node.set_input(name, noderef); })
         .def("get_input", &Node::get_input)
         .def("trigger", [](Node &node) { node.trigger(); })
         .def("trigger", [](Node &node, std::string name) { node.trigger(name); })
