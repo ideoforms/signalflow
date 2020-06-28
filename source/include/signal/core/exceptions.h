@@ -5,14 +5,14 @@
 namespace libsignal
 {
 
-struct graph_not_created_exception : public std::exception
+struct graph_not_created_exception : public std::runtime_error
 {
-    // graph_not_created_exception() : std::exception() {}
+    using std::runtime_error::runtime_error;
 
-    const char *what() const throw()
-    {
-        return "No AudioGraph has been created";
-    }
+    graph_not_created_exception()
+        : std::runtime_error("No AudioGraph has been created") {}
+    graph_not_created_exception(const char *message)
+        : std::runtime_error(message) {}
 };
 
 }

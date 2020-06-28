@@ -14,7 +14,7 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
     this->name = "buffer-player";
 
     // TODO this should happen in Node
-    // this->state = SIGNAL_NODE_STATE_ACTIVE;
+    this->state = SIGNAL_NODE_STATE_ACTIVE;
 
     this->add_buffer("buffer", this->buffer);
     this->add_input("rate", this->rate);

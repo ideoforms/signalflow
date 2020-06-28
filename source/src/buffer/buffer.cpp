@@ -28,7 +28,7 @@ Buffer::Buffer(int num_channels, int num_frames)
 {
     if (shared_graph == NULL)
     {
-        throw libsignal::graph_not_created_exception();
+        throw libsignal::graph_not_created_exception("AudioGraph must be created before Buffer can be allocated");
     }
 
     this->num_channels = num_channels;
