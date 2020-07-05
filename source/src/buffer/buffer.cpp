@@ -272,6 +272,21 @@ double Buffer::offset_to_frame(double offset)
     return (double) offset;
 }
 
+bool Buffer::set(int channel_index,
+                 int frame_index,
+                 sample value)
+{
+    if (channel_index >= 0 && channel_index < this->num_channels && frame_index >= 0 && frame_index < this->num_frames)
+    {
+        this->data[channel_index][frame_index] = value;
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 sample Buffer::get_frame(double frame)
 {
     if (frame > this->num_frames - 1)

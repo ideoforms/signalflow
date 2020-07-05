@@ -53,7 +53,7 @@ public:
     * @param index A sample offset, between [0, num_frames].
     * @return A sample value, between [-1, 1].
     *------------------------------------------------------------------------*/
-    virtual sample get(double offset);
+    sample get(double offset);
 
     /**------------------------------------------------------------------------
      * @param frame The absolute frame value to retrieve.
@@ -61,6 +61,15 @@ public:
      * TODO Add support for buffers with >1 channel.
      *------------------------------------------------------------------------*/
     sample get_frame(double frame);
+
+    /**------------------------------------------------------------------------
+     * @param frame_index The frame index to set
+     * @param value The sample value
+     * @return true if the set succeeded, false if frame_index is out of range
+     *------------------------------------------------------------------------*/
+    bool set(int channel_index,
+             int frame_index,
+             sample value);
 
     /**------------------------------------------------------------------------
      * Map a frame index to an offset in the buffer's native range.

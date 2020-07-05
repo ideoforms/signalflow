@@ -1,13 +1,13 @@
 /*------------------------------------------------------------------------
  * Core
  *-----------------------------------------------------------------------*/
+#include <signal/buffer/ringbuffer.h>
 #include <signal/core/constants.h>
 #include <signal/core/core.h>
 #include <signal/core/exceptions.h>
 #include <signal/core/graph.h>
 #include <signal/core/property.h>
 #include <signal/core/random.h>
-#include <signal/buffer/ringbuffer.h>
 #include <signal/core/util.h>
 #include <signal/core/version.h>
 
@@ -80,28 +80,29 @@
 /*------------------------------------------------------------------------
  * Effects
  *-----------------------------------------------------------------------*/
-#include <signal/node/filters/delays/comb.h>
+#include <signal/node/filters/biquad.h>
 #include <signal/node/filters/delays/allpass.h>
+#include <signal/node/filters/delays/comb.h>
 #include <signal/node/filters/delays/onetap.h>
 #include <signal/node/filters/delays/stutter.h>
-#include <signal/node/filters/biquad.h>
 #include <signal/node/filters/eq.h>
-#include <signal/node/filters/sample-and-hold.h>
 #include <signal/node/filters/gate.h>
 #include <signal/node/filters/maximiser.h>
 #include <signal/node/filters/moog.h>
 #include <signal/node/filters/pan.h>
 #include <signal/node/filters/resample.h>
 #include <signal/node/filters/rms.h>
+#include <signal/node/filters/sample-and-hold.h>
 #include <signal/node/filters/smooth.h>
+#include <signal/node/filters/squiz.h>
 #include <signal/node/filters/waveshaper.h>
 #include <signal/node/filters/width.h>
 
 /*------------------------------------------------------------------------
  * Sequencing
  *-----------------------------------------------------------------------*/
-#include <signal/node/sequencing/index.h>
 #include <signal/node/sequencing/counter.h>
+#include <signal/node/sequencing/index.h>
 
 /*------------------------------------------------------------------------
  * Analysis and MIR
