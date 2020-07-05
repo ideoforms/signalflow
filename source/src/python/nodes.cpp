@@ -24,7 +24,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "input"_a = 0.0);
 
     py::class_<Squiz, Node, NodeRefTemplate<Squiz>>(m, "Squiz")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0.0, "rate"_a = 2.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "rate"_a = 2.0, "chunk_size"_a = 1);
 
     py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);

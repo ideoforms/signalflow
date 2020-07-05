@@ -3,13 +3,14 @@
 namespace libsignal
 {
 
-int LOOKAHEAD_FRAMES = 4410;
+int LOOKAHEAD_FRAMES = 44100;
 
-Squiz::Squiz(NodeRef input, NodeRef rate)
-    : UnaryOpNode(input), rate(rate)
+Squiz::Squiz(NodeRef input, NodeRef rate, NodeRef chunk_size)
+    : UnaryOpNode(input), rate(rate), chunk_size(chunk_size)
 {
     this->name = "squiz";
     this->add_input("rate", this->rate);
+    this->add_input("chunk_size", this->chunk_size);
 
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {
@@ -18,7 +19,7 @@ Squiz::Squiz(NodeRef input, NodeRef rate)
         this->write_pos.push_back(LOOKAHEAD_FRAMES / 2);
         this->read_pos.push_back(0.0f);
         this->read_pos_accelerated.push_back(0.0f);
-        this->finished_chunk.push_back(false);
+        this->chunk_counter.push_back(0);
     }
 }
 
@@ -28,7 +29,7 @@ void Squiz::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (!this->finished_chunk[channel])
+            if (this->chunk_counter[channel] < this->chunk_size->out[channel][frame])
             {
                 sample read_last = this->buffers[channel]->get(this->read_pos_accelerated[channel]);
                 this->read_pos_accelerated[channel] += this->rate->out[channel][frame];
@@ -37,7 +38,7 @@ void Squiz::process(sample **out, int num_frames)
                 sample read_cur = this->buffers[channel]->get(this->read_pos_accelerated[channel]);
                 if (read_cur > 0 && read_last <= 0)
                 {
-                    this->finished_chunk[channel] = true;
+                    this->chunk_counter[channel]++;
                     this->out[channel][frame] = 0.0;
                 }
                 else
@@ -58,7 +59,7 @@ void Squiz::process(sample **out, int num_frames)
 
             if (read_cur > 0 && read_last <= 0)
             {
-                this->finished_chunk[channel] = false;
+                this->chunk_counter[channel] = false;
                 this->read_pos_accelerated[channel] = this->read_pos[channel];
             }
 
