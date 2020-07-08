@@ -9,20 +9,26 @@ namespace libsignal
 class Wavetable : public Node
 {
 public:
-    Wavetable(BufferRef table = nullptr, NodeRef frequency = 440);
+    Wavetable(BufferRef table = nullptr,
+              NodeRef frequency = 440,
+              NodeRef sync = 0);
 
     virtual void process(sample **out, int num_frames);
 
 private:
     BufferRef table;
     NodeRef frequency;
-    float phase;
+    NodeRef sync;
+    float phase[SIGNAL_MAX_CHANNELS];
 };
 
 class Wavetable2D : public Node
 {
 public:
-    Wavetable2D(BufferRef2D buffer = nullptr, NodeRef frequency = 440, NodeRef crossfade = 0.0);
+    Wavetable2D(BufferRef2D buffer = nullptr,
+                NodeRef frequency = 440,
+                NodeRef crossfade = 0.0,
+                NodeRef sync = 0);
 
     virtual void process(sample **out, int num_frames);
 
@@ -30,9 +36,10 @@ private:
     BufferRef2D buffer;
     NodeRef frequency;
     NodeRef crossfade;
-    float phase;
+    NodeRef sync;
+    float phase[SIGNAL_MAX_CHANNELS];
 };
 
 REGISTER(Wavetable, "wavetable")
-REGISTER(Wavetable2D, "wavetable2D")
+REGISTER(Wavetable2D, "wavetable2d")
 }
