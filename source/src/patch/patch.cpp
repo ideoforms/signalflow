@@ -93,6 +93,15 @@ NodeRef Patch::instantiate(NodeSpec *nodespec)
             this->inputs[nodespec->input_name] = noderef;
         }
 
+        for (auto buffer_input : nodespec->buffer_inputs)
+        {
+            std::string patch_input_name = buffer_input.first;
+            std::string node_input_name = buffer_input.second;
+            BufferRef placeholder = new Buffer();
+            noderef->set_buffer(node_input_name, placeholder);
+            this->buffer_inputs[patch_input_name] = placeholder;
+        }
+
         noderef->set_patch(this);
     }
 
@@ -108,8 +117,6 @@ void Patch::set_input(std::string name, float value)
     NodeRef current = this->inputs[name];
     if (current->name == "constant")
     {
-        printf("set_input %f\n", value);
-
         Constant *current_constant = (Constant *) current.get();
         current_constant->value = value;
     }
@@ -220,6 +227,19 @@ std::string Patch::_get_input_name(const NodeRef &node)
     return "";
 }
 
+std::string Patch::_get_input_name(const BufferRef &buffer)
+{
+    for (auto input : this->buffer_inputs)
+    {
+        std::string name = input.first;
+        BufferRef buffer_ptr = input.second;
+        if (buffer_ptr.get() == buffer.get())
+            return name;
+    }
+
+    return "";
+}
+
 NodeRef Patch::add_node(NodeRef node)
 {
     nodes.insert(node);
@@ -251,10 +271,6 @@ PatchSpecRef Patch::create_spec()
     spec->parsed = true;
     spec->nodespecs = this->nodespecs;
 
-    //    std::copy(this->buffer_inputs.begin(),
-    //              this->buffer_inputs.end(),
-    //              std::inserter(spec->buffer_inputs, spec->buffer_inputs.begin()));
-
     for (auto node : nodes)
     {
         if (parsed_nodes.find(node) == parsed_nodes.end())
@@ -268,23 +284,33 @@ PatchSpecRef Patch::create_spec()
 
 NodeSpec Patch::_parse_from_node(const NodeRef &node)
 {
-    NodeSpec def(node->name);
-    def.set_id(this->last_id++);
+    NodeSpec nodespec(node->name);
+    nodespec.set_id(this->last_id++);
 
     if (node->name == "constant")
     {
         Constant *constant = (Constant *) node.get();
-        def.set_value(constant->value);
+        nodespec.set_constant_value(constant->value);
     }
     else
     {
-        for (auto param : node->inputs)
+        for (auto input : node->inputs)
         {
-            NodeRef param_node = *(param.second);
-            if (param_node)
+            NodeRef input_node = *(input.second);
+            if (input_node)
             {
-                NodeSpec param_def = this->_parse_from_node(param_node);
-                def.add_input(param.first, &param_def);
+                NodeSpec input_spec = this->_parse_from_node(input_node);
+                nodespec.add_input(input.first, &input_spec);
+            }
+        }
+
+        for (auto buffer : node->buffers)
+        {
+            BufferRef input_buffer = *(buffer.second);
+            std::string buffer_input_name = this->_get_input_name(input_buffer);
+            if (!buffer_input_name.empty())
+            {
+                nodespec.add_buffer_input(buffer_input_name, buffer.first);
             }
         }
     }
@@ -292,13 +318,13 @@ NodeSpec Patch::_parse_from_node(const NodeRef &node)
     std::string input_name = this->_get_input_name(node);
     if (!input_name.empty())
     {
-        def.input_name = input_name;
+        nodespec.input_name = input_name;
     }
 
-    this->nodespecs[def.id] = def;
+    this->nodespecs[nodespec.id] = nodespec;
     this->parsed_nodes.insert(node);
 
-    return def;
+    return nodespec;
 }
 
 }

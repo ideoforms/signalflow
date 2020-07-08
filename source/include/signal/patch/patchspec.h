@@ -47,8 +47,6 @@ public:
 
     std::string name;
 
-    // private:
-
     void print(NodeSpec *root, int depth);
 
     NodeSpec output_def;
@@ -56,7 +54,6 @@ public:
     int last_id = 0;
 
     std::unordered_map<int, NodeSpec> nodespecs;
-    std::set<std::string, BufferSpec> buffer_inputs;
 };
 
 template <class T>

@@ -9,14 +9,14 @@ namespace libsignal
 class Wavetable : public Node
 {
 public:
-    Wavetable(BufferRef table = nullptr,
+    Wavetable(BufferRef buffer = nullptr,
               NodeRef frequency = 440,
               NodeRef sync = 0);
 
     virtual void process(sample **out, int num_frames);
 
 private:
-    BufferRef table;
+    BufferRef buffer;
     NodeRef frequency;
     NodeRef sync;
     float phase[SIGNAL_MAX_CHANNELS];

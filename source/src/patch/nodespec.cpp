@@ -20,7 +20,7 @@ NodeSpec::NodeSpec(std::string name)
 NodeSpec::NodeSpec(std::string name, float value)
     : name(name)
 {
-    this->set_value(value);
+    this->set_constant_value(value);
 }
 
 void NodeSpec::set_id(int value)
@@ -45,12 +45,12 @@ void NodeSpec::add_input(std::string name, float value)
     this->inputs[name] = new NodeSpec("constant", value);
 }
 
-void NodeSpec::add_buffer_input(std::string name)
+void NodeSpec::add_buffer_input(std::string patch_input_name, std::string node_input_name)
 {
-    this->buffer_inputs[name] = new BufferSpec("name");
+    this->buffer_inputs[patch_input_name] = node_input_name;
 }
 
-void NodeSpec::set_value(float value)
+void NodeSpec::set_constant_value(float value)
 {
     this->value = value;
     this->is_constant = true;

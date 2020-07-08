@@ -4,8 +4,8 @@
 namespace libsignal
 {
 
-Wavetable::Wavetable(BufferRef table, NodeRef frequency, NodeRef sync)
-    : table(table), frequency(frequency), sync(sync)
+Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef sync)
+    : buffer(buffer), frequency(frequency), sync(sync)
 {
     this->name = "wavetable";
 
@@ -13,6 +13,7 @@ Wavetable::Wavetable(BufferRef table, NodeRef frequency, NodeRef sync)
 
     this->add_input("frequency", this->frequency);
     this->add_input("sync", this->sync);
+    this->add_buffer("buffer", this->buffer);
 }
 
 void Wavetable::process(sample **out, int num_frames)
@@ -21,17 +22,14 @@ void Wavetable::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            printf("check trig\n");
             if (SIGNAL_CHECK_CHANNEL_TRIGGER(this->sync, channel, frame))
             {
                 this->phase[channel] = 0.0;
             }
 
-            printf("get freq\n");
             float frequency = this->frequency->out[channel][frame];
-            printf("query table\n");
-            int index = this->phase[channel] * this->table->num_frames;
-            float rv = this->table->get(index);
+            int index = this->phase[channel] * this->buffer->num_frames;
+            float rv = this->buffer->get(index);
 
             out[channel][frame] = rv;
 
@@ -52,6 +50,9 @@ Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfad
     this->add_input("frequency", this->frequency);
     this->add_input("crossfade", this->crossfade);
     this->add_input("sync", this->sync);
+
+    // Named Buffer inputs don't yet work for Buffer2Ds :-(
+    // this->add_buffer("buffer", this->buffer);
 }
 
 void Wavetable2D::process(sample **out, int num_frames)

@@ -62,6 +62,7 @@ private:
     int last_id = 0;
 
     std::string _get_input_name(const NodeRef &node);
+    std::string _get_input_name(const BufferRef &buf);
     NodeSpec _parse_from_node(const NodeRef &node);
     std::unordered_map<int, NodeSpec> nodespecs;
     std::set<NodeRef> parsed_nodes;
