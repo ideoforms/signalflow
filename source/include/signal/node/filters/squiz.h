@@ -19,9 +19,10 @@ public:
 
     std::vector<BufferRef> buffers;
     std::vector<float> read_pos;
-    std::vector<float> read_pos_accelerated;
+    std::vector<int> read_pos_chunk_counter;
+    std::vector<float> repitched_read_pos;
+    std::vector<int> repitched_read_pos_chunk_counter;
     std::vector<int> write_pos;
-    std::vector<int> chunk_counter;
 };
 
 REGISTER(Squiz, "squiz")
