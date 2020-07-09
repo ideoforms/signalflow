@@ -21,6 +21,7 @@ namespace libsignal
 extern AudioGraph *shared_graph;
 
 Buffer::Buffer()
+    : Buffer(0, 0)
 {
 }
 
@@ -38,11 +39,18 @@ Buffer::Buffer(int num_channels, int num_frames)
     this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
 
     // contiguous allocation
-    this->data = new sample *[this->num_channels]();
-    sample *data_channels = new sample[this->num_channels * this->num_frames]();
-    for (int channel = 0; channel < this->num_channels; channel++)
+    if (this->num_channels)
     {
-        this->data[channel] = data_channels + (this->num_frames * channel);
+        this->data = new sample *[this->num_channels]();
+        sample *data_channels = new sample[this->num_channels * this->num_frames]();
+        for (int channel = 0; channel < this->num_channels; channel++)
+        {
+            this->data[channel] = data_channels + (this->num_frames * channel);
+        }
+    }
+    else
+    {
+        this->data = 0;
     }
 }
 

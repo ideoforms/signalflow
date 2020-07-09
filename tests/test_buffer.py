@@ -12,6 +12,12 @@ def test_buffer_no_graph():
     except GraphNotCreatedException:
         pass
 
+def test_buffer_null(graph):
+    b = Buffer()
+    assert b.num_channels == 0
+    assert b.num_frames == 0
+    assert len(b) == 0
+
 def test_buffer(graph):
     b = Buffer(1, 32)
     assert b.num_channels == 1

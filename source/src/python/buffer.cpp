@@ -6,6 +6,7 @@ void init_python_buffer(py::module &m)
      * Buffer
      *-------------------------------------------------------------------------------*/
     py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer", "A buffer of audio samples")
+        .def(py::init<>())
         .def(py::init<std::string>())
         .def(py::init<int, int>(), R"pbdoc(
             Init
