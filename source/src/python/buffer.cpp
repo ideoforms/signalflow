@@ -51,7 +51,7 @@ void init_python_buffer(py::module &m)
                 buf.data[0]);
         });
 
-    py::class_<Buffer2D, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
+    py::class_<Buffer2D, Buffer, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
         .def(py::init<std::vector<BufferRef>>())
         .def("get2D", &Buffer2D::get2D);
 
