@@ -91,7 +91,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
     py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable")
-        .def(py::init<BufferRef, NodeRef, NodeRef>(), "table"_a = nullptr, "frequency"_a = 440, "sync"_a = 0);
+        .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "sync"_a = 0);
 
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D")
         .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "sync"_a = 0);
