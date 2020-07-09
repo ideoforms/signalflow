@@ -17,6 +17,8 @@ void init_python_patch(py::module &m)
         .def_readonly("inputs", &Patch::inputs)
 
         // template methods
+        .def("add_input", [](Patch &patch, std::string name) { return patch.add_input(name); })
+        .def("add_input", [](Patch &patch, std::string name, float value) { return patch.add_input(name, value); })
         .def("add_input", &Patch::add_input)
         .def("add_buffer_input", &Patch::add_buffer_input)
         .def("add_node", &Patch::add_node)
