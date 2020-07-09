@@ -39,6 +39,6 @@ private:
     float z1, z2;
 };
 
-REGISTER(BiquadFilter, "biquad")
+REGISTER(BiquadFilter, "biquad-filter")
 
 }
