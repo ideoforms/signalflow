@@ -297,6 +297,11 @@ bool Buffer::set(int channel_index,
 
 sample Buffer::get_frame(double frame)
 {
+    if (!this->data)
+    {
+        throw std::runtime_error("Buffer has zero length, frame is out of bounds");
+    }
+
     if (frame > this->num_frames - 1)
     {
         frame = this->num_frames - 1;

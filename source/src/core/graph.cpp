@@ -80,7 +80,6 @@ void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
      *-----------------------------------------------------------------------*/
     if (node->has_rendered)
     {
-        signal_debug("Already processed node %s, skipping", node->name.c_str());
         return;
     }
 
@@ -110,8 +109,12 @@ void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
              *
              * A few nodes must prevent automatic input up-mixing from happening.
              * These include ChannelArray and AudioOut.
+             *
+             * Some partially-initialised nodes (e.g. BufferPlayer with a not-yet-
+             * populated Buffer) will have num_output_channels == 0. Don't try to
+             * upmix a void output.
              *-----------------------------------------------------------------------*/
-            if (param_node->num_output_channels < node->num_input_channels && !node->no_input_upmix)
+            if (param_node->num_output_channels < node->num_input_channels && !node->no_input_upmix && param_node->num_output_channels > 0)
             {
                 signal_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
                              node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);

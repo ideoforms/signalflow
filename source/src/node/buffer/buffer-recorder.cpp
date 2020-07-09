@@ -27,6 +27,12 @@ BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
 
 void BufferRecorder::process(sample **out, int num_frames)
 {
+    /*--------------------------------------------------------------------------------
+     * If buffer is null or empty, don't try to process.
+     *--------------------------------------------------------------------------------*/
+    if (!this->buffer || !this->buffer->num_frames)
+        return;
+
     for (int frame = 0; frame < num_frames; frame++)
     {
         for (int channel = 0; channel < this->num_input_channels; channel++)
