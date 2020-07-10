@@ -1,4 +1,4 @@
-#include "signalflow/buffer/buffer2D.h"
+#include "signalflow/buffer/buffer2d.h"
 
 #include <vector>
 
