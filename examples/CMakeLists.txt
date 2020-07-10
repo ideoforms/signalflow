@@ -32,5 +32,5 @@ foreach (EXAMPLE ${EXAMPLES})
         PROPERTIES
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
     )
-    target_link_libraries(${EXAMPLE_NAME} signal)
+    target_link_libraries(${EXAMPLE_NAME} signalflow)
 endforeach()

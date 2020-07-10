@@ -1,6 +1,6 @@
-#include "signal/node/buffer/granulator.h"
+#include "signalflow/node/buffer/granulator.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate, NodeRef max_grains)

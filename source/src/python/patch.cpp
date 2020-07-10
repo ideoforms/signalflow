@@ -1,4 +1,4 @@
-#include "signal/python/python.h"
+#include "signalflow/python/python.h"
 
 void init_python_patch(py::module &m)
 {

@@ -1,8 +1,8 @@
-#include "signal/buffer/buffer.h"
-#include "signal/core/constants.h"
-#include "signal/core/exceptions.h"
-#include "signal/core/graph.h"
-#include "signal/core/random.h"
+#include "signalflow/buffer/buffer.h"
+#include "signalflow/core/constants.h"
+#include "signalflow/core/exceptions.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/core/random.h"
 
 #ifdef HAVE_SNDFILE
 #include <sndfile.h>
@@ -15,7 +15,7 @@
 
 #define SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE 1024
 
-namespace libsignal
+namespace signalflow
 {
 
 extern AudioGraph *shared_graph;
@@ -29,7 +29,7 @@ Buffer::Buffer(int num_channels, int num_frames)
 {
     if (shared_graph == NULL)
     {
-        throw libsignal::graph_not_created_exception("AudioGraph must be created before Buffer can be allocated");
+        throw signalflow::graph_not_created_exception("AudioGraph must be created before Buffer can be allocated");
     }
 
     this->num_channels = num_channels;

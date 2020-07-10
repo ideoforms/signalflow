@@ -6,12 +6,12 @@
  * static property, not a node.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {
@@ -20,7 +20,7 @@ int main()
     /*------------------------------------------------------------------------
      * Create a list of frequencies to iterate over
      *-----------------------------------------------------------------------*/
-    std::vector <float> freqs = { 60, 120, 180, 240, 300, 360, 420, 480 };
+    std::vector<float> freqs = { 60, 120, 180, 240, 300, 360, 420, 480 };
 
     /*------------------------------------------------------------------------
      * Create a pair of sawtooth waves, scaled between 0..8, used to index
@@ -38,7 +38,7 @@ int main()
      * with a time-synced pair of Triangle waves to act as envelopes.
      *-----------------------------------------------------------------------*/
     NodeRef sine = new Sine(index);
-    NodeRef envelope = (new Triangle({ 8, 7.76  }))->scale(0, 1);
+    NodeRef envelope = (new Triangle({ 8, 7.76 }))->scale(0, 1);
     sine = sine * envelope;
 
     /*------------------------------------------------------------------------

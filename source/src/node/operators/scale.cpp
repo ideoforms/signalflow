@@ -1,6 +1,6 @@
-#include "signal/node/operators/scale.h"
+#include "signalflow/node/operators/scale.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 LinExp::LinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)

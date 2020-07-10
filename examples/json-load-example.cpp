@@ -5,9 +5,9 @@
  * Optional pathname to a JSON file can be passed in argv.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main(int argc, char **argv)
 {

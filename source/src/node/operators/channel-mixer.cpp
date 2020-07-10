@@ -1,7 +1,7 @@
-#include "signal/core/core.h"
-#include "signal/node/operators/channel-mixer.h"
+#include "signalflow/core/core.h"
+#include "signalflow/node/operators/channel-mixer.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 ChannelMixer::ChannelMixer(int channels, NodeRef input)

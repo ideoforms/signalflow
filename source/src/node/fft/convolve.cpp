@@ -1,9 +1,9 @@
 #ifdef __APPLE__
 
-#include "signal/node/fft/convolve.h"
-#include "signal/node/fft/fft.h"
+#include "signalflow/node/fft/convolve.h"
+#include "signalflow/node/fft/fft.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)

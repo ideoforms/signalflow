@@ -1,9 +1,9 @@
-#include "signal/node/fft/noise-gate.h"
+#include "signalflow/node/fft/noise-gate.h"
 
 #include <algorithm>
 #include <array>
 
-namespace libsignal
+namespace signalflow
 {
 
 FFTNoiseGate::FFTNoiseGate(NodeRef input, NodeRef threshold)

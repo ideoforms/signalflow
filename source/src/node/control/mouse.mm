@@ -1,11 +1,11 @@
-#include "signal/node/control/mouse.h"
+#include "signalflow/node/control/mouse.h"
 
 #ifdef __APPLE__
 
 #include <AppKit/AppKit.h>
 #include <Foundation/Foundation.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 MouseX::MouseX()

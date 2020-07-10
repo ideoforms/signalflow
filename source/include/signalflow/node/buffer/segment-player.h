@@ -1,0 +1,21 @@
+#include "signalflow/buffer/buffer.h"
+#include "signalflow/core/constants.h"
+#include "signalflow/node/node.h"
+
+namespace signalflow
+{
+class SegmentPlayer : public Node
+{
+public:
+    SegmentPlayer(BufferRef buffer = nullptr, PropertyRef onsets = {});
+
+    BufferRef buffer;
+
+    float phase;
+
+    virtual void process(sample **out, int num_frames);
+    virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
+};
+
+REGISTER(SegmentPlayer, "segment-player")
+}

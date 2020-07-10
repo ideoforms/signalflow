@@ -6,12 +6,12 @@
  * periodically reset the position of an envelope node.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
-#include <unistd.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {

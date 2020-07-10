@@ -1,7 +1,7 @@
-#include "signal/node/stochastic/logistic.h"
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/stochastic/logistic.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Logistic::Logistic(NodeRef chaos, NodeRef frequency)

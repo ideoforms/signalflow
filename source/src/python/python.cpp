@@ -1,4 +1,4 @@
-#include "signal/python/python.h"
+#include "signalflow/python/python.h"
 
 void init_python_constants(py::module &m);
 void init_python_node(py::module &m);
@@ -9,7 +9,7 @@ void init_python_patch(py::module &m);
 void init_python_exceptions(py::module &m);
 void init_python_util(py::module &m);
 
-PYBIND11_MODULE(libsignal, m)
+PYBIND11_MODULE(signalflow, m)
 {
     m.doc() = R"pbdoc(
     signalflow

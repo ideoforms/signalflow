@@ -1,6 +1,6 @@
-#include "signal/node/operators/subtract.h"
+#include "signalflow/node/operators/subtract.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Subtract::Subtract(NodeRef a, NodeRef b)

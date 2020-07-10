@@ -1,6 +1,6 @@
-#include "signal/node/sequencing/counter.h"
+#include "signalflow/node/sequencing/counter.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Counter::Counter(NodeRef clock, NodeRef min, NodeRef max)

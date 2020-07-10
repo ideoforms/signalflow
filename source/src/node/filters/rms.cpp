@@ -1,6 +1,6 @@
-#include "signal/node/filters/rms.h"
+#include "signalflow/node/filters/rms.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 RMS::RMS(NodeRef input)

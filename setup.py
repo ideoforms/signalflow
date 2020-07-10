@@ -32,11 +32,11 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
 
 setup(
-    name='libsignal',
+    name='signalflow',
     version='0.0.1',
     author='Daniel Jones',
     author_email='dan@erase.net',
-    description='libsignal',
+    description='signalflow',
     ext_modules=[CMakeExtension('libsignal')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,

@@ -1,6 +1,6 @@
-#include "signal/node/filters/smooth.h"
+#include "signalflow/node/filters/smooth.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Smooth::Smooth(NodeRef input, NodeRef smooth)

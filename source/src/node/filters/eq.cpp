@@ -1,11 +1,11 @@
-#include "signal/node/filters/eq.h"
+#include "signalflow/node/filters/eq.h"
 
-#include "signal/core/graph.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/constant.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 EQ::EQ(NodeRef input, NodeRef low_gain, NodeRef mid_gain, NodeRef high_gain,

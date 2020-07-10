@@ -5,9 +5,9 @@
  * to create complex harmonics.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {

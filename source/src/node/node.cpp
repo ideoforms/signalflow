@@ -1,20 +1,20 @@
-#include "signal/node/node.h"
+#include "signalflow/node/node.h"
 
-#include "signal/node/operators/add.h"
-#include "signal/node/operators/divide.h"
-#include "signal/node/operators/multiply.h"
-#include "signal/node/operators/pow.h"
-#include "signal/node/operators/scale.h"
-#include "signal/node/operators/subtract.h"
+#include "signalflow/node/operators/add.h"
+#include "signalflow/node/operators/divide.h"
+#include "signalflow/node/operators/multiply.h"
+#include "signalflow/node/operators/pow.h"
+#include "signalflow/node/operators/scale.h"
+#include "signalflow/node/operators/subtract.h"
 
-#include "signal/node/operators/channel-array.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/node/operators/channel-array.h"
+#include "signalflow/node/oscillators/constant.h"
 
-#include "signal/core/core.h"
-#include "signal/core/graph.h"
-#include "signal/node/node-monitor.h"
+#include "signalflow/core/core.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/node-monitor.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 extern AudioGraph *shared_graph;
@@ -522,4 +522,4 @@ sample NodeRefTemplate<T>::operator[](int index)
 // Explicitly instantiate the class
 template class NodeRefTemplate<Node>;
 
-} /* namespace libsignal */
+} /* namespace signalflow */

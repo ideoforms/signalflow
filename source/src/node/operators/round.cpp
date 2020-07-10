@@ -1,6 +1,6 @@
-#include "signal/node/operators/round.h"
+#include "signalflow/node/operators/round.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 RoundToScale::RoundToScale(NodeRef a)

@@ -1,9 +1,9 @@
-#include "signal/node/buffer/segment-player.h"
-#include "signal/core/random.h"
+#include "signalflow/core/random.h"
+#include "signalflow/node/buffer/segment-player.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)

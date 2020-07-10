@@ -1,6 +1,6 @@
-#include "signal/node/operators/add.h"
+#include "signalflow/node/operators/add.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Add::Add(NodeRef a, NodeRef b)

@@ -4,9 +4,9 @@
  * Demonstrates constructing a waveshaper buffer from a lambda function,
  * used to dynamically alter the timbre of an oscillator.
  *-----------------------------------------------------------------------*/
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {

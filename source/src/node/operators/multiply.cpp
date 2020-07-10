@@ -1,6 +1,6 @@
-#include "signal/node/operators/multiply.h"
+#include "signalflow/node/operators/multiply.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Multiply::Multiply(NodeRef a, NodeRef b)

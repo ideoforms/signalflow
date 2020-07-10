@@ -1,6 +1,6 @@
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/node/oscillators/constant.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Constant::Constant(sample value)

@@ -1,8 +1,8 @@
-#include "signal/buffer/buffer2D.h"
+#include "signalflow/buffer/buffer2D.h"
 
 #include <vector>
 
-namespace libsignal
+namespace signalflow
 {
 
 Buffer2D::Buffer2D(std::vector<BufferRef> buffers)

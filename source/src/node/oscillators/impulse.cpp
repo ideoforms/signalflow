@@ -1,8 +1,8 @@
-#include "signal/core/graph.h"
-#include "signal/node/oscillators/impulse.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/impulse.h"
 #include <limits.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 Impulse::Impulse(NodeRef frequency)

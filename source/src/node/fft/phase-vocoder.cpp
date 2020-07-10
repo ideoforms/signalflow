@@ -1,6 +1,6 @@
-#include "signal/node/fft/phase-vocoder.h"
+#include "signalflow/node/fft/phase-vocoder.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 FFTPhaseVocoder::FFTPhaseVocoder(NodeRef input)

@@ -4,9 +4,9 @@
  * An array of delayed sine pings.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {
@@ -39,4 +39,3 @@ int main()
      *-----------------------------------------------------------------------*/
     graph->wait();
 }
-

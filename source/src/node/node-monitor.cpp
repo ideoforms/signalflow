@@ -1,6 +1,6 @@
-#include "signal/node/node-monitor.h"
+#include "signalflow/node/node-monitor.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 NodeMonitor::NodeMonitor(NodeRef node, std::string label, float frequency)

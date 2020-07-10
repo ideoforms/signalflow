@@ -1,9 +1,9 @@
-#include "signal/core/graph.h"
-#include "signal/node/buffer/buffer-player.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/buffer/buffer-player.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)

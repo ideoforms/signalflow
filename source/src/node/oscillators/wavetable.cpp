@@ -1,7 +1,7 @@
-#include "signal/core/graph.h"
-#include "signal/node/oscillators/wavetable.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/wavetable.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef sync)

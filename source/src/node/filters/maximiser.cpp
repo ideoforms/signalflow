@@ -1,7 +1,7 @@
-#include "signal/node/filters/maximiser.h"
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/filters/maximiser.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Maximiser::Maximiser(NodeRef input, NodeRef ceiling, NodeRef attack_time, NodeRef release_time)

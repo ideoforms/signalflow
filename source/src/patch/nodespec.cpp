@@ -1,6 +1,6 @@
-#include "signal/patch/nodespec.h"
+#include "signalflow/patch/nodespec.h"
 
-namespace libsignal
+namespace signalflow
 {
 NodeSpec::NodeSpec()
     : name("(null)")

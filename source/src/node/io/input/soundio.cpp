@@ -1,9 +1,9 @@
-#include "signal/node/io/input/soundio.h"
+#include "signalflow/node/io/input/soundio.h"
 
 #ifdef HAVE_SOUNDIO
 
-#include "signal/core/graph.h"
-#include "signal/node/io/output/soundio.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/io/output/soundio.h"
 
 #include <iostream>
 #include <math.h>
@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 extern AudioIn_Abstract *shared_in;

@@ -1,7 +1,7 @@
-#include "signal/node/oscillators/square.h"
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/square.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Square::Square(NodeRef frequency, NodeRef width)

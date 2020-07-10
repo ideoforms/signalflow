@@ -1,7 +1,7 @@
-#include "signal/node/oscillators/line.h"
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/line.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Line::Line(NodeRef from, NodeRef to, NodeRef time)

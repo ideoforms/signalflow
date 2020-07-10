@@ -1,5 +1,5 @@
-#include "signal/core/graph.h"
-#include "signal/node/filters/biquad.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/filters/biquad.h"
 
 #include <stdlib.h>
 
@@ -8,7 +8,7 @@
  * Source: https://www.earlevel.com/main/2012/11/26/biquad-c-source-code/
  **-------------------------------------------------------------------------------*/
 
-namespace libsignal
+namespace signalflow
 {
 
 BiquadFilter::BiquadFilter(NodeRef input,

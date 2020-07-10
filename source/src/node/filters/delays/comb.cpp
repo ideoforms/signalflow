@@ -1,9 +1,9 @@
-#include "signal/node/filters/delays/comb.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/node/filters/delays/comb.h"
+#include "signalflow/node/oscillators/constant.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)

@@ -1,6 +1,6 @@
-#include "signal/node/filters/gate.h"
+#include "signalflow/node/filters/gate.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Gate::Gate(NodeRef input, NodeRef threshold)

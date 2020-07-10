@@ -1,6 +1,6 @@
-#include "signal/node/operators/divide.h"
+#include "signalflow/node/operators/divide.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Divide::Divide(NodeRef a, NodeRef b)

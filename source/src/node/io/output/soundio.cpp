@@ -1,8 +1,8 @@
-#include "signal/node/io/output/soundio.h"
+#include "signalflow/node/io/output/soundio.h"
 
 #ifdef HAVE_SOUNDIO
 
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
 
 #include <iostream>
 #include <math.h>
@@ -12,7 +12,7 @@
 
 static bool is_processing = false;
 
-namespace libsignal
+namespace signalflow
 {
 
 extern AudioGraph *shared_graph;
@@ -182,6 +182,6 @@ int AudioOut_SoundIO::destroy()
     return 0;
 }
 
-} // namespace libsignal
+} // namespace signalflow
 
 #endif

@@ -1,6 +1,6 @@
-#include "signal/node/sequencing/index.h"
+#include "signalflow/node/sequencing/index.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Index::Index(PropertyRef list, NodeRef index)

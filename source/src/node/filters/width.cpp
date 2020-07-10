@@ -1,6 +1,6 @@
-#include "signal/node/filters/width.h"
+#include "signalflow/node/filters/width.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Width::Width(NodeRef input, NodeRef width)

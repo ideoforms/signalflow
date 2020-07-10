@@ -1,7 +1,7 @@
-#include "signal/core/renderer.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/core/renderer.h"
+#include "signalflow/node/oscillators/constant.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 GraphRenderer::GraphRenderer()
@@ -60,4 +60,4 @@ void GraphRenderer::render(AudioGraphRef graph)
     std::cout << "digraph { splines=ortho; graph [pad=1, ranksep=0.5, nodesep=0.5]; node [ fontname = helvetica, fontsize = 11, shape = box  ]; edge [ fontname = helvetica, fontsize = 9 ]; " << nodestream.str() << edgestream.str() << "} " << std::endl;
 }
 
-} /* namespace libsignal */
+} /* namespace signalflow */

@@ -1,33 +1,58 @@
-# signal
+# SignalFlow
 
 ![ci](https://github.com/ideoforms/signal/workflows/ci/badge.svg)
 
-Signal is an audio synthesis engine designed for structural clarity, lightness of code, and concise expression of complex ideas. It is built with modern standards, taking advantage of the powerful expressive capabilities of c++11 and json.
+SignalFlow is an audio synthesis framework designed for clear and concise expression of complex musical ideas. It has interfaces for Python and C++, and so can be used for experimentation in iPython/Jupyter or embedded into cross-platform applications.
 
-Signal is in alpha status. Interfaces may be subject to change. 
+SignalFlow is in alpha status. All interfaces may be subject to change.
 
 ## Example
 
-```cpp
-#include <signal/signal.h>
-using namespace libsignal;
+```python
+from signalflow import *
 
-AudioGraphRef graph = new AudioGraph();
+#--------------------------------------------------------------------------------
+# An AudioGraph is made up of a network of interconnected Nodes, which generate
+# and process audio. 
+#--------------------------------------------------------------------------------
+graph = AudioGraph()
 
-/*------------------------------------------------------------------------
- * Initializing Sine with an array of frequencies creates a stereo output.
- *-----------------------------------------------------------------------*/
-NodeRef sine = new Sine({ 440, 880 });
+#--------------------------------------------------------------------------------
+# Passing an array of frequencies creates a stereo output.
+#--------------------------------------------------------------------------------
+sine = Sine([440, 880])
 
 /*------------------------------------------------------------------------
  * Simple attack/sustain/release envelope with linear curves.
  *-----------------------------------------------------------------------*/
-NodeRef env = new EnvelopeASR(0.01, 0.1, 0.5);
+env = EnvelopeASR(0.01, 0.1, 0.5)
 
 /*------------------------------------------------------------------------
- * Operator overloading: Modulate the sine wave's amplitude with the
- * output of the ASR envelope.
+ * Use standard arithmetic operations to combine signals.
  *-----------------------------------------------------------------------*/
+output = sine * env
+
+/*------------------------------------------------------------------------
+ * Add the output to the graph, and begin playback.
+ *-----------------------------------------------------------------------*/
+graph.add_output(output)
+graph.start()
+graph.wait()
+```
+
+To do the same in C++:
+
+```cpp
+#include <signalflow/signalflow.h>
+using namespace signalflow;
+
+/*------------------------------------------------------------------------
+ * Classes ending in *Ref are memory-managed shared_ptr subclasses.
+ *-----------------------------------------------------------------------*/
+AudioGraphRef graph = new AudioGraph();
+
+NodeRef sine = new Sine({ 440, 880 });
+NodeRef env = new EnvelopeASR(0.01, 0.1, 0.5);
 NodeRef ping = sine * env;
 
 graph->add_output(ping);

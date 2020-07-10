@@ -2,8 +2,8 @@
  * util.cpp: Helper utilities.
  *--------------------------------------------------------------------*/
 
-#include "signal/core/random.h"
-#include "signal/core/util.h"
+#include "signalflow/core/random.h"
+#include "signalflow/core/util.h"
 #include <sys/time.h>
 
 #ifdef HAVE_GSL
@@ -15,7 +15,7 @@
 
 #include <limits.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 /*--------------------------------------------------------------------*
@@ -221,4 +221,4 @@ unsigned long random_integer(unsigned long from, unsigned long to)
     return from + (((long) random_uniform(to)) % (to - from));
 }
 
-} /* namespace libsignal */
+} /* namespace signalflow */

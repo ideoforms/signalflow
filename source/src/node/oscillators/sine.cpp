@@ -1,9 +1,9 @@
-#include "signal/core/graph.h"
-#include "signal/node/oscillators/sine.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/sine.h"
 
 #include <stdio.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 Sine::Sine(NodeRef frequency)

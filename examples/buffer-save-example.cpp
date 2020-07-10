@@ -5,11 +5,11 @@
  * to a buffer, and saving the output to disk as a .wav file.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
 #include <iostream>
+#include <signalflow/signalflow.h>
 #include <unistd.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {

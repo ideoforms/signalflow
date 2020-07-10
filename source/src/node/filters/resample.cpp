@@ -1,11 +1,11 @@
-#include "signal/node/filters/resample.h"
+#include "signalflow/node/filters/resample.h"
 
-#include "signal/core/graph.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/constant.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 Resample::Resample(NodeRef input, NodeRef sample_rate, NodeRef bit_rate)

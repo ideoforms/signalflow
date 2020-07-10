@@ -1,11 +1,11 @@
-#include "signal/core/core.h"
-#include "signal/core/random.h"
+#include "signalflow/core/core.h"
+#include "signalflow/core/random.h"
 
 #include <iostream>
 #include <stdarg.h>
 #include <stdlib.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 void signal_init()
 {

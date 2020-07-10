@@ -1,12 +1,12 @@
-#include "signal/node/stochastic/noise.h"
+#include "signalflow/node/stochastic/noise.h"
 
-#include "signal/core/graph.h"
-#include "signal/core/random.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/core/random.h"
 #include <stdlib.h>
 
 #include <limits>
 
-namespace libsignal
+namespace signalflow
 {
 
 Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max)

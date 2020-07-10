@@ -5,9 +5,9 @@
  * a frequency-domain brick wall filter, zeroing any bins beyond
  * the specified cutoff frequency.
  *-----------------------------------------------------------------------*/
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {

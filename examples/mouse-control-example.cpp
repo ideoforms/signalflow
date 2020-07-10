@@ -4,13 +4,13 @@
  * Demonstrates mapping the mouse cursor position to synthesis
  * parameters. Only available on macOS for now.
  *-----------------------------------------------------------------------*/
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
 /*------------------------------------------------------------------------
  * All objects are in the signal:: namespace.
  * Import this namespace for code brevity.
  *-----------------------------------------------------------------------*/
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {

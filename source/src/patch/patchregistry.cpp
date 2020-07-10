@@ -1,7 +1,7 @@
-#include "signal/patch/patchregistry.h"
-#include "signal/patch/patch.h"
+#include "signalflow/patch/patch.h"
+#include "signalflow/patch/patchregistry.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 PatchRegistry::PatchRegistry()

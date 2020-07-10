@@ -1,7 +1,7 @@
-#include "signal/core/graph.h"
-#include "signal/node/fft/lpf.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/fft/lpf.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 FFTLPF::FFTLPF(NodeRef input, NodeRef frequency)

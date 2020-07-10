@@ -5,11 +5,11 @@
  * be subsequently replicated for polyphonic output.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
 #include <unistd.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 PatchSpecRef create_synth()
 {

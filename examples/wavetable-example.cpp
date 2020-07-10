@@ -4,10 +4,10 @@
  * Demonstrates using the `Wavetable` oscillator to generate periodic
  * waveforms from a fixed audio buffer.
  *-----------------------------------------------------------------------*/
-#include <signal/signal.h>
 #include <math.h>
+#include <signalflow/signalflow.h>
 
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {
@@ -17,7 +17,7 @@ int main()
     freq = new RoundToScale(freq);
 
     int wavetable_size = 4096;
-    std::vector<std::vector<float>>wt(1);
+    std::vector<std::vector<float>> wt(1);
     wt[0] = std::vector<float>(wavetable_size);
     for (int i = 0; i < wavetable_size; i++)
     {
@@ -35,4 +35,3 @@ int main()
     graph->start();
     graph->wait();
 }
-

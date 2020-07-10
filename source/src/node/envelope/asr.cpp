@@ -1,7 +1,7 @@
-#include "signal/core/graph.h"
-#include "signal/node/envelope/asr.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/envelope/asr.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock)

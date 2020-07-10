@@ -1,14 +1,14 @@
-#include "signal/patch/patch.h"
+#include "signalflow/patch/patch.h"
 
-#include "signal/core/core.h"
-#include "signal/core/graph.h"
-#include "signal/node/oscillators/constant.h"
-#include "signal/patch/patchregistry.h"
+#include "signalflow/core/core.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/constant.h"
+#include "signalflow/patch/patchregistry.h"
 
 #include <iostream>
 #include <memory>
 
-namespace libsignal
+namespace signalflow
 {
 
 extern AudioGraph *shared_graph;

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10.0)
-project(Signal C CXX)
+project(SignalFlow C CXX)
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Develop)
 endif()
@@ -100,20 +100,20 @@ set(SRC ${SRC} source/lib/json11/json11.cpp)
 #-------------------------------------------------------------------------------
 # Specify output library and linker dependencies
 #-------------------------------------------------------------------------------
-add_library(signal SHARED ${SRC})
-target_link_libraries(signal ${SNDFILE} ${SOUNDIO})
-target_link_libraries(signal GSL::gsl GSL::gslcblas)
+add_library(signalflow SHARED ${SRC})
+target_link_libraries(signalflow ${SNDFILE} ${SOUNDIO})
+target_link_libraries(signalflow GSL::gsl GSL::gslcblas)
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    target_link_libraries(signal
+    target_link_libraries(signalflow
         "-framework Accelerate"
         "-framework AppKit"
     )
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-    target_link_libraries(signal ${FFTW3F})
+    target_link_libraries(signalflow ${FFTW3F})
 endif()
 
 if (CMAKE_BUILD_PYTHON)
-    target_link_libraries(signal ${PYTHON_LIBRARY})
+    target_link_libraries(signalflow ${PYTHON_LIBRARY})
 else()
     #-------------------------------------------------------------------------------
     # Build examples
@@ -124,5 +124,5 @@ endif()
 #-------------------------------------------------------------------------------
 # Install shared lib and all includes
 #-------------------------------------------------------------------------------
-install(TARGETS signal DESTINATION lib)
-install(DIRECTORY source/include/signal DESTINATION include)
+install(TARGETS signalflow DESTINATION lib)
+install(DIRECTORY source/include/signalflow DESTINATION include)

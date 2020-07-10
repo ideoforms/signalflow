@@ -1,6 +1,6 @@
-#include "signal/node/io/input/abstract.h"
+#include "signalflow/node/io/input/abstract.h"
 
-namespace libsignal
+namespace signalflow
 {
 AudioIn_Abstract *shared_in = NULL;
 

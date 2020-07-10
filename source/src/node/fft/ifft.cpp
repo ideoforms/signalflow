@@ -1,6 +1,6 @@
-#include "signal/node/fft/ifft.h"
+#include "signalflow/node/fft/ifft.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 IFFT::IFFT(NodeRef input, bool do_window)

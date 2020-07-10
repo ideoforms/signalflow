@@ -1,6 +1,6 @@
-#include "signal/node/filters/waveshaper.h"
+#include "signalflow/node/filters/waveshaper.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 WaveShaper::WaveShaper(NodeRef input, BufferRef buffer)

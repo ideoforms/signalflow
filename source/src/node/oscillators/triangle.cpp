@@ -1,7 +1,7 @@
-#include "signal/node/oscillators/triangle.h"
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/triangle.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Triangle::Triangle(NodeRef frequency)

@@ -1,6 +1,6 @@
-#include "signal/node/operators/channel-select.h"
+#include "signalflow/node/operators/channel-select.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 ChannelSelect::ChannelSelect(NodeRef input, int offset, int maximum, int step)

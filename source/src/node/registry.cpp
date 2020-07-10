@@ -1,10 +1,10 @@
-#include "signal/node/registry.h"
-#include "signal/patch/patch.h"
-#include "signal/patch/patchspec.h"
+#include "signalflow/node/registry.h"
+#include "signalflow/patch/patch.h"
+#include "signalflow/patch/patchspec.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 NodeRegistry::NodeRegistry()

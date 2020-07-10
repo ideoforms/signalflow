@@ -1,10 +1,10 @@
-#include "signal/node/stochastic/trigger-noise.h"
+#include "signalflow/node/stochastic/trigger-noise.h"
 
-#include "signal/core/random.h"
+#include "signalflow/core/random.h"
 
 #include <limits>
 
-namespace libsignal
+namespace signalflow
 {
 
 TriggerNoise::TriggerNoise(NodeRef min, NodeRef max, NodeRef clock)

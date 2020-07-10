@@ -1,9 +1,9 @@
-#include "signal/node/filters/delays/allpass.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/node/filters/delays/allpass.h"
+#include "signalflow/node/oscillators/constant.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 AllpassDelay::AllpassDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)

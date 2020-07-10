@@ -1,9 +1,9 @@
-#include "signal/core/graph.h"
-#include "signal/node/filters/moog.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/filters/moog.h"
 
 #include <stdlib.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 MoogVCF::MoogVCF(NodeRef input, NodeRef cutoff, NodeRef resonance)

@@ -1,6 +1,6 @@
-#include "signal/node/fft/fftnode.h"
+#include "signalflow/node/fft/fftnode.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)

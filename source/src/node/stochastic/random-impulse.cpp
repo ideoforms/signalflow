@@ -1,11 +1,11 @@
-#include "signal/node/stochastic/random-impulse.h"
+#include "signalflow/node/stochastic/random-impulse.h"
 
 #include "stdlib.h"
 
-#include "signal/core/graph.h"
-#include "signal/core/random.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/core/random.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 RandomImpulse::RandomImpulse(NodeRef frequency, signal_event_distribution_t distribution)

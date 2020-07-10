@@ -1,8 +1,8 @@
-#include "signal/node/operators/channel-array.h"
-#include "signal/core/core.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/core/core.h"
+#include "signalflow/node/operators/channel-array.h"
+#include "signalflow/node/oscillators/constant.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 ChannelArray::ChannelArray()

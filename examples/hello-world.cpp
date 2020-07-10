@@ -4,13 +4,13 @@
  * The canonical 440hz sine wave example.
  *-----------------------------------------------------------------------*/
 
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
 /*------------------------------------------------------------------------
  * All objects are in the signal:: namespace.
  * Import this namespace for code brevity.
  *-----------------------------------------------------------------------*/
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {

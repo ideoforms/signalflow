@@ -1,8 +1,8 @@
-#include "signal/core/graph.h"
-#include "signal/node/fft/find-peaks.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/fft/find-peaks.h"
 #include <algorithm>
 
-namespace libsignal
+namespace signalflow
 {
 
 class Peak

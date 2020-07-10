@@ -2,8 +2,8 @@
  * util.cpp: Helper utilities.
  *--------------------------------------------------------------------*/
 
-#include "signal/buffer/buffer.h"
-#include "signal/core/util.h"
+#include "signalflow/buffer/buffer.h"
+#include "signalflow/core/util.h"
 
 #include <limits.h>
 #include <math.h>
@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 /*--------------------------------------------------------------------*
@@ -121,4 +121,4 @@ void signal_save_block_to_wav_file(sample *block, int num_samples, std::string f
     buf->save(filename);
 }
 
-} /* namespace libsignal */
+} /* namespace signalflow */

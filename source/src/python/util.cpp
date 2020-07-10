@@ -1,4 +1,4 @@
-#include "signal/python/python.h"
+#include "signalflow/python/python.h"
 
 void init_python_util(py::module &m)
 {

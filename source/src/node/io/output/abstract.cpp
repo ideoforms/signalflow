@@ -1,6 +1,6 @@
-#include "signal/node/io/output/abstract.h"
+#include "signalflow/node/io/output/abstract.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
@@ -67,4 +67,4 @@ void AudioOut_Abstract::remove_input(NodeRef node)
     audio_inputs.remove(node);
 }
 
-} // namespace libsignal
+} // namespace signalflow

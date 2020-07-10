@@ -1,6 +1,6 @@
-#include "signal/node/filters/pan.h"
+#include "signalflow/node/filters/pan.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 LinearPanner::LinearPanner(int channels, NodeRef input, NodeRef pan)

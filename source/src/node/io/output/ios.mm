@@ -1,8 +1,8 @@
-#include "signal/node/io/output/ios.h"
+#include "signalflow/node/io/output/ios.h"
 
 #if TARGET_OS_IPHONE
 
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
 
 #ifdef __OBJC__
 #include "AudioIOManager.h"

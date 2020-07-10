@@ -1,8 +1,8 @@
-#include "signal/node/filters/delays/onetap.h"
-#include "signal/core/graph.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/filters/delays/onetap.h"
+#include "signalflow/node/oscillators/constant.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 OneTapDelay::OneTapDelay(NodeRef input, NodeRef delaytime, float maxdelaytime)

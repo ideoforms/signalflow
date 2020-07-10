@@ -1,7 +1,7 @@
-#include "signal/node/oscillators/saw.h"
-#include "signal/core/graph.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/oscillators/saw.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Saw::Saw(NodeRef frequency)

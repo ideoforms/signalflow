@@ -4,13 +4,13 @@
  * Demonstrates granular synthesis upon an audio buffer, with randomly
  * modulated position and length, and a user-specified grain envelope.
  *-----------------------------------------------------------------------*/
-#include <signal/signal.h>
+#include <signalflow/signalflow.h>
 
 /*------------------------------------------------------------------------
  * All objects are in the signal:: namespace.
  * Import this namespace for code brevity.
  *-----------------------------------------------------------------------*/
-using namespace libsignal;
+using namespace signalflow;
 
 int main()
 {
@@ -58,4 +58,3 @@ int main()
     graph->start();
     graph->wait();
 }
-

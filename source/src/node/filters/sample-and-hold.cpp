@@ -1,6 +1,6 @@
-#include "signal/node/filters/sample-and-hold.h"
+#include "signalflow/node/filters/sample-and-hold.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 SampleAndHold::SampleAndHold(NodeRef input, NodeRef clock)

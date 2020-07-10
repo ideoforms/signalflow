@@ -1,8 +1,8 @@
-#include "signal/node/fft/fft.h"
+#include "signalflow/node/fft/fft.h"
 
 #include <assert.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_window)

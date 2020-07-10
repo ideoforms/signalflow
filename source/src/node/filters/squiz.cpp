@@ -1,6 +1,6 @@
-#include "signal/node/filters/squiz.h"
+#include "signalflow/node/filters/squiz.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 int SIGNAL_SQUIZ_LOOKAHEAD_FRAMES = 2205;

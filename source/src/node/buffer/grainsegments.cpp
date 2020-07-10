@@ -1,8 +1,8 @@
-#include "signal/core/graph.h"
-#include "signal/core/random.h"
-#include "signal/node/buffer/grainsegments.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/core/random.h"
+#include "signalflow/node/buffer/grainsegments.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, PropertyRef offsets, PropertyRef values, PropertyRef durations)

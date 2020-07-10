@@ -1,9 +1,9 @@
-#include "signal/node/fft/tonality.h"
+#include "signalflow/node/fft/tonality.h"
 
 #include <algorithm>
 #include <array>
 
-namespace libsignal
+namespace signalflow
 {
 
 FFTTonality::FFTTonality(NodeRef input, NodeRef level, NodeRef smoothing)

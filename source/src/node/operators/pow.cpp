@@ -1,6 +1,6 @@
-#include "signal/node/operators/pow.h"
+#include "signalflow/node/operators/pow.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Pow::Pow(NodeRef a, NodeRef b)

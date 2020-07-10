@@ -1,17 +1,17 @@
-#include "signal/patch/patchspec.h"
+#include "signalflow/patch/patchspec.h"
 
 #include "json11/json11.hpp"
-#include "signal/core/core.h"
-#include "signal/node/oscillators/constant.h"
-#include "signal/node/registry.h"
-#include "signal/patch/patchregistry.h"
+#include "signalflow/core/core.h"
+#include "signalflow/node/oscillators/constant.h"
+#include "signalflow/node/registry.h"
+#include "signalflow/patch/patchregistry.h"
 
 #include <fstream>
 #include <iostream>
 
 using namespace json11;
 
-namespace libsignal
+namespace signalflow
 {
 PatchSpec::PatchSpec(std::string name)
 {

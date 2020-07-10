@@ -1,7 +1,7 @@
-#include "signal/core/graph-monitor.h"
+#include "signalflow/core/graph-monitor.h"
 #include <unistd.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 AudioGraphMonitor::AudioGraphMonitor(AudioGraphRef graph, float frequency)

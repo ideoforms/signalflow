@@ -1,20 +1,20 @@
-#include "signal/core/core.h"
-#include "signal/core/graph-monitor.h"
-#include "signal/core/graph.h"
-#include "signal/node/node.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/core/core.h"
+#include "signalflow/core/graph-monitor.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/node.h"
+#include "signalflow/node/oscillators/constant.h"
 
-#include "signal/patch/patch.h"
+#include "signalflow/patch/patch.h"
 
-#include "signal/node/io/output/abstract.h"
-#include "signal/node/io/output/ios.h"
-#include "signal/node/io/output/soundio.h"
+#include "signalflow/node/io/output/abstract.h"
+#include "signalflow/node/io/output/ios.h"
+#include "signalflow/node/io/output/soundio.h"
 
 #include <string.h>
 #include <sys/time.h>
 #include <unistd.h>
 
-namespace libsignal
+namespace signalflow
 {
 
 AudioGraph *shared_graph = NULL;

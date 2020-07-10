@@ -1,6 +1,6 @@
-#include "signal/node/buffer/buffer-recorder.h"
+#include "signalflow/node/buffer/buffer-recorder.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)

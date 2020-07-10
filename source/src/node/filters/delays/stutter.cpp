@@ -1,8 +1,8 @@
-#include "signal/core/graph.h"
-#include "signal/node/filters/delays/stutter.h"
-#include "signal/node/oscillators/constant.h"
+#include "signalflow/core/graph.h"
+#include "signalflow/node/filters/delays/stutter.h"
+#include "signalflow/node/oscillators/constant.h"
 
-namespace libsignal
+namespace signalflow
 {
 
 Stutter::Stutter(NodeRef input, NodeRef stutter_time, NodeRef stutter_count, NodeRef clock, float max_stutter_time)
