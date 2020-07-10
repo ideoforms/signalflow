@@ -82,7 +82,6 @@ void ChannelArray::add_input(NodeRef input)
 {
     this->input_list.push_back(input);
     std::string input_name = "input" + std::to_string(this->inputs.size());
-    ;
     this->Node::add_input(input_name, input_list.back());
 }
 
