@@ -15,6 +15,4 @@ fi
 GIT_REPO_DIR=$(git rev-parse --show-toplevel)
 cd "$GIT_REPO_DIR"
 
-mkdir -p docs/html
-cp aux/docs/*.* docs/html
-doxygen aux/docs/docs.dox
+doxygen aux/docs/signalflow.dox
