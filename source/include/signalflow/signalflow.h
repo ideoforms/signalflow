@@ -13,6 +13,8 @@
 
 #include <signalflow/buffer/buffer.h>
 
+#include <signalflow/bus/bus.h>
+
 #include <signalflow/patch/patch.h>
 #include <signalflow/patch/patchnodespec.h>
 #include <signalflow/patch/patchspec.h>
@@ -33,6 +35,7 @@
 #include <signalflow/node/operators/round.h>
 #include <signalflow/node/operators/scale.h>
 #include <signalflow/node/operators/subtract.h>
+#include <signalflow/node/operators/sum.h>
 
 /*------------------------------------------------------------------------
  * I/O
@@ -80,23 +83,23 @@
 /*------------------------------------------------------------------------
  * Effects
  *-----------------------------------------------------------------------*/
-#include <signalflow/node/filters/biquad.h>
-#include <signalflow/node/filters/delays/allpass.h>
-#include <signalflow/node/filters/delays/comb.h>
-#include <signalflow/node/filters/delays/onetap.h>
-#include <signalflow/node/filters/delays/stutter.h>
-#include <signalflow/node/filters/eq.h>
-#include <signalflow/node/filters/gate.h>
-#include <signalflow/node/filters/maximiser.h>
-#include <signalflow/node/filters/moog.h>
-#include <signalflow/node/filters/pan.h>
-#include <signalflow/node/filters/resample.h>
-#include <signalflow/node/filters/rms.h>
-#include <signalflow/node/filters/sample-and-hold.h>
-#include <signalflow/node/filters/smooth.h>
-#include <signalflow/node/filters/squiz.h>
-#include <signalflow/node/filters/waveshaper.h>
-#include <signalflow/node/filters/width.h>
+#include <signalflow/node/processors/delays/allpass.h>
+#include <signalflow/node/processors/delays/comb.h>
+#include <signalflow/node/processors/delays/onetap.h>
+#include <signalflow/node/processors/delays/stutter.h>
+#include <signalflow/node/processors/dynamics/gate.h>
+#include <signalflow/node/processors/dynamics/maximiser.h>
+#include <signalflow/node/processors/dynamics/rms.h>
+#include <signalflow/node/processors/filters/biquad.h>
+#include <signalflow/node/processors/filters/eq.h>
+#include <signalflow/node/processors/filters/moog.h>
+#include <signalflow/node/processors/panning/pan.h>
+#include <signalflow/node/processors/panning/width.h>
+#include <signalflow/node/processors/resample.h>
+#include <signalflow/node/processors/sample-and-hold.h>
+#include <signalflow/node/processors/smooth.h>
+#include <signalflow/node/processors/squiz.h>
+#include <signalflow/node/processors/waveshaper.h>
 
 /*------------------------------------------------------------------------
  * Sequencing
