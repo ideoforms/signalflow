@@ -33,7 +33,7 @@ int main()
     /*------------------------------------------------------------------------
      * Set position, length and pan to oscillating randomised values.
      *-----------------------------------------------------------------------*/
-    NodeRef pos = new Noise(0.3, false, 0, buffer->duration);
+    NodeRef pos = new Noise(0.3, false, 0, buffer->get_duration());
     NodeRef len = new Noise(100, false, 0.1, 0.5);
     NodeRef pan = new Noise(100, false);
 
