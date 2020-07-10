@@ -1,6 +1,6 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/filters/delays/stutter.h"
 #include "signalflow/node/oscillators/constant.h"
+#include "signalflow/node/processors/delays/stutter.h"
 
 namespace signalflow
 {

@@ -22,7 +22,7 @@ macos_only_classes = [ "MouseX", "MouseY", "MouseDown", "FFTConvolve" ]
 
 top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).decode().strip()
 header_root = os.path.join(top_level, "source", "include")
-source_files = glob.glob("%s/signal/node/*/*.h" % header_root) + glob.glob("%s/signal/node/*/*/*.h" % header_root)
+source_files = glob.glob("%s/signalflow/node/*/*.h" % header_root) + glob.glob("%s/signalflow/node/*/*/*.h" % header_root)
 source_files = list(filter(lambda path: not "/io/" in path, source_files))
 
 def generate_class_bindings(class_name, parameter_sets):
@@ -105,7 +105,7 @@ def generate_all_bindings():
 
 bindings = generate_all_bindings()
 bindings = re.sub("\n", "\n    ", bindings)
-output = '''#include "signal/python/python.h"
+output = '''#include "signalflow/python/python.h"
 
 void init_python_nodes(py::module &m)
 {{

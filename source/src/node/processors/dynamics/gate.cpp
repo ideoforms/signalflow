@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/gate.h"
+#include "signalflow/node/processors/dynamics/gate.h"
 
 namespace signalflow
 {

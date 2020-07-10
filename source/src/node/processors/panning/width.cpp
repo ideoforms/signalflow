@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/width.h"
+#include "signalflow/node/processors/panning/width.h"
 
 namespace signalflow
 {

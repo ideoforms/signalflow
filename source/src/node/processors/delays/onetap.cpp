@@ -1,17 +1,15 @@
-#include "signalflow/node/filters/delays/comb.h"
+#include "signalflow/core/graph.h"
 #include "signalflow/node/oscillators/constant.h"
-
-#include <stdlib.h>
+#include "signalflow/node/processors/delays/onetap.h"
 
 namespace signalflow
 {
 
-CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
-    : UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
+OneTapDelay::OneTapDelay(NodeRef input, NodeRef delaytime, float maxdelaytime)
+    : UnaryOpNode(input), delaytime(delaytime), maxdelaytime(maxdelaytime)
 {
-    this->name = "comb-delay";
+    this->name = "one-tap-delay";
     this->add_input("delay_time", this->delaytime);
-    this->add_input("feedback", this->feedback);
 
     SIGNAL_CHECK_GRAPH();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
@@ -20,7 +18,7 @@ CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float m
     }
 }
 
-CombDelay::~CombDelay()
+OneTapDelay::~OneTapDelay()
 {
     for (auto buffer : buffers)
     {
@@ -28,7 +26,7 @@ CombDelay::~CombDelay()
     }
 }
 
-void CombDelay::process(sample **out, int num_frames)
+void OneTapDelay::process(sample **out, int num_frames)
 {
     SIGNAL_CHECK_GRAPH();
 
@@ -37,12 +35,10 @@ void CombDelay::process(sample **out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             sample delay = this->delaytime->out[channel][frame];
-            sample feedback = this->feedback->out[channel][frame];
             float offset = delay * this->graph->get_sample_rate();
 
-            sample rv = input->out[channel][frame] + (feedback * buffers[channel]->get(-offset));
-            out[channel][frame] = rv;
-            buffers[channel]->append(rv);
+            out[channel][frame] = buffers[channel]->get(-offset);
+            buffers[channel]->append(this->input->out[channel][frame]);
         }
     }
 }

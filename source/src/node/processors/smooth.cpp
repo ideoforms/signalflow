@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/smooth.h"
+#include "signalflow/node/processors/smooth.h"
 
 namespace signalflow
 {

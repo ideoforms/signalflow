@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/squiz.h"
+#include "signalflow/node/processors/squiz.h"
 
 namespace signalflow
 {

@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/sample-and-hold.h"
+#include "signalflow/node/processors/sample-and-hold.h"
 
 namespace signalflow
 {

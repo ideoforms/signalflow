@@ -1,5 +1,5 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/filters/biquad.h"
+#include "signalflow/node/processors/filters/biquad.h"
 
 #include <stdlib.h>
 

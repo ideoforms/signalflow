@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/eq.h"
+#include "signalflow/node/processors/filters/eq.h"
 
 #include "signalflow/core/graph.h"
 #include "signalflow/node/oscillators/constant.h"

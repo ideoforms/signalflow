@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/pan.h"
+#include "signalflow/node/processors/panning/pan.h"
 
 namespace signalflow
 {

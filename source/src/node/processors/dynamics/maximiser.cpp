@@ -1,5 +1,5 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/filters/maximiser.h"
+#include "signalflow/node/processors/dynamics/maximiser.h"
 
 namespace signalflow
 {

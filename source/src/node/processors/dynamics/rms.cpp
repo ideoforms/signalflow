@@ -1,4 +1,4 @@
-#include "signalflow/node/filters/rms.h"
+#include "signalflow/node/processors/dynamics/rms.h"
 
 namespace signalflow
 {

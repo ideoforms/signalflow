@@ -1,5 +1,5 @@
-#include "signalflow/node/filters/delays/allpass.h"
 #include "signalflow/node/oscillators/constant.h"
+#include "signalflow/node/processors/delays/allpass.h"
 
 #include <stdlib.h>
 

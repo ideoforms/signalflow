@@ -1,5 +1,5 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/filters/moog.h"
+#include "signalflow/node/processors/filters/moog.h"
 
 #include <stdlib.h>
 
