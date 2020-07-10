@@ -1,7 +1,7 @@
 #pragma once
 
 #include "signalflow/buffer/buffer.h"
-#include "signalflow/buffer/buffer2D.h"
+#include "signalflow/buffer/buffer2d.h"
 #include "signalflow/node/node.h"
 
 namespace signalflow

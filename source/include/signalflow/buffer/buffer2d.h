@@ -1,7 +1,7 @@
 #pragma once
 
 /**-------------------------------------------------------------------------
- * @file buffer2D.h
+ * @file buffer2d.h
  * @brief Interpolating 2D buffers
  *-----------------------------------------------------------------------*/
 #include "signalflow/buffer/buffer.h"
