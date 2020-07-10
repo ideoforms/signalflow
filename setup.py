@@ -37,7 +37,7 @@ setup(
     author='Daniel Jones',
     author_email='dan@erase.net',
     description='signalflow',
-    ext_modules=[CMakeExtension('libsignal')],
+    ext_modules=[CMakeExtension('signalflow')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
     setup_requires=['pytest-runner'],
