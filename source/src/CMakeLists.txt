@@ -26,23 +26,23 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/tonality.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/convolve.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/find-peaks.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/comb.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/allpass.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/onetap.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/delays/stutter.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/biquad.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/eq.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/sample-and-hold.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/gate.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/moog.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/pan.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/resample.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/rms.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/smooth.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/squiz.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/waveshaper.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/width.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/filters/maximiser.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/comb.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/allpass.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/onetap.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/stutter.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/biquad.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/eq.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/sample-and-hold.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/gate.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/moog.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/pan.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/resample.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/rms.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/smooth.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/squiz.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/waveshaper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/width.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/maximiser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/soundio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/abstract.cpp
