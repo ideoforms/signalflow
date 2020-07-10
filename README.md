@@ -66,10 +66,8 @@ graph->wait();
 
 #### macOS
 
-To install dependencies with Homebrew:
-
 ```
-brew install libsndfile libsoundio gsl
+brew install python libsndfile libsoundio gsl
 ```
 
 #### Linux, Raspberry Pi
@@ -78,6 +76,15 @@ brew install libsndfile libsoundio gsl
 apt-get install git cmake g++ libasound2-dev libgsl0-dev libsndfile1-dev libsoundio-dev fftw3-dev
 ```
 
+### Build (Python)
+
+```
+python3 setup.py build
+python3 setup.py test
+python3 setup.py install
+```
+
+
 ### Build (C++)
 
 ```
@@ -85,14 +92,6 @@ mkdir build
 cd build
 cmake ..
 make -j8
-```
-
-### Build (Python)
-
-```
-python3 setup.py build
-python3 setup.py test
-python3 setup.py install
 ```
 
 ## Examples
