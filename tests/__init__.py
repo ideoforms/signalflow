@@ -24,7 +24,7 @@ def distutils_dir_name(dir_name):
 
 build_dir = os.path.join("build", distutils_dir_name("lib"))
 sys.path.insert(0, build_dir)
-import libsignal
+import signalflow
 
 DEFAULT_BUFFER_LENGTH = 1024
 
@@ -49,7 +49,7 @@ def count_zero_crossings(array):
 
 @pytest.fixture(scope="module")
 def graph():
-    graph = libsignal.AudioGraph()
+    graph = signalflow.AudioGraph()
     yield graph
     del graph
     graph = None

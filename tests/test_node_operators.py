@@ -1,4 +1,4 @@
-from libsignal import Constant, ChannelArray
+from signalflow import Constant, ChannelArray
 import numpy as np
 
 from . import process_tree

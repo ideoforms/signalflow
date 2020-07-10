@@ -1,4 +1,4 @@
-from libsignal import Sine, AudioGraph
+from signalflow import Sine, AudioGraph
 
 import pytest
 

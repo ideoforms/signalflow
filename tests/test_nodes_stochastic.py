@@ -1,5 +1,5 @@
-from libsignal import RandomImpulse, Buffer
-from libsignal import SIGNAL_EVENT_DISTRIBUTION_POISSON
+from signalflow import RandomImpulse, Buffer
+from signalflow import SIGNAL_EVENT_DISTRIBUTION_POISSON
 from . import graph, process_tree
 
 import numpy as np

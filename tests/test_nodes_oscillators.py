@@ -1,5 +1,5 @@
-from libsignal import Sine
-from libsignal import Buffer
+from signalflow import Sine
+from signalflow import Buffer
 from . import graph
 from . import process_tree
 

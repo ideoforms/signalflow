@@ -1,5 +1,5 @@
-from libsignal import PatchSpec, Patch, Buffer, BufferPlayer
-from libsignal import Multiply, Sine, EnvelopeASR
+from signalflow import PatchSpec, Patch, Buffer, BufferPlayer
+from signalflow import Multiply, Sine, EnvelopeASR
 from . import graph
 import numpy as np
 

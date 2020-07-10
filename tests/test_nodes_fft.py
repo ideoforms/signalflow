@@ -1,8 +1,8 @@
-from libsignal import Buffer, EnvelopeASR
-from libsignal import Sine, Impulse, FFT, IFFT
+from signalflow import Buffer, EnvelopeASR
+from signalflow import Sine, Impulse, FFT, IFFT
 
 try:
-    from libsignal import FFTConvolve
+    from signalflow import FFTConvolve
     no_fft = False
 except:
     #----------------------------------------------------------------

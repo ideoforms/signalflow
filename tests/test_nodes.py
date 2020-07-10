@@ -1,4 +1,4 @@
-import libsignal
+import signalflow
 
 import re
 import pytest
@@ -12,8 +12,8 @@ def test_nodes_general():
     """
 
     names = []
-    for key, value in vars(libsignal).items():
-        if inspect.isclass(value) and issubclass(value, libsignal.Node):
+    for key, value in vars(signalflow).items():
+        if inspect.isclass(value) and issubclass(value, signalflow.Node):
             if key != "Node":
                 a = None
                 try:

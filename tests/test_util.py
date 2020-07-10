@@ -1,12 +1,12 @@
-import libsignal
+import signalflow
 import pytest
 
 def test_clip():
-    assert libsignal.clip(-0.5, 0, 1) == 0.0
-    assert libsignal.clip(0.0, 0, 1) == 0.0
-    assert libsignal.clip(0.5, 0, 1) == 0.5
-    assert libsignal.clip(1.0, 0, 1) == 1.0
-    assert libsignal.clip(1.5, 0, 1) == 1.0
+    assert signalflow.clip(-0.5, 0, 1) == 0.0
+    assert signalflow.clip(0.0, 0, 1) == 0.0
+    assert signalflow.clip(0.5, 0, 1) == 0.5
+    assert signalflow.clip(1.0, 0, 1) == 1.0
+    assert signalflow.clip(1.5, 0, 1) == 1.0
 
 @pytest.mark.skip
 def test_scale():

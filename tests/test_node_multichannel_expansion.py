@@ -1,4 +1,4 @@
-from libsignal import Sine, Square, ChannelMixer, Buffer
+from signalflow import Sine, Square, ChannelMixer, Buffer
 import scipy.signal
 import numpy as np
 import math

@@ -1,4 +1,4 @@
-from libsignal import AudioGraph, Buffer, Sine, Line
+from signalflow import AudioGraph, Buffer, Sine, Line
 from . import process_tree, count_zero_crossings
 import pytest
 import numpy as np

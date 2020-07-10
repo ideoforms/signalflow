@@ -1,6 +1,6 @@
-from libsignal import Buffer, Buffer2D
-from libsignal import SIGNAL_INTERPOLATION_NONE, SIGNAL_INTERPOLATION_LINEAR
-from libsignal import GraphNotCreatedException
+from signalflow import Buffer, Buffer2D
+from signalflow import SIGNAL_INTERPOLATION_NONE, SIGNAL_INTERPOLATION_LINEAR
+from signalflow import GraphNotCreatedException
 import numpy as np
 import pytest
 import os

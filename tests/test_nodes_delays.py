@@ -1,4 +1,4 @@
-from libsignal import Impulse, CombDelay, OneTapDelay, Buffer
+from signalflow import Impulse, CombDelay, OneTapDelay, Buffer
 from . import graph
 from . import process_tree
 
