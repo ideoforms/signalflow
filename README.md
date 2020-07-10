@@ -22,19 +22,19 @@ graph = AudioGraph()
 #--------------------------------------------------------------------------------
 sine = Sine([440, 880])
 
-/*------------------------------------------------------------------------
- * Simple attack/sustain/release envelope with linear curves.
- *-----------------------------------------------------------------------*/
+#--------------------------------------------------------------------------------
+# Simple attack/sustain/release envelope with linear curves.
+#--------------------------------------------------------------------------------
 env = EnvelopeASR(0.01, 0.1, 0.5)
 
-/*------------------------------------------------------------------------
- * Use standard arithmetic operations to combine signals.
- *-----------------------------------------------------------------------*/
+#--------------------------------------------------------------------------------
+# Use standard arithmetic operations to combine signals.
+#--------------------------------------------------------------------------------
 output = sine * env
 
-/*------------------------------------------------------------------------
- * Add the output to the graph, and begin playback.
- *-----------------------------------------------------------------------*/
+#--------------------------------------------------------------------------------
+# Connect the output to the graph, and begin playback.
+#--------------------------------------------------------------------------------
 graph.add_output(output)
 graph.start()
 graph.wait()
@@ -107,7 +107,7 @@ cd build
 
 ## License
 
-For non-commercial use, Signal is available under the terms of the [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
+For non-commercial use, SignalFlow is available under the terms of the [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
 
 For commercial use, please [contact the author](http://erase.net/contact).
 
