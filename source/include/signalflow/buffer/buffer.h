@@ -37,27 +37,86 @@ typedef BufferRefTemplate<Buffer> BufferRef;
 class Buffer
 {
 public:
+    /**------------------------------------------------------------------------
+     * Construct a null buffer with no storage allocated.
+     * This typically isn't useful outside of internal usage (e.g.,
+     * allocating a placeholder buffer that will later be replaced).
+     *
+     *------------------------------------------------------------------------*/
     Buffer();
+
+    /**------------------------------------------------------------------------
+     * Construct a buffer of specified dimensions.
+     * The contents are initialised to zero.
+     *
+     *------------------------------------------------------------------------*/
     Buffer(int num_channels, int num_frames);
+
+    /**------------------------------------------------------------------------
+     * Construct a buffer of specified dimensions.
+     * The contents of `data` are copied into the buffer, where `data` must
+     * be an array of `num_channels` pointers to individual audio channels.
+     *
+     *------------------------------------------------------------------------*/
     Buffer(int num_channels, int num_frames, sample **data);
+
+    /**------------------------------------------------------------------------
+     * Construct a buffer of specified dimensions.
+     * The contents of `data` are copied into the buffer, where `data` must
+     * be a vector of `num_channels` audio channels.
+     *
+     *------------------------------------------------------------------------*/
     Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>> data);
+
+    /**------------------------------------------------------------------------
+     * Construct a buffer with the same dimensions as `data`.
+     * The contents of `data` are copied into the buffer.
+     *
+     *------------------------------------------------------------------------*/
     Buffer(std::vector<std::vector<sample>> data);
+
+    /**------------------------------------------------------------------------
+     * Construct a single-channel buffer with the contents of `data`.
+     *
+     *------------------------------------------------------------------------*/
     Buffer(std::vector<sample> data);
 
+    /**------------------------------------------------------------------------
+     * Load the contents of the audio file `filename` into a new buffer.
+     * The file must be of a format that libsndfile can read.
+     *
+     *------------------------------------------------------------------------*/
     Buffer(std::string filename);
 
+    /**------------------------------------------------------------------------
+      * Destroy the buffer.
+      *
+      *------------------------------------------------------------------------*/
     virtual ~Buffer();
 
     /**------------------------------------------------------------------------
-     * @param index A sample offset, between [0, num_frames].
-     * @returns A sample value, between [-1, 1].
+     * Load the contents of `filename` into the buffer.
+     * If the buffer is smaller than the file's contents, only the first
+     * part of the file is read.
      *
      *------------------------------------------------------------------------*/
     void load(std::string filename);
+
+    /**------------------------------------------------------------------------
+     * Write the contents of the buffer to the file `filename`.
+     * Only supports .wav format at present.
+     *
+     *------------------------------------------------------------------------*/
     void save(std::string filename);
 
-    // TODO split(N) would normally denote how many parts to split into.
-    //      split(chunk_size=) / split(split_count=) ?
+    /**------------------------------------------------------------------------
+     * Splits the buffer into chunks of `num_frames_per_part` frames,
+     * and returns the vector of chunks. Useful for creating Buffer2D
+     * objects from longer 1D wavetable buffers.
+     *
+     * TODO split(N) would normally denote how many parts to split into.
+     *      split(chunk_size=) / split(split_count=) ?
+     *------------------------------------------------------------------------*/
     std::vector<BufferRef> split(int num_frames_per_part);
 
     /**------------------------------------------------------------------------
@@ -142,13 +201,43 @@ public:
      * Get the number of frames in the buffer.
      *
      * @returns The number of frames.
+     *
      *------------------------------------------------------------------------*/
     int get_num_frames();
 
+    /**------------------------------------------------------------------------
+     * Get the duration of the buffer.
+     *
+     * @returns The duration, in seconds.
+     *
+     *------------------------------------------------------------------------*/
     float get_duration();
+
+    /**------------------------------------------------------------------------
+     * Get a pointer to the buffer's data.
+     * Each element points to a `sample *` containing a channel of audio.
+     *
+     * @returns The pointer.
+     *
+     *------------------------------------------------------------------------*/
     sample **get_data();
+
+    /**------------------------------------------------------------------------
+     * Set the interpolation mode used when samples are read from the buffer.
+     *
+     * @param mode The new interpolation mode.
+     *
+     *------------------------------------------------------------------------*/
     void set_interpolation_mode(signal_interpolation_mode_t mode);
+
+    /**------------------------------------------------------------------------
+     * Gets the interpolation mode used when samples are read from the buffer.
+     *
+     * @returns The current interpolation mode.
+     *
+     *------------------------------------------------------------------------*/
     signal_interpolation_mode_t get_interpolation_mode();
+
     sample **data = NULL;
 
 protected:
