@@ -36,7 +36,7 @@ void GrainSegments::process(sample **out, int num_frames)
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process .
      *--------------------------------------------------------------------------------*/
-    if (!this->buffer || !this->buffer->num_frames)
+    if (!this->buffer || !this->buffer->get_num_frames())
         return;
 
     // printf("sample_rate now = %f\n", this->graph->get_sample_rate());
@@ -91,8 +91,8 @@ void GrainSegments::process(sample **out, int num_frames)
                  * Obtain the correct sample from the buffer.
                  *-----------------------------------------------------------------------*/
                 int buffer_index = grain->sample_start + grain->samples_done;
-                while (buffer_index > this->buffer->num_frames)
-                    buffer_index -= this->buffer->num_frames;
+                while (buffer_index > this->buffer->get_num_frames())
+                    buffer_index -= this->buffer->get_num_frames();
                 sample s = this->buffer->data[0][(int) buffer_index];
 
                 /*------------------------------------------------------------------------

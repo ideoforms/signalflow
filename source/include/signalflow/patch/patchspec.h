@@ -1,7 +1,7 @@
 #pragma once
 
 #include "signalflow/node/node.h"
-#include "signalflow/patch/nodespec.h"
+#include "signalflow/patch/patchnodespec.h"
 
 namespace signalflow
 {
@@ -14,10 +14,10 @@ public:
     /*----------------------------------------------------------------------------------
      * Methods for creating a PatchSpec from NodeSpecs.
      *---------------------------------------------------------------------------------*/
-    void add_node_def(NodeSpec def);
-    void set_output(NodeSpec def);
-    NodeSpec *get_node_def(int id);
-    NodeSpec get_root();
+    void add_node_def(PatchNodeSpec def);
+    void set_output(PatchNodeSpec def);
+    PatchNodeSpec *get_node_def(int id);
+    PatchNodeSpec get_root();
 
     /*----------------------------------------------------------------------------------
      * Save a PatchSpec to disk.
@@ -47,13 +47,13 @@ public:
 
     std::string name;
 
-    void print(NodeSpec *root, int depth);
+    void print(PatchNodeSpec *root, int depth);
 
-    NodeSpec output_def;
+    PatchNodeSpec output_def;
     bool parsed = false;
     int last_id = 0;
 
-    std::unordered_map<int, NodeSpec> nodespecs;
+    std::unordered_map<int, PatchNodeSpec> nodespecs;
 };
 
 template <class T>

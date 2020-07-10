@@ -74,12 +74,12 @@ void init_python_node(py::module &m)
             node.last_num_frames = num_frames;
         })
         .def("process", [](Node &node, Buffer &buffer) {
-            if (node.num_output_channels != buffer.num_channels)
+            if (node.num_output_channels != buffer.get_num_channels())
             {
                 throw std::runtime_error("Buffer and Node output channels don't match");
             }
-            node.process(buffer.data, buffer.num_frames);
-            node.last_num_frames = buffer.num_frames;
+            node.process(buffer.data, buffer.get_num_frames());
+            node.last_num_frames = buffer.get_num_frames();
         })
         .def_property_readonly("output_buffer", [](Node &node) {
             return py::array_t<float>(

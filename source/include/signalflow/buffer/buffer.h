@@ -2,7 +2,13 @@
 
 /**-------------------------------------------------------------------------
  * @file buffer.h
- * @brief Buffer and its subclasses store an array of sample values.
+ * @brief A Buffer stores one or more channels of floating-point
+ *        samples.
+ *
+ * This is a test.
+ *
+ * Testing.
+ *
  *-----------------------------------------------------------------------*/
 #include "signalflow/core/constants.h"
 #include "signalflow/core/util.h"
@@ -42,6 +48,11 @@ public:
 
     virtual ~Buffer();
 
+    /**------------------------------------------------------------------------
+     * @param index A sample offset, between [0, num_frames].
+     * @returns A sample value, between [-1, 1].
+     *
+     *------------------------------------------------------------------------*/
     void load(std::string filename);
     void save(std::string filename);
 
@@ -50,22 +61,26 @@ public:
     std::vector<BufferRef> split(int num_frames_per_part);
 
     /**------------------------------------------------------------------------
-    * @param index A sample offset, between [0, num_frames].
-    * @return A sample value, between [-1, 1].
-    *------------------------------------------------------------------------*/
+     * @param index A sample offset, between [0, num_frames].
+     * @returns A sample value, between [-1, 1].
+     *
+     *------------------------------------------------------------------------*/
     sample get(double offset);
 
     /**------------------------------------------------------------------------
      * @param frame The absolute frame value to retrieve.
      * @return The raw value stored within that frame.
+     *
      * TODO Add support for buffers with >1 channel.
+     *
      *------------------------------------------------------------------------*/
     sample get_frame(double frame);
 
     /**------------------------------------------------------------------------
      * @param frame_index The frame index to set
      * @param value The sample value
-     * @return true if the set succeeded, false if frame_index is out of range
+     * @returns true if the set succeeded, false if frame_index is out of range
+     *
      *------------------------------------------------------------------------*/
     bool set(int channel_index,
              int frame_index,
@@ -73,6 +88,10 @@ public:
 
     /**------------------------------------------------------------------------
      * Map a frame index to an offset in the buffer's native range.
+     *
+     * @param frame The frame
+     * @returns The offset
+     *
      *------------------------------------------------------------------------*/
     virtual double frame_to_offset(double frame);
 
@@ -83,20 +102,61 @@ public:
 
     /**------------------------------------------------------------------------
      * Fill the buffer with a constant value.
+     *
+     * @param value The value to fill the buffer with
+     *
      *------------------------------------------------------------------------*/
     void fill(sample value);
 
     /**------------------------------------------------------------------------
-     * Fill the buffer based on a transfer function
+     * Fill the buffer based on a transfer function, which maps the offset
+     * of each sample to a new output value.
+     *
+     * @param f A function which takes a single parameter, which is passed
+     * the offset of each sample.
+     *
+     * For example, this can be used to create a quadratic waveshaper:
+     *
+     * buffer->fill([](float input) { return input * input; });
+     *
      *------------------------------------------------------------------------*/
     void fill(transfer_fn f);
 
+    /**------------------------------------------------------------------------
+     * Get the buffer's audio sample rate.
+     *
+     * @returns The sample rate, in Hz.
+     *
+     *------------------------------------------------------------------------*/
+    float get_sample_rate();
+
+    /**------------------------------------------------------------------------
+     * Get the number of channels in the buffer.
+     *
+     * @returns The number of channels.
+     *
+     *------------------------------------------------------------------------*/
+    int get_num_channels();
+
+    /**------------------------------------------------------------------------
+     * Get the number of frames in the buffer.
+     *
+     * @returns The number of frames.
+     *------------------------------------------------------------------------*/
+    int get_num_frames();
+
+    float get_duration();
+    sample **get_data();
+    void set_interpolation_mode(signal_interpolation_mode_t mode);
+    signal_interpolation_mode_t get_interpolation_mode();
+    sample **data = NULL;
+
+protected:
     float sample_rate;
     int num_channels;
     int num_frames;
-    sample **data = NULL;
-
     float duration;
+
     signal_interpolation_mode_t interpolate;
 };
 

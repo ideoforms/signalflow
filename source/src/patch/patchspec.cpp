@@ -47,7 +47,7 @@ void PatchSpec::load(std::string filename)
 
     for (auto element : json.array_items())
     {
-        NodeSpec nodespec;
+        PatchNodeSpec nodespec;
         bool is_output = false;
         for (auto pair : element.object_items())
         {
@@ -80,7 +80,7 @@ void PatchSpec::load(std::string filename)
                     else if (input_value.is_object())
                     {
                         int id = input_value["id"].int_value();
-                        NodeSpec *ptr = this->get_node_def(id);
+                        PatchNodeSpec *ptr = this->get_node_def(id);
                         nodespec.add_input(input_key, ptr);
                     }
                 }
@@ -107,22 +107,22 @@ void PatchSpec::store()
     PatchRegistry::global()->add(this->name, this);
 }
 
-void PatchSpec::add_node_def(NodeSpec def)
+void PatchSpec::add_node_def(PatchNodeSpec def)
 {
     this->nodespecs[def.id] = def;
 }
 
-NodeSpec *PatchSpec::get_node_def(int id)
+PatchNodeSpec *PatchSpec::get_node_def(int id)
 {
     return &(this->nodespecs[id]);
 }
 
-void PatchSpec::set_output(NodeSpec def)
+void PatchSpec::set_output(PatchNodeSpec def)
 {
     this->output_def = def;
 }
 
-NodeSpec PatchSpec::get_root()
+PatchNodeSpec PatchSpec::get_root()
 {
     return this->output_def;
 }
@@ -133,7 +133,7 @@ void PatchSpec::print()
     this->print(&this->output_def, 0);
 }
 
-void PatchSpec::print(NodeSpec *root, int depth)
+void PatchSpec::print(PatchNodeSpec *root, int depth)
 {
     std::cout << std::string(depth * 2, ' ');
     std::cout << " * " << root->name << " (id = " << root->id << ") " << std::endl;

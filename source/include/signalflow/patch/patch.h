@@ -1,6 +1,6 @@
 #pragma once
 
-#include "signalflow/patch/nodespec.h"
+#include "signalflow/patch/patchnodespec.h"
 #include "signalflow/patch/patchspec.h"
 
 namespace signalflow
@@ -50,7 +50,7 @@ public:
     std::string name;
 
 private:
-    NodeRef instantiate(NodeSpec *nodespec);
+    NodeRef instantiate(PatchNodeSpec *nodespec);
     void set_state(signal_patch_state_t state);
     bool auto_free;
     signal_patch_state_t state;
@@ -63,8 +63,8 @@ private:
 
     std::string _get_input_name(const NodeRef &node);
     std::string _get_input_name(const BufferRef &buf);
-    NodeSpec _parse_from_node(const NodeRef &node);
-    std::unordered_map<int, NodeSpec> nodespecs;
+    PatchNodeSpec _parse_from_node(const NodeRef &node);
+    std::unordered_map<int, PatchNodeSpec> nodespecs;
     std::set<NodeRef> parsed_nodes;
 };
 

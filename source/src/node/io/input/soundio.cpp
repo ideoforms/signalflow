@@ -47,7 +47,7 @@ void read_callback(struct SoundIoInStream *instream,
                 float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
                 input->buffer->data[channel][input->write_pos] = *ptr;
             }
-            input->write_pos = (input->write_pos + 1) % input->buffer->num_frames;
+            input->write_pos = (input->write_pos + 1) % input->buffer->get_num_frames();
         }
 
         if ((err = soundio_instream_end_read(instream)))
@@ -137,7 +137,7 @@ void AudioIn_SoundIO::process(sample **out, int num_frames)
         {
             out[channel][frame] = this->buffer->data[channel][read_pos];
         }
-        read_pos = (read_pos + 1) % this->buffer->num_frames;
+        read_pos = (read_pos + 1) % this->buffer->get_num_frames();
     }
 }
 

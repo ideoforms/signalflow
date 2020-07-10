@@ -16,26 +16,26 @@ void init_python_buffer(py::module &m)
         .def(py::init<std::vector<std::vector<float>>>())
         .def(py::init<std::vector<float>>())
         .def("__getitem__", [](BufferRef a, int b) {
-            if (b < 0 || b >= a->num_channels)
+            if (b < 0 || b >= a->get_num_channels())
             {
                 throw std::runtime_error("Invalid channel index: " + std::to_string(b));
             }
-            std::vector<sample> a_vec(a->data[b], a->data[b] + a->num_frames);
+            std::vector<sample> a_vec(a->data[b], a->data[b] + a->get_num_frames());
             return new Buffer(a_vec);
         })
         .def("__str__", [](BufferRef a) {
-            return "Buffer (" + std::to_string(a->num_channels) + " channels, " + std::to_string(a->num_frames) + " frames)";
+            return "Buffer (" + std::to_string(a->get_num_channels()) + " channels, " + std::to_string(a->get_num_frames()) + " frames)";
         })
         .def("__mul__", [](BufferRef a, float b) { return a * b; })
         .def("__rmul__", [](BufferRef a, float b) { return a * b; })
 
-        .def("__len__", [](Buffer &buf) { return buf.num_frames; })
+        .def("__len__", [](Buffer &buf) { return buf.get_num_frames(); })
 
-        .def_readonly("num_frames", &Buffer::num_frames)
-        .def_readonly("num_channels", &Buffer::num_channels)
-        .def_readonly("sample_rate", &Buffer::sample_rate)
-        .def_readonly("duration", &Buffer::duration)
-        .def_readwrite("interpolate", &Buffer::interpolate)
+        .def_property_readonly("num_frames", &Buffer::get_num_frames)
+        .def_property_readonly("num_channels", &Buffer::get_num_channels)
+        .def_property_readonly("sample_rate", &Buffer::get_sample_rate)
+        .def_property_readonly("duration", &Buffer::get_duration)
+        .def_property("interpolate", &Buffer::get_interpolation_mode, &Buffer::set_interpolation_mode)
 
         .def("split", &Buffer::split)
         .def("get", &Buffer::get)
@@ -46,8 +46,8 @@ void init_python_buffer(py::module &m)
         .def("save", &Buffer::save)
         .def_property_readonly("data", [](Buffer &buf) {
             return py::array_t<float>(
-                { buf.num_channels, buf.num_frames },
-                { sizeof(float) * buf.num_frames, sizeof(float) },
+                { buf.get_num_channels(), buf.get_num_frames() },
+                { sizeof(float) * buf.get_num_frames(), sizeof(float) },
                 buf.data[0]);
         });
 

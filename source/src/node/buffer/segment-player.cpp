@@ -12,7 +12,7 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
     this->name = "segment-player";
 
     this->num_input_channels = 0;
-    this->num_output_channels = buffer->num_channels;
+    this->num_output_channels = buffer->get_num_channels();
 
     this->add_buffer("buffer", buffer);
 
@@ -33,7 +33,7 @@ void SegmentPlayer::process(sample **out, int num_frames)
     {
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            if ((int) this->phase < buffer->num_frames)
+            if ((int) this->phase < buffer->get_num_frames())
             {
                 s = this->buffer->data[channel][(int) this->phase];
             }

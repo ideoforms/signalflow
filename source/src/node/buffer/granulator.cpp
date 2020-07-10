@@ -40,7 +40,7 @@ void Granulator::process(sample **out, int num_frames)
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.
      *--------------------------------------------------------------------------------*/
-    if (!this->buffer || !this->buffer->num_frames)
+    if (!this->buffer || !this->buffer->get_num_frames())
         return;
 
     for (int frame = 0; frame < num_frames; frame++)
@@ -56,7 +56,7 @@ void Granulator::process(sample **out, int num_frames)
         {
             if (this->grains.size() < max_grains)
             {
-                Grain *grain = new Grain(buffer, pos * buffer->sample_rate, grain_length * buffer->sample_rate, rate, pan);
+                Grain *grain = new Grain(buffer, pos * buffer->get_sample_rate(), grain_length * buffer->get_sample_rate(), rate, pan);
                 this->grains.push_back(grain);
             }
         }
@@ -75,8 +75,8 @@ void Granulator::process(sample **out, int num_frames)
                  * Obtain the correct sample from the buffer.
                  *-----------------------------------------------------------------------*/
                 double buffer_index = grain->sample_start + grain->samples_done;
-                while (buffer_index > this->buffer->num_frames)
-                    buffer_index -= this->buffer->num_frames;
+                while (buffer_index > this->buffer->get_num_frames())
+                    buffer_index -= this->buffer->get_num_frames();
                 sample s = this->buffer->get(buffer_index);
 
                 /*------------------------------------------------------------------------

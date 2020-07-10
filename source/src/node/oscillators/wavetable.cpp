@@ -21,7 +21,7 @@ void Wavetable::process(sample **out, int num_frames)
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.
      *--------------------------------------------------------------------------------*/
-    if (!this->buffer || !this->buffer->num_frames)
+    if (!this->buffer || !this->buffer->get_num_frames())
         return;
 
     for (int channel = 0; channel < this->num_output_channels; channel++)
@@ -34,7 +34,7 @@ void Wavetable::process(sample **out, int num_frames)
             }
 
             float frequency = this->frequency->out[channel][frame];
-            int index = this->phase[channel] * this->buffer->num_frames;
+            int index = this->phase[channel] * this->buffer->get_num_frames();
             float rv = this->buffer->get(index);
 
             out[channel][frame] = rv;
@@ -68,7 +68,7 @@ void Wavetable2D::process(sample **out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             float frequency = this->frequency->out[0][frame];
-            int index = this->phase[channel] * this->buffer->num_frames;
+            int index = this->phase[channel] * this->buffer->get_num_frames();
             float rv = this->buffer->get2D(index, this->crossfade->out[0][frame]);
 
             out[channel][frame] = rv;

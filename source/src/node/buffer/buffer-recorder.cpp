@@ -18,7 +18,7 @@ BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
 
     this->phase = 0.0;
 
-    this->num_input_channels = buffer->num_channels;
+    this->num_input_channels = buffer->get_num_channels();
     this->num_output_channels = 0;
 
     this->min_input_channels = this->max_input_channels = this->num_input_channels;
@@ -30,14 +30,14 @@ void BufferRecorder::process(sample **out, int num_frames)
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.
      *--------------------------------------------------------------------------------*/
-    if (!this->buffer || !this->buffer->num_frames)
+    if (!this->buffer || !this->buffer->get_num_frames())
         return;
 
     for (int frame = 0; frame < num_frames; frame++)
     {
         for (int channel = 0; channel < this->num_input_channels; channel++)
         {
-            if ((int) this->phase < buffer->num_frames)
+            if ((int) this->phase < buffer->get_num_frames())
             {
                 this->buffer->data[channel][(int) this->phase] = this->input->out[channel][frame];
             }
@@ -46,9 +46,9 @@ void BufferRecorder::process(sample **out, int num_frames)
         this->phase += 1;
         if (loop)
         {
-            while (this->phase > this->buffer->num_frames)
+            while (this->phase > this->buffer->get_num_frames())
             {
-                this->phase -= this->buffer->num_frames;
+                this->phase -= this->buffer->get_num_frames();
             }
         }
     }

@@ -35,7 +35,7 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
     this->num_output_channels = 0;
     if (buffer)
     {
-        this->num_output_channels = buffer->num_channels;
+        this->num_output_channels = buffer->get_num_channels();
     }
 
     this->min_input_channels = this->max_input_channels = 0;
@@ -49,7 +49,7 @@ void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
     if (name == "buffer")
     {
         Node::set_buffer(name, buffer);
-        this->num_output_channels = buffer->num_channels;
+        this->num_output_channels = buffer->get_num_channels();
     }
 }
 
@@ -58,13 +58,13 @@ void BufferPlayer::process(sample **out, int num_frames)
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.
      *--------------------------------------------------------------------------------*/
-    if (!this->buffer || !this->buffer->num_frames)
+    if (!this->buffer || !this->buffer->get_num_frames())
         return;
 
     sample s;
 
-    int loop_start = this->loop_start ? (buffer->num_frames * this->loop_start->out[0][0]) : 0;
-    int loop_end = this->loop_end ? (buffer->num_frames * this->loop_end->out[0][0]) : buffer->num_frames;
+    int loop_start = this->loop_start ? (buffer->get_num_frames() * this->loop_start->out[0][0]) : 0;
+    int loop_end = this->loop_end ? (buffer->get_num_frames() * this->loop_end->out[0][0]) : buffer->get_num_frames();
 
     for (int frame = 0; frame < num_frames; frame++)
     {

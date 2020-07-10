@@ -7,21 +7,21 @@ namespace signalflow
 
 Buffer2D::Buffer2D(std::vector<BufferRef> buffers)
 {
-    this->num_channels = buffers[0]->num_channels;
-    this->num_frames = buffers[0]->num_frames;
-    this->sample_rate = buffers[0]->sample_rate;
+    this->num_channels = buffers[0]->get_num_channels();
+    this->num_frames = buffers[0]->get_num_frames();
+    this->sample_rate = buffers[0]->get_sample_rate();
 
     for (auto buffer : buffers)
     {
-        if (buffer->num_channels != 1)
+        if (buffer->get_num_channels() != 1)
         {
             throw std::runtime_error("Input buffers to Buffer2D must all be mono");
         }
-        if (buffer->num_frames != this->num_frames)
+        if (buffer->get_num_frames() != this->num_frames)
         {
             throw std::runtime_error("Input buffers to Buffer2D must all have identical length");
         }
-        if (buffer->sample_rate != this->sample_rate)
+        if (buffer->get_sample_rate() != this->sample_rate)
         {
             throw std::runtime_error("Input buffers to Buffer2D must all have identical sample rate");
         }

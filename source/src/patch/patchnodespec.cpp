@@ -2,16 +2,6 @@
 
 namespace signalflow
 {
-//PatchNodeSpec::PatchNodeSpec()
-//    : name("(null)")
-//{
-//}
-
-PatchNodeSpec::~PatchNodeSpec()
-{
-    // free inputs
-}
-
 PatchNodeSpec::PatchNodeSpec(std::string name)
     : name(name)
 {
@@ -21,6 +11,11 @@ PatchNodeSpec::PatchNodeSpec(std::string name, float value)
     : name(name)
 {
     this->set_constant_value(value);
+}
+
+PatchNodeSpec::~PatchNodeSpec()
+{
+    // free inputs
 }
 
 void PatchNodeSpec::set_id(int value)

@@ -13,8 +13,8 @@
 
 #include <signalflow/buffer/buffer.h>
 
-#include <signalflow/patch/nodespec.h>
 #include <signalflow/patch/patch.h>
+#include <signalflow/patch/patchnodespec.h>
 #include <signalflow/patch/patchspec.h>
 
 #include <signalflow/node/node.h>

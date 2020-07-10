@@ -352,21 +352,56 @@ void Buffer::fill(transfer_fn f)
     }
 }
 
+float Buffer::get_sample_rate()
+{
+    return this->sample_rate;
+}
+
+int Buffer::get_num_channels()
+{
+    return this->num_channels;
+}
+
+int Buffer::get_num_frames()
+{
+    return this->num_frames;
+}
+
+float Buffer::get_duration()
+{
+    return this->duration;
+}
+
+void Buffer::set_interpolation_mode(signal_interpolation_mode_t mode)
+{
+    this->interpolate = mode;
+}
+
+signal_interpolation_mode_t Buffer::get_interpolation_mode()
+{
+    return this->interpolate;
+}
+
+sample **Buffer::get_data()
+{
+    return this->data;
+}
+
 template <class T>
 BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
 {
     Buffer *buffer = (Buffer *) this->get();
 
-    std::vector<std::vector<sample>> output(buffer->num_channels);
-    for (int channel = 0; channel < buffer->num_channels; channel++)
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (int channel = 0; channel < buffer->get_num_channels(); channel++)
     {
-        output[channel].resize(buffer->num_frames);
-        for (int frame = 0; frame < buffer->num_frames; frame++)
+        output[channel].resize(buffer->get_num_frames());
+        for (int frame = 0; frame < buffer->get_num_frames(); frame++)
         {
             output[channel][frame] = buffer->data[channel][frame] * constant;
         }
     }
-    return new Buffer(buffer->num_channels, buffer->num_frames, output);
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
 }
 
 template class BufferRefTemplate<Buffer>;

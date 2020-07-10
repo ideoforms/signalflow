@@ -22,7 +22,7 @@ Patch::Patch()
 Patch::Patch(PatchSpecRef patchspec)
     : Patch()
 {
-    NodeSpec nodespec = patchspec->get_root();
+    PatchNodeSpec nodespec = patchspec->get_root();
     this->output = this->instantiate(&nodespec);
 }
 
@@ -32,7 +32,7 @@ Patch::Patch(std::string name)
     PatchSpecRef patchspec = PatchRegistry::global()->get(name);
     if (patchspec)
     {
-        NodeSpec nodespec = patchspec->get_root();
+        PatchNodeSpec nodespec = patchspec->get_root();
         this->output = this->instantiate(&nodespec);
     }
 }
@@ -51,10 +51,10 @@ void Patch::set_state(signal_patch_state_t state)
     this->state = state;
 }
 
-NodeRef Patch::instantiate(NodeSpec *nodespec)
+NodeRef Patch::instantiate(PatchNodeSpec *nodespec)
 {
     /*------------------------------------------------------------------------
-     * Recursively instantiate the subgraph specified in NodeSpec.
+     * Recursively instantiate the subgraph specified in PatchNodeSpec.
      * Does not currently support graphs that route one node to multiple
      * inputs.
      *-----------------------------------------------------------------------*/
@@ -282,9 +282,9 @@ PatchSpecRef Patch::create_spec()
     return spec;
 }
 
-NodeSpec Patch::_parse_from_node(const NodeRef &node)
+PatchNodeSpec Patch::_parse_from_node(const NodeRef &node)
 {
-    NodeSpec nodespec(node->name);
+    PatchNodeSpec nodespec(node->name);
     nodespec.set_id(this->last_id++);
 
     if (node->name == "constant")
@@ -299,7 +299,7 @@ NodeSpec Patch::_parse_from_node(const NodeRef &node)
             NodeRef input_node = *(input.second);
             if (input_node)
             {
-                NodeSpec input_spec = this->_parse_from_node(input_node);
+                PatchNodeSpec input_spec = this->_parse_from_node(input_node);
                 nodespec.add_input(input.first, &input_spec);
             }
         }
