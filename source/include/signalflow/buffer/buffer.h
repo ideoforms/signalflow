@@ -1,15 +1,11 @@
 #pragma once
 
 /**-------------------------------------------------------------------------
- * @file buffer.h
  * @brief A Buffer stores one or more channels of floating-point
  *        samples.
  *
- * This is a test.
- *
- * Testing.
- *
  *-----------------------------------------------------------------------*/
+
 #include "signalflow/core/constants.h"
 #include "signalflow/core/util.h"
 
@@ -22,7 +18,8 @@
 
 /**------------------------------------------------------------------------
  * Typedef for a sample -> sample transfer function.
- * Convenient for lambda-based features.
+ * Used for lambda-based features.
+ *
  *------------------------------------------------------------------------*/
 typedef sample (*transfer_fn)(sample);
 
@@ -116,6 +113,7 @@ public:
      *
      * TODO split(N) would normally denote how many parts to split into.
      *      split(chunk_size=) / split(split_count=) ?
+     *
      *------------------------------------------------------------------------*/
     std::vector<BufferRef> split(int num_frames_per_part);
 
