@@ -1,4 +1,4 @@
-# Signal Examples
+# SignalFlow Examples
 
 **[audio-in-example.cpp](audio-in-example.cpp)**  
 Takes audio input from the default input device, records it to
