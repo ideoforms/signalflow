@@ -1,4 +1,4 @@
-#include "signalflow/node/processors/resample.h"
+#include "signalflow/node/processors/distortion/resample.h"
 
 #include "signalflow/core/graph.h"
 #include "signalflow/node/oscillators/constant.h"

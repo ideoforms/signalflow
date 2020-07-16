@@ -1,4 +1,4 @@
-#include "signalflow/node/processors/waveshaper.h"
+#include "signalflow/node/processors/distortion/waveshaper.h"
 
 namespace signalflow
 {

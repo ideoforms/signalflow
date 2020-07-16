@@ -80,6 +80,13 @@ void init_python_nodes(py::module &m)
     py::class_<ChannelMixer, Node, NodeRefTemplate<ChannelMixer>>(m, "ChannelMixer")
         .def(py::init<int, NodeRef>(), "channels"_a = 1, "input"_a = 0);
 
+    py::class_<Sum, Node, NodeRefTemplate<Sum>>(m, "Sum")
+        .def(py::init<>())
+        .def(py::init<std::initializer_list<NodeRef>>(), "inputs"_a)
+        .def(py::init<std::vector<NodeRef>>(), "inputs"_a)
+        .def(py::init<std::vector<int>>(), "inputs"_a)
+        .def(py::init<std::vector<float>>(), "inputs"_a);
+
     py::class_<ChannelArray, Node, NodeRefTemplate<ChannelArray>>(m, "ChannelArray")
         .def(py::init<>())
         .def(py::init<std::initializer_list<NodeRef>>(), "inputs"_a)

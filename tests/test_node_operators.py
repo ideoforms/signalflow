@@ -1,4 +1,4 @@
-from signalflow import Constant, ChannelArray
+from signalflow import Constant, ChannelArray, Sum
 import numpy as np
 
 from . import process_tree
@@ -181,3 +181,9 @@ def test_subscript():
     assert np.all(b.output_buffer[0] == 1)
     assert np.all(b.output_buffer[1] == 3)
     assert np.all(b.output_buffer[2] == 0)
+
+def test_sum():
+    a = Sum([ 1, 2, 3, 4 ])
+    assert a.num_output_channels == 1
+    process_tree(a)
+    assert np.all(a.output_buffer[0] == 10)

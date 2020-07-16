@@ -32,15 +32,15 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/stutter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/biquad.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/eq.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/sample-and-hold.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/sample-and-hold.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/gate.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/moog.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/pan.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/resample.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/resample.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/rms.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/smooth.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/squiz.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/waveshaper.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/squiz.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/waveshaper.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/width.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/maximiser.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp
@@ -57,6 +57,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/round.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/scale.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/subtract.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/sum.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/constant.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/line.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/saw.cpp

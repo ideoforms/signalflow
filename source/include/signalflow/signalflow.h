@@ -87,6 +87,10 @@
 #include <signalflow/node/processors/delays/comb.h>
 #include <signalflow/node/processors/delays/onetap.h>
 #include <signalflow/node/processors/delays/stutter.h>
+#include <signalflow/node/processors/distortion/resample.h>
+#include <signalflow/node/processors/distortion/sample-and-hold.h>
+#include <signalflow/node/processors/distortion/squiz.h>
+#include <signalflow/node/processors/distortion/waveshaper.h>
 #include <signalflow/node/processors/dynamics/gate.h>
 #include <signalflow/node/processors/dynamics/maximiser.h>
 #include <signalflow/node/processors/dynamics/rms.h>
@@ -95,11 +99,7 @@
 #include <signalflow/node/processors/filters/moog.h>
 #include <signalflow/node/processors/panning/pan.h>
 #include <signalflow/node/processors/panning/width.h>
-#include <signalflow/node/processors/resample.h>
-#include <signalflow/node/processors/sample-and-hold.h>
 #include <signalflow/node/processors/smooth.h>
-#include <signalflow/node/processors/squiz.h>
-#include <signalflow/node/processors/waveshaper.h>
 
 /*------------------------------------------------------------------------
  * Sequencing
