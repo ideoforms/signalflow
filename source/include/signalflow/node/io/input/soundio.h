@@ -13,10 +13,12 @@
 
 namespace signalflow
 {
+
 class AudioIn_SoundIO : public AudioIn_Abstract
 {
 public:
     AudioIn_SoundIO();
+    virtual ~AudioIn_SoundIO();
     virtual int init() override;
     virtual int start() override;
     virtual int stop() override;
@@ -31,6 +33,7 @@ public:
     int read_pos;
     int write_pos;
 };
+
 }
 
 #endif

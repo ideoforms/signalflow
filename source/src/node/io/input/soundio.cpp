@@ -11,20 +11,25 @@
 #include <stdlib.h>
 #include <string.h>
 
+static bool is_processing = false;
+
 namespace signalflow
 {
-
 extern AudioIn_Abstract *shared_in;
 
 void read_callback(struct SoundIoInStream *instream,
                    int frame_count_min, int frame_count_max)
 {
+    is_processing = true;
+
+    AudioIn_SoundIO *input = (AudioIn_SoundIO *) shared_in;
+    if (!shared_in)
+        return;
+
     const struct SoundIoChannelLayout *layout = &instream->layout;
     struct SoundIoChannelArea *areas;
     int frame_count = frame_count_max;
     int frames_left = frame_count_max;
-
-    AudioIn_SoundIO *input = (AudioIn_SoundIO *) shared_in;
 
     /*-----------------------------------------------------------------------*
      * On some drivers (eg Linux), we cannot write all samples at once.
@@ -38,7 +43,8 @@ void read_callback(struct SoundIoInStream *instream,
             throw std::runtime_error("libsoundio error on begin read: " + std::string(soundio_strerror(err)));
 
         if (!input)
-            throw std::runtime_error("libsoundio error: No global input created");
+            continue;
+        // throw std::runtime_error("libsoundio error: No global input created");
 
         for (int frame = 0; frame < frame_count; frame++)
         {
@@ -55,6 +61,8 @@ void read_callback(struct SoundIoInStream *instream,
 
         frames_left -= frame_count;
     }
+
+    is_processing = false;
 }
 
 AudioIn_SoundIO::AudioIn_SoundIO()
@@ -68,6 +76,11 @@ AudioIn_SoundIO::AudioIn_SoundIO()
     this->read_pos = 0;
     this->write_pos = 2048;
     this->init();
+}
+
+AudioIn_SoundIO::~AudioIn_SoundIO()
+{
+    this->destroy();
 }
 
 int AudioIn_SoundIO::init()
@@ -91,6 +104,7 @@ int AudioIn_SoundIO::init()
     this->instream->format = SoundIoFormatFloat32NE;
     this->instream->read_callback = read_callback;
     this->instream->sample_rate = device->sample_rate_current;
+    this->instream->software_latency = 256.0 / this->instream->sample_rate;
 
     if ((err = soundio_instream_open(this->instream)))
     {
@@ -107,7 +121,7 @@ int AudioIn_SoundIO::init()
     std::string s = num_output_channels == 1 ? "" : "s";
 
     std::cerr << "Input device: " << device->name << " (" << this->instream->sample_rate << "Hz, "
-              << "buffer " << buffer_size << ", " << num_output_channels << " channel" << s << ")" << std::endl;
+              << "buffer size " << buffer_size << " samples, " << num_output_channels << " channel" << s << ")" << std::endl;
 
     return 0;
 }
@@ -124,7 +138,13 @@ int AudioIn_SoundIO::stop()
 
 int AudioIn_SoundIO::destroy()
 {
+    while (is_processing)
+    {
+    }
+
+    shared_in = NULL;
     soundio_instream_destroy(this->instream);
+    soundio_device_unref(this->device);
 
     return 0;
 }
