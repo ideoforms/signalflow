@@ -1,4 +1,4 @@
-from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer
+from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer
 from signalflow import InvalidChannelCountException
 import numpy as np
 import pytest
@@ -104,3 +104,8 @@ def test_expansion_channel_mismatch(graph):
     a = Sine([ 440, 880 ])
     with pytest.raises(InvalidChannelCountException):
         b = LinearPanner(2, a)
+    b = Buffer([ 1, 2, 3 ])
+    c = BufferPlayer(b)
+    with pytest.raises(InvalidChannelCountException):
+        c.set_input("rate", [ 1, 1.5 ])
+
