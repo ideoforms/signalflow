@@ -8,11 +8,12 @@ AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
     this->graph = graph;
 
     this->name = "audioout";
-    // this->num_input_channels = 2;
-    this->num_output_channels = 2;
+
+    // TODO: Let the user/system specify the actual # of supported channels
+    this->num_input_channels = 4;
+    this->num_output_channels = 4;
     this->no_input_upmix = true;
-    this->min_output_channels = 2;
-    this->max_output_channels = 2;
+    this->matches_input_channels = false;
     this->input_index = 0;
 }
 

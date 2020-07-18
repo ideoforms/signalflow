@@ -20,9 +20,7 @@ BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
 
     this->num_input_channels = buffer->get_num_channels();
     this->num_output_channels = 0;
-
-    this->min_input_channels = this->max_input_channels = this->num_input_channels;
-    this->min_output_channels = this->max_output_channels = 0;
+    this->matches_input_channels = false;
 }
 
 void BufferRecorder::process(sample **out, int num_frames)

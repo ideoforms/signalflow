@@ -13,9 +13,8 @@ AudioIn_Abstract::AudioIn_Abstract()
 
     this->name = "audioin";
     this->num_output_channels = 1;
-    this->min_output_channels = this->max_output_channels = this->num_output_channels;
     this->num_input_channels = 0;
-    this->min_input_channels = this->max_input_channels = this->num_input_channels;
+    this->matches_input_channels = false;
 }
 
 }

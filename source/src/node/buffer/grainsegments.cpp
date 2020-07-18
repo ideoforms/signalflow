@@ -25,8 +25,8 @@ GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, Pr
     this->add_buffer("envelope", this->envelope);
 
     this->num_output_channels = 2;
-    this->min_output_channels = this->max_output_channels = this->num_output_channels;
-    this->min_input_channels = this->max_input_channels = 1;
+    this->num_input_channels = 1;
+    this->matches_input_channels = false;
 
     this->clock_last = 0.0;
 }

@@ -58,7 +58,7 @@ FFTFindPeaks::FFTFindPeaks(NodeRef input, NodeRef prominence, NodeRef threshold,
     : FFTOpNode(input), prominence(prominence), threshold(threshold), count(count), interpolate(interpolate)
 {
     this->name = "fft-find-peaks";
-    this->num_output_channels = this->min_output_channels = this->max_output_channels = count;
+    this->num_output_channels = count;
     this->update_channels();
 
     this->add_input("prominence", this->prominence);

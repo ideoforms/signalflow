@@ -11,6 +11,7 @@ Width::Width(NodeRef input, NodeRef width)
 
     this->num_input_channels = 2;
     this->num_output_channels = 2;
+    this->matches_input_channels = false;
 }
 
 void Width::process(sample **out, int num_frames)

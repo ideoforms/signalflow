@@ -26,11 +26,7 @@ Node::Node()
     this->graph = shared_graph;
     this->state = SIGNAL_NODE_STATE_ACTIVE;
 
-    this->min_input_channels = N_CHANNELS;
-    this->max_input_channels = N_CHANNELS;
-    this->min_output_channels = N_CHANNELS;
-    this->max_output_channels = N_CHANNELS;
-
+    this->matches_input_channels = true;
     this->num_input_channels = 1;
     this->num_output_channels = 1;
     this->last_num_frames = 0;
@@ -88,10 +84,16 @@ void Node::process(sample **out, int num_frames)
     throw std::runtime_error("Node::process (should never be called)");
 }
 
+void Node::set_channels(int num_input_channels, int num_output_channels)
+{
+    this->num_input_channels = num_input_channels;
+    this->num_output_channels = num_output_channels;
+    this->matches_input_channels = false;
+}
+
 void Node::update_channels()
 {
-    // TODO change min_input_channels to a flag. match_input_channels?
-    if (this->min_input_channels == N_CHANNELS)
+    if (this->matches_input_channels)
     {
         int max_channels = 1;
         for (auto input : this->inputs)
@@ -109,11 +111,6 @@ void Node::update_channels()
 
         this->num_input_channels = max_channels;
         this->num_output_channels = max_channels;
-
-        if (this->min_output_channels > this->num_output_channels)
-        {
-            this->num_output_channels = this->min_output_channels;
-        }
 
         this->allocate_output_buffer();
 

@@ -26,7 +26,6 @@ class NodeMonitor;
 
 typedef enum
 {
-    SIGNAL_NODE_STATE_UNKNOWN,
     SIGNAL_NODE_STATE_ACTIVE,
     SIGNAL_NODE_STATE_FINISHED
 } signal_node_state_t;
@@ -190,7 +189,8 @@ public:
      * Pointer to the Graph that this node is a part of.
      * Set automatically in constructor.
      *
-     * TODO: Should be an AudioGraphRef
+     * TODO: Should be an AudioGraphRef.
+     *       This is harder to accomplish than it looks.
      *-----------------------------------------------------------------------*/
     AudioGraph *graph = nullptr;
 
@@ -202,22 +202,7 @@ public:
     int num_output_channels;
 
     /*------------------------------------------------------------------------
-     * Number of preferred in/out channels. This is used to determine
-     * how audio should be up-mixed or down-mixed when passing signals
-     * between nodes.
-     *
-     * N-to-N nodes should use N_CHANNELS / N_CHANNELS
-     * 1-to-N nodes should use 1 / N_CHANNELS
-     *-----------------------------------------------------------------------*/
-    int min_input_channels,
-        max_input_channels,
-        min_output_channels,
-        max_output_channels;
-
-    /*------------------------------------------------------------------------
      * Buffer containing this node's output.
-     * TODO: Point this partway through a bigger frame buffer so that
-     *       its history can be read for delay lines etc.
      *-----------------------------------------------------------------------*/
     sample **out;
 
@@ -233,6 +218,12 @@ public:
     int last_num_frames;
 
 protected:
+    /*------------------------------------------------------------------------
+      * Called by Node subclasses to specify a fixed number of in/out
+      * channels. Also unsets matches_input_channels.
+      *-----------------------------------------------------------------------*/
+    virtual void set_channels(int num_input_channels, int num_output_channels);
+
     /*------------------------------------------------------------------------
       * Called after add_input/route to update our routing ins/outs,
       * called by AudioGraph
@@ -311,7 +302,7 @@ protected:
 
     /*------------------------------------------------------------------------
      * If matches_input_channels is set, a node automatically increases its
-     * input/output channel count to match
+     * input/output channel count to match those of its inputs.
      *-----------------------------------------------------------------------*/
     bool matches_input_channels;
 

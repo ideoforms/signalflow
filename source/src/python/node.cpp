@@ -45,11 +45,8 @@ void init_python_node(py::module &m)
         .def_property_readonly("state", &Node::get_state)
 
         .def_readonly("num_output_channels", &Node::num_output_channels)
-        .def_readonly("min_output_channels", &Node::min_output_channels)
-        .def_readonly("max_output_channels", &Node::max_output_channels)
         .def_readonly("num_input_channels", &Node::num_input_channels)
-        .def_readonly("min_input_channels", &Node::min_input_channels)
-        .def_readonly("max_input_channels", &Node::max_input_channels)
+        // .def_readonly("matches_input_channels", &Node::matches_input_channels)
 
         .def("set_buffer", &Node::set_buffer)
         .def("poll", [](Node &node) { node.poll(); })

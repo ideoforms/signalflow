@@ -11,13 +11,11 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
 {
     this->name = "segment-player";
 
-    this->num_input_channels = 0;
+    this->num_input_channels = 1;
     this->num_output_channels = buffer->get_num_channels();
+    this->matches_input_channels = false;
 
     this->add_buffer("buffer", buffer);
-
-    this->min_input_channels = this->max_input_channels = 0;
-    this->min_output_channels = this->max_output_channels = this->num_output_channels;
 
     this->phase = 0.0;
 

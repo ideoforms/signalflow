@@ -70,8 +70,7 @@ void ChannelArray::update_channels()
 
     this->num_output_channels = this->num_input_channels;
 
-    this->min_input_channels = this->max_input_channels = this->num_input_channels;
-    this->min_output_channels = this->max_output_channels = this->num_output_channels;
+    this->matches_input_channels = false;
 
     signal_debug("Node %s set num_out_channels to %d\n", this->name.c_str(), this->num_output_channels);
 
