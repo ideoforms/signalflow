@@ -13,8 +13,6 @@
 
 #include <signalflow/buffer/buffer.h>
 
-#include <signalflow/bus/bus.h>
-
 #include <signalflow/patch/patch.h>
 #include <signalflow/patch/patchnodespec.h>
 #include <signalflow/patch/patchspec.h>
