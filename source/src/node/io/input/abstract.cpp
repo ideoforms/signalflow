@@ -12,9 +12,7 @@ AudioIn_Abstract::AudioIn_Abstract()
     shared_in = this;
 
     this->name = "audioin";
-    this->num_output_channels = 1;
-    this->num_input_channels = 0;
-    this->matches_input_channels = false;
+    this->set_channels(0, 1);
 }
 
 }

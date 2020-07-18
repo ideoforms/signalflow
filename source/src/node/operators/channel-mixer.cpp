@@ -58,9 +58,8 @@ void ChannelMixer::process(sample **out, int num_frames)
 
 void ChannelMixer::update_channels()
 {
-    this->num_input_channels = this->input->num_output_channels;
-    this->num_output_channels = this->channels;
-    this->matches_input_channels = false;
+    this->set_channels(this->input->num_output_channels, this->channels);
+
     this->amp_compensation = (float) this->num_output_channels / this->num_input_channels;
     if (this->amp_compensation > 1.0)
     {

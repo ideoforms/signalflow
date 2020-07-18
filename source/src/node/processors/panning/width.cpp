@@ -9,9 +9,7 @@ Width::Width(NodeRef input, NodeRef width)
     this->name = "width";
     this->add_input("width", this->width);
 
-    this->num_input_channels = 2;
-    this->num_output_channels = 2;
-    this->matches_input_channels = false;
+    this->set_channels(2, 2);
 }
 
 void Width::process(sample **out, int num_frames)

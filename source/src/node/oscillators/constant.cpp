@@ -8,9 +8,7 @@ Constant::Constant(sample value)
 {
     this->value = value;
     this->name = "constant";
-    this->matches_input_channels = false;
-    this->num_input_channels = 0;
-    this->num_output_channels = 1;
+    this->set_channels(0, 1);
 }
 
 void Constant::process(sample **out, int num_frames)

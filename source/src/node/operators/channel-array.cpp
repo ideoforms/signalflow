@@ -68,9 +68,7 @@ void ChannelArray::update_channels()
         this->num_input_channels += input->num_output_channels;
     }
 
-    this->num_output_channels = this->num_input_channels;
-
-    this->matches_input_channels = false;
+    this->set_channels(this->num_input_channels, this->num_input_channels);
 
     signal_debug("Node %s set num_out_channels to %d\n", this->name.c_str(), this->num_output_channels);
 

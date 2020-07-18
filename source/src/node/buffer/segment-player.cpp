@@ -11,9 +11,7 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
 {
     this->name = "segment-player";
 
-    this->num_input_channels = 1;
-    this->num_output_channels = buffer->get_num_channels();
-    this->matches_input_channels = false;
+    this->set_channels(1, buffer->get_num_channels());
 
     this->add_buffer("buffer", buffer);
 

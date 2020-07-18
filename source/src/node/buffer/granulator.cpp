@@ -19,10 +19,7 @@ Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef gra
     this->envelope = new EnvelopeBufferTriangle();
     this->add_buffer("envelope", envelope);
 
-    this->num_output_channels = 2;
-    this->num_input_channels = 1;
-    this->matches_input_channels = false;
-
+    this->set_channels(1, 2);
     this->pan = 0.5;
     this->add_input("pan", this->pan);
 

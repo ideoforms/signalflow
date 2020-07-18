@@ -11,10 +11,7 @@ FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)
      *-----------------------------------------------------------------------*/
     this->num_bins = fft_size / 2 + 1;
     this->num_hops = 0;
-
-    this->num_output_channels = 1;
-    this->num_input_channels = 1;
-    this->matches_input_channels = false;
+    this->set_channels(1, 1);
 
     /*------------------------------------------------------------------------
      * Extra 2 floats to store complex Nyquist coefficients.
