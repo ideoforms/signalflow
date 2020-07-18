@@ -1,9 +1,10 @@
-from signalflow import Sine, Square, ChannelMixer, Buffer
-import scipy.signal
+from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer
+from signalflow import InvalidChannelCountException
 import numpy as np
+import pytest
 import math
 
-from . import process_tree, count_zero_crossings
+from . import process_tree, count_zero_crossings, get_peak_frequencies
 from . import DEFAULT_BUFFER_LENGTH
 from . import graph
 
@@ -72,12 +73,6 @@ def test_expansion_upmix(graph):
     #--------------------------------------------------------------------------------
     assert graph.node_count == 1
 
-def get_peak_frequencies(samples, sample_rate):
-    magnitudes = np.abs(np.fft.rfft(samples))
-    peaks, _ = scipy.signal.find_peaks(magnitudes)
-    peaks = peaks * sample_rate / len(samples)
-    return peaks
-
 def test_expansion_max_channels(graph):
     frequencies = 1000 + np.arange(32) * 100
     a = Sine(frequencies)
@@ -87,3 +82,25 @@ def test_expansion_max_channels(graph):
     peak_frequencies = get_peak_frequencies(b.data[0], graph.sample_rate)
     peak_frequencies_rounded = np.round(peak_frequencies, -2)
     assert np.array_equal(peak_frequencies_rounded, frequencies)
+
+def test_expansion_channel_array(graph):
+    a = Sine(440)
+    b = Sine(880)
+    c = Sine([ 1760, 3520 ])
+    d = ChannelArray([ a, b, c ])
+    e = ChannelMixer(1, d)
+    assert a.num_input_channels == a.num_output_channels == 1
+    assert b.num_input_channels == b.num_output_channels == 1
+    assert c.num_input_channels == c.num_output_channels == 2
+    assert d.num_input_channels == d.num_output_channels == 4
+    assert e.num_input_channels == 4
+    assert e.num_output_channels == 1
+    buf = Buffer(1, DEFAULT_BUFFER_LENGTH)
+    process_tree(e, buffer=buf)
+    peak_frequencies = get_peak_frequencies(buf.data[0], graph.sample_rate)
+    assert np.all(peak_frequencies == pytest.approx([ 440, 880, 1760, 3520 ], abs=(graph.sample_rate / DEFAULT_BUFFER_LENGTH / 2)))
+
+def test_expansion_channel_mismatch(graph):
+    a = Sine([ 440, 880 ])
+    with pytest.raises(InvalidChannelCountException):
+        b = LinearPanner(2, a)

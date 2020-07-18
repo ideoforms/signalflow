@@ -9,6 +9,8 @@ import os
 import sys
 import pytest
 import sysconfig
+import numpy as np
+import scipy.signal
 
 #------------------------------------------------------------------------
 # Add the build path of the .so to Python's path, so that it can be
@@ -24,7 +26,6 @@ def distutils_dir_name(dir_name):
 
 build_dir = os.path.join("build", distutils_dir_name("lib"))
 sys.path.insert(0, build_dir)
-print("include dir %s" % build_dir)
 import signalflow
 
 DEFAULT_BUFFER_LENGTH = 1024
@@ -47,6 +48,12 @@ def count_zero_crossings(array):
         if (array[index - 1] <= 0 or index == 0) and array[index] > 0:
             count += 1
     return count
+
+def get_peak_frequencies(samples, sample_rate):
+    magnitudes = np.abs(np.fft.rfft(samples))
+    peaks, _ = scipy.signal.find_peaks(magnitudes)
+    peaks = peaks * sample_rate / len(samples)
+    return peaks
 
 @pytest.fixture(scope="module")
 def graph():
