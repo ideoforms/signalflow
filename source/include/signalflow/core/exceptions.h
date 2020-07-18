@@ -15,4 +15,14 @@ struct graph_not_created_exception : public std::runtime_error
         : std::runtime_error(message) {}
 };
 
+struct invalid_channel_count_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    invalid_channel_count_exception()
+        : std::runtime_error("Invalid channel count") {}
+    invalid_channel_count_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
 }
