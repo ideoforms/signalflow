@@ -42,6 +42,7 @@ void init_python_node(py::module &m)
         .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
         .def_readonly("name", &Node::name)
         .def_property_readonly("patch", &Node::get_patch)
+        .def_property_readonly("state", &Node::get_state)
 
         .def_readonly("num_output_channels", &Node::num_output_channels)
         .def_readonly("min_output_channels", &Node::min_output_channels)

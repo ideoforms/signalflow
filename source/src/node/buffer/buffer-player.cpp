@@ -13,9 +13,6 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
 
     this->name = "buffer-player";
 
-    // TODO this should happen in Node
-    this->state = SIGNAL_NODE_STATE_ACTIVE;
-
     this->add_buffer("buffer", this->buffer);
     this->add_input("rate", this->rate);
     this->add_input("loop_start", this->loop_start);
@@ -25,17 +22,16 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
     this->phase = 0.0;
 
     this->buffer = buffer;
-
-    if (!buffer)
-    {
-        // throw std::runtime_error("Cannot instantiate BufferPlayer (no Buffer specified)");
-    }
-
-    this->num_input_channels = 0;
+    this->num_input_channels = 1;
     this->num_output_channels = 0;
+
     if (buffer)
     {
-        this->num_output_channels = buffer->get_num_channels();
+        /*--------------------------------------------------------------------------------
+         * buffer can be null when a BufferPlayer is being instantiated as part of
+         * a Patch. Its buffer is populated later.
+         *--------------------------------------------------------------------------------*/
+        this->set_buffer("buffer", buffer);
     }
 
     this->min_input_channels = this->max_input_channels = 0;

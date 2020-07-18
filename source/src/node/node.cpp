@@ -11,6 +11,7 @@
 #include "signalflow/node/oscillators/constant.h"
 
 #include "signalflow/core/core.h"
+#include "signalflow/core/exceptions.h"
 #include "signalflow/core/graph.h"
 #include "signalflow/node/node-monitor.h"
 
@@ -21,6 +22,7 @@ extern AudioGraph *shared_graph;
 
 Node::Node()
 {
+    this->name = "(unknown node)";
     this->graph = shared_graph;
     this->state = SIGNAL_NODE_STATE_ACTIVE;
 
@@ -117,6 +119,23 @@ void Node::update_channels()
 
         signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
     }
+    else
+    {
+        for (auto input : this->inputs)
+        {
+            NodeRef *ptr = input.second;
+            // A param may be registered but not yet set
+            if (!ptr || !*ptr)
+                continue;
+            std::string param_name = input.first;
+
+            NodeRef input_node = *ptr;
+            if (input_node->num_output_channels > this->num_input_channels)
+            {
+                throw invalid_channel_count_exception("Node " + input_node->name + " has more output channels than " + this->name + " supports");
+            }
+        }
+    }
 }
 
 void Node::allocate_output_buffer()
@@ -175,9 +194,12 @@ void Node::allocate_output_buffer()
 
 void Node::free_output_buffer()
 {
-    delete (this->out[0] - 1);
-    delete (this->out);
-    this->out = NULL;
+    if (this->out)
+    {
+        delete (this->out[0] - 1);
+        delete (this->out);
+        this->out = NULL;
+    }
 }
 
 signal_node_state_t Node::get_state()

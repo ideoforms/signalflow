@@ -15,6 +15,11 @@ void init_python_constants(py::module &m)
         .value("SIGNAL_EVENT_DISTRIBUTION_POISSON", SIGNAL_EVENT_DISTRIBUTION_POISSON, "Poisson distribution")
         .export_values();
 
+    py::enum_<signal_node_state_t>(m, "signal_node_state_t", py::arithmetic(), "signal_node_state_t")
+        .value("SIGNAL_NODE_STATE_ACTIVE", SIGNAL_NODE_STATE_ACTIVE, "Active")
+        .value("SIGNAL_NODE_STATE_FINISHED", SIGNAL_NODE_STATE_FINISHED, "Finished")
+        .export_values();
+
     m.attr("SIGNAL_MAX_CHANNELS") = SIGNAL_MAX_CHANNELS;
     m.attr("SIGNAL_DEFAULT_FFT_SIZE") = SIGNAL_DEFAULT_FFT_SIZE;
     m.attr("SIGNAL_MAX_FFT_SIZE") = SIGNAL_MAX_FFT_SIZE;

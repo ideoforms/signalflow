@@ -26,6 +26,7 @@ class NodeMonitor;
 
 typedef enum
 {
+    SIGNAL_NODE_STATE_UNKNOWN,
     SIGNAL_NODE_STATE_ACTIVE,
     SIGNAL_NODE_STATE_FINISHED
 } signal_node_state_t;
@@ -307,6 +308,12 @@ protected:
      * If this is disabled, no upmixing takes place.
      *-----------------------------------------------------------------------*/
     bool no_input_upmix;
+
+    /*------------------------------------------------------------------------
+     * If matches_input_channels is set, a node automatically increases its
+     * input/output channel count to match
+     *-----------------------------------------------------------------------*/
+    bool matches_input_channels;
 
     /*------------------------------------------------------------------------
      * Flag indicating whether the node has been processed within this

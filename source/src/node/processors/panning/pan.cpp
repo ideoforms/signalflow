@@ -6,6 +6,8 @@ namespace signalflow
 LinearPanner::LinearPanner(int channels, NodeRef input, NodeRef pan)
     : input(input), pan(pan)
 {
+    this->name = "linear-panner";
+
     this->num_input_channels = 1;
     this->num_output_channels = channels;
 
@@ -14,8 +16,6 @@ LinearPanner::LinearPanner(int channels, NodeRef input, NodeRef pan)
 
     this->add_input("input", this->input);
     this->add_input("pan", this->pan);
-
-    this->name = "linear-panner";
 }
 
 void LinearPanner::process(sample **out, int num_frames)
