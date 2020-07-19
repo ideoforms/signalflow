@@ -1,7 +1,7 @@
 #pragma once
 
-#include "signalflow/patch/patchnodespec.h"
-#include "signalflow/patch/patchspec.h"
+#include "signalflow/patch/patch-node-spec.h"
+#include "signalflow/patch/patch-spec.h"
 
 namespace signalflow
 {

@@ -25,7 +25,7 @@ AudioGraph::AudioGraph()
 
     if (shared_graph)
     {
-        throw std::runtime_error("Graph already instantiated");
+        throw graph_already_created_exception();
     }
     shared_graph = this;
 
@@ -236,37 +236,37 @@ void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
     }
 }
 
-void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
-{
-    /*------------------------------------------------------------------------
-     * Updating the routing from the tip. 
-     * This normally happens when the root is connected to the graph's
-     * audio out. Can this be improved?
-     *-----------------------------------------------------------------------*/
-    root->update_channels();
-
-    int index = 0;
-    signal_debug("AudioGraph: Performing offline process of %d frames", num_frames);
-    while (index < (num_frames - block_size))
-    {
-        signal_debug("AudioGraph: Processing frame %d...", index);
-        this->reset_graph();
-        this->traverse_graph(root, block_size);
-        index += block_size;
-    }
-
-    /*------------------------------------------------------------------------
-     * Process remaining samples.
-     *-----------------------------------------------------------------------*/
-    if (index < num_frames)
-    {
-        signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);
-        this->reset_graph();
-        this->traverse_graph(root, num_frames - index);
-    }
-
-    signal_debug("AudioGraph: Offline process completed");
-}
+//void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
+//{
+//    /*------------------------------------------------------------------------
+//     * Updating the routing from the tip.
+//     * This normally happens when the root is connected to the graph's
+//     * audio out. Can this be improved?
+//     *-----------------------------------------------------------------------*/
+//    root->update_channels();
+//
+//    int index = 0;
+//    signal_debug("AudioGraph: Performing offline process of %d frames", num_frames);
+//    while (index < (num_frames - block_size))
+//    {
+//        signal_debug("AudioGraph: Processing frame %d...", index);
+//        this->reset_graph();
+//        this->traverse_graph(root, block_size);
+//        index += block_size;
+//    }
+//
+//    /*------------------------------------------------------------------------
+//     * Process remaining samples.
+//     *-----------------------------------------------------------------------*/
+//    if (index < num_frames)
+//    {
+//        signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);
+//        this->reset_graph();
+//        this->traverse_graph(root, num_frames - index);
+//    }
+//
+//    signal_debug("AudioGraph: Offline process completed");
+//}
 
 NodeRef AudioGraph::get_output()
 {

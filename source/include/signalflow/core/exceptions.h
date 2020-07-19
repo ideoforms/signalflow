@@ -15,6 +15,16 @@ struct graph_not_created_exception : public std::runtime_error
         : std::runtime_error(message) {}
 };
 
+struct graph_already_created_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    graph_already_created_exception()
+        : std::runtime_error("AudioGraph has already been created") {}
+    graph_already_created_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
 struct invalid_channel_count_exception : public std::runtime_error
 {
     using std::runtime_error::runtime_error;

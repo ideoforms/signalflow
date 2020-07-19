@@ -1,9 +1,12 @@
 #pragma once
 
-/**-------------------------------------------------------------------------
+/**--------------------------------------------------------------------------------
  * @file buffer2d.h
- * @brief Interpolating 2D buffers
- *-----------------------------------------------------------------------*/
+ * @brief Buffer2D encapsulates a 2D array of Buffers, for interpolating
+ *        2D wavetables.
+ *
+ *--------------------------------------------------------------------------------*/
+
 #include "signalflow/buffer/buffer.h"
 
 #include <vector>

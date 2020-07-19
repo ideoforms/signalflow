@@ -1,6 +1,6 @@
 #include "signalflow/node/registry.h"
+#include "signalflow/patch/patch-spec.h"
 #include "signalflow/patch/patch.h"
-#include "signalflow/patch/patchspec.h"
 
 #include <stdlib.h>
 

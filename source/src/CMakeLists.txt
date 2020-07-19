@@ -73,10 +73,10 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/segment-player.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patchnodespec.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patchregistry.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patchspec.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-registry.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-spec.cpp
 )
 
 if (CMAKE_BUILD_PYTHON)

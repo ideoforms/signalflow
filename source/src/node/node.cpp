@@ -61,7 +61,7 @@ void Node::_process(sample **out, int num_frames)
 {
     if (out == this->out && num_frames > this->output_buffer_length)
     {
-        throw std::runtime_error("Buffer size too small (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
+        throw std::runtime_error("Node cannot render because output buffer size is insufficient (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
     }
     if (this->last_num_frames > 0)
     {

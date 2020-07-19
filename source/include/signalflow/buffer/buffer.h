@@ -1,7 +1,8 @@
 #pragma once
 
 /**-------------------------------------------------------------------------
- * @brief A Buffer stores one or more channels of floating-point
+ * @file buffer.h
+ * @brief Buffer stores one or more channels of floating-point
  *        samples.
  *
  *-----------------------------------------------------------------------*/
@@ -96,12 +97,17 @@ public:
      * If the buffer is smaller than the file's contents, only the first
      * part of the file is read.
      *
+     * @param filename The filename to read. Must be of a type supported by
+     *                 libsndfile.
+     *
      *------------------------------------------------------------------------*/
     void load(std::string filename);
 
     /**------------------------------------------------------------------------
      * Write the contents of the buffer to the file `filename`.
      * Only supports .wav format at present.
+     *
+     * @param filename The filename to write. Must end in .wav.
      *
      *------------------------------------------------------------------------*/
     void save(std::string filename);

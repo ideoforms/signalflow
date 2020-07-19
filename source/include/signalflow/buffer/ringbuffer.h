@@ -1,5 +1,11 @@
 #pragma once
 
+/**--------------------------------------------------------------------------------
+ * @file ringbuffer.h
+ * @brief RingBuffer is a single-producer, single-consumer ringbuffer.
+ *
+ *--------------------------------------------------------------------------------*/
+
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>

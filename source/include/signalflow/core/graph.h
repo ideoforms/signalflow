@@ -1,5 +1,12 @@
 #pragma once
 
+/**--------------------------------------------------------------------------------
+ * @file graph.h
+ * @brief AudioGraph encapsulates the entire signal processing graph, containing
+ *        Nodes, Patches, audio inputs and outputs.
+ *
+ *--------------------------------------------------------------------------------*/
+
 #include "signalflow/node/node.h"
 #include "signalflow/patch/patch.h"
 
@@ -14,43 +21,62 @@ public:
     AudioGraph();
     virtual ~AudioGraph();
 
-    /**------------------------------------------------------------------------
+    /**--------------------------------------------------------------------------------
      * Begin audio I/O.
      *
-     *------------------------------------------------------------------------*/
+     **--------------------------------------------------------------------------------*/
     void start();
 
-    /**------------------------------------------------------------------------
+    /**--------------------------------------------------------------------------------
      * Stop audio I/O.
      *
-     *------------------------------------------------------------------------*/
+     *--------------------------------------------------------------------------------*/
     void stop();
 
-    /**------------------------------------------------------------------------
-     * Run forever.
+    /**--------------------------------------------------------------------------------
+     * Run (and block the main thread) for a given number of seconds, or forever if
+     * not specified.
      *
-     *------------------------------------------------------------------------*/
+     * @param time Time to run, in seconds.
+     *
+     *--------------------------------------------------------------------------------*/
     void wait(float time = 0.0f);
 
-    /**------------------------------------------------------------------------
-     * Print graph structure.
+    /**--------------------------------------------------------------------------------
+     * Print the AudioGraph structure to stdout.
      *
-     *------------------------------------------------------------------------*/
+     *--------------------------------------------------------------------------------*/
     void show_structure();
 
-    /**------------------------------------------------------------------------
-     * Print current graph status (node count, patch count, CPU usage).
-     * If frequency is n on-zero, show status every `frequency` seconds.
+    /**--------------------------------------------------------------------------------
+     * Print current graph status (node count, patch count, CPU usage) to stdout.
+     * If frequency is non-zero, show status every `frequency` seconds.
      *
-     *------------------------------------------------------------------------*/
+     * @param frequency Interval between prints, in seconds.
+     *
+     *--------------------------------------------------------------------------------*/
     void show_status(float frequency = 0.0);
 
-    /**------------------------------------------------------------------------
+    /**--------------------------------------------------------------------------------
      * Perform batch (offline) processing of a given node graph.
      *
-     *------------------------------------------------------------------------*/
-    void process(const NodeRef &root, int num_frames, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
+     * @param root The root node to begin process from.
+     * @param num_frames The number of frames to render.
+     * @param block_size The size of each chunk to process.
+     *
+     *--------------------------------------------------------------------------------*/
+    // void process(const NodeRef &root, int num_frames, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
 
+    /**--------------------------------------------------------------------------------
+     * Render the entire graph.
+     *  - Resets "rendered" flags
+     *  - Performs a recursive render from the output node
+     *  - Calculates timing and CPU usage
+     * Typically is called from
+     *
+     * @param num_frames The number of frames to render.
+     *
+     *--------------------------------------------------------------------------------*/
     void render(int num_frames);
     void render_to_buffer(BufferRef buffer, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
 
@@ -60,20 +86,22 @@ public:
 
     NodeRef get_output();
 
-    /**------------------------------------------------------------------------
+    /**--------------------------------------------------------------------------------
      * TODO Should use polymorphism and a common interface
      *
-     *------------------------------------------------------------------------*/
+     *--------------------------------------------------------------------------------*/
     void add_output(PatchRef patch);
     void add_output(NodeRef node);
+
+    void add_node(NodeRef node);
 
     void remove_output(Patch *patch);
     void remove_output(PatchRef patch);
     void remove_output(NodeRef node);
 
-    /**------------------------------------------------------------------------
+    /**--------------------------------------------------------------------------------
      * Get/set audio sample rate
-     *------------------------------------------------------------------------*/
+     *--------------------------------------------------------------------------------*/
     int get_sample_rate();
     void set_sample_rate(int sample_rate);
 

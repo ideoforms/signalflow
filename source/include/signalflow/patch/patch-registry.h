@@ -1,6 +1,6 @@
 #pragma once
 
-#include "signalflow/patch/patchspec.h"
+#include "signalflow/patch/patch-spec.h"
 #include <unordered_map>
 
 namespace signalflow

@@ -3,7 +3,7 @@
 #include <functional>
 #include <unordered_map>
 
-#include "signalflow/patch/patchnodespec.h"
+#include "signalflow/patch/patch-node-spec.h"
 
 #define REGISTER(CLASS, NAME) static bool CLASS##OK = NodeRegistry::global()->add<CLASS>(NAME);
 

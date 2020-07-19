@@ -18,7 +18,8 @@ namespace signalflow
 extern AudioGraph *shared_graph;
 
 void write_callback(struct SoundIoOutStream *outstream,
-                    int frame_count_min, int frame_count_max)
+                    int frame_count_min,
+                    int frame_count_max)
 {
     is_processing = true;
 
