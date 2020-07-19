@@ -3,7 +3,7 @@
 namespace signalflow
 {
 
-LinExp::LinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
+ScaleLinExp::ScaleLinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
     : UnaryOpNode(input), a(a), b(b), c(c), d(d)
 {
     this->name = "scale-lin-exp";
@@ -14,7 +14,7 @@ LinExp::LinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
     this->add_input("d", this->d);
 }
 
-void LinExp::process(sample **out, int num_frames)
+void ScaleLinExp::process(sample **out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -26,7 +26,7 @@ void LinExp::process(sample **out, int num_frames)
     }
 }
 
-Scale::Scale(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
+ScaleLinLin::ScaleLinLin(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
     : UnaryOpNode(input), a(a), b(b), c(c), d(d)
 {
     this->name = "scale";
@@ -37,7 +37,7 @@ Scale::Scale(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
     this->add_input("d", this->d);
 }
 
-void Scale::process(sample **out, int num_frames)
+void ScaleLinLin::process(sample **out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

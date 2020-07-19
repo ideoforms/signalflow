@@ -407,9 +407,9 @@ NodeRef Node::scale(float from, float to, signal_scale_t scale)
     switch (scale)
     {
         case SIGNAL_SCALE_LIN_LIN:
-            return new Scale(this, -1, 1, from, to);
+            return new ScaleLinLin(this, -1, 1, from, to);
         case SIGNAL_SCALE_LIN_EXP:
-            return new LinExp(this, -1, 1, from, to);
+            return new ScaleLinExp(this, -1, 1, from, to);
         default:
             return nullptr;
     }

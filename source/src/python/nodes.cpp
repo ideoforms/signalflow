@@ -53,10 +53,10 @@ void init_python_nodes(py::module &m)
     py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "min"_a = 0, "max"_a = 0);
 
-    py::class_<LinExp, Node, NodeRefTemplate<LinExp>>(m, "LinExp")
+    py::class_<ScaleLinExp, Node, NodeRefTemplate<ScaleLinExp>>(m, "ScaleLinExp")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "a"_a = 0, "b"_a = 1, "c"_a = 1, "d"_a = 10);
 
-    py::class_<Scale, Node, NodeRefTemplate<Scale>>(m, "Scale")
+    py::class_<ScaleLinLin, Node, NodeRefTemplate<ScaleLinLin>>(m, "ScaleLinLin")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "a"_a = 0, "b"_a = 1, "c"_a = 1, "d"_a = 10);
 
     py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide")
