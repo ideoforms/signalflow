@@ -273,6 +273,16 @@ NodeRef AudioGraph::get_output()
     return this->output;
 }
 
+void AudioGraph::add_node(NodeRef node)
+{
+    this->scheduled_nodes.insert(node);
+}
+
+void AudioGraph::remove_node(NodeRef node)
+{
+    this->scheduled_nodes.erase(node);
+}
+
 void AudioGraph::play(PatchRef patch)
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());

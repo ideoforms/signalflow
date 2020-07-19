@@ -137,7 +137,24 @@ public:
      *--------------------------------------------------------------------------------*/
     NodeRef get_output();
 
+    /**--------------------------------------------------------------------------------
+     * Schedule a node for rendering without connecting the node to the graph's output.
+     * This is needed for nodes such as LFOs, whose values need to be calculated
+     * independently of the existence of synthesis nodes, regardless of whether
+     * their output is being used.
+     *
+     * @param node The node.
+     *
+     *--------------------------------------------------------------------------------*/
     void add_node(NodeRef node);
+
+    /**--------------------------------------------------------------------------------
+     * Remove a node from the graph's playback schedule.
+     *
+     * @param node The node.
+     *
+     *--------------------------------------------------------------------------------*/
+    void remove_node(NodeRef node);
 
     /**--------------------------------------------------------------------------------
      * Begin playing the specified node, by connecting it to the graph's output.
@@ -157,9 +174,29 @@ public:
      *--------------------------------------------------------------------------------*/
     void play(PatchRef patch);
 
-    void stop(Patch *patch);
-    void stop(PatchRef patch);
+    /**--------------------------------------------------------------------------------
+     * Disconnect a node from the graph's output.
+     *
+     * @param node The node to stop.
+     *
+     *--------------------------------------------------------------------------------*/
     void stop(NodeRef node);
+
+    /**--------------------------------------------------------------------------------
+     * Disconnect a patch from the graph's output.
+     *
+     * @param patch The patch to stop.
+     *
+     *--------------------------------------------------------------------------------*/
+    void stop(Patch *patch);
+
+    /**--------------------------------------------------------------------------------
+     * Disconnect a patch from the graph's output.
+     *
+     * @param patch The patch to stop.
+     *
+     *--------------------------------------------------------------------------------*/
+    void stop(PatchRef patch);
 
     /**--------------------------------------------------------------------------------
      * Get audio sample rate.
@@ -207,6 +244,7 @@ public:
     float get_cpu_usage();
 
 private:
+    std::set<NodeRef> scheduled_nodes;
     std::set<NodeRef> nodes_to_remove;
     std::set<PatchRef> patches;
     std::set<Patch *> patches_to_remove;

@@ -1,4 +1,4 @@
-from signalflow import AudioGraph, Buffer, Sine, Line
+from signalflow import AudioGraph, Buffer, Sine, Line, Constant
 from . import process_tree, count_zero_crossings
 import pytest
 import numpy as np
@@ -43,4 +43,22 @@ def test_graph_render():
     graph.play(sine)
     with pytest.raises(RuntimeError):
         graph.render(441000)
+    del graph
+
+def test_graph_add_remove_node():
+    graph = AudioGraph()
+    constant = Constant(123)
+    graph.add_node(constant)
+    buffer = Buffer(1, 1024)
+    graph.render_to_buffer(buffer)
+    assert np.all(buffer.data[0] == 0.0)
+    assert np.all(constant.output_buffer[0] == 123)
+    del graph
+
+    graph = AudioGraph()
+    constant = Constant(123)
+    graph.add_node(constant)
+    graph.remove_node(constant)
+    graph.render(1024)
+    assert np.all(constant.output_buffer[0] == 0)
     del graph
