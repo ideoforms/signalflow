@@ -22,7 +22,7 @@ def test_patch(graph):
     assert patch.output.patch == patch
     assert patch.auto_free == False
 
-    graph.add_output(patch)
+    graph.play(patch)
     b = Buffer(1, 1000)
     graph.render_to_buffer(b)
     assert np.all(b.data[0] == 246)

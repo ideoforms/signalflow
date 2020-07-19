@@ -7,17 +7,32 @@ void init_python_graph(py::module &m)
      *-------------------------------------------------------------------------------*/
     py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
+
+        /*--------------------------------------------------------------------------------
+         * Properties
+         *-------------------------------------------------------------------------------*/
+        .def_property("sample_rate", &AudioGraph::get_sample_rate, &AudioGraph::set_sample_rate)
+        .def_property_readonly("node_count", &AudioGraph::get_node_count)
+        .def_property_readonly("cpu_usage", &AudioGraph::get_cpu_usage)
+        .def_property_readonly("output", &AudioGraph::get_output)
+
+        /*--------------------------------------------------------------------------------
+         * Methods
+         *-------------------------------------------------------------------------------*/
         .def("start", &AudioGraph::start)
         .def("show_structure", [](AudioGraph &graph) { graph.show_structure(); })
         .def("show_status", &AudioGraph::show_status)
         .def("render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); })
         .def("render_to_buffer", [](AudioGraph &graph, BufferRef buffer) { graph.render_to_buffer(buffer); })
-        .def_property("sample_rate", &AudioGraph::get_sample_rate, &AudioGraph::set_sample_rate)
-        .def_property_readonly("node_count", &AudioGraph::get_node_count)
-        .def_property_readonly("cpu_usage", &AudioGraph::get_cpu_usage)
+        .def("play", [](AudioGraph &graph, NodeRef node) { graph.play(node); })
+        .def("play", [](AudioGraph &graph, PatchRef patch) { graph.play(patch); })
+        .def("stop", [](AudioGraph &graph, NodeRef node) { graph.stop(node); })
+
         .def("wait", [](AudioGraph &graph) {
-            // Interruptible wait
-            // https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-properly-handle-ctrl-c-in-long-running-functions
+            /*--------------------------------------------------------------------------------
+             * Interruptible wait
+             * https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-properly-handle-ctrl-c-in-long-running-functions
+             *-------------------------------------------------------------------------------*/
             for (;;)
             {
                 if (PyErr_CheckSignals() != 0)
@@ -44,8 +59,5 @@ void init_python_graph(py::module &m)
                     }
                 }
             }
-        })
-        .def("add_output", [](AudioGraph &graph, NodeRef node) { graph.add_output(node); })
-        .def("add_output", [](AudioGraph &graph, PatchRef patch) { graph.add_output(patch); })
-        .def("remove_output", [](AudioGraph &graph, NodeRef node) { graph.remove_output(node); });
+        });
 }

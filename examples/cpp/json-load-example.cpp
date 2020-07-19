@@ -33,7 +33,7 @@ int main(int argc, char **argv)
      * TODO: Instantiate two synths with different frequencies/pans.
      *-----------------------------------------------------------------------*/
     PatchRef patch = new Patch(spec);
-    graph->add_output(patch->output);
+    graph->play(patch->output);
     graph->start();
     graph->wait();
 

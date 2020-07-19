@@ -45,7 +45,7 @@ int main()
 
     NodeRef pan = new LinearPanner(2, delay);
 
-    graph->add_output(pan);
+    graph->play(pan);
 
     graph->start();
     graph->wait();

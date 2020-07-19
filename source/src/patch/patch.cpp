@@ -174,7 +174,7 @@ void Patch::set_input(std::string name, BufferRef value)
 
 void Patch::disconnect()
 {
-    this->graph->remove_output(this);
+    this->graph->stop(this);
 }
 
 bool Patch::get_auto_free()

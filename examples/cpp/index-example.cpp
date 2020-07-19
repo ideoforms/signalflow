@@ -47,7 +47,7 @@ int main()
      *-----------------------------------------------------------------------*/
     NodeRef width = new Width(sine, 0.5);
 
-    graph->add_output(width);
+    graph->play(width);
     graph->start();
     graph->wait();
 }

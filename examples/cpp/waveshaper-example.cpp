@@ -47,7 +47,7 @@ int main()
     /*------------------------------------------------------------------------
      * Send to output and start processing.
      *-----------------------------------------------------------------------*/
-    graph->add_output(throb);
+    graph->play(throb);
     graph->start();
     graph->wait();
 }

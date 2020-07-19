@@ -27,7 +27,7 @@ int main()
     /*------------------------------------------------------------------------
      * The AudioGraph can have multiple inputs, summed to output.
      *-----------------------------------------------------------------------*/
-    graph->add_output(sine);
+    graph->play(sine);
 
     /*------------------------------------------------------------------------
      * Begin audio processing, and run indefinitely.

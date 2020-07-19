@@ -57,7 +57,7 @@ int main()
         patch->set_auto_free(true);
         patch->set_input("freq", freq);
         patch->set_input("width", random_uniform(0.3, 0.7));
-        graph->add_output(patch);
+        graph->play(patch);
         usleep(1000000);
     }
 

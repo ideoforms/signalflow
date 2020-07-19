@@ -46,7 +46,7 @@ int main()
      *-----------------------------------------------------------------------*/
     NodeRef granulator = new Granulator(buffer, new Impulse(50), pos, 0.2, mousey * 2.0);
     granulator->set_input("max_grains", 50);
-    graph->add_output(granulator * 0.2);
+    graph->play(granulator * 0.2);
     graph->start();
     graph->wait();
 }

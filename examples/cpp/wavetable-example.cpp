@@ -30,7 +30,7 @@ int main()
     NodeRef pan = new LinearPanner(2, delay);
 
     NodeRef attenuated = pan * 0.2;
-    graph->add_output(attenuated);
+    graph->play(attenuated);
 
     graph->start();
     graph->wait();

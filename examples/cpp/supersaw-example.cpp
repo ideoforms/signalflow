@@ -37,7 +37,7 @@ int main()
      *-----------------------------------------------------------------------*/
     NodeRef moog = new MoogVCF(mix, (new Sine(0.1))->scale(200, 8000), 2);
 
-    graph->add_output(moog);
+    graph->play(moog);
     graph->start();
     graph->wait();
 }

@@ -50,7 +50,7 @@ int main()
      * The AudioGraph can have multiple inputs, summed to output.
      * Add the granulator as its only output.
      *-----------------------------------------------------------------------*/
-    graph->add_output(granulator);
+    graph->play(granulator);
 
     /*------------------------------------------------------------------------
      * Begin audio processing, and loop forever.

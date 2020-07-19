@@ -18,21 +18,21 @@ int main()
     BufferRef buffer = new Buffer("audio/gliss.aif");
     NodeRef sampler = new BufferPlayer(buffer, new Noise(0.3, true), true);
     NodeRef sampler_pan = new LinearPanner(2, sampler, 0.25);
-    graph->add_output(sampler_pan);
+    graph->play(sampler_pan);
 
     /*------------------------------------------------------------------------
      * Add some gentle crackle.
      *-----------------------------------------------------------------------*/
     NodeRef noise = new Noise(50, true);
     NodeRef noise_pan = new LinearPanner(2, noise, 0.75);
-    graph->add_output(noise_pan);
+    graph->play(noise_pan);
 
     /*------------------------------------------------------------------------
      * Add some occasional pops.
      *-----------------------------------------------------------------------*/
     NodeRef dust = new RandomImpulse(1);
     NodeRef dust_pan = new LinearPanner(2, dust, 0.5);
-    graph->add_output(dust_pan);
+    graph->play(dust_pan);
 
     /*------------------------------------------------------------------------
      * Begin playback.

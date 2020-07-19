@@ -31,7 +31,7 @@ int main()
         NodeRef sum = resample * env;
         NodeRef pan = new LinearPanner(2, sum * 0.1, random_uniform(0, 1));
         NodeRef delay = new CombDelay(pan, 0.2, 0.4);
-        graph->add_output(delay);
+        graph->play(delay);
     }
 
     /*------------------------------------------------------------------------

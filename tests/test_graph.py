@@ -31,7 +31,7 @@ def test_graph_cyclic():
     m1 = line * 1
     m2 = line * 2
     add = m1 + m2
-    graph.add_output(add)
+    graph.play(add)
     buf = Buffer(1, 1000)
     graph.render_to_buffer(buf)
     assert np.all(np.abs(buf.data[0] - np.linspace(0, 3, graph.sample_rate)) < 0.00001)
@@ -40,7 +40,7 @@ def test_graph_cyclic():
 def test_graph_render():
     graph = AudioGraph()
     sine = Sine(440)
-    graph.add_output(sine)
+    graph.play(sine)
     with pytest.raises(RuntimeError):
         graph.render(441000)
     del graph

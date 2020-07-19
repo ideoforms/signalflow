@@ -32,7 +32,7 @@ int main()
      * Create a BufferRecorder to perform a one-shot recording of the input.
      *-----------------------------------------------------------------------*/
     NodeRef recorder = new BufferRecorder(buffer, input);
-    graph->add_output(recorder);
+    graph->play(recorder);
 
     /*------------------------------------------------------------------------
      * Create a parallel series of BufferPlayers to play back the recording.
@@ -47,7 +47,7 @@ int main()
         /*------------------------------------------------------------------------
          * Attenuate the output level so we don't distort.
          *-----------------------------------------------------------------------*/
-        graph->add_output(sampler * 0.2);
+        graph->play(sampler * 0.2);
     }
 
     graph->start();

@@ -29,7 +29,7 @@ int main()
      *-----------------------------------------------------------------------*/
     NodeRef panned = new LinearPanner(2, output);
 
-    graph->add_output(panned);
+    graph->play(panned);
     graph->start();
 
     while (true)

@@ -35,7 +35,7 @@ public:
 
     /**--------------------------------------------------------------------------------
      * Run (and block the main thread) for a given number of seconds, or forever if
-     * not specified.
+     * a time is not specified.
      *
      * @param time Time to run, in seconds.
      *
@@ -59,6 +59,7 @@ public:
 
     /**--------------------------------------------------------------------------------
      * Perform batch (offline) processing of a given node graph.
+     * This should now be deprecated in favour of the improved render functions.
      *
      * @param root The root node to begin process from.
      * @param num_frames The number of frames to render.
@@ -136,18 +137,20 @@ public:
      *--------------------------------------------------------------------------------*/
     NodeRef get_output();
 
+    void add_node(NodeRef node);
+
     /**--------------------------------------------------------------------------------
+     * Connect
+     *
      * TODO: Should use polymorphism and a common interface
      *
      *--------------------------------------------------------------------------------*/
-    void add_output(PatchRef patch);
-    void add_output(NodeRef node);
+    void play(PatchRef patch);
+    void play(NodeRef node);
 
-    void add_node(NodeRef node);
-
-    void remove_output(Patch *patch);
-    void remove_output(PatchRef patch);
-    void remove_output(NodeRef node);
+    void stop(Patch *patch);
+    void stop(PatchRef patch);
+    void stop(NodeRef node);
 
     /**--------------------------------------------------------------------------------
      * Get audio sample rate.

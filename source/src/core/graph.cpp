@@ -273,31 +273,31 @@ NodeRef AudioGraph::get_output()
     return this->output;
 }
 
-void AudioGraph::add_output(PatchRef patch)
+void AudioGraph::play(PatchRef patch)
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
     output->add_input(patch->output);
     this->patches.insert(patch);
 }
 
-void AudioGraph::add_output(NodeRef node)
+void AudioGraph::play(NodeRef node)
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
     output->add_input(node);
 }
 
-void AudioGraph::remove_output(PatchRef patch)
+void AudioGraph::stop(PatchRef patch)
 {
-    this->remove_output(patch.get());
+    this->stop(patch.get());
 }
 
-void AudioGraph::remove_output(Patch *patch)
+void AudioGraph::stop(Patch *patch)
 {
     patches_to_remove.insert(patch);
     nodes_to_remove.insert(patch->output);
 }
 
-void AudioGraph::remove_output(NodeRef node)
+void AudioGraph::stop(NodeRef node)
 {
     nodes_to_remove.insert(node);
 }
