@@ -56,7 +56,7 @@ void GraphRenderer::render(AudioGraphRef graph)
      * Recurse and render the complete output
      *-----------------------------------------------------------------------*/
     this->rendered_nodes.clear();
-    this->render_node(graph->output);
+    this->render_node(graph->get_output());
     std::cout << "digraph { splines=ortho; graph [pad=1, ranksep=0.5, nodesep=0.5]; node [ fontname = helvetica, fontsize = 11, shape = box  ]; edge [ fontname = helvetica, fontsize = 9 ]; " << nodestream.str() << edgestream.str() << "} " << std::endl;
 }
 

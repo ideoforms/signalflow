@@ -33,7 +33,7 @@ void write_callback(struct SoundIoOutStream *outstream,
      * (The libsoundio Pulse Audio driver calls the write_callback once
      * on initialization, so this may happen legitimately.)
      *-----------------------------------------------------------------------*/
-    if (!shared_graph || !shared_graph->output)
+    if (!shared_graph || !shared_graph->get_output())
     {
         return;
     }
@@ -58,7 +58,7 @@ void write_callback(struct SoundIoOutStream *outstream,
             for (int channel = 0; channel < layout->channel_count; channel += 1)
             {
                 float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
-                *ptr = shared_graph->output->out[channel][frame];
+                *ptr = shared_graph->get_output()->out[channel][frame];
 
                 /*-----------------------------------------------------------------------*
                  * Hard limiter.

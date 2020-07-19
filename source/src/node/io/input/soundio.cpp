@@ -87,7 +87,7 @@ int AudioIn_SoundIO::init()
 {
     int err;
 
-    this->soundio = ((AudioOut_SoundIO *) this->graph->output.get())->soundio;
+    this->soundio = ((AudioOut_SoundIO *) this->graph->get_output().get())->soundio;
 
     if (!this->soundio)
         throw std::runtime_error("libsoundio init error: No output node found in graph (initialising input before output?)");

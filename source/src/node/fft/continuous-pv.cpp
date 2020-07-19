@@ -37,14 +37,14 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
     {
         for (int i = 0; i < fft_size / SIGNAL_NODE_BUFFER_SIZE; i++)
         {
-            this->graph->reset_graph(this->input);
-            this->graph->traverse_graph(this->input, SIGNAL_NODE_BUFFER_SIZE);
+            this->graph->reset_subgraph(this->input);
+            this->graph->render_subgraph(this->input, SIGNAL_NODE_BUFFER_SIZE);
         }
         this->prefilled_fft_buffer = true;
     }
 
-    this->graph->reset_graph(this->input);
-    this->graph->traverse_graph(this->input, hop_size);
+    this->graph->reset_subgraph(this->input);
+    this->graph->render_subgraph(this->input, hop_size);
 
     for (int frame = 0; frame < this->num_bins; frame++)
     {

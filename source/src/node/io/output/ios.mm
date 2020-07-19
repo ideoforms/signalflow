@@ -28,7 +28,7 @@ void audio_callback(float **data, int num_channels, int num_frames)
     {
         for (int channel = 0; channel < num_channels; channel++)
         {
-            data[channel][frame] = shared_graph->output->out[channel][frame];
+            data[channel][frame] = shared_graph->get_output()->out[channel][frame];
         }
     }
 }

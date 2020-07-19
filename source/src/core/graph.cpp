@@ -73,7 +73,7 @@ void AudioGraph::wait(float time)
     }
 }
 
-void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
+void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 {
     /*------------------------------------------------------------------------
      * If this node has already been processed this timestep, return.
@@ -96,7 +96,7 @@ void AudioGraph::traverse_graph(const NodeRef &node, int num_frames)
         NodeRef param_node = *(param.second);
         if (param_node)
         {
-            this->traverse_graph(param_node, num_frames);
+            this->render_subgraph(param_node, num_frames);
 
             /*------------------------------------------------------------------------
              * Automatic input upmix.
@@ -175,10 +175,10 @@ void AudioGraph::reset_graph()
      * Clear the record of processed nodes.
      *-----------------------------------------------------------------------*/
     this->_node_count_tmp = 0;
-    this->reset_graph(this->output);
+    this->reset_subgraph(this->output);
 }
 
-void AudioGraph::reset_graph(NodeRef node)
+void AudioGraph::reset_subgraph(NodeRef node)
 {
     node->has_rendered = false;
     for (auto input : node->inputs)
@@ -186,7 +186,7 @@ void AudioGraph::reset_graph(NodeRef node)
         NodeRef input_node = *(input.second);
         if (input_node && input_node->has_rendered)
         {
-            this->reset_graph(input_node);
+            this->reset_subgraph(input_node);
         }
     }
 }
@@ -199,7 +199,7 @@ void AudioGraph::render(int num_frames)
     double t0 = signal_timestamp();
 
     this->reset_graph();
-    this->traverse_graph(this->output, num_frames);
+    this->render_subgraph(this->output, num_frames);
     this->node_count = this->_node_count_tmp;
     signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 
@@ -251,7 +251,7 @@ void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
 //    {
 //        signal_debug("AudioGraph: Processing frame %d...", index);
 //        this->reset_graph();
-//        this->traverse_graph(root, block_size);
+//        this->render_subgraph(root, block_size);
 //        index += block_size;
 //    }
 //
@@ -262,7 +262,7 @@ void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
 //    {
 //        signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);
 //        this->reset_graph();
-//        this->traverse_graph(root, num_frames - index);
+//        this->render_subgraph(root, num_frames - index);
 //    }
 //
 //    signal_debug("AudioGraph: Offline process completed");
