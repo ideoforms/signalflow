@@ -1,10 +1,10 @@
-#include "signalflow/patch/patchspec.h"
+#include "signalflow/patch/patch-spec.h"
 
 #include "json11/json11.hpp"
 #include "signalflow/core/core.h"
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/node/registry.h"
-#include "signalflow/patch/patchregistry.h"
+#include "signalflow/patch/patch-registry.h"
 
 #include <fstream>
 #include <iostream>

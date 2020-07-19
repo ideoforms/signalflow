@@ -1,5 +1,5 @@
+#include "signalflow/patch/patch-registry.h"
 #include "signalflow/patch/patch.h"
-#include "signalflow/patch/patchregistry.h"
 
 namespace signalflow
 {

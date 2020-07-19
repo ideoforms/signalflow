@@ -1,4 +1,4 @@
-#include "signalflow/patch/patchnodespec.h"
+#include "signalflow/patch/patch-node-spec.h"
 
 namespace signalflow
 {
