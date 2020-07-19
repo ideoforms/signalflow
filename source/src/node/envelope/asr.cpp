@@ -10,10 +10,10 @@ EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeR
     this->name = "envelope-asr";
     this->curve = SIGNAL_CURVE_EXPONENTIAL;
 
-    this->add_input("attack", this->attack);
-    this->add_input("sustain", this->sustain);
-    this->add_input("release", this->release);
-    this->add_input("clock", this->clock);
+    this->create_input("attack", this->attack);
+    this->create_input("sustain", this->sustain);
+    this->create_input("release", this->release);
+    this->create_input("clock", this->clock);
     this->phase = std::vector<float>(this->num_output_channels, 0.0);
 }
 

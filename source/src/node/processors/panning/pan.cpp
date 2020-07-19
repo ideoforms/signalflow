@@ -10,8 +10,8 @@ LinearPanner::LinearPanner(int channels, NodeRef input, NodeRef pan)
 
     this->set_channels(1, channels);
 
-    this->add_input("input", this->input);
-    this->add_input("pan", this->pan);
+    this->create_input("input", this->input);
+    this->create_input("pan", this->pan);
 }
 
 void LinearPanner::process(sample **out, int num_frames)

@@ -10,7 +10,7 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
 {
     this->name = "fft";
 
-    this->add_input("input", this->input);
+    this->create_input("input", this->input);
 
 #if defined(FFT_ACCELERATE)
     /*------------------------------------------------------------------------

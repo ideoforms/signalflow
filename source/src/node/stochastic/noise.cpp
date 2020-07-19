@@ -13,9 +13,9 @@ Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max)
     : frequency(frequency), min(min), max(max)
 {
     this->name = "noise";
-    this->add_input("frequency", this->frequency);
-    this->add_input("min", this->min);
-    this->add_input("max", this->max);
+    this->create_input("frequency", this->frequency);
+    this->create_input("min", this->min);
+    this->create_input("max", this->max);
 
     this->interpolate = interpolate;
 

@@ -10,7 +10,7 @@ FFTNoiseGate::FFTNoiseGate(NodeRef input, NodeRef threshold)
     : FFTOpNode(input), threshold(threshold)
 {
     this->name = "fft_noise_gate";
-    this->add_input("threshold", this->threshold);
+    this->create_input("threshold", this->threshold);
 }
 
 void FFTNoiseGate::process(sample **out, int num_frames)

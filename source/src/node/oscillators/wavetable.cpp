@@ -11,9 +11,9 @@ Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef sync)
 
     memset(this->phase, 0, sizeof(float) * SIGNAL_MAX_CHANNELS);
 
-    this->add_input("frequency", this->frequency);
-    this->add_input("sync", this->sync);
-    this->add_buffer("buffer", this->buffer);
+    this->create_input("frequency", this->frequency);
+    this->create_input("sync", this->sync);
+    this->create_buffer("buffer", this->buffer);
 }
 
 void Wavetable::process(sample **out, int num_frames)
@@ -53,12 +53,12 @@ Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfad
 
     memset(this->phase, 0, sizeof(float) * SIGNAL_MAX_CHANNELS);
 
-    this->add_input("frequency", this->frequency);
-    this->add_input("crossfade", this->crossfade);
-    this->add_input("sync", this->sync);
+    this->create_input("frequency", this->frequency);
+    this->create_input("crossfade", this->crossfade);
+    this->create_input("sync", this->sync);
 
     // Named Buffer inputs don't yet work for Buffer2Ds :-(
-    // this->add_buffer("buffer", this->buffer);
+    // this->create_buffer("buffer", this->buffer);
 }
 
 void Wavetable2D::process(sample **out, int num_frames)

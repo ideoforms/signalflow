@@ -13,11 +13,11 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
 
     this->name = "buffer-player";
 
-    this->add_buffer("buffer", this->buffer);
-    this->add_input("rate", this->rate);
-    this->add_input("loop_start", this->loop_start);
-    this->add_input("loop_end", this->loop_end);
-    this->add_input("loop", this->loop);
+    this->create_buffer("buffer", this->buffer);
+    this->create_input("rate", this->rate);
+    this->create_input("loop_start", this->loop_start);
+    this->create_input("loop_end", this->loop_end);
+    this->create_input("loop", this->loop);
 
     this->phase = 0.0;
 

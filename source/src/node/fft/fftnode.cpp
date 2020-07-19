@@ -46,7 +46,7 @@ FFTOpNode::FFTOpNode(NodeRef input)
               input ? ((FFTNode *) input.get())->do_window : SIGNAL_DEFAULT_FFT_DO_WINDOW)
     , input(input)
 {
-    this->add_input("input", this->input);
+    this->create_input("input", this->input);
 
     if (dynamic_cast<FFTNode *>(input.get()) == nullptr)
     {

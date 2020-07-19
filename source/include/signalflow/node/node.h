@@ -100,6 +100,13 @@ public:
     virtual void set_input(std::string name, float value);
 
     /*------------------------------------------------------------------------
+     * The `add_input` method is used only by variable-input nodes
+     * which can take multiple unnamed inputs. The superclass implementation
+     * throws an exception when called.
+     *-----------------------------------------------------------------------*/
+    virtual void add_input(NodeRef input);
+
+    /*------------------------------------------------------------------------
      * Disconnect inputs and outputs.
      *-----------------------------------------------------------------------*/
     virtual void disconnect_inputs();
@@ -225,7 +232,7 @@ protected:
     virtual void set_channels(int num_input_channels, int num_output_channels);
 
     /*------------------------------------------------------------------------
-      * Called after add_input/route to update our routing ins/outs,
+      * Called after create_input/route to update our routing ins/outs,
       * called by AudioGraph
       *-----------------------------------------------------------------------*/
     virtual void update_channels();
@@ -245,13 +252,13 @@ protected:
      * Creates a new named input.
      * Should only ever be used in the class constructor.
      *-----------------------------------------------------------------------*/
-    virtual void add_input(std::string name, NodeRef &input);
+    virtual void create_input(std::string name, NodeRef &input);
 
     /*------------------------------------------------------------------------
      * Removing an input is only done by special classes
      * (ChannelArray, AudioOut)
      *-----------------------------------------------------------------------*/
-    virtual void remove_input(std::string name);
+    virtual void destroy_input(std::string name);
 
     /*------------------------------------------------------------------------
      * Register an output.
@@ -269,7 +276,7 @@ protected:
     /*------------------------------------------------------------------------
      * Register buffer inputs.
      *-----------------------------------------------------------------------*/
-    virtual void add_buffer(std::string name, BufferRef &buffer);
+    virtual void create_buffer(std::string name, BufferRef &buffer);
 
     /*------------------------------------------------------------------------
      * Sets our output buffer to zero.

@@ -20,9 +20,9 @@ BiquadFilter::BiquadFilter(NodeRef input,
 {
     this->name = "biquad-filter";
 
-    this->add_input("cutoff", this->cutoff);
-    this->add_input("resonance", this->resonance);
-    this->add_input("peak_gain", this->peak_gain);
+    this->create_input("cutoff", this->cutoff);
+    this->create_input("resonance", this->resonance);
+    this->create_input("peak_gain", this->peak_gain);
 
     a0 = 1.0;
     a1 = a2 = b1 = b2 = 0.0;

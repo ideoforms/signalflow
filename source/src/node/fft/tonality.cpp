@@ -10,8 +10,8 @@ FFTTonality::FFTTonality(NodeRef input, NodeRef level, NodeRef smoothing)
     : FFTOpNode(input), level(level), smoothing(smoothing)
 {
     this->name = "fft-tonality";
-    this->add_input("level", this->level);
-    this->add_input("smoothing", this->smoothing);
+    this->create_input("level", this->level);
+    this->create_input("smoothing", this->smoothing);
 }
 
 void FFTTonality::process(sample **out, int num_frames)

@@ -61,8 +61,8 @@ FFTFindPeaks::FFTFindPeaks(NodeRef input, NodeRef prominence, NodeRef threshold,
     this->num_output_channels = count;
     this->update_channels();
 
-    this->add_input("prominence", this->prominence);
-    this->add_input("threshold", this->threshold);
+    this->create_input("prominence", this->prominence);
+    this->create_input("threshold", this->threshold);
 }
 
 void FFTFindPeaks::process(sample **out, int num_frames)

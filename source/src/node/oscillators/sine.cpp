@@ -10,7 +10,7 @@ Sine::Sine(NodeRef frequency)
     : frequency(frequency)
 {
     this->name = "sine";
-    this->add_input("frequency", this->frequency);
+    this->create_input("frequency", this->frequency);
     this->allocate_memory();
 }
 

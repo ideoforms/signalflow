@@ -10,8 +10,8 @@ CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float m
     : UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
 {
     this->name = "comb-delay";
-    this->add_input("delay_time", this->delaytime);
-    this->add_input("feedback", this->feedback);
+    this->create_input("delay_time", this->delaytime);
+    this->create_input("feedback", this->feedback);
 
     SIGNAL_CHECK_GRAPH();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)

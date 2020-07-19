@@ -7,7 +7,7 @@ Smooth::Smooth(NodeRef input, NodeRef smooth)
     : UnaryOpNode(input), smooth(smooth)
 {
     this->name = "smooth";
-    this->add_input("smooth", this->smooth);
+    this->create_input("smooth", this->smooth);
 
     this->values.resize(SIGNAL_MAX_CHANNELS);
     this->values.clear();

@@ -8,8 +8,8 @@ Logistic::Logistic(NodeRef chaos, NodeRef frequency)
     : chaos(chaos), frequency(frequency)
 {
     this->name = "logistic";
-    this->add_input("chaos", this->chaos);
-    this->add_input("frequency", this->frequency);
+    this->create_input("chaos", this->chaos);
+    this->create_input("frequency", this->frequency);
 
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
         this->value[i] = 0.5;

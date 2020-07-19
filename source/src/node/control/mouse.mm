@@ -46,7 +46,7 @@ MouseDown::MouseDown(NodeRef button_index)
     : button_index(button_index)
 {
     this->name = "mousedown";
-    this->add_input("button_index", this->button_index);
+    this->create_input("button_index", this->button_index);
 }
 
 void MouseDown::process(sample **out, int num_frames)

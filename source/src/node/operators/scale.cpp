@@ -8,10 +8,10 @@ ScaleLinExp::ScaleLinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef
 {
     this->name = "scale-lin-exp";
 
-    this->add_input("a", this->a);
-    this->add_input("b", this->b);
-    this->add_input("c", this->c);
-    this->add_input("d", this->d);
+    this->create_input("a", this->a);
+    this->create_input("b", this->b);
+    this->create_input("c", this->c);
+    this->create_input("d", this->d);
 }
 
 void ScaleLinExp::process(sample **out, int num_frames)
@@ -31,10 +31,10 @@ ScaleLinLin::ScaleLinLin(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef
 {
     this->name = "scale";
 
-    this->add_input("a", this->a);
-    this->add_input("b", this->b);
-    this->add_input("c", this->c);
-    this->add_input("d", this->d);
+    this->create_input("a", this->a);
+    this->create_input("b", this->b);
+    this->create_input("c", this->c);
+    this->create_input("d", this->d);
 }
 
 void ScaleLinLin::process(sample **out, int num_frames)

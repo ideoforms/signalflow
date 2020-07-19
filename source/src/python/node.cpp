@@ -13,6 +13,10 @@ void init_python_node(py::module &m)
         .def(py::init<>([](int value) { return new Constant(value); }))
         .def(py::init<>([](float value) { return new Constant(value); }))
         .def(py::init<>([](std::vector<NodeRef> value) { return new ChannelArray(value); }))
+
+        /*--------------------------------------------------------------------------------
+         * Operators
+         *-------------------------------------------------------------------------------*/
         .def("__add__", [](NodeRef a, NodeRef b) { return a + b; })
         .def("__add__", [](NodeRef a, float b) { return a + NodeRef(b); })
         .def("__radd__", [](NodeRef a, float b) { return NodeRef(b) + a; })
@@ -40,19 +44,16 @@ void init_python_node(py::module &m)
         })
         .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
         .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
-        .def_readonly("name", &Node::name)
-        .def_property_readonly("patch", &Node::get_patch)
-        .def_property_readonly("state", &Node::get_state)
 
+        /*--------------------------------------------------------------------------------
+         * Properties
+         *-------------------------------------------------------------------------------*/
+        .def_readonly("name", &Node::name)
         .def_readonly("num_output_channels", &Node::num_output_channels)
         .def_readonly("num_input_channels", &Node::num_input_channels)
+        .def_property_readonly("patch", &Node::get_patch)
+        .def_property_readonly("state", &Node::get_state)
         // .def_readonly("matches_input_channels", &Node::matches_input_channels)
-
-        .def("set_buffer", &Node::set_buffer)
-        .def("poll", [](Node &node) { node.poll(); })
-        .def("poll", [](Node &node, float frequency) { node.poll(frequency); })
-        .def("poll", [](Node &node, float frequency, std::string label) { node.poll(frequency, label); })
-
         .def_property_readonly("inputs", [](Node &node) {
             std::unordered_map<std::string, NodeRef> inputs(node.inputs.size());
             for (auto input : node.inputs)
@@ -61,9 +62,24 @@ void init_python_node(py::module &m)
             }
             return inputs;
         })
+        .def_property_readonly("output_buffer", [](Node &node) {
+            return py::array_t<float>(
+                { SIGNAL_MAX_CHANNELS, node.last_num_frames },
+                { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
+                node.out[0]);
+        })
+
+        /*--------------------------------------------------------------------------------
+        * Methods
+        *-------------------------------------------------------------------------------*/
+        .def("set_buffer", &Node::set_buffer)
+        .def("poll", [](Node &node) { node.poll(); })
+        .def("poll", [](Node &node, float frequency) { node.poll(frequency); })
+        .def("poll", [](Node &node, float frequency, std::string label) { node.poll(frequency, label); })
         .def("set_input", [](Node &node, std::string name, float value) { node.set_input(name, value); })
         .def("set_input", [](Node &node, std::string name, NodeRef noderef) { node.set_input(name, noderef); })
         .def("get_input", &Node::get_input)
+        .def("add_input", &Node::add_input)
         .def("trigger", [](Node &node) { node.trigger(); })
         .def("trigger", [](Node &node, std::string name) { node.trigger(name); })
         .def("trigger", [](Node &node, std::string name, float value) { node.trigger(name, value); })
@@ -78,12 +94,6 @@ void init_python_node(py::module &m)
             }
             node.process(buffer.data, buffer.get_num_frames());
             node.last_num_frames = buffer.get_num_frames();
-        })
-        .def_property_readonly("output_buffer", [](Node &node) {
-            return py::array_t<float>(
-                { SIGNAL_MAX_CHANNELS, node.last_num_frames },
-                { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
-                node.out[0]);
         });
 
     py::enum_<signal_filter_type_t>(m, "signal_filter_type_t", py::arithmetic(), "Filter type")

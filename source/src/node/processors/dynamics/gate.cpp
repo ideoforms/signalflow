@@ -9,7 +9,7 @@ Gate::Gate(NodeRef input, NodeRef threshold)
     this->level = 0.0;
 
     this->name = "gate";
-    this->add_input("threshold", this->threshold);
+    this->create_input("threshold", this->threshold);
 }
 
 void Gate::process(sample **out, int num_frames)

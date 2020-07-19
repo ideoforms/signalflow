@@ -44,7 +44,7 @@ void AudioOut_Abstract::add_input(NodeRef node)
     audio_inputs.push_back(node);
     std::string input_name = "input" + std::to_string(input_index);
     this->input_index++;
-    this->Node::add_input(input_name, audio_inputs.back());
+    this->Node::create_input(input_name, audio_inputs.back());
 }
 
 void AudioOut_Abstract::remove_input(NodeRef node)
@@ -54,7 +54,7 @@ void AudioOut_Abstract::remove_input(NodeRef node)
     {
         if (*(param.second) == node)
         {
-            this->Node::remove_input(param.first);
+            this->Node::destroy_input(param.first);
             removed = true;
             break;
         }

@@ -13,11 +13,11 @@ EQ::EQ(NodeRef input, NodeRef low_gain, NodeRef mid_gain, NodeRef high_gain,
     : UnaryOpNode(input), low_gain(low_gain), mid_gain(mid_gain), high_gain(high_gain), low_freq(low_freq), high_freq(high_freq)
 {
     this->name = "eq";
-    this->add_input("low_gain", this->low_gain);
-    this->add_input("mid_gain", this->mid_gain);
-    this->add_input("high_gain", this->high_gain);
-    this->add_input("low_freq", this->low_freq);
-    this->add_input("high_freq", this->high_freq);
+    this->create_input("low_gain", this->low_gain);
+    this->create_input("mid_gain", this->mid_gain);
+    this->create_input("high_gain", this->high_gain);
+    this->create_input("low_freq", this->low_freq);
+    this->create_input("high_freq", this->high_freq);
 
     int int_buf_size = SIGNAL_MAX_CHANNELS * sizeof(int);
     memset(f1p0, 0, int_buf_size);

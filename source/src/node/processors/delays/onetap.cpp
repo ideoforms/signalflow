@@ -9,7 +9,7 @@ OneTapDelay::OneTapDelay(NodeRef input, NodeRef delaytime, float maxdelaytime)
     : UnaryOpNode(input), delaytime(delaytime), maxdelaytime(maxdelaytime)
 {
     this->name = "one-tap-delay";
-    this->add_input("delay_time", this->delaytime);
+    this->create_input("delay_time", this->delaytime);
 
     SIGNAL_CHECK_GRAPH();
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)

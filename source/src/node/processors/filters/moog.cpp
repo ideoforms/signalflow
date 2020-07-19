@@ -10,8 +10,8 @@ MoogVCF::MoogVCF(NodeRef input, NodeRef cutoff, NodeRef resonance)
     : UnaryOpNode(input), cutoff(cutoff), resonance(resonance)
 {
     this->name = "moog";
-    this->add_input("cutoff", this->cutoff);
-    this->add_input("resonance", this->resonance);
+    this->create_input("cutoff", this->cutoff);
+    this->create_input("resonance", this->resonance);
 
     int int_buf_size = SIGNAL_MAX_CHANNELS * sizeof(int);
     memset(out1, 0, int_buf_size);

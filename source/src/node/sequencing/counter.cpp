@@ -8,9 +8,9 @@ Counter::Counter(NodeRef clock, NodeRef min, NodeRef max)
 {
     this->name = "counter";
 
-    this->add_input("clock", this->clock);
-    this->add_input("min", this->min);
-    this->add_input("max", this->max);
+    this->create_input("clock", this->clock);
+    this->create_input("min", this->min);
+    this->create_input("max", this->max);
 
     memset(this->counter, 0, sizeof(int) * SIGNAL_MAX_CHANNELS);
 }

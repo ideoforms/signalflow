@@ -8,20 +8,20 @@ Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef gra
 {
     this->name = "granulator";
 
-    this->add_input("pos", this->pos);
-    this->add_input("clock", this->clock);
-    this->add_input("grain_length", this->grain_length);
-    this->add_input("rate", this->rate);
-    this->add_input("max_grains", this->max_grains);
+    this->create_input("pos", this->pos);
+    this->create_input("clock", this->clock);
+    this->create_input("grain_length", this->grain_length);
+    this->create_input("rate", this->rate);
+    this->create_input("max_grains", this->max_grains);
 
-    this->add_buffer("buffer", buffer);
+    this->create_buffer("buffer", buffer);
 
     this->envelope = new EnvelopeBufferTriangle();
-    this->add_buffer("envelope", envelope);
+    this->create_buffer("envelope", envelope);
 
     this->set_channels(1, 2);
     this->pan = 0.5;
-    this->add_input("pan", this->pan);
+    this->create_input("pan", this->pan);
 
     this->clock_last = 0.0;
 }

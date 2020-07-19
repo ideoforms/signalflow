@@ -216,19 +216,19 @@ void Node::set_state(signal_node_state_t state)
     }
 }
 
-void Node::add_input(std::string name, NodeRef &node)
+void Node::create_input(std::string name, NodeRef &input)
 {
     /*------------------------------------------------------------------------
      * Update each input's channel count first, allowing up-mix to
      * percolate to the root of the graph.
      *-----------------------------------------------------------------------*/
-    if (node)
+    if (input)
     {
-        node->update_channels();
-        node->add_output(this, name);
+        input->update_channels();
+        input->add_output(this, name);
     }
 
-    this->inputs[name] = &node;
+    this->inputs[name] = &input;
     this->update_channels();
 }
 
@@ -292,7 +292,12 @@ void Node::set_input(std::string name, float value)
     }
 }
 
-void Node::remove_input(std::string name)
+void Node::add_input(NodeRef input)
+{
+    throw std::runtime_error("This Node class does not support unnamed inputs");
+}
+
+void Node::destroy_input(std::string name)
 {
     /*------------------------------------------------------------------------
      * Only done by special classes (ChannelArray, AudioOut)
@@ -357,7 +362,7 @@ PropertyRef Node::get_property(std::string name)
     return *(this->properties[name]);
 }
 
-void Node::add_buffer(std::string name, BufferRef &buffer)
+void Node::create_buffer(std::string name, BufferRef &buffer)
 {
     this->buffers[name] = &buffer;
 }
@@ -425,14 +430,14 @@ int Node::get_output_buffer_length()
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)
     : Node(), input0(a), input1(b)
 {
-    this->add_input("input0", this->input0);
-    this->add_input("input1", this->input1);
+    this->create_input("input0", this->input0);
+    this->create_input("input1", this->input1);
 }
 
 UnaryOpNode::UnaryOpNode(NodeRef a)
     : Node(), input(a)
 {
-    this->add_input("input", this->input);
+    this->create_input("input", this->input);
 }
 
 /*------------------------------------------------------------------------

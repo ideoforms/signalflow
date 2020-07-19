@@ -9,8 +9,8 @@ Squiz::Squiz(NodeRef input, NodeRef rate, NodeRef chunk_size)
     : UnaryOpNode(input), rate(rate), chunk_size(chunk_size)
 {
     this->name = "squiz";
-    this->add_input("rate", this->rate);
-    this->add_input("chunk_size", this->chunk_size);
+    this->create_input("rate", this->rate);
+    this->create_input("chunk_size", this->chunk_size);
 
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
     {

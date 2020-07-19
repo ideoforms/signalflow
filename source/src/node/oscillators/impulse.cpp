@@ -9,7 +9,7 @@ Impulse::Impulse(NodeRef frequency)
     : frequency(frequency)
 {
     this->name = "impulse";
-    this->add_input("frequency", this->frequency);
+    this->create_input("frequency", this->frequency);
     this->steps_remaining = std::vector<int>(this->num_output_channels, 0);
 }
 

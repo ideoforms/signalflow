@@ -7,7 +7,7 @@ SampleAndHold::SampleAndHold(NodeRef input, NodeRef clock)
     : UnaryOpNode(input), clock(clock)
 {
     this->name = "sample-and-hold";
-    this->add_input("clock", this->clock);
+    this->create_input("clock", this->clock);
     this->values.resize(SIGNAL_MAX_CHANNELS);
     this->values.clear();
 }

@@ -140,13 +140,22 @@ public:
     void add_node(NodeRef node);
 
     /**--------------------------------------------------------------------------------
-     * Connect
+     * Begin playing the specified node, by connecting it to the graph's output.
+     * This can also be written as node->connect(graph->get_output()).
      *
-     * TODO: Should use polymorphism and a common interface
+     * @param node The node to begin playing.
+     *
+     *--------------------------------------------------------------------------------*/
+    void play(NodeRef node);
+
+    /**--------------------------------------------------------------------------------
+     * Begin playing the specified patch, by connecting it to the graph's output.
+     * This can also be written as patch->connect(graph->get_output()).
+     *
+     * @param patch The patch to begin playing.
      *
      *--------------------------------------------------------------------------------*/
     void play(PatchRef patch);
-    void play(NodeRef node);
 
     void stop(Patch *patch);
     void stop(PatchRef patch);

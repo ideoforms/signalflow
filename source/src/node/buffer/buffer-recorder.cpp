@@ -13,8 +13,8 @@ BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
 
     this->name = "buffer-recorder";
 
-    this->add_buffer("buffer", this->buffer);
-    this->add_input("input", this->input);
+    this->create_buffer("buffer", this->buffer);
+    this->create_input("input", this->input);
 
     this->phase = 0.0;
 

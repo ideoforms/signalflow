@@ -13,7 +13,7 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
 
     this->set_channels(1, buffer->get_num_channels());
 
-    this->add_buffer("buffer", buffer);
+    this->create_buffer("buffer", buffer);
 
     this->phase = 0.0;
 

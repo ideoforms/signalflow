@@ -8,7 +8,7 @@ Triangle::Triangle(NodeRef frequency)
     : frequency(frequency)
 {
     this->name = "triangle";
-    this->add_input("frequency", this->frequency);
+    this->create_input("frequency", this->frequency);
     memset(this->phase, 0, sizeof(this->phase));
 }
 

@@ -79,7 +79,7 @@ void ChannelArray::add_input(NodeRef input)
 {
     this->input_list.push_back(input);
     std::string input_name = "input" + std::to_string(this->inputs.size());
-    this->Node::add_input(input_name, input_list.back());
+    this->Node::create_input(input_name, input_list.back());
 }
 
 void ChannelArray::set_input(std::string name, const NodeRef &node)
@@ -87,7 +87,7 @@ void ChannelArray::set_input(std::string name, const NodeRef &node)
     if (this->inputs.find(name) == this->inputs.end())
     {
         this->input_list.push_back(node);
-        this->Node::add_input(name, input_list.back());
+        this->Node::create_input(name, input_list.back());
     }
 
     this->Node::set_input(name, node);

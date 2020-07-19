@@ -11,9 +11,9 @@ TriggerNoise::TriggerNoise(NodeRef min, NodeRef max, NodeRef clock)
     : min(min), max(max), clock(clock)
 {
     this->name = "trigger-noise";
-    this->add_input("min", this->min);
-    this->add_input("max", this->max);
-    this->add_input("clock", this->clock);
+    this->create_input("min", this->min);
+    this->create_input("max", this->max);
+    this->create_input("clock", this->clock);
 
     for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
         this->value[i] = std::numeric_limits<float>::max();

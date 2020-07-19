@@ -21,7 +21,6 @@ public:
     virtual void process(sample **out, int num_frames);
     virtual void update_channels();
 
-    using Node::add_input;
     virtual void add_input(NodeRef input);
     virtual void set_input(std::string name, const NodeRef &node);
 

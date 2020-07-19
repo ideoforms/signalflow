@@ -11,11 +11,11 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
 
     this->name = "envelope-adsr";
     this->curve = SIGNAL_CURVE_EXPONENTIAL;
-    this->add_input("attack", this->attack);
-    this->add_input("decay", this->decay);
-    this->add_input("sustain", this->sustain);
-    this->add_input("release", this->release);
-    this->add_input("gate", this->gate);
+    this->create_input("attack", this->attack);
+    this->create_input("decay", this->decay);
+    this->create_input("sustain", this->sustain);
+    this->create_input("release", this->release);
+    this->create_input("gate", this->gate);
 }
 
 void EnvelopeADSR::process(sample **out, int num_frames)

@@ -16,8 +16,8 @@ Resample::Resample(NodeRef input, NodeRef sample_rate, NodeRef bit_rate)
     memset(sample_last, 0, sizeof(sample_last));
 
     this->name = "resample";
-    this->add_input("sample_rate", this->sample_rate);
-    this->add_input("bit_rate", this->bit_rate);
+    this->create_input("sample_rate", this->sample_rate);
+    this->create_input("bit_rate", this->bit_rate);
 }
 
 void Resample::process(sample **out, int num_frames)

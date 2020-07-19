@@ -10,19 +10,19 @@ GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, Pr
 {
     this->name = "grain-segments";
 
-    this->add_input("clock", this->clock);
-    this->add_input("target", this->target);
+    this->create_input("clock", this->clock);
+    this->create_input("target", this->target);
 
     // add properties
     this->set_property("offsets", this->offsets);
     this->set_property("values", this->values);
     this->set_property("durations", this->durations);
 
-    this->add_buffer(" buffer", buffer);
+    this->create_buffer(" buffer", buffer);
 
     // this->envelope = new EnvelopeBufferHanning();
     this->envelope = new EnvelopeBuffer();
-    this->add_buffer("envelope", this->envelope);
+    this->create_buffer("envelope", this->envelope);
 
     this->set_channels(1, 2);
 

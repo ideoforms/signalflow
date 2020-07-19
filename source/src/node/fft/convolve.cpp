@@ -41,7 +41,7 @@ FFTConvolve::FFTConvolve(NodeRef input, BufferRef buffer)
     }
     delete fft;
 
-    this->add_buffer("buffer", this->buffer);
+    this->create_buffer("buffer", this->buffer);
 }
 
 FFTConvolve::~FFTConvolve()

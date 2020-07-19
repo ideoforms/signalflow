@@ -8,7 +8,7 @@ FFTLPF::FFTLPF(NodeRef input, NodeRef frequency)
     : FFTOpNode(input), frequency(frequency)
 {
     this->name = "fft-lpf";
-    this->add_input("frequency", this->frequency);
+    this->create_input("frequency", this->frequency);
 }
 
 void FFTLPF::process(sample **out, int num_frames)

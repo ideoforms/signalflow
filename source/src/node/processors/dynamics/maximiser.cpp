@@ -10,9 +10,9 @@ Maximiser::Maximiser(NodeRef input, NodeRef ceiling, NodeRef attack_time, NodeRe
     this->name = "maximiser";
     this->gain = 1.0;
 
-    this->add_input("ceiling", this->ceiling);
-    this->add_input("attack_time", this->attack_time);
-    this->add_input("release_time", this->release_time);
+    this->create_input("ceiling", this->ceiling);
+    this->create_input("attack_time", this->attack_time);
+    this->create_input("release_time", this->release_time);
 }
 
 void Maximiser::process(sample **out, int num_frames)

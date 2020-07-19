@@ -9,9 +9,9 @@ Line::Line(NodeRef from, NodeRef to, NodeRef time)
 {
     this->name = "line";
 
-    this->add_input("from", this->from);
-    this->add_input("to", this->to);
-    this->add_input("time", this->time);
+    this->create_input("from", this->from);
+    this->create_input("to", this->to);
+    this->create_input("time", this->time);
 
     this->value = 0.0;
     this->value_change_per_step = 0.0;

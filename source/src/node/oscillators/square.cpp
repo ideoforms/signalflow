@@ -9,8 +9,8 @@ Square::Square(NodeRef frequency, NodeRef width)
 {
     this->name = "square";
 
-    this->add_input("frequency", this->frequency);
-    this->add_input("width", this->width);
+    this->create_input("frequency", this->frequency);
+    this->create_input("width", this->width);
     memset(this->phase, 0, sizeof(this->phase));
 }
 

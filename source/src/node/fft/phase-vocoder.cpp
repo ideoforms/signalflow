@@ -8,7 +8,7 @@ FFTPhaseVocoder::FFTPhaseVocoder(NodeRef input)
 {
     this->name = "fft-phase-vocoder";
 
-    this->add_input("clock", this->clock);
+    this->create_input("clock", this->clock);
 
     this->phase_buffer = new sample[this->num_bins]();
     this->phase_deriv = new sample[this->num_bins]();

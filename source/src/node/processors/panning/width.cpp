@@ -7,7 +7,7 @@ Width::Width(NodeRef input, NodeRef width)
     : UnaryOpNode(input), width(width)
 {
     this->name = "width";
-    this->add_input("width", this->width);
+    this->create_input("width", this->width);
 
     this->set_channels(2, 2);
 }
