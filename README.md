@@ -35,7 +35,7 @@ output = sine * env
 #--------------------------------------------------------------------------------
 # Connect the output to the graph, and begin playback.
 #--------------------------------------------------------------------------------
-graph.add_output(output)
+graph.play(output)
 graph.start()
 graph.wait()
 ```
@@ -47,7 +47,8 @@ To do the same in C++:
 using namespace signalflow;
 
 /*------------------------------------------------------------------------
- * Classes ending in *Ref are memory-managed shared_ptr subclasses.
+ * Classes ending in *Ref are subclasses of std::shared_ptr which
+ * automatically handle memory management.
  *-----------------------------------------------------------------------*/
 AudioGraphRef graph = new AudioGraph();
 
@@ -55,7 +56,7 @@ NodeRef sine = new Sine({ 440, 880 });
 NodeRef env = new EnvelopeASR(0.01, 0.1, 0.5);
 NodeRef ping = sine * env;
 
-graph->add_output(ping);
+graph->play(ping);
 graph->start();
 graph->wait();
 ```
