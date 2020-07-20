@@ -80,14 +80,14 @@ void PatchSpec::load(std::string filename)
                     else if (input_value.is_object())
                     {
                         int id = input_value["id"].int_value();
-                        PatchNodeSpec *ptr = this->get_node_def(id);
+                        PatchNodeSpec *ptr = this->get_node_spec(id);
                         nodespec.add_input(input_key, ptr);
                     }
                 }
             }
         }
         signal_debug("Adding node with name %s\n", nodespec.name.c_str());
-        this->add_node_def(nodespec);
+        this->add_node_spec(nodespec);
         if (is_output)
         {
             this->set_output(nodespec);
@@ -107,30 +107,30 @@ void PatchSpec::store()
     PatchRegistry::global()->add(this->name, this);
 }
 
-void PatchSpec::add_node_def(PatchNodeSpec def)
+void PatchSpec::add_node_spec(PatchNodeSpec spec)
 {
-    this->nodespecs[def.id] = def;
+    this->nodespecs[spec.id] = spec;
 }
 
-PatchNodeSpec *PatchSpec::get_node_def(int id)
+PatchNodeSpec *PatchSpec::get_node_spec(int id)
 {
     return &(this->nodespecs[id]);
 }
 
-void PatchSpec::set_output(PatchNodeSpec def)
+void PatchSpec::set_output(PatchNodeSpec spec)
 {
-    this->output_def = def;
+    this->output = spec;
 }
 
 PatchNodeSpec PatchSpec::get_root()
 {
-    return this->output_def;
+    return this->output;
 }
 
 void PatchSpec::print()
 {
     std::cout << "PatchSpec " << this->name << " (" << this->nodespecs.size() << " nodes)" << std::endl;
-    this->print(&this->output_def, 0);
+    this->print(&this->output, 0);
 }
 
 void PatchSpec::print(PatchNodeSpec *root, int depth)

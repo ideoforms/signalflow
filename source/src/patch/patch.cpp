@@ -267,7 +267,7 @@ PatchSpecRef Patch::create_spec()
     this->last_id = 0;
 
     PatchSpecRef spec = new PatchSpec(this->name);
-    spec->output_def = this->_parse_from_node(root);
+    spec->output = this->_parse_from_node(root);
     spec->parsed = true;
     spec->nodespecs = this->nodespecs;
 
