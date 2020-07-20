@@ -1,5 +1,12 @@
 #pragma once
 
+/**-------------------------------------------------------------------------
+ * @file patch.h
+ * @brief Patch encapsulates a subgraph of nodes, with named inputs
+ *        and a single output.
+ *
+ *-----------------------------------------------------------------------*/
+
 #include "signalflow/patch/patch-node-spec.h"
 #include "signalflow/patch/patch-spec.h"
 
@@ -8,14 +15,31 @@ namespace signalflow
 
 typedef enum
 {
-    SIGNAL_SYNTH_STATE_ACTIVE,
-    SIGNAL_SYNTH_STATE_FINISHED
+    SIGNAL_PATCH_STATE_ACTIVE,
+    SIGNAL_PATCH_STATE_FINISHED
 } signal_patch_state_t;
+
+class Patch;
+
+template <class T>
+class PatchRefTemplate : public std::shared_ptr<T>
+{
+public:
+    PatchRefTemplate()
+        : std::shared_ptr<T>(nullptr) {}
+    PatchRefTemplate(Patch *ptr)
+        : std::shared_ptr<T>(ptr) {}
+    PatchRefTemplate(PatchSpecRef patchspec)
+        : std::shared_ptr<T>(new T(patchspec)) {}
+};
+
+typedef PatchRefTemplate<Patch> PatchRef;
 
 class Patch
 {
 public:
     Patch();
+    Patch(PatchRef patch);
     Patch(PatchSpecRef patchspec);
     Patch(std::string name);
     virtual ~Patch();
@@ -67,19 +91,5 @@ private:
     std::unordered_map<int, PatchNodeSpec> nodespecs;
     std::set<NodeRef> parsed_nodes;
 };
-
-template <class T>
-class PatchRefTemplate : public std::shared_ptr<T>
-{
-public:
-    PatchRefTemplate()
-        : std::shared_ptr<T>(nullptr) {}
-    PatchRefTemplate(Patch *ptr)
-        : std::shared_ptr<T>(ptr) {}
-    PatchRefTemplate(PatchSpecRef patchspec)
-        : std::shared_ptr<T>(new T(patchspec)) {}
-};
-
-typedef PatchRefTemplate<Patch> PatchRef;
 
 }

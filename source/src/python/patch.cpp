@@ -7,6 +7,7 @@ void init_python_patch(py::module &m)
      *-------------------------------------------------------------------------------*/
     py::class_<Patch, PatchRefTemplate<Patch>>(m, "Patch")
         .def(py::init<PatchSpecRef>())
+        .def(py::init<PatchRef>())
         .def(py::init<>())
         .def("set_input", [](Patch &patch, std::string name, float value) { patch.set_input(name, value); })
         .def("set_input", [](Patch &patch, std::string name, NodeRef node) { patch.set_input(name, node); })

@@ -75,6 +75,7 @@ AudioIn_SoundIO::AudioIn_SoundIO()
     this->buffer = new Buffer(2, 2048 * 2);
     this->read_pos = 0;
     this->write_pos = 2048;
+    this->name = "audioin_soundio";
     this->init();
 }
 

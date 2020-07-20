@@ -16,7 +16,10 @@ void ChannelMixer::process(sample **out, int num_frames)
     float out_channel_pan,
         in_channel_pan;
 
-    this->zero_output();
+    for (int channel = 0; channel < this->num_output_channels; channel++)
+    {
+        memset(out[channel], 0, num_frames * sizeof(sample));
+    }
 
     for (int out_channel = 0; out_channel < this->channels; out_channel++)
     {

@@ -279,11 +279,6 @@ protected:
     virtual void create_buffer(std::string name, BufferRef &buffer);
 
     /*------------------------------------------------------------------------
-     * Sets our output buffer to zero.
-     *-----------------------------------------------------------------------*/
-    virtual void zero_output();
-
-    /*------------------------------------------------------------------------
      * Set the Patch that this node is part of.
      *-----------------------------------------------------------------------*/
     virtual void set_patch(Patch *patch);

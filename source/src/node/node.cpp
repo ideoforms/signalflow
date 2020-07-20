@@ -375,14 +375,6 @@ void Node::set_buffer(std::string name, BufferRef buffer)
     *(this->buffers[name]) = buffer;
 }
 
-void Node::zero_output()
-{
-    for (int channel = 0; channel < this->num_output_channels; channel++)
-    {
-        memset(this->out[channel], 0, SIGNAL_NODE_BUFFER_SIZE * sizeof(sample));
-    }
-}
-
 Patch *Node::get_patch()
 {
     return this->patch;

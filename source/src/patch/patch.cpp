@@ -26,6 +26,11 @@ Patch::Patch(PatchSpecRef patchspec)
     this->output = this->instantiate(&nodespec);
 }
 
+Patch::Patch(PatchRef patch)
+    : Patch(patch->create_spec())
+{
+}
+
 Patch::Patch(std::string name)
     : Patch()
 {
@@ -190,7 +195,7 @@ void Patch::node_state_changed(Node *node)
 {
     if (node->get_state() == SIGNAL_NODE_STATE_FINISHED && this->auto_free)
     {
-        this->set_state(SIGNAL_SYNTH_STATE_FINISHED);
+        this->set_state(SIGNAL_PATCH_STATE_FINISHED);
         this->disconnect();
     }
 }

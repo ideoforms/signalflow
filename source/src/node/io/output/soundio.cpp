@@ -101,6 +101,7 @@ AudioOut_SoundIO::AudioOut_SoundIO(AudioGraph *graph)
     : AudioOut_Abstract(graph)
 {
     this->init();
+    this->name = "audioout_soundio";
 }
 
 int AudioOut_SoundIO::init()

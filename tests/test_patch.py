@@ -1,5 +1,5 @@
 from signalflow import PatchSpec, Patch, Buffer, BufferPlayer
-from signalflow import Multiply, Sine, EnvelopeASR
+from signalflow import Multiply, Sine, EnvelopeASR, Square, Sum, Add
 from . import graph
 import numpy as np
 
@@ -29,6 +29,25 @@ def test_patch(graph):
 
     patch.auto_free = True
     assert patch.auto_free == True
+
+    graph.stop(patch)
+
+def test_patch_duplicate(graph):
+    patch = Patch()
+    a = patch.add_input("a", 1)
+    b = patch.add_input("b", 2)
+    c = patch.add_input("c", 3)
+    sum = patch.add_node(Sum([a, b, c]))
+    patch.set_output(sum)
+    duplicate = Patch(patch)
+    duplicate.set_input("a", 1)
+    duplicate.set_input("b", 2)
+    duplicate.set_input("c", 3)
+    graph.play(duplicate)
+    buf = Buffer(1, 100)
+    assert np.all(buf.data[0] == 0)
+    graph.render_to_buffer(buf)
+    assert np.all(buf.data[0] == 6)
 
 def test_patch_free(graph):
     prototype = Patch()
