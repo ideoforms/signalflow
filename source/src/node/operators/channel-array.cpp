@@ -70,7 +70,7 @@ void ChannelArray::update_channels()
 
     this->set_channels(this->num_input_channels, this->num_input_channels);
 
-    signal_debug("Node %s set num_out_channels to %d\n", this->name.c_str(), this->num_output_channels);
+    signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
 
     this->allocate_output_buffer();
 }

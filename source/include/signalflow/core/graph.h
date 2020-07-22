@@ -19,7 +19,7 @@ class AudioGraphMonitor;
 class AudioGraph
 {
 public:
-    AudioGraph(AudioOut_Abstract *output_device = nullptr);
+    AudioGraph(NodeRef output_device = nullptr);
     virtual ~AudioGraph();
 
     /**--------------------------------------------------------------------------------

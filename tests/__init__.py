@@ -55,7 +55,7 @@ def get_peak_frequencies(samples, sample_rate):
     peaks = peaks * sample_rate / len(samples)
     return peaks
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def graph():
     graph = signalflow.AudioGraph()
     return graph

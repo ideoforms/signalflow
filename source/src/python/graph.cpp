@@ -7,7 +7,7 @@ void init_python_graph(py::module &m)
      *-------------------------------------------------------------------------------*/
     py::class_<AudioGraph>(m, "AudioGraph")
         .def(py::init<>())
-        .def(py::init<AudioOut_Abstract *>())
+        .def(py::init<NodeRef>())
 
         /*--------------------------------------------------------------------------------
          * Properties

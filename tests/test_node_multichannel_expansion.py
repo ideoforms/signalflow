@@ -1,4 +1,4 @@
-from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer
+from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
 from signalflow import InvalidChannelCountException
 import numpy as np
 import pytest
@@ -31,7 +31,9 @@ def test_expansion_multi(graph):
     assert np.all(frequency.inputs["input0"].output_buffer[0] == 0.0)
     assert np.all(frequency.inputs["input1"].output_buffer[0] == 1.0)
 
-def test_expansion_upmix(graph):
+def test_expansion_upmix():
+    output = AudioOut_Dummy(4)
+    graph = AudioGraph(output)
     a = Square([ 440, 880, 1320 ], [ 0.3, 0.7 ])
     assert a.num_input_channels == 3
     assert a.num_output_channels == 3

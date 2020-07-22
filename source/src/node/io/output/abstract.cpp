@@ -6,9 +6,7 @@ namespace signalflow
 AudioOut_Abstract::AudioOut_Abstract()
 {
     this->name = "audioout";
-
-    // TODO: Let the user/system specify the actual # of supported channels
-    this->set_channels(4, 4);
+    this->set_channels(2, 0);
     this->no_input_upmix = true;
     this->input_index = 0;
 }

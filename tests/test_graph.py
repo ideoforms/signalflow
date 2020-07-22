@@ -1,4 +1,4 @@
-from signalflow import AudioGraph, Buffer, Sine, Line, Constant
+from signalflow import AudioGraph, AudioOut_Dummy, Buffer, Sine, Line, Constant
 from . import process_tree, count_zero_crossings
 import pytest
 import numpy as np
@@ -61,4 +61,16 @@ def test_graph_add_remove_node():
     graph.remove_node(constant)
     graph.render(1024)
     assert np.all(constant.output_buffer[0] == 0)
+    del graph
+
+def test_graph_dummy_audioout():
+    output = AudioOut_Dummy(2)
+    graph = AudioGraph(output)
+    sine = Sine([ 220, 440 ])
+    graph.play(sine)
+
+    graph.render(1024)
+    samples = graph.output.output_buffer[0][:1024]
+    assert len(samples) == 1024
+
     del graph
