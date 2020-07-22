@@ -7,7 +7,7 @@
 		}
 	},
 	{
-		"node" : "env-asr",
+		"node" : "envelope-asr",
 		"id" : 1,
 		"inputs" : {
 			"attack" : 0.01,
@@ -24,7 +24,7 @@
 		}
 	},
 	{
-		"node" : "delay",
+		"node" : "comb-delay",
 		"id" : 3,
 		"inputs" : {
 			"input" : { "id" : 2 },
@@ -33,7 +33,7 @@
 		}
 	},
 	{
-		"node" : "pan",
+		"node" : "linear-panner",
 		"is_output" : true,
 		"inputs" : {
 			"input" : { "id" : 3 },

@@ -16,7 +16,7 @@
 		}
 	},
 	{
-		"node" : "env-asr",
+		"node" : "envelope-asr",
 		"id" : 2,
 		"inputs" : {
 			"attack" : 0.001,
@@ -33,7 +33,7 @@
 		}
 	},
 	{
-		"node" : "tick",
+		"node" : "impulse",
 		"id" : 3,
 		"inputs" : {
 			"frequency" : 0.0
@@ -48,7 +48,7 @@
 		}
 	},
 	{
-		"node" : "pan",
+		"node" : "linear-panner",
 		"id" : 5,
 		"is_output" : true,
 		"inputs" : {
