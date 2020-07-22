@@ -29,5 +29,5 @@ public:
 };
 
 REGISTER(ScaleLinExp, "scale-lin-exp")
-REGISTER(ScaleLinLin, "scale")
+REGISTER(ScaleLinLin, "scale-lin-lin")
 }

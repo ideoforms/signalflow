@@ -8,6 +8,7 @@
 
 #include "signalflow/node/node.h"
 #include "signalflow/patch/patch-node-spec.h"
+#include <map>
 
 namespace signalflow
 {
@@ -65,7 +66,7 @@ protected:
     friend class Patch;
 
     PatchNodeSpec output;
-    std::unordered_map<int, PatchNodeSpec> nodespecs;
+    std::map<int, PatchNodeSpec> nodespecs;
 
 private:
     std::string name;

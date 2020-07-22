@@ -38,9 +38,9 @@ public:
                           std::string node_input_name);
 
 private:
-    std::string name;
-    int id;
-    float value;
+    std::string name = "";
+    int id = -1;
+    float value = 0.0;
     bool is_constant = false;
     std::string input_name;
     std::unordered_map<std::string, PatchNodeSpec *> inputs;

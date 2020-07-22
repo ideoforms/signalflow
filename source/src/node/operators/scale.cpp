@@ -29,7 +29,7 @@ void ScaleLinExp::process(sample **out, int num_frames)
 ScaleLinLin::ScaleLinLin(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef d)
     : UnaryOpNode(input), a(a), b(b), c(c), d(d)
 {
-    this->name = "scale";
+    this->name = "scale-lin-lin";
 
     this->create_input("a", this->a);
     this->create_input("b", this->b);

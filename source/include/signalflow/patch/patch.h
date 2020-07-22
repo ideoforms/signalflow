@@ -9,6 +9,7 @@
 
 #include "signalflow/patch/patch-node-spec.h"
 #include "signalflow/patch/patch-spec.h"
+#include <map>
 
 namespace signalflow
 {
@@ -88,7 +89,7 @@ private:
     std::string _get_input_name(const NodeRef &node);
     std::string _get_input_name(const BufferRef &buf);
     PatchNodeSpec _parse_from_node(const NodeRef &node);
-    std::unordered_map<int, PatchNodeSpec> nodespecs;
+    std::map<int, PatchNodeSpec> nodespecs;
     std::set<NodeRef> parsed_nodes;
 };
 

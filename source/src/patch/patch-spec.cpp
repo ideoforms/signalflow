@@ -2,10 +2,10 @@
 
 #include "json11/json11.hpp"
 #include "signalflow/core/core.h"
-#include "signalflow/node/oscillators/constant.h"
 #include "signalflow/node/registry.h"
 #include "signalflow/patch/patch-registry.h"
 
+#include <algorithm>
 #include <fstream>
 #include <iostream>
 
@@ -89,10 +89,58 @@ void PatchSpec::load(std::string filename)
             this->set_output(nodespec);
         }
     }
+
+    if (this->output.get_id() == -1)
+    {
+        throw std::runtime_error("Invalid JSON (no output specified)");
+    }
 }
 
 void PatchSpec::save(std::string filename)
 {
+    std::vector<Json::object> objects;
+
+    for (auto pair : nodespecs)
+    {
+        int id = pair.first;
+        PatchNodeSpec spec = pair.second;
+        if (spec.get_name() == "constant")
+        {
+            continue;
+        }
+
+        Json::object object = {
+            { "node", spec.get_name() },
+            { "id", spec.get_id() },
+        };
+        if (spec.get_id() == this->output.get_id())
+        {
+            object["is_output"] = true;
+        }
+        Json::object inputs;
+        for (auto input_pair : spec.get_inputs())
+        {
+            std::string input_name = input_pair.first;
+            PatchNodeSpec *input_spec = input_pair.second;
+            if (input_spec->get_is_constant())
+            {
+                inputs[input_name] = input_spec->get_constant_value();
+            }
+            else
+            {
+                inputs[input_name] = Json::object({ { "id", input_spec->get_id() } });
+            }
+        }
+        if (inputs.size() > 0)
+        {
+            object["inputs"] = inputs;
+        }
+        objects.push_back(object);
+    }
+
+    std::reverse(objects.begin(), objects.end());
+    std::string json = Json(objects).dump();
+    std::cout << json << std::endl;
 }
 
 void PatchSpec::store()
