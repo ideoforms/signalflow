@@ -66,13 +66,13 @@ NodeRef Patch::instantiate(PatchNodeSpec *nodespec)
     NodeRegistry *registry = NodeRegistry::global();
     NodeRef noderef;
 
-    if (!nodespec->input_name.empty() && this->inputs[nodespec->input_name])
+    if (!nodespec->get_input_name().empty() && this->inputs[nodespec->get_input_name()])
     {
-        noderef = this->inputs[nodespec->input_name];
+        noderef = this->inputs[nodespec->get_input_name()];
     }
     else
     {
-        Node *node = registry->create(nodespec->name);
+        Node *node = registry->create(nodespec->get_name());
         noderef = NodeRef(node);
 
         /*------------------------------------------------------------------------
@@ -80,25 +80,25 @@ NodeRef Patch::instantiate(PatchNodeSpec *nodespec)
          *-----------------------------------------------------------------------*/
         this->nodes.insert(noderef);
 
-        for (auto input : nodespec->inputs)
+        for (auto input : nodespec->get_inputs())
         {
             std::string input_name = input.first;
             NodeRef input_node = this->instantiate(input.second);
             noderef->set_input(input_name, input_node);
         }
 
-        if (nodespec->is_constant)
+        if (nodespec->get_is_constant())
         {
             Constant *constant = (Constant *) node;
-            constant->value = nodespec->value;
+            constant->value = nodespec->get_constant_value();
         }
 
-        if (!nodespec->input_name.empty())
+        if (!nodespec->get_input_name().empty())
         {
-            this->inputs[nodespec->input_name] = noderef;
+            this->inputs[nodespec->get_input_name()] = noderef;
         }
 
-        for (auto buffer_input : nodespec->buffer_inputs)
+        for (auto buffer_input : nodespec->get_buffer_inputs())
         {
             std::string patch_input_name = buffer_input.first;
             std::string node_input_name = buffer_input.second;
@@ -322,10 +322,10 @@ PatchNodeSpec Patch::_parse_from_node(const NodeRef &node)
     std::string input_name = this->_get_input_name(node);
     if (!input_name.empty())
     {
-        nodespec.input_name = input_name;
+        nodespec.set_input_name(input_name);
     }
 
-    this->nodespecs[nodespec.id] = nodespec;
+    this->nodespecs[nodespec.get_id()] = nodespec;
     this->parsed_nodes.insert(node);
 
     return nodespec;

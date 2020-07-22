@@ -82,7 +82,7 @@ void PatchSpec::load(std::string filename)
                 }
             }
         }
-        signal_debug("Adding node with name %s\n", nodespec.name.c_str());
+        signal_debug("Adding node with name %s\n", nodespec.get_name().c_str());
         this->add_node_spec(nodespec);
         if (is_output)
         {
@@ -102,7 +102,7 @@ void PatchSpec::store()
 
 void PatchSpec::add_node_spec(PatchNodeSpec spec)
 {
-    this->nodespecs[spec.id] = spec;
+    this->nodespecs[spec.get_id()] = spec;
 }
 
 PatchNodeSpec *PatchSpec::get_node_spec(int id)
@@ -134,18 +134,18 @@ void PatchSpec::print()
 void PatchSpec::print(PatchNodeSpec *root, int depth)
 {
     std::cout << std::string(depth * 2, ' ');
-    std::cout << " * " << root->name << " (id = " << root->id << ") " << std::endl;
-    for (auto pair : root->inputs)
+    std::cout << " * " << root->get_name() << " (id = " << root->get_id() << ") " << std::endl;
+    for (auto pair : root->get_inputs())
     {
         std::cout << std::string((depth + 1) * 2 + 1, ' ');
 
-        if (pair.second->name == "constant")
+        if (pair.second->get_name() == "constant")
         {
-            std::cout << pair.first << ": " << pair.second->value;
+            std::cout << pair.first << ": " << pair.second->get_constant_value();
 
-            if (pair.second->input_name != "")
+            if (pair.second->get_input_name() != "")
             {
-                std::cout << " (patch input: " << pair.second->input_name << ")" << std::endl;
+                std::cout << " (patch input: " << pair.second->get_input_name() << ")" << std::endl;
             }
 
             std::cout << std::endl;
