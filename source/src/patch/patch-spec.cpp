@@ -18,10 +18,6 @@ PatchSpec::PatchSpec(std::string name)
     this->name = name;
 }
 
-void PatchSpec::save(std::string filename)
-{
-}
-
 void PatchSpec::load(std::string filename)
 {
     std::string buf;
@@ -93,13 +89,10 @@ void PatchSpec::load(std::string filename)
             this->set_output(nodespec);
         }
     }
+}
 
-    /*------------------------------------------------------------------------
-     * Set `parsed` to indicate we have a complete NodeDef tree
-     * (normally used to indicate the completion of template-based
-     * construction)
-     *-----------------------------------------------------------------------*/
-    this->parsed = true;
+void PatchSpec::save(std::string filename)
+{
 }
 
 void PatchSpec::store()
@@ -120,6 +113,11 @@ PatchNodeSpec *PatchSpec::get_node_spec(int id)
 void PatchSpec::set_output(PatchNodeSpec spec)
 {
     this->output = spec;
+}
+
+std::string PatchSpec::get_name()
+{
+    return this->name;
 }
 
 PatchNodeSpec PatchSpec::get_root()

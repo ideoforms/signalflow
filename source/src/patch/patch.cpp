@@ -273,7 +273,6 @@ PatchSpecRef Patch::create_spec()
 
     PatchSpecRef spec = new PatchSpec(this->name);
     spec->output = this->_parse_from_node(root);
-    spec->parsed = true;
     spec->nodespecs = this->nodespecs;
 
     for (auto node : nodes)

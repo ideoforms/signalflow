@@ -33,15 +33,22 @@ public:
     PatchNodeSpec *get_node_spec(int id);
     PatchNodeSpec get_root();
 
-    /*----------------------------------------------------------------------------------
-     * Save a PatchSpec to disk.
+    /**----------------------------------------------------------------------------------
+     * Query a PatchSpec's name.
+     * @returns The human-readable name.
+     *
      *---------------------------------------------------------------------------------*/
-    void save(std::string filename);
+    std::string get_name();
 
     /*----------------------------------------------------------------------------------
      * Load a PatchSpec from disk.
      *---------------------------------------------------------------------------------*/
     void load(std::string filename);
+
+    /*----------------------------------------------------------------------------------
+     * Save a PatchSpec to disk.
+     *---------------------------------------------------------------------------------*/
+    void save(std::string filename);
 
     /*----------------------------------------------------------------------------------
      * Store a PatchSpec to the global PatchRegistry so that it can be
@@ -54,20 +61,16 @@ public:
      *---------------------------------------------------------------------------------*/
     void print();
 
-    /**----------------------------------------------------------------------------------
-     * Returns true if this PatchSpec is ready to be played.
-     *---------------------------------------------------------------------------------*/
-    bool is_ready();
-
-    std::string name;
+protected:
+    friend class Patch;
 
     PatchNodeSpec output;
-    bool parsed = false;
-    int last_id = 0;
-
     std::unordered_map<int, PatchNodeSpec> nodespecs;
 
 private:
+    std::string name;
+
+    int last_id = 0;
     void print(PatchNodeSpec *root, int depth);
 };
 
