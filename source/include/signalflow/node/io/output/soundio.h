@@ -18,7 +18,7 @@ namespace signalflow
 class AudioOut_SoundIO : public AudioOut_Abstract
 {
 public:
-    AudioOut_SoundIO(AudioGraph *graph);
+    AudioOut_SoundIO();
     virtual int init() override;
     virtual int start() override;
     virtual int stop() override;

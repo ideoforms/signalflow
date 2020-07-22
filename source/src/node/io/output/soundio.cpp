@@ -97,8 +97,8 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
     return -1;
 }
 
-AudioOut_SoundIO::AudioOut_SoundIO(AudioGraph *graph)
-    : AudioOut_Abstract(graph)
+AudioOut_SoundIO::AudioOut_SoundIO()
+    : AudioOut_Abstract()
 {
     this->init();
     this->name = "audioout_soundio";

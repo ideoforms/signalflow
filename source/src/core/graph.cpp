@@ -19,7 +19,7 @@ namespace signalflow
 
 AudioGraph *shared_graph = NULL;
 
-AudioGraph::AudioGraph()
+AudioGraph::AudioGraph(AudioOut_Abstract *output_device)
 {
     signal_init();
 
@@ -29,9 +29,18 @@ AudioGraph::AudioGraph()
     }
     shared_graph = this;
 
-    AudioOut *audioout = new AudioOut(this);
-    this->output = audioout;
-    this->sample_rate = audioout->sample_rate;
+    if (!output_device)
+    {
+        output_device = new AudioOut();
+    }
+    else if (output_device->sample_rate == 0)
+    {
+        throw std::runtime_error("AudioGraph: Audio output device has zero sample rate");
+    }
+
+    this->output = output_device;
+
+    this->sample_rate = output_device->sample_rate;
     this->node_count = 0;
     this->_node_count_tmp = 0;
     this->cpu_usage = 0.0;

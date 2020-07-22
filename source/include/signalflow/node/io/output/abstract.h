@@ -1,6 +1,5 @@
 #pragma once
 
-#include "signalflow/core/graph.h"
 #include "signalflow/node/node.h"
 
 #include <list>
@@ -11,7 +10,7 @@ namespace signalflow
 class AudioOut_Abstract : public Node
 {
 public:
-    AudioOut_Abstract(AudioGraph *graph);
+    AudioOut_Abstract();
     virtual void process(sample **out, int num_samples);
 
     int sample_rate = 0;

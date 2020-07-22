@@ -46,6 +46,7 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/soundio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/abstract.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/dummy.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/soundio.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/add.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/divide.cpp
@@ -73,10 +74,10 @@ set(SRC ${SRC}
     ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/segment-player.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-registry.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-spec.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-registry.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-spec.cpp
 )
 
 if (CMAKE_BUILD_PYTHON)

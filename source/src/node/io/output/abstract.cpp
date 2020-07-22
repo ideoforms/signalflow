@@ -3,9 +3,8 @@
 namespace signalflow
 {
 
-AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
+AudioOut_Abstract::AudioOut_Abstract()
 {
-    this->graph = graph;
     this->name = "audioout";
 
     // TODO: Let the user/system specify the actual # of supported channels
@@ -16,7 +15,7 @@ AudioOut_Abstract::AudioOut_Abstract(AudioGraph *graph)
 
 void AudioOut_Abstract::process(sample **out, int num_frames)
 {
-    for (int channel = 0; channel < this->num_output_channels; channel++)
+    for (int channel = 0; channel < this->num_input_channels; channel++)
     {
         memset(out[channel], 0, num_frames * sizeof(sample));
     }

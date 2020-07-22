@@ -7,6 +7,7 @@
  *
  *--------------------------------------------------------------------------------*/
 
+#include "signalflow/node/io/output/abstract.h"
 #include "signalflow/node/node.h"
 #include "signalflow/patch/patch.h"
 
@@ -18,7 +19,7 @@ class AudioGraphMonitor;
 class AudioGraph
 {
 public:
-    AudioGraph();
+    AudioGraph(AudioOut_Abstract *output_device = nullptr);
     virtual ~AudioGraph();
 
     /**--------------------------------------------------------------------------------

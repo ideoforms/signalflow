@@ -8,44 +8,10 @@ void init_python_nodes(py::module &m)
     py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn")
         .def(py::init<>());
 
-    py::class_<SampleAndHold, Node, NodeRefTemplate<SampleAndHold>>(m, "SampleAndHold")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "clock"_a = nullptr);
+    py::class_<AudioOut_Abstract, Node, NodeRefTemplate<AudioOut_Abstract>>(m, "AudioOut_Abstract");
 
-    py::class_<Width, Node, NodeRefTemplate<Width>>(m, "Width")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
-
-    py::class_<Resample, Node, NodeRefTemplate<Resample>>(m, "Resample")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "sample_rate"_a = 22050, "bit_rate"_a = 8);
-
-    py::class_<BiquadFilter, Node, NodeRefTemplate<BiquadFilter>>(m, "BiquadFilter")
-        .def(py::init<NodeRef, signal_filter_type_t, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNAL_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.707, "peak_gain"_a = 0.0);
-
-    py::class_<RMS, Node, NodeRefTemplate<RMS>>(m, "RMS")
-        .def(py::init<NodeRef>(), "input"_a = 0.0);
-
-    py::class_<Squiz, Node, NodeRefTemplate<Squiz>>(m, "Squiz")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "rate"_a = 2.0, "chunk_size"_a = 1);
-
-    py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);
-
-    py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
-        .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 2, "pan"_a = 0.5);
-
-    py::class_<MoogVCF, Node, NodeRefTemplate<MoogVCF>>(m, "MoogVCF")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "cutoff"_a = 200.0, "resonance"_a = 0.0);
-
-    py::class_<EQ, Node, NodeRefTemplate<EQ>>(m, "EQ")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "low_gain"_a = 1.0, "mid_gain"_a = 1.0, "high_gain"_a = 1.0, "low_freq"_a = 500, "high_freq"_a = 5000);
-
-    py::class_<Gate, Node, NodeRefTemplate<Gate>>(m, "Gate")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 0.1);
-
-    py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper")
-        .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
-
-    py::class_<Maximiser, Node, NodeRefTemplate<Maximiser>>(m, "Maximiser")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "ceiling"_a = 0.5, "attack_time"_a = 1.0, "release_time"_a = 1.0);
+    py::class_<AudioOut_Dummy, AudioOut_Abstract, NodeRefTemplate<AudioOut_Dummy>>(m, "AudioOut_Dummy")
+        .def(py::init<int>(), "num_channels"_a = 2);
 
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
         .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);
@@ -136,6 +102,9 @@ void init_python_nodes(py::module &m)
     py::class_<TriggerNoise, Node, NodeRefTemplate<TriggerNoise>>(m, "TriggerNoise")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = 0.0);
 
+    py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);
+
     py::class_<EnvelopeASR, Node, NodeRefTemplate<EnvelopeASR>>(m, "EnvelopeASR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "clock"_a = nullptr);
 
@@ -199,6 +168,42 @@ void init_python_nodes(py::module &m)
 
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder")
         .def(py::init<BufferRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "loop"_a = false);
+
+    py::class_<BiquadFilter, Node, NodeRefTemplate<BiquadFilter>>(m, "BiquadFilter")
+        .def(py::init<NodeRef, signal_filter_type_t, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNAL_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.707, "peak_gain"_a = 0.0);
+
+    py::class_<MoogVCF, Node, NodeRefTemplate<MoogVCF>>(m, "MoogVCF")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "cutoff"_a = 200.0, "resonance"_a = 0.0);
+
+    py::class_<EQ, Node, NodeRefTemplate<EQ>>(m, "EQ")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "low_gain"_a = 1.0, "mid_gain"_a = 1.0, "high_gain"_a = 1.0, "low_freq"_a = 500, "high_freq"_a = 5000);
+
+    py::class_<RMS, Node, NodeRefTemplate<RMS>>(m, "RMS")
+        .def(py::init<NodeRef>(), "input"_a = 0.0);
+
+    py::class_<Gate, Node, NodeRefTemplate<Gate>>(m, "Gate")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 0.1);
+
+    py::class_<Maximiser, Node, NodeRefTemplate<Maximiser>>(m, "Maximiser")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "ceiling"_a = 0.5, "attack_time"_a = 1.0, "release_time"_a = 1.0);
+
+    py::class_<Width, Node, NodeRefTemplate<Width>>(m, "Width")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
+
+    py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
+        .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 2, "pan"_a = 0.5);
+
+    py::class_<SampleAndHold, Node, NodeRefTemplate<SampleAndHold>>(m, "SampleAndHold")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "clock"_a = nullptr);
+
+    py::class_<Resample, Node, NodeRefTemplate<Resample>>(m, "Resample")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "sample_rate"_a = 22050, "bit_rate"_a = 8);
+
+    py::class_<Squiz, Node, NodeRefTemplate<Squiz>>(m, "Squiz")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "rate"_a = 2.0, "chunk_size"_a = 1);
+
+    py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper")
+        .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
 
     py::class_<AllpassDelay, Node, NodeRefTemplate<AllpassDelay>>(m, "AllpassDelay")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delaytime"_a = 0.1, "feedback"_a = 0.5, "maxdelaytime"_a = 0.5);
