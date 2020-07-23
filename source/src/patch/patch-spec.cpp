@@ -22,13 +22,26 @@ void PatchSpec::load(std::string filename)
 {
     std::string buf;
     std::string line;
-    std::string err;
 
     std::ifstream input(filename);
     while (std::getline(input, line))
     {
         buf += line + "\n";
     }
+    this->from_json(buf);
+}
+
+void PatchSpec::save(std::string filename)
+{
+    std::ofstream output(filename);
+    std::string buf = this->to_json();
+    output << buf;
+    output.close();
+}
+
+void PatchSpec::from_json(std::string buf)
+{
+    std::string err;
 
     auto json = Json::parse(buf, err);
     if (!err.empty())
@@ -96,7 +109,7 @@ void PatchSpec::load(std::string filename)
     }
 }
 
-void PatchSpec::save(std::string filename)
+std::string PatchSpec::to_json()
 {
     std::vector<Json::object> objects;
 
@@ -140,7 +153,7 @@ void PatchSpec::save(std::string filename)
 
     std::reverse(objects.begin(), objects.end());
     std::string json = Json(objects).dump();
-    std::cout << json << std::endl;
+    return json;
 }
 
 void PatchSpec::store()

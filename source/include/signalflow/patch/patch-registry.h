@@ -1,6 +1,7 @@
 #pragma once
 
 #include "signalflow/patch/patch-spec.h"
+#include "signalflow/patch/patch.h"
 #include <unordered_map>
 
 namespace signalflow
@@ -11,7 +12,7 @@ public:
     PatchRegistry();
     static PatchRegistry *global();
 
-    Patch *create(std::string name);
+    PatchRef create(std::string name);
     void add(std::string name, PatchSpecRef patchspec);
     PatchSpecRef get(std::string name);
 

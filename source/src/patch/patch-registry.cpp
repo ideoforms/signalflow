@@ -26,13 +26,13 @@ PatchSpecRef PatchRegistry::get(std::string name)
     return this->patchspecs[name];
 }
 
-Patch *PatchRegistry::create(std::string name)
+PatchRef PatchRegistry::create(std::string name)
 {
     if (!this->patchspecs[name])
     {
         throw std::runtime_error("Could not instantiate patch (unknown name: " + name + ")");
     }
-    Patch *patch = new Patch(this->patchspecs[name]);
+    PatchRef patch = new Patch(this->patchspecs[name]);
     return patch;
 }
 

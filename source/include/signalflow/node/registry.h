@@ -23,11 +23,11 @@ class NodeRegistry
 {
 public:
     NodeRegistry();
+    virtual ~NodeRegistry();
 
     static NodeRegistry *global();
 
     Node *create(std::string name);
-    Node *create(PatchNodeSpec definition);
 
     /*------------------------------------------------------------------------
      * (Function template implementations must be in .h file.)

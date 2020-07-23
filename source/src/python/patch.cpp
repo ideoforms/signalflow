@@ -32,4 +32,8 @@ void init_python_patch(py::module &m)
         .def("print", [](PatchSpec &patchspec) { patchspec.print(); })
         .def("load", &PatchSpec::load)
         .def("save", &PatchSpec::save);
+
+    py::class_<PatchRegistry>(m, "PatchRegistry")
+        .def(py::init(&PatchRegistry::global))
+        .def("create", &PatchRegistry::create);
 }

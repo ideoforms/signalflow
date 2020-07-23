@@ -21,6 +21,7 @@ namespace signalflow
  * Forward-declare key classes to avoid interdependencies.
  *-----------------------------------------------------------------------*/
 class Node;
+class Patch;
 class AudioGraph;
 class NodeMonitor;
 

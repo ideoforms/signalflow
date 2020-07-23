@@ -14,6 +14,7 @@
 #include <signalflow/buffer/buffer.h>
 
 #include <signalflow/patch/patch-node-spec.h>
+#include <signalflow/patch/patch-registry.h>
 #include <signalflow/patch/patch-spec.h>
 #include <signalflow/patch/patch.h>
 

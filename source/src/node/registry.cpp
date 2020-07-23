@@ -7,13 +7,22 @@
 namespace signalflow
 {
 
+static NodeRegistry *registry;
+
 NodeRegistry::NodeRegistry()
 {
 }
 
+NodeRegistry::~NodeRegistry()
+{
+    if (this == registry)
+    {
+        registry = 0;
+    }
+}
+
 NodeRegistry *NodeRegistry::global()
 {
-    static NodeRegistry *registry;
     if (!registry)
         registry = new NodeRegistry();
     return registry;
@@ -21,11 +30,11 @@ NodeRegistry *NodeRegistry::global()
 
 Node *NodeRegistry::create(std::string name)
 {
-    if (!this->classes[name])
+    if (!registry->classes[name])
     {
         throw std::runtime_error("Could not instantiate Node (unknown type: " + name + ")");
     }
-    Node *node = this->classes[name]();
+    Node *node = registry->classes[name]();
     return node;
 }
 

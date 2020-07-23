@@ -114,4 +114,8 @@ void init_python_node(py::module &m)
 
     // numpy arrays
     py::implicitly_convertible<py::array, Node>();
+
+    py::class_<NodeRegistry>(m, "NodeRegistry")
+        .def(py::init<>())
+        .def("create", &NodeRegistry::create);
 }
