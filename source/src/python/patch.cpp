@@ -9,7 +9,10 @@ void init_python_patch(py::module &m)
         .def(py::init<PatchSpecRef>())
         .def(py::init<PatchRef>())
         .def(py::init<>())
-        .def("__setattr__", [](PatchRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
+        // Breaks other properties (auto_free, inputs, etc).
+        // Need a policy on this: either *only* inputs should be accessible through properties,
+        // or inputs should all only be accessible through set_input(...)
+        // .def("__setattr__", [](PatchRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
         .def("set_input", [](Patch &patch, std::string name, float value) { patch.set_input(name, value); })
         .def("set_input", [](Patch &patch, std::string name, NodeRef node) { patch.set_input(name, node); })
         .def("set_input", [](Patch &patch, std::string name, BufferRef buffer) { patch.set_input(name, buffer); })

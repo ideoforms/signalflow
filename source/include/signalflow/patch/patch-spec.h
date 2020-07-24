@@ -29,10 +29,10 @@ public:
      * Methods for creating a PatchSpec from NodeSpecs.
      *
      *---------------------------------------------------------------------------------*/
-    void add_node_spec(PatchNodeSpec node);
-    void set_output(PatchNodeSpec node);
+    void add_node_spec(PatchNodeSpec *node);
+    void set_output(PatchNodeSpec *node);
     PatchNodeSpec *get_node_spec(int id);
-    PatchNodeSpec get_root();
+    PatchNodeSpec *get_root();
 
     /**----------------------------------------------------------------------------------
      * Query a PatchSpec's name.
@@ -75,8 +75,8 @@ public:
 protected:
     friend class Patch;
 
-    PatchNodeSpec output;
-    std::map<int, PatchNodeSpec> nodespecs;
+    PatchNodeSpec *output;
+    std::map<int, PatchNodeSpec *> nodespecs;
 
 private:
     std::string name;

@@ -22,8 +22,8 @@ Patch::Patch()
 Patch::Patch(PatchSpecRef patchspec)
     : Patch()
 {
-    PatchNodeSpec nodespec = patchspec->get_root();
-    this->output = this->instantiate(&nodespec);
+    PatchNodeSpec *nodespec = patchspec->get_root();
+    this->output = this->instantiate(nodespec);
 }
 
 Patch::Patch(PatchRef patch)
@@ -37,8 +37,8 @@ Patch::Patch(std::string name)
     PatchSpecRef patchspec = PatchRegistry::global()->get(name);
     if (patchspec)
     {
-        PatchNodeSpec nodespec = patchspec->get_root();
-        this->output = this->instantiate(&nodespec);
+        PatchNodeSpec *nodespec = patchspec->get_root();
+        this->output = this->instantiate(nodespec);
     }
 }
 
@@ -286,15 +286,15 @@ PatchSpecRef Patch::create_spec()
     return spec;
 }
 
-PatchNodeSpec Patch::_parse_from_node(const NodeRef &node)
+PatchNodeSpec *Patch::_parse_from_node(const NodeRef &node)
 {
-    PatchNodeSpec nodespec(node->name);
-    nodespec.set_id(this->last_id++);
+    PatchNodeSpec *nodespec = new PatchNodeSpec(node->name);
+    nodespec->set_id(this->last_id++);
 
     if (node->name == "constant")
     {
         Constant *constant = (Constant *) node.get();
-        nodespec.set_constant_value(constant->value);
+        nodespec->set_constant_value(constant->value);
     }
     else
     {
@@ -303,8 +303,8 @@ PatchNodeSpec Patch::_parse_from_node(const NodeRef &node)
             NodeRef input_node = *(input.second);
             if (input_node)
             {
-                PatchNodeSpec input_spec = this->_parse_from_node(input_node);
-                nodespec.add_input(input.first, &input_spec);
+                PatchNodeSpec *input_spec = this->_parse_from_node(input_node);
+                nodespec->add_input(input.first, input_spec);
             }
         }
 
@@ -314,7 +314,7 @@ PatchNodeSpec Patch::_parse_from_node(const NodeRef &node)
             std::string buffer_input_name = this->_get_input_name(input_buffer);
             if (!buffer_input_name.empty())
             {
-                nodespec.add_buffer_input(buffer_input_name, buffer.first);
+                nodespec->add_buffer_input(buffer_input_name, buffer.first);
             }
         }
     }
@@ -322,13 +322,13 @@ PatchNodeSpec Patch::_parse_from_node(const NodeRef &node)
     std::string input_name = this->_get_input_name(node);
     if (!input_name.empty())
     {
-        nodespec.set_input_name(input_name);
+        nodespec->set_input_name(input_name);
     }
 
-    this->nodespecs[nodespec.get_id()] = nodespec;
+    this->nodespecs[nodespec->get_id()] = nodespec;
     this->parsed_nodes.insert(node);
 
-    return nodespec;
+    return this->nodespecs[nodespec->get_id()];
 }
 
 }
