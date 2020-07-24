@@ -61,47 +61,41 @@ void PatchSpec::from_json(std::string buf)
     this->name = json["name"].string_value();
 
     auto nodes_list = json["nodes"];
-    for (auto element : nodes_list.array_items())
+    for (auto node_obj : nodes_list.array_items())
     {
         PatchNodeSpec nodespec;
         bool is_output = false;
-        for (auto pair : element.object_items())
+
+        if (node_obj["id"].is_null() || node_obj["node"].is_null())
         {
-            std::string key = pair.first;
-            auto value = pair.second;
+            throw std::runtime_error("Cannot parse JSON (node has a null name/id)");
+        }
 
-            if (key == "node")
-            {
-                nodespec.set_name(value.string_value());
-            }
-            else if (key == "id")
-            {
-                nodespec.set_id(value.int_value());
-            }
-            else if (key == "is_output")
-            {
-                is_output = true;
-            }
-            else if (key == "inputs")
-            {
-                for (auto input_pair : value.object_items())
-                {
-                    std::string input_key = input_pair.first;
-                    auto input_value = input_pair.second;
+        nodespec.set_name(node_obj["node"].string_value());
+        nodespec.set_id(node_obj["id"].int_value());
+        if (node_obj["is_output"].bool_value())
+        {
+            is_output = true;
+        }
+        auto inputs = node_obj["inputs"];
 
-                    if (input_value.is_number())
-                    {
-                        nodespec.add_input(input_key, input_value.number_value());
-                    }
-                    else if (input_value.is_object())
-                    {
-                        int id = input_value["id"].int_value();
-                        PatchNodeSpec *ptr = this->get_node_spec(id);
-                        nodespec.add_input(input_key, ptr);
-                    }
-                }
+        for (auto input_pair : inputs.object_items())
+        {
+            std::string input_key = input_pair.first;
+            auto input_value = input_pair.second;
+
+            if (input_value.is_number())
+            {
+                nodespec.add_input(input_key, input_value.number_value());
+            }
+            else if (input_value.is_object())
+            {
+                int id = input_value["id"].int_value();
+                PatchNodeSpec *ptr = this->get_node_spec(id);
+                nodespec.add_input(input_key, ptr);
             }
         }
+
         signal_debug("Adding node with name %s\n", nodespec.get_name().c_str());
         this->add_node_spec(nodespec);
         if (is_output)

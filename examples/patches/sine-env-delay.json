@@ -42,7 +42,7 @@
 		},
 		{
 			"node": "linear-panner",
-
+			"id": 4,
 			"is_output": true,
 			"inputs": {
 				"input": {
