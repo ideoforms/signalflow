@@ -24,6 +24,10 @@ void PatchSpec::load(std::string filename)
     std::string line;
 
     std::ifstream input(filename);
+    if (!input.good())
+    {
+        throw std::runtime_error("Couldn't read from patch file: " + filename);
+    }
     while (std::getline(input, line))
     {
         buf += line + "\n";
@@ -49,12 +53,15 @@ void PatchSpec::from_json(std::string buf)
         throw std::runtime_error("An error occurred when parsing JSON: " + err);
     }
 
-    if (!json.is_array())
+    if (!json.is_object())
     {
-        throw std::runtime_error("Cannot parse JSON (root element must be array)");
+        throw std::runtime_error("Cannot parse JSON (root element must be object)");
     }
 
-    for (auto element : json.array_items())
+    this->name = json["name"].string_value();
+
+    auto nodes_list = json["nodes"];
+    for (auto element : nodes_list.array_items())
     {
         PatchNodeSpec nodespec;
         bool is_output = false;
@@ -107,6 +114,36 @@ void PatchSpec::from_json(std::string buf)
     {
         throw std::runtime_error("Invalid JSON (no output specified)");
     }
+
+    auto inputs = json["inputs"];
+    for (auto input : inputs.array_items())
+    {
+        if (input["node_id"].is_null() || input["patch_input_name"].is_null() || input["node_input_name"].is_null())
+        {
+            throw std::runtime_error("Input specification is incomplete");
+        }
+        auto node_id = input["node_id"].int_value();
+        auto patch_input_name = input["patch_input_name"].string_value();
+        auto node_input_name = input["node_input_name"].string_value();
+
+        if (this->nodespecs.find(node_id) == this->nodespecs.end())
+        {
+            throw std::runtime_error("Patch input '" + patch_input_name + "': Can't find node ID " + std::to_string(node_id));
+        }
+        auto node_inputs = this->nodespecs[node_id].get_inputs();
+        if (node_inputs.find(node_input_name) == node_inputs.end())
+        {
+            throw std::runtime_error("Patch input '" + patch_input_name + "': node ID " + std::to_string(node_id) + " does not have an input named '" + node_input_name + "'");
+        }
+        auto input_node = node_inputs[node_input_name];
+        input_node->set_input_name(patch_input_name);
+    }
+
+    auto buffer_inputs = json["buffer_inputs"];
+    for (auto buffer_input : buffer_inputs.array_items())
+    {
+        auto patch_input_name = buffer_input["patch_input_name"].string_value();
+    }
 }
 
 std::string PatchSpec::to_json()
@@ -115,7 +152,6 @@ std::string PatchSpec::to_json()
 
     for (auto pair : nodespecs)
     {
-        int id = pair.first;
         PatchNodeSpec spec = pair.second;
         if (spec.get_name() == "constant")
         {

@@ -1,45 +1,63 @@
-[
-	{
-		"node" : "sine",
-		"id" : 0,
-		"inputs" : {
-			"frequency" : 440
+{
+	"name": "sine-env-delay",
+	"nodes": [
+		{
+			"node": "sine",
+			"id": 0,
+			"inputs": {
+				"frequency": 440
+			}
+		},
+		{
+			"node": "envelope-asr",
+			"id": 1,
+			"inputs": {
+				"attack": 0.01,
+				"sustain": 0,
+				"release": 0.05
+			}
+		},
+		{
+			"node": "multiply",
+			"id": 2,
+			"inputs": {
+				"input0": {
+					"id": 0
+				},
+				"input1": {
+					"id": 1
+				}
+			}
+		},
+		{
+			"node": "comb-delay",
+			"id": 3,
+			"inputs": {
+				"input": {
+					"id": 2
+				},
+				"delay_time": 0.1,
+				"feedback": 0.8
+			}
+		},
+		{
+			"node": "linear-panner",
+
+			"is_output": true,
+			"inputs": {
+				"input": {
+					"id": 3
+				},
+				"pan": 0.5
+			}
 		}
-	},
-	{
-		"node" : "envelope-asr",
-		"id" : 1,
-		"inputs" : {
-			"attack" : 0.01,
-			"sustain" : 0,
-			"release" : 0.05
+	],
+	"inputs": [
+		{
+			"patch_input_name": "frequency",
+			"node_input_name": "frequency",
+			"node_id": 0
 		}
-	},
-	{
-		"node" : "multiply",
-		"id" : 2,
-		"inputs" : {
-			"input0" : { "id" : 0 },
-			"input1" : { "id" : 1 }
-		}
-	},
-	{
-		"node" : "comb-delay",
-		"id" : 3,
-		"inputs" : {
-			"input" : { "id" : 2 },
-			"delay_time" : 0.1,
-			"feedback" : 0.8
-		}
-	},
-	{
-		"node" : "linear-panner",
-		"is_output" : true,
-		"inputs" : {
-			"input" : { "id" : 3 },
-			"pan" : 0.5,
-			"is_output" : true
-		}
-	}
-]
+	]
+}
 

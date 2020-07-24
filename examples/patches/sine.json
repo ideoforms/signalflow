@@ -1,10 +1,21 @@
-[
-	{
-		"node" : "sine",
-		"id" : 0,
-		"is_output" : true,
-		"inputs" { 
-			"frequency" : 440
+{
+	"name": "sine",
+	"nodes" : [
+		{
+			"node" : "sine",
+			"id" : 0,
+			"is_output" : true,
+			"inputs": { 
+				"frequency" : 60
+			}
 		}
-	}
-]
+	],
+	"inputs": [
+		{
+			"patch_input_name": "frequency",
+			"node_input_name": "frequency",
+			"node_id": 0
+		}
+	],
+	"buffer_inputs": []
+}

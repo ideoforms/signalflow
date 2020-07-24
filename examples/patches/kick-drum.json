@@ -1,60 +1,70 @@
-[
-	{
-		"node" : "line",
-		"id" : 0,
-		"inputs" : {
-			"time" : 0.2,
-			"from" : 70,
-			"to" : 20
-		}
-	},
-	{
-		"node" : "sine",
-		"id" : 1,
-		"inputs" : {
-			"frequency" : { "id" : 0 }
-		}
-	},
-	{
-		"node" : "envelope-asr",
-		"id" : 2,
-		"inputs" : {
-			"attack" : 0.001,
-			"sustain" : 0,
-			"release" : 0.3
-		}
-	},
-	{
-		"node" : "multiply",
-		"id" : 2,
-		"inputs" : {
-			"input0" : { "id" : 1 },
-			"input1" : { "id" : 2 }
-		}
-	},
-	{
-		"node" : "impulse",
-		"id" : 3,
-		"inputs" : {
-			"frequency" : 0.0
-		}
-	},
-	{
-		"node" : "add",
-		"id" : 4,
-		"inputs" : {
-			"input0" : { "id" : 2 },
-			"input1" : { "id" : 3 }
-		}
-	},
-	{
-		"node" : "linear-panner",
-		"id" : 5,
-		"is_output" : true,
-		"inputs" : {
-			"input" : { "id" : 4 },
-			"pan" : 0.5
-		}
-	}
-]
-
+{
+    "nodes": [
+        {
+            "node" : "line",
+            "id" : 0,
+            "inputs" : {
+                "time" : 0.2,
+                "from" : 70,
+                "to" : 20
+            }
+        },
+        {
+            "node" : "sine",
+            "id" : 1,
+            "inputs" : {
+                "frequency" : { "id" : 0 }
+            }
+        },
+        {
+            "node" : "envelope-asr",
+            "id" : 2,
+            "inputs" : {
+                "attack" : 0.01,
+                "sustain" : 0,
+                "release" : 0.3
+            }
+        },
+        {
+            "node" : "multiply",
+            "id" : 3,
+            "inputs" : {
+                "input0" : { "id" : 1 },
+                "input1" : { "id" : 2 }
+            }
+        },
+        {
+            "node" : "impulse",
+            "id" : 4,
+            "inputs" : {
+                "frequency" : 0.0
+            }
+        },
+        {
+            "node" : "add",
+            "id" : 5,
+            "inputs" : {
+                "input0" : { "id" : 3 },
+                "input1" : { "id" : 4 }
+            }
+        },
+        {
+            "node" : "linear-panner",
+            "id" : 6,
+            "is_output" : true,
+            "inputs" : {
+                "input" : { "id" : 5 },
+                "pan" : 0.5
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "patch_input_name": "frequency",
+            "node_input_name": "from",
+            "node_id": 0
+        }
+    ],
+    "buffer_inputs": [],
+    "name": "kick-drum"
+}
