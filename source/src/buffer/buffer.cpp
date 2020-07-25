@@ -11,6 +11,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 #include <vector>
 
 #define SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE 1024
