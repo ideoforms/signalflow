@@ -123,9 +123,19 @@ unsigned int SignalFlowConfig::get_sample_rate() const
     return this->sample_rate;
 }
 
+void SignalFlowConfig::set_sample_rate(unsigned int sample_rate)
+{
+    this->sample_rate = sample_rate;
+}
+
 unsigned int SignalFlowConfig::get_input_buffer_size() const
 {
     return this->input_buffer_size;
+}
+
+void SignalFlowConfig::set_input_buffer_size(unsigned int buffer_size)
+{
+    this->input_buffer_size = buffer_size;
 }
 
 unsigned int SignalFlowConfig::get_output_buffer_size() const
@@ -133,14 +143,29 @@ unsigned int SignalFlowConfig::get_output_buffer_size() const
     return this->output_buffer_size;
 }
 
+void SignalFlowConfig::set_output_buffer_size(unsigned int buffer_size)
+{
+    this->output_buffer_size = buffer_size;
+}
+
 const std::string &SignalFlowConfig::get_input_device_name() const
 {
     return this->input_device_name;
 }
 
+void SignalFlowConfig::set_input_device_name(const std::string &name)
+{
+    this->input_device_name = name;
+}
+
 const std::string &SignalFlowConfig::get_output_device_name() const
 {
     return this->output_device_name;
+}
+
+void SignalFlowConfig::set_output_device_name(const std::string &name)
+{
+    this->output_device_name = name;
 }
 
 void SignalFlowConfig::print() const
