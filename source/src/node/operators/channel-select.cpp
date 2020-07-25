@@ -13,8 +13,7 @@ ChannelSelect::ChannelSelect(NodeRef input, int offset, int maximum, int step)
 
     this->name = "channel-select";
 
-    this->num_input_channels = this->input->num_output_channels;
-    this->num_output_channels = (int) ceilf((this->offset + this->maximum) / this->step);
+    this->set_channels(this->input->num_output_channels, ceilf((this->maximum - this->offset) / this->step));
 }
 
 void ChannelSelect::process(sample **out, int num_frames)

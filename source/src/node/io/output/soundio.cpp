@@ -173,6 +173,8 @@ int AudioOut_SoundIO::init()
     std::cerr << "Output device: " << device->name << " (" << sample_rate << "Hz, "
               << "buffer size " << buffer_size << " samples, " << num_output_channels << " channel" << s << ")" << std::endl;
 
+    this->set_channels(num_output_channels, 0);
+
     return 0;
 }
 

@@ -159,6 +159,7 @@ def test_subscript():
     assert np.all(b.output_buffer[1] == 0)
     b = a[1]
     process_tree(b)
+    assert b.num_output_channels == 1
     assert np.all(b.output_buffer[0] == 2)
     assert np.all(b.output_buffer[1] == 0)
     b = a[2]

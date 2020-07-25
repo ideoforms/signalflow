@@ -67,7 +67,7 @@ void Wavetable2D::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float frequency = this->frequency->out[0][frame];
+            float frequency = this->frequency->out[channel][frame];
             int index = this->phase[channel] * this->buffer->get_num_frames();
             float rv = this->buffer->get2D(index, this->crossfade->out[0][frame]);
 
