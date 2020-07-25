@@ -20,7 +20,9 @@ class AudioGraphMonitor;
 class AudioGraph
 {
 public:
-    AudioGraph(NodeRef output_device = nullptr);
+    AudioGraph(SignalFlowConfig *config = nullptr,
+               NodeRef output_device = nullptr);
+
     virtual ~AudioGraph();
 
     /**--------------------------------------------------------------------------------
@@ -251,7 +253,7 @@ public:
       * @return The config.
       *
       *--------------------------------------------------------------------------------*/
-    SignalFlowConfig &get_config();
+    SignalFlowConfig *get_config();
 
 private:
     std::set<NodeRef> scheduled_nodes;
@@ -268,7 +270,7 @@ private:
 
     NodeRef input = nullptr;
     NodeRef output = nullptr;
-    SignalFlowConfig config;
+    SignalFlowConfig *config;
 };
 
 class AudioGraphRef : public std::shared_ptr<AudioGraph>

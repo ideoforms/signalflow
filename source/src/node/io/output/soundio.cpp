@@ -97,11 +97,17 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
     return -1;
 }
 
-AudioOut_SoundIO::AudioOut_SoundIO()
+AudioOut_SoundIO::AudioOut_SoundIO(const std::string &device_name,
+                                   unsigned int sample_rate,
+                                   unsigned int buffer_size)
     : AudioOut_Abstract()
 {
-    this->init();
+    this->device_name = device_name;
+    this->sample_rate = sample_rate;
+    this->buffer_size = buffer_size;
     this->name = "audioout_soundio";
+
+    this->init();
 }
 
 int AudioOut_SoundIO::init()
@@ -122,10 +128,20 @@ int AudioOut_SoundIO::init()
     if (default_out_device_index < 0)
         throw std::runtime_error("libsoundio error: no output devices found.");
 
-    // int index = soundio_get_device_by_name(this->soundio, "Loopback Audio");
-    // this->device = soundio_get_output_device(this->soundio, index);
+    if (!this->device_name.empty())
+    {
+        int index = soundio_get_device_by_name(this->soundio, this->device_name.c_str());
+        if (index == -1)
+        {
+            throw std::runtime_error("Could not find device name: " + this->device_name);
+        }
+        this->device = soundio_get_output_device(this->soundio, index);
+    }
+    else
+    {
+        this->device = soundio_get_output_device(this->soundio, default_out_device_index);
+    }
 
-    this->device = soundio_get_output_device(this->soundio, default_out_device_index);
     if (!device)
         throw std::runtime_error("libsoundio error: out of memory.");
 
@@ -133,7 +149,7 @@ int AudioOut_SoundIO::init()
     this->outstream->format = SoundIoFormatFloat32NE;
     this->outstream->write_callback = write_callback;
     this->outstream->sample_rate = this->device->sample_rate_current;
-    this->outstream->software_latency = 256.0 / this->outstream->sample_rate;
+    this->outstream->software_latency = (double) this->buffer_size / this->outstream->sample_rate;
 
     this->sample_rate = this->outstream->sample_rate;
 
@@ -148,7 +164,10 @@ int AudioOut_SoundIO::init()
     }
 
     this->num_output_channels = this->outstream->layout.channel_count;
-    int buffer_size = this->outstream->software_latency * this->outstream->sample_rate;
+
+    // update based on the actual buffer size
+    this->buffer_size = (int) round(this->outstream->software_latency * this->outstream->sample_rate);
+
     std::string s = num_output_channels == 1 ? "" : "s";
 
     std::cerr << "Output device: " << device->name << " (" << sample_rate << "Hz, "

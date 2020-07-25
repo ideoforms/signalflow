@@ -18,6 +18,7 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::string>> pa
 
     const std::regex section_regex(R"x(\s*\[([^\]]+)\]\s*)x");
     const std::regex config_regex(R"x(\s*([a-z0-9_-]+)\s*=\s*("?)(\S[^"]*)\2\s*)x");
+    const std::regex comment_regex(R"x(\s*#.*)x");
     const std::regex other_content_regex(R"x(\S)x");
 
     unsigned int line_number = 1;
@@ -51,6 +52,9 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::string>> pa
             {
                 sections[current_section][item_name] = item_value;
             }
+        }
+        else if (std::regex_search(line, match, comment_regex))
+        {
         }
         else if (std::regex_search(line, match, other_content_regex))
         {

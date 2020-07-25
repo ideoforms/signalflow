@@ -13,8 +13,6 @@ public:
     AudioOut_Abstract();
     virtual void process(sample **out, int num_samples);
 
-    int sample_rate = 0;
-
     virtual int init() = 0;
     virtual int start() = 0;
     virtual int stop() = 0;
@@ -23,6 +21,7 @@ public:
     virtual void add_input(NodeRef node);
     virtual void remove_input(NodeRef node);
 
+    unsigned int sample_rate = 0;
     std::list<NodeRef> audio_inputs;
     int input_index;
 };

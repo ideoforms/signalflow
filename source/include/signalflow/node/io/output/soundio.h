@@ -18,7 +18,10 @@ namespace signalflow
 class AudioOut_SoundIO : public AudioOut_Abstract
 {
 public:
-    AudioOut_SoundIO();
+    AudioOut_SoundIO(const std::string &device_name = "",
+                     unsigned int sample_rate = 0,
+                     unsigned int buffer_size = 0);
+
     virtual int init() override;
     virtual int start() override;
     virtual int stop() override;
@@ -27,6 +30,10 @@ public:
     struct SoundIo *soundio;
     struct SoundIoDevice *device;
     struct SoundIoOutStream *outstream;
+
+private:
+    std::string device_name;
+    unsigned int buffer_size;
 };
 
 } // namespace signalflow

@@ -19,7 +19,8 @@ namespace signalflow
 
 AudioGraph *shared_graph = NULL;
 
-AudioGraph::AudioGraph(NodeRef output_device)
+AudioGraph::AudioGraph(SignalFlowConfig *config,
+                       NodeRef output_device)
 {
     signal_init();
 
@@ -29,19 +30,38 @@ AudioGraph::AudioGraph(NodeRef output_device)
     }
     shared_graph = this;
 
-    if (!output_device)
+    if (config)
     {
-        output_device = new AudioOut();
+        this->config = new SignalFlowConfig();
+        *this->config = *config;
+    }
+    else
+    {
+        this->config = new SignalFlowConfig();
     }
 
-    AudioOut_Abstract *audio_out = (AudioOut_Abstract *) output_device.get();
+    if (output_device)
+    {
+        this->output = output_device;
+    }
+    else
+    {
+        this->output = new AudioOut(this->config->get_output_device_name(),
+                                    this->config->get_sample_rate(),
+                                    this->config->get_output_buffer_size());
+        if (!this->output)
+        {
+            throw std::runtime_error("AudioGraph: Couldn't find audio output device");
+        }
+    }
+
+    AudioOut_Abstract *audio_out = (AudioOut_Abstract *) this->output.get();
 
     if (audio_out->sample_rate == 0)
     {
         throw std::runtime_error("AudioGraph: Audio output device has zero sample rate");
     }
 
-    this->output = output_device;
     this->sample_rate = audio_out->sample_rate;
     this->node_count = 0;
     this->_node_count_tmp = 0;
@@ -393,7 +413,7 @@ float AudioGraph::get_cpu_usage()
     return this->cpu_usage;
 }
 
-SignalFlowConfig &AudioGraph::get_config()
+SignalFlowConfig *AudioGraph::get_config()
 {
     return this->config;
 }
