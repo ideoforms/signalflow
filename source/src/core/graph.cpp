@@ -243,9 +243,9 @@ void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
 {
     // TODO get_num_output_channels()
     int channel_count = buffer->get_num_channels();
-    if (buffer->get_num_channels() > this->output->num_output_channels)
+    if (channel_count > this->output->num_input_channels)
     {
-        throw std::runtime_error("Buffer cannot have more channels than the audio graph (" + std::to_string(buffer->get_num_channels()) + " != " + std::to_string(channel_count) + ")");
+        throw std::runtime_error("Buffer cannot have more channels than the audio graph (" + std::to_string(channel_count) + " != " + std::to_string(this->output->num_input_channels) + ")");
     }
     int block_count = ceilf((float) buffer->get_num_frames() / block_size);
 
