@@ -32,12 +32,7 @@ AudioGraph::AudioGraph(SignalFlowConfig *config,
 
     if (config)
     {
-        this->config = new SignalFlowConfig();
-        *this->config = *config;
-    }
-    else
-    {
-        this->config = new SignalFlowConfig();
+        this->config = *config;
     }
 
     if (output_device)
@@ -46,9 +41,9 @@ AudioGraph::AudioGraph(SignalFlowConfig *config,
     }
     else
     {
-        this->output = new AudioOut(this->config->get_output_device_name(),
-                                    this->config->get_sample_rate(),
-                                    this->config->get_output_buffer_size());
+        this->output = new AudioOut(this->config.get_output_device_name(),
+                                    this->config.get_sample_rate(),
+                                    this->config.get_output_buffer_size());
         if (!this->output)
         {
             throw std::runtime_error("AudioGraph: Couldn't find audio output device");
@@ -413,7 +408,7 @@ float AudioGraph::get_cpu_usage()
     return this->cpu_usage;
 }
 
-SignalFlowConfig *AudioGraph::get_config()
+SignalFlowConfig &AudioGraph::get_config()
 {
     return this->config;
 }

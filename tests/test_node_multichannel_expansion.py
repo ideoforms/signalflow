@@ -33,7 +33,7 @@ def test_expansion_multi(graph):
 
 def test_expansion_upmix():
     output = AudioOut_Dummy(4)
-    graph = AudioGraph(output)
+    graph = AudioGraph(output_device=output)
     a = Square([ 440, 880, 1320 ], [ 0.3, 0.7 ])
     assert a.num_input_channels == 3
     assert a.num_output_channels == 3

@@ -65,7 +65,7 @@ def test_graph_add_remove_node():
 
 def test_graph_dummy_audioout():
     output = AudioOut_Dummy(2)
-    graph = AudioGraph(output)
+    graph = AudioGraph(output_device=output)
     sine = Sine([ 220, 440 ])
     graph.play(sine)
 

@@ -253,7 +253,7 @@ public:
       * @return The config.
       *
       *--------------------------------------------------------------------------------*/
-    SignalFlowConfig *get_config();
+    SignalFlowConfig &get_config();
 
 private:
     std::set<NodeRef> scheduled_nodes;
@@ -270,7 +270,7 @@ private:
 
     NodeRef input = nullptr;
     NodeRef output = nullptr;
-    SignalFlowConfig *config;
+    SignalFlowConfig config;
 };
 
 class AudioGraphRef : public std::shared_ptr<AudioGraph>
