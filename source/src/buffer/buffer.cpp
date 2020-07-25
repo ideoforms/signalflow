@@ -101,8 +101,18 @@ void Buffer::load(std::string filename)
 {
 #ifdef HAVE_SNDFILE
 
+    std::string path = filename;
+    if (access(path.c_str(), F_OK) != 0)
+    {
+        path = SIGNAL_USER_DIR + "/audio/" + filename;
+        if (access(path.c_str(), F_OK) != 0)
+        {
+            throw std::runtime_error(std::string("Couldn't find file at path: ") + filename);
+        }
+    }
+
     SF_INFO info;
-    SNDFILE *sndfile = sf_open(filename.c_str(), SFM_READ, &info);
+    SNDFILE *sndfile = sf_open(path.c_str(), SFM_READ, &info);
 
     if (!sndfile)
     {

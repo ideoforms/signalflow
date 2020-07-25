@@ -3,6 +3,9 @@
 #include "signalflow/buffer/ringbuffer.h"
 #include "signalflow/core/exceptions.h"
 
+#include <stdlib.h>
+#include <string>
+
 using namespace signalflow;
 
 typedef float sample;
@@ -96,6 +99,8 @@ typedef RingBuffer<sample> SampleRingBuffer;
     {                                                                                                   \
         throw std::runtime_error("Error in call to Node::process: Attempted to write too many frames"); \
     }
+
+#define SIGNAL_USER_DIR std::string(getenv("HOME")) + "/.signalflow"
 
 /**------------------------------------------------------------------------
  * Algorithm to use when interpolating between samples.
