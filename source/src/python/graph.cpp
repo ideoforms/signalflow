@@ -12,6 +12,7 @@ void init_python_graph(py::module &m)
         /*--------------------------------------------------------------------------------
          * Properties
          *-------------------------------------------------------------------------------*/
+        .def_property_readonly("config", &AudioGraph::get_config)
         .def_property("sample_rate", &AudioGraph::get_sample_rate, &AudioGraph::set_sample_rate)
         .def_property_readonly("node_count", &AudioGraph::get_node_count)
         .def_property_readonly("cpu_usage", &AudioGraph::get_cpu_usage)

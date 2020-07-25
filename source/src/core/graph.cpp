@@ -393,4 +393,9 @@ float AudioGraph::get_cpu_usage()
     return this->cpu_usage;
 }
 
+SignalFlowConfig &AudioGraph::get_config()
+{
+    return this->config;
+}
+
 }

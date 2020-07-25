@@ -7,6 +7,7 @@
  *
  *--------------------------------------------------------------------------------*/
 
+#include "signalflow/core/config.h"
 #include "signalflow/node/io/output/abstract.h"
 #include "signalflow/node/node.h"
 #include "signalflow/patch/patch.h"
@@ -244,6 +245,14 @@ public:
       *--------------------------------------------------------------------------------*/
     float get_cpu_usage();
 
+    /**--------------------------------------------------------------------------------
+      * Get the current graph config.
+      *
+      * @return The config.
+      *
+      *--------------------------------------------------------------------------------*/
+    SignalFlowConfig &get_config();
+
 private:
     std::set<NodeRef> scheduled_nodes;
     std::set<NodeRef> nodes_to_remove;
@@ -259,6 +268,7 @@ private:
 
     NodeRef input = nullptr;
     NodeRef output = nullptr;
+    SignalFlowConfig config;
 };
 
 class AudioGraphRef : public std::shared_ptr<AudioGraph>

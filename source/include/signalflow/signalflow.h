@@ -1,7 +1,7 @@
 /*------------------------------------------------------------------------
  * Core
  *-----------------------------------------------------------------------*/
-#include <signalflow/buffer/ringbuffer.h>
+#include <signalflow/core/config.h>
 #include <signalflow/core/constants.h>
 #include <signalflow/core/core.h>
 #include <signalflow/core/exceptions.h>
@@ -12,6 +12,7 @@
 #include <signalflow/core/version.h>
 
 #include <signalflow/buffer/buffer.h>
+#include <signalflow/buffer/ringbuffer.h>
 
 #include <signalflow/patch/patch-node-spec.h>
 #include <signalflow/patch/patch-registry.h>
