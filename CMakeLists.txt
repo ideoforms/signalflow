@@ -121,7 +121,9 @@ elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_link_libraries(signalflow ${FFTW3F})
 endif()
 
-target_link_libraries(signalflow ${VAMP})
+if (VAMP)
+    target_link_libraries(signalflow ${VAMP})
+endif()
 
 if (CMAKE_BUILD_PYTHON)
     target_link_libraries(signalflow ${PYTHON_LIBRARY})
