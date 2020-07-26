@@ -81,7 +81,7 @@ if (VAMP)
     message("Found vamp")
     add_definitions(-DHAVE_VAMP)
 else()
-    message(FATAL_ERROR "Couldn't find vamp")
+    message(WARNING "Couldn't find vamp")
 endif()
 
 
