@@ -222,6 +222,14 @@ public:
     void set_sample_rate(int sample_rate);
 
     /**--------------------------------------------------------------------------------
+     * Get the audio output buffer size.
+     *
+     * @return The output buffer size, in frames.
+     *
+     *--------------------------------------------------------------------------------*/
+    int get_output_buffer_size();
+
+    /**--------------------------------------------------------------------------------
      * Query the number of nodes in the audio graph.
      * This includes all of the nodes in every patch.
      *

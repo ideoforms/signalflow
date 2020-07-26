@@ -52,12 +52,12 @@ AudioGraph::AudioGraph(SignalFlowConfig *config,
 
     AudioOut_Abstract *audio_out = (AudioOut_Abstract *) this->output.get();
 
-    if (audio_out->sample_rate == 0)
+    if (audio_out->get_sample_rate() == 0)
     {
         throw std::runtime_error("AudioGraph: Audio output device has zero sample rate");
     }
 
-    this->sample_rate = audio_out->sample_rate;
+    this->sample_rate = audio_out->get_sample_rate();
     this->node_count = 0;
     this->_node_count_tmp = 0;
     this->cpu_usage = 0.0;
@@ -391,6 +391,12 @@ void AudioGraph::set_sample_rate(int sample_rate)
         throw std::runtime_error("Sample rate cannot be <= 0");
     }
     this->sample_rate = sample_rate;
+}
+
+int AudioGraph::get_output_buffer_size()
+{
+    AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+    return output->get_buffer_size();
 }
 
 int AudioGraph::get_node_count()

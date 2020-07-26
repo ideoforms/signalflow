@@ -21,6 +21,12 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     )
 endif()
 
+if (VAMP)
+    set(EXAMPLES ${EXAMPLES}
+            vamp-input-example.cpp
+    )
+endif()
+
 foreach (EXAMPLE ${EXAMPLES})
     get_filename_component(EXAMPLE_NAME ${EXAMPLE} NAME_WE)
     add_executable(${EXAMPLE_NAME} ${EXAMPLE})

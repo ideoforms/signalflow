@@ -21,7 +21,18 @@ public:
     virtual void add_input(NodeRef node);
     virtual void remove_input(NodeRef node);
 
+    unsigned int get_sample_rate();
+
+    /**--------------------------------------------------------------------------------
+     * Returns the buffer size required by the audio hardware.
+     *
+     * @return The buffer size, in frames.
+     *-------------------------------------------------------------------------------*/
+    unsigned int get_buffer_size();
+
+protected:
     unsigned int sample_rate = 0;
+    unsigned int buffer_size = 0;
     std::list<NodeRef> audio_inputs;
     int input_index;
 };

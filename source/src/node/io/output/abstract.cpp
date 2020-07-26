@@ -65,4 +65,14 @@ void AudioOut_Abstract::remove_input(NodeRef node)
     audio_inputs.remove(node);
 }
 
+unsigned int AudioOut_Abstract::get_sample_rate()
+{
+    return this->sample_rate;
+}
+
+unsigned int AudioOut_Abstract::get_buffer_size()
+{
+    return this->buffer_size;
+}
+
 } // namespace signalflow

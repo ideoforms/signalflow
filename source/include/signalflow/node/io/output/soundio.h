@@ -33,7 +33,6 @@ public:
 
 private:
     std::string device_name;
-    unsigned int buffer_size;
 };
 
 } // namespace signalflow

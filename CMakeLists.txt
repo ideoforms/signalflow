@@ -76,6 +76,14 @@ else()
     endif()
 endif()
 
+find_library(VAMP vamp-hostsdk)
+if (VAMP)
+    message("Found vamp")
+    add_definitions(-DHAVE_VAMP)
+else()
+    message(FATAL_ERROR "Couldn't find vamp")
+endif()
+
 
 #-------------------------------------------------------------------------------
 # For builds of the Python bindings, add Python dependencies and flags
@@ -112,6 +120,8 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 elseif (CMAKE_SYSTEM_NAME STREQUAL "Linux")
     target_link_libraries(signalflow ${FFTW3F})
 endif()
+
+target_link_libraries(signalflow ${VAMP})
 
 if (CMAKE_BUILD_PYTHON)
     target_link_libraries(signalflow ${PYTHON_LIBRARY})

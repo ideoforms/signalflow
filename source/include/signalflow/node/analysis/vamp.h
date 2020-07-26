@@ -1,3 +1,5 @@
+#ifdef HAVE_VAMP
+
 #pragma once
 
 #include "signalflow/node/node.h"
@@ -26,18 +28,17 @@ public:
         : UnaryOpNode(input)
     {
         this->name = "vamp";
-
         this->current_frame = 0;
 
         /*------------------------------------------------------------------------
-				 * Strip leading `vamp:` from plugin ID, if given. 
-				 *-----------------------------------------------------------------------*/
+         * Strip leading `vamp:` from plugin ID, if given.
+         *-----------------------------------------------------------------------*/
         if (plugin_id.find("vamp:") == 0)
             plugin_id = plugin_id.substr(5);
 
         /*------------------------------------------------------------------------
-				 * Check that plugin ID is valid.
-				 *-----------------------------------------------------------------------*/
+         * Check that plugin ID is valid.
+         *-----------------------------------------------------------------------*/
         size_t num_colons = std::count(plugin_id.begin(), plugin_id.end(), ':');
         if (num_colons != 2)
             throw std::runtime_error("Invalid Vamp plugin ID: " + plugin_id);
@@ -58,8 +59,8 @@ public:
             throw std::runtime_error("Failed to load Vamp plugin: " + plugin_id);
 
         /*------------------------------------------------------------------------
-				 * Get required output index.
-				 *-----------------------------------------------------------------------*/
+         * Get required output index.
+         *-----------------------------------------------------------------------*/
         Plugin::OutputList outputs = this->plugin->getOutputDescriptors();
         this->output_index = -1;
 
@@ -72,8 +73,9 @@ public:
             }
         }
 
+        // graph->get_output_buffer_size(), graph->get_output_buffer_size()
         signal_debug("Loaded plugin (output index %d)", this->output_index);
-        this->plugin->initialise(1, SIGNAL_DEFAULT_BLOCK_SIZE, SIGNAL_DEFAULT_BLOCK_SIZE);
+        this->plugin->initialise(1, graph->get_output_buffer_size(), graph->get_output_buffer_size());
     }
 
     ~VampAnalysis()
@@ -92,7 +94,6 @@ public:
             if (feature.values.size() > 0)
             {
                 float value = feature.values[0];
-                printf("Got results (size = %ld): %f\n", features[this->output_index].size(), value);
 
                 for (int channel = 0; channel < this->num_input_channels; channel++)
                 {
@@ -141,7 +142,6 @@ public:
             if (feature.hasTimestamp)
             {
                 long ts = RealTime::realTime2Frame(feature.timestamp, this->graph->get_sample_rate());
-                printf("Got ts: %ld (%f)\n", ts, this->graph->get_sample_rate());
                 std::vector<float> timestamps = this->get_property("timestamps")->float_array_value();
                 timestamps.push_back(ts);
                 this->set_property("timestamps", timestamps);
@@ -177,7 +177,7 @@ public:
             {
                 long timestamp = RealTime::realTime2Frame(feature.timestamp, this->graph->get_sample_rate());
                 float value = feature.values[0];
-                value = midi_to_freq(roundf(freq_to_midi(value)));
+                value = signal_midi_note_to_frequency(roundf(signal_frequency_to_midi_note(value)));
 
                 if (value != last_value && (!isnan(value) || !isnan(last_value)))
                 {
@@ -212,3 +212,5 @@ REGISTER(VampAnalysis, "vamp")
 REGISTER(VampEventExtractor, "vamp_events")
 REGISTER(VampSegmenter, "vamp_segmenter")
 }
+
+#endif
