@@ -26,7 +26,15 @@ void PatchSpec::load(std::string filename)
     std::ifstream input(filename);
     if (!input.good())
     {
-        throw std::runtime_error("Couldn't read from patch file: " + filename);
+        /*--------------------------------------------------------------------------------
+         * If absolute pathname couldn't be found, search in user's patches directory
+         * (~/.signalflow/patches)
+         *--------------------------------------------------------------------------------*/
+        input.open(SIGNAL_USER_DIR + "/patches/" + filename);
+        if (!input.good())
+        {
+            throw std::runtime_error("Couldn't read from patch file: " + filename);
+        }
     }
     while (std::getline(input, line))
     {
