@@ -7,11 +7,12 @@ namespace signalflow
 class BufferRecorder : public Node
 {
 public:
-    BufferRecorder(BufferRef buffer = nullptr, NodeRef input = 0.0, bool loop = false);
+    BufferRecorder(BufferRef buffer = nullptr, NodeRef input = 0.0, NodeRef feedback = 0.0, bool loop = false);
 
     BufferRef buffer;
 
     NodeRef input;
+    NodeRef feedback;
 
     float phase;
     bool loop;

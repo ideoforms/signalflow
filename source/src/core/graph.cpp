@@ -202,6 +202,10 @@ void AudioGraph::reset_graph()
      *-----------------------------------------------------------------------*/
     this->_node_count_tmp = 0;
     this->reset_subgraph(this->output);
+    for (auto node : this->scheduled_nodes)
+    {
+        this->reset_subgraph(node);
+    }
 }
 
 void AudioGraph::reset_subgraph(NodeRef node)
@@ -226,6 +230,10 @@ void AudioGraph::render(int num_frames)
 
     this->reset_graph();
     this->render_subgraph(this->output, num_frames);
+    for (auto node : this->scheduled_nodes)
+    {
+        this->render_subgraph(node, num_frames);
+    }
     this->node_count = this->_node_count_tmp;
     signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 

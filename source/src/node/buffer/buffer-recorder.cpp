@@ -3,8 +3,8 @@
 namespace signalflow
 {
 
-BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
-    : buffer(buffer), input(input), loop(loop)
+BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, NodeRef feedback, bool loop)
+    : buffer(buffer), input(input), feedback(feedback), loop(loop)
 {
     if (!buffer)
     {
@@ -15,6 +15,7 @@ BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, bool loop)
 
     this->create_buffer("buffer", this->buffer);
     this->create_input("input", this->input);
+    this->create_input("feedback", this->feedback);
 
     this->phase = 0.0;
 
@@ -35,7 +36,8 @@ void BufferRecorder::process(sample **out, int num_frames)
         {
             if ((int) this->phase < buffer->get_num_frames())
             {
-                this->buffer->data[channel][(int) this->phase] = this->input->out[channel][frame];
+                this->buffer->data[channel][(int) this->phase] = (this->feedback->out[channel][frame] * this->buffer->data[channel][(int) this->phase])
+                    + this->input->out[channel][frame];
             }
         }
 

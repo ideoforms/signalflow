@@ -167,7 +167,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "grain_length"_a = 0.1, "rate"_a = 1.0, "max_grains"_a = 2048);
 
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder")
-        .def(py::init<BufferRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "loop"_a = false);
+        .def(py::init<BufferRef, NodeRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop"_a = false);
 
     py::class_<BiquadFilter, Node, NodeRefTemplate<BiquadFilter>>(m, "BiquadFilter")
         .def(py::init<NodeRef, signal_filter_type_t, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNAL_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.707, "peak_gain"_a = 0.0);
@@ -191,7 +191,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
 
     py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
-        .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 2, "pan"_a = 0.5);
+        .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.5);
 
     py::class_<SampleAndHold, Node, NodeRefTemplate<SampleAndHold>>(m, "SampleAndHold")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "clock"_a = nullptr);
