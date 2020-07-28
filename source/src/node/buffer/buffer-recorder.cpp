@@ -40,11 +40,16 @@ void BufferRecorder::process(sample **out, int num_frames)
         }
 
         this->phase += 1;
-        if (loop)
+        if (this->phase >= this->buffer->get_num_frames())
         {
-            while (this->phase > this->buffer->get_num_frames())
+            if (loop)
             {
-                this->phase -= this->buffer->get_num_frames();
+                while (this->phase >= this->buffer->get_num_frames())
+                    this->phase -= this->buffer->get_num_frames();
+            }
+            else
+            {
+                this->set_state(SIGNAL_NODE_STATE_FINISHED);
             }
         }
     }
