@@ -23,7 +23,9 @@ public:
     virtual void add_input(NodeRef input);
     virtual void set_input(std::string name, const NodeRef &node);
 
+protected:
     std::list<NodeRef> input_list;
+    int input_index = 0;
 };
 
 REGISTER(Sum, "sum")

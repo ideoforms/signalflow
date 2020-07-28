@@ -64,7 +64,7 @@ void Sum::process(sample **out, int num_frames)
 void Sum::add_input(NodeRef input)
 {
     this->input_list.push_back(input);
-    std::string input_name = "input" + std::to_string(this->inputs.size());
+    std::string input_name = "input" + std::to_string(this->input_index++);
     this->Node::create_input(input_name, input_list.back());
 }
 
