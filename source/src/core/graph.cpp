@@ -180,7 +180,8 @@ void AudioGraph::reset_graph()
      *-----------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
-        audio_output->remove_input(node);
+        //        audio_output->remove_input(node);
+        node->disconnect_outputs();
     }
     nodes_to_remove.clear();
 
@@ -270,46 +271,15 @@ void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
     }
 }
 
-//void AudioGraph::process(const NodeRef &root, int num_frames, int block_size)
-//{
-//    /*------------------------------------------------------------------------
-//     * Updating the routing from the tip.
-//     * This normally happens when the root is connected to the graph's
-//     * audio out. Can this be improved?
-//     *-----------------------------------------------------------------------*/
-//    root->update_channels();
-//
-//    int index = 0;
-//    signal_debug("AudioGraph: Performing offline process of %d frames", num_frames);
-//    while (index < (num_frames - block_size))
-//    {
-//        signal_debug("AudioGraph: Processing frame %d...", index);
-//        this->reset_graph();
-//        this->render_subgraph(root, block_size);
-//        index += block_size;
-//    }
-//
-//    /*------------------------------------------------------------------------
-//     * Process remaining samples.
-//     *-----------------------------------------------------------------------*/
-//    if (index < num_frames)
-//    {
-//        signal_debug("AudioGraph: Processing remaining %d samples", num_frames - index);
-//        this->reset_graph();
-//        this->render_subgraph(root, num_frames - index);
-//    }
-//
-//    signal_debug("AudioGraph: Offline process completed");
-//}
-
 NodeRef AudioGraph::get_output()
 {
     return this->output;
 }
 
-void AudioGraph::add_node(NodeRef node)
+NodeRef AudioGraph::add_node(NodeRef node)
 {
     this->scheduled_nodes.insert(node);
+    return node;
 }
 
 void AudioGraph::remove_node(NodeRef node)

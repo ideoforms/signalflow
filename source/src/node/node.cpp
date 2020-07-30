@@ -297,6 +297,11 @@ void Node::add_input(NodeRef input)
     throw std::runtime_error("This Node class does not support unnamed inputs");
 }
 
+void Node::remove_input(NodeRef input)
+{
+    throw std::runtime_error("This Node class does not support unnamed inputs");
+}
+
 void Node::destroy_input(std::string name)
 {
     /*------------------------------------------------------------------------
@@ -337,7 +342,7 @@ void Node::disconnect_outputs()
         auto output = *(this->outputs.begin());
         Node *target = output.first;
         std::string name = output.second;
-        target->set_input(name, 0);
+        target->set_input(name, new Constant(0.0));
     }
 }
 

@@ -106,6 +106,7 @@ public:
      * throws an exception when called.
      *-----------------------------------------------------------------------*/
     virtual void add_input(NodeRef input);
+    virtual void remove_input(NodeRef input);
 
     /*------------------------------------------------------------------------
      * Disconnect inputs and outputs.

@@ -68,6 +68,11 @@ void Sum::add_input(NodeRef input)
     this->Node::create_input(input_name, input_list.back());
 }
 
+void Sum::remove_input(NodeRef input)
+{
+    this->input_list.remove(input);
+}
+
 void Sum::set_input(std::string name, const NodeRef &node)
 {
     if (this->inputs.find(name) == this->inputs.end())

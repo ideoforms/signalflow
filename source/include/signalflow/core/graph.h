@@ -148,9 +148,10 @@ public:
      * their output is being used.
      *
      * @param node The node.
+     * @returns The same node, for consistency of interface with Patch::add_node.
      *
      *--------------------------------------------------------------------------------*/
-    void add_node(NodeRef node);
+    NodeRef add_node(NodeRef node);
 
     /**--------------------------------------------------------------------------------
      * Remove a node from the graph's playback schedule.
