@@ -65,6 +65,11 @@ void AudioOut_Abstract::remove_input(NodeRef node)
     audio_inputs.remove(node);
 }
 
+std::list<NodeRef> AudioOut_Abstract::get_inputs()
+{
+    return this->audio_inputs;
+}
+
 unsigned int AudioOut_Abstract::get_sample_rate()
 {
     return this->sample_rate;

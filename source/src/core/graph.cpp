@@ -76,6 +76,16 @@ void AudioGraph::stop()
     audioout->stop();
 }
 
+void AudioGraph::clear()
+{
+    AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
+    auto inputs = audioout->get_inputs();
+    for (auto input : inputs)
+    {
+        audioout->remove_input(input);
+    }
+}
+
 AudioGraph::~AudioGraph()
 {
     AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
@@ -263,7 +273,11 @@ void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
 
     for (int block_index = 0; block_index < block_count; block_index++)
     {
-        int block_frames = (block_index == block_count - 1 ? buffer->get_num_frames() % block_size : block_size);
+        int block_frames = block_size;
+        if (block_index == block_count - 1 && buffer->get_num_frames() % block_size > 0)
+        {
+            block_frames = buffer->get_num_frames() % block_size;
+        }
         this->render(block_frames);
         for (int channel_index = 0; channel_index < channel_count; channel_index++)
         {

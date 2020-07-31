@@ -20,6 +20,7 @@ public:
 
     virtual void add_input(NodeRef node);
     virtual void remove_input(NodeRef node);
+    std::list<NodeRef> get_inputs();
 
     unsigned int get_sample_rate();
 

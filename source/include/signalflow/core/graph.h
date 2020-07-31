@@ -38,6 +38,12 @@ public:
     void stop();
 
     /**--------------------------------------------------------------------------------
+     * Remove all nodes from the graph.
+     *
+     **--------------------------------------------------------------------------------*/
+    void clear();
+
+    /**--------------------------------------------------------------------------------
      * Run (and block the main thread) for a given number of seconds, or forever if
      * a time is not specified.
      *

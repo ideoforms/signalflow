@@ -74,3 +74,16 @@ def test_graph_dummy_audioout():
     assert len(samples) == 1024
 
     del graph
+
+def test_graph_clear():
+    graph = AudioGraph()
+    c1 = Constant(1)
+    graph.play(c1)
+    c2 = Constant(2)
+    graph.play(c2)
+    buffer = Buffer(1, 1024)
+    graph.render_to_buffer(buffer)
+    assert np.all(buffer.data[0] == 3)
+    graph.clear()
+    graph.render_to_buffer(buffer)
+    assert np.all(buffer.data[0] == 0)
