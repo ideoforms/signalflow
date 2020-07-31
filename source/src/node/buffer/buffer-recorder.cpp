@@ -51,7 +51,7 @@ void BufferRecorder::process(sample **out, int num_frames)
             }
             else
             {
-                this->set_state(SIGNAL_NODE_STATE_FINISHED);
+                this->set_state(SIGNAL_NODE_STATE_STOPPED);
             }
         }
     }

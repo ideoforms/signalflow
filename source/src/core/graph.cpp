@@ -70,6 +70,12 @@ void AudioGraph::start()
     audioout->start();
 }
 
+void AudioGraph::stop()
+{
+    AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
+    audioout->stop();
+}
+
 AudioGraph::~AudioGraph()
 {
     AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
@@ -173,14 +179,11 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 
 void AudioGraph::reset_graph()
 {
-    AudioOut_Abstract *audio_output = (AudioOut_Abstract *) this->output.get();
-
     /*------------------------------------------------------------------------
      * Disconnect any nodes and patches that are scheduled to be removed.
      *-----------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
-        //        audio_output->remove_input(node);
         node->disconnect_outputs();
     }
     nodes_to_remove.clear();

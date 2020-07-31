@@ -38,6 +38,8 @@ void write_callback(struct SoundIoOutStream *outstream,
         return;
     }
 
+    AudioOut_SoundIO *out_node = (AudioOut_SoundIO *) outstream->userdata;
+
     /*-----------------------------------------------------------------------*
      * On some drivers (eg Linux), we cannot write all samples at once.
      * Keep writing as many as we can until we have cleared the buffer.
@@ -50,23 +52,36 @@ void write_callback(struct SoundIoOutStream *outstream,
         {
             throw std::runtime_error("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
         }
-
-        shared_graph->render(frame_count);
-
-        for (int frame = 0; frame < frame_count; frame++)
+        if (out_node->get_state() == SIGNAL_NODE_STATE_ACTIVE)
         {
-            for (int channel = 0; channel < layout->channel_count; channel += 1)
-            {
-                float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
-                *ptr = shared_graph->get_output()->out[channel][frame];
+            shared_graph->render(frame_count);
 
-                /*-----------------------------------------------------------------------*
-                 * Hard limiter.
-                 *-----------------------------------------------------------------------*/
-                if (*ptr > 1.0)
-                    *ptr = 1.0;
-                if (*ptr < -1.0)
-                    *ptr = -1.0;
+            for (int frame = 0; frame < frame_count; frame++)
+            {
+                for (int channel = 0; channel < layout->channel_count; channel += 1)
+                {
+                    float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
+                    *ptr = shared_graph->get_output()->out[channel][frame];
+
+                    /*-----------------------------------------------------------------------*
+                     * Hard limiter.
+                     *-----------------------------------------------------------------------*/
+                    if (*ptr > 1.0)
+                        *ptr = 1.0;
+                    if (*ptr < -1.0)
+                        *ptr = -1.0;
+                }
+            }
+        }
+        else
+        {
+            for (int frame = 0; frame < frame_count; frame++)
+            {
+                for (int channel = 0; channel < layout->channel_count; channel += 1)
+                {
+                    float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
+                    *ptr = 0;
+                }
             }
         }
 
@@ -150,6 +165,7 @@ int AudioOut_SoundIO::init()
     this->outstream->write_callback = write_callback;
     this->outstream->sample_rate = this->device->sample_rate_current;
     this->outstream->software_latency = (double) this->buffer_size / this->outstream->sample_rate;
+    this->outstream->userdata = (void *) this;
 
     this->sample_rate = this->outstream->sample_rate;
 
@@ -183,12 +199,14 @@ int AudioOut_SoundIO::start()
     int err;
     if ((err = soundio_outstream_start(outstream)))
         throw std::runtime_error("libsoundio error: unable to start device: " + std::string(soundio_strerror(err)));
+    this->set_state(SIGNAL_NODE_STATE_ACTIVE);
 
     return 0;
 }
 
 int AudioOut_SoundIO::stop()
 {
+    this->set_state(SIGNAL_NODE_STATE_STOPPED);
     return 0;
 }
 

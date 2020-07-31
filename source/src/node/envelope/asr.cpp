@@ -77,7 +77,7 @@ void EnvelopeASR::process(sample **out, int num_frames)
 
                 if (this->state == SIGNAL_NODE_STATE_ACTIVE)
                 {
-                    this->set_state(SIGNAL_NODE_STATE_FINISHED);
+                    this->set_state(SIGNAL_NODE_STATE_STOPPED);
                 }
             }
 

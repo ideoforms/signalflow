@@ -1,5 +1,5 @@
 from signalflow import Buffer, BufferPlayer, BufferRecorder, Sine
-from signalflow import SIGNAL_NODE_STATE_ACTIVE, SIGNAL_NODE_STATE_FINISHED
+from signalflow import SIGNAL_NODE_STATE_ACTIVE, SIGNAL_NODE_STATE_STOPPED
 from . import graph
 from . import process_tree
 
@@ -15,7 +15,7 @@ def test_buffer_player(graph):
     assert player.num_output_channels == 1
     assert player.state == SIGNAL_NODE_STATE_ACTIVE
     process_tree(player, buffer=output)
-    assert player.state == SIGNAL_NODE_STATE_FINISHED
+    assert player.state == SIGNAL_NODE_STATE_STOPPED
     assert np.array_equal(output.data[0][:len(buf)], buf.data[0])
 
 def test_buffer_recorder(graph):
@@ -28,7 +28,7 @@ def test_buffer_recorder(graph):
     assert recorder.state == SIGNAL_NODE_STATE_ACTIVE
     graph.add_node(recorder)
     graph.render(len(record_buf) + 1)
-    assert recorder.state == SIGNAL_NODE_STATE_FINISHED
+    assert recorder.state == SIGNAL_NODE_STATE_STOPPED
     sine_rendered = np.sin(np.arange(len(record_buf)) * np.pi * 2 * 440 / graph.sample_rate)
     assert list(record_buf.data[0]) == pytest.approx(sine_rendered, abs=0.0001)
     assert list(record_buf.data[1]) == pytest.approx(sine_rendered, abs=0.0001)

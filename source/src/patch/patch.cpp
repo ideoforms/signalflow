@@ -193,9 +193,9 @@ void Patch::set_auto_free(bool value)
 
 void Patch::node_state_changed(Node *node)
 {
-    if (node->get_state() == SIGNAL_NODE_STATE_FINISHED && this->auto_free)
+    if (node->get_state() == SIGNAL_NODE_STATE_STOPPED && this->auto_free)
     {
-        this->set_state(SIGNAL_PATCH_STATE_FINISHED);
+        this->set_state(SIGNAL_PATCH_STATE_STOPPED);
         this->disconnect();
     }
 }

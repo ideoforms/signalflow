@@ -28,7 +28,7 @@ class NodeMonitor;
 typedef enum
 {
     SIGNAL_NODE_STATE_ACTIVE,
-    SIGNAL_NODE_STATE_FINISHED
+    SIGNAL_NODE_STATE_STOPPED
 } signal_node_state_t;
 
 /*------------------------------------------------------------------------

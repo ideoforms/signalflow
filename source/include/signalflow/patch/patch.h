@@ -17,7 +17,7 @@ namespace signalflow
 typedef enum
 {
     SIGNAL_PATCH_STATE_ACTIVE,
-    SIGNAL_PATCH_STATE_FINISHED
+    SIGNAL_PATCH_STATE_STOPPED
 } signal_patch_state_t;
 
 class Patch;

@@ -17,7 +17,7 @@ void init_python_constants(py::module &m)
 
     py::enum_<signal_node_state_t>(m, "signal_node_state_t", py::arithmetic(), "signal_node_state_t")
         .value("SIGNAL_NODE_STATE_ACTIVE", SIGNAL_NODE_STATE_ACTIVE, "Active")
-        .value("SIGNAL_NODE_STATE_FINISHED", SIGNAL_NODE_STATE_FINISHED, "Finished")
+        .value("SIGNAL_NODE_STATE_STOPPED", SIGNAL_NODE_STATE_STOPPED, "Stopped")
         .export_values();
 
     m.attr("SIGNAL_MAX_CHANNELS") = SIGNAL_MAX_CHANNELS;

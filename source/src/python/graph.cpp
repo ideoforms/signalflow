@@ -21,6 +21,8 @@ void init_python_graph(py::module &m)
          * Methods
          *-------------------------------------------------------------------------------*/
         .def("start", &AudioGraph::start)
+        .def("stop", [](AudioGraph &graph) { graph.stop(); })
+
         .def("show_structure", [](AudioGraph &graph) { graph.show_structure(); })
         .def("show_status", &AudioGraph::show_status)
         .def("render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); })
