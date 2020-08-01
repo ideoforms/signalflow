@@ -19,7 +19,7 @@ namespace signalflow
  * timestamp(): Return microsecond-accurate timestamp.
  * Useful for monitoring function runtimes.
  *--------------------------------------------------------------------*/
-double signal_timestamp()
+double signalflow_timestamp()
 {
     timeval tv;
     gettimeofday(&tv, NULL);
@@ -27,9 +27,9 @@ double signal_timestamp()
 }
 
 /*--------------------------------------------------------------------*
- * signal_clip(): Constrain a value within two bounds.
+ * signalflow_clip(): Constrain a value within two bounds.
  *--------------------------------------------------------------------*/
-double signal_clip(double value, double min, double max)
+double signalflow_clip(double value, double min, double max)
 {
     if (value < min)
         value = min;
@@ -39,9 +39,9 @@ double signal_clip(double value, double min, double max)
 }
 
 /*--------------------------------------------------------------------*
- * signal_scale_lin_lin(): Map a value onto a linear range.
+ * signalflow_scale_lin_lin(): Map a value onto a linear range.
  *--------------------------------------------------------------------*/
-double signal_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB)
+double signalflow_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB)
 {
     double norm = (value - fromA) / (fromB - fromA);
     return toA + norm * (toB - toA);
@@ -50,7 +50,7 @@ double signal_scale_lin_lin(double value, double fromA, double fromB, double toA
 /*--------------------------------------------------------------------*
  * scale_lin_exp(): Map a value onto an exponential range.
  *--------------------------------------------------------------------*/
-double signal_scale_lin_exp(double value, double a, double b, double c, double d)
+double signalflow_scale_lin_exp(double value, double a, double b, double c, double d)
 {
     if (value <= a)
         return c;
@@ -60,9 +60,9 @@ double signal_scale_lin_exp(double value, double a, double b, double c, double d
 }
 
 /*--------------------------------------------------------------------*
- * signal_scale_exp_lin(): Map a value from an exponential to linear range.
+ * signalflow_scale_exp_lin(): Map a value from an exponential to linear range.
  *--------------------------------------------------------------------*/
-double signal_scale_exp_lin(double value, double a, double b, double c, double d)
+double signalflow_scale_exp_lin(double value, double a, double b, double c, double d)
 {
     if (value <= a)
         return c;
@@ -71,37 +71,37 @@ double signal_scale_exp_lin(double value, double a, double b, double c, double d
     return (log(value / a)) / (log(b / a)) * (d - c) + c;
 }
 
-float signal_frequency_to_midi_note(float frequency)
+float signalflow_frequency_to_midi_note(float frequency)
 {
     /*--------------------------------------------------------------------*
-     * signal_frequency_to_midi_note(): Map a frequency value onto a MIDI note index.
+     * signalflow_frequency_to_midi_note(): Map a frequency value onto a MIDI note index.
      * 440 = A4 = 69
      *--------------------------------------------------------------------*/
     return 69.0 + 12 * log2(frequency / 440.0);
 }
 
-float signal_midi_note_to_frequency(float midi)
+float signalflow_midi_note_to_frequency(float midi)
 {
     /*--------------------------------------------------------------------*
-     * signal_midi_note_to_frequency(): Map a MIDI note to a frequency value.
+     * signalflow_midi_note_to_frequency(): Map a MIDI note to a frequency value.
      * 440 = A4 = 69
      *--------------------------------------------------------------------*/
     return 440.0 * powf(2, (midi - 69) / 12.0);
 }
 
-float signal_db_to_amp(float db)
+float signalflow_db_to_amp(float db)
 {
     return powf(10.0f, db * 0.05f);
 }
 
-float signal_amp_to_db(float amp)
+float signalflow_amp_to_db(float amp)
 {
     amp = MAX(amp, 1e-9);
     amp = MIN(amp, 1e9);
     return 20.0f * log10f(amp);
 }
 
-void signal_save_block_to_text_file(sample *block, int num_samples, std::string filename)
+void signalflow_save_block_to_text_file(sample *block, int num_samples, std::string filename)
 {
     FILE *fd = fopen(filename.c_str(), "w");
     if (!fd)
@@ -115,7 +115,7 @@ void signal_save_block_to_text_file(sample *block, int num_samples, std::string 
     fclose(fd);
 }
 
-void signal_save_block_to_wav_file(sample *block, int num_samples, std::string filename)
+void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::string filename)
 {
     BufferRef buf = new Buffer(1, num_samples, &block);
     buf->save(filename);

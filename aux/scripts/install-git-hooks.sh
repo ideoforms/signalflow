@@ -3,7 +3,7 @@
 #------------------------------------------------------------------------
 # install-git-hooks.sh:
 #
-# Installs a git-hook to automatically increment SIGNAL_BUILD
+# Installs a git-hook to automatically increment SIGNALFLOW_BUILD
 # each time a new commit is created.
 #------------------------------------------------------------------------
 
@@ -48,18 +48,18 @@ then
 fi
 
 VERSION_H="\$GIT_REPO_DIR/source/include/signalflow/core/version.h"
-CURRENT_BUILD=\`cat \$VERSION_H | grep SIGNAL_BUILD | cut -d' ' -f3\`
+CURRENT_BUILD=\`cat \$VERSION_H | grep SIGNALFLOW_BUILD | cut -d' ' -f3\`
 
 if [ "\$CURRENT_BUILD" = "" ]
 then
-	echo "Couldn't find SIGNAL_BUILD marker."
+	echo "Couldn't find SIGNALFLOW_BUILD marker."
 	exit 1
 fi
 CURRENT_BUILD=\$((CURRENT_BUILD + 1))
-echo "Incrementing SIGNAL_BUILD to \$CURRENT_BUILD"
+echo "Incrementing SIGNALFLOW_BUILD to \$CURRENT_BUILD"
 
 # Increment build number
-perl -i -pe 's/(SIGNAL_BUILD) (\d+)/"\$1 " . (\$2 + 1)/e' "\$VERSION_H"
+perl -i -pe 's/(SIGNALFLOW_BUILD) (\d+)/"\$1 " . (\$2 + 1)/e' "\$VERSION_H"
 git add \$VERSION_H
 
 # Auto-generate CHANGELOG

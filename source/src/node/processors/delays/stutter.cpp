@@ -13,17 +13,17 @@ Stutter::Stutter(NodeRef input, NodeRef stutter_time, NodeRef stutter_count, Nod
     this->create_input("stutter_count", this->stutter_count);
     this->create_input("clock", this->clock);
 
-    this->stutter_index.resize(SIGNAL_MAX_CHANNELS);
-    this->stutter_sample_buffer_offset.resize(SIGNAL_MAX_CHANNELS);
-    this->stutters_to_do.resize(SIGNAL_MAX_CHANNELS);
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    this->stutter_index.resize(SIGNALFLOW_MAX_CHANNELS);
+    this->stutter_sample_buffer_offset.resize(SIGNALFLOW_MAX_CHANNELS);
+    this->stutters_to_do.resize(SIGNALFLOW_MAX_CHANNELS);
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         this->stutters_to_do[i] = 0;
     }
-    this->stutter_samples_remaining.resize(SIGNAL_MAX_CHANNELS);
+    this->stutter_samples_remaining.resize(SIGNALFLOW_MAX_CHANNELS);
 
-    SIGNAL_CHECK_GRAPH();
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    SIGNALFLOW_CHECK_GRAPH();
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         buffers.push_back(new SampleRingBuffer(max_stutter_time * this->graph->get_sample_rate()));
     }
@@ -39,7 +39,7 @@ Stutter::~Stutter()
 
 void Stutter::trigger(std::string name, float value)
 {
-    if (name != SIGNAL_DEFAULT_TRIGGER)
+    if (name != SIGNALFLOW_DEFAULT_TRIGGER)
     {
         throw std::runtime_error("Unknown trigger: " + name);
     }
@@ -54,13 +54,13 @@ void Stutter::trigger(std::string name, float value)
 
 void Stutter::process(sample **out, int num_frames)
 {
-    SIGNAL_CHECK_GRAPH();
+    SIGNALFLOW_CHECK_GRAPH();
 
     for (int channel = 0; channel < this->num_input_channels; channel++)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            SIGNAL_PROCESS_TRIGGER(this->clock, frame, SIGNAL_DEFAULT_TRIGGER);
+            SIGNALFLOW_PROCESS_TRIGGER(this->clock, frame, SIGNALFLOW_DEFAULT_TRIGGER);
 
             if (this->stutters_to_do[channel] > 0)
             {

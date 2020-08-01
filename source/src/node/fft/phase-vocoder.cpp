@@ -20,7 +20,7 @@ FFTPhaseVocoder::FFTPhaseVocoder(NodeRef input)
 
 void FFTPhaseVocoder::trigger(std::string name, float value)
 {
-    if (name == SIGNAL_DEFAULT_TRIGGER || name == "freeze")
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER || name == "freeze")
     {
         this->frozen = true;
         this->just_frozen = true;
@@ -35,7 +35,7 @@ void FFTPhaseVocoder::process(sample **out, int num_frames)
 {
     if (this->clock)
     {
-        SIGNAL_PROCESS_TRIGGER_BLOCK(this->clock, num_frames, SIGNAL_DEFAULT_TRIGGER);
+        SIGNALFLOW_PROCESS_TRIGGER_BLOCK(this->clock, num_frames, SIGNALFLOW_DEFAULT_TRIGGER);
     }
 
     FFTNode *fftnode = (FFTNode *) this->input.get();

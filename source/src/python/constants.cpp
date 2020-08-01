@@ -5,27 +5,27 @@ void init_python_constants(py::module &m)
     /*--------------------------------------------------------------------------------
      * Constants
      *-------------------------------------------------------------------------------*/
-    py::enum_<signal_interpolation_mode_t>(m, "signal_interpolation_mode_t", py::arithmetic(), "signal_interpolation_mode_t")
-        .value("SIGNAL_INTERPOLATION_NONE", SIGNAL_INTERPOLATION_NONE, "No interpolation")
-        .value("SIGNAL_INTERPOLATION_LINEAR", SIGNAL_INTERPOLATION_LINEAR, "Linear interpolation")
+    py::enum_<signalflow_interpolation_mode_t>(m, "signalflow_interpolation_mode_t", py::arithmetic(), "signalflow_interpolation_mode_t")
+        .value("SIGNALFLOW_INTERPOLATION_NONE", SIGNALFLOW_INTERPOLATION_NONE, "No interpolation")
+        .value("SIGNALFLOW_INTERPOLATION_LINEAR", SIGNALFLOW_INTERPOLATION_LINEAR, "Linear interpolation")
         .export_values();
 
-    py::enum_<signal_event_distribution_t>(m, "signal_event_distribution_t", py::arithmetic(), "signal_event_distribution_t")
-        .value("SIGNAL_EVENT_DISTRIBUTION_UNIFORM", SIGNAL_EVENT_DISTRIBUTION_UNIFORM, "Uniform distribution")
-        .value("SIGNAL_EVENT_DISTRIBUTION_POISSON", SIGNAL_EVENT_DISTRIBUTION_POISSON, "Poisson distribution")
+    py::enum_<signalflow_event_distribution_t>(m, "signalflow_event_distribution_t", py::arithmetic(), "signalflow_event_distribution_t")
+        .value("SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM", SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, "Uniform distribution")
+        .value("SIGNALFLOW_EVENT_DISTRIBUTION_POISSON", SIGNALFLOW_EVENT_DISTRIBUTION_POISSON, "Poisson distribution")
         .export_values();
 
-    py::enum_<signal_node_state_t>(m, "signal_node_state_t", py::arithmetic(), "signal_node_state_t")
-        .value("SIGNAL_NODE_STATE_ACTIVE", SIGNAL_NODE_STATE_ACTIVE, "Active")
-        .value("SIGNAL_NODE_STATE_STOPPED", SIGNAL_NODE_STATE_STOPPED, "Stopped")
+    py::enum_<signalflow_node_state_t>(m, "signalflow_node_state_t", py::arithmetic(), "signalflow_node_state_t")
+        .value("SIGNALFLOW_NODE_STATE_ACTIVE", SIGNALFLOW_NODE_STATE_ACTIVE, "Active")
+        .value("SIGNALFLOW_NODE_STATE_STOPPED", SIGNALFLOW_NODE_STATE_STOPPED, "Stopped")
         .export_values();
 
-    m.attr("SIGNAL_MAX_CHANNELS") = SIGNAL_MAX_CHANNELS;
-    m.attr("SIGNAL_DEFAULT_FFT_SIZE") = SIGNAL_DEFAULT_FFT_SIZE;
-    m.attr("SIGNAL_MAX_FFT_SIZE") = SIGNAL_MAX_FFT_SIZE;
-    m.attr("SIGNAL_DEFAULT_FFT_HOP_SIZE") = SIGNAL_DEFAULT_FFT_HOP_SIZE;
-    m.attr("SIGNAL_DEFAULT_SAMPLE_RATE") = SIGNAL_DEFAULT_SAMPLE_RATE;
-    m.attr("SIGNAL_DEFAULT_BLOCK_SIZE") = SIGNAL_DEFAULT_BLOCK_SIZE;
-    m.attr("SIGNAL_NODE_BUFFER_SIZE") = SIGNAL_NODE_BUFFER_SIZE;
-    m.attr("SIGNAL_DEFAULT_TRIGGER") = SIGNAL_DEFAULT_TRIGGER;
+    m.attr("SIGNALFLOW_MAX_CHANNELS") = SIGNALFLOW_MAX_CHANNELS;
+    m.attr("SIGNALFLOW_DEFAULT_FFT_SIZE") = SIGNALFLOW_DEFAULT_FFT_SIZE;
+    m.attr("SIGNALFLOW_MAX_FFT_SIZE") = SIGNALFLOW_MAX_FFT_SIZE;
+    m.attr("SIGNALFLOW_DEFAULT_FFT_HOP_SIZE") = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE;
+    m.attr("SIGNALFLOW_DEFAULT_SAMPLE_RATE") = SIGNALFLOW_DEFAULT_SAMPLE_RATE;
+    m.attr("SIGNALFLOW_DEFAULT_BLOCK_SIZE") = SIGNALFLOW_DEFAULT_BLOCK_SIZE;
+    m.attr("SIGNALFLOW_NODE_BUFFER_SIZE") = SIGNALFLOW_NODE_BUFFER_SIZE;
+    m.attr("SIGNALFLOW_DEFAULT_TRIGGER") = SIGNALFLOW_DEFAULT_TRIGGER;
 }

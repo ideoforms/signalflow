@@ -13,8 +13,8 @@ AllpassDelay::AllpassDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, f
     this->create_input("delay_time", this->delaytime);
     this->create_input("feedback", this->feedback);
 
-    SIGNAL_CHECK_GRAPH();
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    SIGNALFLOW_CHECK_GRAPH();
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         buffers.push_back(new SampleRingBuffer(maxdelaytime * this->graph->get_sample_rate()));
     }
@@ -30,7 +30,7 @@ AllpassDelay::~AllpassDelay()
 
 void AllpassDelay::process(sample **out, int num_frames)
 {
-    SIGNAL_CHECK_GRAPH();
+    SIGNALFLOW_CHECK_GRAPH();
 
     for (int channel = 0; channel < this->num_input_channels; channel++)
     {

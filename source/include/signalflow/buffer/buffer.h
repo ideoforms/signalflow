@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 
-#define SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH 2048
+#define SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH 2048
 
 /**------------------------------------------------------------------------
  * Typedef for a sample -> sample transfer function.
@@ -232,7 +232,7 @@ public:
      * @param mode The new interpolation mode.
      *
      *------------------------------------------------------------------------*/
-    void set_interpolation_mode(signal_interpolation_mode_t mode);
+    void set_interpolation_mode(signalflow_interpolation_mode_t mode);
 
     /**------------------------------------------------------------------------
      * Gets the interpolation mode used when samples are read from the buffer.
@@ -240,7 +240,7 @@ public:
      * @returns The current interpolation mode.
      *
      *------------------------------------------------------------------------*/
-    signal_interpolation_mode_t get_interpolation_mode();
+    signalflow_interpolation_mode_t get_interpolation_mode();
 
     sample **data = NULL;
 
@@ -250,7 +250,7 @@ protected:
     int num_frames;
     float duration;
 
-    signal_interpolation_mode_t interpolate;
+    signalflow_interpolation_mode_t interpolate;
 };
 
 /**-------------------------------------------------------------------------
@@ -261,7 +261,7 @@ protected:
 class EnvelopeBuffer : public Buffer
 {
 public:
-    EnvelopeBuffer(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBuffer(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 
     /**------------------------------------------------------------------------
      * @param position An envelope position between [0, 1].
@@ -276,19 +276,19 @@ public:
 class EnvelopeBufferTriangle : public EnvelopeBuffer
 {
 public:
-    EnvelopeBufferTriangle(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBufferTriangle(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 };
 
 class EnvelopeBufferLinearDecay : public EnvelopeBuffer
 {
 public:
-    EnvelopeBufferLinearDecay(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBufferLinearDecay(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 };
 
 class EnvelopeBufferHanning : public EnvelopeBuffer
 {
 public:
-    EnvelopeBufferHanning(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBufferHanning(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 };
 
 /*-------------------------------------------------------------------------
@@ -300,7 +300,7 @@ public:
 class WaveShaperBuffer : public Buffer
 {
 public:
-    WaveShaperBuffer(int length = SIGNAL_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    WaveShaperBuffer(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 
     /**------------------------------------------------------------------------
      * Perform a waveshaper x -> f(x) transform.

@@ -19,7 +19,7 @@ private:
     BufferRef buffer;
     NodeRef frequency;
     NodeRef sync;
-    float phase[SIGNAL_MAX_CHANNELS];
+    float phase[SIGNALFLOW_MAX_CHANNELS];
 };
 
 class Wavetable2D : public Node
@@ -37,7 +37,7 @@ private:
     NodeRef frequency;
     NodeRef crossfade;
     NodeRef sync;
-    float phase[SIGNAL_MAX_CHANNELS];
+    float phase[SIGNALFLOW_MAX_CHANNELS];
 };
 
 REGISTER(Wavetable, "wavetable")

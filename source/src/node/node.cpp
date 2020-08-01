@@ -24,7 +24,7 @@ Node::Node()
 {
     this->name = "(unknown node)";
     this->graph = shared_graph;
-    this->state = SIGNAL_NODE_STATE_ACTIVE;
+    this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
 
     this->matches_input_channels = true;
     this->num_input_channels = 1;
@@ -38,7 +38,7 @@ Node::Node()
 
     this->has_rendered = false;
     this->out = NULL;
-    this->output_buffer_length = SIGNAL_NODE_BUFFER_SIZE;
+    this->output_buffer_length = SIGNALFLOW_NODE_BUFFER_SIZE;
     this->allocate_output_buffer();
 }
 
@@ -65,7 +65,7 @@ void Node::_process(sample **out, int num_frames)
     }
     if (this->last_num_frames > 0)
     {
-        for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+        for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
         {
             out[i][-1] = out[i][last_num_frames - 1];
         }
@@ -114,7 +114,7 @@ void Node::update_channels()
 
         this->allocate_output_buffer();
 
-        signal_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
+        signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
     }
     else
     {
@@ -157,7 +157,7 @@ void Node::allocate_output_buffer()
         }
     }
 
-    int output_buffer_count = SIGNAL_MAX_CHANNELS;
+    int output_buffer_count = SIGNALFLOW_MAX_CHANNELS;
 
     if (output_buffer_count < this->num_output_channels)
     {
@@ -199,12 +199,12 @@ void Node::free_output_buffer()
     }
 }
 
-signal_node_state_t Node::get_state()
+signalflow_node_state_t Node::get_state()
 {
     return this->state;
 }
 
-void Node::set_state(signal_node_state_t state)
+void Node::set_state(signalflow_node_state_t state)
 {
     if (state != this->state)
     {
@@ -404,13 +404,13 @@ void Node::poll(float frequency, std::string label)
     this->monitor->start();
 }
 
-NodeRef Node::scale(float from, float to, signal_scale_t scale)
+NodeRef Node::scale(float from, float to, signalflow_scale_t scale)
 {
     switch (scale)
     {
-        case SIGNAL_SCALE_LIN_LIN:
+        case SIGNALFLOW_SCALE_LIN_LIN:
             return new ScaleLinLin(this, -1, 1, from, to);
-        case SIGNAL_SCALE_LIN_EXP:
+        case SIGNALFLOW_SCALE_LIN_EXP:
             return new ScaleLinExp(this, -1, 1, from, to);
         default:
             return nullptr;

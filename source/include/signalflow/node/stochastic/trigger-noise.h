@@ -13,10 +13,10 @@ public:
     NodeRef max;
     NodeRef clock;
 
-    sample value[SIGNAL_MAX_CHANNELS];
+    sample value[SIGNALFLOW_MAX_CHANNELS];
 
     virtual void process(sample **out, int num_frames);
-    virtual void trigger(std::string = SIGNAL_DEFAULT_TRIGGER, float value = 0.0);
+    virtual void trigger(std::string = SIGNALFLOW_DEFAULT_TRIGGER, float value = 0.0);
 };
 
 REGISTER(TriggerNoise, "trigger-noise")

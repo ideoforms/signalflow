@@ -18,7 +18,7 @@ public:
 private:
     float phase;
     float phase_last;
-    sample sample_last[SIGNAL_MAX_CHANNELS];
+    sample sample_last[SIGNALFLOW_MAX_CHANNELS];
 };
 
 REGISTER(Resample, "resample")

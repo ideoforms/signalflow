@@ -11,8 +11,8 @@ OneTapDelay::OneTapDelay(NodeRef input, NodeRef delaytime, float maxdelaytime)
     this->name = "one-tap-delay";
     this->create_input("delay_time", this->delaytime);
 
-    SIGNAL_CHECK_GRAPH();
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    SIGNALFLOW_CHECK_GRAPH();
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         buffers.push_back(new SampleRingBuffer(maxdelaytime * this->graph->get_sample_rate()));
     }
@@ -28,7 +28,7 @@ OneTapDelay::~OneTapDelay()
 
 void OneTapDelay::process(sample **out, int num_frames)
 {
-    SIGNAL_CHECK_GRAPH();
+    SIGNALFLOW_CHECK_GRAPH();
 
     for (int channel = 0; channel < this->num_input_channels; channel++)
     {

@@ -2,10 +2,10 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/node/node.h"
 
-#define SIGNAL_SAMPLER_TRIGGER_SET_POSITION "position"
+#define SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION "position"
 
-#define SIGNAL_SAMPLER_TRIGGER_SET_LOOP_START "loop_start"
-#define SIGNAL_SAMPLER_TRIGGER_SET_LOOP_END "loop_end"
+#define SIGNALFLOW_SAMPLER_TRIGGER_SET_LOOP_START "loop_start"
+#define SIGNALFLOW_SAMPLER_TRIGGER_SET_LOOP_END "loop_end"
 
 namespace signalflow
 {
@@ -24,7 +24,7 @@ public:
     NodeRef loop_end = nullptr;
 
     virtual void set_buffer(std::string, BufferRef buffer);
-    virtual void trigger(std::string = SIGNAL_SAMPLER_TRIGGER_SET_POSITION, float value = 0.0);
+    virtual void trigger(std::string = SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION, float value = 0.0);
     virtual void process(sample **out, int num_frames);
 
 private:

@@ -12,7 +12,7 @@ namespace signalflow
 {
 
 BiquadFilter::BiquadFilter(NodeRef input,
-                           signal_filter_type_t filter_type,
+                           signalflow_filter_type_t filter_type,
                            NodeRef cutoff,
                            NodeRef resonance,
                            NodeRef peak_gain)
@@ -55,7 +55,7 @@ void BiquadFilter::_recalculate()
 
     switch (this->filter_type)
     {
-        case SIGNAL_FILTER_TYPE_LOW_PASS:
+        case SIGNALFLOW_FILTER_TYPE_LOW_PASS:
             norm = 1 / (1 + K / Q + K * K);
             a0 = K * K * norm;
             a1 = 2 * a0;
@@ -64,7 +64,7 @@ void BiquadFilter::_recalculate()
             b2 = (1 - K / Q + K * K) * norm;
             break;
 
-        case SIGNAL_FILTER_TYPE_HIGH_PASS:
+        case SIGNALFLOW_FILTER_TYPE_HIGH_PASS:
             norm = 1 / (1 + K / Q + K * K);
             a0 = 1 * norm;
             a1 = -2 * a0;
@@ -73,7 +73,7 @@ void BiquadFilter::_recalculate()
             b2 = (1 - K / Q + K * K) * norm;
             break;
 
-        case SIGNAL_FILTER_TYPE_BAND_PASS:
+        case SIGNALFLOW_FILTER_TYPE_BAND_PASS:
             norm = 1 / (1 + K / Q + K * K);
             a0 = K / Q * norm;
             a1 = 0;
@@ -82,7 +82,7 @@ void BiquadFilter::_recalculate()
             b2 = (1 - K / Q + K * K) * norm;
             break;
 
-        case SIGNAL_FILTER_TYPE_NOTCH:
+        case SIGNALFLOW_FILTER_TYPE_NOTCH:
             norm = 1 / (1 + K / Q + K * K);
             a0 = (1 + K * K) * norm;
             a1 = 2 * (K * K - 1) * norm;
@@ -91,7 +91,7 @@ void BiquadFilter::_recalculate()
             b2 = (1 - K / Q + K * K) * norm;
             break;
 
-        case SIGNAL_FILTER_TYPE_PEAK:
+        case SIGNALFLOW_FILTER_TYPE_PEAK:
             if (peak_gain >= 0) // boost
             {
                 norm = 1 / (1 + 1 / Q * K + K * K);
@@ -112,7 +112,7 @@ void BiquadFilter::_recalculate()
             }
             break;
 
-        case SIGNAL_FILTER_TYPE_LOW_SHELF:
+        case SIGNALFLOW_FILTER_TYPE_LOW_SHELF:
             if (peak_gain >= 0) // boost
             {
                 norm = 1 / (1 + sqrt(2) * K + K * K);
@@ -133,7 +133,7 @@ void BiquadFilter::_recalculate()
             }
             break;
 
-        case SIGNAL_FILTER_TYPE_HIGH_SHELF:
+        case SIGNALFLOW_FILTER_TYPE_HIGH_SHELF:
             if (peak_gain >= 0) // boost
             {
                 norm = 1 / (1 + sqrt(2) * K + K * K);

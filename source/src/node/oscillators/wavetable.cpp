@@ -9,7 +9,7 @@ Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef sync)
 {
     this->name = "wavetable";
 
-    memset(this->phase, 0, sizeof(float) * SIGNAL_MAX_CHANNELS);
+    memset(this->phase, 0, sizeof(float) * SIGNALFLOW_MAX_CHANNELS);
 
     this->create_input("frequency", this->frequency);
     this->create_input("sync", this->sync);
@@ -28,7 +28,7 @@ void Wavetable::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNAL_CHECK_CHANNEL_TRIGGER(this->sync, channel, frame))
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->sync, channel, frame))
             {
                 this->phase[channel] = 0.0;
             }
@@ -51,7 +51,7 @@ Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfad
 {
     this->name = "wavetable2d";
 
-    memset(this->phase, 0, sizeof(float) * SIGNAL_MAX_CHANNELS);
+    memset(this->phase, 0, sizeof(float) * SIGNALFLOW_MAX_CHANNELS);
 
     this->create_input("frequency", this->frequency);
     this->create_input("crossfade", this->crossfade);

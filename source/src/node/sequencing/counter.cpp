@@ -12,12 +12,12 @@ Counter::Counter(NodeRef clock, NodeRef min, NodeRef max)
     this->create_input("min", this->min);
     this->create_input("max", this->max);
 
-    memset(this->counter, 0, sizeof(int) * SIGNAL_MAX_CHANNELS);
+    memset(this->counter, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
 }
 
 void Counter::trigger(std::string name, float value)
 {
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         this->counter[i] += 1;
     }
@@ -25,7 +25,7 @@ void Counter::trigger(std::string name, float value)
 
 void Counter::process(sample **out, int num_frames)
 {
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         if (this->counter[i] >= this->max->out[0][0])
             this->counter[i] = this->min->out[0][0];

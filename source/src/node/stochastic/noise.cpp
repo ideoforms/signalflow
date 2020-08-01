@@ -19,10 +19,10 @@ Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max)
 
     this->interpolate = interpolate;
 
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
         this->value[i] = std::numeric_limits<float>::max();
-    memset(this->steps_remaining, 0, sizeof(int) * SIGNAL_MAX_CHANNELS);
-    memset(this->step_change, 0, sizeof(int) * SIGNAL_MAX_CHANNELS);
+    memset(this->steps_remaining, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
+    memset(this->step_change, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
 }
 
 void Noise::process(sample **out, int num_frames)

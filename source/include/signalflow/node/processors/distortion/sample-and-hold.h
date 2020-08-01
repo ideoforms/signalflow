@@ -11,7 +11,7 @@ public:
     SampleAndHold(NodeRef input = nullptr, NodeRef clock = nullptr);
 
     virtual void process(sample **out, int num_frames);
-    virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0);
 
 private:
     NodeRef clock;

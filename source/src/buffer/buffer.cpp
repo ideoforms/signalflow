@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <vector>
 
-#define SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE 1024
+#define SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE 1024
 
 namespace signalflow
 {
@@ -37,7 +37,7 @@ Buffer::Buffer(int num_channels, int num_frames)
     this->num_frames = num_frames;
     this->sample_rate = shared_graph->get_sample_rate();
     this->duration = this->num_frames / this->sample_rate;
-    this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
+    this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
 
     // contiguous allocation
     if (this->num_channels)
@@ -85,7 +85,7 @@ Buffer::Buffer(std::vector<sample> data)
 
 Buffer::Buffer(std::string filename)
 {
-    this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
+    this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
     this->load(filename);
 }
 
@@ -105,7 +105,7 @@ void Buffer::load(std::string filename)
     std::string path = filename;
     if (access(path.c_str(), F_OK) != 0)
     {
-        path = SIGNAL_USER_DIR + "/audio/" + filename;
+        path = SIGNALFLOW_USER_DIR + "/audio/" + filename;
         if (access(path.c_str(), F_OK) != 0)
         {
             throw std::runtime_error(std::string("Couldn't find file at path: ") + filename);
@@ -146,11 +146,11 @@ void Buffer::load(std::string filename)
 
         // Contiguous allocation is required for Python bindings
         this->data = new sample *[info.channels]();
-        sample *data_channels = new sample[info.channels * (info.frames + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE)]();
+        sample *data_channels = new sample[info.channels * (info.frames + SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE)]();
 
         for (int channel = 0; channel < info.channels; channel++)
         {
-            this->data[channel] = data_channels + (info.frames + SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE) * channel;
+            this->data[channel] = data_channels + (info.frames + SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE) * channel;
         }
 
         this->num_channels = info.channels;
@@ -159,7 +159,7 @@ void Buffer::load(std::string filename)
         this->duration = this->num_frames / this->sample_rate;
     }
 
-    int frames_per_read = SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE;
+    int frames_per_read = SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE;
     int samples_per_read = frames_per_read * info.channels;
     sample *buffer = new sample[samples_per_read];
     int total_frames_read = 0;
@@ -223,7 +223,7 @@ void Buffer::save(std::string filename)
         throw std::runtime_error(std::string("Failed to write soundfile (") + std::string(sf_strerror(NULL)) + ")");
     }
 
-    int frames_per_write = SIGNAL_DEFAULT_BUFFER_BLOCK_SIZE;
+    int frames_per_write = SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE;
     int samples_per_write = frames_per_write * info.channels;
     sample *buffer = new sample[samples_per_write];
     int frame_index = 0;
@@ -322,7 +322,7 @@ sample Buffer::get_frame(double frame)
         frame = 0;
     }
 
-    if (this->interpolate == SIGNAL_INTERPOLATION_LINEAR)
+    if (this->interpolate == SIGNALFLOW_INTERPOLATION_LINEAR)
     {
         double frame_frac = (frame - (int) frame);
         sample rv = ((1.0 - frame_frac) * this->data[0][(int) frame]) + (frame_frac * this->data[0][(int) ceil(frame)]);
@@ -383,12 +383,12 @@ float Buffer::get_duration()
     return this->duration;
 }
 
-void Buffer::set_interpolation_mode(signal_interpolation_mode_t mode)
+void Buffer::set_interpolation_mode(signalflow_interpolation_mode_t mode)
 {
     this->interpolate = mode;
 }
 
-signal_interpolation_mode_t Buffer::get_interpolation_mode()
+signalflow_interpolation_mode_t Buffer::get_interpolation_mode()
 {
     return this->interpolate;
 }
@@ -428,12 +428,12 @@ EnvelopeBuffer::EnvelopeBuffer(int length)
 
 double EnvelopeBuffer::offset_to_frame(double offset)
 {
-    return signal_scale_lin_lin(offset, 0, 1, 0, this->num_frames - 1);
+    return signalflow_scale_lin_lin(offset, 0, 1, 0, this->num_frames - 1);
 }
 
 double EnvelopeBuffer::frame_to_offset(double frame)
 {
-    return signal_scale_lin_lin(frame, 0, this->num_frames - 1, 0, 1);
+    return signalflow_scale_lin_lin(frame, 0, this->num_frames - 1, 0, 1);
 }
 
 void EnvelopeBuffer::fill_exponential(float mu)
@@ -484,12 +484,12 @@ WaveShaperBuffer::WaveShaperBuffer(int length)
 
 double WaveShaperBuffer::offset_to_frame(double offset)
 {
-    return signal_scale_lin_lin(offset, -1, 1, 0, this->num_frames - 1);
+    return signalflow_scale_lin_lin(offset, -1, 1, 0, this->num_frames - 1);
 }
 
 double WaveShaperBuffer::frame_to_offset(double frame)
 {
-    return signal_scale_lin_lin(frame, 0, this->num_frames - 1, -1, 1);
+    return signalflow_scale_lin_lin(frame, 0, this->num_frames - 1, -1, 1);
 }
 
 }

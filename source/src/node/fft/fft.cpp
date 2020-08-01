@@ -33,7 +33,7 @@ FFT::FFT(NodeRef input, int fft_size, int hop_size, int window_size, bool do_win
      * input_buffer stores our backlog, so make sure we've allocated enough space.
      * input_buffer_size records the current number of frames we have buffered.
      *-----------------------------------------------------------------------*/
-    this->input_buffer = new sample[SIGNAL_MAX_FFT_SIZE * 2]();
+    this->input_buffer = new sample[SIGNALFLOW_MAX_FFT_SIZE * 2]();
     this->input_buffer_size = 0;
 
     /*------------------------------------------------------------------------
@@ -185,7 +185,7 @@ void FFT::process(sample **out, int num_frames)
     this->num_hops = ceilf((this->input_buffer_size - this->fft_size + 1.0) / this->hop_size);
     if (this->num_hops < 0)
         this->num_hops = 0;
-    if (this->num_hops > SIGNAL_MAX_CHANNELS)
+    if (this->num_hops > SIGNALFLOW_MAX_CHANNELS)
     {
         throw std::runtime_error("FFT: Too many hops. Try passing in a smaller audio buffer.");
     }

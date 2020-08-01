@@ -7,7 +7,7 @@ namespace signalflow
 Saw::Saw(NodeRef frequency)
     : frequency(frequency)
 {
-    SIGNAL_CHECK_GRAPH();
+    SIGNALFLOW_CHECK_GRAPH();
 
     this->name = "saw";
     this->create_input("frequency", this->frequency);

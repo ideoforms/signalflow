@@ -30,7 +30,7 @@ void PatchSpec::load(std::string filename)
          * If absolute pathname couldn't be found, search in user's patches directory
          * (~/.signalflow/patches)
          *--------------------------------------------------------------------------------*/
-        input.open(SIGNAL_USER_DIR + "/patches/" + filename);
+        input.open(SIGNALFLOW_USER_DIR + "/patches/" + filename);
         if (!input.good())
         {
             throw std::runtime_error("Couldn't read from patch file: " + filename);
@@ -104,7 +104,7 @@ void PatchSpec::from_json(std::string buf)
             }
         }
 
-        signal_debug("Adding node with name %s\n", nodespec->get_name().c_str());
+        signalflow_debug("Adding node with name %s\n", nodespec->get_name().c_str());
         this->add_node_spec(nodespec);
         if (is_output)
         {

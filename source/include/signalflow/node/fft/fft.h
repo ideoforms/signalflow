@@ -14,8 +14,8 @@ class FFT : public FFTNode
 {
 public:
     FFT(NodeRef input = 0.0,
-        int fft_size = SIGNAL_DEFAULT_FFT_SIZE,
-        int hop_size = SIGNAL_DEFAULT_FFT_HOP_SIZE,
+        int fft_size = SIGNALFLOW_DEFAULT_FFT_SIZE,
+        int hop_size = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE,
         int window_size = 0,
         bool do_window = true);
     ~FFT();

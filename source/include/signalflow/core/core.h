@@ -2,6 +2,6 @@
 
 #include <string>
 
-void signal_init();
-void signal_debug(char const *msg, ...);
-void signal_warn(char const *msg, ...);
+void signalflow_init();
+void signalflow_debug(char const *msg, ...);
+void signalflow_warn(char const *msg, ...);

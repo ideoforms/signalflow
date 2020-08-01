@@ -16,14 +16,14 @@ public:
     virtual void process(sample **out, int num_frames);
 
 private:
-    float out1[SIGNAL_MAX_CHANNELS],
-        out2[SIGNAL_MAX_CHANNELS],
-        out3[SIGNAL_MAX_CHANNELS],
-        out4[SIGNAL_MAX_CHANNELS];
-    float in1[SIGNAL_MAX_CHANNELS],
-        in2[SIGNAL_MAX_CHANNELS],
-        in3[SIGNAL_MAX_CHANNELS],
-        in4[SIGNAL_MAX_CHANNELS];
+    float out1[SIGNALFLOW_MAX_CHANNELS],
+        out2[SIGNALFLOW_MAX_CHANNELS],
+        out3[SIGNALFLOW_MAX_CHANNELS],
+        out4[SIGNALFLOW_MAX_CHANNELS];
+    float in1[SIGNALFLOW_MAX_CHANNELS],
+        in2[SIGNALFLOW_MAX_CHANNELS],
+        in3[SIGNALFLOW_MAX_CHANNELS],
+        in4[SIGNALFLOW_MAX_CHANNELS];
 };
 
 REGISTER(MoogVCF, "moog")

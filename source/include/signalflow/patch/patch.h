@@ -16,9 +16,9 @@ namespace signalflow
 
 typedef enum
 {
-    SIGNAL_PATCH_STATE_ACTIVE,
-    SIGNAL_PATCH_STATE_STOPPED
-} signal_patch_state_t;
+    SIGNALFLOW_PATCH_STATE_ACTIVE,
+    SIGNALFLOW_PATCH_STATE_STOPPED
+} signalflow_patch_state_t;
 
 class Patch;
 
@@ -45,7 +45,7 @@ public:
     Patch(std::string name);
     virtual ~Patch();
 
-    signal_patch_state_t get_state();
+    signalflow_patch_state_t get_state();
     void set_input(std::string name, float value);
     void set_input(std::string name, NodeRef value);
     void set_input(std::string name, BufferRef value);
@@ -76,9 +76,9 @@ public:
 
 private:
     NodeRef instantiate(PatchNodeSpec *nodespec);
-    void set_state(signal_patch_state_t state);
+    void set_state(signalflow_patch_state_t state);
     bool auto_free;
-    signal_patch_state_t state;
+    signalflow_patch_state_t state;
     AudioGraph *graph;
 
     /*----------------------------------------------------------------------------------

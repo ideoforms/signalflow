@@ -29,7 +29,7 @@ Buffer2D::Buffer2D(std::vector<BufferRef> buffers)
 
     this->num_buffers = buffers.size();
     this->duration = this->num_frames / this->sample_rate;
-    this->interpolate = SIGNAL_INTERPOLATION_LINEAR;
+    this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
 
     /*------------------------------------------------------------------------
      * Data is always a square matrix.
@@ -56,7 +56,7 @@ Buffer2D::~Buffer2D()
 sample Buffer2D::get2D(double offset_x, double offset_z)
 {
     offset_z *= (this->num_buffers - 1);
-    if (this->interpolate == SIGNAL_INTERPOLATION_LINEAR)
+    if (this->interpolate == SIGNALFLOW_INTERPOLATION_LINEAR)
     {
         int offset_x_int = int(offset_x);
         int offset_z_int = int(offset_z);

@@ -11,7 +11,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-enum signal_interpolation_mode_t : unsigned int;
+enum signalflow_interpolation_mode_t : unsigned int;
 
 namespace signalflow
 {
@@ -32,7 +32,7 @@ private:
     T *data = nullptr;
     int size;
     int position;
-    signal_interpolation_mode_t interpolation_mode;
+    signalflow_interpolation_mode_t interpolation_mode;
 };
 
 template <class T>

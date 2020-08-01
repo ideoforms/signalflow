@@ -24,7 +24,7 @@ public:
     float max_stutter_time;
 
     virtual void process(sample **out, int num_frames);
-    virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0);
 
 private:
     std::vector<SampleRingBuffer *> buffers;

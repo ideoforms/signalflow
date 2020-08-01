@@ -11,7 +11,7 @@ public:
 
     NodeRef frequency;
 
-    float phase[SIGNAL_MAX_CHANNELS];
+    float phase[SIGNALFLOW_MAX_CHANNELS];
 
     virtual void process(sample **out, int num_frames);
 };

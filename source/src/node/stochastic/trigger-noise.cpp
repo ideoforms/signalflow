@@ -15,13 +15,13 @@ TriggerNoise::TriggerNoise(NodeRef min, NodeRef max, NodeRef clock)
     this->create_input("max", this->max);
     this->create_input("clock", this->clock);
 
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
         this->value[i] = std::numeric_limits<float>::max();
 }
 
 void TriggerNoise::trigger(std::string name, float value)
 {
-    for (int channel = 0; channel < SIGNAL_MAX_CHANNELS; channel++)
+    for (int channel = 0; channel < SIGNALFLOW_MAX_CHANNELS; channel++)
     {
         this->value[channel] = random_uniform(this->min->out[channel][0], this->max->out[channel][0]);
     }
@@ -38,7 +38,7 @@ void TriggerNoise::process(sample **out, int num_frames)
 
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNAL_CHECK_TRIGGER(clock, frame))
+            if (SIGNALFLOW_CHECK_TRIGGER(clock, frame))
             {
                 this->value[channel] = random_uniform(this->min->out[channel][frame], this->max->out[channel][frame]);
             }

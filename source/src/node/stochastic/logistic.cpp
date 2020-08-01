@@ -11,9 +11,9 @@ Logistic::Logistic(NodeRef chaos, NodeRef frequency)
     this->create_input("chaos", this->chaos);
     this->create_input("frequency", this->frequency);
 
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
         this->value[i] = 0.5;
-    memset(this->steps_remaining, 0, sizeof(int) * SIGNAL_MAX_CHANNELS);
+    memset(this->steps_remaining, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
 }
 
 void Logistic::process(sample **out, int num_frames)

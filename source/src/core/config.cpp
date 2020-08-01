@@ -69,7 +69,7 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::string>> pa
 
 SignalFlowConfig::SignalFlowConfig()
 {
-    const std::string config_path = SIGNAL_USER_DIR + "/config";
+    const std::string config_path = SIGNALFLOW_USER_DIR + "/config";
 
     std::ifstream input(config_path);
     if (!input.good())

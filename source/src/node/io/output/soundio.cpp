@@ -52,7 +52,7 @@ void write_callback(struct SoundIoOutStream *outstream,
         {
             throw std::runtime_error("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
         }
-        if (out_node->get_state() == SIGNAL_NODE_STATE_ACTIVE)
+        if (out_node->get_state() == SIGNALFLOW_NODE_STATE_ACTIVE)
         {
             shared_graph->render(frame_count);
 
@@ -199,14 +199,14 @@ int AudioOut_SoundIO::start()
     int err;
     if ((err = soundio_outstream_start(outstream)))
         throw std::runtime_error("libsoundio error: unable to start device: " + std::string(soundio_strerror(err)));
-    this->set_state(SIGNAL_NODE_STATE_ACTIVE);
+    this->set_state(SIGNALFLOW_NODE_STATE_ACTIVE);
 
     return 0;
 }
 
 int AudioOut_SoundIO::stop()
 {
-    this->set_state(SIGNAL_NODE_STATE_STOPPED);
+    this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
     return 0;
 }
 

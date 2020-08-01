@@ -26,7 +26,7 @@ void Sine::free_memory()
 
 void Sine::process(sample **out, int num_frames)
 {
-    SIGNAL_CHECK_GRAPH();
+    SIGNALFLOW_CHECK_GRAPH();
 
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

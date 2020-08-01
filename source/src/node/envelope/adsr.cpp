@@ -10,7 +10,7 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
     this->phase = 0.0;
 
     this->name = "envelope-adsr";
-    this->curve = SIGNAL_CURVE_EXPONENTIAL;
+    this->curve = SIGNALFLOW_CURVE_EXPONENTIAL;
     this->create_input("attack", this->attack);
     this->create_input("decay", this->decay);
     this->create_input("sustain", this->sustain);
@@ -74,20 +74,20 @@ void EnvelopeADSR::process(sample **out, int num_frames)
                      *-----------------------------------------------------------------------*/
                     rv = 0.0;
 
-                    if (this->state == SIGNAL_NODE_STATE_ACTIVE)
+                    if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
                     {
-                        this->set_state(SIGNAL_NODE_STATE_STOPPED);
+                        this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
                     }
                 }
                 this->phase += phase_step;
             }
         }
 
-        if (this->curve == SIGNAL_CURVE_EXPONENTIAL)
+        if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
         {
-            rv = signal_db_to_amp((rv - 1) * 60);
+            rv = signalflow_db_to_amp((rv - 1) * 60);
         }
-        else if (this->curve == SIGNAL_CURVE_LINEAR)
+        else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
         {
         }
         else

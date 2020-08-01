@@ -9,7 +9,7 @@ namespace signalflow
 BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
     : rate(rate), loop(loop)
 {
-    SIGNAL_CHECK_GRAPH();
+    SIGNALFLOW_CHECK_GRAPH();
 
     this->name = "buffer-player";
 
@@ -75,9 +75,9 @@ void BufferPlayer::process(sample **out, int num_frames)
                 }
                 else
                 {
-                    if (this->state == SIGNAL_NODE_STATE_ACTIVE)
+                    if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
                     {
-                        this->set_state(SIGNAL_NODE_STATE_STOPPED);
+                        this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
                     }
                     s = 0.0;
                 }
@@ -92,7 +92,7 @@ void BufferPlayer::process(sample **out, int num_frames)
 
 void BufferPlayer::trigger(std::string name, float value)
 {
-    if (name == SIGNAL_SAMPLER_TRIGGER_SET_POSITION)
+    if (name == SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION)
     {
         this->phase = value * this->graph->get_sample_rate();
     }

@@ -15,8 +15,8 @@ public:
     virtual void process(sample **out, int num_frames);
 
 private:
-    sample value[SIGNAL_MAX_CHANNELS];
-    int steps_remaining[SIGNAL_MAX_CHANNELS];
+    sample value[SIGNALFLOW_MAX_CHANNELS];
+    int steps_remaining[SIGNALFLOW_MAX_CHANNELS];
 };
 
 REGISTER(Logistic, "logistic")

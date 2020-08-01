@@ -16,18 +16,18 @@ FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)
     /*------------------------------------------------------------------------
      * Extra 2 floats to store complex Nyquist coefficients.
      *-----------------------------------------------------------------------*/
-    this->output_buffer_length = SIGNAL_MAX_FFT_SIZE + 2;
+    this->output_buffer_length = SIGNALFLOW_MAX_FFT_SIZE + 2;
     this->free_output_buffer();
     this->allocate_output_buffer();
 
-    this->magnitudes = new float *[SIGNAL_MAX_CHANNELS]();
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    this->magnitudes = new float *[SIGNALFLOW_MAX_CHANNELS]();
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         this->magnitudes[i] = this->out[i];
     }
 
-    this->phases = new float *[SIGNAL_MAX_CHANNELS]();
-    for (int i = 0; i < SIGNAL_MAX_CHANNELS; i++)
+    this->phases = new float *[SIGNALFLOW_MAX_CHANNELS]();
+    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
     {
         this->phases[i] = this->out[i] + this->num_bins;
     }
@@ -40,10 +40,10 @@ FFTNode::~FFTNode()
 }
 
 FFTOpNode::FFTOpNode(NodeRef input)
-    : FFTNode(input ? ((FFTNode *) input.get())->fft_size : SIGNAL_DEFAULT_FFT_SIZE,
-              input ? ((FFTNode *) input.get())->hop_size : SIGNAL_DEFAULT_FFT_HOP_SIZE,
-              input ? ((FFTNode *) input.get())->window_size : SIGNAL_DEFAULT_FFT_WINDOW_SIZE,
-              input ? ((FFTNode *) input.get())->do_window : SIGNAL_DEFAULT_FFT_DO_WINDOW)
+    : FFTNode(input ? ((FFTNode *) input.get())->fft_size : SIGNALFLOW_DEFAULT_FFT_SIZE,
+              input ? ((FFTNode *) input.get())->hop_size : SIGNALFLOW_DEFAULT_FFT_HOP_SIZE,
+              input ? ((FFTNode *) input.get())->window_size : SIGNALFLOW_DEFAULT_FFT_WINDOW_SIZE,
+              input ? ((FFTNode *) input.get())->do_window : SIGNALFLOW_DEFAULT_FFT_DO_WINDOW)
     , input(input)
 {
     this->create_input("input", this->input);

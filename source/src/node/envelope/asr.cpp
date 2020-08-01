@@ -8,7 +8,7 @@ EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeR
     : attack(attack), sustain(sustain), release(release), clock(clock)
 {
     this->name = "envelope-asr";
-    this->curve = SIGNAL_CURVE_EXPONENTIAL;
+    this->curve = SIGNALFLOW_CURVE_EXPONENTIAL;
 
     this->create_input("attack", this->attack);
     this->create_input("sustain", this->sustain);
@@ -19,13 +19,13 @@ EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeR
 
 void EnvelopeASR::trigger(std::string name, float value)
 {
-    if (name == SIGNAL_DEFAULT_TRIGGER)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
             this->phase[channel] = 0.0;
         }
-        this->state = SIGNAL_NODE_STATE_ACTIVE;
+        this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
     }
 }
 
@@ -37,7 +37,7 @@ void EnvelopeASR::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            bool trigger = SIGNAL_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame);
+            bool trigger = SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame);
             if (trigger)
             {
                 this->phase[channel] = 0.0;
@@ -75,19 +75,19 @@ void EnvelopeASR::process(sample **out, int num_frames)
                  *-----------------------------------------------------------------------*/
                 rv = 0.0;
 
-                if (this->state == SIGNAL_NODE_STATE_ACTIVE)
+                if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
                 {
-                    this->set_state(SIGNAL_NODE_STATE_STOPPED);
+                    this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
                 }
             }
 
             this->phase[channel] += 1.0 / this->graph->get_sample_rate();
 
-            if (this->curve == SIGNAL_CURVE_EXPONENTIAL)
+            if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
             {
-                rv = signal_db_to_amp((rv - 1) * 60);
+                rv = signalflow_db_to_amp((rv - 1) * 60);
             }
-            else if (this->curve == SIGNAL_CURVE_LINEAR)
+            else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
             {
             }
             else

@@ -14,7 +14,7 @@ public:
     float phase;
 
     virtual void process(sample **out, int num_frames);
-    virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1.0);
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0);
 };
 
 REGISTER(SegmentPlayer, "segment-player")

@@ -27,9 +27,9 @@ class NodeMonitor;
 
 typedef enum
 {
-    SIGNAL_NODE_STATE_ACTIVE,
-    SIGNAL_NODE_STATE_STOPPED
-} signal_node_state_t;
+    SIGNALFLOW_NODE_STATE_ACTIVE,
+    SIGNALFLOW_NODE_STATE_STOPPED
+} signalflow_node_state_t;
 
 /*------------------------------------------------------------------------
  * Allows us to use a float (or direct node ptr) in place of a NodeRef
@@ -91,7 +91,7 @@ public:
     /*------------------------------------------------------------------------
      * Get state.
      *-----------------------------------------------------------------------*/
-    virtual signal_node_state_t get_state();
+    virtual signalflow_node_state_t get_state();
 
     /*------------------------------------------------------------------------
      * Get/set inputs.
@@ -128,7 +128,7 @@ public:
     /*------------------------------------------------------------------------
      * Generic trigger method. 
      *-----------------------------------------------------------------------*/
-    virtual void trigger(std::string name = SIGNAL_DEFAULT_TRIGGER, float value = 1);
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1);
 
     /*------------------------------------------------------------------------
      * Outputs the node's value at a user-specified frequency.
@@ -139,7 +139,7 @@ public:
      * Returns a new Node that scales the output of this node from
      * `from` to `to`.
      *-----------------------------------------------------------------------*/
-    virtual NodeRef scale(float from, float to, signal_scale_t scale = SIGNAL_SCALE_LIN_LIN);
+    virtual NodeRef scale(float from, float to, signalflow_scale_t scale = SIGNALFLOW_SCALE_LIN_LIN);
 
     /*------------------------------------------------------------------------
      * Get the number of samples in the node's output buffer, per channel.
@@ -218,7 +218,7 @@ public:
     /*------------------------------------------------------------------------
      * Node state
      *-----------------------------------------------------------------------*/
-    signal_node_state_t state;
+    signalflow_node_state_t state;
 
     /*------------------------------------------------------------------------
      * Stores the number of frames in the previous processing block. Used
@@ -248,7 +248,7 @@ protected:
     /*------------------------------------------------------------------------
      * Set node run state.
      *-----------------------------------------------------------------------*/
-    virtual void set_state(signal_node_state_t state);
+    virtual void set_state(signalflow_node_state_t state);
 
     /*------------------------------------------------------------------------
      * Creates a new named input.

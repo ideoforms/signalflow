@@ -19,7 +19,7 @@ EQ::EQ(NodeRef input, NodeRef low_gain, NodeRef mid_gain, NodeRef high_gain,
     this->create_input("low_freq", this->low_freq);
     this->create_input("high_freq", this->high_freq);
 
-    int int_buf_size = SIGNAL_MAX_CHANNELS * sizeof(int);
+    int int_buf_size = SIGNALFLOW_MAX_CHANNELS * sizeof(int);
     memset(f1p0, 0, int_buf_size);
     memset(f1p1, 0, int_buf_size);
     memset(f1p2, 0, int_buf_size);

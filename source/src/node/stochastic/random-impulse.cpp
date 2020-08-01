@@ -8,7 +8,7 @@
 namespace signalflow
 {
 
-RandomImpulse::RandomImpulse(NodeRef frequency, signal_event_distribution_t distribution)
+RandomImpulse::RandomImpulse(NodeRef frequency, signalflow_event_distribution_t distribution)
     : frequency(frequency), distribution(distribution)
 {
     this->steps_remaining = 0;
@@ -19,7 +19,7 @@ RandomImpulse::RandomImpulse(NodeRef frequency, signal_event_distribution_t dist
 
 void RandomImpulse::process(sample **out, int num_frames)
 {
-    SIGNAL_CHECK_GRAPH()
+    SIGNALFLOW_CHECK_GRAPH()
 
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -35,11 +35,11 @@ void RandomImpulse::process(sample **out, int num_frames)
         {
             if (this->steps_remaining <= 0)
             {
-                if (this->distribution == SIGNAL_EVENT_DISTRIBUTION_UNIFORM)
+                if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM)
                 {
                     this->steps_remaining = random_integer(0, this->graph->get_sample_rate() / (freq / 2.0));
                 }
-                else if (this->distribution == SIGNAL_EVENT_DISTRIBUTION_POISSON)
+                else if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
                 {
                     this->steps_remaining = this->graph->get_sample_rate() * -logf(1.0 - random_uniform()) / freq;
                 }

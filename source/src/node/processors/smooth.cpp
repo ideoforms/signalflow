@@ -9,7 +9,7 @@ Smooth::Smooth(NodeRef input, NodeRef smooth)
     this->name = "smooth";
     this->create_input("smooth", this->smooth);
 
-    this->values.resize(SIGNAL_MAX_CHANNELS);
+    this->values.resize(SIGNALFLOW_MAX_CHANNELS);
     this->values.clear();
 }
 

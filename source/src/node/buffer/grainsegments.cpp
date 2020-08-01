@@ -39,7 +39,7 @@ void GrainSegments::process(sample **out, int num_frames)
 
     // printf("sample_rate now = %f\n", this->graph->get_sample_rate());
     sample frequency = this->target->out[0][0];
-    frequency = signal_midi_note_to_frequency(roundf(signal_frequency_to_midi_note(frequency)));
+    frequency = signalflow_midi_note_to_frequency(roundf(signalflow_frequency_to_midi_note(frequency)));
     std::vector<float> offsets = this->get_property("offsets")->float_array_value();
     std::vector<float> values = this->get_property("values")->float_array_value();
     std::vector<float> durations = this->get_property("durations")->float_array_value();

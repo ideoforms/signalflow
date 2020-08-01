@@ -64,7 +64,7 @@ void init_python_node(py::module &m)
         })
         .def_property_readonly("output_buffer", [](Node &node) {
             return py::array_t<float>(
-                { SIGNAL_MAX_CHANNELS, node.last_num_frames },
+                { SIGNALFLOW_MAX_CHANNELS, node.last_num_frames },
                 { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
                 node.out[0]);
         })
@@ -96,14 +96,14 @@ void init_python_node(py::module &m)
             node.last_num_frames = buffer.get_num_frames();
         });
 
-    py::enum_<signal_filter_type_t>(m, "signal_filter_type_t", py::arithmetic(), "Filter type")
-        .value("SIGNAL_FILTER_TYPE_LOW_PASS", SIGNAL_FILTER_TYPE_LOW_PASS, "Low-pass filter")
-        .value("SIGNAL_FILTER_TYPE_HIGH_PASS", SIGNAL_FILTER_TYPE_HIGH_PASS, "High-pass filter")
-        .value("SIGNAL_FILTER_TYPE_BAND_PASS", SIGNAL_FILTER_TYPE_BAND_PASS, "Band-pass filter")
-        .value("SIGNAL_FILTER_TYPE_NOTCH", SIGNAL_FILTER_TYPE_NOTCH, "Notch filter")
-        .value("SIGNAL_FILTER_TYPE_PEAK", SIGNAL_FILTER_TYPE_PEAK, "Peak filter")
-        .value("SIGNAL_FILTER_TYPE_LOW_SHELF", SIGNAL_FILTER_TYPE_LOW_SHELF, "Low-shelf filter")
-        .value("SIGNAL_FILTER_TYPE_HIGH_SHELF", SIGNAL_FILTER_TYPE_HIGH_SHELF, "High-shelf filter")
+    py::enum_<signalflow_filter_type_t>(m, "signalflow_filter_type_t", py::arithmetic(), "Filter type")
+        .value("SIGNALFLOW_FILTER_TYPE_LOW_PASS", SIGNALFLOW_FILTER_TYPE_LOW_PASS, "Low-pass filter")
+        .value("SIGNALFLOW_FILTER_TYPE_HIGH_PASS", SIGNALFLOW_FILTER_TYPE_HIGH_PASS, "High-pass filter")
+        .value("SIGNALFLOW_FILTER_TYPE_BAND_PASS", SIGNALFLOW_FILTER_TYPE_BAND_PASS, "Band-pass filter")
+        .value("SIGNALFLOW_FILTER_TYPE_NOTCH", SIGNALFLOW_FILTER_TYPE_NOTCH, "Notch filter")
+        .value("SIGNALFLOW_FILTER_TYPE_PEAK", SIGNALFLOW_FILTER_TYPE_PEAK, "Peak filter")
+        .value("SIGNALFLOW_FILTER_TYPE_LOW_SHELF", SIGNALFLOW_FILTER_TYPE_LOW_SHELF, "Low-shelf filter")
+        .value("SIGNALFLOW_FILTER_TYPE_HIGH_SHELF", SIGNALFLOW_FILTER_TYPE_HIGH_SHELF, "High-shelf filter")
         .export_values();
 
     py::implicitly_convertible<int, Node>();

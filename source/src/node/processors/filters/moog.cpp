@@ -13,7 +13,7 @@ MoogVCF::MoogVCF(NodeRef input, NodeRef cutoff, NodeRef resonance)
     this->create_input("cutoff", this->cutoff);
     this->create_input("resonance", this->resonance);
 
-    int int_buf_size = SIGNAL_MAX_CHANNELS * sizeof(int);
+    int int_buf_size = SIGNALFLOW_MAX_CHANNELS * sizeof(int);
     memset(out1, 0, int_buf_size);
     memset(out2, 0, int_buf_size);
     memset(out3, 0, int_buf_size);
@@ -30,7 +30,7 @@ void MoogVCF::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float cutoff = signal_scale_lin_lin(this->cutoff->out[channel][frame], 0, this->graph->get_sample_rate() / 2, 0.005, 1);
+            float cutoff = signalflow_scale_lin_lin(this->cutoff->out[channel][frame], 0, this->graph->get_sample_rate() / 2, 0.005, 1);
             float resonance = this->resonance->out[channel][frame];
             float f = cutoff * 1.16;
             float fb = resonance * (1.0 - 0.15 * f * f);

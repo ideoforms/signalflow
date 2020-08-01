@@ -36,7 +36,7 @@ VampAnalysis::VampAnalysis(NodeRef input, std::string plugin_id)
     std::string vamp_plugin_library = plugin_id.substr(0, first_separator);
     std::string vamp_plugin_feature = plugin_id.substr(first_separator + 1, second_separator - first_separator - 1);
     std::string vamp_plugin_output = plugin_id.substr(second_separator + 1);
-    signal_debug("Loading plugin %s, %s, %s", vamp_plugin_library.c_str(), vamp_plugin_feature.c_str(), vamp_plugin_output.c_str());
+    signalflow_debug("Loading plugin %s, %s, %s", vamp_plugin_library.c_str(), vamp_plugin_feature.c_str(), vamp_plugin_output.c_str());
 
     PluginLoader *loader = PluginLoader::getInstance();
     PluginLoader::PluginKey key = loader->composePluginKey(vamp_plugin_library, vamp_plugin_feature);
@@ -61,7 +61,7 @@ VampAnalysis::VampAnalysis(NodeRef input, std::string plugin_id)
         }
     }
 
-    signal_debug("Loaded plugin (output index %d)", this->output_index);
+    signalflow_debug("Loaded plugin (output index %d)", this->output_index);
     this->plugin->initialise(1, graph->get_output_buffer_size(), graph->get_output_buffer_size());
 }
 
@@ -149,7 +149,7 @@ void VampSegmenter::process(sample **out, int num_frames)
         {
             long timestamp = RealTime::realTime2Frame(feature.timestamp, this->graph->get_sample_rate());
             float value = feature.values[0];
-            value = signal_midi_note_to_frequency(roundf(signal_frequency_to_midi_note(value)));
+            value = signalflow_midi_note_to_frequency(roundf(signalflow_frequency_to_midi_note(value)));
 
             if (value != last_value && (!isnan(value) || !isnan(last_value)))
             {

@@ -5,14 +5,14 @@
 
 typedef enum
 {
-    SIGNAL_FILTER_TYPE_LOW_PASS,
-    SIGNAL_FILTER_TYPE_HIGH_PASS,
-    SIGNAL_FILTER_TYPE_BAND_PASS,
-    SIGNAL_FILTER_TYPE_NOTCH,
-    SIGNAL_FILTER_TYPE_PEAK,
-    SIGNAL_FILTER_TYPE_LOW_SHELF,
-    SIGNAL_FILTER_TYPE_HIGH_SHELF
-} signal_filter_type_t;
+    SIGNALFLOW_FILTER_TYPE_LOW_PASS,
+    SIGNALFLOW_FILTER_TYPE_HIGH_PASS,
+    SIGNALFLOW_FILTER_TYPE_BAND_PASS,
+    SIGNALFLOW_FILTER_TYPE_NOTCH,
+    SIGNALFLOW_FILTER_TYPE_PEAK,
+    SIGNALFLOW_FILTER_TYPE_LOW_SHELF,
+    SIGNALFLOW_FILTER_TYPE_HIGH_SHELF
+} signalflow_filter_type_t;
 
 namespace signalflow
 {
@@ -20,12 +20,12 @@ class BiquadFilter : public UnaryOpNode
 {
 public:
     BiquadFilter(NodeRef input = 0.0,
-                 signal_filter_type_t filter_type = SIGNAL_FILTER_TYPE_LOW_PASS,
+                 signalflow_filter_type_t filter_type = SIGNALFLOW_FILTER_TYPE_LOW_PASS,
                  NodeRef cutoff = 440,
                  NodeRef resonance = 0.707,
                  NodeRef peak_gain = 0.0);
 
-    signal_filter_type_t filter_type;
+    signalflow_filter_type_t filter_type;
     NodeRef cutoff;
     NodeRef resonance;
     NodeRef peak_gain;

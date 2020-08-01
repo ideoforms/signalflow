@@ -6,10 +6,10 @@ namespace signalflow
 {
 
 FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
-    : FFTNode(input ? ((FFTNode *) input.get())->fft_size : SIGNAL_DEFAULT_FFT_SIZE,
-              input ? ((FFTNode *) input.get())->hop_size : SIGNAL_DEFAULT_FFT_HOP_SIZE,
-              input ? ((FFTNode *) input.get())->window_size : SIGNAL_DEFAULT_FFT_WINDOW_SIZE,
-              input ? ((FFTNode *) input.get())->do_window : SIGNAL_DEFAULT_FFT_DO_WINDOW)
+    : FFTNode(input ? ((FFTNode *) input.get())->fft_size : SIGNALFLOW_DEFAULT_FFT_SIZE,
+              input ? ((FFTNode *) input.get())->hop_size : SIGNALFLOW_DEFAULT_FFT_HOP_SIZE,
+              input ? ((FFTNode *) input.get())->window_size : SIGNALFLOW_DEFAULT_FFT_WINDOW_SIZE,
+              input ? ((FFTNode *) input.get())->do_window : SIGNALFLOW_DEFAULT_FFT_DO_WINDOW)
     , input(input)
     , rate(rate)
 
@@ -35,10 +35,10 @@ void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
 
     if (!prefilled_fft_buffer)
     {
-        for (int i = 0; i < fft_size / SIGNAL_NODE_BUFFER_SIZE; i++)
+        for (int i = 0; i < fft_size / SIGNALFLOW_NODE_BUFFER_SIZE; i++)
         {
             this->graph->reset_subgraph(this->input);
-            this->graph->render_subgraph(this->input, SIGNAL_NODE_BUFFER_SIZE);
+            this->graph->render_subgraph(this->input, SIGNALFLOW_NODE_BUFFER_SIZE);
         }
         this->prefilled_fft_buffer = true;
     }

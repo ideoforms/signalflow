@@ -22,7 +22,7 @@ AudioGraph *shared_graph = NULL;
 AudioGraph::AudioGraph(SignalFlowConfig *config,
                        NodeRef output_device)
 {
-    signal_init();
+    signalflow_init();
 
     if (shared_graph)
     {
@@ -127,7 +127,7 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 
     if (!(node->inputs.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
     {
-        signal_debug("Node %s has no registered inputs", node->name.c_str());
+        signalflow_debug("Node %s has no registered inputs", node->name.c_str());
     }
 
     /*------------------------------------------------------------------------
@@ -158,8 +158,8 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
              *-----------------------------------------------------------------------*/
             if (param_node->num_output_channels < node->num_input_channels && !node->no_input_upmix && param_node->num_output_channels > 0)
             {
-                signal_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
-                             node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);
+                signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
+                                 node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);
 
                 /*------------------------------------------------------------------------
                  * If we generate 2 channels but have 6 channels demanded, repeat
@@ -240,7 +240,7 @@ void AudioGraph::render(int num_frames)
     /*------------------------------------------------------------------------
      * Timestamp the start of processing to measure CPU usage.
      *-----------------------------------------------------------------------*/
-    double t0 = signal_timestamp();
+    double t0 = signalflow_timestamp();
 
     this->reset_graph();
     this->render_subgraph(this->output, num_frames);
@@ -249,13 +249,13 @@ void AudioGraph::render(int num_frames)
         this->render_subgraph(node, num_frames);
     }
     this->node_count = this->_node_count_tmp;
-    signal_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
+    signalflow_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 
     /*------------------------------------------------------------------------
      * Calculate CPU usage (approximately) by measuring the % of time
      * within the audio I/O callback that was used for processing.
      *-----------------------------------------------------------------------*/
-    double t1 = signal_timestamp();
+    double t1 = signalflow_timestamp();
     double dt = t1 - t0;
     double t_max = (double) num_frames / this->sample_rate;
     this->cpu_usage = dt / t_max;

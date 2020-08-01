@@ -46,12 +46,12 @@ Patch::~Patch()
 {
 }
 
-signal_patch_state_t Patch::get_state()
+signalflow_patch_state_t Patch::get_state()
 {
     return this->state;
 }
 
-void Patch::set_state(signal_patch_state_t state)
+void Patch::set_state(signalflow_patch_state_t state)
 {
     this->state = state;
 }
@@ -193,9 +193,9 @@ void Patch::set_auto_free(bool value)
 
 void Patch::node_state_changed(Node *node)
 {
-    if (node->get_state() == SIGNAL_NODE_STATE_STOPPED && this->auto_free)
+    if (node->get_state() == SIGNALFLOW_NODE_STATE_STOPPED && this->auto_free)
     {
-        this->set_state(SIGNAL_PATCH_STATE_STOPPED);
+        this->set_state(SIGNALFLOW_PATCH_STATE_STOPPED);
         this->disconnect();
     }
 }

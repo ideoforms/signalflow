@@ -17,20 +17,20 @@
 namespace signalflow
 {
 
-double signal_timestamp();
+double signalflow_timestamp();
 
-double signal_clip(double value, double min, double max);
-double signal_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB);
-double signal_scale_lin_exp(double value, double a, double b, double c, double d);
-double signal_scale_exp_lin(double value, double a, double b, double c, double d);
+double signalflow_clip(double value, double min, double max);
+double signalflow_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB);
+double signalflow_scale_lin_exp(double value, double a, double b, double c, double d);
+double signalflow_scale_exp_lin(double value, double a, double b, double c, double d);
 
-float signal_frequency_to_midi_note(float frequency);
-float signal_midi_note_to_frequency(float midi);
+float signalflow_frequency_to_midi_note(float frequency);
+float signalflow_midi_note_to_frequency(float midi);
 
-float signal_db_to_amp(float db);
-float signal_amp_to_db(float amp);
+float signalflow_db_to_amp(float db);
+float signalflow_amp_to_db(float amp);
 
-void signal_save_block_to_text_file(sample *block, int num_samples, std::string filename);
-void signal_save_block_to_wav_file(sample *block, int num_samples, std::string filename);
+void signalflow_save_block_to_text_file(sample *block, int num_samples, std::string filename);
+void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::string filename);
 
 }

@@ -1,5 +1,5 @@
 from signalflow import RandomImpulse, Buffer
-from signalflow import SIGNAL_EVENT_DISTRIBUTION_POISSON
+from signalflow import SIGNALFLOW_EVENT_DISTRIBUTION_POISSON
 from . import graph, process_tree
 
 import numpy as np
@@ -13,7 +13,7 @@ def test_random_impulse(graph):
     impulse_count = np.sum(b.data[0])
     assert (impulse_count - frequency) < (0.1 * frequency)
 
-    a = RandomImpulse(frequency, SIGNAL_EVENT_DISTRIBUTION_POISSON)
+    a = RandomImpulse(frequency, SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
     process_tree(a, buffer=b)
     impulse_count = np.sum(b.data[0])
     assert (impulse_count - frequency) < (0.1 * frequency)

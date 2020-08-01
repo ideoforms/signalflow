@@ -7,12 +7,12 @@
 
 using namespace signalflow;
 
-void signal_init()
+void signalflow_init()
 {
     random_init();
 }
 
-void signal_debug(char const *msg, ...)
+void signalflow_debug(char const *msg, ...)
 {
 #ifdef DEBUG
 
@@ -25,7 +25,7 @@ void signal_debug(char const *msg, ...)
 #endif
 }
 
-void signal_warn(char const *msg, ...)
+void signalflow_warn(char const *msg, ...)
 {
     va_list v;
     va_start(v, msg);

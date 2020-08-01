@@ -76,7 +76,7 @@ public:
      * @param block_size The size of each chunk to process.
      *
      *--------------------------------------------------------------------------------*/
-    // void process(const NodeRef &root, int num_frames, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
+    // void process(const NodeRef &root, int num_frames, int block_size = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
 
     /**--------------------------------------------------------------------------------
      * Render the entire graph.
@@ -115,7 +115,7 @@ public:
      * @param block_size The size of each block to process, in frames.
      *
      *--------------------------------------------------------------------------------*/
-    void render_to_buffer(BufferRef buffer, int block_size = SIGNAL_DEFAULT_BLOCK_SIZE);
+    void render_to_buffer(BufferRef buffer, int block_size = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
 
     /**--------------------------------------------------------------------------------
      * Reset the audio graph:
