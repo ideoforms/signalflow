@@ -24,6 +24,7 @@ top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).d
 header_root = os.path.join(top_level, "source", "include")
 source_files = glob.glob("%s/signalflow/node/*/*.h" % header_root) + glob.glob("%s/signalflow/node/*/*/*.h" % header_root)
 source_files = list(filter(lambda path: not "/io/" in path, source_files))
+source_files = list(sorted(source_files))
 
 def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
     """
@@ -41,11 +42,13 @@ def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
         parameter_type_list = ", ".join([ parameter["type"] for parameter in parameter_set ])
         output += '    .def(py::init<{parameter_type_list}>()'.format(parameter_type_list=parameter_type_list);
         for parameter in parameter_set:
-            if parameter["default"]:
+            if parameter["default"] is not None:
                 default = parameter["default"]
                 # property defaults
                 if default == "{}":
                     default = 0
+                elif default == "":
+                    default = '""'
                 default = "%s" % default
                 output += ', "{name}"_a = {default}'.format(name=parameter["name"], default=default)
             else:
@@ -61,6 +64,13 @@ def generate_all_bindings():
     output += generate_class_bindings("AudioOut_Dummy", [[
         { "name": "num_channels", "type": "int", "default": 2 }
     ]], "AudioOut_Abstract") + "\n"
+
+    output += generate_class_bindings("AudioOut", [[
+        { "name": "device_name", "type": "std::string", "default": "" },
+        { "name": "sample_rate", "type": "int", "default": 0 },
+        { "name": "buffer_size", "type": "int", "default": 0 }
+    ]], "AudioOut_Abstract") + "\n"
+
     for source_file in source_files:
         try:
             header = CppHeaderParser.CppHeader(source_file)
