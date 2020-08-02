@@ -269,8 +269,6 @@ public:
      *------------------------------------------------------------------------*/
     virtual double offset_to_frame(double offset) override;
     virtual double frame_to_offset(double frame) override;
-    virtual void fill_exponential(float mu);
-    virtual void fill_beta(float a, float b);
 };
 
 class EnvelopeBufferTriangle : public EnvelopeBuffer

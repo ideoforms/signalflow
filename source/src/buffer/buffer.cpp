@@ -436,18 +436,6 @@ double EnvelopeBuffer::frame_to_offset(double frame)
     return signalflow_scale_lin_lin(frame, 0, this->num_frames - 1, 0, 1);
 }
 
-void EnvelopeBuffer::fill_exponential(float mu)
-{
-    for (int x = 0; x < this->num_frames; x++)
-        this->data[0][x] = random_exponential_pdf((float) x / this->num_frames, mu);
-}
-
-void EnvelopeBuffer::fill_beta(float a, float b)
-{
-    for (int x = 0; x < this->num_frames; x++)
-        this->data[0][x] = random_beta_pdf((float) x / this->num_frames, a, b);
-}
-
 EnvelopeBufferTriangle::EnvelopeBufferTriangle(int length)
     : EnvelopeBuffer(length)
 {
