@@ -210,6 +210,20 @@ public:
     void stop(PatchRef patch);
 
     /**--------------------------------------------------------------------------------
+     * Start recording the graph's output to a named file.
+     *
+     * @param filename The file to write to.
+     *
+     *--------------------------------------------------------------------------------*/
+    void start_recording(const std::string &filename);
+
+    /**--------------------------------------------------------------------------------
+     * Stop recording the graph's output.
+     *
+     *--------------------------------------------------------------------------------*/
+    void stop_recording();
+
+    /**--------------------------------------------------------------------------------
      * Get audio sample rate.
      *
      * @return The sample rate, in Hz.

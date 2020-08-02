@@ -24,13 +24,13 @@ void NodeMonitor::run_thread()
     char buffer[1024];
     while (this->running)
     {
-        if (this->node->num_output_channels > 1)
+        if (this->node->get_num_output_channels() > 1)
         {
             strcpy(buffer, "{ ");
-            for (uint8_t i = 0; i < this->node->num_output_channels; i++)
+            for (uint8_t i = 0; i < this->node->get_num_output_channels(); i++)
             {
                 sprintf(buffer + strlen(buffer), "%.5f", this->node->out[i][0]);
-                if (i < this->node->num_output_channels - 1)
+                if (i < this->node->get_num_output_channels() - 1)
                 {
                     sprintf(buffer + strlen(buffer), ", ");
                 }

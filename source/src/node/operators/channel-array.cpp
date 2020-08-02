@@ -52,11 +52,11 @@ void ChannelArray::process(sample **out, int num_frames)
     int global_channel = 0;
     for (NodeRef input : this->input_list)
     {
-        for (int this_channel = 0; this_channel < input->num_output_channels; this_channel++)
+        for (int this_channel = 0; this_channel < input->get_num_output_channels(); this_channel++)
         {
             memcpy(out[global_channel + this_channel], input->out[this_channel], num_frames * sizeof(sample));
         }
-        global_channel += input->num_output_channels;
+        global_channel += input->get_num_output_channels();
     }
 }
 
@@ -65,7 +65,7 @@ void ChannelArray::update_channels()
     this->num_input_channels = 0;
     for (NodeRef input : this->input_list)
     {
-        this->num_input_channels += input->num_output_channels;
+        this->num_input_channels += input->get_num_output_channels();
     }
 
     this->set_channels(this->num_input_channels, this->num_input_channels);

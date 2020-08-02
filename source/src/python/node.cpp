@@ -36,7 +36,7 @@ void init_python_node(py::module &m)
         .def("__getitem__", [](NodeRef a, int index) { return new ChannelSelect(a, index); })
         .def("__getitem__", [](NodeRef a, py::slice slice) {
             ssize_t start, stop, step, slicelength;
-            if (!slice.compute(a->num_output_channels, &start, &stop, &step, &slicelength))
+            if (!slice.compute(a->get_num_output_channels(), &start, &stop, &step, &slicelength))
             {
                 throw py::error_already_set();
             }
@@ -49,11 +49,10 @@ void init_python_node(py::module &m)
          * Properties
          *-------------------------------------------------------------------------------*/
         .def_readonly("name", &Node::name)
-        .def_readonly("num_output_channels", &Node::num_output_channels)
-        .def_readonly("num_input_channels", &Node::num_input_channels)
+        .def_property_readonly("num_output_channels", &Node::get_num_output_channels)
+        .def_property_readonly("num_input_channels", &Node::get_num_input_channels)
         .def_property_readonly("patch", &Node::get_patch)
         .def_property_readonly("state", &Node::get_state)
-        // .def_readonly("matches_input_channels", &Node::matches_input_channels)
         .def_property_readonly("inputs", [](Node &node) {
             std::unordered_map<std::string, NodeRef> inputs(node.inputs.size());
             for (auto input : node.inputs)
@@ -88,7 +87,7 @@ void init_python_node(py::module &m)
             node.last_num_frames = num_frames;
         })
         .def("process", [](Node &node, Buffer &buffer) {
-            if (node.num_output_channels != buffer.get_num_channels())
+            if (node.get_num_output_channels() != buffer.get_num_channels())
             {
                 throw std::runtime_error("Buffer and Node output channels don't match");
             }

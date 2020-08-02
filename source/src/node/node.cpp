@@ -105,8 +105,8 @@ void Node::update_channels()
             std::string param_name = input.first;
 
             NodeRef input_node = *ptr;
-            if (input_node->num_output_channels > max_channels)
-                max_channels = input_node->num_output_channels;
+            if (input_node->get_num_output_channels() > max_channels)
+                max_channels = input_node->get_num_output_channels();
         }
 
         this->num_input_channels = max_channels;
@@ -127,12 +127,22 @@ void Node::update_channels()
             std::string param_name = input.first;
 
             NodeRef input_node = *ptr;
-            if (input_node->num_output_channels > this->num_input_channels)
+            if (input_node->get_num_output_channels() > this->num_input_channels)
             {
                 throw invalid_channel_count_exception("Node " + input_node->name + " has more output channels than " + this->name + " supports. Either downmix with ChannelMixer, or select the intended channels with ChannelSelect.");
             }
         }
     }
+}
+
+int Node::get_num_input_channels()
+{
+    return this->num_input_channels;
+}
+
+int Node::get_num_output_channels()
+{
+    return this->num_output_channels;
 }
 
 void Node::allocate_output_buffer()

@@ -20,7 +20,7 @@ void AudioOut_Abstract::process(sample **out, int num_frames)
 
     for (NodeRef input : this->audio_inputs)
     {
-        for (int channel = 0; channel < input->num_output_channels; channel++)
+        for (int channel = 0; channel < input->get_num_output_channels(); channel++)
         {
 #ifdef __APPLE__
 

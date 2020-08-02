@@ -14,6 +14,10 @@
 #include <sys/time.h>
 #include <unistd.h>
 
+#ifdef HAVE_SNDFILE
+#include <sndfile.h>
+#endif
+
 namespace signalflow
 {
 
@@ -156,20 +160,20 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
              * populated Buffer) will have num_output_channels == 0. Don't try to
              * upmix a void output.
              *-----------------------------------------------------------------------*/
-            if (param_node->num_output_channels < node->num_input_channels && !node->no_input_upmix && param_node->num_output_channels > 0)
+            if (param_node->get_num_output_channels() < node->get_num_input_channels() && !node->no_input_upmix && param_node->get_num_output_channels() > 0)
             {
                 signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
-                                 node->name.c_str(), node->num_input_channels, param_node->name.c_str(), param_node->num_output_channels);
+                                 node->name.c_str(), node->get_num_input_channels(), param_node->name.c_str(), param_node->get_num_output_channels());
 
                 /*------------------------------------------------------------------------
                  * If we generate 2 channels but have 6 channels demanded, repeat
                  * them: [ 0, 1, 0, 1, 0, 1 ]
                  *-----------------------------------------------------------------------*/
-                for (int out_channel_index = param_node->num_output_channels;
-                     out_channel_index < node->num_input_channels;
+                for (int out_channel_index = param_node->get_num_output_channels();
+                     out_channel_index < node->get_num_input_channels();
                      out_channel_index++)
                 {
-                    int in_channel_index = out_channel_index % param_node->num_output_channels;
+                    int in_channel_index = out_channel_index % param_node->get_num_output_channels();
                     memcpy(param_node->out[out_channel_index],
                            param_node->out[in_channel_index],
                            num_frames * sizeof(sample));
@@ -331,6 +335,34 @@ void AudioGraph::stop(Patch *patch)
 void AudioGraph::stop(NodeRef node)
 {
     nodes_to_remove.insert(node);
+}
+
+void AudioGraph::start_recording(const std::string &filename)
+{
+#ifdef HAVE_SNDFILE
+
+    SF_INFO info;
+    memset(&info, 0, sizeof(SF_INFO));
+    int num_frames = this->output->num_input_channels;
+    info.frames = this->get_output_buffer_size();
+    info.channels = this->output->get_num_input_channels();
+    info.samplerate = (int) this->sample_rate;
+    info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
+    SNDFILE *sndfile = sf_open(filename.c_str(), SFM_WRITE, &info);
+
+    if (!sndfile)
+    {
+        throw std::runtime_error(std::string("Failed to write soundfile (") + std::string(sf_strerror(NULL)) + ")");
+    }
+#else
+
+    throw std::runtime_error("Cannot record AudioGraph because SignalFlow was compiled without libsndfile support");
+
+#endif
+}
+
+void AudioGraph::stop_recording()
+{
 }
 
 void AudioGraph::show_structure()
