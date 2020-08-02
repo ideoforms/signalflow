@@ -4,8 +4,8 @@
 namespace signalflow
 {
 
-Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef phase, NodeRef sync)
-    : buffer(buffer), frequency(frequency), phase(phase), sync(sync)
+Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef phase, NodeRef sync, BufferRef phase_map)
+    : buffer(buffer), frequency(frequency), phase(phase), sync(sync), phase_map(phase_map)
 {
     this->name = "wavetable";
 
@@ -15,6 +15,7 @@ Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef phase, NodeRef
     this->create_input("phase", this->phase);
     this->create_input("sync", this->sync);
     this->create_buffer("buffer", this->buffer);
+    this->create_buffer("phase_map", this->phase_map);
 }
 
 void Wavetable::process(sample **out, int num_frames)
@@ -37,14 +38,18 @@ void Wavetable::process(sample **out, int num_frames)
             float frequency = this->frequency->out[channel][frame];
 
             // TODO Create wavetable buffer
-            int index = (this->current_phase[channel] + this->phase->out[channel][frame]) * this->buffer->get_num_frames();
-            index = index % this->buffer->get_num_frames();
+            float index = this->current_phase[channel] + this->phase->out[channel][frame];
+            index = fmod(index, 1);
             while (index < 0)
             {
-                index += this->buffer->get_num_frames();
+                index += 1;
+            }
+            if (this->phase_map)
+            {
+                index = this->phase_map->get_frame(index * this->phase_map->get_num_frames());
             }
 
-            float rv = this->buffer->get(index);
+            float rv = this->buffer->get_frame(index * this->buffer->get_num_frames());
 
             out[channel][frame] = rv;
 

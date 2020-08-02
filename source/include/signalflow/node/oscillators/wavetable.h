@@ -12,7 +12,8 @@ public:
     Wavetable(BufferRef buffer = nullptr,
               NodeRef frequency = 440,
               NodeRef phase = 0,
-              NodeRef sync = 0);
+              NodeRef sync = 0,
+              BufferRef phase_map = nullptr);
 
     virtual void process(sample **out, int num_frames);
 
@@ -21,6 +22,7 @@ private:
     NodeRef frequency;
     NodeRef phase;
     NodeRef sync;
+    BufferRef phase_map;
 
     float current_phase[SIGNALFLOW_MAX_CHANNELS];
 };
