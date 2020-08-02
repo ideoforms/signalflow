@@ -82,7 +82,7 @@
 #include <signalflow/node/envelope/asr.h>
 
 /*------------------------------------------------------------------------
- * Effects
+ * Processors
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/processors/delays/allpass.h>
 #include <signalflow/node/processors/delays/comb.h>
@@ -101,6 +101,7 @@
 #include <signalflow/node/processors/panning/pan.h>
 #include <signalflow/node/processors/panning/width.h>
 #include <signalflow/node/processors/smooth.h>
+#include <signalflow/node/processors/wetdry.h>
 
 /*------------------------------------------------------------------------
  * Sequencing

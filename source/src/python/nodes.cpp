@@ -202,6 +202,9 @@ void init_python_nodes(py::module &m)
     py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);
 
+    py::class_<WetDry, Node, NodeRefTemplate<WetDry>>(m, "WetDry")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "dry_input"_a = nullptr, "wet_input"_a = nullptr, "wetness"_a = 0.0);
+
     py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "min"_a = 0, "max"_a = 0);
 
