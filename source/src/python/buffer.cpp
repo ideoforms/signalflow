@@ -41,7 +41,7 @@ void init_python_buffer(py::module &m)
         .def("get", &Buffer::get)
         .def("get_frame", &Buffer::get_frame)
         .def("fill", [](Buffer &buf, float sample) { buf.fill(sample); })
-
+        .def("fill", [](Buffer &buf, const std::function<float(float)> f) { buf.fill(f); })
         .def("load", &Buffer::load)
         .def("save", &Buffer::save)
         .def_property_readonly("data", [](Buffer &buf) {
@@ -54,6 +54,9 @@ void init_python_buffer(py::module &m)
     py::class_<Buffer2D, Buffer, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
         .def(py::init<std::vector<BufferRef>>())
         .def("get2D", &Buffer2D::get2D);
+
+    py::class_<WaveShaperBuffer, Buffer, BufferRefTemplate<WaveShaperBuffer>>(m, "WaveShaperBuffer")
+        .def(py::init<int>());
 
     py::class_<EnvelopeBufferHanning, Buffer, BufferRefTemplate<EnvelopeBufferHanning>>(m, "EnvelopeBufferHanning")
         .def(py::init<int>());

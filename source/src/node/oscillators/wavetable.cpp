@@ -37,7 +37,6 @@ void Wavetable::process(sample **out, int num_frames)
             float frequency = this->frequency->out[channel][frame];
 
             // TODO Create wavetable buffer
-
             int index = (this->current_phase[channel] + this->phase->out[channel][frame]) * this->buffer->get_num_frames();
             index = index % this->buffer->get_num_frames();
             while (index < 0)

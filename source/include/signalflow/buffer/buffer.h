@@ -17,13 +17,6 @@
 
 #define SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH 2048
 
-/**------------------------------------------------------------------------
- * Typedef for a sample -> sample transfer function.
- * Used for lambda-based features.
- *
- *------------------------------------------------------------------------*/
-typedef sample (*transfer_fn)(sample);
-
 namespace signalflow
 {
 
@@ -176,14 +169,14 @@ public:
      * of each sample to a new output value.
      *
      * @param f A function which takes a single parameter, which is passed
-     * the offset of each sample.
+     *          the offset of each sample.
      *
      * For example, this can be used to create a quadratic waveshaper:
      *
      * buffer->fill([](float input) { return input * input; });
      *
      *------------------------------------------------------------------------*/
-    void fill(transfer_fn f);
+    void fill(const std::function<float(float)> f);
 
     /**------------------------------------------------------------------------
      * Get the buffer's audio sample rate.

@@ -351,7 +351,7 @@ void Buffer::fill(sample value)
     }
 }
 
-void Buffer::fill(transfer_fn f)
+void Buffer::fill(const std::function<float(float)> f)
 {
     for (int channel = 0; channel < this->num_channels; channel++)
     {
