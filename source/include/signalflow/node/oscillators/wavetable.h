@@ -11,6 +11,7 @@ class Wavetable : public Node
 public:
     Wavetable(BufferRef buffer = nullptr,
               NodeRef frequency = 440,
+              NodeRef phase = 0,
               NodeRef sync = 0);
 
     virtual void process(sample **out, int num_frames);
@@ -18,8 +19,10 @@ public:
 private:
     BufferRef buffer;
     NodeRef frequency;
+    NodeRef phase;
     NodeRef sync;
-    float phase[SIGNALFLOW_MAX_CHANNELS];
+
+    float current_phase[SIGNALFLOW_MAX_CHANNELS];
 };
 
 class Wavetable2D : public Node
