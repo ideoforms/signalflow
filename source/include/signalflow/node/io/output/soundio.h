@@ -35,6 +35,8 @@ private:
     std::string device_name;
 };
 
+REGISTER(AudioOut_SoundIO, "audioout-soundio")
+
 } // namespace signalflow
 
 #endif

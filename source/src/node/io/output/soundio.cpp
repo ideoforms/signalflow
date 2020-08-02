@@ -120,7 +120,7 @@ AudioOut_SoundIO::AudioOut_SoundIO(const std::string &device_name,
     this->device_name = device_name;
     this->sample_rate = sample_rate;
     this->buffer_size = buffer_size;
-    this->name = "audioout_soundio";
+    this->name = "audioout-soundio";
 
     this->init();
 }
