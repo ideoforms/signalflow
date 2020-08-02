@@ -35,6 +35,9 @@ void init_python_graph(py::module &m)
         .def("add_node", &AudioGraph::add_node)
         .def("remove_node", &AudioGraph::remove_node)
 
+        .def("start_recording", &AudioGraph::start_recording, "filename"_a = "", "num_channels"_a = 0)
+        .def("stop_recording", &AudioGraph::stop_recording)
+
         .def("wait", [](AudioGraph &graph) {
             /*--------------------------------------------------------------------------------
              * Interruptible wait
