@@ -10,6 +10,7 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/core/util.h"
 
+#include <functional>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -236,6 +237,8 @@ public:
     signalflow_interpolation_mode_t get_interpolation_mode();
 
     sample **data = NULL;
+
+    sample *&operator[](int index);
 
 protected:
     float sample_rate;

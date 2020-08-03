@@ -398,6 +398,11 @@ sample **Buffer::get_data()
     return this->data;
 }
 
+sample *&Buffer::operator[](int index)
+{
+    return this->data[index];
+}
+
 template <class T>
 BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
 {
