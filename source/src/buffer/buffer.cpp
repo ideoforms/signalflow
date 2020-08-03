@@ -89,6 +89,34 @@ Buffer::Buffer(std::string filename)
     this->load(filename);
 }
 
+Buffer::Buffer(std::string name, int num_frames)
+    : Buffer(1, num_frames)
+{
+    if (name == "triangle")
+    {
+        for (int x = 0; x < num_frames / 2; x++)
+            this->data[0][x] = (float) x / (num_frames / 2);
+        for (int x = 0; x < num_frames / 2; x++)
+            this->data[0][(num_frames / 2) + x] = 1.0 - (float) x / (num_frames / 2);
+    }
+    else if (name == "linear-decay")
+    {
+        for (int x = 0; x < num_frames; x++)
+            this->data[0][x] = 1.0 - (float) x / num_frames;
+    }
+    else if (name == "hanning")
+    {
+        for (int x = 0; x < num_frames; x++)
+        {
+            this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (num_frames - 1)));
+        }
+    }
+    else
+    {
+        throw std::runtime_error("Invalid buffer name: " + name);
+    }
+}
+
 Buffer::~Buffer()
 {
     if (this->data)
@@ -439,31 +467,6 @@ double EnvelopeBuffer::offset_to_frame(double offset)
 double EnvelopeBuffer::frame_to_offset(double frame)
 {
     return signalflow_scale_lin_lin(frame, 0, this->num_frames - 1, 0, 1);
-}
-
-EnvelopeBufferTriangle::EnvelopeBufferTriangle(int length)
-    : EnvelopeBuffer(length)
-{
-    for (int x = 0; x < length / 2; x++)
-        this->data[0][x] = (float) x / (length / 2);
-    for (int x = 0; x < length / 2; x++)
-        this->data[0][(length / 2) + x] = 1.0 - (float) x / (length / 2);
-}
-
-EnvelopeBufferLinearDecay::EnvelopeBufferLinearDecay(int length)
-    : EnvelopeBuffer(length)
-{
-    for (int x = 0; x < length; x++)
-        this->data[0][x] = 1.0 - (float) x / length;
-}
-
-EnvelopeBufferHanning::EnvelopeBufferHanning(int length)
-    : EnvelopeBuffer(length)
-{
-    for (int x = 0; x < length; x++)
-    {
-        this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (length - 1)));
-    }
 }
 
 WaveShaperBuffer::WaveShaperBuffer(int length)

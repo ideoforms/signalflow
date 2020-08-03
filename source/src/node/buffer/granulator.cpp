@@ -16,7 +16,7 @@ Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef gra
 
     this->create_buffer("buffer", buffer);
 
-    this->envelope = new EnvelopeBufferTriangle();
+    this->envelope = new Buffer("triangle", 1024);
     this->create_buffer("envelope", envelope);
 
     this->set_channels(1, 2);
@@ -80,7 +80,7 @@ void Granulator::process(sample **out, int num_frames)
                  * Apply grain envelope.
                  *-----------------------------------------------------------------------*/
                 float env_phase = (float) grain->samples_done / grain->sample_length;
-                float amp = this->envelope->get(env_phase);
+                float amp = this->envelope->get(env_phase * this->envelope->get_num_frames());
 
                 grain->samples_done += grain->rate;
 

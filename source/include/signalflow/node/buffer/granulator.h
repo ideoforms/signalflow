@@ -25,7 +25,12 @@ public:
 class Granulator : public Node
 {
 public:
-    Granulator(BufferRef buffer = nullptr, NodeRef clock = 0, NodeRef pos = 0, NodeRef grain_length = 0.1, NodeRef rate = 1.0, NodeRef max_grains = 2048);
+    Granulator(BufferRef buffer = nullptr,
+               NodeRef clock = 0,
+               NodeRef pos = 0,
+               NodeRef grain_length = 0.1,
+               NodeRef rate = 1.0,
+               NodeRef max_grains = 2048);
 
     BufferRef buffer;
     BufferRef envelope;

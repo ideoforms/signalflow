@@ -81,6 +81,15 @@ public:
     Buffer(std::string filename);
 
     /**------------------------------------------------------------------------
+      * Initialise a buffer with the wavetable/envelope named `name`.
+      *
+      * @param name One of triangle, linear-delay, hanning
+      * @param num_frames Length of buffer
+      *
+      *------------------------------------------------------------------------*/
+    Buffer(std::string name, int num_frames);
+
+    /**------------------------------------------------------------------------
       * Destroy the buffer.
       *
       *------------------------------------------------------------------------*/
@@ -236,9 +245,18 @@ public:
      *------------------------------------------------------------------------*/
     signalflow_interpolation_mode_t get_interpolation_mode();
 
-    sample **data = NULL;
-
+    /**------------------------------------------------------------------------
+     * Subscript operator is a direct accessor into the buffer's data.
+     * Each array element points to a single channel of floating-point samples.
+     *
+     * @param index Array index. Must be smaller than the buffer's
+     *              channel count.
+     * @returns A reference to a channel of samples
+     *
+     *------------------------------------------------------------------------*/
     sample *&operator[](int index);
+
+    sample **data = NULL;
 
 protected:
     float sample_rate;
@@ -265,24 +283,6 @@ public:
      *------------------------------------------------------------------------*/
     virtual double offset_to_frame(double offset) override;
     virtual double frame_to_offset(double frame) override;
-};
-
-class EnvelopeBufferTriangle : public EnvelopeBuffer
-{
-public:
-    EnvelopeBufferTriangle(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
-};
-
-class EnvelopeBufferLinearDecay : public EnvelopeBuffer
-{
-public:
-    EnvelopeBufferLinearDecay(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
-};
-
-class EnvelopeBufferHanning : public EnvelopeBuffer
-{
-public:
-    EnvelopeBufferHanning(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 };
 
 /*-------------------------------------------------------------------------

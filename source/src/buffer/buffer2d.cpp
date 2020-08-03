@@ -40,7 +40,7 @@ Buffer2D::Buffer2D(std::vector<BufferRef> buffers)
     {
         this->data[i] = sample_data + i * this->num_frames;
 
-        memcpy(this->data[i], buffers[i]->data[0], this->num_frames * sizeof(sample));
+        memcpy(this->data[i], buffers[i]->get_data()[0], this->num_frames * sizeof(sample));
     }
 }
 
