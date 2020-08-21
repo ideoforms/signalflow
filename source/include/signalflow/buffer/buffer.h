@@ -18,6 +18,10 @@
 
 #define SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH 2048
 
+#define SIGNALFLOW_BUFFER_HANNING "hanning"
+#define SIGNALFLOW_BUFFER_LINEAR_DECAY "linear-decay"
+#define SIGNALFLOW_BUFFER_TRIANGLE "triangle"
+
 namespace signalflow
 {
 

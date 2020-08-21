@@ -41,7 +41,8 @@ int main()
      * Create a granulator object with Hanning envelope applies to grains.
      *-----------------------------------------------------------------------*/
     NodeRef granulator = new Granulator(buffer, dust, pos, len);
-    BufferRef env_buf = new EnvelopeBufferHanning();
+    BufferRef env_buf = new Buffer(SIGNALFLOW_BUFFER_HANNING, 1024);
+
     granulator->set_input("pan", pan);
     granulator->set_buffer("envelope", env_buf);
     granulator = granulator * 0.25;
