@@ -85,10 +85,14 @@ void EnvelopeADSR::process(sample **out, int num_frames)
 
         if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
         {
-            rv = signalflow_db_to_amp((rv - 1) * 60);
+            if (rv > 0)
+            {
+                rv = signalflow_db_to_amp((rv - 1) * 96);
+            }
         }
         else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
         {
+            // no adjustment needed
         }
         else
         {
