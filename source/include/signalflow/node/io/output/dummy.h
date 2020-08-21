@@ -16,6 +16,6 @@ public:
     virtual int destroy() { return 0; }
 };
 
-REGISTER(AudioOut_Dummy, "audioout-dummy");
+REGISTER(AudioOut_Dummy, "audioout-dummy")
 
 } // namespace signalflow
