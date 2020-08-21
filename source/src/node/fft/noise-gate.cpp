@@ -1,7 +1,6 @@
 #include "signalflow/node/fft/noise-gate.h"
 
 #include <algorithm>
-#include <array>
 
 namespace signalflow
 {
@@ -24,10 +23,9 @@ void FFTNoiseGate::process(sample **out, int num_frames)
          * Rather than num_frames here, we need to iterate over fft_size frames
          *  - as each block contains a whole fft of samples.
          *-----------------------------------------------------------------------*/
-        float mags[num_bins];
-        memcpy(mags, &input->out[hop][0], sizeof(float) * num_bins);
-        std::sort(mags, mags + num_bins);
-        float cutoff = mags[(int) (this->threshold->out[0][0] * num_bins)];
+        memcpy(this->mags, &input->out[hop][0], sizeof(float) * num_bins);
+        std::sort(this->mags, mags + num_bins);
+        float cutoff = this->mags[(int) (this->threshold->out[0][0] * num_bins)];
 
         for (int frame = 0; frame < this->fft_size; frame++)
         {

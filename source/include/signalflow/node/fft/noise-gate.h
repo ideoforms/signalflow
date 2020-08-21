@@ -12,6 +12,9 @@ public:
     virtual void process(sample **out, int num_frames);
 
     NodeRef threshold = nullptr;
+
+private:
+    float mags[SIGNALFLOW_MAX_FFT_SIZE / 2];
 };
 
 REGISTER(FFTNoiseGate, "fft_noise_gate")

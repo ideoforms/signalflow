@@ -13,6 +13,9 @@ public:
 
     NodeRef level = nullptr;
     NodeRef smoothing = nullptr;
+
+private:
+    float mags_smoothed[SIGNALFLOW_MAX_FFT_SIZE / 2];
 };
 
 REGISTER(FFTTonality, "fft-tonality")
