@@ -29,7 +29,15 @@ Node::Node()
     this->matches_input_channels = true;
     this->num_input_channels = 1;
     this->num_output_channels = 1;
-    this->last_num_frames = 0;
+
+    /*------------------------------------------------------------------------
+     * last_num_frames caches the number of frames generated in the last
+     * audio I/O cycle. Initialise it to be equal to the full buffer size,
+     * so that if it is read before an audio I/O cycle has completed,
+     * we avoid errors when trying to access elements of a buffer that is
+     * 0 samples long (particularly in the Python bindings).
+     *-----------------------------------------------------------------------*/
+    this->last_num_frames = SIGNALFLOW_NODE_BUFFER_SIZE;
 
     this->no_input_upmix = false;
 

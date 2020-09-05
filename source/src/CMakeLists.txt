@@ -77,6 +77,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/vamp.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/cross-correlate.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-registry.cpp

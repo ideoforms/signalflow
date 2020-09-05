@@ -114,6 +114,7 @@
  * (In development)
  *-----------------------------------------------------------------------*/
 // #include <signalflow/node/analysis/vamp.h>
+#include <signalflow/node/analysis/cross-correlate.h>
 
 /*------------------------------------------------------------------------
  * Control interfaces
