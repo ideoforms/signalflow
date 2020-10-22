@@ -2,11 +2,7 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/core/exceptions.h"
 #include "signalflow/core/graph.h"
-#include "signalflow/core/random.h"
-
-#ifdef HAVE_SNDFILE
 #include <sndfile.h>
-#endif
 
 #include <math.h>
 #include <stdlib.h>
@@ -128,8 +124,6 @@ Buffer::~Buffer()
 
 void Buffer::load(std::string filename)
 {
-#ifdef HAVE_SNDFILE
-
     std::string path = filename;
     if (access(path.c_str(), F_OK) != 0)
     {
@@ -226,18 +220,10 @@ void Buffer::load(std::string filename)
 
     // TODO Logging
     // std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
-
-#else
-
-    throw std::runtime_error("Can't load audio data as libsndfile was not detected at compile time");
-
-#endif
 }
 
 void Buffer::save(std::string filename)
 {
-#ifdef HAVE_SNDFILE
-
     SF_INFO info;
     memset(&info, 0, sizeof(SF_INFO));
     info.frames = this->num_frames;
@@ -279,12 +265,6 @@ void Buffer::save(std::string filename)
     delete[] buffer;
 
     sf_close(sndfile);
-
-#else
-
-    throw std::runtime_error("Can't save audio data as libsndfile was not detected at compile time");
-
-#endif
 }
 
 std::vector<BufferRef> Buffer::split(int num_frames_per_part)

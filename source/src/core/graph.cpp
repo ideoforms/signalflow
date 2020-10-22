@@ -63,17 +63,15 @@ AudioGraph::AudioGraph(SignalFlowConfig *config,
     this->cpu_usage = 0.0;
     this->monitor = NULL;
 
-#ifdef HAVE_SNDFILE
     this->recording_fd = NULL;
     this->recording_num_channels = 0;
     this->recording_buffer = (float *) calloc(SIGNALFLOW_DEFAULT_BLOCK_SIZE * SIGNALFLOW_MAX_CHANNELS, sizeof(float));
-#endif
 }
 
 void AudioGraph::start()
 {
-    AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
-    audioout->start();
+    AudioOut_Abstract *audio_out = (AudioOut_Abstract *) this->output.get();
+    audio_out->start();
 }
 
 void AudioGraph::stop()
@@ -358,8 +356,6 @@ void AudioGraph::stop(NodeRef node)
 
 void AudioGraph::start_recording(const std::string &filename, int num_channels)
 {
-#ifdef HAVE_SNDFILE
-
     SF_INFO info;
     memset(&info, 0, sizeof(SF_INFO));
     info.frames = this->get_output_buffer_size();
@@ -379,21 +375,11 @@ void AudioGraph::start_recording(const std::string &filename, int num_channels)
     {
         throw std::runtime_error(std::string("Failed to write soundfile (") + std::string(sf_strerror(NULL)) + ")");
     }
-
-#else
-
-    throw std::runtime_error("Cannot record AudioGraph because SignalFlow was compiled without libsndfile support");
-
-#endif
 }
 
 void AudioGraph::stop_recording()
 {
-#ifdef HAVE_SNDFILE
-
     sf_close(this->recording_fd);
-
-#endif
 }
 
 void AudioGraph::show_structure()
