@@ -51,6 +51,7 @@ void init_python_node(py::module &m)
         .def_readonly("name", &Node::name)
         .def_property_readonly("num_output_channels", &Node::get_num_output_channels)
         .def_property_readonly("num_input_channels", &Node::get_num_input_channels)
+        .def_property_readonly("num_output_channels_allocated", &Node::get_num_output_channels_allocated)
         .def_property_readonly("patch", &Node::get_patch)
         .def_property_readonly("state", &Node::get_state)
         .def_property_readonly("inputs", [](Node &node) {
