@@ -169,7 +169,10 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
                  * Ensure the input node's output buffer re-allocation has been done.
                  * Reallocation for inputs is automatically done in Node::update_channels.
                  *-----------------------------------------------------------------------*/
-                assert(input_node->get_num_output_channels_allocated() >= node->get_num_input_channels());
+                if (input_node->get_num_output_channels_allocated() < node->get_num_input_channels())
+                {
+                    throw std::runtime_error("Input node does not have enough buffers allocated (need " + std::to_string(node->get_num_input_channels()) + ", got " + std::to_string(input_node->get_num_output_channels_allocated()));
+                }
 
                 /*------------------------------------------------------------------------
                  * If we generate 2 channels but have 6 channels demanded, repeat
