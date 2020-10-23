@@ -13,15 +13,8 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
 
     this->name = "buffer-player";
 
-    this->create_buffer("buffer", this->buffer);
-    this->create_input("rate", this->rate);
-    this->create_input("loop_start", this->loop_start);
-    this->create_input("loop_end", this->loop_end);
-    this->create_input("loop", this->loop);
-
-    this->phase = 0.0;
-
     this->buffer = buffer;
+    this->create_buffer("buffer", this->buffer);
     this->set_channels(1, 0);
 
     if (buffer)
@@ -32,6 +25,13 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
          *--------------------------------------------------------------------------------*/
         this->set_buffer("buffer", buffer);
     }
+
+    this->create_input("rate", this->rate);
+    this->create_input("loop_start", this->loop_start);
+    this->create_input("loop_end", this->loop_end);
+    this->create_input("loop", this->loop);
+
+    this->phase = 0.0;
 
     this->trigger();
 }
