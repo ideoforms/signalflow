@@ -137,12 +137,12 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
     /*------------------------------------------------------------------------
      * Pull our inputs before we generate our own outputs.
      *-----------------------------------------------------------------------*/
-    for (auto param : node->inputs)
+    for (auto input : node->inputs)
     {
-        NodeRef param_node = *(param.second);
-        if (param_node)
+        NodeRef input_node = *(input.second);
+        if (input_node)
         {
-            this->render_subgraph(param_node, num_frames);
+            this->render_subgraph(input_node, num_frames);
 
             /*------------------------------------------------------------------------
              * Automatic input upmix.
@@ -160,22 +160,28 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
              * populated Buffer) will have num_output_channels == 0. Don't try to
              * upmix a void output.
              *-----------------------------------------------------------------------*/
-            if (param_node->get_num_output_channels() < node->get_num_input_channels() && !node->no_input_upmix && param_node->get_num_output_channels() > 0)
+            if (input_node->get_num_output_channels() < node->get_num_input_channels() && !node->no_input_upmix && input_node->get_num_output_channels() > 0)
             {
-                signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", param_node->name.c_str(),
-                                 node->name.c_str(), node->get_num_input_channels(), param_node->name.c_str(), param_node->get_num_output_channels());
+                signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", input_node->name.c_str(),
+                                 node->name.c_str(), node->get_num_input_channels(), input_node->name.c_str(), input_node->get_num_output_channels());
+
+                /*------------------------------------------------------------------------
+                 * Ensure the input node's output buffer re-allocation has been done.
+                 * Reallocation for inputs is automatically done in Node::update_channels.
+                 *-----------------------------------------------------------------------*/
+                assert(input_node->get_num_output_channels_allocated() >= node->get_num_input_channels());
 
                 /*------------------------------------------------------------------------
                  * If we generate 2 channels but have 6 channels demanded, repeat
                  * them: [ 0, 1, 0, 1, 0, 1 ]
                  *-----------------------------------------------------------------------*/
-                for (int out_channel_index = param_node->get_num_output_channels();
+                for (int out_channel_index = input_node->get_num_output_channels();
                      out_channel_index < node->get_num_input_channels();
                      out_channel_index++)
                 {
-                    int in_channel_index = out_channel_index % param_node->get_num_output_channels();
-                    memcpy(param_node->out[out_channel_index],
-                           param_node->out[in_channel_index],
+                    int in_channel_index = out_channel_index % input_node->get_num_output_channels();
+                    memcpy(input_node->out[out_channel_index],
+                           input_node->out[in_channel_index],
                            num_frames * sizeof(sample));
                 }
             }

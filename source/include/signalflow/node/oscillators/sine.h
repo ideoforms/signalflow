@@ -10,7 +10,7 @@ public:
     Sine(NodeRef frequency = 440);
 
     virtual void process(sample **out, int num_frames) override;
-    virtual void allocate_memory(int output_buffer_count) override;
+    virtual void alloc() override;
 
     NodeRef frequency;
 

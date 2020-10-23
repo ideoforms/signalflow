@@ -133,6 +133,14 @@ public:
      *-----------------------------------------------------------------------*/
     virtual int get_num_output_channels();
 
+    /**------------------------------------------------------------------------
+     * Get the number of output channels allocated.
+     * @returns The number of output channels allocated in memory, which
+     *          is at least as large as num_output_channels.
+     *
+     *-----------------------------------------------------------------------*/
+    virtual int get_num_output_channels_allocated();
+
     /*------------------------------------------------------------------------
      * Get/set properties.
      *-----------------------------------------------------------------------*/
@@ -266,15 +274,18 @@ protected:
 
     /*------------------------------------------------------------------------
      * Allocate memory for output buffers.
+     *  - allocate_output_buffers() allocates at least as many as
+     *    output_buffer_count buffers. If enough buffers have already been
+     *    allocated, don't do anything.
      *-----------------------------------------------------------------------*/
-    virtual void allocate_output_buffer();
+    virtual void allocate_output_buffers(int output_buffer_count);
     virtual void free_output_buffer();
 
     /*------------------------------------------------------------------------
      * Allocate memory for other dynamic node storage.
      *-----------------------------------------------------------------------*/
-    virtual void allocate_memory(int output_buffer_count);
-    virtual void free_memory();
+    virtual void alloc();
+    virtual void free();
 
     /*------------------------------------------------------------------------
      * Set node run state.

@@ -48,7 +48,7 @@ Node::Node()
     this->out = NULL;
     this->num_output_channels_allocated = 0;
     this->output_buffer_length = SIGNALFLOW_NODE_BUFFER_SIZE;
-    this->allocate_output_buffer();
+    this->allocate_output_buffers(SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS);
 }
 
 Node::~Node()
@@ -78,7 +78,7 @@ void Node::_process(sample **out, int num_frames)
     }
     if (this->last_num_frames > 0)
     {
-        for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
+        for (int i = 0; i < this->num_output_channels; i++)
         {
             out[i][-1] = out[i][last_num_frames - 1];
         }
@@ -130,6 +130,15 @@ void Node::update_channels()
         this->num_input_channels = max_channels;
         this->num_output_channels = max_channels;
 
+        for (auto input : this->inputs)
+        {
+            NodeRef node = *input.second;
+            if (node && node->get_num_output_channels_allocated() < this->num_output_channels)
+            {
+                node->allocate_output_buffers(this->num_output_channels);
+            }
+        }
+
         if (previous_num_output_channels != this->num_output_channels)
         {
             for (auto output : this->outputs)
@@ -139,7 +148,7 @@ void Node::update_channels()
             }
         }
 
-        this->allocate_output_buffer();
+        this->allocate_output_buffers(this->num_output_channels);
 
         signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
     }
@@ -172,23 +181,28 @@ int Node::get_num_output_channels()
     return this->num_output_channels;
 }
 
+int Node::get_num_output_channels_allocated()
+{
+    return this->num_output_channels_allocated;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Memory lifecycle
 ////////////////////////////////////////////////////////////////////////////////
 
-void Node::allocate_memory(int output_buffer_count)
+void Node::alloc()
 {
 }
 
-void Node::free_memory()
+void Node::free()
 {
 }
 
-void Node::allocate_output_buffer()
+void Node::allocate_output_buffers(int output_buffer_count)
 {
     if (this->out)
     {
-        if (this->num_output_channels <= this->num_output_channels_allocated)
+        if (output_buffer_count <= this->num_output_channels_allocated)
         {
             /*------------------------------------------------------------------------
              * If enough channels are already allocated, don't do anything.
@@ -205,15 +219,8 @@ void Node::allocate_output_buffer()
              *-----------------------------------------------------------------------*/
             delete (this->out[0] - 1);
             delete (this->out);
-            this->free_memory();
+            this->free();
         }
-    }
-
-    int output_buffer_count = SIGNALFLOW_MAX_CHANNELS;
-
-    if (output_buffer_count < this->num_output_channels)
-    {
-        output_buffer_count = this->num_output_channels;
     }
 
     /*------------------------------------------------------------------------
@@ -239,8 +246,7 @@ void Node::allocate_output_buffer()
     }
 
     this->num_output_channels_allocated = output_buffer_count;
-
-    this->allocate_memory(output_buffer_count);
+    this->alloc();
 }
 
 void Node::free_output_buffer()
@@ -293,6 +299,11 @@ void Node::create_input(std::string name, NodeRef &input)
     if (input)
     {
         input->add_output(this, name);
+
+        /*------------------------------------------------------------------------
+         * In case the input has more output channels than this Node is
+         * currently able to accept, update our channel routing.
+         *-----------------------------------------------------------------------*/
         this->update_channels();
     }
 }

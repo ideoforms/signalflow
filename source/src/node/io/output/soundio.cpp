@@ -189,6 +189,7 @@ int AudioOut_SoundIO::init()
     std::cerr << "Output device: " << device->name << " (" << sample_rate << "Hz, "
               << "buffer size " << buffer_size << " samples, " << num_output_channels << " channel" << s << ")" << std::endl;
 
+    // do we need to set num_output channels to allocate the right number of output buffers?
     this->set_channels(num_output_channels, 0);
 
     return 0;

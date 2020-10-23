@@ -12,12 +12,17 @@ Counter::Counter(NodeRef clock, NodeRef min, NodeRef max)
     this->create_input("min", this->min);
     this->create_input("max", this->max);
 
-    memset(this->counter, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
+    this->alloc();
+}
+
+void Counter::alloc()
+{
+    this->counter.resize(this->num_output_channels_allocated);
 }
 
 void Counter::trigger(std::string name, float value)
 {
-    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
+    for (int i = 0; i < this->num_output_channels; i++)
     {
         this->counter[i] += 1;
     }
@@ -25,16 +30,18 @@ void Counter::trigger(std::string name, float value)
 
 void Counter::process(sample **out, int num_frames)
 {
-    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
+    for (int channel = 0; channel < this->num_output_channels; channel++)
     {
-        if (this->counter[i] >= this->max->out[0][0])
-            this->counter[i] = this->min->out[0][0];
-    }
-    for (int frame = 0; frame < num_frames; frame++)
-    {
-        for (int channel = 0; channel < this->num_output_channels; channel++)
+        for (int frame = 0; frame < num_frames; frame++)
         {
-            out[channel][frame] = this->counter[channel];
+            bool rv = SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame);
+            if (rv)
+            {
+                this->counter[channel] += 1;
+                if (this->counter[channel] >= this->max->out[channel][frame])
+                    this->counter[channel] = this->min->out[channel][frame];
+            }
+            this->out[channel][frame] = this->counter[channel];
         }
     }
 }

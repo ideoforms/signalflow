@@ -10,7 +10,13 @@ Impulse::Impulse(NodeRef frequency)
 {
     this->name = "impulse";
     this->create_input("frequency", this->frequency);
-    this->steps_remaining = std::vector<int>(this->num_output_channels, 0);
+
+    this->alloc();
+}
+
+void Impulse::alloc()
+{
+    this->steps_remaining.resize(this->num_output_channels_allocated);
 }
 
 void Impulse::process(sample **out, int num_frames)

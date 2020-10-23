@@ -72,7 +72,7 @@ void ChannelArray::update_channels()
 
     signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
 
-    this->allocate_output_buffer();
+    this->allocate_output_buffers(this->num_input_channels);
 }
 
 void ChannelArray::add_input(NodeRef input)

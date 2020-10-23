@@ -1,8 +1,6 @@
 #include "signalflow/core/graph.h"
 #include "signalflow/node/oscillators/sine.h"
 
-#include <stdio.h>
-
 namespace signalflow
 {
 
@@ -12,16 +10,25 @@ Sine::Sine(NodeRef frequency)
     this->name = "sine";
     this->create_input("frequency", this->frequency);
 
-    // This can't be done in Node::Node because base class constructors
-    // cannot call subclass virtual functions (because the subclass hasn't yet)
-    // been created).
-    // https://isocpp.org/wiki/faq/strange-inheritance#calling-virtuals-from-ctors
-    this->allocate_memory(SIGNALFLOW_MAX_CHANNELS);
+    /*--------------------------------------------------------------------------------
+     * This can't be done in Node::Node because base class constructors
+     * cannot call subclass virtual functions (because the subclass hasn't yet)
+     * been created).
+     *
+     * For this reason, Node subclasses always need to call their own alloc() from
+     * their ctor.
+     *
+     * https://isocpp.org/wiki/faq/strange-inheritance#calling-virtuals-from-ctors
+     *
+     * If subsequent reallocation needs to happen, this method will be called via
+     * allocate_output_buffer (after calling Node->free() first.)
+     *-------------------------------------------------------------------------------*/
+    this->alloc();
 }
 
-void Sine::allocate_memory(int output_buffer_count)
+void Sine::alloc()
 {
-    this->phase.resize(output_buffer_count);
+    this->phase.resize(this->num_output_channels_allocated);
 }
 
 void Sine::process(sample **out, int num_frames)

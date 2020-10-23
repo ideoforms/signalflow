@@ -6,6 +6,7 @@ namespace signalflow
 AudioOut_Abstract::AudioOut_Abstract()
 {
     this->name = "audioout";
+    // do we need to set num_output channels to allocate the right number of output buffers?
     this->set_channels(2, 0);
     this->no_input_upmix = true;
     this->input_index = 0;

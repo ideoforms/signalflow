@@ -10,9 +10,12 @@ class Impulse : public Node
 public:
     Impulse(NodeRef frequency = 1.0);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void alloc() override;
+    virtual void process(sample **out, int num_frames) override;
 
     NodeRef frequency;
+
+private:
     std::vector<int> steps_remaining;
 };
 

@@ -1,5 +1,5 @@
 from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
-from signalflow import BiquadFilter, AllpassDelay, WaveShaper, WaveShaperBuffer, Constant
+from signalflow import BiquadFilter, AllpassDelay, WaveShaper, WaveShaperBuffer, Constant, Add
 from signalflow import InvalidChannelCountException
 import numpy as np
 import pytest
@@ -117,6 +117,9 @@ def test_expansion_channel_mismatch(graph):
         c.set_input("rate", [ 1, 1.5 ])
 
 def test_expansion_recursive(graph):
+    """
+    Check that num_output_channels values propagate through the graph.
+    """
     a = Sine(440)
     b = BiquadFilter(a)
     buf = WaveShaperBuffer(256)
@@ -138,11 +141,49 @@ def test_expansion_recursive(graph):
     assert c.num_input_channels == c.num_output_channels == 1
     assert d.num_input_channels == d.num_output_channels == 1
 
-# def test_expansion_recursive_processing(graph):
-#     a = Constant(4)
-#     b = a + 1
-#     c = b * 2
-#     d = c - 1
-#     buf = Buffer(1, 1024)
-#     process_tree(d, buffer=buf)
-#     assert np.all(buf.data[0] == 9)
+def test_expansion_recursive_processing():
+    """
+    Check that processing/upmixing propagates through the graph when
+    an input's channel count is increased.
+
+    Needs to be run through AudioGraph because simple process_tree
+    doesn't do upmixing.
+    """
+    output = AudioOut_Dummy(2)
+    graph = AudioGraph(output_device=output)
+
+    a = Constant(4)
+    b = a + 1
+    c = b * 2
+    d = c - 1
+    buf = Buffer(2, 1024)
+    graph.play(d)
+    graph.render_to_buffer(buf)
+    assert np.all(buf.data[0] == 9)
+
+    buf = Buffer(2, 1024)
+    b.set_input("input0", [5, 6])
+    graph.render_to_buffer(buf)
+    assert np.all(buf.data[0] == 11)
+    assert np.all(buf.data[1] == 13)
+    graph.stop(d)
+
+def test_expansion_buffer_reallocation(graph):
+    a = Sine([440] * 4)
+    assert a.num_output_channels == 4
+    assert a.num_output_channels_allocated == 32
+    a.set_input("frequency", [440] * 100)
+    assert a.num_output_channels == 100
+    assert a.num_output_channels_allocated == 100
+
+def test_expansion_input_reallocation(graph):
+    """
+    Need to allocate more output buffers for upmixing
+    rename num_output_channels_allocated to num_allocated_output_buffers
+    """
+    a = Constant(4)
+    b = Add(a, [9] * 33)
+    assert b.num_output_channels == 33
+    assert b.num_input_channels == 33
+    assert a.num_output_channels == 1
+    assert a.num_output_channels_allocated == 33
