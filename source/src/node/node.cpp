@@ -46,6 +46,7 @@ Node::Node()
 
     this->has_rendered = false;
     this->out = NULL;
+    this->num_output_channels_allocated = 0;
     this->output_buffer_length = SIGNALFLOW_NODE_BUFFER_SIZE;
     this->allocate_output_buffer();
 }
@@ -58,6 +59,10 @@ Node::~Node()
      *-----------------------------------------------------------------------*/
     this->free_output_buffer();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Processing
+////////////////////////////////////////////////////////////////////////////////
 
 /*------------------------------------------------------------------------
  * Called directly by AudioGraph, this function wraps around the
@@ -92,6 +97,10 @@ void Node::process(sample **out, int num_frames)
     throw std::runtime_error("Node::process (should never be called)");
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Channels
+////////////////////////////////////////////////////////////////////////////////
+
 void Node::set_channels(int num_input_channels, int num_output_channels)
 {
     this->num_input_channels = num_input_channels;
@@ -117,8 +126,18 @@ void Node::update_channels()
                 max_channels = input_node->get_num_output_channels();
         }
 
+        int previous_num_output_channels = this->num_output_channels;
         this->num_input_channels = max_channels;
         this->num_output_channels = max_channels;
+
+        if (previous_num_output_channels != this->num_output_channels)
+        {
+            for (auto output : this->outputs)
+            {
+                Node *node = output.first;
+                node->update_channels();
+            }
+        }
 
         this->allocate_output_buffer();
 
@@ -153,6 +172,18 @@ int Node::get_num_output_channels()
     return this->num_output_channels;
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Memory lifecycle
+////////////////////////////////////////////////////////////////////////////////
+
+void Node::allocate_memory(int output_buffer_count)
+{
+}
+
+void Node::free_memory()
+{
+}
+
 void Node::allocate_output_buffer()
 {
     if (this->out)
@@ -169,9 +200,12 @@ void Node::allocate_output_buffer()
             /*------------------------------------------------------------------------
              * If not enough channels are allocated, dealloc the current allocations
              * and start from scratch.
+             * 
+             * For explanation of -1, see "Memory allocation magic" below
              *-----------------------------------------------------------------------*/
             delete (this->out[0] - 1);
             delete (this->out);
+            this->free_memory();
         }
     }
 
@@ -205,6 +239,8 @@ void Node::allocate_output_buffer()
     }
 
     this->num_output_channels_allocated = output_buffer_count;
+
+    this->allocate_memory(output_buffer_count);
 }
 
 void Node::free_output_buffer()
@@ -216,6 +252,15 @@ void Node::free_output_buffer()
         this->out = NULL;
     }
 }
+
+int Node::get_output_buffer_length()
+{
+    return this->output_buffer_length;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// States
+////////////////////////////////////////////////////////////////////////////////
 
 signalflow_node_state_t Node::get_state()
 {
@@ -234,19 +279,30 @@ void Node::set_state(signalflow_node_state_t state)
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Inputs and outputs
+////////////////////////////////////////////////////////////////////////////////
+
 void Node::create_input(std::string name, NodeRef &input)
 {
+    this->inputs[name] = &input;
+
     /*------------------------------------------------------------------------
-     * Update each input's channel count first, allowing up-mix to
-     * percolate to the root of the graph.
+     * Create a new named input.
      *-----------------------------------------------------------------------*/
     if (input)
     {
-        input->update_channels();
         input->add_output(this, name);
+        this->update_channels();
     }
+}
 
-    this->inputs[name] = &input;
+void Node::destroy_input(std::string name)
+{
+    /*------------------------------------------------------------------------
+     * Only done by special classes (ChannelArray, AudioOut)
+     *-----------------------------------------------------------------------*/
+    this->inputs.erase(name);
     this->update_channels();
 }
 
@@ -269,14 +325,6 @@ void Node::set_input(std::string name, const NodeRef &node)
 
     NodeRef current_input = *(this->inputs[name]);
 
-    //    if (node->name == "constant" && current_input && current_input->name == "constant")
-    //    {
-    //        Constant *constant = (Constant *) current_input.get();
-    //        Constant *new_constant = (Constant *) node.get();
-    //        constant->value = new_constant->value;
-    //    }
-    //    else
-    //    {
     if (current_input)
     {
         current_input->remove_output(this, name);
@@ -284,10 +332,8 @@ void Node::set_input(std::string name, const NodeRef &node)
 
     *(this->inputs[name]) = node;
     this->update_channels();
-    node->update_channels();
 
     node->add_output(this, name);
-    //    }
 }
 
 void Node::set_input(std::string name, float value)
@@ -306,7 +352,7 @@ void Node::set_input(std::string name, float value)
     }
     else
     {
-        throw std::runtime_error("Can't set input");
+        this->set_input(name, new Constant(value));
     }
 }
 
@@ -318,15 +364,6 @@ void Node::add_input(NodeRef input)
 void Node::remove_input(NodeRef input)
 {
     throw std::runtime_error("This Node class does not support unnamed inputs");
-}
-
-void Node::destroy_input(std::string name)
-{
-    /*------------------------------------------------------------------------
-     * Only done by special classes (ChannelArray, AudioOut)
-     *-----------------------------------------------------------------------*/
-    this->inputs.erase(name);
-    this->update_channels();
 }
 
 void Node::add_output(Node *target, std::string name)
@@ -364,6 +401,10 @@ void Node::disconnect_outputs()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Properties
+////////////////////////////////////////////////////////////////////////////////
+
 void Node::add_property(std::string name, PropertyRef &value)
 {
     this->properties[name] = &value;
@@ -385,6 +426,10 @@ PropertyRef Node::get_property(std::string name)
     return *(this->properties[name]);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Buffers
+////////////////////////////////////////////////////////////////////////////////
+
 void Node::create_buffer(std::string name, BufferRef &buffer)
 {
     this->buffers[name] = &buffer;
@@ -397,6 +442,10 @@ void Node::set_buffer(std::string name, BufferRef buffer)
 
     *(this->buffers[name]) = buffer;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Patches
+////////////////////////////////////////////////////////////////////////////////
 
 Patch *Node::get_patch()
 {
@@ -411,6 +460,10 @@ void Node::set_patch(Patch *patch)
     }
     this->patch = patch;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Miscellaneous
+////////////////////////////////////////////////////////////////////////////////
 
 void Node::trigger(std::string name, float value)
 {
@@ -435,11 +488,6 @@ NodeRef Node::scale(float from, float to, signalflow_scale_t scale)
     }
 }
 
-int Node::get_output_buffer_length()
-{
-    return this->output_buffer_length;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)
@@ -455,9 +503,9 @@ UnaryOpNode::UnaryOpNode(NodeRef a)
     this->create_input("input", this->input);
 }
 
-/*------------------------------------------------------------------------
- * NodeRef
- *-----------------------------------------------------------------------*/
+////////////////////////////////////////////////////////////////////////////////
+// NodeRef
+////////////////////////////////////////////////////////////////////////////////
 
 template <class T>
 NodeRefTemplate<T>::NodeRefTemplate(double x)

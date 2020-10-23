@@ -11,17 +11,17 @@ Sine::Sine(NodeRef frequency)
 {
     this->name = "sine";
     this->create_input("frequency", this->frequency);
-    this->allocate_memory();
+
+    // This can't be done in Node::Node because base class constructors
+    // cannot call subclass virtual functions (because the subclass hasn't yet)
+    // been created).
+    // https://isocpp.org/wiki/faq/strange-inheritance#calling-virtuals-from-ctors
+    this->allocate_memory(SIGNALFLOW_MAX_CHANNELS);
 }
 
-void Sine::allocate_memory()
+void Sine::allocate_memory(int output_buffer_count)
 {
-    this->phase = new float[this->num_output_channels]();
-}
-
-void Sine::free_memory()
-{
-    delete[] this->phase;
+    this->phase.resize(output_buffer_count);
 }
 
 void Sine::process(sample **out, int num_frames)

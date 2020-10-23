@@ -9,12 +9,13 @@ class Sine : public Node
 public:
     Sine(NodeRef frequency = 440);
 
-    NodeRef frequency;
-    float *phase;
+    virtual void process(sample **out, int num_frames) override;
+    virtual void allocate_memory(int output_buffer_count) override;
 
-    virtual void process(sample **out, int num_frames);
-    void allocate_memory();
-    void free_memory();
+    NodeRef frequency;
+
+private:
+    std::vector<float> phase;
 };
 
 REGISTER(Sine, "sine")

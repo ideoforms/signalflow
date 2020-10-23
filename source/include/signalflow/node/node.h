@@ -62,15 +62,6 @@ public:
 
 typedef NodeRefTemplate<Node> NodeRef;
 
-/*------------------------------------------------------------------------
- * Mathematical operator where NodeRef is the RHS operand
- * TODO Test and restore
- *-----------------------------------------------------------------------*/
-//    NodeRef operator*(double constant, const NodeRef other);
-//    NodeRef operator+(double constant, const NodeRef other);
-//    NodeRef operator-(double constant, const NodeRef other);
-//    NodeRef operator/(double constant, const NodeRef other);
-
 class Node
 {
 
@@ -149,14 +140,15 @@ public:
     virtual PropertyRef get_property(std::string name);
 
     /*------------------------------------------------------------------------
-     * Get/set buffers.
+     * Get/set buffer values.
      *-----------------------------------------------------------------------*/
     virtual void set_buffer(std::string name, BufferRef buffer);
 
     /*------------------------------------------------------------------------
      * Generic trigger method. 
      *-----------------------------------------------------------------------*/
-    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1);
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER,
+                         float value = 1);
 
     /*------------------------------------------------------------------------
      * Outputs the node's value at a user-specified frequency.
@@ -166,6 +158,10 @@ public:
     /*------------------------------------------------------------------------
      * Returns a new Node that scales the output of this node from
      * `from` to `to`.
+     *
+     * TODO: This is poor syntax and assumes the output will always
+     *       range from [-1, 1]. Need a way to specify output ranges and
+     *       scale accordingly. `class ValueRange`?
      *-----------------------------------------------------------------------*/
     virtual NodeRef scale(float from, float to, signalflow_scale_t scale = SIGNALFLOW_SCALE_LIN_LIN);
 
@@ -239,6 +235,8 @@ public:
     /*------------------------------------------------------------------------
      * Stores the number of frames in the previous processing block. Used
      * to populate frame history in out[-1].
+     *
+     * TODO: Add a block buffer so that we always have a fixed block size.
      *-----------------------------------------------------------------------*/
     int last_num_frames;
 
@@ -250,8 +248,19 @@ protected:
     virtual void set_channels(int num_input_channels, int num_output_channels);
 
     /*------------------------------------------------------------------------
-      * Called after create_input/route to update our routing ins/outs,
-      * called by AudioGraph
+      * Called whenever a Node's inputs are modified, so that it can
+      * update its channels.
+      *
+      * For nodes which have `matches_input_channels`, this updates the
+      * Node's number of input/output channels.
+      *  - Find the input with the maximum number of output channels
+      *  - Set this Node's number of input/output channels to this value
+      *  - If the # outputs has changed, propagate the change to outputs
+      *    (recursively).
+      *
+      * For nodes with fixed input/output channels, this checks that none
+      * of the inputs exceeds these limits. If an invalid input is found,
+      * invalid_channel_count_exception is thrown.
       *-----------------------------------------------------------------------*/
     virtual void update_channels();
 
@@ -260,6 +269,12 @@ protected:
      *-----------------------------------------------------------------------*/
     virtual void allocate_output_buffer();
     virtual void free_output_buffer();
+
+    /*------------------------------------------------------------------------
+     * Allocate memory for other dynamic node storage.
+     *-----------------------------------------------------------------------*/
+    virtual void allocate_memory(int output_buffer_count);
+    virtual void free_memory();
 
     /*------------------------------------------------------------------------
      * Set node run state.
