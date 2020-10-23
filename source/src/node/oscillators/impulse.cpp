@@ -39,10 +39,8 @@ void Impulse::process(sample **out, int num_frames)
                     this->steps_remaining[channel] = INT_MAX;
                 }
             }
-            else
-            {
-                this->steps_remaining[channel]--;
-            }
+
+            this->steps_remaining[channel]--;
 
             out[channel][frame] = rv;
         }
