@@ -1,4 +1,5 @@
 from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
+from signalflow import BiquadFilter, AllpassDelay, WaveShaper, WaveShaperBuffer, Constant
 from signalflow import InvalidChannelCountException
 import numpy as np
 import pytest
@@ -76,6 +77,10 @@ def test_expansion_upmix():
     assert graph.node_count == 1
 
 def test_expansion_max_channels(graph):
+    """
+    Generate 32 sine channels, mix down to mono, and confirm that
+    the correct 32 frequencies are present.
+    """
     frequencies = 1000 + np.arange(32) * 100
     a = Sine(frequencies)
     mixer = ChannelMixer(1, a)
@@ -111,3 +116,33 @@ def test_expansion_channel_mismatch(graph):
     with pytest.raises(InvalidChannelCountException):
         c.set_input("rate", [ 1, 1.5 ])
 
+def test_expansion_recursive(graph):
+    a = Sine(440)
+    b = BiquadFilter(a)
+    buf = WaveShaperBuffer(256)
+    buf.fill(lambda n: n ** 2)
+    c = WaveShaper(b, buf)
+    d = AllpassDelay(c)
+    assert a.num_input_channels == a.num_output_channels == 1
+    assert b.num_input_channels == b.num_output_channels == 1
+    assert c.num_input_channels == c.num_output_channels == 1
+    assert d.num_input_channels == d.num_output_channels == 1
+    a.set_input("frequency", [440, 880, 1320])
+    assert a.num_input_channels == a.num_output_channels == 3
+    assert b.num_input_channels == b.num_output_channels == 3
+    assert c.num_input_channels == c.num_output_channels == 3
+    assert d.num_input_channels == d.num_output_channels == 3
+    a.set_input("frequency", 100)
+    assert a.num_input_channels == a.num_output_channels == 1
+    assert b.num_input_channels == b.num_output_channels == 1
+    assert c.num_input_channels == c.num_output_channels == 1
+    assert d.num_input_channels == d.num_output_channels == 1
+
+# def test_expansion_recursive_processing(graph):
+#     a = Constant(4)
+#     b = a + 1
+#     c = b * 2
+#     d = c - 1
+#     buf = Buffer(1, 1024)
+#     process_tree(d, buffer=buf)
+#     assert np.all(buf.data[0] == 9)
