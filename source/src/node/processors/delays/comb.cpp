@@ -7,7 +7,7 @@ namespace signalflow
 {
 
 CombDelay::CombDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
-    : UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
+    : UnaryOpNode(input), delaytime(delaytime), feedback(feedback)
 {
     this->name = "comb-delay";
     this->create_input("delay_time", this->delaytime);

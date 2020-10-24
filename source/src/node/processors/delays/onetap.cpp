@@ -6,7 +6,7 @@ namespace signalflow
 {
 
 OneTapDelay::OneTapDelay(NodeRef input, NodeRef delaytime, float maxdelaytime)
-    : UnaryOpNode(input), delaytime(delaytime), maxdelaytime(maxdelaytime)
+    : UnaryOpNode(input), delaytime(delaytime)
 {
     this->name = "one-tap-delay";
     this->create_input("delay_time", this->delaytime);

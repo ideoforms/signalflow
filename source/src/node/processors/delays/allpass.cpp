@@ -7,7 +7,7 @@ namespace signalflow
 {
 
 AllpassDelay::AllpassDelay(NodeRef input, NodeRef delaytime, NodeRef feedback, float maxdelaytime)
-    : UnaryOpNode(input), delaytime(delaytime), feedback(feedback), maxdelaytime(maxdelaytime)
+    : UnaryOpNode(input), delaytime(delaytime), feedback(feedback)
 {
     this->name = "allpass-delay";
     this->create_input("delay_time", this->delaytime);

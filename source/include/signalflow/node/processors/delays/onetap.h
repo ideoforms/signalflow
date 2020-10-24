@@ -14,12 +14,12 @@ public:
     OneTapDelay(NodeRef input = 0.0, NodeRef delaytime = 0.1, float maxdelaytime = 0.5);
     ~OneTapDelay();
 
+    virtual void process(sample **out, int num_frames) override;
+
+private:
     NodeRef delaytime;
-    float maxdelaytime;
 
     std::vector<SampleRingBuffer *> buffers;
-
-    virtual void process(sample **out, int num_frames);
 };
 
 REGISTER(OneTapDelay, "one-tap-delay")
