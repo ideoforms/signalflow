@@ -13,10 +13,15 @@ Line::Line(NodeRef from, NodeRef to, NodeRef time)
     this->create_input("to", this->to);
     this->create_input("time", this->time);
 
-    this->value = 0.0;
-    this->value_change_per_step = 0.0;
-    this->step = 0;
-    this->duration_samples = 0;
+    this->alloc();
+}
+
+void Line::alloc()
+{
+    this->value.resize(this->num_output_channels_allocated);
+    this->value_change_per_step.resize(this->num_output_channels_allocated);
+    this->step.resize(this->num_output_channels_allocated);
+    this->duration_samples.resize(this->num_output_channels_allocated);
 }
 
 void Line::process(sample **out, int num_frames)
@@ -25,23 +30,23 @@ void Line::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (!duration_samples)
+            if (!duration_samples[channel])
             {
                 float from = this->from->out[channel][frame];
                 float to = this->to->out[channel][frame];
                 float time = this->time->out[channel][frame];
 
-                this->duration_samples = this->graph->get_sample_rate() * time - 1;
-                this->value = from;
-                this->value_change_per_step = (to - from) / this->duration_samples;
+                this->duration_samples[channel] = this->graph->get_sample_rate() * time - 1;
+                this->value[channel] = from;
+                this->value_change_per_step[channel] = (to - from) / this->duration_samples[channel];
             }
 
-            out[channel][frame] = this->value;
+            out[channel][frame] = this->value[channel];
 
-            if (this->step < this->duration_samples)
+            if (this->step[channel] < this->duration_samples[channel])
             {
-                this->value += this->value_change_per_step;
-                this->step++;
+                this->value[channel] += this->value_change_per_step[channel];
+                this->step[channel]++;
             }
         }
     }
