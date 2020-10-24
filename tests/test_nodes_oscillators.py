@@ -25,10 +25,21 @@ def test_nodes_oscillators_sine(graph):
     expected = np.sin(np.arange(N) * np.pi * 2 * 20 / graph.sample_rate)
     assert list(a.output_buffer[1]) == pytest.approx(expected, abs=0.0001)
 
-def test_nodes_oscillators_impulse(graph):
+def test_nodes_oscillators_saw(graph):
+    a = sf.Saw([ 1, 2 ])
     graph.sample_rate = 10
+    graph.render_subgraph(a, graph.sample_rate)
+
+    expected0 = np.arange(-1, 1, 2 / graph.sample_rate)
+    assert list(a.output_buffer[0]) == pytest.approx(expected0)
+
+    expected1 = np.concatenate((np.arange(-1, 1, 4 / graph.sample_rate), np.arange(-1, 1, 4 / graph.sample_rate)))
+    assert list(a.output_buffer[1]) == pytest.approx(expected1)
+
+def test_nodes_oscillators_impulse(graph):
     a = sf.Impulse([0, 1, 2])
-    process_tree(a, num_frames=graph.sample_rate * 2)
+    graph.sample_rate = 10
+    graph.render_subgraph(a, graph.sample_rate * 2)
     assert np.array_equal(a.output_buffer[0], np.concatenate((
         np.ones(1),
         np.zeros(graph.sample_rate * 2 - 1)
@@ -51,13 +62,12 @@ def test_nodes_oscillators_impulse(graph):
     )))
 
 def test_nodes_oscillators_line(graph):
-    graph.sample_rate = 10
     a = sf.Line(0, [1, 2], 1)
     #--------------------------------------------------------------------------------
     # Render in graph because this test relies on input upmixing
     #--------------------------------------------------------------------------------
-    graph.play(a)
-    graph.render(graph.sample_rate)
+    graph.sample_rate = 10
+    graph.render_subgraph(a, graph.sample_rate)
     assert a.num_output_channels == 2
 
     expected0 = list((1.0 / (graph.sample_rate - 1)) * np.arange(0, graph.sample_rate))
@@ -65,4 +75,3 @@ def test_nodes_oscillators_line(graph):
 
     expected1 = list((1.0 / (graph.sample_rate - 1)) * 2 * np.arange(0, graph.sample_rate))
     assert list(a.output_buffer[1][:graph.sample_rate]) == pytest.approx(expected1)
-    graph.stop(a)

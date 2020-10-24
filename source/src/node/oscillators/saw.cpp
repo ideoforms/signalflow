@@ -11,7 +11,12 @@ Saw::Saw(NodeRef frequency)
 
     this->name = "saw";
     this->create_input("frequency", this->frequency);
-    memset(this->phase, 0, sizeof(this->phase));
+    this->alloc();
+}
+
+void Saw::alloc()
+{
+    this->phase.resize(this->num_output_channels_allocated);
 }
 
 void Saw::process(sample **out, int num_frames)

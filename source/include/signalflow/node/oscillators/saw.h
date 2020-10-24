@@ -9,11 +9,13 @@ class Saw : public Node
 public:
     Saw(NodeRef frequency = 440);
 
+    virtual void alloc() override;
+    virtual void process(sample **out, int num_frames) override;
+
     NodeRef frequency;
 
-    float phase[SIGNALFLOW_MAX_CHANNELS];
-
-    virtual void process(sample **out, int num_frames);
+private:
+    std::vector<float> phase;
 };
 
 REGISTER(Saw, "saw")
