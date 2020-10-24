@@ -6,7 +6,7 @@ namespace signalflow
 {
 
 Stutter::Stutter(NodeRef input, NodeRef stutter_time, NodeRef stutter_count, NodeRef clock, float max_stutter_time)
-    : UnaryOpNode(input), stutter_time(stutter_time), stutter_count(stutter_count), clock(clock), max_stutter_time(max_stutter_time)
+    : UnaryOpNode(input), stutter_time(stutter_time), stutter_count(stutter_count), clock(clock)
 {
     this->name = "stutter";
     this->create_input("stutter_time", this->stutter_time);
@@ -60,7 +60,13 @@ void Stutter::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            SIGNALFLOW_PROCESS_TRIGGER(this->clock, frame, SIGNALFLOW_DEFAULT_TRIGGER);
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame))
+            {
+                this->stutter_index[channel] = 0;
+                this->stutters_to_do[channel] = this->stutter_count->out[channel][0];
+                this->stutter_samples_remaining[channel] = this->stutter_time->out[channel][0] * graph->get_sample_rate();
+                this->stutter_sample_buffer_offset[channel] = stutter_samples_remaining[channel];
+            }
 
             if (this->stutters_to_do[channel] > 0)
             {
