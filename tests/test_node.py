@@ -2,18 +2,16 @@ from signalflow import Sine, AudioGraph, Line
 from . import process_tree, graph
 import pytest
 
-def test_node_process():
-    a = Sine(440)
+def test_node_no_graph():
     with pytest.raises(Exception):
-        a.process(1024)
+        a = Sine(440)
 
-    graph = AudioGraph()
+def test_node_process(graph):
     a = Sine(440)
     a.process(1024)
     assert a.output_buffer.shape == (32, 1024)
-    del graph
 
-def test_node_add_input():
+def test_node_add_input(graph):
     a = Sine(440)
     b = Sine(440)
     with pytest.raises(RuntimeError):

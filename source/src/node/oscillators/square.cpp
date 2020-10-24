@@ -7,11 +7,19 @@ namespace signalflow
 Square::Square(NodeRef frequency, NodeRef width)
     : frequency(frequency), width(width)
 {
+    SIGNALFLOW_CHECK_GRAPH();
+
     this->name = "square";
 
     this->create_input("frequency", this->frequency);
     this->create_input("width", this->width);
-    memset(this->phase, 0, sizeof(this->phase));
+
+    this->alloc();
+}
+
+void Square::alloc()
+{
+    this->phase.resize(this->num_output_channels_allocated);
 }
 
 void Square::process(sample **out, int num_frames)

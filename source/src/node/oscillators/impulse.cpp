@@ -8,6 +8,8 @@ namespace signalflow
 Impulse::Impulse(NodeRef frequency)
     : frequency(frequency)
 {
+    SIGNALFLOW_CHECK_GRAPH();
+
     this->name = "impulse";
     this->create_input("frequency", this->frequency);
 

@@ -27,7 +27,7 @@ def test_nodes_oscillators_sine(graph):
 
 def test_nodes_oscillators_saw(graph):
     a = sf.Saw([ 1, 2 ])
-    graph.sample_rate = 10
+    graph.sample_rate = 16
     graph.render_subgraph(a, graph.sample_rate)
 
     expected0 = np.arange(-1, 1, 2 / graph.sample_rate)
@@ -36,9 +36,45 @@ def test_nodes_oscillators_saw(graph):
     expected1 = np.concatenate((np.arange(-1, 1, 4 / graph.sample_rate), np.arange(-1, 1, 4 / graph.sample_rate)))
     assert list(a.output_buffer[1]) == pytest.approx(expected1)
 
+def test_nodes_oscillators_triangle(graph):
+    a = sf.Triangle([ 1, 2 ])
+    graph.sample_rate = 16
+    graph.render_subgraph(a, graph.sample_rate)
+
+    expected0 = np.concatenate((np.arange(-1, 1, 4 / graph.sample_rate), np.arange(1, -1, -4 / graph.sample_rate)))
+    assert list(a.output_buffer[0][:graph.sample_rate]) == pytest.approx(expected0, rel=0.00001)
+
+    expected1 = np.concatenate((
+        np.arange(-1, 1, 8 / graph.sample_rate),
+        np.arange(1, -1, -8 / graph.sample_rate),
+        np.arange(-1, 1, 8 / graph.sample_rate),
+        np.arange(1, -1, -8 / graph.sample_rate)
+    ))
+    assert list(a.output_buffer[1][:graph.sample_rate]) == pytest.approx(expected1, rel=0.00001)
+
+def test_nodes_oscillators_square(graph):
+    a = sf.Square([ 1, 2 ])
+    graph.sample_rate = 16
+    graph.render_subgraph(a, graph.sample_rate)
+
+    expected0 = np.concatenate((
+        np.full(graph.sample_rate // 2, 1),
+        np.full(graph.sample_rate // 2, -1)
+    ))
+    assert list(a.output_buffer[0][:graph.sample_rate]) == pytest.approx(expected0)
+
+    expected0 = np.concatenate((
+        np.full(graph.sample_rate // 4, 1),
+        np.full(graph.sample_rate // 4, -1),
+        np.full(graph.sample_rate // 4, 1),
+        np.full(graph.sample_rate // 4, -1)
+    ))
+    assert list(a.output_buffer[1][:graph.sample_rate]) == pytest.approx(expected0)
+
+
 def test_nodes_oscillators_impulse(graph):
     a = sf.Impulse([0, 1, 2])
-    graph.sample_rate = 10
+    graph.sample_rate = 16
     graph.render_subgraph(a, graph.sample_rate * 2)
     assert np.array_equal(a.output_buffer[0], np.concatenate((
         np.ones(1),
@@ -66,7 +102,7 @@ def test_nodes_oscillators_line(graph):
     #--------------------------------------------------------------------------------
     # Render in graph because this test relies on input upmixing
     #--------------------------------------------------------------------------------
-    graph.sample_rate = 10
+    graph.sample_rate = 16
     graph.render_subgraph(a, graph.sample_rate)
     assert a.num_output_channels == 2
 

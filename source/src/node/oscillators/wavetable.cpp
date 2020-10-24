@@ -7,15 +7,22 @@ namespace signalflow
 Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef phase, NodeRef sync, BufferRef phase_map)
     : buffer(buffer), frequency(frequency), phase(phase), sync(sync), phase_map(phase_map)
 {
-    this->name = "wavetable";
+    SIGNALFLOW_CHECK_GRAPH();
 
-    memset(this->current_phase, 0, sizeof(float) * SIGNALFLOW_MAX_CHANNELS);
+    this->name = "wavetable";
 
     this->create_input("frequency", this->frequency);
     this->create_input("phase", this->phase);
     this->create_input("sync", this->sync);
     this->create_buffer("buffer", this->buffer);
     this->create_buffer("phase_map", this->phase_map);
+
+    this->alloc();
+}
+
+void Wavetable::alloc()
+{
+    this->current_phase.resize(this->num_output_channels_allocated);
 }
 
 void Wavetable::process(sample **out, int num_frames)

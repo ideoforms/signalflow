@@ -7,9 +7,16 @@ namespace signalflow
 Triangle::Triangle(NodeRef frequency)
     : frequency(frequency)
 {
+    SIGNALFLOW_CHECK_GRAPH();
+
     this->name = "triangle";
     this->create_input("frequency", this->frequency);
-    memset(this->phase, 0, sizeof(this->phase));
+    this->alloc();
+}
+
+void Triangle::alloc()
+{
+    this->phase.resize(this->num_output_channels_allocated);
 }
 
 void Triangle::process(sample **out, int num_frames)

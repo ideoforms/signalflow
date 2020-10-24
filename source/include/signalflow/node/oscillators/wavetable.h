@@ -15,7 +15,8 @@ public:
               NodeRef sync = 0,
               BufferRef phase_map = nullptr);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void alloc() override;
+    virtual void process(sample **out, int num_frames) override;
 
 private:
     BufferRef buffer;
@@ -24,7 +25,7 @@ private:
     NodeRef sync;
     BufferRef phase_map;
 
-    float current_phase[SIGNALFLOW_MAX_CHANNELS];
+    std::vector<float> current_phase;
 };
 
 class Wavetable2D : public Node

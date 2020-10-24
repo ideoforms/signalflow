@@ -11,9 +11,11 @@ public:
 
     NodeRef frequency;
 
-    float phase[SIGNALFLOW_MAX_CHANNELS];
+    virtual void alloc() override;
+    virtual void process(sample **out, int num_frames) override;
 
-    virtual void process(sample **out, int num_frames);
+private:
+    std::vector<float> phase;
 };
 
 REGISTER(Triangle, "triangle")

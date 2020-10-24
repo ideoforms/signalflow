@@ -7,6 +7,8 @@ namespace signalflow
 Sine::Sine(NodeRef frequency)
     : frequency(frequency)
 {
+    SIGNALFLOW_CHECK_GRAPH();
+
     this->name = "sine";
     this->create_input("frequency", this->frequency);
 
@@ -33,8 +35,6 @@ void Sine::alloc()
 
 void Sine::process(sample **out, int num_frames)
 {
-    SIGNALFLOW_CHECK_GRAPH();
-
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
         for (int frame = 0; frame < num_frames; frame++)
