@@ -8,9 +8,12 @@ Smooth::Smooth(NodeRef input, NodeRef smooth)
 {
     this->name = "smooth";
     this->create_input("smooth", this->smooth);
+    this->alloc();
+}
 
+void Smooth::alloc()
+{
     this->values.resize(SIGNALFLOW_MAX_CHANNELS);
-    this->values.clear();
 }
 
 void Smooth::process(sample **out, int num_frames)

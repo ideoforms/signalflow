@@ -11,7 +11,7 @@ public:
     WaveShaper(NodeRef input = 0.0, BufferRef buffer = nullptr);
 
     BufferRef buffer;
-    virtual void process(sample **out, int num_frames);
+    virtual void process(sample **out, int num_frames) override;
 };
 
 REGISTER(WaveShaper, "waveshaper")

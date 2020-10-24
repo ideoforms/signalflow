@@ -8,8 +8,12 @@ SampleAndHold::SampleAndHold(NodeRef input, NodeRef clock)
 {
     this->name = "sample-and-hold";
     this->create_input("clock", this->clock);
-    this->values.resize(SIGNALFLOW_MAX_CHANNELS);
-    this->values.clear();
+    this->alloc();
+}
+
+void SampleAndHold::alloc()
+{
+    this->values.resize(this->num_output_channels_allocated);
 }
 
 void SampleAndHold::process(sample **out, int num_frames)
@@ -18,12 +22,9 @@ void SampleAndHold::process(sample **out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame))
             {
-                for (int channel = 0; channel < this->num_output_channels; channel++)
-                {
-                    values[channel] = input->out[channel][frame];
-                }
+                values[channel] = input->out[channel][frame];
             }
             out[channel][frame] = values[channel];
         }

@@ -10,15 +10,16 @@ class Resample : public UnaryOpNode
 public:
     Resample(NodeRef input = 0, NodeRef sample_rate = 22050, NodeRef bit_rate = 8);
 
+    virtual void alloc() override;
+    virtual void process(sample **out, int num_frames) override;
+
+private:
     NodeRef sample_rate;
     NodeRef bit_rate;
 
-    virtual void process(sample **out, int num_frames);
-
-private:
     float phase;
     float phase_last;
-    sample sample_last[SIGNALFLOW_MAX_CHANNELS];
+    std::vector<sample> sample_last;
 };
 
 REGISTER(Resample, "resample")

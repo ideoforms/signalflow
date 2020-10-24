@@ -11,13 +11,18 @@ namespace signalflow
 Resample::Resample(NodeRef input, NodeRef sample_rate, NodeRef bit_rate)
     : UnaryOpNode(input), sample_rate(sample_rate), bit_rate(bit_rate)
 {
-    phase = 0.0;
-    phase_last = -1.0;
-    memset(sample_last, 0, sizeof(sample_last));
+    this->phase = 0.0;
+    this->phase_last = -1.0;
 
     this->name = "resample";
     this->create_input("sample_rate", this->sample_rate);
     this->create_input("bit_rate", this->bit_rate);
+    this->alloc();
+}
+
+void Resample::alloc()
+{
+    this->sample_last.resize(this->num_output_channels_allocated);
 }
 
 void Resample::process(sample **out, int num_frames)
