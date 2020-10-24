@@ -13,7 +13,7 @@ Smooth::Smooth(NodeRef input, NodeRef smooth)
 
 void Smooth::alloc()
 {
-    this->values.resize(SIGNALFLOW_MAX_CHANNELS);
+    this->values.resize(this->num_output_channels_allocated);
 }
 
 void Smooth::process(sample **out, int num_frames)

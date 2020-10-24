@@ -1,7 +1,6 @@
 #include "signalflow/node/processors/filters/eq.h"
 
 #include "signalflow/core/graph.h"
-#include "signalflow/node/oscillators/constant.h"
 
 #include <stdlib.h>
 
@@ -19,18 +18,22 @@ EQ::EQ(NodeRef input, NodeRef low_gain, NodeRef mid_gain, NodeRef high_gain,
     this->create_input("low_freq", this->low_freq);
     this->create_input("high_freq", this->high_freq);
 
-    int int_buf_size = SIGNALFLOW_MAX_CHANNELS * sizeof(int);
-    memset(f1p0, 0, int_buf_size);
-    memset(f1p1, 0, int_buf_size);
-    memset(f1p2, 0, int_buf_size);
-    memset(f1p3, 0, int_buf_size);
-    memset(f2p0, 0, int_buf_size);
-    memset(f2p1, 0, int_buf_size);
-    memset(f2p2, 0, int_buf_size);
-    memset(f2p3, 0, int_buf_size);
-    memset(sdm1, 0, int_buf_size);
-    memset(sdm2, 0, int_buf_size);
-    memset(sdm3, 0, int_buf_size);
+    this->alloc();
+}
+
+void EQ::alloc()
+{
+    this->f1p0.resize(this->num_output_channels_allocated);
+    this->f1p1.resize(this->num_output_channels_allocated);
+    this->f1p2.resize(this->num_output_channels_allocated);
+    this->f1p3.resize(this->num_output_channels_allocated);
+    this->f2p0.resize(this->num_output_channels_allocated);
+    this->f2p1.resize(this->num_output_channels_allocated);
+    this->f2p2.resize(this->num_output_channels_allocated);
+    this->f2p3.resize(this->num_output_channels_allocated);
+    this->sdm1.resize(this->num_output_channels_allocated);
+    this->sdm2.resize(this->num_output_channels_allocated);
+    this->sdm3.resize(this->num_output_channels_allocated);
 }
 
 void EQ::process(sample **out, int num_frames)

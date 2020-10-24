@@ -25,18 +25,18 @@ public:
                  NodeRef resonance = 0.707,
                  NodeRef peak_gain = 0.0);
 
+    virtual void alloc() override;
+    virtual void process(sample **out, int num_frames) override;
+
+private:
     signalflow_filter_type_t filter_type;
     NodeRef cutoff;
     NodeRef resonance;
     NodeRef peak_gain;
 
-    virtual void process(sample **out, int num_frames);
-
-private:
     virtual void _recalculate();
 
-    float a0, a1, a2, b1, b2;
-    float z1, z2;
+    std::vector<float> a0, a1, a2, b1, b2, z1, z2;
 };
 
 REGISTER(BiquadFilter, "biquad-filter")

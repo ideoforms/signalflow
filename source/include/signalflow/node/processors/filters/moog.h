@@ -13,17 +13,12 @@ public:
     NodeRef cutoff;
     NodeRef resonance;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void alloc() override;
+    virtual void process(sample **out, int num_frames) override;
 
 private:
-    float out1[SIGNALFLOW_MAX_CHANNELS],
-        out2[SIGNALFLOW_MAX_CHANNELS],
-        out3[SIGNALFLOW_MAX_CHANNELS],
-        out4[SIGNALFLOW_MAX_CHANNELS];
-    float in1[SIGNALFLOW_MAX_CHANNELS],
-        in2[SIGNALFLOW_MAX_CHANNELS],
-        in3[SIGNALFLOW_MAX_CHANNELS],
-        in4[SIGNALFLOW_MAX_CHANNELS];
+    std::vector<float> out1, out2, out3, out4;
+    std::vector<float> in1, in2, in3, in4;
 };
 
 REGISTER(MoogVCF, "moog")

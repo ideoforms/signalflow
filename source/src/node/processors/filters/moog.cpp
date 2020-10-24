@@ -13,15 +13,19 @@ MoogVCF::MoogVCF(NodeRef input, NodeRef cutoff, NodeRef resonance)
     this->create_input("cutoff", this->cutoff);
     this->create_input("resonance", this->resonance);
 
-    int int_buf_size = SIGNALFLOW_MAX_CHANNELS * sizeof(int);
-    memset(out1, 0, int_buf_size);
-    memset(out2, 0, int_buf_size);
-    memset(out3, 0, int_buf_size);
-    memset(out4, 0, int_buf_size);
-    memset(in1, 0, int_buf_size);
-    memset(in2, 0, int_buf_size);
-    memset(in3, 0, int_buf_size);
-    memset(in4, 0, int_buf_size);
+    this->alloc();
+}
+
+void MoogVCF::alloc()
+{
+    this->out1.resize(this->num_output_channels_allocated);
+    this->out2.resize(this->num_output_channels_allocated);
+    this->out3.resize(this->num_output_channels_allocated);
+    this->out4.resize(this->num_output_channels_allocated);
+    this->in1.resize(this->num_output_channels_allocated);
+    this->in2.resize(this->num_output_channels_allocated);
+    this->in3.resize(this->num_output_channels_allocated);
+    this->in4.resize(this->num_output_channels_allocated);
 }
 
 void MoogVCF::process(sample **out, int num_frames)
