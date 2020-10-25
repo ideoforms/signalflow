@@ -100,6 +100,12 @@ public:
     virtual ~Buffer();
 
     /**------------------------------------------------------------------------
+      * Resize the buffer allocation.
+      *
+      *------------------------------------------------------------------------*/
+    void resize(int num_channels, int num_frames);
+
+    /**------------------------------------------------------------------------
      * Load the contents of `filename` into the buffer.
      * If the buffer is smaller than the file's contents, only the first
      * part of the file is read.

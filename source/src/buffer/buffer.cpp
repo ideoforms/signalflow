@@ -4,7 +4,6 @@
 #include "signalflow/core/graph.h"
 #include <sndfile.h>
 
-#include <math.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -24,31 +23,26 @@ Buffer::Buffer()
 
 Buffer::Buffer(int num_channels, int num_frames)
 {
-    if (shared_graph == NULL)
-    {
-        throw signalflow::graph_not_created_exception("AudioGraph must be created before Buffer can be allocated");
-    }
-
     this->num_channels = num_channels;
     this->num_frames = num_frames;
-    this->sample_rate = shared_graph->get_sample_rate();
-    this->duration = this->num_frames / this->sample_rate;
     this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
 
-    // contiguous allocation
-    if (this->num_channels)
+    /*--------------------------------------------------------------------------------
+     * If the AudioGraph has been instantiated, populate the buffer's sample
+     * rate and duration. Otherwise, zero them.
+     *-------------------------------------------------------------------------------*/
+    if (shared_graph)
     {
-        this->data = new sample *[this->num_channels]();
-        sample *data_channels = new sample[this->num_channels * this->num_frames]();
-        for (int channel = 0; channel < this->num_channels; channel++)
-        {
-            this->data[channel] = data_channels + (this->num_frames * channel);
-        }
+        this->sample_rate = shared_graph->get_sample_rate();
+        this->duration = this->num_frames / this->sample_rate;
     }
     else
     {
-        this->data = 0;
+        this->sample_rate = 0;
+        this->duration = 0;
     }
+
+    this->resize(num_channels, num_frames);
 }
 
 Buffer::Buffer(int num_channels, int num_frames, sample **data)
@@ -122,6 +116,38 @@ Buffer::~Buffer()
     }
 }
 
+void Buffer::resize(int num_channels, int num_frames)
+{
+    if (this->data)
+    {
+        delete this->data[0];
+        delete this->data;
+    }
+
+    this->num_channels = num_channels;
+    this->num_frames = num_frames;
+
+    /*--------------------------------------------------------------------------------
+     * For use in numpy, memory allocation needs to be contiguous with a fixed
+     * stride between vectors. Allocate as one block and set element indices
+     * accordingly.
+     *-------------------------------------------------------------------------------*/
+    if (num_channels)
+    {
+        this->data = new sample *[this->num_channels]();
+
+        sample *data_channels = new sample[this->num_channels * this->num_frames]();
+        for (int channel = 0; channel < this->num_channels; channel++)
+        {
+            this->data[channel] = data_channels + (this->num_frames * channel);
+        }
+    }
+    else
+    {
+        this->data = 0;
+    }
+}
+
 void Buffer::load(std::string filename)
 {
     std::string path = filename;
@@ -163,18 +189,8 @@ void Buffer::load(std::string filename)
         /*------------------------------------------------------------------------
          * Buffer has not yet been allocated. Allocate memory and populate
          * property fields.
-         * TODO: Sample rate isn't properly handled yet.
          *-----------------------------------------------------------------------*/
-
-        // Contiguous allocation is required for Python bindings
-        this->data = new sample *[info.channels]();
-        sample *data_channels = new sample[info.channels * (info.frames + SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE)]();
-
-        for (int channel = 0; channel < info.channels; channel++)
-        {
-            this->data[channel] = data_channels + (info.frames + SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE) * channel;
-        }
-
+        this->resize(info.channels, info.frames);
         this->num_channels = info.channels;
         this->num_frames = info.frames;
         this->sample_rate = info.samplerate;
