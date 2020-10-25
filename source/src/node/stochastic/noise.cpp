@@ -10,19 +10,20 @@ namespace signalflow
 {
 
 Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max)
-    : frequency(frequency), min(min), max(max)
+    : frequency(frequency), min(min), max(max), interpolate(interpolate)
 {
     this->name = "noise";
     this->create_input("frequency", this->frequency);
     this->create_input("min", this->min);
     this->create_input("max", this->max);
+    this->alloc();
+}
 
-    this->interpolate = interpolate;
-
-    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
-        this->value[i] = std::numeric_limits<float>::max();
-    memset(this->steps_remaining, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
-    memset(this->step_change, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
+void Noise::alloc()
+{
+    this->value.resize(this->num_output_channels_allocated, std::numeric_limits<float>::max());
+    this->steps_remaining.resize(this->num_output_channels_allocated);
+    this->step_change.resize(this->num_output_channels_allocated);
 }
 
 void Noise::process(Buffer &out, int num_frames)

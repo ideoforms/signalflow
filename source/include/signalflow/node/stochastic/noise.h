@@ -21,19 +21,18 @@ class Noise : public Node
 public:
     Noise(NodeRef frequency = 0.0, bool interpolate = true, NodeRef min = 0.0, NodeRef max = 1.0);
 
-    NodeRef frequency;
-    bool interpolate;
-
-    NodeRef min;
-    NodeRef max;
-
-    sample value[SIGNALFLOW_MAX_CHANNELS];
-
-    virtual void process(Buffer &out, int num_frames);
+    virtual void alloc() override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
-    int steps_remaining[SIGNALFLOW_MAX_CHANNELS];
-    float step_change[SIGNALFLOW_MAX_CHANNELS];
+    NodeRef frequency;
+    NodeRef min;
+    NodeRef max;
+    bool interpolate;
+
+    std::vector<sample> value;
+    std::vector<int> steps_remaining;
+    std::vector<float> step_change;
 };
 
 REGISTER(Noise, "noise")

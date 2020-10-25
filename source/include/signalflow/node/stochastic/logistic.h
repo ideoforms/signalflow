@@ -9,14 +9,15 @@ class Logistic : public Node
 public:
     Logistic(NodeRef chaos = 3.7, NodeRef frequency = 0.0);
 
+    virtual void alloc() override;
+    virtual void process(Buffer &out, int num_frames) override;
+
+private:
     NodeRef chaos;
     NodeRef frequency;
 
-    virtual void process(Buffer &out, int num_frames);
-
-private:
-    sample value[SIGNALFLOW_MAX_CHANNELS];
-    int steps_remaining[SIGNALFLOW_MAX_CHANNELS];
+    std::vector<sample> value;
+    std::vector<int> steps_remaining;
 };
 
 REGISTER(Logistic, "logistic")

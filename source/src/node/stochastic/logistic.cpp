@@ -10,10 +10,13 @@ Logistic::Logistic(NodeRef chaos, NodeRef frequency)
     this->name = "logistic";
     this->create_input("chaos", this->chaos);
     this->create_input("frequency", this->frequency);
+    this->alloc();
+}
 
-    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
-        this->value[i] = 0.5;
-    memset(this->steps_remaining, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
+void Logistic::alloc()
+{
+    this->value.resize(this->num_output_channels_allocated, 0.5);
+    this->steps_remaining.resize(this->num_output_channels_allocated, 0);
 }
 
 void Logistic::process(Buffer &out, int num_frames)

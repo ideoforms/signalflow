@@ -2,7 +2,7 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/node/node.h"
 
-#define SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION "position"
+#define SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION "set_position"
 
 #define SIGNALFLOW_SAMPLER_TRIGGER_SET_LOOP_START "loop_start"
 #define SIGNALFLOW_SAMPLER_TRIGGER_SET_LOOP_END "loop_end"
