@@ -66,7 +66,6 @@ void random_seed(long seed)
  *--------------------------------------------------------------------*/
 double random_gaussian(double mean, double sd)
 {
-    // double value = mean + gsl_ran_gaussian(rng, sd);
     double value = mean + sd * random_gaussian();
     return value;
 }
