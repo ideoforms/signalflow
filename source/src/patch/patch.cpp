@@ -33,7 +33,6 @@ Patch::Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> in
     {
         std::string input_name = input.first;
         NodeRef input_value = input.second;
-        std::cout << "set input " + input_name << std::endl;
         this->set_input(input_name, input_value);
     }
 }
