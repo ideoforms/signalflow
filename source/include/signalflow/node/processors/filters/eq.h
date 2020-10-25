@@ -12,7 +12,7 @@ public:
        NodeRef low_freq = 500, NodeRef high_freq = 5000);
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
     NodeRef low_gain;
     NodeRef mid_gain;

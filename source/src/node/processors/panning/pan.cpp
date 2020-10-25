@@ -14,7 +14,7 @@ LinearPanner::LinearPanner(int channels, NodeRef input, NodeRef pan)
     this->create_input("pan", this->pan);
 }
 
-void LinearPanner::process(sample **out, int num_frames)
+void LinearPanner::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

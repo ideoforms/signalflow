@@ -78,7 +78,7 @@ public:
      * @param out The buffer to populate
      * @param num_frames The number of frames needed
      *-----------------------------------------------------------------------*/
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     /**------------------------------------------------------------------------
      * If no buffer pointer given, output to the Node's default output buffer.
@@ -238,7 +238,7 @@ public:
     /*------------------------------------------------------------------------
      * Buffer containing this node's output.
      *-----------------------------------------------------------------------*/
-    sample **out;
+    Buffer out;
 
     /*------------------------------------------------------------------------
      * Stores the number of frames in the previous processing block. Used
@@ -274,12 +274,11 @@ protected:
 
     /*------------------------------------------------------------------------
      * Allocate memory for output buffers.
-     *  - allocate_output_buffers() allocates at least as many as
+     *  - resize_output_buffers() allocates at least as many as
      *    output_buffer_count buffers. If enough buffers have already been
      *    allocated, don't do anything.
      *-----------------------------------------------------------------------*/
-    virtual void allocate_output_buffers(int output_buffer_count);
-    virtual void free_output_buffer();
+    virtual void resize_output_buffers(int output_buffer_count);
 
     /*------------------------------------------------------------------------
      * Allocate memory for other dynamic node storage.
@@ -380,7 +379,7 @@ private:
      * Wrapper around process(), called by AudioGraph.pull_input,
      * which handles caching of earlier frames etc.
      *-----------------------------------------------------------------------*/
-    virtual void _process(sample **out, int num_frames);
+    virtual void _process(Buffer &out, int num_frames);
 
     /*------------------------------------------------------------------------
      * Pointer to the Patch that this node is a part of, if any.

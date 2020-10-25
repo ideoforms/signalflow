@@ -11,7 +11,7 @@ FFTLPF::FFTLPF(NodeRef input, NodeRef frequency)
     this->create_input("frequency", this->frequency);
 }
 
-void FFTLPF::process(sample **out, int num_frames)
+void FFTLPF::process(Buffer &out, int num_frames)
 {
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;

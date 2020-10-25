@@ -12,7 +12,7 @@ public:
     NodeRef chaos;
     NodeRef frequency;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     sample value[SIGNALFLOW_MAX_CHANNELS];

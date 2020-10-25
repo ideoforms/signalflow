@@ -10,7 +10,7 @@ public:
     BufferRef buffer;
     int hop_size = 0;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     SampleRingBuffer *ring_buffer;

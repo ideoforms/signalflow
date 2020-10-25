@@ -11,7 +11,7 @@ public:
     Smooth(NodeRef input = nullptr, NodeRef smooth = 0.99);
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     NodeRef smooth;

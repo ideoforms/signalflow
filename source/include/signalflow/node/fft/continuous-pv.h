@@ -9,7 +9,7 @@ class FFTContinuousPhaseVocoder : public FFTNode
 public:
     FFTContinuousPhaseVocoder(NodeRef input = nullptr, float rate = 1.0);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
     virtual void trigger(std::string name, float value);
 
     sample *phase_buffer_last;

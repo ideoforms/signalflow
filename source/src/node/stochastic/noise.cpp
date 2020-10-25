@@ -25,7 +25,7 @@ Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max)
     memset(this->step_change, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
 }
 
-void Noise::process(sample **out, int num_frames)
+void Noise::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

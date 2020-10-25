@@ -25,7 +25,7 @@ public:
 
     virtual void set_buffer(std::string, BufferRef buffer);
     virtual void trigger(std::string = SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION, float value = 0.0);
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     float phase;

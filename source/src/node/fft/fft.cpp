@@ -163,7 +163,7 @@ void FFT::fft(sample *in, sample *out, bool polar, bool do_window)
 #endif
 }
 
-void FFT::process(sample **out, int num_frames)
+void FFT::process(Buffer &out, int num_frames)
 {
     /*------------------------------------------------------------------------
      * Append the incoming buffer onto our input_buffer.

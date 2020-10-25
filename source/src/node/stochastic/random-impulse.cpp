@@ -17,7 +17,7 @@ RandomImpulse::RandomImpulse(NodeRef frequency, signalflow_event_distribution_t 
     this->create_input("frequency", this->frequency);
 }
 
-void RandomImpulse::process(sample **out, int num_frames)
+void RandomImpulse::process(Buffer &out, int num_frames)
 {
     SIGNALFLOW_CHECK_GRAPH()
 

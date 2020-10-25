@@ -47,7 +47,7 @@ ChannelArray::ChannelArray(std::vector<int> inputs)
     }
 }
 
-void ChannelArray::process(sample **out, int num_frames)
+void ChannelArray::process(Buffer &out, int num_frames)
 {
     int global_channel = 0;
     for (NodeRef input : this->input_list)
@@ -72,7 +72,7 @@ void ChannelArray::update_channels()
 
     signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
 
-    this->allocate_output_buffers(this->num_input_channels);
+    this->resize_output_buffers(this->num_input_channels);
 }
 
 void ChannelArray::add_input(NodeRef input)

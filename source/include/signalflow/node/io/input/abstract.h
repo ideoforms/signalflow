@@ -17,6 +17,6 @@ public:
     virtual int stop() = 0;
     virtual int destroy() = 0;
 
-    virtual void process(sample **out, int num_samples) = 0;
+    virtual void process(Buffer &out, int num_samples) = 0;
 };
 }

@@ -36,7 +36,7 @@ void EQ::alloc()
     this->sdm3.resize(this->num_output_channels_allocated);
 }
 
-void EQ::process(sample **out, int num_frames)
+void EQ::process(Buffer &out, int num_frames)
 {
     float low, mid, high;
 

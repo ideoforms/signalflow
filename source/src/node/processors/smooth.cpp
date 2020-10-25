@@ -16,7 +16,7 @@ void Smooth::alloc()
     this->values.resize(this->num_output_channels_allocated);
 }
 
-void Smooth::process(sample **out, int num_frames)
+void Smooth::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

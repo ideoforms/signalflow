@@ -45,7 +45,7 @@ void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
     }
 }
 
-void BufferPlayer::process(sample **out, int num_frames)
+void BufferPlayer::process(Buffer &out, int num_frames)
 {
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.

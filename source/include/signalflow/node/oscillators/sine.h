@@ -9,7 +9,7 @@ class Sine : public Node
 public:
     Sine(NodeRef frequency = 440);
 
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
     virtual void alloc() override;
 
     NodeRef frequency;

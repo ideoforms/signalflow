@@ -13,7 +13,7 @@ public:
               NodeRef attack_time = 1.0,
               NodeRef release_time = 1.0);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     NodeRef ceiling;
     NodeRef attack_time;

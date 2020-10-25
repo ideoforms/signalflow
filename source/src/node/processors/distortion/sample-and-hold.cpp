@@ -16,7 +16,7 @@ void SampleAndHold::alloc()
     this->values.resize(this->num_output_channels_allocated);
 }
 
-void SampleAndHold::process(sample **out, int num_frames)
+void SampleAndHold::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

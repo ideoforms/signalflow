@@ -12,7 +12,7 @@ Gate::Gate(NodeRef input, NodeRef threshold)
     this->create_input("threshold", this->threshold);
 }
 
-void Gate::process(sample **out, int num_frames)
+void Gate::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

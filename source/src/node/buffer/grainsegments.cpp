@@ -28,7 +28,7 @@ GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, Pr
     this->clock_last = 0.0;
 }
 
-void GrainSegments::process(sample **out, int num_frames)
+void GrainSegments::process(Buffer &out, int num_frames)
 {
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process .

@@ -12,7 +12,7 @@ Index::Index(PropertyRef list, NodeRef index)
     this->add_property("list", this->list);
 }
 
-void Index::process(sample **out, int num_frames)
+void Index::process(Buffer &out, int num_frames)
 {
     std::vector<float> list = this->list->float_array_value();
 

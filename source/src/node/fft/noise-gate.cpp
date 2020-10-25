@@ -12,7 +12,7 @@ FFTNoiseGate::FFTNoiseGate(NodeRef input, NodeRef threshold)
     this->create_input("threshold", this->threshold);
 }
 
-void FFTNoiseGate::process(sample **out, int num_frames)
+void FFTNoiseGate::process(Buffer &out, int num_frames)
 {
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;

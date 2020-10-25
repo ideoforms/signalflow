@@ -17,7 +17,7 @@ public:
     float phase;
     bool loop;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 };
 
 REGISTER(BufferRecorder, "buffer-recorder")

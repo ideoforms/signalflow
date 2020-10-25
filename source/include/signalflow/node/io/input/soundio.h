@@ -23,7 +23,7 @@ public:
     virtual int start() override;
     virtual int stop() override;
     virtual int destroy() override;
-    virtual void process(sample **out, int num_samples) override;
+    virtual void process(Buffer &out, int num_samples) override;
 
     struct SoundIo *soundio;
     struct SoundIoDevice *device;

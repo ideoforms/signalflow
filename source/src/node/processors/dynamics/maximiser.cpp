@@ -15,7 +15,7 @@ Maximiser::Maximiser(NodeRef input, NodeRef ceiling, NodeRef attack_time, NodeRe
     this->create_input("release_time", this->release_time);
 }
 
-void Maximiser::process(sample **out, int num_frames)
+void Maximiser::process(Buffer &out, int num_frames)
 {
     float max_sample = 0.0;
     for (int channel = 0; channel < this->num_output_channels; channel++)

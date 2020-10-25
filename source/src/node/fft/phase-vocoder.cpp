@@ -31,7 +31,7 @@ void FFTPhaseVocoder::trigger(std::string name, float value)
     }
 }
 
-void FFTPhaseVocoder::process(sample **out, int num_frames)
+void FFTPhaseVocoder::process(Buffer &out, int num_frames)
 {
     if (this->clock)
     {

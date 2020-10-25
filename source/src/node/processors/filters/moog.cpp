@@ -28,7 +28,7 @@ void MoogVCF::alloc()
     this->in4.resize(this->num_output_channels_allocated);
 }
 
-void MoogVCF::process(sample **out, int num_frames)
+void MoogVCF::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < num_output_channels; channel++)
     {

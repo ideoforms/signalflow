@@ -22,7 +22,7 @@ BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, NodeRef feedback
     this->set_channels(buffer->get_num_channels(), 0);
 }
 
-void BufferRecorder::process(sample **out, int num_frames)
+void BufferRecorder::process(Buffer &out, int num_frames)
 {
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.

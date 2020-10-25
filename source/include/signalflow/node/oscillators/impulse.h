@@ -11,7 +11,7 @@ public:
     Impulse(NodeRef frequency = 1.0);
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
     NodeRef frequency;
 

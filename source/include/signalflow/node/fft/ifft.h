@@ -34,7 +34,7 @@ public:
                       bool polar = true,
                       bool do_window = false,
                       float scale_factor = 1.0);
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 };
 
 REGISTER(IFFT, "ifft")

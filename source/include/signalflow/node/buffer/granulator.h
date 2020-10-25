@@ -42,7 +42,7 @@ public:
     NodeRef pan;
     NodeRef max_grains;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
     virtual void set_spatialisation(int num_channels, NodeRef pan);
 
 private:

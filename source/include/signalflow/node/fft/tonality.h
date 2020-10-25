@@ -9,7 +9,7 @@ class FFTTonality : public FFTOpNode
 {
 public:
     FFTTonality(NodeRef input = 0, NodeRef level = 0.5, NodeRef smoothing = 0.9);
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     NodeRef level = nullptr;
     NodeRef smoothing = nullptr;

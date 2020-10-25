@@ -28,7 +28,7 @@ void Counter::trigger(std::string name, float value)
     }
 }
 
-void Counter::process(sample **out, int num_frames)
+void Counter::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

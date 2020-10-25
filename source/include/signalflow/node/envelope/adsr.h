@@ -17,7 +17,7 @@ public:
     NodeRef release;
     NodeRef gate;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     float phase;

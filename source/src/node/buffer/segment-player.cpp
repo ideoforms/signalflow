@@ -21,7 +21,7 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
     this->trigger();
 }
 
-void SegmentPlayer::process(sample **out, int num_frames)
+void SegmentPlayer::process(Buffer &out, int num_frames)
 {
     sample s;
 

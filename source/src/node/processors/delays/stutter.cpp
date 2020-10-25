@@ -52,7 +52,7 @@ void Stutter::trigger(std::string name, float value)
     }
 }
 
-void Stutter::process(sample **out, int num_frames)
+void Stutter::process(Buffer &out, int num_frames)
 {
     SIGNALFLOW_CHECK_GRAPH();
 

@@ -25,7 +25,7 @@ void Resample::alloc()
     this->sample_last.resize(this->num_output_channels_allocated);
 }
 
-void Resample::process(sample **out, int num_frames)
+void Resample::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

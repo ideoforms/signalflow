@@ -11,7 +11,7 @@ public:
     Resample(NodeRef input = 0, NodeRef sample_rate = 22050, NodeRef bit_rate = 8);
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     NodeRef sample_rate;

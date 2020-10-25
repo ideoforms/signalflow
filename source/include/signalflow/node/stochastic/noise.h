@@ -29,7 +29,7 @@ public:
 
     sample value[SIGNALFLOW_MAX_CHANNELS];
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     int steps_remaining[SIGNALFLOW_MAX_CHANNELS];

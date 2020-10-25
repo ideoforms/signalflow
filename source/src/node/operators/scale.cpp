@@ -14,7 +14,7 @@ ScaleLinExp::ScaleLinExp(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef
     this->create_input("d", this->d);
 }
 
-void ScaleLinExp::process(sample **out, int num_frames)
+void ScaleLinExp::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -37,7 +37,7 @@ ScaleLinLin::ScaleLinLin(NodeRef input, NodeRef a, NodeRef b, NodeRef c, NodeRef
     this->create_input("d", this->d);
 }
 
-void ScaleLinLin::process(sample **out, int num_frames)
+void ScaleLinLin::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

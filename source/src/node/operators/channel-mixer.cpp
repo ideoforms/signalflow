@@ -11,7 +11,7 @@ ChannelMixer::ChannelMixer(int channels, NodeRef input)
     this->update_channels();
 }
 
-void ChannelMixer::process(sample **out, int num_frames)
+void ChannelMixer::process(Buffer &out, int num_frames)
 {
     float out_channel_pan,
         in_channel_pan;

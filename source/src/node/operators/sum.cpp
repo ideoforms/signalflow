@@ -46,7 +46,7 @@ Sum::Sum(std::vector<int> inputs)
     }
 }
 
-void Sum::process(sample **out, int num_frames)
+void Sum::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

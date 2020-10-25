@@ -45,19 +45,13 @@ Node::Node()
     this->patch = NULL;
 
     this->has_rendered = false;
-    this->out = NULL;
     this->num_output_channels_allocated = 0;
     this->output_buffer_length = SIGNALFLOW_NODE_BUFFER_SIZE;
-    this->allocate_output_buffers(SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS);
+    this->resize_output_buffers(SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS);
 }
 
 Node::~Node()
 {
-    /*------------------------------------------------------------------------
-     * Memory allocation magic: Pointer to out[] is actually 1 byte off
-     * the original allocated segment (see Node constructor above).
-     *-----------------------------------------------------------------------*/
-    this->free_output_buffer();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,19 +64,21 @@ Node::~Node()
  * including populating the buffer history so that the value of the
  * previous frame can be checked.
  *-----------------------------------------------------------------------*/
-void Node::_process(sample **out, int num_frames)
+void Node::_process(Buffer &out, int num_frames)
 {
-    if (out == this->out && num_frames > this->output_buffer_length)
+    if (&out == &this->out && num_frames > this->output_buffer_length)
     {
         throw std::runtime_error("Node cannot render because output buffer size is insufficient (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
     }
-    if (this->last_num_frames > 0)
-    {
-        for (int i = 0; i < this->num_output_channels; i++)
-        {
-            out[i][-1] = out[i][last_num_frames - 1];
-        }
-    }
+
+    // TODO fix last-sample trigger magic
+    //    if (this->last_num_frames > 0)
+    //    {
+    //        for (int i = 0; i < this->num_output_channels; i++)
+    //        {
+    //            out[i][-1] = out[i][last_num_frames - 1];
+    //        }
+    //    }
     this->process(out, num_frames);
     this->last_num_frames = num_frames;
 }
@@ -92,7 +88,7 @@ void Node::process(int num_frames)
     this->process(this->out, num_frames);
 }
 
-void Node::process(sample **out, int num_frames)
+void Node::process(Buffer &out, int num_frames)
 {
     throw std::runtime_error("Node::process (should never be called)");
 }
@@ -135,7 +131,7 @@ void Node::update_channels()
             NodeRef node = *input.second;
             if (node && node->get_num_output_channels_allocated() < this->num_output_channels)
             {
-                node->allocate_output_buffers(this->num_output_channels);
+                node->resize_output_buffers(this->num_output_channels);
             }
         }
 
@@ -148,7 +144,7 @@ void Node::update_channels()
             }
         }
 
-        this->allocate_output_buffers(this->num_output_channels);
+        this->resize_output_buffers(this->num_output_channels);
 
         signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
     }
@@ -198,64 +194,25 @@ void Node::free()
 {
 }
 
-void Node::allocate_output_buffers(int output_buffer_count)
+void Node::resize_output_buffers(int output_buffer_count)
 {
-    if (this->out)
-    {
-        if (output_buffer_count <= this->num_output_channels_allocated)
-        {
-            /*------------------------------------------------------------------------
-             * If enough channels are already allocated, don't do anything.
-             *-----------------------------------------------------------------------*/
-            return;
-        }
-        else
-        {
-            /*------------------------------------------------------------------------
-             * If not enough channels are allocated, dealloc the current allocations
-             * and start from scratch.
-             * 
-             * For explanation of -1, see "Memory allocation magic" below
-             *-----------------------------------------------------------------------*/
-            delete (this->out[0] - 1);
-            delete (this->out);
-            this->free();
-        }
-    }
-
-    /*------------------------------------------------------------------------
-     * Add +1 sample to account for memory allocation magic
-     *-----------------------------------------------------------------------*/
-    this->out = new sample *[output_buffer_count]();
-    sample *out_channels = new sample[output_buffer_count * (this->output_buffer_length + 1)]();
-    for (int i = 0; i < output_buffer_count; i++)
+    if (output_buffer_count <= this->out.get_num_channels() && this->output_buffer_length <= this->out.get_num_frames())
     {
         /*------------------------------------------------------------------------
-         * Allocate all channels in one contiguous chunk. This is needed to
-         * ensure a consistent stride between channels, to communicate 2D sample
-         * matrices to Python.
+         * If enough channels and frames already allocated, don't do anything.
          *-----------------------------------------------------------------------*/
-        this->out[i] = out_channels + (this->output_buffer_length * i);
-
-        /*------------------------------------------------------------------------
-         * Memory allocation magic: incrementing the `out` pointer means that
-         * we can query out[-1] which holds the last frame of the previous
-         * block.
-         *-----------------------------------------------------------------------*/
-        this->out[i] = this->out[i] + 1;
+        return;
     }
-
-    this->num_output_channels_allocated = output_buffer_count;
-    this->alloc();
-}
-
-void Node::free_output_buffer()
-{
-    if (this->out)
+    else
     {
-        delete (this->out[0] - 1);
-        delete (this->out);
-        this->out = NULL;
+        /*------------------------------------------------------------------------
+         * If not enough channels/frames  are allocated, dealloc the current
+         * allocations and resize
+         *-----------------------------------------------------------------------*/
+        this->free();
+        this->out.resize(output_buffer_count, this->output_buffer_length);
+        this->num_output_channels_allocated = output_buffer_count;
+        this->alloc();
     }
 }
 

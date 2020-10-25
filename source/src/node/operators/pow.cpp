@@ -9,7 +9,7 @@ Pow::Pow(NodeRef a, NodeRef b)
     this->name = "pow";
 }
 
-void Pow::process(sample **out, int num_frames)
+void Pow::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

@@ -9,7 +9,7 @@ class FFTZeroPhase : public UnaryOpNode
 public:
     FFTZeroPhase(NodeRef input = 0);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 };
 
 REGISTER(FFTZeroPhase, "zero_phase")

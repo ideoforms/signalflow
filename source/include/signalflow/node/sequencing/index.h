@@ -10,7 +10,7 @@ class Index : public Node
 public:
     Index(PropertyRef list = {}, NodeRef index = 0);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     PropertyRef list;
     NodeRef index;

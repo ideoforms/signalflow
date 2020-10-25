@@ -18,7 +18,7 @@ public:
     Sum(std::vector<int> inputs);
     Sum(std::vector<float> inputs);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     virtual void add_input(NodeRef input);
     virtual void remove_input(NodeRef input);

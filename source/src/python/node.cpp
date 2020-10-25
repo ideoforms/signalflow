@@ -64,7 +64,7 @@ void init_python_node(py::module &m)
         })
         .def_property_readonly("output_buffer", [](Node &node) {
             return py::array_t<float>(
-                { SIGNALFLOW_MAX_CHANNELS, node.last_num_frames },
+                { node.get_num_output_channels_allocated(), node.last_num_frames },
                 { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
                 node.out[0]);
         })
@@ -92,7 +92,7 @@ void init_python_node(py::module &m)
             {
                 throw std::runtime_error("Buffer and Node output channels don't match");
             }
-            node.process(buffer.data, buffer.get_num_frames());
+            node.process(buffer, buffer.get_num_frames());
             node.last_num_frames = buffer.get_num_frames();
         });
 

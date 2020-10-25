@@ -11,7 +11,7 @@ class AudioOut_Abstract : public Node
 {
 public:
     AudioOut_Abstract();
-    virtual void process(sample **out, int num_samples);
+    virtual void process(Buffer &out, int num_samples);
 
     virtual int init() = 0;
     virtual int start() = 0;

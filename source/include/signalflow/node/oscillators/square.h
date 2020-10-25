@@ -13,7 +13,7 @@ public:
     NodeRef width;
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     std::vector<float> phase;

@@ -18,7 +18,7 @@ CrossCorrelate::CrossCorrelate(NodeRef input, BufferRef buffer, int hop_size)
     this->ring_buffer = new SampleRingBuffer(buffer->get_num_frames());
 }
 
-void CrossCorrelate::process(sample **out, int num_frames)
+void CrossCorrelate::process(Buffer &out, int num_frames)
 {
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.

@@ -16,7 +16,7 @@ public:
               BufferRef phase_map = nullptr);
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     BufferRef buffer;
@@ -36,7 +36,7 @@ public:
                 NodeRef crossfade = 0.0,
                 NodeRef sync = 0);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     BufferRef2D buffer;

@@ -24,7 +24,7 @@ Squiz::Squiz(NodeRef input, NodeRef rate, NodeRef chunk_size)
     }
 }
 
-void Squiz::process(sample **out, int num_frames)
+void Squiz::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

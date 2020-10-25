@@ -12,13 +12,14 @@ Width::Width(NodeRef input, NodeRef width)
     this->set_channels(2, 2);
 }
 
-void Width::process(sample **out, int num_frames)
+void Width::process(Buffer &out, int num_frames)
 {
+    // TODO fix this
     for (int frame = 0; frame < num_frames; frame++)
     {
         sample width = this->width->out[0][frame];
 
-        sample **in = this->input->out;
+        sample **in = this->input->out.data;
         sample left = in[0][frame];
         sample right = in[1][frame];
 

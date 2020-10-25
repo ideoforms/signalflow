@@ -52,7 +52,7 @@ FFTConvolve::~FFTConvolve()
     }
 }
 
-void FFTConvolve::process(sample **out, int num_frames)
+void FFTConvolve::process(Buffer &out, int num_frames)
 {
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;

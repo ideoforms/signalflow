@@ -19,7 +19,7 @@ void Triangle::alloc()
     this->phase.resize(this->num_output_channels_allocated);
 }
 
-void Triangle::process(sample **out, int num_frames)
+void Triangle::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

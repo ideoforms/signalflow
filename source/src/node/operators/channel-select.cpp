@@ -16,7 +16,7 @@ ChannelSelect::ChannelSelect(NodeRef input, int offset, int maximum, int step)
     this->set_channels(this->input->get_num_output_channels(), ceilf((this->maximum - this->offset) / this->step));
 }
 
-void ChannelSelect::process(sample **out, int num_frames)
+void ChannelSelect::process(Buffer &out, int num_frames)
 {
     int output_channel = 0;
     for (int channel = this->offset; channel < this->maximum; channel += this->step)

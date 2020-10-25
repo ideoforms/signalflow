@@ -9,7 +9,7 @@ Subtract::Subtract(NodeRef a, NodeRef b)
     this->name = "subtract";
 }
 
-void Subtract::process(sample **out, int num_frames)
+void Subtract::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

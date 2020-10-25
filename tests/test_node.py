@@ -1,4 +1,5 @@
 from signalflow import Sine, AudioGraph, Line
+import signalflow as sf
 from . import process_tree, graph
 import pytest
 
@@ -45,3 +46,14 @@ def test_node_set_input(graph):
     frequency = a.get_input("frequency")
     process_tree(a, num_frames=1024)
     assert frequency.output_buffer[0][0] == 1760
+
+def test_node_buffer(graph):
+    buf_in = sf.Buffer(([0.0] * 99) + ([1.0]))
+    player = sf.BufferPlayer(buf_in, loop=False)
+    graph.render_subgraph(player, 100)
+    assert player.output_buffer[0][0] == 0.0
+    assert player.output_buffer[0][99] == 1.0
+    graph.reset_subgraph(player)
+    graph.render_subgraph(player, 100)
+    assert player.output_buffer[0][0] == 0.0
+    assert player.output_buffer[0][99] == 0.0

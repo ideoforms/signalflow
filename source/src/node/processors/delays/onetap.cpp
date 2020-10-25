@@ -26,7 +26,7 @@ OneTapDelay::~OneTapDelay()
     }
 }
 
-void OneTapDelay::process(sample **out, int num_frames)
+void OneTapDelay::process(Buffer &out, int num_frames)
 {
     SIGNALFLOW_CHECK_GRAPH();
 

@@ -12,7 +12,7 @@ class Pow : public BinaryOpNode
 public:
     Pow(NodeRef a = 0, NodeRef b = 0);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 };
 
 REGISTER(Pow, "pow")

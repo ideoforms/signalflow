@@ -33,7 +33,7 @@ void Sine::alloc()
     this->phase.resize(this->num_output_channels_allocated);
 }
 
-void Sine::process(sample **out, int num_frames)
+void Sine::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

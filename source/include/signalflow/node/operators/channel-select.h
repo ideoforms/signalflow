@@ -14,7 +14,7 @@ class ChannelSelect : public UnaryOpNode
 public:
     ChannelSelect(NodeRef input = nullptr, int offset = 0, int maximum = 0, int step = 1);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     int offset;

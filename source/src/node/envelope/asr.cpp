@@ -29,7 +29,7 @@ void EnvelopeASR::trigger(std::string name, float value)
     }
 }
 
-void EnvelopeASR::process(sample **out, int num_frames)
+void EnvelopeASR::process(Buffer &out, int num_frames)
 {
     sample rv;
 

@@ -29,7 +29,7 @@ void TriggerNoise::trigger(std::string name, float value)
     }
 }
 
-void TriggerNoise::process(sample **out, int num_frames)
+void TriggerNoise::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

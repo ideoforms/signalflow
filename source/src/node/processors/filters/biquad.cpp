@@ -38,7 +38,7 @@ void BiquadFilter::alloc()
     this->z2.resize(this->num_output_channels_allocated, 0.0);
 }
 
-void BiquadFilter::process(sample **out, int num_frames)
+void BiquadFilter::process(Buffer &out, int num_frames)
 {
     this->_recalculate();
     for (int channel = 0; channel < num_output_channels; channel++)

@@ -76,19 +76,24 @@ def test_expansion_upmix():
     #--------------------------------------------------------------------------------
     assert graph.node_count == 1
 
-def test_expansion_max_channels(graph):
+def test_expansion_many_channels(graph):
     """
-    Generate 32 sine channels, mix down to mono, and confirm that
-    the correct 32 frequencies are present.
+    Generate 100 sine channels, mix down to mono, and confirm that
+    the correct 100 frequencies are present.
+
+    By multiplying the Sine output by 0.5, we also test that the
+    Multiply nodes re-allocates the output buffers of its inputs
+    (the Constant(0.5)) for automatic upmixing by the AudioGraph.
     """
-    frequencies = 1000 + np.arange(32) * 100
-    a = Sine(frequencies)
+    frequencies = 1000 + np.arange(100) * 100
+    a = Sine(frequencies) * 0.5
     mixer = ChannelMixer(1, a)
-    b = Buffer(1, DEFAULT_BUFFER_LENGTH)
-    process_tree(mixer, buffer=b)
-    peak_frequencies = get_peak_frequencies(b.data[0], graph.sample_rate)
+    graph.render_subgraph(mixer, 2048)
+    peak_frequencies = get_peak_frequencies(mixer.output_buffer[0], graph.sample_rate)
     peak_frequencies_rounded = np.round(peak_frequencies, -2)
     assert np.array_equal(peak_frequencies_rounded, frequencies)
+    assert a.num_output_channels_allocated == 100
+    assert a.output_buffer.shape == (100, 2048)
 
 def test_expansion_channel_array(graph):
     a = Sine(440)

@@ -15,7 +15,7 @@ WetDry::WetDry(NodeRef dry_input,
     this->create_input("wetness", this->wetness);
 }
 
-void WetDry::process(sample **out, int num_frames)
+void WetDry::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

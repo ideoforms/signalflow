@@ -9,7 +9,7 @@ Divide::Divide(NodeRef a, NodeRef b)
     this->name = "divide";
 }
 
-void Divide::process(sample **out, int num_frames)
+void Divide::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

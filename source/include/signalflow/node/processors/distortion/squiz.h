@@ -12,7 +12,7 @@ class Squiz : public UnaryOpNode
 public:
     Squiz(NodeRef input = 0.0, NodeRef rate = 2.0, NodeRef chunk_size = 1);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     NodeRef rate;
     NodeRef chunk_size;

@@ -14,7 +14,7 @@ FFTTonality::FFTTonality(NodeRef input, NodeRef level, NodeRef smoothing)
     this->create_input("smoothing", this->smoothing);
 }
 
-void FFTTonality::process(sample **out, int num_frames)
+void FFTTonality::process(Buffer &out, int num_frames)
 {
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;

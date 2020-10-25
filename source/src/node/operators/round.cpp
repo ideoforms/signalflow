@@ -9,7 +9,7 @@ RoundToScale::RoundToScale(NodeRef a)
     this->name = "round-to-scale";
 }
 
-void RoundToScale::process(sample **out, int num_frames)
+void RoundToScale::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

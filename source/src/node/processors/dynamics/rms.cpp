@@ -9,7 +9,7 @@ RMS::RMS(NodeRef input)
     this->name = "rms";
 }
 
-void RMS::process(sample **out, int num_frames)
+void RMS::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

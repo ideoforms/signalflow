@@ -18,7 +18,7 @@ public:
     ChannelArray(std::vector<int> inputs);
     ChannelArray(std::vector<float> inputs);
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
     virtual void update_channels();
 
     virtual void add_input(NodeRef input);

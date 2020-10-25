@@ -11,7 +11,7 @@ Constant::Constant(sample value)
     this->set_channels(0, 1);
 }
 
-void Constant::process(sample **out, int num_frames)
+void Constant::process(Buffer &out, int num_frames)
 {
 #if __APPLE__
     vDSP_vfill(&(this->value), out[0], 1, num_frames);

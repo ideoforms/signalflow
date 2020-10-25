@@ -26,7 +26,7 @@ public:
                  NodeRef peak_gain = 0.0);
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     signalflow_filter_type_t filter_type;

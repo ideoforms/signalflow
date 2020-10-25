@@ -28,7 +28,7 @@ CombDelay::~CombDelay()
     }
 }
 
-void CombDelay::process(sample **out, int num_frames)
+void CombDelay::process(Buffer &out, int num_frames)
 {
     SIGNALFLOW_CHECK_GRAPH();
 

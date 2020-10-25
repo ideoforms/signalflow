@@ -148,7 +148,7 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
 #endif
 }
 
-void IFFT::process(sample **out, int num_frames)
+void IFFT::process(Buffer &out, int num_frames)
 {
     /*------------------------------------------------------------------------
      * Move data written in previous calls to process() to the front of the
@@ -189,7 +189,7 @@ void IFFT::process(sample **out, int num_frames)
                    scale_factor);
     }
 
-    if (out != this->out)
+    if (&out != &this->out)
     {
         memcpy(out[0], this->out[0], num_frames * sizeof(sample));
     }

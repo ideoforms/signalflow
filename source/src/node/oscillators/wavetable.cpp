@@ -25,7 +25,7 @@ void Wavetable::alloc()
     this->current_phase.resize(this->num_output_channels_allocated);
 }
 
-void Wavetable::process(sample **out, int num_frames)
+void Wavetable::process(Buffer &out, int num_frames)
 {
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.
@@ -82,7 +82,7 @@ Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfad
     // this->create_buffer("buffer", this->buffer);
 }
 
-void Wavetable2D::process(sample **out, int num_frames)
+void Wavetable2D::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

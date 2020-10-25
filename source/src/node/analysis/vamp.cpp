@@ -70,7 +70,7 @@ VampAnalysis::~VampAnalysis()
     // close vamp plugins
 }
 
-void VampAnalysis::process(sample **out, int num_frames)
+void VampAnalysis::process(Buffer &out, int num_frames)
 {
     RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
     Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
@@ -110,7 +110,7 @@ VampEventExtractor::VampEventExtractor(NodeRef input, std::string plugin_id)
     this->set_property("labels", { "" });
 }
 
-void VampEventExtractor::process(sample **out, int num_frames)
+void VampEventExtractor::process(Buffer &out, int num_frames)
 {
     RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
     Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
@@ -137,7 +137,7 @@ VampSegmenter::VampSegmenter(NodeRef input, std::string plugin_id)
     this->set_property("durations", { 0 });
 }
 
-void VampSegmenter::process(sample **out, int num_frames)
+void VampSegmenter::process(Buffer &out, int num_frames)
 {
     RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
     Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);

@@ -65,7 +65,7 @@ FFTFindPeaks::FFTFindPeaks(NodeRef input, NodeRef prominence, NodeRef threshold,
     this->create_input("threshold", this->threshold);
 }
 
-void FFTFindPeaks::process(sample **out, int num_frames)
+void FFTFindPeaks::process(Buffer &out, int num_frames)
 {
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;

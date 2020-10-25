@@ -16,7 +16,7 @@ Logistic::Logistic(NodeRef chaos, NodeRef frequency)
     memset(this->steps_remaining, 0, sizeof(int) * SIGNALFLOW_MAX_CHANNELS);
 }
 
-void Logistic::process(sample **out, int num_frames)
+void Logistic::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

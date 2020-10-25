@@ -254,7 +254,6 @@ void AudioGraph::render(int num_frames)
      * Timestamp the start of processing to measure CPU usage.
      *-----------------------------------------------------------------------*/
     double t0 = signalflow_timestamp();
-    //    this->output->update_channels();
 
     this->reset_graph();
     this->render_subgraph(this->output, num_frames);

@@ -14,7 +14,7 @@ public:
     NodeRef resonance;
 
     virtual void alloc() override;
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     std::vector<float> out1, out2, out3, out4;

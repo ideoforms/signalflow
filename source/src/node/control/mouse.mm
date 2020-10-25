@@ -14,7 +14,7 @@ MouseX::MouseX()
     this->name = "mousex";
 }
 
-void MouseX::process(sample **out, int num_frames)
+void MouseX::process(Buffer &out, int num_frames)
 {
     NSPoint mouseLoc = [NSEvent mouseLocation];
     NSRect screenRect = [[NSScreen mainScreen] frame];
@@ -31,7 +31,7 @@ MouseY::MouseY()
     this->name = "mousey";
 }
 
-void MouseY::process(sample **out, int num_frames)
+void MouseY::process(Buffer &out, int num_frames)
 {
     NSPoint mouseLoc = [NSEvent mouseLocation];
     NSRect screenRect = [[NSScreen mainScreen] frame];
@@ -49,7 +49,7 @@ MouseDown::MouseDown(NodeRef button_index)
     this->create_input("button_index", this->button_index);
 }
 
-void MouseDown::process(sample **out, int num_frames)
+void MouseDown::process(Buffer &out, int num_frames)
 {
     NSUInteger pressedMouseButtons = [NSEvent pressedMouseButtons];
     float rv = 0.0;

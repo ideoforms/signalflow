@@ -18,7 +18,7 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
     this->create_input("gate", this->gate);
 }
 
-void EnvelopeADSR::process(sample **out, int num_frames)
+void EnvelopeADSR::process(Buffer &out, int num_frames)
 {
     sample rv;
     float phase_step = 1.0f / this->graph->get_sample_rate();

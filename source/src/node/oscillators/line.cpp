@@ -24,7 +24,7 @@ void Line::alloc()
     this->duration_samples.resize(this->num_output_channels_allocated);
 }
 
-void Line::process(sample **out, int num_frames)
+void Line::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

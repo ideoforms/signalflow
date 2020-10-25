@@ -20,7 +20,7 @@ public:
         bool do_window = true);
     ~FFT();
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     NodeRef input;
 

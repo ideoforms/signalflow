@@ -12,7 +12,7 @@ AudioOut_Abstract::AudioOut_Abstract()
     this->input_index = 0;
 }
 
-void AudioOut_Abstract::process(sample **out, int num_frames)
+void AudioOut_Abstract::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_input_channels; channel++)
     {

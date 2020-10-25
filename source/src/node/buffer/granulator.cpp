@@ -32,7 +32,7 @@ void Granulator::set_spatialisation(int num_channels, NodeRef pan)
     this->pan = pan;
 }
 
-void Granulator::process(sample **out, int num_frames)
+void Granulator::process(Buffer &out, int num_frames)
 {
     /*--------------------------------------------------------------------------------
      * If buffer is null or empty, don't try to process.

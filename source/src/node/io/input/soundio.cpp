@@ -150,7 +150,7 @@ int AudioIn_SoundIO::destroy()
     return 0;
 }
 
-void AudioIn_SoundIO::process(sample **out, int num_frames)
+void AudioIn_SoundIO::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {

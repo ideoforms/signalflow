@@ -12,7 +12,7 @@ public:
            NodeRef wet_input = nullptr,
            NodeRef wetness = 0.0);
 
-    virtual void process(sample **out, int num_frames) override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     NodeRef dry_input;

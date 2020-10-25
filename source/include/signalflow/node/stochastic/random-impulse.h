@@ -13,7 +13,7 @@ public:
     NodeRef frequency;
     signalflow_event_distribution_t distribution;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     int steps_remaining;

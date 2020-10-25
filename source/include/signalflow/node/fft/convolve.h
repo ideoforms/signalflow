@@ -11,7 +11,7 @@ public:
     FFTConvolve(NodeRef input = nullptr, BufferRef buffer = nullptr);
     virtual ~FFTConvolve();
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
     BufferRef buffer;
     int num_partitions;

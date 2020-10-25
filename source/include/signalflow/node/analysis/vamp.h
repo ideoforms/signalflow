@@ -19,7 +19,7 @@ public:
     VampAnalysis(NodeRef input = 0.0, std::string plugin_id = "vamp-example-plugins:spectralcentroid:linearcentroid");
     ~VampAnalysis();
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 protected:
     int current_frame;
@@ -31,14 +31,14 @@ class VampEventExtractor : public VampAnalysis
 {
 public:
     VampEventExtractor(NodeRef input = 0.0, std::string plugin_id = "vamp:vamp-example-plugins:percussiononsets:onsets");
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 };
 
 class VampSegmenter : public VampAnalysis
 {
 public:
     VampSegmenter(NodeRef input = 0.0, std::string plugin_id = "vamp:vamp-example-plugins:percussiononsets:onsets");
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     float last_value = -1;

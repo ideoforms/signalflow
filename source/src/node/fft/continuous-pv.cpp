@@ -28,7 +28,7 @@ void FFTContinuousPhaseVocoder::trigger(std::string name, float value)
     //   this->prefilled_fft_buffer = false;
 }
 
-void FFTContinuousPhaseVocoder::process(sample **out, int num_frames)
+void FFTContinuousPhaseVocoder::process(Buffer &out, int num_frames)
 {
     FFTNode *fftin = (FFTNode *) this->input.get();
     this->num_hops = 1;

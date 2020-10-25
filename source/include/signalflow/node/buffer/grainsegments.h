@@ -27,7 +27,7 @@ public:
     PropertyRef values;
     PropertyRef durations;
 
-    virtual void process(sample **out, int num_frames);
+    virtual void process(Buffer &out, int num_frames);
 
 private:
     sample clock_last;
