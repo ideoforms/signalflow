@@ -41,7 +41,9 @@ class Patch
 public:
     Patch();
     Patch(PatchRef patch);
+    Patch(PatchRef patch, std::unordered_map<std::string, NodeRef> params);
     Patch(PatchSpecRef patchspec);
+    Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> params);
     Patch(std::string name);
     virtual ~Patch();
 

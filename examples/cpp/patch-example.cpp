@@ -51,12 +51,10 @@ int main()
 
     while (true)
     {
-        float freq = 110 * int(powf(8, random_uniform(0, 1)));
-        PatchRef patch = new Patch(spec);
+        float freq = 100 * int(powf(8, random_uniform(0, 1)));
+        PatchRef patch = new Patch(spec, { { "freq", freq }, { "width", random_uniform(0.3, 0.7) } });
         synths.insert(patch);
         patch->set_auto_free(true);
-        patch->set_input("freq", freq);
-        patch->set_input("width", random_uniform(0.3, 0.7));
         graph->play(patch);
         usleep(1000000);
     }

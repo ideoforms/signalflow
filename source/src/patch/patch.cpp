@@ -26,8 +26,25 @@ Patch::Patch(PatchSpecRef patchspec)
     this->output = this->instantiate(nodespec);
 }
 
+Patch::Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> inputs)
+    : Patch(patchspec)
+{
+    for (auto input : inputs)
+    {
+        std::string input_name = input.first;
+        NodeRef input_value = input.second;
+        std::cout << "set input " + input_name << std::endl;
+        this->set_input(input_name, input_value);
+    }
+}
+
 Patch::Patch(PatchRef patch)
     : Patch(patch->create_spec())
+{
+}
+
+Patch::Patch(PatchRef patch, std::unordered_map<std::string, NodeRef> inputs)
+    : Patch(patch->create_spec(), inputs)
 {
 }
 
