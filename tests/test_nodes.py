@@ -19,7 +19,6 @@ def test_nodes_general():
         if inspect.isclass(value) and issubclass(value, signalflow.Node):
             # TODO Why do these fail in particular?
             if key != "Node" and key != "AudioIn" and key != "CrossCorrelate":
-                print(key)
                 a = None
                 try:
                     a = value()
