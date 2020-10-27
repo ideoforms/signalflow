@@ -46,6 +46,7 @@ void init_python_buffer(py::module &m)
         .def("load", &Buffer::load)
         .def("save", &Buffer::save)
         .def_property_readonly("data", [](Buffer &buf) {
+            // TODO: https://github.com/pybind/pybind11/issues/323
             return py::array_t<float>(
                 { buf.get_num_channels(), buf.get_num_frames() },
                 { sizeof(float) * buf.get_num_frames(), sizeof(float) },

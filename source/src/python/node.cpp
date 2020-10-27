@@ -10,6 +10,7 @@ void init_python_node(py::module &m)
          * Critical to enable pybind11 to automatically convert from floats
          * to Node objects.
          *-------------------------------------------------------------------------------*/
+        .def(py::init<>([]() { return new Node(); }))
         .def(py::init<>([](int value) { return new Constant(value); }))
         .def(py::init<>([](float value) { return new Constant(value); }))
         .def(py::init<>([](std::vector<NodeRef> value) { return new ChannelArray(value); }))
@@ -63,15 +64,23 @@ void init_python_node(py::module &m)
             return inputs;
         })
         .def_property_readonly("output_buffer", [](Node &node) {
+            /*--------------------------------------------------------------------------------
+             * Assigning a data owner to the array ensures that it is returned as a
+             * pointer to the original data, rather than a copy. This means that we can
+             * modify the contents of the output buffer in-place from Python if we want to.
+             * https://github.com/pybind/pybind11/issues/323
+             *-------------------------------------------------------------------------------*/
+            py::str dummy_data_owner;
             return py::array_t<float>(
                 { node.get_num_output_channels_allocated(), node.last_num_frames },
                 { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
-                node.out[0]);
+                node.out[0],
+                dummy_data_owner);
         })
 
         /*--------------------------------------------------------------------------------
-        * Methods
-        *-------------------------------------------------------------------------------*/
+         * Methods
+         *-------------------------------------------------------------------------------*/
         .def("set_buffer", &Node::set_buffer)
         .def("poll", [](Node &node) { node.poll(); })
         .def("poll", [](Node &node, float frequency) { node.poll(frequency); })

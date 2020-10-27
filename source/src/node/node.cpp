@@ -90,7 +90,12 @@ void Node::process(int num_frames)
 
 void Node::process(Buffer &out, int num_frames)
 {
-    throw std::runtime_error("Node::process (should never be called)");
+    /*------------------------------------------------------------------------
+     * This should always be overridden by Node subclasses.
+     * The Node class process() is a no-op, used rarely (for example,
+     * when constructing unit tests when the Node's output samples need to
+     * be specified directly by the Python code).
+     *-----------------------------------------------------------------------*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -57,3 +57,31 @@ def test_node_buffer(graph):
     graph.render_subgraph(player, 100)
     assert player.output_buffer[0][0] == 0.0
     assert player.output_buffer[0][99] == 0.0
+
+def test_node_write_to_output_buffer(graph):
+    """
+    Test that the Python layer can successfully write to the Node's output
+    buffer.
+    """
+    a = sf.Node()
+    graph.render_subgraph(a)
+    assert a.output_buffer[0][3] == 0.0
+    a.output_buffer[0][3] = 1.0
+    assert a.output_buffer[0][3] == 1.0
+
+    #--------------------------------------------------------------------------------
+    # Why is the output buffer of length 256 (SIGNALFLOW_DEFAULT_BLOCK_SIZE)
+    # rather than 2048 (SIGNALFLOW_NODE_BUFFER_SIZE)? Because the output buffer's
+    # length is reported by the Python bindings as `last_num_frames`.
+    # Whether this is a good idea is open to debate.
+    #
+    # Better would be to have a precise and rigorous block size throughout, which
+    # would mean adding a block buffer between the audio I/O and the Graph.
+    #--------------------------------------------------------------------------------
+    assert a.output_buffer.shape == (32, 256)
+    a.output_buffer[31][255] = 1.0
+    assert a.output_buffer[31][255] == 1.0
+    with pytest.raises(IndexError):
+        a.output_buffer[32][255] == 1.0
+    with pytest.raises(IndexError):
+        a.output_buffer[31][256] == 1.0
