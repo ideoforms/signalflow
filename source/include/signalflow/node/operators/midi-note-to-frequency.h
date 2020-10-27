@@ -6,15 +6,15 @@
 namespace signalflow
 {
 
-class RoundToScale : public UnaryOpNode
+class MidiNoteToFrequency : public UnaryOpNode
 {
 
 public:
-    RoundToScale(NodeRef a = 0);
+    MidiNoteToFrequency(NodeRef a = 0);
 
     virtual void process(Buffer &out, int num_frames) override;
 };
 
-REGISTER(RoundToScale, "round-to-scale")
+REGISTER(MidiNoteToFrequency, "midi-note-to-frequency")
 
 }

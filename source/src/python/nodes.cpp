@@ -102,6 +102,9 @@ void init_python_nodes(py::module &m)
     py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
 
+    py::class_<MidiNoteToFrequency, Node, NodeRefTemplate<MidiNoteToFrequency>>(m, "MidiNoteToFrequency")
+        .def(py::init<NodeRef>(), "a"_a);
+
     py::class_<Multiply, Node, NodeRefTemplate<Multiply>>(m, "Multiply")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1.0, "b"_a = 1.0);
 
@@ -188,7 +191,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "input"_a = 0.0);
 
     py::class_<BiquadFilter, Node, NodeRefTemplate<BiquadFilter>>(m, "BiquadFilter")
-        .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.707, "peak_gain"_a = 0.0);
+        .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.0, "peak_gain"_a = 0.0);
 
     py::class_<EQ, Node, NodeRefTemplate<EQ>>(m, "EQ")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "low_gain"_a = 1.0, "mid_gain"_a = 1.0, "high_gain"_a = 1.0, "low_freq"_a = 500, "high_freq"_a = 5000);
@@ -197,7 +200,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "cutoff"_a = 200.0, "resonance"_a = 0.0);
 
     py::class_<SVFFilter, Node, NodeRefTemplate<SVFFilter>>(m, "SVFFilter")
-        .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.707);
+        .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.0);
 
     py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
         .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.5);
