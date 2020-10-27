@@ -11,7 +11,7 @@ public:
     SVFFilter(NodeRef input = 0.0,
               signalflow_filter_type_t filter_type = SIGNALFLOW_FILTER_TYPE_LOW_PASS,
               NodeRef cutoff = 440,
-              NodeRef resonance = 0.707);
+              NodeRef resonance = 0.0);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
