@@ -31,19 +31,22 @@ private:
 class Wavetable2D : public Node
 {
 public:
+    // TODO: Implement phase argument
     Wavetable2D(BufferRef2D buffer = nullptr,
                 NodeRef frequency = 440,
                 NodeRef crossfade = 0.0,
                 NodeRef sync = 0);
 
-    virtual void process(Buffer &out, int num_frames);
+    virtual void alloc() override;
+    virtual void process(Buffer &out, int num_frames) override;
 
 private:
     BufferRef2D buffer;
     NodeRef frequency;
     NodeRef crossfade;
     NodeRef sync;
-    float phase[SIGNALFLOW_MAX_CHANNELS];
+
+    std::vector<float> current_phase;
 };
 
 REGISTER(Wavetable, "wavetable")

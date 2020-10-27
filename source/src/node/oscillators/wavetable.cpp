@@ -72,14 +72,19 @@ Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfad
 {
     this->name = "wavetable2d";
 
-    memset(this->phase, 0, sizeof(float) * SIGNALFLOW_MAX_CHANNELS);
-
     this->create_input("frequency", this->frequency);
     this->create_input("crossfade", this->crossfade);
     this->create_input("sync", this->sync);
 
     // Named Buffer inputs don't yet work for Buffer2Ds :-(
     // this->create_buffer("buffer", this->buffer);
+
+    this->alloc();
+}
+
+void Wavetable2D::alloc()
+{
+    this->current_phase.resize(this->num_output_channels_allocated);
 }
 
 void Wavetable2D::process(Buffer &out, int num_frames)
@@ -89,14 +94,14 @@ void Wavetable2D::process(Buffer &out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             float frequency = this->frequency->out[channel][frame];
-            int index = this->phase[channel] * this->buffer->get_num_frames();
+            int index = this->current_phase[channel] * this->buffer->get_num_frames();
             float rv = this->buffer->get2D(index, this->crossfade->out[0][frame]);
 
             out[channel][frame] = rv;
 
-            this->phase[channel] += (frequency / this->graph->get_sample_rate());
-            while (this->phase[channel] >= 1.0)
-                this->phase[channel] -= 1.0;
+            this->current_phase[channel] += (frequency / this->graph->get_sample_rate());
+            while (this->current_phase[channel] >= 1.0)
+                this->current_phase[channel] -= 1.0;
         }
     }
 }
