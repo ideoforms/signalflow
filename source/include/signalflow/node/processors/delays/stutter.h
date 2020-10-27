@@ -18,6 +18,7 @@ public:
             float max_stutter_time = 1.0);
     ~Stutter();
 
+    virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
 
@@ -25,6 +26,7 @@ private:
     NodeRef stutter_time;
     NodeRef stutter_count;
     NodeRef clock;
+    float max_stutter_time;
 
     std::vector<SampleRingBuffer *> buffers;
     std::vector<int> stutter_index;

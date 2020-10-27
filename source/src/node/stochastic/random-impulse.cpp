@@ -11,44 +11,45 @@ namespace signalflow
 RandomImpulse::RandomImpulse(NodeRef frequency, signalflow_event_distribution_t distribution)
     : frequency(frequency), distribution(distribution)
 {
-    this->steps_remaining = 0;
-
     this->name = "random-impulse";
     this->create_input("frequency", this->frequency);
+    this->alloc();
+}
+
+void RandomImpulse::alloc()
+{
+    this->steps_remaining.resize(this->num_output_channels_allocated);
 }
 
 void RandomImpulse::process(Buffer &out, int num_frames)
 {
     SIGNALFLOW_CHECK_GRAPH()
 
-    for (int frame = 0; frame < num_frames; frame++)
+    for (int channel = 0; channel < this->num_output_channels; channel++)
     {
-        float freq = this->frequency->out[0][frame];
-        if (freq == 0)
+        for (int frame = 0; frame < num_frames; frame++)
         {
-            for (int channel = 0; channel < this->num_output_channels; channel++)
+            float freq = this->frequency->out[channel][frame];
+            if (freq == 0)
             {
                 out[channel][frame] = 0.0;
             }
-        }
-        else
-        {
-            if (this->steps_remaining <= 0)
+            else
             {
-                if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM)
+                if (this->steps_remaining[channel] <= 0)
                 {
-                    this->steps_remaining = random_integer(0, this->graph->get_sample_rate() / (freq / 2.0));
+                    if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM)
+                    {
+                        this->steps_remaining[channel] = random_integer(0, this->graph->get_sample_rate() / (freq / 2.0));
+                    }
+                    else if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
+                    {
+                        this->steps_remaining[channel] = this->graph->get_sample_rate() * -logf(1.0 - random_uniform()) / freq;
+                    }
                 }
-                else if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
-                {
-                    this->steps_remaining = this->graph->get_sample_rate() * -logf(1.0 - random_uniform()) / freq;
-                }
-            }
-            this->steps_remaining--;
+                this->steps_remaining[channel]--;
 
-            for (int channel = 0; channel < this->num_output_channels; channel++)
-            {
-                out[channel][frame] = (this->steps_remaining == 0) ? 1 : 0;
+                out[channel][frame] = (this->steps_remaining[channel] == 0) ? 1 : 0;
             }
         }
     }

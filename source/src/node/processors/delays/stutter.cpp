@@ -6,26 +6,28 @@ namespace signalflow
 {
 
 Stutter::Stutter(NodeRef input, NodeRef stutter_time, NodeRef stutter_count, NodeRef clock, float max_stutter_time)
-    : UnaryOpNode(input), stutter_time(stutter_time), stutter_count(stutter_count), clock(clock)
+    : UnaryOpNode(input), stutter_time(stutter_time), stutter_count(stutter_count), clock(clock), max_stutter_time(max_stutter_time)
 {
+    SIGNALFLOW_CHECK_GRAPH();
+
     this->name = "stutter";
     this->create_input("stutter_time", this->stutter_time);
     this->create_input("stutter_count", this->stutter_count);
     this->create_input("clock", this->clock);
+    this->alloc();
+}
 
-    this->stutter_index.resize(SIGNALFLOW_MAX_CHANNELS);
-    this->stutter_sample_buffer_offset.resize(SIGNALFLOW_MAX_CHANNELS);
-    this->stutters_to_do.resize(SIGNALFLOW_MAX_CHANNELS);
-    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
-    {
-        this->stutters_to_do[i] = 0;
-    }
-    this->stutter_samples_remaining.resize(SIGNALFLOW_MAX_CHANNELS);
+void Stutter::alloc()
+{
+    this->stutter_index.resize(this->num_output_channels_allocated);
+    this->stutter_sample_buffer_offset.resize(this->num_output_channels_allocated);
+    this->stutters_to_do.resize(this->num_output_channels_allocated);
+    this->stutter_samples_remaining.resize(this->num_output_channels_allocated);
 
-    SIGNALFLOW_CHECK_GRAPH();
-    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
+    int buffers_to_allocate = this->num_output_channels_allocated - buffers.size();
+    for (int i = 0; i < buffers_to_allocate; i++)
     {
-        buffers.push_back(new SampleRingBuffer(max_stutter_time * this->graph->get_sample_rate()));
+        buffers.push_back(new SampleRingBuffer(this->max_stutter_time * this->graph->get_sample_rate()));
     }
 }
 
@@ -54,9 +56,7 @@ void Stutter::trigger(std::string name, float value)
 
 void Stutter::process(Buffer &out, int num_frames)
 {
-    SIGNALFLOW_CHECK_GRAPH();
-
-    for (int channel = 0; channel < this->num_input_channels; channel++)
+    for (int channel = 0; channel < this->num_output_channels; channel++)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
