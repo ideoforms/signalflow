@@ -106,7 +106,7 @@ public:
      * @param num_frames The number of frames to render.
      *
      *--------------------------------------------------------------------------------*/
-    void render_subgraph(const NodeRef &node, int num_frames);
+    void render_subgraph(const NodeRef &node, int num_frames = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
 
     /**--------------------------------------------------------------------------------
      * Render the entire graph to an output buffer, dividing the processing into

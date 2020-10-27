@@ -28,9 +28,11 @@ void init_python_graph(py::module &m)
         .def("show_status", &AudioGraph::show_status)
         .def("render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); })
         .def("render_to_buffer", [](AudioGraph &graph, BufferRef buffer) { graph.render_to_buffer(buffer); })
-        .def("render_subgraph", [](AudioGraph &graph, NodeRef node, int num_frames) {
-            graph.render_subgraph(node, num_frames);
-        })
+        .def(
+            "render_subgraph", [](AudioGraph &graph, NodeRef node, int num_frames) {
+                graph.render_subgraph(node, num_frames);
+            },
+            "node"_a, "num_frames"_a = SIGNALFLOW_DEFAULT_BLOCK_SIZE)
         .def("reset_subgraph", &AudioGraph::reset_subgraph)
         .def("play", [](AudioGraph &graph, NodeRef node) { graph.play(node); })
         .def("play", [](AudioGraph &graph, PatchRef patch) { graph.play(patch); })
