@@ -64,6 +64,18 @@ def test_buffer_subscript(graph):
     with pytest.raises(Exception):
         _ = b[-1]
 
+def test_buffer_write_from_python(graph):
+    b = Buffer(2, 32)
+    assert b.data[0][0] == 0.0
+    b.data[0][1] = 1.0
+    assert b.data[0][1] == 1.0
+    b.data[1][31] = 1.0
+    assert b.data[1][31] == 1.0
+    with pytest.raises(IndexError):
+        b.data[1][32] = 1.0
+    with pytest.raises(IndexError):
+        b.data[2][31] = 1.0
+
 def test_buffer_interpolate(graph):
     b = Buffer(1, 2, np.array([[ 1, 2 ]]))
     assert b.get(0) == 1

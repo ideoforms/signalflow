@@ -46,11 +46,18 @@ void init_python_buffer(py::module &m)
         .def("load", &Buffer::load)
         .def("save", &Buffer::save)
         .def_property_readonly("data", [](Buffer &buf) {
-            // TODO: https://github.com/pybind/pybind11/issues/323
+            /*--------------------------------------------------------------------------------
+             * Assigning a data owner to the array ensures that it is returned as a
+             * pointer to the original data, rather than a copy. This means that we can
+             * modify the contents of the output buffer in-place from Python if we want to.
+             * https://github.com/pybind/pybind11/issues/323
+             *-------------------------------------------------------------------------------*/
+            py::str dummy_data_owner;
             return py::array_t<float>(
                 { buf.get_num_channels(), buf.get_num_frames() },
                 { sizeof(float) * buf.get_num_frames(), sizeof(float) },
-                buf.data[0]);
+                buf.data[0],
+                dummy_data_owner);
         });
 
     py::class_<Buffer2D, Buffer, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
