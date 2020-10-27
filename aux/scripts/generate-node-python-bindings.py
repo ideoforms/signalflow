@@ -4,9 +4,14 @@
 # Automatically generate pybind11 headers to provide Python bindings
 # for all Node subclasses.
 #
+# Usage:
+
+#   aux/scripts/generate-node-python-bindings.py > source/src/python/nodes.cpp
+#
 # Requirements:
 #
 #   pip3 install robotpy-cppheaderparser
+#
 #------------------------------------------------------------------------
 
 import os

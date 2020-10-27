@@ -32,6 +32,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/onetap.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/stutter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/biquad.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/svf.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/eq.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/sample-and-hold.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/gate.cpp

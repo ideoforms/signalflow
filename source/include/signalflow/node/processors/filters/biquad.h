@@ -3,17 +3,6 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/node/node.h"
 
-typedef enum
-{
-    SIGNALFLOW_FILTER_TYPE_LOW_PASS,
-    SIGNALFLOW_FILTER_TYPE_HIGH_PASS,
-    SIGNALFLOW_FILTER_TYPE_BAND_PASS,
-    SIGNALFLOW_FILTER_TYPE_NOTCH,
-    SIGNALFLOW_FILTER_TYPE_PEAK,
-    SIGNALFLOW_FILTER_TYPE_LOW_SHELF,
-    SIGNALFLOW_FILTER_TYPE_HIGH_SHELF
-} signalflow_filter_type_t;
-
 namespace signalflow
 {
 class BiquadFilter : public UnaryOpNode
