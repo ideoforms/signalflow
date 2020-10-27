@@ -37,7 +37,9 @@ void init_python_patch(py::module &m)
         .def_property_readonly("name", &PatchSpec::get_name)
         .def("print", [](PatchSpec &patchspec) { patchspec.print(); })
         .def("load", &PatchSpec::load)
-        .def("save", &PatchSpec::save);
+        .def("save", &PatchSpec::save)
+        .def("to_json", &PatchSpec::to_json)
+        .def("from_json", &PatchSpec::from_json);
 
     py::class_<PatchRegistry>(m, "PatchRegistry")
         .def(py::init(&PatchRegistry::global))
