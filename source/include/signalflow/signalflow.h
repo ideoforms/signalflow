@@ -82,6 +82,7 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/envelope/adsr.h>
 #include <signalflow/node/envelope/asr.h>
+#include <signalflow/node/envelope/envelope.h>
 
 /*------------------------------------------------------------------------
  * Processors

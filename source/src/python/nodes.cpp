@@ -55,6 +55,9 @@ void init_python_nodes(py::module &m)
     py::class_<EnvelopeASR, Node, NodeRefTemplate<EnvelopeASR>>(m, "EnvelopeASR")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "clock"_a = nullptr);
 
+    py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope")
+        .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>>(), "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>());
+
     py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder")
         .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
 
