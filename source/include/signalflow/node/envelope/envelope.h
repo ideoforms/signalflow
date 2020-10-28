@@ -10,7 +10,8 @@ class Envelope : public Node
 {
 public:
     Envelope(std::vector<NodeRef> levels = std::vector<NodeRef>(),
-             std::vector<NodeRef> times = std::vector<NodeRef>());
+             std::vector<NodeRef> times = std::vector<NodeRef>(),
+             std::vector<NodeRef> curves = std::vector<NodeRef>());
 
     virtual void process(Buffer &out, int num_frames);
 
@@ -20,6 +21,7 @@ private:
     float node_phase;
     std::vector<NodeRef> levels;
     std::vector<NodeRef> times;
+    std::vector<NodeRef> curves;
 };
 
 REGISTER(Envelope, "envelope")
