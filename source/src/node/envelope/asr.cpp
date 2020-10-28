@@ -85,7 +85,7 @@ void EnvelopeASR::process(Buffer &out, int num_frames)
 
             if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
             {
-                rv = signalflow_db_to_amp((rv - 1) * 60);
+                rv = signalflow_db_to_amplitude((rv - 1) * 60);
             }
             else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
             {

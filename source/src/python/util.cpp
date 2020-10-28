@@ -13,8 +13,8 @@ void init_python_util(py::module &m)
     m.def("frequency_to_midi_note", signalflow_frequency_to_midi_note, R"pbdoc(Map frequency in Hz to a MIDI note value)pbdoc");
     m.def("midi_note_to_frequency", signalflow_midi_note_to_frequency, R"pbdoc(Map MIDI note value to a frequency in Hz)pbdoc");
 
-    m.def("db_to_amp", signalflow_db_to_amp, R"pbdoc(Map decibels to linear amplitude)pbdoc");
-    m.def("amp_to_db", signalflow_amp_to_db, R"pbdoc(Map linear amplitude to decibels)pbdoc");
+    m.def("db_to_amplitude", signalflow_db_to_amplitude, R"pbdoc(Map decibels to linear amplitude)pbdoc");
+    m.def("amplitude_to_db", signalflow_amplitude_to_db, R"pbdoc(Map linear amplitude to decibels)pbdoc");
 
     m.def("save_block_to_text_file", signalflow_save_block_to_text_file, R"pbdoc(Write a block of PCM float samples to a .csv-style text file)pbdoc");
     m.def("save_block_to_wav_file", signalflow_save_block_to_wav_file, R"pbdoc(Write a block of PCM float samples to a .wav file)pbdoc");

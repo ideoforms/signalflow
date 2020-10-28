@@ -89,12 +89,12 @@ float signalflow_midi_note_to_frequency(float midi)
     return 440.0 * powf(2, (midi - 69) / 12.0);
 }
 
-float signalflow_db_to_amp(float db)
+float signalflow_db_to_amplitude(float db)
 {
     return powf(10.0f, db * 0.05f);
 }
 
-float signalflow_amp_to_db(float amp)
+float signalflow_amplitude_to_db(float amp)
 {
     amp = MAX(amp, 1e-9);
     amp = MIN(amp, 1e9);

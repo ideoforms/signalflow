@@ -87,7 +87,7 @@ void EnvelopeADSR::process(Buffer &out, int num_frames)
         {
             if (rv > 0)
             {
-                rv = signalflow_db_to_amp((rv - 1) * 96);
+                rv = signalflow_db_to_amplitude((rv - 1) * 96);
             }
         }
         else if (this->curve == SIGNALFLOW_CURVE_LINEAR)

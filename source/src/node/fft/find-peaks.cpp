@@ -95,9 +95,9 @@ void FFTFindPeaks::process(Buffer &out, int num_frames)
                     float p = 0.0;
                     if (this->interpolate)
                     {
-                        float alpha = signalflow_amp_to_db(mags_in[bin_index - 1]);
-                        float beta = signalflow_amp_to_db(mags_in[bin_index]);
-                        float gamma = signalflow_amp_to_db(mags_in[bin_index + 1]);
+                        float alpha = signalflow_amplitude_to_db(mags_in[bin_index - 1]);
+                        float beta = signalflow_amplitude_to_db(mags_in[bin_index]);
+                        float gamma = signalflow_amplitude_to_db(mags_in[bin_index + 1]);
                         p = (alpha == beta && beta == gamma) ? 0.0f : 0.5f * (alpha - gamma) / (alpha - 2.0f * beta + gamma);
                     }
                     float frequency = (bin_index + p) * graph->get_sample_rate() / this->fft_size;

@@ -1,5 +1,5 @@
 from signalflow import Buffer, EnvelopeADSR
-from signalflow import db_to_amp
+from signalflow import db_to_amplitude
 from . import graph
 from . import process_tree
 
@@ -22,5 +22,5 @@ def test_envelope_adsr(graph):
     print(b.data[0][10])
     assert b.data[0][0] == 0
     assert b.data[0][10] == pytest.approx(1.0)
-    assert b.data[0][110] == pytest.approx(db_to_amp(SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB * 0.5))
+    assert b.data[0][110] == pytest.approx(db_to_amplitude(SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB * 0.5))
     assert b.data[0][1111] == 0.0

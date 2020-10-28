@@ -31,15 +31,15 @@ def test_frequency_to_midi_note():
 def test_midi_note_to_frequency():
     pass
 
-def test_db_to_amp():
-    assert signalflow.db_to_amp(0.0) == 1.0
-    assert signalflow.db_to_amp(-12) == pytest.approx(10 ** (-12 / 20), rel=0.00001)
-    assert signalflow.db_to_amp(24) == pytest.approx(10 ** (24 / 20), rel=0.00001)
+def test_db_to_amplitude():
+    assert signalflow.db_to_amplitude(0.0) == 1.0
+    assert signalflow.db_to_amplitude(-12) == pytest.approx(10 ** (-12 / 20), rel=0.00001)
+    assert signalflow.db_to_amplitude(24) == pytest.approx(10 ** (24 / 20), rel=0.00001)
 
-def test_amp_to_db():
-    assert signalflow.amp_to_db(1.0) == 0.0
-    assert signalflow.amp_to_db(0.5) == pytest.approx(20.0 * math.log10(0.5))
-    assert signalflow.amp_to_db(0.01) == pytest.approx(20.0 * math.log10(0.01))
+def test_amplitude_to_db():
+    assert signalflow.amplitude_to_db(1.0) == 0.0
+    assert signalflow.amplitude_to_db(0.5) == pytest.approx(20.0 * math.log10(0.5))
+    assert signalflow.amplitude_to_db(0.01) == pytest.approx(20.0 * math.log10(0.01))
 
 @pytest.mark.skip
 def test_save_block_to_text_file():

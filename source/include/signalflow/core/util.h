@@ -27,8 +27,8 @@ double signalflow_scale_exp_lin(double value, double a, double b, double c, doub
 float signalflow_frequency_to_midi_note(float frequency);
 float signalflow_midi_note_to_frequency(float midi);
 
-float signalflow_db_to_amp(float db);
-float signalflow_amp_to_db(float amp);
+float signalflow_db_to_amplitude(float db);
+float signalflow_amplitude_to_db(float amp);
 
 void signalflow_save_block_to_text_file(sample *block, int num_samples, std::string filename);
 void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::string filename);

@@ -86,6 +86,12 @@ void init_python_nodes(py::module &m)
     py::class_<Add, Node, NodeRefTemplate<Add>>(m, "Add")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
+    py::class_<AmplitudeToDecibels, Node, NodeRefTemplate<AmplitudeToDecibels>>(m, "AmplitudeToDecibels")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
+    py::class_<DecibelsToAmplitude, Node, NodeRefTemplate<DecibelsToAmplitude>>(m, "DecibelsToAmplitude")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
     py::class_<ChannelArray, Node, NodeRefTemplate<ChannelArray>>(m, "ChannelArray")
         .def(py::init<>())
         .def(py::init<std::initializer_list<NodeRef>>(), "inputs"_a)
@@ -103,7 +109,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
 
     py::class_<MidiNoteToFrequency, Node, NodeRefTemplate<MidiNoteToFrequency>>(m, "MidiNoteToFrequency")
-        .def(py::init<NodeRef>(), "a"_a);
+        .def(py::init<NodeRef>(), "a"_a = 0);
 
     py::class_<Multiply, Node, NodeRefTemplate<Multiply>>(m, "Multiply")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1.0, "b"_a = 1.0);
@@ -112,7 +118,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
     py::class_<RoundToScale, Node, NodeRefTemplate<RoundToScale>>(m, "RoundToScale")
-        .def(py::init<NodeRef>(), "a"_a);
+        .def(py::init<NodeRef>(), "a"_a = 0);
 
     py::class_<ScaleLinExp, Node, NodeRefTemplate<ScaleLinExp>>(m, "ScaleLinExp")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "a"_a = 0, "b"_a = 1, "c"_a = 1, "d"_a = 10);
