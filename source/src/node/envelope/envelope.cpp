@@ -1,6 +1,8 @@
 #include "signalflow/core/graph.h"
 #include "signalflow/node/envelope/envelope.h"
 
+#include <limits>
+
 namespace signalflow
 {
 
