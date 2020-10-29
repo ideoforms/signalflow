@@ -9,8 +9,9 @@ namespace signalflow
 Envelope::Envelope(std::vector<NodeRef> levels,
                    std::vector<NodeRef> times,
                    std::vector<NodeRef> curves,
-                   NodeRef clock)
-    : levels(levels), times(times), curves(curves), clock(clock)
+                   NodeRef clock,
+                   bool loop)
+    : levels(levels), times(times), curves(curves), clock(clock), loop(loop)
 {
     this->level = std::numeric_limits<float>::max();
     this->node_index = 0;
@@ -49,6 +50,7 @@ void Envelope::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
+        this->level = std::numeric_limits<float>::max();
         this->node_index = 0;
         this->node_phase = 0;
         this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
@@ -57,16 +59,16 @@ void Envelope::trigger(std::string name, float value)
 
 void Envelope::process(Buffer &out, int num_frames)
 {
-    if (level == std::numeric_limits<float>::max())
-    {
-        level = this->levels[0]->out[0][0];
-    }
-
     float phase_step = 1.0f / this->graph->get_sample_rate();
     float rv = level;
 
     for (int frame = 0; frame < num_frames; frame++)
     {
+        if (level == std::numeric_limits<float>::max())
+        {
+            level = this->levels[0]->out[0][frame];
+        }
+
         SIGNALFLOW_PROCESS_TRIGGER(this->clock, frame, SIGNALFLOW_DEFAULT_TRIGGER);
         if (node_index < levels.size() - 1)
         {
@@ -89,6 +91,17 @@ void Envelope::process(Buffer &out, int num_frames)
             }
 
             rv = powf(level, curve);
+        }
+        else if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
+        {
+            if (this->loop)
+            {
+                this->trigger();
+            }
+            else
+            {
+                this->state = SIGNALFLOW_NODE_STATE_STOPPED;
+            }
         }
         // TODO set state to finished
 
