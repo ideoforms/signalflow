@@ -27,17 +27,17 @@ Envelope::Envelope(std::vector<NodeRef> levels,
     }
 
     this->name = "envelope";
-    for (int i = 0; i < levels.size(); i++)
+    for (size_t i = 0; i < levels.size(); i++)
     {
         std::string input_name = "levels" + std::to_string(i);
         this->create_input(input_name, this->levels[i]);
     }
-    for (int i = 0; i < times.size(); i++)
+    for (size_t i = 0; i < times.size(); i++)
     {
         std::string input_name = "times" + std::to_string(i);
         this->create_input(input_name, this->times[i]);
     }
-    for (int i = 0; i < curves.size(); i++)
+    for (size_t i = 0; i < curves.size(); i++)
     {
         std::string input_name = "curves" + std::to_string(i);
         this->create_input(input_name, this->curves[i]);
