@@ -38,6 +38,7 @@
 #include <signalflow/node/operators/scale.h>
 #include <signalflow/node/operators/subtract.h>
 #include <signalflow/node/operators/sum.h>
+#include <signalflow/node/operators/trigonometry.h>
 
 /*------------------------------------------------------------------------
  * I/O

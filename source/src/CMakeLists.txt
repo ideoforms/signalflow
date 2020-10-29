@@ -65,6 +65,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/scale.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/subtract.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/sum.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/trigonometry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/constant.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/line.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/saw.cpp

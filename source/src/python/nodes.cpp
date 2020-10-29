@@ -139,6 +139,9 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<int>>(), "inputs"_a)
         .def(py::init<std::vector<float>>(), "inputs"_a);
 
+    py::class_<Tanh, Node, NodeRefTemplate<Tanh>>(m, "Tanh")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant")
         .def(py::init<float>(), "value"_a = 0);
 
