@@ -6,8 +6,9 @@ namespace signalflow
 
 Envelope::Envelope(std::vector<NodeRef> levels,
                    std::vector<NodeRef> times,
-                   std::vector<NodeRef> curves)
-    : levels(levels), times(times), curves(curves)
+                   std::vector<NodeRef> curves,
+                   NodeRef clock)
+    : levels(levels), times(times), curves(curves), clock(clock)
 {
     this->level = std::numeric_limits<float>::max();
     this->node_index = 0;
@@ -39,6 +40,17 @@ Envelope::Envelope(std::vector<NodeRef> levels,
         std::string input_name = "curves" + std::to_string(i);
         this->create_input(input_name, this->curves[i]);
     }
+    this->create_input("clock", this->clock);
+}
+
+void Envelope::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
+    {
+        this->node_index = 0;
+        this->node_phase = 0;
+        this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
+    }
 }
 
 void Envelope::process(Buffer &out, int num_frames)
@@ -53,6 +65,7 @@ void Envelope::process(Buffer &out, int num_frames)
 
     for (int frame = 0; frame < num_frames; frame++)
     {
+        SIGNALFLOW_PROCESS_TRIGGER(this->clock, frame, SIGNALFLOW_DEFAULT_TRIGGER);
         if (node_index < levels.size() - 1)
         {
             float level_target = this->levels[node_index + 1]->out[0][frame];
@@ -75,6 +88,7 @@ void Envelope::process(Buffer &out, int num_frames)
 
             rv = powf(level, curve);
         }
+        // TODO set state to finished
 
         this->out[0][frame] = rv;
     }
