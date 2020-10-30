@@ -20,7 +20,7 @@ public:
 
 private:
     float level;
-    int node_index;
+    unsigned int node_index;
     float node_phase;
     std::vector<NodeRef> levels;
     std::vector<NodeRef> times;
