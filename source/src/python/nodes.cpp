@@ -217,7 +217,10 @@ void init_python_nodes(py::module &m)
     py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
         .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.5);
 
-    py::class_<Width, Node, NodeRefTemplate<Width>>(m, "Width")
+    py::class_<StereoBalance, Node, NodeRefTemplate<StereoBalance>>(m, "StereoBalance")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "balance"_a = 0);
+
+    py::class_<StereoWidth, Node, NodeRefTemplate<StereoWidth>>(m, "StereoWidth")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
 
     py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")

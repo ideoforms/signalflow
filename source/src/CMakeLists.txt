@@ -39,13 +39,14 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/gate.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/moog.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/pan.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-balance.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-width.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/resample.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/rms.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/smooth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/wetdry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/squiz.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/waveshaper.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/width.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/maximiser.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/soundio.cpp

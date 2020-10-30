@@ -42,7 +42,7 @@ int main()
      *-----------------------------------------------------------------------*/
     NodeRef delay = new CombDelay(shaper, 0.5, 0.5, 0.5);
     NodeRef width = new Sine(0.2);
-    NodeRef throb = new Width(delay, width->scale(0.5, 1));
+    NodeRef throb = new StereoWidth(delay, width->scale(0.5, 1));
 
     /*------------------------------------------------------------------------
      * Send to output and start processing.

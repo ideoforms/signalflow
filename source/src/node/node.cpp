@@ -448,18 +448,18 @@ void Node::poll(float frequency, std::string label)
     this->monitor->start();
 }
 
-NodeRef Node::scale(float from, float to, signalflow_scale_t scale)
-{
-    switch (scale)
-    {
-        case SIGNALFLOW_SCALE_LIN_LIN:
-            return new ScaleLinLin(this, -1, 1, from, to);
-        case SIGNALFLOW_SCALE_LIN_EXP:
-            return new ScaleLinExp(this, -1, 1, from, to);
-        default:
-            return nullptr;
-    }
-}
+//NodeRef Node::scale(float from, float to, signalflow_scale_t scale)
+//{
+//    switch (scale)
+//    {
+//        case SIGNALFLOW_SCALE_LIN_LIN:
+//            return NodeRef(new ScaleLinLin(this, -1, 1, from, to));
+//        case SIGNALFLOW_SCALE_LIN_EXP:
+//            return NodeRef(new ScaleLinExp(this, -1, 1, from, to));
+//        default:
+//            return nullptr;
+//    }
+//}
 
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -577,6 +577,20 @@ sample NodeRefTemplate<T>::operator[](int index)
 {
     // unused?
     return (*this)->out[0][index];
+}
+
+template <class T>
+NodeRefTemplate<T> NodeRefTemplate<T>::scale(float from, float to, signalflow_scale_t scale)
+{
+    switch (scale)
+    {
+        case SIGNALFLOW_SCALE_LIN_LIN:
+            return new ScaleLinLin(*this, -1, 1, from, to);
+        case SIGNALFLOW_SCALE_LIN_EXP:
+            return new ScaleLinExp(*this, -1, 1, from, to);
+        default:
+            return nullptr;
+    }
 }
 
 // Explicitly instantiate the class

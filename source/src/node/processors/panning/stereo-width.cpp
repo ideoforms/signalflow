@@ -1,18 +1,18 @@
-#include "signalflow/node/processors/panning/width.h"
+#include "signalflow/node/processors/panning/stereo-width.h"
 
 namespace signalflow
 {
 
-Width::Width(NodeRef input, NodeRef width)
+StereoWidth::StereoWidth(NodeRef input, NodeRef width)
     : UnaryOpNode(input), width(width)
 {
-    this->name = "width";
-    this->create_input("width", this->width);
+    this->name = "stereo-width";
+    this->create_input("stereo-width", this->width);
 
     this->set_channels(2, 2);
 }
 
-void Width::process(Buffer &out, int num_frames)
+void StereoWidth::process(Buffer &out, int num_frames)
 {
     // TODO fix this
     for (int frame = 0; frame < num_frames; frame++)

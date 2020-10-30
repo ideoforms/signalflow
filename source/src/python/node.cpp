@@ -103,6 +103,10 @@ void init_python_node(py::module &m)
             }
             node.process(buffer, buffer.get_num_frames());
             node.last_num_frames = buffer.get_num_frames();
+        })
+        .def("scale", [](NodeRef node, float from, float to) { return node.scale(from, to); })
+        .def("scale", [](NodeRef node, float from, float to, signalflow_scale_t scale) {
+            return node.scale(from, to, scale);
         });
 
     py::enum_<signalflow_filter_type_t>(m, "signalflow_filter_type_t", py::arithmetic(), "Filter type")

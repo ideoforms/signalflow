@@ -45,7 +45,7 @@ int main()
      * Reduce the stereo width slightly to increase the interaction between
      * L / R channels.
      *-----------------------------------------------------------------------*/
-    NodeRef width = new Width(sine, 0.5);
+    NodeRef width = new StereoWidth(sine, 0.5);
 
     graph->play(width);
     graph->start();

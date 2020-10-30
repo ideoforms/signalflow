@@ -58,6 +58,8 @@ public:
     NodeRefTemplate operator/(NodeRefTemplate other);
     NodeRefTemplate operator/(double constant);
     sample operator[](int index);
+
+    NodeRefTemplate scale(float from, float to, signalflow_scale_t scale = SIGNALFLOW_SCALE_LIN_LIN);
 };
 
 typedef NodeRefTemplate<Node> NodeRef;
@@ -171,7 +173,7 @@ public:
      *       range from [-1, 1]. Need a way to specify output ranges and
      *       scale accordingly. `class ValueRange`?
      *-----------------------------------------------------------------------*/
-    virtual NodeRef scale(float from, float to, signalflow_scale_t scale = SIGNALFLOW_SCALE_LIN_LIN);
+    //    virtual NodeRef scale(float from, float to, signalflow_scale_t scale = SIGNALFLOW_SCALE_LIN_LIN);
 
     /*------------------------------------------------------------------------
      * Get the number of samples in the node's output buffer, per channel.

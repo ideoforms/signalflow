@@ -4,14 +4,14 @@
 
 namespace signalflow
 {
-class Width : public UnaryOpNode
+class StereoWidth : public UnaryOpNode
 {
 public:
-    Width(NodeRef input = 0, NodeRef width = 1);
+    StereoWidth(NodeRef input = 0, NodeRef width = 1);
     virtual void process(Buffer &out, int num_frames);
 
     NodeRef width;
 };
 
-REGISTER(Width, "width")
+REGISTER(StereoWidth, "stereo-width")
 }
