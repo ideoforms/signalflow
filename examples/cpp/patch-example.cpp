@@ -24,7 +24,7 @@ PatchSpecRef create_synth()
      *-----------------------------------------------------------------------*/
     NodeRef freq = patch->add_input("freq", 440.0);
     NodeRef width = patch->add_input("width", 0.5);
-    NodeRef pan = patch->add_input("pan", 0.5);
+    NodeRef pan = patch->add_input("pan", 0.0);
     NodeRef square = patch->add_node(new Square(freq, width));
     NodeRef asr = patch->add_node(new EnvelopeASR(0.0, 0.0, 1.3));
     NodeRef shaped = patch->add_node(square * asr * 0.05);
