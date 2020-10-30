@@ -100,7 +100,7 @@ void Envelope::process(Buffer &out, int num_frames)
             }
             else
             {
-                this->state = SIGNALFLOW_NODE_STATE_STOPPED;
+                this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
             }
         }
         // TODO set state to finished
