@@ -74,7 +74,7 @@ brew install python libsndfile libsoundio gsl
 #### Linux, Raspberry Pi
 
 ```
-apt-get install git cmake g++ libasound2-dev libgsl0-dev libsndfile1-dev libsoundio-dev fftw3-dev
+apt-get install git cmake g++ python3-pip libasound2-dev libgsl0-dev libsndfile1-dev libsoundio-dev fftw3-dev 
 ```
 
 ### Build (Python)
