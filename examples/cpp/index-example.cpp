@@ -30,7 +30,8 @@ int main()
      * output frequency. Via automatic channel upmixing, this creates
      * two parallel counters, phasing gradually against each other.
      *-----------------------------------------------------------------------*/
-    NodeRef saw = (new Saw({ 1, 0.97 }))->scale(0, 8);
+    NodeRef saw = new Saw({ 1, 0.97 });
+    saw = saw.scale(0, 8);
     NodeRef index = new Index(freqs, saw);
 
     /*------------------------------------------------------------------------
@@ -38,7 +39,8 @@ int main()
      * with a time-synced pair of Triangle waves to act as envelopes.
      *-----------------------------------------------------------------------*/
     NodeRef sine = new Sine(index);
-    NodeRef envelope = (new Triangle({ 8, 7.76 }))->scale(0, 1);
+    NodeRef envelope = new Triangle({ 8, 7.76 });
+    envelope = envelope.scale(0, 1);
     sine = sine * envelope;
 
     /*------------------------------------------------------------------------
