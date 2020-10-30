@@ -29,8 +29,8 @@ void LinearPanner::process(Buffer &out, int num_frames)
         if (this->num_output_channels == 2)
         {
             pan = pan * 0.5 + 0.5;
-            out[0][frame] = sqrtf(in * (1.0 - pan));
-            out[1][frame] = sqrtf(in * pan);
+            out[0][frame] = in * sqrtf((1.0 - pan));
+            out[1][frame] = in * sqrtf(pan);
         }
         else if (this->num_output_channels == 4)
         {
