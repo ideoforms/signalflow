@@ -24,6 +24,7 @@ Patch::Patch(PatchSpecRef patchspec)
 {
     PatchNodeSpec *nodespec = patchspec->get_root();
     this->output = this->instantiate(nodespec);
+    this->parsed = true;
 }
 
 Patch::Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> inputs)
@@ -270,13 +271,26 @@ NodeRef Patch::add_node(NodeRef node)
 
 void Patch::set_output(NodeRef out)
 {
-    // check if out is in patch
+    /*----------------------------------------------------------------------------
+     * Scans the patch graph beginning from its outputs.
+     *----------------------------------------------------------------------------*/
     this->output = out;
+    this->add_node(out);
 }
 
-/*------------------------------------------------------------------------
+void Patch::parse()
+{
+    if (!this->parsed)
+    {
+        this->_iterate_from_node(this->output);
+        this->parsed = true;
+        signalflow_debug("Parsed patch (total %lu nodes)\n", this->nodes.size());
+    }
+}
+
+/*----------------------------------------------------------------------------
  * Scans the patch graph beginning from its outputs.
- *-----------------------------------------------------------------------*/
+ *----------------------------------------------------------------------------*/
 PatchSpecRef Patch::create_spec()
 {
     // TODO: Currently have parsed property in this object and spec
@@ -288,7 +302,7 @@ PatchSpecRef Patch::create_spec()
     this->last_id = 0;
 
     PatchSpecRef spec = new PatchSpec(this->name);
-    spec->output = this->_parse_from_node(root);
+    spec->output = this->_create_spec_from_node(root);
     spec->nodespecs = this->nodespecs;
 
     for (auto node : nodes)
@@ -302,7 +316,27 @@ PatchSpecRef Patch::create_spec()
     return spec;
 }
 
-PatchNodeSpec *Patch::_parse_from_node(const NodeRef &node)
+void Patch::_iterate_from_node(const NodeRef &node)
+{
+    for (auto input : node->inputs)
+    {
+        NodeRef input_node = *(input.second);
+        if (input_node)
+        {
+            if (nodes.find(input_node) == nodes.end())
+            {
+                // Lazy - use a better way of checking for constant
+                if (input_node->name != "constant")
+                {
+                    this->add_node(input_node);
+                    this->_iterate_from_node(input_node);
+                }
+            }
+        }
+    }
+}
+
+PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
 {
     PatchNodeSpec *nodespec = new PatchNodeSpec(node->name);
     nodespec->set_id(this->last_id++);
@@ -319,7 +353,7 @@ PatchNodeSpec *Patch::_parse_from_node(const NodeRef &node)
             NodeRef input_node = *(input.second);
             if (input_node)
             {
-                PatchNodeSpec *input_spec = this->_parse_from_node(input_node);
+                PatchNodeSpec *input_spec = this->_create_spec_from_node(input_node);
                 nodespec->add_input(input.first, input_spec);
             }
         }

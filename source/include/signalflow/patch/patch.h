@@ -69,6 +69,16 @@ public:
     NodeRef add_node(NodeRef node);
     void set_output(NodeRef out);
 
+    /**------------------------------------------------------------------------
+     * Parse the nodes within a Patch, beginning at the output and iterating
+     * to inputs. This is necessary for functions such as auto-free.
+     * If the Patch has already been parsed, which is implicitly true if
+     * it has been instantiated from a PatchSpec, returns without performing
+     * any actions.
+     *
+     *-----------------------------------------------------------------------*/
+    void parse();
+
     /*----------------------------------------------------------------------------------
      * Parse a template from live Node objects to create a network of NodeDefs
      *---------------------------------------------------------------------------------*/
@@ -79,9 +89,11 @@ public:
 private:
     NodeRef instantiate(PatchNodeSpec *nodespec);
     void set_state(signalflow_patch_state_t state);
-    bool auto_free;
+    bool auto_free = false;
     signalflow_patch_state_t state;
     AudioGraph *graph;
+
+    void _iterate_from_node(const NodeRef &node);
 
     /*----------------------------------------------------------------------------------
      * Template stuff
@@ -90,9 +102,10 @@ private:
 
     std::string _get_input_name(const NodeRef &node);
     std::string _get_input_name(const BufferRef &buf);
-    PatchNodeSpec *_parse_from_node(const NodeRef &node);
+    PatchNodeSpec *_create_spec_from_node(const NodeRef &node);
     std::map<int, PatchNodeSpec *> nodespecs;
     std::set<NodeRef> parsed_nodes;
+    bool parsed = false;
 };
 
 }

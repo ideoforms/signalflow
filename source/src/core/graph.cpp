@@ -337,6 +337,18 @@ void AudioGraph::remove_node(NodeRef node)
 void AudioGraph::play(PatchRef patch)
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
+
+    /*----------------------------------------------------------------------------
+     * If a Patch has been instantiated from a PatchSpec, its structure has
+     * already been parsed, which means it already contains an internal index
+     * of its constituent nodes (needed for things like auto-free).
+     *
+     * However, if it has been constructed from raw nodes, its structure needs
+     * to be parsed before playback to stop unwanted things from happening.
+     * Calling patch->parse() parses the patch if it has not been parsed already.
+     *----------------------------------------------------------------------------*/
+    patch->parse();
+
     output->add_input(patch->output);
     this->patches.insert(patch);
 }
