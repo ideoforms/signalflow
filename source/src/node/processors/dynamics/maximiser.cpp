@@ -50,7 +50,7 @@ void Maximiser::process(Buffer &out, int num_frames)
         }
         else
         {
-            gain_change_per_sample = 0.0;
+            gain_change_per_sample = 1.0;
         }
     }
     else if (max_sample_after_gain > ceiling)
