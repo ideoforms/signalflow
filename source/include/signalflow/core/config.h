@@ -55,6 +55,8 @@ public:
 
     /**--------------------------------------------------------------------------------
      * Get the preferred hardware output buffer size, in frames.
+     * To retrieve the actual buffer size used by the hardware, call
+     * AudioGraph::get_output_buffer_size()
      *
      * @returns The preferred buffer size, or 0 if not set.
      *

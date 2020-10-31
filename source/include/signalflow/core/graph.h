@@ -248,7 +248,9 @@ public:
     void set_sample_rate(int sample_rate);
 
     /**--------------------------------------------------------------------------------
-     * Get the audio output buffer size.
+     * Get the audio output buffer size, in frames.
+     * This returns the actual buffer size used by the audio hardware.
+     * To query the requested buffer size, call graph.config.get_output_buffer_size()
      *
      * @return The output buffer size, in frames.
      *
