@@ -101,7 +101,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
     }
 
 #define SIGNALFLOW_CHECK_NUM_FRAMES()                                                                   \
-    if (num_frames > SIGNALFLOW_NODE_BUFFER_SIZE && out == this->out)                                   \
+    if (num_frames > this->output_buffer_length && out == this->out)                                    \
     {                                                                                                   \
         throw std::runtime_error("Error in call to Node::process: Attempted to write too many frames"); \
     }
