@@ -10,6 +10,7 @@ public:
     Line(NodeRef from = 0.0, NodeRef to = 1.0, NodeRef time = 1.0);
 
     virtual void alloc() override;
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
     virtual void process(Buffer &out, int num_frames) override;
 
     NodeRef from;

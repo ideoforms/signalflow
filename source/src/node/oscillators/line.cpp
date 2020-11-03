@@ -24,6 +24,18 @@ void Line::alloc()
     this->duration_samples.resize(this->num_output_channels_allocated);
 }
 
+void Line::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
+    {
+        for (int channel = 0; channel < this->num_output_channels; channel++)
+        {
+            this->duration_samples[channel] = 0.0;
+            this->step[channel] = 0;
+        }
+    }
+}
+
 void Line::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
