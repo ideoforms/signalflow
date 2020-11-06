@@ -161,7 +161,14 @@ int AudioOut_SoundIO::init()
         throw std::runtime_error("libsoundio error: out of memory.");
 
     this->outstream = soundio_outstream_create(device);
-    this->outstream->format = SoundIoFormatFloat32NE;
+    if (soundio_device_supports_format(device, SoundIoFormatFloat32NE))
+    {
+        this->outstream->format = SoundIoFormatFloat32NE;
+    }
+    else
+    {
+        throw std::runtime_error("libsoundio error: sample format not supported");
+    }
     this->outstream->write_callback = write_callback;
     this->outstream->sample_rate = this->device->sample_rate_current;
     this->outstream->software_latency = (double) this->buffer_size / this->outstream->sample_rate;
@@ -176,7 +183,13 @@ int AudioOut_SoundIO::init()
 
     if (this->outstream->layout_error)
     {
-        throw std::runtime_error("libsoundio error: unable to set channel layout: " + std::string(soundio_strerror(this->outstream->layout_error)));
+        /*--------------------------------------------------------------------------------
+         * This should not be a fatal error (see example in libsoundio sio_sine.c).
+         * Should just generate a warning instead.
+         * Experienced on Raspberry Pi 4 with raspi-audio interface.
+         *-------------------------------------------------------------------------------*/
+        std::cerr << "libsoundio warning: unable to set channel layout: " <<
+            std::string(soundio_strerror(this->outstream->layout_error)) << std::endl;
     }
 
     this->num_output_channels = this->outstream->layout.channel_count;
