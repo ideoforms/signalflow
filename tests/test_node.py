@@ -1,5 +1,6 @@
 from signalflow import Sine, AudioGraph, Line
 import signalflow as sf
+import numpy as np
 from . import process_tree, graph
 import pytest
 
@@ -85,3 +86,57 @@ def test_node_write_to_output_buffer(graph):
         a.output_buffer[32][255] == 1.0
     with pytest.raises(IndexError):
         a.output_buffer[31][256] == 1.0
+
+
+def test_node_trigger(graph):
+    env = sf.EnvelopeASR(0, 0, 0.01)
+    graph.play(env)
+
+    graph.render(1024)
+    assert env.output_buffer[0][0] == 1.0
+    assert np.all(env.output_buffer[0][1:] < 1.0)
+
+    graph.render(1024)
+    assert np.all(env.output_buffer[0] < 1.0)
+
+    #--------------------------------------------------------------------------------
+    # trigger via function
+    #--------------------------------------------------------------------------------
+    env.trigger()
+    graph.render(1024)
+    assert env.output_buffer[0][0] == 1.0
+    assert np.all(env.output_buffer[0][1:] < 1.0)
+
+    #--------------------------------------------------------------------------------
+    # audio-rate trigger
+    #--------------------------------------------------------------------------------
+    node = sf.Node()
+    env.set_input("clock", node)
+    graph.render(1024)
+    assert np.all(env.output_buffer[0] < 1.0)
+
+    #--------------------------------------------------------------------------------
+    # audio-rate trigger
+    #--------------------------------------------------------------------------------
+    node.output_buffer[0][0] = 1
+    graph.render(1024)
+    assert env.output_buffer[0][0] == 1.0
+    assert np.all(env.output_buffer[0][1:] < 1.0)
+
+    #--------------------------------------------------------------------------------
+    # set last_sample to 1
+    #--------------------------------------------------------------------------------
+    node.output_buffer[0][0] = 0
+    node.output_buffer[0][1023] = 1
+    graph.render(1024)
+    assert np.all(env.output_buffer[0][:1023] < 1.0)
+    assert env.output_buffer[0][1023] == 1.0
+
+    #--------------------------------------------------------------------------------
+    # ensure that clock does not re-trigger when first_sample == 1 and
+    # last_sample == 1
+    #--------------------------------------------------------------------------------
+    node.output_buffer[0][1] = 0
+    node.output_buffer[0][1023] = 0
+    graph.render(1024)
+    assert np.all(env.output_buffer[0] < 1.0)

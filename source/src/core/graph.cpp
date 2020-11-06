@@ -460,8 +460,15 @@ void AudioGraph::set_sample_rate(int sample_rate)
 
 int AudioGraph::get_output_buffer_size()
 {
-    AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
-    return output->get_buffer_size();
+    if (this->output)
+    {
+        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+        return output->get_buffer_size();
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 int AudioGraph::get_node_count()

@@ -30,15 +30,6 @@ Node::Node()
     this->num_input_channels = 1;
     this->num_output_channels = 1;
 
-    /*------------------------------------------------------------------------
-     * last_num_frames caches the number of frames generated in the last
-     * audio I/O cycle. Initialise it to be equal to the full buffer size,
-     * so that if it is read before an audio I/O cycle has completed,
-     * we avoid errors when trying to access elements of a buffer that is
-     * 0 samples long (particularly in the Python bindings).
-     *-----------------------------------------------------------------------*/
-    this->last_num_frames = SIGNALFLOW_NODE_BUFFER_SIZE;
-
     this->no_input_upmix = false;
 
     this->monitor = NULL;
@@ -46,8 +37,32 @@ Node::Node()
 
     this->has_rendered = false;
     this->num_output_channels_allocated = 0;
-    this->output_buffer_length = SIGNALFLOW_NODE_BUFFER_SIZE;
+
+    /*------------------------------------------------------------------------
+     * In most cases, shared_graph->get_output_buffer_size() should always
+     * be non-zero. However, there are edge cases when it is zero
+     * (e.g. when creating an AudioOut before the graph has been instantiated).
+     *
+     *-----------------------------------------------------------------------*/
+    if (shared_graph && shared_graph->get_config().get_output_buffer_size() && false)
+    {
+        this->output_buffer_length = shared_graph->get_config().get_output_buffer_size();
+    }
+    else
+    {
+        this->output_buffer_length = SIGNALFLOW_NODE_BUFFER_SIZE;
+    }
+
     this->resize_output_buffers(SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS);
+
+    /*------------------------------------------------------------------------
+     * last_num_frames caches the number of frames generated in the last
+     * audio I/O cycle. Initialise it to be equal to the full buffer size,
+     * so that if it is read before an audio I/O cycle has completed,
+     * we avoid errors when trying to access elements of a buffer that is
+     * 0 samples long (particularly in the Python bindings).
+     *-----------------------------------------------------------------------*/
+    this->last_num_frames = this->output_buffer_length;
 }
 
 Node::~Node()
@@ -68,7 +83,7 @@ void Node::_process(Buffer &out, int num_frames)
 {
     if (&out == &this->out && num_frames > this->output_buffer_length)
     {
-        throw std::runtime_error("Node cannot render because output buffer size is insufficient (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
+        throw std::runtime_error("Node " + this->name + " cannot render because output buffer size is insufficient (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
     }
 
     // TODO fix last-sample trigger magic
@@ -79,6 +94,11 @@ void Node::_process(Buffer &out, int num_frames)
     //            out[i][-1] = out[i][last_num_frames - 1];
     //        }
     //    }
+
+    for (int i = 0; i < this->num_output_channels; i++)
+    {
+        this->last_sample[i] = out[i][last_num_frames - 1];
+    }
     this->process(out, num_frames);
     this->last_num_frames = num_frames;
 }
@@ -216,6 +236,7 @@ void Node::resize_output_buffers(int output_buffer_count)
          *-----------------------------------------------------------------------*/
         this->free();
         this->out.resize(output_buffer_count, this->output_buffer_length);
+        this->last_sample.resize(output_buffer_count);
         this->num_output_channels_allocated = output_buffer_count;
         this->alloc();
     }
@@ -440,6 +461,7 @@ void Node::set_patch(Patch *patch)
 
 void Node::trigger(std::string name, float value)
 {
+    throw std::runtime_error("Trigger " + name + " is not implemented in node class " + this->name);
 }
 
 void Node::poll(float frequency, std::string label)

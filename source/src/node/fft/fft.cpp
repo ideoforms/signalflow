@@ -174,7 +174,9 @@ void FFT::process(Buffer &out, int num_frames)
         fprintf(stderr, "FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds\n");
         throw std::runtime_error("FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
     }
-    memcpy(this->input_buffer + this->input_buffer_size, this->input->out[0], num_frames * sizeof(sample));
+    memcpy(this->input_buffer + this->input_buffer_size,
+           this->input->out[0],
+           num_frames * sizeof(sample));
     this->input_buffer_size += num_frames;
 
     /*------------------------------------------------------------------------

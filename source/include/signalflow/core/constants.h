@@ -75,10 +75,10 @@ typedef RingBuffer<sample> SampleRingBuffer;
  *     num_frames frames of the given input
  *-----------------------------------------------------------------------*/
 #define SIGNALFLOW_CHECK_TRIGGER(input, frame) \
-    (input && input->out[0][frame] > 0 && input->out[0][frame - 1] <= 0)
+    SIGNALFLOW_CHECK_CHANNEL_TRIGGER(input, 0, frame)
 
 #define SIGNALFLOW_CHECK_CHANNEL_TRIGGER(input, channel, frame) \
-    (input && input->out[channel][frame] > 0 && input->out[channel][frame - 1] <= 0)
+    (input && input->out[channel][frame] > 0 && (frame > 0 ? input->out[channel][frame - 1] <= 0 : input->last_sample[channel] <= 0))
 
 #define SIGNALFLOW_PROCESS_TRIGGER(input, frame, name)   \
     if (input && SIGNALFLOW_CHECK_TRIGGER(input, frame)) \

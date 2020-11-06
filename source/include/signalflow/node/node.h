@@ -243,6 +243,11 @@ public:
     Buffer out;
 
     /*------------------------------------------------------------------------
+     *
+     *-----------------------------------------------------------------------*/
+    std::vector<float> last_sample;
+
+    /*------------------------------------------------------------------------
      * Stores the number of frames in the previous processing block. Used
      * to populate frame history in out[-1].
      *

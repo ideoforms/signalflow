@@ -12,14 +12,18 @@ FFTContinuousPhaseVocoder::FFTContinuousPhaseVocoder(NodeRef input, float rate)
               input ? ((FFTNode *) input.get())->do_window : SIGNALFLOW_DEFAULT_FFT_DO_WINDOW)
     , input(input)
     , rate(rate)
-
 {
+    /*--------------------------------------------------------------------------------
+     * Why does this not just subclass FFTOpNode?
+     * Because if `input` is registered as a formal input, its content will
+     * be pulled automatically by the Graph. In this rare case, we don't want this
+     * to happen - the PV should process its input independently.
+     *--------------------------------------------------------------------------------*/
     this->name = "fft-continuous-pv";
 
     this->magnitude_buffer = new sample[this->num_bins]();
     this->phase_buffer = new sample[this->num_bins]();
     this->phase_deriv = new sample[this->num_bins]();
-    this->phase_buffer_last = new sample[this->num_bins]();
     this->prefilled_fft_buffer = false;
 }
 
@@ -35,10 +39,10 @@ void FFTContinuousPhaseVocoder::process(Buffer &out, int num_frames)
 
     if (!prefilled_fft_buffer)
     {
-        for (int i = 0; i < fft_size / SIGNALFLOW_NODE_BUFFER_SIZE; i++)
+        for (int i = 0; i < fft_size / this->graph->get_output_buffer_size(); i++)
         {
             this->graph->reset_subgraph(this->input);
-            this->graph->render_subgraph(this->input, SIGNALFLOW_NODE_BUFFER_SIZE);
+            this->graph->render_subgraph(this->input, this->graph->get_output_buffer_size());
         }
         this->prefilled_fft_buffer = true;
     }
@@ -49,7 +53,6 @@ void FFTContinuousPhaseVocoder::process(Buffer &out, int num_frames)
     for (int frame = 0; frame < this->num_bins; frame++)
     {
         this->phase_buffer[frame] = random_uniform(-M_PI, M_PI);
-        // this->phase_buffer[frame] = fftin->phases[0][frame];
     }
 
     memcpy(this->phase_deriv, fftin->phases[0], this->num_bins * sizeof(sample));

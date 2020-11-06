@@ -9,12 +9,12 @@ namespace signalflow
 class EnvelopeASR : public Node
 {
 public:
-    EnvelopeASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef clock = nullptr);
+    EnvelopeASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef clock = 1.0);
 
     NodeRef attack;
     NodeRef sustain;
     NodeRef release;
-    NodeRef clock = nullptr;
+    NodeRef clock;
 
     std::vector<float> phase;
     signalflow_curve_t curve;

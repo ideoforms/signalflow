@@ -188,8 +188,7 @@ int AudioOut_SoundIO::init()
          * Should just generate a warning instead.
          * Experienced on Raspberry Pi 4 with raspi-audio interface.
          *-------------------------------------------------------------------------------*/
-        std::cerr << "libsoundio warning: unable to set channel layout: " <<
-            std::string(soundio_strerror(this->outstream->layout_error)) << std::endl;
+        std::cerr << "libsoundio warning: unable to set channel layout: " << std::string(soundio_strerror(this->outstream->layout_error)) << std::endl;
     }
 
     this->num_output_channels = this->outstream->layout.channel_count;
