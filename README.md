@@ -111,6 +111,16 @@ cd build
 ./hello-world
 ```
 
+## Documentation
+
+Documentation is in the works.
+
+In the meantime, to list all available nodes:
+
+```
+pydoc3 signalflow
+```
+
 ## License
 
 For non-commercial use, SignalFlow is available under the terms of the [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
