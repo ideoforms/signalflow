@@ -27,3 +27,4 @@ __pycache__
 dist
 .cmake-*
 .coverage
+.ipynb_checkpoints
