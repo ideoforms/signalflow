@@ -88,6 +88,7 @@ void AudioGraph::clear()
     {
         audioout->remove_input(input);
     }
+    this->node_count = 0;
 }
 
 AudioGraph::~AudioGraph()
