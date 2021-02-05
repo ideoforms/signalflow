@@ -20,7 +20,8 @@ namespace signalflow
 AudioGraph *shared_graph = NULL;
 
 AudioGraph::AudioGraph(SignalFlowConfig *config,
-                       NodeRef output_device)
+                       NodeRef output_device,
+                       bool start)
 {
     signalflow_init();
 
@@ -66,6 +67,11 @@ AudioGraph::AudioGraph(SignalFlowConfig *config,
     this->recording_fd = NULL;
     this->recording_num_channels = 0;
     this->recording_buffer = (float *) calloc(SIGNALFLOW_DEFAULT_BLOCK_SIZE * SIGNALFLOW_MAX_CHANNELS, sizeof(float));
+
+    if (start)
+    {
+        this->start();
+    }
 }
 
 void AudioGraph::start()

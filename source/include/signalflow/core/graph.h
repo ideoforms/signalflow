@@ -23,7 +23,8 @@ class AudioGraph
 {
 public:
     AudioGraph(SignalFlowConfig *config = nullptr,
-               NodeRef output_device = nullptr);
+               NodeRef output_device = nullptr,
+               bool start = false);
 
     virtual ~AudioGraph();
 

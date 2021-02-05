@@ -6,7 +6,10 @@ void init_python_graph(py::module &m)
      * Graph
      *-------------------------------------------------------------------------------*/
     py::class_<AudioGraph>(m, "AudioGraph")
-        .def(py::init<SignalFlowConfig *, NodeRef>(), "config"_a = nullptr, "output_device"_a = nullptr)
+        .def(py::init<SignalFlowConfig *, NodeRef, bool>(),
+             "config"_a = nullptr,
+             "output_device"_a = nullptr,
+             "start"_a = false)
 
         /*--------------------------------------------------------------------------------
          * Properties
