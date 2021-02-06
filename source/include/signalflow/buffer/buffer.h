@@ -87,7 +87,13 @@ public:
     /**------------------------------------------------------------------------
       * Initialise a buffer with the wavetable/envelope named `name`.
       *
-      * @param name One of triangle, linear-delay, hanning
+      * The list of supported buffer identifiers:
+      *
+      *   hanning: Hanning envelope
+      *   triangle: Symmetrical linear ramp from 0..1..0
+      *   linear-decay: Linear decay from 1..0
+      *
+      * @param name One of the recognised names above
       * @param num_frames Length of buffer
       *
       *------------------------------------------------------------------------*/
