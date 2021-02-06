@@ -1,7 +1,9 @@
-#include "signalflow/node/stochastic/pinknoise.h"
+#include "signalflow/node/stochastic/pink-noise.h"
 
 #include "signalflow/core/graph.h"
 #include "signalflow/core/random.h"
+
+#include <math.h>
 
 namespace signalflow
 {
