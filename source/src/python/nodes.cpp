@@ -241,6 +241,9 @@ void init_python_nodes(py::module &m)
     py::class_<Noise, Node, NodeRefTemplate<Noise>>(m, "Noise")
         .def(py::init<NodeRef, bool, NodeRef, NodeRef>(), "frequency"_a = 0.0, "interpolate"_a = true, "min"_a = 0.0, "max"_a = 1.0);
 
+    py::class_<PinkNoise, Node, NodeRefTemplate<PinkNoise>>(m, "PinkNoise")
+        .def(py::init<>());
+
     py::class_<RandomImpulse, Node, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
         .def(py::init<NodeRef, signalflow_event_distribution_t>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM);
 

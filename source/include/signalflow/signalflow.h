@@ -75,6 +75,7 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/stochastic/logistic.h>
 #include <signalflow/node/stochastic/noise.h>
+#include <signalflow/node/stochastic/pinknoise.h>
 #include <signalflow/node/stochastic/random-impulse.h>
 #include <signalflow/node/stochastic/trigger-noise.h>
 
