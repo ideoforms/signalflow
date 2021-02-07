@@ -75,6 +75,7 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/stochastic/logistic.h>
 #include <signalflow/node/stochastic/pink-noise.h>
+#include <signalflow/node/stochastic/random-brownian.h>
 #include <signalflow/node/stochastic/random-exponential.h>
 #include <signalflow/node/stochastic/random-gaussian.h>
 #include <signalflow/node/stochastic/random-impulse.h>

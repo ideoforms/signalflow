@@ -12,7 +12,6 @@ RandomGaussian::RandomGaussian(NodeRef mean, NodeRef sigma, NodeRef clock)
     this->create_input("sigma", this->sigma);
     this->create_input("clock", this->clock);
     this->alloc();
-    this->trigger();
 }
 
 void RandomGaussian::alloc()
