@@ -19,9 +19,9 @@ def test_random_impulse(graph):
     impulse_count = np.sum(b.data[0])
     assert (impulse_count - frequency) < (0.1 * frequency)
 
-def test_trigger_noise(graph):
+def test_random_uniform(graph):
     clock = sf.Node()
-    a = sf.TriggerNoise(min=[10, 30], max=[20, 40], clock=clock)
+    a = sf.RandomUniform(min=[10, 30], max=[20, 40], clock=clock)
 
     # Random initial values
     graph.render_subgraph(a)

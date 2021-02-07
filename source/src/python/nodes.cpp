@@ -253,6 +253,6 @@ void init_python_nodes(py::module &m)
     py::class_<RandomImpulse, Node, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
         .def(py::init<NodeRef, signalflow_event_distribution_t>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM);
 
-    py::class_<TriggerNoise, Node, NodeRefTemplate<TriggerNoise>>(m, "TriggerNoise")
+    py::class_<RandomUniform, Node, NodeRefTemplate<RandomUniform>>(m, "RandomUniform")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = 0.0);
 }

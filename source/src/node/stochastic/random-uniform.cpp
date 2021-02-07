@@ -1,4 +1,4 @@
-#include "signalflow/node/stochastic/trigger-noise.h"
+#include "signalflow/node/stochastic/random-uniform.h"
 
 #include "signalflow/core/random.h"
 
@@ -7,22 +7,22 @@
 namespace signalflow
 {
 
-TriggerNoise::TriggerNoise(NodeRef min, NodeRef max, NodeRef clock)
+RandomUniform::RandomUniform(NodeRef min, NodeRef max, NodeRef clock)
     : min(min), max(max), clock(clock)
 {
-    this->name = "trigger-noise";
+    this->name = "random-uniform";
     this->create_input("min", this->min);
     this->create_input("max", this->max);
     this->create_input("clock", this->clock);
     this->alloc();
 }
 
-void TriggerNoise::alloc()
+void RandomUniform::alloc()
 {
     this->value.resize(this->num_output_channels_allocated, std::numeric_limits<float>::max());
 }
 
-void TriggerNoise::trigger(std::string name, float value)
+void RandomUniform::trigger(std::string name, float value)
 {
     for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
     {
@@ -30,7 +30,7 @@ void TriggerNoise::trigger(std::string name, float value)
     }
 }
 
-void TriggerNoise::process(Buffer &out, int num_frames)
+void RandomUniform::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

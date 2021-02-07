@@ -4,10 +4,10 @@
 
 namespace signalflow
 {
-class TriggerNoise : public Node
+class RandomUniform : public Node
 {
 public:
-    TriggerNoise(NodeRef min = 0.0, NodeRef max = 1.0, NodeRef clock = 0.0);
+    RandomUniform(NodeRef min = 0.0, NodeRef max = 1.0, NodeRef clock = 0.0);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
@@ -21,5 +21,5 @@ private:
     std::vector<sample> value;
 };
 
-REGISTER(TriggerNoise, "trigger-noise")
+REGISTER(RandomUniform, "random-uniform")
 }
