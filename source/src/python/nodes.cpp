@@ -239,10 +239,13 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);
 
     py::class_<Noise, Node, NodeRefTemplate<Noise>>(m, "Noise")
-        .def(py::init<NodeRef, bool, NodeRef, NodeRef>(), "frequency"_a = 0.0, "interpolate"_a = true, "min"_a = 0.0, "max"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, bool, bool>(), "frequency"_a = 0.0, "min"_a = -1.0, "max"_a = 1.0, "interpolate"_a = true, "random_interval"_a = true);
 
     py::class_<PinkNoise, Node, NodeRefTemplate<PinkNoise>>(m, "PinkNoise")
-        .def(py::init<>());
+        .def(py::init<float, float>(), "low_cutoff"_a = 20.0, "high_cutoff"_a = 20000.0);
+
+    py::class_<RandomExponential, Node, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
+        .def(py::init<NodeRef, NodeRef>(), "scale"_a = 0.0, "clock"_a = nullptr);
 
     py::class_<RandomImpulse, Node, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
         .def(py::init<NodeRef, signalflow_event_distribution_t>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM);

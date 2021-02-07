@@ -9,10 +9,12 @@ namespace signalflow
 {
 
 /*--------------------------------------------------------------------------------
- * This code implements the Voss-McCartney algorithm, which sums multiple
- * octaves of white noise.
+ * This code implements the stochastic Voss-McCartney algorithm, which sums
+ * multiple octaves of white noise.
  *
- * Details: https://www.firstpr.com.au/dsp/pink-noise/
+ * Details:
+ * https://www.firstpr.com.au/dsp/pink-noise/
+ * https://www.dsprelated.com/showarticle/908.php
  *--------------------------------------------------------------------------------*/
 
 PinkNoise::PinkNoise(float low_cutoff, float high_cutoff)

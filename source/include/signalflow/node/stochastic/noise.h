@@ -2,24 +2,14 @@
 
 #include "signalflow/node/node.h"
 
-typedef enum
-{
-    SIGNALFLOW_DISTRIBUTION_UNIFORM,
-    SIGNALFLOW_DISTRIBUTION_GAUSSIAN,
-    SIGNALFLOW_DISTRIBUTION_EXPONENTIAL,
-    SIGNALFLOW_DISTRIBUTION_CAUCHY,
-    SIGNALFLOW_DISTRIBUTION_BETA,
-    SIGNALFLOW_DISTRIBUTION_GAMMA,
-    SIGNALFLOW_DISTRIBUTION_LEVY
-
-} SIGNALFLOW_NOISE_DISTRIBUTION;
-
 namespace signalflow
 {
 class Noise : public Node
 {
 public:
-    Noise(NodeRef frequency = 0.0, bool interpolate = true, NodeRef min = 0.0, NodeRef max = 1.0);
+    Noise(NodeRef frequency = 0.0,
+          NodeRef min = -1.0, NodeRef max = 1.0,
+          bool interpolate = true, bool random_interval = true);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
@@ -29,6 +19,7 @@ private:
     NodeRef min;
     NodeRef max;
     bool interpolate;
+    bool random_interval;
 
     std::vector<sample> value;
     std::vector<int> steps_remaining;

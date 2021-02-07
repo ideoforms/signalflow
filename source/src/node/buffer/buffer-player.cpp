@@ -94,7 +94,10 @@ void BufferPlayer::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION)
     {
-        this->phase = value * this->graph->get_sample_rate();
+        /*----------------------------------------------------------------
+         * Set the offset within the buffer, in samples.
+         *----------------------------------------------------------------*/
+        this->phase = value;
     }
     else
     {

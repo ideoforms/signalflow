@@ -9,8 +9,10 @@
 namespace signalflow
 {
 
-Noise::Noise(NodeRef frequency, bool interpolate, NodeRef min, NodeRef max)
-    : frequency(frequency), min(min), max(max), interpolate(interpolate)
+Noise::Noise(NodeRef frequency,
+             NodeRef min, NodeRef max,
+             bool interpolate, bool random_interval)
+    : frequency(frequency), min(min), max(max), interpolate(interpolate), random_interval(random_interval)
 {
     this->name = "noise";
     this->create_input("frequency", this->frequency);
@@ -52,7 +54,14 @@ void Noise::process(Buffer &out, int num_frames)
 
                 if (frequency > 0)
                 {
-                    this->steps_remaining[channel] = random_integer(0, this->graph->get_sample_rate() / (frequency / 2.0));
+                    if (random_interval)
+                    {
+                        this->steps_remaining[channel] = random_integer(0, this->graph->get_sample_rate() / (frequency / 2.0));
+                    }
+                    else
+                    {
+                        this->steps_remaining[channel] = (int) round(this->graph->get_sample_rate() / frequency);
+                    }
                     if (this->steps_remaining[channel] == 0)
                         this->steps_remaining[channel] = 1;
                     this->step_change[channel] = (target - this->value[channel]) / this->steps_remaining[channel];
