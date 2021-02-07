@@ -17,6 +17,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/pink-noise.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/trigger-noise.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-exponential.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-gaussian.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/adsr.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/asr.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/envelope.cpp

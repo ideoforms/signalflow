@@ -247,6 +247,9 @@ void init_python_nodes(py::module &m)
     py::class_<RandomExponential, Node, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
         .def(py::init<NodeRef, NodeRef>(), "scale"_a = 0.0, "clock"_a = nullptr);
 
+    py::class_<RandomGaussian, Node, NodeRefTemplate<RandomGaussian>>(m, "RandomGaussian")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "mean"_a = 0.0, "sigma"_a = 0.0, "clock"_a = nullptr);
+
     py::class_<RandomImpulse, Node, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
         .def(py::init<NodeRef, signalflow_event_distribution_t>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM);
 

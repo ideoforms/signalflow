@@ -77,6 +77,7 @@
 #include <signalflow/node/stochastic/noise.h>
 #include <signalflow/node/stochastic/pink-noise.h>
 #include <signalflow/node/stochastic/random-exponential.h>
+#include <signalflow/node/stochastic/random-gaussian.h>
 #include <signalflow/node/stochastic/random-impulse.h>
 #include <signalflow/node/stochastic/trigger-noise.h>
 
