@@ -21,8 +21,8 @@ void StereoWidth::process(Buffer &out, int num_frames)
         sample left = this->input->out[0][frame];
         sample right = this->input->out[1][frame];
 
-        left = (1 - width) * left + width * right;
-        right = (1 - width) * right + width * left;
+        left = width * left + (1 - width) * right;
+        right = width * right + (1 - width) * left;
 
         out[0][frame] = left;
         out[1][frame] = right;
