@@ -250,6 +250,9 @@ void init_python_nodes(py::module &m)
     py::class_<RandomBrownian, Node, NodeRefTemplate<RandomBrownian>>(m, "RandomBrownian")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = -1.0, "max"_a = 1.0, "delta"_a = 0.01, "clock"_a = nullptr);
 
+    py::class_<RandomCoin, Node, NodeRefTemplate<RandomCoin>>(m, "RandomCoin")
+        .def(py::init<NodeRef, NodeRef>(), "probability"_a = 0.5, "clock"_a = nullptr);
+
     py::class_<RandomExponential, Node, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
         .def(py::init<NodeRef, NodeRef>(), "scale"_a = 0.0, "clock"_a = nullptr);
 
@@ -260,7 +263,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, signalflow_event_distribution_t>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM);
 
     py::class_<RandomUniform, Node, NodeRefTemplate<RandomUniform>>(m, "RandomUniform")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = 0.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = nullptr);
 
     py::class_<WhiteNoise, Node, NodeRefTemplate<WhiteNoise>>(m, "WhiteNoise")
         .def(py::init<NodeRef, NodeRef, NodeRef, bool, bool>(), "frequency"_a = 0.0, "min"_a = -1.0, "max"_a = 1.0, "interpolate"_a = true, "random_interval"_a = true);
