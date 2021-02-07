@@ -13,7 +13,7 @@ int main()
 {
     AudioGraphRef graph = new AudioGraph();
 
-    NodeRef freq = new Noise(2.0, true, 140, 800);
+    NodeRef freq = new WhiteNoise(2.0, true, 140, 800);
     freq = new RoundToScale(freq);
 
     int wavetable_size = 4096;

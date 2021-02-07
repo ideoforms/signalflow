@@ -238,9 +238,6 @@ void init_python_nodes(py::module &m)
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);
 
-    py::class_<Noise, Node, NodeRefTemplate<Noise>>(m, "Noise")
-        .def(py::init<NodeRef, NodeRef, NodeRef, bool, bool>(), "frequency"_a = 0.0, "min"_a = -1.0, "max"_a = 1.0, "interpolate"_a = true, "random_interval"_a = true);
-
     py::class_<PinkNoise, Node, NodeRefTemplate<PinkNoise>>(m, "PinkNoise")
         .def(py::init<float, float>(), "low_cutoff"_a = 20.0, "high_cutoff"_a = 20000.0);
 
@@ -255,4 +252,7 @@ void init_python_nodes(py::module &m)
 
     py::class_<RandomUniform, Node, NodeRefTemplate<RandomUniform>>(m, "RandomUniform")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = 0.0);
+
+    py::class_<WhiteNoise, Node, NodeRefTemplate<WhiteNoise>>(m, "WhiteNoise")
+        .def(py::init<NodeRef, NodeRef, NodeRef, bool, bool>(), "frequency"_a = 0.0, "min"_a = -1.0, "max"_a = 1.0, "interpolate"_a = true, "random_interval"_a = true);
 }

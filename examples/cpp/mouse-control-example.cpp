@@ -37,7 +37,7 @@ int main()
      * Use the MouseX to determine the position within a sample for
      * granulation, plus noise to prevent the machine-gun effect.
      *-----------------------------------------------------------------------*/
-    NodeRef noise = new Noise();
+    NodeRef noise = new WhiteNoise();
     NodeRef pos = (mousex * buffer->get_duration()) + noise.scale(-1.0, 1.0);
 
     /*------------------------------------------------------------------------

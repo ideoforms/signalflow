@@ -1,4 +1,4 @@
-#include "signalflow/node/stochastic/noise.h"
+#include "signalflow/node/stochastic/white-noise.h"
 
 #include "signalflow/core/graph.h"
 #include "signalflow/core/random.h"
@@ -9,26 +9,26 @@
 namespace signalflow
 {
 
-Noise::Noise(NodeRef frequency,
-             NodeRef min, NodeRef max,
-             bool interpolate, bool random_interval)
+WhiteNoise::WhiteNoise(NodeRef frequency,
+                       NodeRef min, NodeRef max,
+                       bool interpolate, bool random_interval)
     : frequency(frequency), min(min), max(max), interpolate(interpolate), random_interval(random_interval)
 {
-    this->name = "noise";
+    this->name = "white-noise";
     this->create_input("frequency", this->frequency);
     this->create_input("min", this->min);
     this->create_input("max", this->max);
     this->alloc();
 }
 
-void Noise::alloc()
+void WhiteNoise::alloc()
 {
     this->value.resize(this->num_output_channels_allocated, std::numeric_limits<float>::max());
     this->steps_remaining.resize(this->num_output_channels_allocated);
     this->step_change.resize(this->num_output_channels_allocated);
 }
 
-void Noise::process(Buffer &out, int num_frames)
+void WhiteNoise::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

@@ -36,12 +36,12 @@ int main()
 
     /*------------------------------------------------------------------------
      * Create a parallel series of BufferPlayers to play back the recording.
-     * Add a varispeed effect with interpolated Noise objects assigned to
+     * Add a varispeed effect with interpolated WhiteNoise objects assigned to
      * the sampler's rate input.
      *-----------------------------------------------------------------------*/
     for (int i = 0; i < 5; i++)
     {
-        NodeRef rate = new Noise(0.5, true, 0.3, 1.8);
+        NodeRef rate = new WhiteNoise(0.5, true, 0.3, 1.8);
         NodeRef sampler = new BufferPlayer(buffer, rate, true);
 
         /*------------------------------------------------------------------------

@@ -13,7 +13,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-impulse.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/logistic.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/noise.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/white-noise.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/pink-noise.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-uniform.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-exponential.cpp
