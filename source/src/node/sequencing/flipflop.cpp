@@ -6,7 +6,7 @@ namespace signalflow
 FlipFlop::FlipFlop(NodeRef clock)
     : clock(clock)
 {
-    this->name = "counter";
+    this->name = "flipflop";
 
     this->create_input("clock", this->clock);
 
