@@ -248,7 +248,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<float, float>(), "low_cutoff"_a = 20.0, "high_cutoff"_a = 20000.0);
 
     py::class_<RandomBrownian, Node, NodeRefTemplate<RandomBrownian>>(m, "RandomBrownian")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = -1.0, "max"_a = 1.0, "delta"_a = 0.1, "clock"_a = nullptr);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = -1.0, "max"_a = 1.0, "delta"_a = 0.01, "clock"_a = nullptr);
 
     py::class_<RandomExponential, Node, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
         .def(py::init<NodeRef, NodeRef>(), "scale"_a = 0.0, "clock"_a = nullptr);

@@ -7,7 +7,7 @@ namespace signalflow
 class RandomBrownian : public Node
 {
 public:
-    RandomBrownian(NodeRef min = -1.0, NodeRef max = 1.0, NodeRef delta = 0.1, NodeRef clock = nullptr);
+    RandomBrownian(NodeRef min = -1.0, NodeRef max = 1.0, NodeRef delta = 0.01, NodeRef clock = nullptr);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
