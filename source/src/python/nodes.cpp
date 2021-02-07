@@ -235,6 +235,9 @@ void init_python_nodes(py::module &m)
     py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "min"_a = 0, "max"_a = 0);
 
+    py::class_<FlipFlop, Node, NodeRefTemplate<FlipFlop>>(m, "FlipFlop")
+        .def(py::init<NodeRef>(), "clock"_a = 0);
+
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
         .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);
 
