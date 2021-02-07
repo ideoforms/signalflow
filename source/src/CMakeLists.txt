@@ -47,6 +47,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/resample.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/rms.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/smooth.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/clip.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/wetdry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/squiz.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/waveshaper.cpp

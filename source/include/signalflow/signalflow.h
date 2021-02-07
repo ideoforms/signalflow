@@ -91,6 +91,7 @@
 /*------------------------------------------------------------------------
  * Processors
  *-----------------------------------------------------------------------*/
+#include <signalflow/node/processors/clip.h>
 #include <signalflow/node/processors/delays/allpass.h>
 #include <signalflow/node/processors/delays/comb.h>
 #include <signalflow/node/processors/delays/onetap.h>
