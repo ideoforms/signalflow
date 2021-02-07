@@ -8,7 +8,7 @@ namespace signalflow
 class Resample : public UnaryOpNode
 {
 public:
-    Resample(NodeRef input = 0, NodeRef sample_rate = 22050, NodeRef bit_rate = 8);
+    Resample(NodeRef input = 0, NodeRef sample_rate = 44100, NodeRef bit_rate = 16);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;

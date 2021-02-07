@@ -39,6 +39,15 @@ void Resample::process(Buffer &out, int num_frames)
             }
 
             out[channel][frame] = sample_last[channel];
+
+            int bits = this->bit_rate->out[channel][frame];
+            if (bits < 16)
+            {
+                int value_16bit = (int) ((out[channel][frame] * 0.5 + 0.5) * 65536);
+
+                out[channel][frame] = (float) (value_16bit >> (16 - bits)) / (65536 >> (16 - bits));
+                out[channel][frame] = out[channel][frame] * 2 - 1;
+            }
         }
 
         if (int(phase) > int(phase_last))
