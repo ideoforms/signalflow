@@ -89,8 +89,8 @@ endif()
 # For builds of the Python bindings, add Python dependencies and flags
 #-------------------------------------------------------------------------------
 if (CMAKE_BUILD_PYTHON)
-    find_package (PythonLibs 3)
-    include_directories(${PYTHON_INCLUDE_DIR})
+    find_package (Python3 COMPONENTS Interpreter Development)
+    include_directories(${Python3_INCLUDE_DIRS})
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
     if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")

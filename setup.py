@@ -23,15 +23,9 @@ class CMakeBuild(build_ext):
         cfg = 'Debug' if self.debug else 'Release'
         build_args = ['--config', cfg, '-j', '8']
 
-        python_prefix = subprocess.check_output([ "python3-config", "--prefix" ]).strip().decode()
-        libpython_path = glob.glob("%s/lib/libpython*" % python_prefix)[0]
-        include_path = glob.glob("%s/include/python**" % python_prefix)[0]
-
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
                       '-DCMAKE_BUILD_PYTHON=1',
-                      '-DCMAKE_BUILD_TYPE=' + cfg,
-                      '-DPYTHON_LIBRARY=' + libpython_path,
-                      '-DPYTHON_INCLUDE_DIR=' + include_path]
+                      '-DCMAKE_BUILD_TYPE=' + cfg]
 
         env = os.environ.copy()
         if not os.path.exists(self.build_temp):
