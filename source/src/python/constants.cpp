@@ -8,6 +8,7 @@ void init_python_constants(py::module &m)
     py::enum_<signalflow_interpolation_mode_t>(m, "signalflow_interpolation_mode_t", py::arithmetic(), "signalflow_interpolation_mode_t")
         .value("SIGNALFLOW_INTERPOLATION_NONE", SIGNALFLOW_INTERPOLATION_NONE, "No interpolation")
         .value("SIGNALFLOW_INTERPOLATION_LINEAR", SIGNALFLOW_INTERPOLATION_LINEAR, "Linear interpolation")
+        .value("SIGNALFLOW_INTERPOLATION_COSINE", SIGNALFLOW_INTERPOLATION_COSINE, "Cosine interpolation")
         .export_values();
 
     py::enum_<signalflow_event_distribution_t>(m, "signalflow_event_distribution_t", py::arithmetic(), "signalflow_event_distribution_t")

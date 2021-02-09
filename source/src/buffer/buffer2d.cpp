@@ -74,12 +74,16 @@ sample Buffer2D::get2D(double offset_x, double offset_z)
 
         return rv;
     }
-    else
+    else if (this->interpolate == SIGNALFLOW_INTERPOLATION_NONE)
     {
         int offset_x_int = int(round(offset_x)) % this->num_frames;
         int offset_z_int = int(round(offset_z)) % this->num_buffers;
 
         return this->data[offset_z_int][offset_x_int];
+    }
+    else
+    {
+        throw std::runtime_error("Buffer2D: Unsupported interpolation mode: " + this->interpolate);
     }
 }
 

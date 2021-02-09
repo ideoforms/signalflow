@@ -352,9 +352,13 @@ sample Buffer::get_frame(double frame)
         sample rv = ((1.0 - frame_frac) * this->data[0][(int) frame]) + (frame_frac * this->data[0][(int) ceil(frame)]);
         return rv;
     }
-    else
+    else if (this->interpolate == SIGNALFLOW_INTERPOLATION_NONE)
     {
         return this->data[0][(int) frame];
+    }
+    else
+    {
+        throw std::runtime_error("Buffer: Unsupported interpolation mode: " + this->interpolate);
     }
 }
 
