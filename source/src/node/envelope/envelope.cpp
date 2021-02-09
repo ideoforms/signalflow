@@ -44,6 +44,19 @@ Envelope::Envelope(std::vector<NodeRef> levels,
         this->create_input(input_name, this->curves[i]);
     }
     this->create_input("clock", this->clock);
+
+    /*--------------------------------------------------------------------------------
+     * If no clock signal is specified, trigger immediately.
+     * If a clock is specified, don't trigger until a trigger is received.
+     *-------------------------------------------------------------------------------*/
+    if (clock)
+    {
+        this->state = SIGNALFLOW_NODE_STATE_STOPPED;
+    }
+    else
+    {
+        this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
+    }
 }
 
 void Envelope::trigger(std::string name, float value)
@@ -60,50 +73,53 @@ void Envelope::trigger(std::string name, float value)
 void Envelope::process(Buffer &out, int num_frames)
 {
     float phase_step = 1.0f / this->graph->get_sample_rate();
-    float rv = level;
+    float rv = 0.0;
 
     for (int frame = 0; frame < num_frames; frame++)
     {
+        SIGNALFLOW_PROCESS_TRIGGER(this->clock, frame, SIGNALFLOW_DEFAULT_TRIGGER);
+
         if (level == std::numeric_limits<float>::max())
         {
             level = this->levels[0]->out[0][frame];
         }
 
-        SIGNALFLOW_PROCESS_TRIGGER(this->clock, frame, SIGNALFLOW_DEFAULT_TRIGGER);
-        if (node_index < levels.size() - 1)
+        if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
         {
-            float level_target = this->levels[node_index + 1]->out[0][frame];
-            float time = this->times[node_index]->out[0][frame];
-            float curve = (this->curves.size() > 0) ? (this->curves[node_index]->out[0][frame]) : 1;
-            float time_remaining = time - this->node_phase;
-            int steps_remaining = time_remaining * graph->get_sample_rate();
-            if (steps_remaining <= 0)
+            if (node_index < levels.size() - 1)
             {
-                level = level_target;
-                this->node_phase = 0.0;
-                this->node_index++;
-            }
-            else
-            {
-                float step = (level_target - level) / steps_remaining;
-                level += step;
-                this->node_phase += phase_step;
-            }
+                float level_target = this->levels[node_index + 1]->out[0][frame];
+                float time = this->times[node_index]->out[0][frame];
+                float curve = (this->curves.size() > 0) ? (this->curves[node_index]->out[0][frame]) : 1;
+                float time_remaining = time - this->node_phase;
+                int steps_remaining = time_remaining * graph->get_sample_rate();
+                if (steps_remaining <= 0)
+                {
+                    level = level_target;
+                    this->node_phase = 0.0;
+                    this->node_index++;
+                }
+                else
+                {
+                    float step = (level_target - level) / steps_remaining;
+                    level += step;
+                    this->node_phase += phase_step;
+                }
 
-            rv = powf(level, curve);
-        }
-        else if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
-        {
-            if (this->loop)
-            {
-                this->trigger();
+                rv = powf(level, curve);
             }
             else
             {
-                this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
+                if (this->loop)
+                {
+                    this->trigger();
+                }
+                else
+                {
+                    this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
+                }
             }
         }
-        // TODO set state to finished
 
         this->out[0][frame] = rv;
     }
