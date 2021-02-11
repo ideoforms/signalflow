@@ -4,10 +4,11 @@
 namespace signalflow
 {
 
-ChannelMixer::ChannelMixer(int channels, NodeRef input)
-    : UnaryOpNode(input), channels(channels)
+ChannelMixer::ChannelMixer(int channels, NodeRef input, bool amplitude_compensation)
+    : UnaryOpNode(input), channels(channels), amplitude_compensation(amplitude_compensation)
 {
     this->name = "channel-mixer";
+    this->amplitude_compensation_level = 1.0;
     this->update_channels();
 }
 
@@ -49,7 +50,7 @@ void ChannelMixer::process(Buffer &out, int num_frames)
                                                        0, 1);
                 channel_amp = signalflow_clip(channel_amp, 0, 1);
             }
-            channel_amp = channel_amp * this->amp_compensation;
+            channel_amp = channel_amp * this->amplitude_compensation_level;
 
             for (int frame = 0; frame < num_frames; frame++)
             {
@@ -63,10 +64,13 @@ void ChannelMixer::update_channels()
 {
     this->set_channels(this->input->get_num_output_channels(), this->channels);
 
-    this->amp_compensation = (float) this->num_output_channels / this->num_input_channels;
-    if (this->amp_compensation > 1.0)
+    if (this->amplitude_compensation)
     {
-        this->amp_compensation = 1.0;
+        this->amplitude_compensation_level = (float) this->num_output_channels / this->num_input_channels;
+        if (this->amplitude_compensation_level > 1.0)
+        {
+            this->amplitude_compensation_level = 1.0;
+        }
     }
 
     signalflow_debug("Node mixer set num_out_channels to %d, num_in_channels %d\n",

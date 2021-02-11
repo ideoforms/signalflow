@@ -103,7 +103,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<float>>(), "inputs"_a);
 
     py::class_<ChannelMixer, Node, NodeRefTemplate<ChannelMixer>>(m, "ChannelMixer")
-        .def(py::init<int, NodeRef>(), "channels"_a = 1, "input"_a = 0);
+        .def(py::init<int, NodeRef, bool>(), "channels"_a = 1, "input"_a = 0, "amplitude_compensation"_a = true);
 
     py::class_<ChannelSelect, Node, NodeRefTemplate<ChannelSelect>>(m, "ChannelSelect")
         .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 0, "step"_a = 1);
