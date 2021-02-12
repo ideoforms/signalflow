@@ -39,6 +39,30 @@ double signalflow_clip(double value, double min, double max)
 }
 
 /*--------------------------------------------------------------------*
+ * signalflow_wrap(): Wrap a value within two bounds.
+ *--------------------------------------------------------------------*/
+double signalflow_wrap(double value, double min, double max)
+{
+    double range = max - min;
+    double remainder = fmodf((value - min), range);
+    return min + remainder;
+}
+
+double signalflow_fold(double value, double min, double max)
+{
+    double range = max - min;
+    double remainder = fmodf((value - min), (range * 2));
+    if (remainder > range)
+    {
+        return min + 2 * range - remainder;
+    }
+    else
+    {
+        return min + remainder;
+    }
+}
+
+/*--------------------------------------------------------------------*
  * signalflow_scale_lin_lin(): Map a value onto a linear range.
  *--------------------------------------------------------------------*/
 double signalflow_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB)

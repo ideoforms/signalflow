@@ -110,11 +110,13 @@
 #include <signalflow/node/processors/filters/eq.h>
 #include <signalflow/node/processors/filters/moog.h>
 #include <signalflow/node/processors/filters/svf.h>
+#include <signalflow/node/processors/fold.h>
 #include <signalflow/node/processors/panning/pan.h>
 #include <signalflow/node/processors/panning/stereo-balance.h>
 #include <signalflow/node/processors/panning/stereo-width.h>
 #include <signalflow/node/processors/smooth.h>
 #include <signalflow/node/processors/wetdry.h>
+#include <signalflow/node/processors/wrap.h>
 
 /*------------------------------------------------------------------------
  * Sequencing

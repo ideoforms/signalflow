@@ -20,6 +20,9 @@ namespace signalflow
 double signalflow_timestamp();
 
 double signalflow_clip(double value, double min, double max);
+double signalflow_wrap(double value, double min, double max);
+double signalflow_fold(double value, double min, double max);
+
 double signalflow_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB);
 double signalflow_scale_lin_exp(double value, double a, double b, double c, double d);
 double signalflow_scale_exp_lin(double value, double a, double b, double c, double d);

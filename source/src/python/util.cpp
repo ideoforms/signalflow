@@ -6,6 +6,8 @@ void init_python_util(py::module &m)
      * Utils
      *-------------------------------------------------------------------------------*/
     m.def("clip", signalflow_clip, R"pbdoc(Clip arg0 between [arg1..arg2])pbdoc");
+    m.def("wrap", signalflow_wrap, R"pbdoc(Wrap arg0 between [arg1..arg2])pbdoc");
+    m.def("fold", signalflow_fold, R"pbdoc(Fold arg0 between [arg1..arg2])pbdoc");
     m.def("scale_lin_lin", signalflow_scale_lin_lin, R"pbdoc(Scale arg0, from linear range [arg1..arg2] to linear range [arg3..arg4])pbdoc");
     m.def("scale_lin_exp", signalflow_scale_lin_exp, R"pbdoc(Scale arg0, from linear range [arg1..arg2] to exponential range [arg3..arg4])pbdoc");
     m.def("scale_exp_lin", signalflow_scale_exp_lin, R"pbdoc(Scale arg0, from exponential range [arg1..arg2] to linear range [arg3..arg4])pbdoc");

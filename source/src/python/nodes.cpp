@@ -241,6 +241,9 @@ void init_python_nodes(py::module &m)
     py::class_<SVFFilter, Node, NodeRefTemplate<SVFFilter>>(m, "SVFFilter")
         .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.0);
 
+    py::class_<Fold, Node, NodeRefTemplate<Fold>>(m, "Fold")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
+
     py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
         .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.0);
 
@@ -255,6 +258,9 @@ void init_python_nodes(py::module &m)
 
     py::class_<WetDry, Node, NodeRefTemplate<WetDry>>(m, "WetDry")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "dry_input"_a = nullptr, "wet_input"_a = nullptr, "wetness"_a = 0.0);
+
+    py::class_<Wrap, Node, NodeRefTemplate<Wrap>>(m, "Wrap")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
     py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "min"_a = 0, "max"_a = 0);

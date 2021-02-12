@@ -17,11 +17,9 @@ void Clip::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            out[channel][frame] = input->out[channel][frame];
-            if (out[channel][frame] < this->min->out[channel][frame])
-                out[channel][frame] = this->min->out[channel][frame];
-            else if (out[channel][frame] > this->max->out[channel][frame])
-                out[channel][frame] = this->max->out[channel][frame];
+            out[channel][frame] = signalflow_clip(input->out[channel][frame],
+                                                  this->min->out[channel][frame],
+                                                  this->max->out[channel][frame]);
         }
     }
 }
