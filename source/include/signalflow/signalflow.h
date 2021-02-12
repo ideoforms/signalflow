@@ -132,6 +132,7 @@
  *-----------------------------------------------------------------------*/
 // #include <signalflow/node/analysis/vamp.h>
 #include <signalflow/node/analysis/cross-correlate.h>
+#include <signalflow/node/analysis/onset-detector.h>
 
 /*------------------------------------------------------------------------
  * Control interfaces
