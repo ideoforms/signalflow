@@ -37,25 +37,26 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/allpass.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/onetap.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/stutter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/sample-and-hold.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/resample.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/squiz.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/waveshaper.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/gate.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/rms.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/maximiser.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/compressor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/biquad.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/svf.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/eq.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/sample-and-hold.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/gate.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/moog.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/pan.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-balance.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-width.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/resample.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/rms.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/smooth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/clip.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/wrap.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/fold.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/wetdry.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/squiz.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/waveshaper.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/dynamics/maximiser.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/soundio.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/abstract.cpp
@@ -98,7 +99,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-registry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-spec.cpp
-)
+        )
 
 if (CMAKE_BUILD_PYTHON)
     set(SRC ${SRC}
@@ -112,13 +113,13 @@ if (CMAKE_BUILD_PYTHON)
             ${CMAKE_CURRENT_SOURCE_DIR}/python/buffer.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/python/patch.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/python/util.cpp
-    )
-endif()
+            )
+endif ()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(SRC ${SRC} 
+    set(SRC ${SRC}
             ${CMAKE_CURRENT_SOURCE_DIR}/node/control/mouse.mm
-    )
-endif()
+            )
+endif ()
 
 set(SRC ${SRC} PARENT_SCOPE)

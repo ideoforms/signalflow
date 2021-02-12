@@ -223,6 +223,9 @@ void init_python_nodes(py::module &m)
     py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
 
+    py::class_<Compressor, Node, NodeRefTemplate<Compressor>>(m, "Compressor")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 0.5, "ratio"_a = 1, "attack_time"_a = 0.001, "release_time"_a = 0.01, "sidechain"_a = nullptr);
+
     py::class_<Gate, Node, NodeRefTemplate<Gate>>(m, "Gate")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 0.1);
 

@@ -103,6 +103,7 @@
 #include <signalflow/node/processors/distortion/sample-and-hold.h>
 #include <signalflow/node/processors/distortion/squiz.h>
 #include <signalflow/node/processors/distortion/waveshaper.h>
+#include <signalflow/node/processors/dynamics/compressor.h>
 #include <signalflow/node/processors/dynamics/gate.h>
 #include <signalflow/node/processors/dynamics/maximiser.h>
 #include <signalflow/node/processors/dynamics/rms.h>
