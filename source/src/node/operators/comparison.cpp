@@ -107,4 +107,20 @@ void Abs::process(Buffer &out, int num_frames)
             out[channel][frame] = fabsf(input->out[channel][frame]);
 }
 
+If::If(NodeRef a, NodeRef value_if_true, NodeRef value_if_false)
+    : UnaryOpNode(a), value_if_true(value_if_true), value_if_false(value_if_false)
+{
+    this->name = "if";
+
+    this->create_input("value_if_true", this->value_if_true);
+    this->create_input("value_if_false", this->value_if_false);
+}
+
+void If::process(Buffer &out, int num_frames)
+{
+    for (int channel = 0; channel < this->num_output_channels; channel++)
+        for (int frame = 0; frame < num_frames; frame++)
+            out[channel][frame] = input->out[channel][frame] ? value_if_true->out[channel][frame] : value_if_false->out[channel][frame];
+}
+
 }

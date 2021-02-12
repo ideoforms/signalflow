@@ -62,6 +62,17 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+class If : public UnaryOpNode
+{
+public:
+    If(NodeRef a = 0, NodeRef value_if_true = 0, NodeRef value_if_false = 0);
+    virtual void process(Buffer &out, int num_frames);
+
+private:
+    NodeRef value_if_true;
+    NodeRef value_if_false;
+};
+
 REGISTER(Equal, "equals")
 REGISTER(NotEqual, "not-equal")
 REGISTER(GreaterThan, "greater-than")
@@ -70,5 +81,6 @@ REGISTER(LessThan, "less-than")
 REGISTER(LessThanOrEqual, "less-than-or-equal")
 REGISTER(Modulo, "modulo")
 REGISTER(Abs, "abs")
+REGISTER(If, "if")
 
 }
