@@ -20,4 +20,6 @@ void init_python_util(py::module &m)
 
     m.def("save_block_to_text_file", signalflow_save_block_to_text_file, R"pbdoc(Write a block of PCM float samples to a .csv-style text file)pbdoc");
     m.def("save_block_to_wav_file", signalflow_save_block_to_wav_file, R"pbdoc(Write a block of PCM float samples to a .wav file)pbdoc");
+
+    m.def("random_seed", random_seed, R"pbdoc(Set the global random seed)pbdoc");
 }
