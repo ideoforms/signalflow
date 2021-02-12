@@ -30,6 +30,7 @@
 #include <signalflow/node/operators/channel-array.h>
 #include <signalflow/node/operators/channel-mixer.h>
 #include <signalflow/node/operators/channel-select.h>
+#include <signalflow/node/operators/comparison.h>
 #include <signalflow/node/operators/divide.h>
 #include <signalflow/node/operators/midi-note-to-frequency.h>
 #include <signalflow/node/operators/multiply.h>

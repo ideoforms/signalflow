@@ -108,6 +108,27 @@ void init_python_nodes(py::module &m)
     py::class_<ChannelSelect, Node, NodeRefTemplate<ChannelSelect>>(m, "ChannelSelect")
         .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 0, "step"_a = 1);
 
+    py::class_<Equal, Node, NodeRefTemplate<Equal>>(m, "Equal")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+
+    py::class_<NotEqual, Node, NodeRefTemplate<NotEqual>>(m, "NotEqual")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+
+    py::class_<GreaterThan, Node, NodeRefTemplate<GreaterThan>>(m, "GreaterThan")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+
+    py::class_<GreaterThanOrEqual, Node, NodeRefTemplate<GreaterThanOrEqual>>(m, "GreaterThanOrEqual")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+
+    py::class_<LessThan, Node, NodeRefTemplate<LessThan>>(m, "LessThan")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+
+    py::class_<LessThanOrEqual, Node, NodeRefTemplate<LessThanOrEqual>>(m, "LessThanOrEqual")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+
+    py::class_<Modulo, Node, NodeRefTemplate<Modulo>>(m, "Modulo")
+        .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
+
     py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
 

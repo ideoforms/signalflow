@@ -1,4 +1,17 @@
+#include "pybind11/operators.h"
 #include "signalflow/python/python.h"
+
+/*--------------------------------------------------------------------------------
+ * Required for hash() - see below.
+ *-------------------------------------------------------------------------------*/
+template <>
+struct std::hash<Node>
+{
+    std::size_t operator()(Node const &a) const noexcept
+    {
+        return (std::size_t) &a;
+    }
+};
 
 void init_python_node(py::module &m)
 {
@@ -45,6 +58,25 @@ void init_python_node(py::module &m)
         })
         .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
         .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
+
+        /*--------------------------------------------------------------------------------
+         * Need to define an explicit hashing function because when we overwrite __eq__,
+         * pybind11 sets __hash__ to None, for compliance with standard Python behaviour,
+         * with reasoning explained here:
+         * https://github.com/pybind/pybind11/issues/2191
+         *
+         * In this case, we set Node's hash to be equal to its memory address.
+         * See struct std::hash<Node> at top of file.
+         *-------------------------------------------------------------------------------*/
+        .def(hash(py::self))
+
+        .def("__eq__", [](NodeRef a, NodeRef b) { return new Equal(a, b); })
+        .def("__ne__", [](NodeRef a, NodeRef b) { return new NotEqual(a, b); })
+        .def("__gt__", [](NodeRef a, NodeRef b) { return new GreaterThan(a, b); })
+        .def("__ge__", [](NodeRef a, NodeRef b) { return new GreaterThanOrEqual(a, b); })
+        .def("__lt__", [](NodeRef a, NodeRef b) { return new LessThan(a, b); })
+        .def("__le__", [](NodeRef a, NodeRef b) { return new LessThanOrEqual(a, b); })
+        .def("__mod__", [](NodeRef a, NodeRef b) { return new Modulo(a, b); })
 
         /*--------------------------------------------------------------------------------
          * Properties
