@@ -129,6 +129,9 @@ void init_python_nodes(py::module &m)
     py::class_<Modulo, Node, NodeRefTemplate<Modulo>>(m, "Modulo")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
+    py::class_<Abs, Node, NodeRefTemplate<Abs>>(m, "Abs")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
     py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
 

@@ -94,4 +94,17 @@ void Modulo::process(Buffer &out, int num_frames)
             out[channel][frame] = fmodf(input0->out[channel][frame], input1->out[channel][frame]);
 }
 
+Abs::Abs(NodeRef a)
+    : UnaryOpNode(a)
+{
+    this->name = "abs";
+}
+
+void Abs::process(Buffer &out, int num_frames)
+{
+    for (int channel = 0; channel < this->num_output_channels; channel++)
+        for (int frame = 0; frame < num_frames; frame++)
+            out[channel][frame] = fabsf(input->out[channel][frame]);
+}
+
 }

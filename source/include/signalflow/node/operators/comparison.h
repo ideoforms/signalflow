@@ -55,6 +55,13 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+class Abs : public UnaryOpNode
+{
+public:
+    Abs(NodeRef a = 0);
+    virtual void process(Buffer &out, int num_frames);
+};
+
 REGISTER(Equal, "equals")
 REGISTER(NotEqual, "not-equal")
 REGISTER(GreaterThan, "greater-than")
@@ -62,5 +69,6 @@ REGISTER(GreaterThanOrEqual, "greater-than-or-equal")
 REGISTER(LessThan, "less-than")
 REGISTER(LessThanOrEqual, "less-than-or-equal")
 REGISTER(Modulo, "modulo")
+REGISTER(Abs, "abs")
 
 }
