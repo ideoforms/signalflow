@@ -3,6 +3,7 @@
 #include "signalflow/buffer/ringbuffer.h"
 #include "signalflow/core/exceptions.h"
 
+#include <map>
 #include <stdlib.h>
 #include <string>
 
@@ -152,5 +153,15 @@ typedef enum
     SIGNALFLOW_FILTER_TYPE_LOW_SHELF,
     SIGNALFLOW_FILTER_TYPE_HIGH_SHELF
 } signalflow_filter_type_t;
+
+static std::map<std::string, signalflow_filter_type_t> signalflow_filter_type_map {
+    { "low_pass", SIGNALFLOW_FILTER_TYPE_LOW_PASS },
+    { "high_pass", SIGNALFLOW_FILTER_TYPE_HIGH_PASS },
+    { "band_pass", SIGNALFLOW_FILTER_TYPE_BAND_PASS },
+    { "notch", SIGNALFLOW_FILTER_TYPE_NOTCH },
+    { "peak", SIGNALFLOW_FILTER_TYPE_PEAK },
+    { "low_shelf", SIGNALFLOW_FILTER_TYPE_LOW_SHELF },
+    { "high_shelf", SIGNALFLOW_FILTER_TYPE_HIGH_SHELF }
+};
 
 #define N_CHANNELS -1

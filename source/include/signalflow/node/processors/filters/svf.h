@@ -13,6 +13,11 @@ public:
               NodeRef cutoff = 440,
               NodeRef resonance = 0.0);
 
+    SVFFilter(NodeRef input,
+              std::string filter_type,
+              NodeRef cutoff = 440,
+              NodeRef resonance = 0.0);
+
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
 

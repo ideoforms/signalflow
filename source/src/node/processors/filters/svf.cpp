@@ -60,6 +60,14 @@ SVFFilter::SVFFilter(NodeRef input,
     this->alloc();
 }
 
+SVFFilter::SVFFilter(NodeRef input,
+                     std::string filter_type,
+                     NodeRef cutoff,
+                     NodeRef resonance)
+    : SVFFilter(input, signalflow_filter_type_map[filter_type], cutoff, resonance)
+{
+}
+
 void SVFFilter::alloc()
 {
     this->ic1eq.resize(this->num_output_channels_allocated, 0.0);

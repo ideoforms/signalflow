@@ -358,7 +358,7 @@ sample Buffer::get_frame(double frame)
     }
     else
     {
-        throw std::runtime_error("Buffer: Unsupported interpolation mode: " + this->interpolate);
+        throw std::runtime_error("Buffer: Unsupported interpolation mode: " + std::to_string(this->interpolate));
     }
 }
 

@@ -83,7 +83,7 @@ sample Buffer2D::get2D(double offset_x, double offset_z)
     }
     else
     {
-        throw std::runtime_error("Buffer2D: Unsupported interpolation mode: " + this->interpolate);
+        throw std::runtime_error("Buffer2D: Unsupported interpolation mode: " + std::to_string(this->interpolate));
     }
 }
 
