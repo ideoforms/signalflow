@@ -11,6 +11,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/node.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/node-monitor.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/registry.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/stochastic-node.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/logistic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/white-noise.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/pink-noise.cpp

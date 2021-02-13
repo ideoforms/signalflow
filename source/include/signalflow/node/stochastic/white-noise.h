@@ -1,14 +1,10 @@
 #pragma once
 
-#include "signalflow/node/node.h"
-
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_rng.h>
-#include <sys/time.h>
+#include "signalflow/node/stochastic/stochastic-node.h"
 
 namespace signalflow
 {
-class WhiteNoise : public Node
+class WhiteNoise : public StochasticNode
 {
 public:
     WhiteNoise(NodeRef frequency = 0.0,
@@ -17,7 +13,6 @@ public:
                NodeRef reset = nullptr);
 
     virtual void alloc() override;
-    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
     virtual void process(Buffer &out, int num_frames) override;
 
 private:
@@ -26,14 +21,10 @@ private:
     NodeRef max;
     bool interpolate;
     bool random_interval;
-    NodeRef reset;
 
     std::vector<sample> value;
     std::vector<int> steps_remaining;
     std::vector<float> step_change;
-
-    unsigned long int seed;
-    gsl_rng *rng;
 };
 
 REGISTER(WhiteNoise, "white-noise")

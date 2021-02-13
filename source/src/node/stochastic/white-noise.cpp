@@ -13,25 +13,12 @@ WhiteNoise::WhiteNoise(NodeRef frequency,
                        NodeRef min, NodeRef max,
                        bool interpolate, bool random_interval,
                        NodeRef reset)
-    : frequency(frequency), min(min), max(max), interpolate(interpolate), random_interval(random_interval), reset(reset)
+    : StochasticNode(reset), frequency(frequency), min(min), max(max), interpolate(interpolate), random_interval(random_interval)
 {
     this->name = "white-noise";
     this->create_input("frequency", this->frequency);
     this->create_input("min", this->min);
     this->create_input("max", this->max);
-    this->create_input("reset", this->reset);
-
-    struct timeval tv;
-    this->rng = gsl_rng_alloc(gsl_rng_default);
-
-    /*--------------------------------------------------------------------*
-     * Seed with current time multiplied by microsecond part, to give
-     * a pretty decent non-correlated seed.
-     *--------------------------------------------------------------------*/
-    gettimeofday(&tv, 0);
-    seed = tv.tv_sec * tv.tv_usec;
-    gsl_rng_set(rng, seed);
-
     this->alloc();
 }
 
@@ -40,11 +27,6 @@ void WhiteNoise::alloc()
     this->value.resize(this->num_output_channels_allocated, std::numeric_limits<float>::max());
     this->steps_remaining.resize(this->num_output_channels_allocated);
     this->step_change.resize(this->num_output_channels_allocated);
-}
-
-void WhiteNoise::trigger(std::string name, float value)
-{
-    gsl_rng_set(rng, seed);
 }
 
 void WhiteNoise::process(Buffer &out, int num_frames)
