@@ -97,7 +97,7 @@ std::vector<int> _generate(int sequence_length, int num_events)
 Euclidean::Euclidean(NodeRef clock, NodeRef sequence_length, NodeRef num_events)
     : Node(), clock(clock), sequence_length(sequence_length), num_events(num_events)
 {
-    this->name = "counter";
+    this->name = "euclidean";
 
     this->create_input("clock", this->clock);
     this->create_input("sequence_length", this->sequence_length);

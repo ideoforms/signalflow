@@ -25,6 +25,6 @@ private:
     int position;
 };
 
-REGISTER(Euclidean, "counter")
+REGISTER(Euclidean, "euclidean")
 
 }
