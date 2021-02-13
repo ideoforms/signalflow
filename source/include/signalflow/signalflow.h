@@ -123,6 +123,7 @@
  * Sequencing
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/sequencing/counter.h>
+#include <signalflow/node/sequencing/euclidean.h>
 #include <signalflow/node/sequencing/flipflop.h>
 #include <signalflow/node/sequencing/index.h>
 

@@ -275,6 +275,9 @@ void init_python_nodes(py::module &m)
     py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "min"_a = 0, "max"_a = 0);
 
+    py::class_<Euclidean, Node, NodeRefTemplate<Euclidean>>(m, "Euclidean")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "sequence_length"_a = 0, "num_events"_a = 0);
+
     py::class_<FlipFlop, Node, NodeRefTemplate<FlipFlop>>(m, "FlipFlop")
         .def(py::init<NodeRef>(), "clock"_a = 0);
 
