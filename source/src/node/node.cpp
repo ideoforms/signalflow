@@ -446,6 +446,11 @@ Patch *Node::get_patch()
     return this->patch;
 }
 
+AudioGraph *Node::get_graph()
+{
+    return this->graph;
+}
+
 void Node::set_patch(Patch *patch)
 {
     if (this->patch)
