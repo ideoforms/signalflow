@@ -33,7 +33,7 @@ void RandomImpulse::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(reset, channel, frame))
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->reset, channel, frame))
             {
                 gsl_rng_set(this->rng, this->seed);
             }

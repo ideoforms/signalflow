@@ -1,13 +1,13 @@
 #pragma once
 
-#include "signalflow/node/node.h"
+#include "signalflow/node/stochastic/stochastic-node.h"
 
 namespace signalflow
 {
-class RandomBrownian : public Node
+class RandomBrownian : public StochasticNode
 {
 public:
-    RandomBrownian(NodeRef min = -1.0, NodeRef max = 1.0, NodeRef delta = 0.01, NodeRef clock = nullptr);
+    RandomBrownian(NodeRef min = -1.0, NodeRef max = 1.0, NodeRef delta = 0.01, NodeRef clock = nullptr, NodeRef reset = nullptr);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;

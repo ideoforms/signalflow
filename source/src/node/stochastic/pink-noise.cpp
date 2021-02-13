@@ -17,7 +17,8 @@ namespace signalflow
  * https://www.dsprelated.com/showarticle/908.php
  *--------------------------------------------------------------------------------*/
 
-PinkNoise::PinkNoise(float low_cutoff, float high_cutoff)
+PinkNoise::PinkNoise(float low_cutoff, float high_cutoff, NodeRef reset)
+    : StochasticNode(reset)
 {
     this->name = "pinknoise";
 
@@ -42,15 +43,20 @@ void PinkNoise::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(reset, channel, frame))
+            {
+                gsl_rng_set(this->rng, this->seed);
+            }
+
             out[channel][frame] = 0;
             for (int octave = this->initial_octave; octave < this->initial_octave + this->num_octaves; octave++)
             {
                 if (this->steps_remaining[channel][octave] <= 0)
                 {
                     // pick a new target value
-                    float target = random_uniform(-1, 1);
+                    float target = this->random_uniform(-1, 1);
 
-                    this->steps_remaining[channel][octave] = random_integer(0, powf(2, octave + this->initial_octave) * 2);
+                    this->steps_remaining[channel][octave] = (int) this->random_uniform(0, powf(2, octave + this->initial_octave) * 2);
                     if (this->steps_remaining[channel][octave] == 0)
                         this->steps_remaining[channel][octave] = 1;
 

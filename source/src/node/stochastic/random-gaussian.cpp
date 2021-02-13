@@ -4,8 +4,8 @@
 namespace signalflow
 {
 
-RandomGaussian::RandomGaussian(NodeRef mean, NodeRef sigma, NodeRef clock)
-    : mean(mean), sigma(sigma), clock(clock)
+RandomGaussian::RandomGaussian(NodeRef mean, NodeRef sigma, NodeRef clock, NodeRef reset)
+    : StochasticNode(reset), mean(mean), sigma(sigma), clock(clock)
 {
     this->name = "random-gaussian";
     this->create_input("mean", this->mean);
@@ -21,10 +21,17 @@ void RandomGaussian::alloc()
 
 void RandomGaussian::trigger(std::string name, float value)
 {
-    for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        this->value[channel] = random_gaussian(this->mean->out[channel][0],
-                                               this->sigma->out[channel][0]);
+        for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+        {
+            this->value[channel] = random_gaussian(this->mean->out[channel][0],
+                                                   this->sigma->out[channel][0]);
+        }
+    }
+    else
+    {
+        this->StochasticNode::trigger(name, value);
     }
 }
 
@@ -34,6 +41,10 @@ void RandomGaussian::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->reset, channel, frame))
+            {
+                gsl_rng_set(this->rng, this->seed);
+            }
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->value[channel] = random_gaussian(this->mean->out[channel][frame],

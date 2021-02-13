@@ -287,20 +287,20 @@ void init_python_nodes(py::module &m)
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);
 
-    py::class_<PinkNoise, Node, NodeRefTemplate<PinkNoise>>(m, "PinkNoise")
-        .def(py::init<float, float>(), "low_cutoff"_a = 20.0, "high_cutoff"_a = 20000.0);
+    py::class_<PinkNoise, StochasticNode, NodeRefTemplate<PinkNoise>>(m, "PinkNoise")
+        .def(py::init<float, float, NodeRef>(), "low_cutoff"_a = 20.0, "high_cutoff"_a = 20000.0, "reset"_a = nullptr);
 
-    py::class_<RandomBrownian, Node, NodeRefTemplate<RandomBrownian>>(m, "RandomBrownian")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = -1.0, "max"_a = 1.0, "delta"_a = 0.01, "clock"_a = nullptr);
+    py::class_<RandomBrownian, StochasticNode, NodeRefTemplate<RandomBrownian>>(m, "RandomBrownian")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = -1.0, "max"_a = 1.0, "delta"_a = 0.01, "clock"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<RandomCoin, StochasticNode, NodeRefTemplate<RandomCoin>>(m, "RandomCoin")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "probability"_a = 0.5, "clock"_a = nullptr, "reset"_a = nullptr);
 
-    py::class_<RandomExponential, Node, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
-        .def(py::init<NodeRef, NodeRef>(), "scale"_a = 0.0, "clock"_a = nullptr);
+    py::class_<RandomExponential, StochasticNode, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "scale"_a = 0.0, "clock"_a = nullptr, "reset"_a = nullptr);
 
-    py::class_<RandomGaussian, Node, NodeRefTemplate<RandomGaussian>>(m, "RandomGaussian")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "mean"_a = 0.0, "sigma"_a = 0.0, "clock"_a = nullptr);
+    py::class_<RandomGaussian, StochasticNode, NodeRefTemplate<RandomGaussian>>(m, "RandomGaussian")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "mean"_a = 0.0, "sigma"_a = 0.0, "clock"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<RandomImpulse, StochasticNode, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
         .def(py::init<NodeRef, signalflow_event_distribution_t, NodeRef>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, "reset"_a = nullptr)

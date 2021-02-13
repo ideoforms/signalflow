@@ -1,13 +1,13 @@
 #pragma once
 
-#include "signalflow/node/node.h"
+#include "signalflow/node/stochastic/stochastic-node.h"
 
 namespace signalflow
 {
-class PinkNoise : public Node
+class PinkNoise : public StochasticNode
 {
 public:
-    PinkNoise(float low_cutoff = 20.0, float high_cutoff = 20000.0);
+    PinkNoise(float low_cutoff = 20.0, float high_cutoff = 20000.0, NodeRef reset = nullptr);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
