@@ -37,7 +37,7 @@ void StochasticNode::set_seed(unsigned long int seed)
 
 void StochasticNode::trigger(std::string name, float value)
 {
-    if (name == SIGNALFLOW_RESET_TRIGGER)
+    if (name == SIGNALFLOW_TRIGGER_RESET)
     {
         gsl_rng_set(this->rng, this->seed);
     }

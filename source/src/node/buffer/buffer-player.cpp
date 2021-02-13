@@ -6,8 +6,8 @@
 namespace signalflow
 {
 
-BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
-    : rate(rate), loop(loop)
+BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop, NodeRef clock)
+    : rate(rate), loop(loop), clock(clock)
 {
     SIGNALFLOW_CHECK_GRAPH();
 
@@ -27,6 +27,7 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop)
     }
 
     this->create_input("rate", this->rate);
+    this->create_input("clock", this->clock);
     this->create_input("loop_start", this->loop_start);
     this->create_input("loop_end", this->loop_end);
     this->create_input("loop", this->loop);
@@ -60,6 +61,10 @@ void BufferPlayer::process(Buffer &out, int num_frames)
 
     for (int frame = 0; frame < num_frames; frame++)
     {
+        if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
+        {
+            this->trigger(SIGNALFLOW_TRIGGER_SET_POSITION);
+        }
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
             if ((int) this->phase < loop_end)
@@ -92,7 +97,7 @@ void BufferPlayer::process(Buffer &out, int num_frames)
 
 void BufferPlayer::trigger(std::string name, float value)
 {
-    if (name == SIGNALFLOW_SAMPLER_TRIGGER_SET_POSITION)
+    if (name == SIGNALFLOW_TRIGGER_SET_POSITION)
     {
         /*----------------------------------------------------------------
          * Set the offset within the buffer, in samples.
