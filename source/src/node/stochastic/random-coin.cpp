@@ -23,9 +23,16 @@ void RandomCoin::alloc()
 
 void RandomCoin::trigger(std::string name, float value)
 {
-    for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        this->value[channel] = random_coin(this->probability->out[channel][0]);
+        for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+        {
+            this->value[channel] = gsl_rng_uniform(this->rng) < this->probability->out[channel][0];
+        }
+    }
+    else
+    {
+        this->StochasticNode::trigger(name, value);
     }
 }
 
@@ -46,7 +53,7 @@ void RandomCoin::process(Buffer &out, int num_frames)
             }
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
-                this->value[channel] = (gsl_rng_uniform(this->rng) < this->probability->out[channel][frame]) ? 1 : 0;
+                this->value[channel] = gsl_rng_uniform(this->rng) < this->probability->out[channel][frame];
             }
 
             this->out[channel][frame] = this->value[channel];

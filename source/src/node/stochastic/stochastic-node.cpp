@@ -22,6 +22,13 @@ StochasticNode::StochasticNode(NodeRef reset)
     this->set_seed(tv.tv_sec * tv.tv_usec);
 }
 
+double StochasticNode::random_uniform(double from, double to)
+{
+    double value = gsl_rng_uniform(this->rng);
+    value = value * (to - from) + from;
+    return value;
+}
+
 void StochasticNode::set_seed(unsigned long int seed)
 {
     this->seed = seed;
@@ -30,7 +37,14 @@ void StochasticNode::set_seed(unsigned long int seed)
 
 void StochasticNode::trigger(std::string name, float value)
 {
-    gsl_rng_set(this->rng, this->seed);
+    if (name == SIGNALFLOW_RESET_TRIGGER)
+    {
+        gsl_rng_set(this->rng, this->seed);
+    }
+    else
+    {
+        throw std::runtime_error("Unknown trigger: " + name);
+    }
 }
 
 }

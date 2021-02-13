@@ -61,6 +61,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
  * without any parameters.
  *-----------------------------------------------------------------------*/
 #define SIGNALFLOW_DEFAULT_TRIGGER "trigger"
+#define SIGNALFLOW_RESET_TRIGGER "reset"
 
 /*------------------------------------------------------------------------
  * Macros to aid in processing trigger inputs, for sample-rate and

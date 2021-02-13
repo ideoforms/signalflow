@@ -17,6 +17,8 @@ public:
     virtual void set_seed(unsigned long int seed);
 
 protected:
+    double random_uniform(double from, double to);
+
     NodeRef reset;
     unsigned long int seed;
     gsl_rng *rng;
