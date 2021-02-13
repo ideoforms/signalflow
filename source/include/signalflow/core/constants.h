@@ -129,6 +129,11 @@ enum signalflow_event_distribution_t : unsigned int
     SIGNALFLOW_EVENT_DISTRIBUTION_POISSON
 };
 
+static std::map<std::string, signalflow_event_distribution_t> SIGNALFLOW_EVENT_DISTRIBUTION_MAP {
+    { "uniform", SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM },
+    { "poisson", SIGNALFLOW_EVENT_DISTRIBUTION_POISSON }
+};
+
 typedef enum : unsigned int
 {
     SIGNALFLOW_SCALE_LIN_LIN,
@@ -154,7 +159,7 @@ typedef enum
     SIGNALFLOW_FILTER_TYPE_HIGH_SHELF
 } signalflow_filter_type_t;
 
-static std::map<std::string, signalflow_filter_type_t> signalflow_filter_type_map {
+static std::map<std::string, signalflow_filter_type_t> SIGNALFLOW_FILTER_TYPE_MAP {
     { "low_pass", SIGNALFLOW_FILTER_TYPE_LOW_PASS },
     { "high_pass", SIGNALFLOW_FILTER_TYPE_HIGH_PASS },
     { "band_pass", SIGNALFLOW_FILTER_TYPE_BAND_PASS },

@@ -11,6 +11,10 @@ public:
                   signalflow_event_distribution_t distribution = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM,
                   NodeRef reset = nullptr);
 
+    RandomImpulse(NodeRef frequency,
+                  std::string distribution,
+                  NodeRef reset = nullptr);
+
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
 

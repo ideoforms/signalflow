@@ -7,6 +7,11 @@
 namespace signalflow
 {
 
+RandomImpulse::RandomImpulse(NodeRef frequency, std::string distribution, NodeRef reset)
+    : RandomImpulse(frequency, SIGNALFLOW_EVENT_DISTRIBUTION_MAP[distribution], reset)
+{
+}
+
 RandomImpulse::RandomImpulse(NodeRef frequency, signalflow_event_distribution_t distribution, NodeRef reset)
     : StochasticNode(reset), frequency(frequency), distribution(distribution)
 {

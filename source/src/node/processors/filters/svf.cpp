@@ -64,7 +64,7 @@ SVFFilter::SVFFilter(NodeRef input,
                      std::string filter_type,
                      NodeRef cutoff,
                      NodeRef resonance)
-    : SVFFilter(input, signalflow_filter_type_map[filter_type], cutoff, resonance)
+    : SVFFilter(input, SIGNALFLOW_FILTER_TYPE_MAP[filter_type], cutoff, resonance)
 {
 }
 

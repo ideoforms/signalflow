@@ -300,7 +300,8 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "mean"_a = 0.0, "sigma"_a = 0.0, "clock"_a = nullptr);
 
     py::class_<RandomImpulse, StochasticNode, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
-        .def(py::init<NodeRef, signalflow_event_distribution_t, NodeRef>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, "reset"_a = nullptr);
+        .def(py::init<NodeRef, signalflow_event_distribution_t, NodeRef>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, "reset"_a = nullptr)
+        .def(py::init<NodeRef, std::string, NodeRef>(), "frequency"_a, "distribution"_a, "reset"_a = nullptr);
 
     py::class_<RandomUniform, StochasticNode, NodeRefTemplate<RandomUniform>>(m, "RandomUniform")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = nullptr, "reset"_a = nullptr);
