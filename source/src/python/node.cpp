@@ -141,6 +141,11 @@ void init_python_node(py::module &m)
             return node.scale(from, to, scale);
         })
 
+        /*--------------------------------------------------------------------------------
+         * Convenience methods to play/stop a Node.
+         * These are not available in the C++ interface because a Node does not
+         * have access to its NodeRef container.
+         *-------------------------------------------------------------------------------*/
         .def("play", [](NodeRef node) { node->get_graph()->play(node); })
         .def("stop", [](NodeRef node) { node->get_graph()->stop(node); });
 
