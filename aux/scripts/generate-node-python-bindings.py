@@ -18,7 +18,6 @@ import os
 import re
 import sys
 import glob
-import pprint
 import subprocess
 import CppHeaderParser
 
