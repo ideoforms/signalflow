@@ -58,7 +58,7 @@ FFTFindPeaks::FFTFindPeaks(NodeRef input, NodeRef prominence, NodeRef threshold,
     : FFTOpNode(input), prominence(prominence), threshold(threshold), count(count), interpolate(interpolate)
 {
     this->name = "fft-find-peaks";
-    this->num_output_channels = count;
+    this->num_output_channels = count * 2;
     this->update_channels();
 
     this->create_input("prominence", this->prominence);
@@ -118,6 +118,7 @@ void FFTFindPeaks::process(Buffer &out, int num_frames)
                 for (int bin_index = 0; bin_index < num_frames; bin_index++)
                 {
                     out[peak_index][bin_index] = peaks[peak_index].frequency;
+                    out[peak_index + this->count][bin_index] = peaks[peak_index].magnitude * 2.0 / this->fft_size;
                 }
             }
             else
@@ -125,6 +126,7 @@ void FFTFindPeaks::process(Buffer &out, int num_frames)
                 for (int bin_index = 0; bin_index < num_frames; bin_index++)
                 {
                     out[channel][bin_index] = 0;
+                    out[channel + this->count][bin_index] = 0;
                 }
             }
         }
