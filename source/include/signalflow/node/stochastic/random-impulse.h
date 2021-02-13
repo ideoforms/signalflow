@@ -1,14 +1,15 @@
 #pragma once
 
-#include "signalflow/node/node.h"
+#include "signalflow/node/stochastic/stochastic-node.h"
 
 namespace signalflow
 {
-class RandomImpulse : public Node
+class RandomImpulse : public StochasticNode
 {
 public:
     RandomImpulse(NodeRef frequency = 1.0,
-                  signalflow_event_distribution_t distribution = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM);
+                  signalflow_event_distribution_t distribution = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM,
+                  NodeRef reset = nullptr);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;

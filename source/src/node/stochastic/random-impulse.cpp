@@ -1,15 +1,14 @@
+#include "signalflow/core/graph.h"
 #include "signalflow/node/stochastic/random-impulse.h"
 
-#include "stdlib.h"
-
-#include "signalflow/core/graph.h"
-#include "signalflow/core/random.h"
+#include <math.h>
+#include <stdlib.h>
 
 namespace signalflow
 {
 
-RandomImpulse::RandomImpulse(NodeRef frequency, signalflow_event_distribution_t distribution)
-    : frequency(frequency), distribution(distribution)
+RandomImpulse::RandomImpulse(NodeRef frequency, signalflow_event_distribution_t distribution, NodeRef reset)
+    : StochasticNode(reset), frequency(frequency), distribution(distribution)
 {
     this->name = "random-impulse";
     this->create_input("frequency", this->frequency);
@@ -29,6 +28,11 @@ void RandomImpulse::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(reset, channel, frame))
+            {
+                gsl_rng_set(this->rng, this->seed);
+            }
+
             float freq = this->frequency->out[channel][frame];
             if (freq == 0)
             {
@@ -40,11 +44,11 @@ void RandomImpulse::process(Buffer &out, int num_frames)
                 {
                     if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM)
                     {
-                        this->steps_remaining[channel] = random_integer(0, this->graph->get_sample_rate() / (freq / 2.0));
+                        this->steps_remaining[channel] = (int) this->random_uniform(0, this->graph->get_sample_rate() / (freq / 2.0));
                     }
                     else if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
                     {
-                        this->steps_remaining[channel] = this->graph->get_sample_rate() * -logf(1.0 - random_uniform()) / freq;
+                        this->steps_remaining[channel] = this->graph->get_sample_rate() * -logf(1.0 - this->random_uniform(0, 1)) / freq;
                     }
                 }
                 this->steps_remaining[channel]--;

@@ -42,14 +42,14 @@ void RandomCoin::process(Buffer &out, int num_frames)
     {
         if (this->value[channel] == std::numeric_limits<float>::max())
         {
-            this->value[channel] = random_coin(this->probability->out[channel][0]);
+            this->value[channel] = gsl_rng_uniform(this->rng) < this->probability->out[channel][0];
         }
 
         for (int frame = 0; frame < num_frames; frame++)
         {
             if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(reset, channel, frame))
             {
-                gsl_rng_set(rng, seed);
+                gsl_rng_set(this->rng, this->seed);
             }
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
