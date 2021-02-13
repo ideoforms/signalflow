@@ -19,13 +19,18 @@ StochasticNode::StochasticNode(NodeRef reset)
      * a pretty decent non-correlated seed.
      *--------------------------------------------------------------------*/
     gettimeofday(&tv, 0);
-    seed = tv.tv_sec * tv.tv_usec;
-    gsl_rng_set(rng, seed);
+    this->set_seed(tv.tv_sec * tv.tv_usec);
+}
+
+void StochasticNode::set_seed(unsigned long int seed)
+{
+    this->seed = seed;
+    gsl_rng_set(this->rng, this->seed);
 }
 
 void StochasticNode::trigger(std::string name, float value)
 {
-    gsl_rng_set(rng, seed);
+    gsl_rng_set(this->rng, this->seed);
 }
 
 }

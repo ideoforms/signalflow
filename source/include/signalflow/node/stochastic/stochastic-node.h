@@ -14,6 +14,7 @@ class StochasticNode : public Node
 public:
     StochasticNode(NodeRef reset = nullptr);
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
+    virtual void set_seed(unsigned long int seed);
 
 protected:
     NodeRef reset;

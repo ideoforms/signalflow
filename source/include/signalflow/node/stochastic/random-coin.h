@@ -1,13 +1,13 @@
 #pragma once
 
-#include "signalflow/node/node.h"
+#include "signalflow/node/stochastic/stochastic-node.h"
 
 namespace signalflow
 {
-class RandomCoin : public Node
+class RandomCoin : public StochasticNode
 {
 public:
-    RandomCoin(NodeRef probability = 0.5, NodeRef clock = nullptr);
+    RandomCoin(NodeRef probability = 0.5, NodeRef clock = nullptr, NodeRef reset = nullptr);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;

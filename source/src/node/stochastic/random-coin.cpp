@@ -7,8 +7,8 @@
 namespace signalflow
 {
 
-RandomCoin::RandomCoin(NodeRef probability, NodeRef clock)
-    : probability(probability), clock(clock)
+RandomCoin::RandomCoin(NodeRef probability, NodeRef clock, NodeRef reset)
+    : StochasticNode(reset), probability(probability), clock(clock)
 {
     this->name = "random-coin";
     this->create_input("probability", this->probability);
@@ -40,9 +40,13 @@ void RandomCoin::process(Buffer &out, int num_frames)
 
         for (int frame = 0; frame < num_frames; frame++)
         {
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(reset, channel, frame))
+            {
+                gsl_rng_set(rng, seed);
+            }
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
-                this->value[channel] = random_coin(this->probability->out[channel][frame]);
+                this->value[channel] = (gsl_rng_uniform(this->rng) < this->probability->out[channel][frame]) ? 1 : 0;
             }
 
             this->out[channel][frame] = this->value[channel];

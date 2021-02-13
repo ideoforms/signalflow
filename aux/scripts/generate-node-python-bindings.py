@@ -22,7 +22,7 @@ import pprint
 import subprocess
 import CppHeaderParser
 
-omitted_classes = [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode" ]
+omitted_classes = [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode", "StochasticNode" ]
 macos_only_classes = [ "MouseX", "MouseY", "MouseDown", "FFTConvolve" ]
 
 top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).decode().strip()
@@ -87,7 +87,7 @@ def generate_all_bindings():
             parent_class = None
             if "inherits" in value and len(value["inherits"]):
                 parent_class = value["inherits"][0]["class"]
-                if parent_class not in [ "Node", "UnaryOpNode", "BinaryOpNode", "FFTNode", "FFTOpNode" ]:
+                if parent_class not in [ "Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode" ]:
                     continue
             else:
                 continue
@@ -115,7 +115,10 @@ def generate_all_bindings():
             if constructor_parameter_sets:
                 if class_name in macos_only_classes:
                     output += "#ifdef __APPLE__\n\n"
-                output += generate_class_bindings(class_name, constructor_parameter_sets)
+                known_parent_classes = [ "Node", "StochasticNode"]
+                if parent_class not in known_parent_classes:
+                    parent_class = "Node"
+                output += generate_class_bindings(class_name, constructor_parameter_sets, parent_class)
                 output = output.strip()
                 output += "\n\n"
                 if class_name in macos_only_classes:

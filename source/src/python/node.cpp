@@ -149,6 +149,9 @@ void init_python_node(py::module &m)
         .def("play", [](NodeRef node) { node->get_graph()->play(node); })
         .def("stop", [](NodeRef node) { node->get_graph()->stop(node); });
 
+    py::class_<StochasticNode, Node, NodeRefTemplate<StochasticNode>>(m, "StochasticNode")
+        .def("set_seed", &StochasticNode::set_seed);
+
     py::enum_<signalflow_filter_type_t>(m, "signalflow_filter_type_t", py::arithmetic(), "Filter type")
         .value("SIGNALFLOW_FILTER_TYPE_LOW_PASS", SIGNALFLOW_FILTER_TYPE_LOW_PASS, "Low-pass filter")
         .value("SIGNALFLOW_FILTER_TYPE_HIGH_PASS", SIGNALFLOW_FILTER_TYPE_HIGH_PASS, "High-pass filter")
