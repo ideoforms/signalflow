@@ -24,7 +24,7 @@ public:
     virtual void process(Buffer &out, int num_frames);
 
 private:
-    float phase;
+    double phase;
 };
 
 REGISTER(BufferPlayer, "buffer-player")

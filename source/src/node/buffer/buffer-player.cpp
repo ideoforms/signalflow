@@ -32,9 +32,19 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop, NodeRef
     this->create_input("loop_end", this->loop_end);
     this->create_input("loop", this->loop);
 
-    this->phase = 0.0;
+    /*--------------------------------------------------------------------------------
+     * In cases where a clock is set, we don't immediately want to begin playback,
+     * so initially set phase to the largest possible value.
+     *
+     * Although phase needs to support fractional values, it is rounded as an int
+     * offset so int range should be used.
+     *--------------------------------------------------------------------------------*/
+    this->phase = std::numeric_limits<int>::max();
 
-    this->trigger();
+    if (!clock)
+    {
+        this->trigger();
+    }
 }
 
 void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
@@ -43,6 +53,21 @@ void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
     {
         Node::set_buffer(name, buffer);
         this->num_output_channels = buffer->get_num_channels();
+    }
+}
+
+void BufferPlayer::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_TRIGGER_SET_POSITION)
+    {
+        /*----------------------------------------------------------------
+         * Set the offset within the buffer, in samples.
+         *----------------------------------------------------------------*/
+        this->phase = value;
+    }
+    else
+    {
+        throw std::runtime_error("Unknown trigger: " + name);
     }
 }
 
@@ -73,7 +98,7 @@ void BufferPlayer::process(Buffer &out, int num_frames)
             }
             else
             {
-                if (loop->out[channel][frame])
+                if (loop->out[channel][frame] && this->phase != std::numeric_limits<int>::max())
                 {
                     this->phase = loop_start;
                     s = this->buffer->data[channel][(int) this->phase];
@@ -91,22 +116,8 @@ void BufferPlayer::process(Buffer &out, int num_frames)
             out[channel][frame] = s;
         }
 
-        this->phase += this->rate->out[0][frame];
-    }
-}
-
-void BufferPlayer::trigger(std::string name, float value)
-{
-    if (name == SIGNALFLOW_TRIGGER_SET_POSITION)
-    {
-        /*----------------------------------------------------------------
-         * Set the offset within the buffer, in samples.
-         *----------------------------------------------------------------*/
-        this->phase = value;
-    }
-    else
-    {
-        throw std::runtime_error("Unknown trigger: " + name);
+        if ((int) this->phase < loop_end)
+            this->phase += this->rate->out[0][frame];
     }
 }
 
