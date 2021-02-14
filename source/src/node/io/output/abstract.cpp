@@ -84,7 +84,8 @@ void AudioOut_Abstract::replace_input(NodeRef node, NodeRef other)
 
     if (!replaced)
     {
-        throw std::runtime_error("Couldn't find node to replace");
+        std::cerr << "Couldn't find node to replace" << std::endl;
+        // throw std::runtime_error("Couldn't find node to replace");
     }
 }
 
