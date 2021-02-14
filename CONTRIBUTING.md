@@ -21,7 +21,7 @@ cmake -DCMAKE_BUILD_TYPE=Debug ..
 
 To build the Python libraries with debug symbols:
 ```
-python3 setup.py build --debug
+python3 setup.py build --debug install
 ```
 
 ## Test
