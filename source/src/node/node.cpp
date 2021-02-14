@@ -95,7 +95,12 @@ void Node::_process(Buffer &out, int num_frames)
     //        }
     //    }
 
-    for (int i = 0; i < this->num_output_channels; i++)
+    /*--------------------------------------------------------------------------------
+     * Must use `num_output_channels_allocated`, rather than `num_output_channels`,
+     * as the additional allocated channels may be used for upmixing, and otherwise
+     * the last-sample-magic fails for upmixed channels.
+     *-------------------------------------------------------------------------------*/
+    for (int i = 0; i < this->num_output_channels_allocated; i++)
     {
         this->last_sample[i] = out[i][last_num_frames - 1];
     }
