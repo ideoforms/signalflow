@@ -345,6 +345,16 @@ NodeRef AudioGraph::get_output()
     return this->output;
 }
 
+std::vector<NodeRef> AudioGraph::get_outputs()
+{
+    std::vector<NodeRef> outputs;
+    for (auto pair : this->output->inputs)
+    {
+        outputs.push_back(*pair.second);
+    }
+    return outputs;
+}
+
 NodeRef AudioGraph::add_node(NodeRef node)
 {
     this->scheduled_nodes.insert(node);

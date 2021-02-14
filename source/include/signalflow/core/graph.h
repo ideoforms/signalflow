@@ -151,6 +151,14 @@ public:
     NodeRef get_output();
 
     /**--------------------------------------------------------------------------------
+     * Returns a list of the nodes currently connected to the AudioGraph's output.
+     *
+     * @return The output nodes.
+     *
+     *--------------------------------------------------------------------------------*/
+    std::vector<NodeRef> get_outputs();
+
+    /**--------------------------------------------------------------------------------
      * Schedule a node for rendering without connecting the node to the graph's output.
      * This is needed for nodes such as LFOs, whose values need to be calculated
      * independently of the existence of synthesis nodes, regardless of whether
@@ -196,6 +204,13 @@ public:
      *--------------------------------------------------------------------------------*/
     void stop(NodeRef node);
 
+    /**--------------------------------------------------------------------------------
+     * Replace the specified node with another.
+     *
+     * @param node The node to stop.
+     * @param other The replacement node.
+     *
+     *--------------------------------------------------------------------------------*/
     void replace(NodeRef node, NodeRef other);
 
     /**--------------------------------------------------------------------------------
