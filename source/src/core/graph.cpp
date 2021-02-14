@@ -213,6 +213,10 @@ void AudioGraph::reset_graph()
     {
         AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
         output->replace_input(pair.first, pair.second);
+
+        // needed to ensure stale samples don't get delivered next time around
+        // as render_subgraph won't recurse to reset these nodes
+        this->reset_subgraph(pair.first);
     }
     nodes_to_replace.clear();
 
@@ -303,6 +307,10 @@ void AudioGraph::render(int num_frames)
     double dt = t1 - t0;
     double t_max = (double) num_frames / this->sample_rate;
     this->cpu_usage = dt / t_max;
+    if (this->cpu_usage > 1.0)
+    {
+        std::cerr << "Warning: buffer overrun?" << std::endl;
+    }
 }
 
 void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)
