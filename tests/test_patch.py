@@ -16,7 +16,7 @@ def test_patch(graph):
     buf_in = Buffer([ 2, 2, 2, 2 ])
     patch.set_input("input", 123)
     patch.set_input("buffer", buf_in)
-    assert len(patch.nodes) == 5
+    assert len(patch.nodes) == 6
     assert len(patch.inputs) == 1
     assert patch.output.name == "multiply"
     assert patch.output.patch == patch
