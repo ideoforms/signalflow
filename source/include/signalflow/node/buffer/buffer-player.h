@@ -7,7 +7,7 @@ namespace signalflow
 class BufferPlayer : public Node
 {
 public:
-    BufferPlayer(BufferRef buffer = nullptr, NodeRef rate = 1.0, NodeRef loop = 0, NodeRef clock = 0);
+    BufferPlayer(BufferRef buffer = nullptr, NodeRef rate = 1.0, NodeRef loop = 0, NodeRef clock = nullptr);
 
     BufferRef buffer;
 
