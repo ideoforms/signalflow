@@ -7,7 +7,7 @@ namespace signalflow
 class Line : public Node
 {
 public:
-    Line(NodeRef from = 0.0, NodeRef to = 1.0, NodeRef time = 1.0);
+    Line(NodeRef from = 0.0, NodeRef to = 1.0, NodeRef time = 1.0, NodeRef loop = 0);
 
     virtual void alloc() override;
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
@@ -16,6 +16,7 @@ public:
     NodeRef from;
     NodeRef to;
     NodeRef time;
+    NodeRef loop;
 
 private:
     std::vector<float> value;

@@ -179,7 +179,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "frequency"_a = 1.0);
 
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0);
 
     py::class_<Saw, Node, NodeRefTemplate<Saw>>(m, "Saw")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
