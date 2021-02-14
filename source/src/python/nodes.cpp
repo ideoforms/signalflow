@@ -272,6 +272,9 @@ void init_python_nodes(py::module &m)
     py::class_<Wrap, Node, NodeRefTemplate<Wrap>>(m, "Wrap")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
+    py::class_<ClockDivider, Node, NodeRefTemplate<ClockDivider>>(m, "ClockDivider")
+        .def(py::init<NodeRef, NodeRef>(), "clock"_a = 0, "factor"_a = 1);
+
     py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "min"_a = 0, "max"_a = 0);
 

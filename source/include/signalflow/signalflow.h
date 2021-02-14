@@ -122,6 +122,7 @@
 /*------------------------------------------------------------------------
  * Sequencing
  *-----------------------------------------------------------------------*/
+#include <signalflow/node/sequencing/clock-divider.h>
 #include <signalflow/node/sequencing/counter.h>
 #include <signalflow/node/sequencing/euclidean.h>
 #include <signalflow/node/sequencing/flipflop.h>
