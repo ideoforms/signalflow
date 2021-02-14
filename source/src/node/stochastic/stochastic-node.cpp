@@ -7,7 +7,7 @@ namespace signalflow
 {
 
 StochasticNode::StochasticNode(NodeRef reset)
-    : reset(reset)
+    : Node(), reset(reset)
 {
     this->create_input("reset", this->reset);
 
