@@ -209,6 +209,13 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 
 void AudioGraph::reset_graph()
 {
+    for (auto pair : nodes_to_replace)
+    {
+        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+        output->replace_input(pair.first, pair.second);
+    }
+    nodes_to_replace.clear();
+
     /*------------------------------------------------------------------------
      * Disconnect any nodes and patches that are scheduled to be removed.
      *-----------------------------------------------------------------------*/
@@ -380,6 +387,11 @@ void AudioGraph::stop(Patch *patch)
 void AudioGraph::stop(NodeRef node)
 {
     nodes_to_remove.insert(node);
+}
+
+void AudioGraph::replace(NodeRef node, NodeRef other)
+{
+    nodes_to_replace.insert(std::make_pair(node, other));
 }
 
 void AudioGraph::start_recording(const std::string &filename, int num_channels)

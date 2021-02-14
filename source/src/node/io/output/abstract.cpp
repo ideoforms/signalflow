@@ -66,6 +66,28 @@ void AudioOut_Abstract::remove_input(NodeRef node)
     audio_inputs.remove(node);
 }
 
+void AudioOut_Abstract::replace_input(NodeRef node, NodeRef other)
+{
+    bool replaced = false;
+    for (auto param : this->inputs)
+    {
+        if (*(param.second) == node)
+        {
+            // Need to call create_input to also update the channel I/O on `other`
+            audio_inputs.remove(node);
+            audio_inputs.push_back(other);
+            this->create_input(param.first, audio_inputs.back());
+            replaced = true;
+            break;
+        }
+    }
+
+    if (!replaced)
+    {
+        throw std::runtime_error("Couldn't find node to replace");
+    }
+}
+
 std::list<NodeRef> AudioOut_Abstract::get_inputs()
 {
     return this->audio_inputs;

@@ -196,6 +196,8 @@ public:
      *--------------------------------------------------------------------------------*/
     void stop(NodeRef node);
 
+    void replace(NodeRef node, NodeRef other);
+
     /**--------------------------------------------------------------------------------
      * Disconnect a patch from the graph's output.
      *
@@ -295,6 +297,7 @@ public:
 private:
     std::set<NodeRef> scheduled_nodes;
     std::set<NodeRef> nodes_to_remove;
+    std::set<std::pair<NodeRef, NodeRef>> nodes_to_replace;
     std::set<PatchRef> patches;
     std::set<Patch *> patches_to_remove;
 

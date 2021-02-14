@@ -41,6 +41,7 @@ void init_python_graph(py::module &m)
         .def("play", [](AudioGraph &graph, PatchRef patch) { graph.play(patch); })
         .def("stop", [](AudioGraph &graph, NodeRef node) { graph.stop(node); })
         .def("stop", [](AudioGraph &graph, PatchRef patch) { graph.stop(patch); })
+        .def("replace", [](AudioGraph &graph, NodeRef node, NodeRef other) { graph.replace(node, other); })
         .def("add_node", &AudioGraph::add_node)
         .def("remove_node", &AudioGraph::remove_node)
 
