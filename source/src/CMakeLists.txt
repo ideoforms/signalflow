@@ -94,6 +94,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/flipflop.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/latch.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/euclidean.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/vamp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/cross-correlate.cpp

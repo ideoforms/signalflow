@@ -126,6 +126,7 @@
 #include <signalflow/node/sequencing/euclidean.h>
 #include <signalflow/node/sequencing/flipflop.h>
 #include <signalflow/node/sequencing/index.h>
+#include <signalflow/node/sequencing/latch.h>
 
 /*------------------------------------------------------------------------
  * Analysis and MIR

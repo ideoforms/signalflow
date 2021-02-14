@@ -284,6 +284,9 @@ void init_python_nodes(py::module &m)
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
         .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);
 
+    py::class_<Latch, Node, NodeRefTemplate<Latch>>(m, "Latch")
+        .def(py::init<NodeRef, NodeRef>(), "set"_a = 0, "reset"_a = 0);
+
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);
 
