@@ -13,16 +13,35 @@ struct std::hash<Node>
     }
 };
 
+class PyNode : public Node
+{
+public:
+    /* Inherit the constructors */
+    using Node::Node;
+
+    /* Trampoline (need one for each virtual function) */
+    void process(int num_frames) override
+    {
+        PYBIND11_OVERRIDE(
+            void,      /* Return type */
+            Node,      /* Parent class */
+            process,   /* Name of function in C++ (must match Python name) */
+            num_frames /* Argument(s) */
+        );
+    }
+};
+
 void init_python_node(py::module &m)
 {
     /*--------------------------------------------------------------------------------
      * Node
      *-------------------------------------------------------------------------------*/
-    py::class_<Node, NodeRefTemplate<Node>>(m, "Node")
+    py::class_<Node, PyNode, NodeRefTemplate<Node>>(m, "Node")
         /*--------------------------------------------------------------------------------
          * Critical to enable pybind11 to automatically convert from floats
          * to Node objects.
          *-------------------------------------------------------------------------------*/
+        .def(py::init_alias<>())
         .def(py::init<>([]() { return new Node(); }))
         .def(py::init<>([](int value) { return new Constant(value); }))
         .def(py::init<>([](float value) { return new Constant(value); }))
@@ -56,8 +75,8 @@ void init_python_node(py::module &m)
             }
             return new ChannelSelect(a, start, stop, step);
         })
-        .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
-        .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
+        //        .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
+        //        .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
 
         /*--------------------------------------------------------------------------------
          * Need to define an explicit hashing function because when we overwrite __eq__,

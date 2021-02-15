@@ -104,7 +104,8 @@ void Node::_process(Buffer &out, int num_frames)
     {
         this->last_sample[i] = out[i][last_num_frames - 1];
     }
-    this->process(out, num_frames);
+    //    this->process(out, num_frames);
+    this->process(num_frames);
     this->last_num_frames = num_frames;
 }
 
