@@ -284,6 +284,9 @@ void init_python_nodes(py::module &m)
     py::class_<FlipFlop, Node, NodeRefTemplate<FlipFlop>>(m, "FlipFlop")
         .def(py::init<NodeRef>(), "clock"_a = 0);
 
+    py::class_<ImpulseSequence, Node, NodeRefTemplate<ImpulseSequence>>(m, "ImpulseSequence")
+        .def(py::init<std::vector<int>, NodeRef>(), "sequence"_a, "clock"_a);
+
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
         .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);
 
