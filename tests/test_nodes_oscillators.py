@@ -97,6 +97,16 @@ def test_nodes_oscillators_impulse(graph):
         np.zeros(graph.sample_rate // 2 - 1)
     )))
 
+def test_nodes_oscillators_impulse_fractional_sample(graph):
+    buffer = sf.Buffer(1, 44101)
+    a = sf.Impulse(8)
+    graph.play(a)
+    graph.render_to_buffer(buffer)
+    one_positions = np.where(buffer.data[0] == 1)[0]
+    print(one_positions)
+    assert 0 in one_positions
+    assert 44100 in one_positions
+
 def test_nodes_oscillators_line(graph):
     a = sf.Line(0, [1, 2], 1)
     #--------------------------------------------------------------------------------

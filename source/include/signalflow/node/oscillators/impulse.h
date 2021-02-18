@@ -16,7 +16,7 @@ public:
     NodeRef frequency;
 
 private:
-    std::vector<int> steps_remaining;
+    std::vector<float> steps_remaining;
 };
 
 REGISTER(Impulse, "impulse")

@@ -34,7 +34,13 @@ void Impulse::process(Buffer &out, int num_frames)
                 float freq_in = this->frequency->out[channel][frame];
                 if (freq_in > 0)
                 {
-                    this->steps_remaining[channel] = this->graph->get_sample_rate() / this->frequency->out[channel][frame];
+                    /*--------------------------------------------------------------------------------
+                     * Add the float number of samples, rather than simply setting `steps_remaining`,
+                     * to ensure we don't accumulate rounding-down errors when Fs/freq is not
+                     * an integer (consider the case in which Fs = 44100 and freq = 8: samples
+                     * per cycle would be 5512.5, which would be rounded down to 5512.)
+                     *-------------------------------------------------------------------------------*/
+                    this->steps_remaining[channel] += this->graph->get_sample_rate() / this->frequency->out[channel][frame];
                 }
                 else
                 {
