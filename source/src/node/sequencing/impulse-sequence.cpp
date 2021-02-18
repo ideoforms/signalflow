@@ -11,6 +11,11 @@ ImpulseSequence::ImpulseSequence(std::vector<int> sequence, NodeRef clock)
     this->alloc();
 }
 
+ImpulseSequence::ImpulseSequence(std::string sequence, NodeRef clock)
+    : ImpulseSequence(signalflow_binary_sequence_to_vector(sequence), clock)
+{
+}
+
 void ImpulseSequence::alloc()
 {
     this->position.resize(this->num_output_channels_allocated);

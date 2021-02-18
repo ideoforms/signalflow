@@ -285,7 +285,8 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "clock"_a = 0);
 
     py::class_<ImpulseSequence, Node, NodeRefTemplate<ImpulseSequence>>(m, "ImpulseSequence")
-        .def(py::init<std::vector<int>, NodeRef>(), "sequence"_a, "clock"_a);
+        .def(py::init<std::vector<int>, NodeRef>(), "sequence"_a = std::vector<int>(), "clock"_a = nullptr)
+        .def(py::init<std::string, NodeRef>(), "sequence"_a, "clock"_a = nullptr);
 
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
         .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);

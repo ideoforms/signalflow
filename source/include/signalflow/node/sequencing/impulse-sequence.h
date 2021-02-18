@@ -9,6 +9,7 @@ class ImpulseSequence : public Node
 
 public:
     ImpulseSequence(std::vector<int> sequence = std::vector<int>(), NodeRef clock = nullptr);
+    ImpulseSequence(std::string sequence, NodeRef clock = nullptr);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
