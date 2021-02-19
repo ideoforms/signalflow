@@ -25,6 +25,12 @@ void EnvelopeADSR::process(Buffer &out, int num_frames)
 
     for (int frame = 0; frame < num_frames; frame++)
     {
+        if (SIGNALFLOW_CHECK_TRIGGER(gate, frame))
+        {
+            this->phase = 0.0;
+            this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
+            this->released = false;
+        }
         float attack = this->attack->out[0][frame];
         float decay = this->decay->out[0][frame];
         float sustain = this->sustain->out[0][frame];
@@ -87,7 +93,7 @@ void EnvelopeADSR::process(Buffer &out, int num_frames)
         {
             if (rv > 0)
             {
-                rv = signalflow_db_to_amplitude((rv - 1) * 96);
+                rv = signalflow_db_to_amplitude((rv - 1) * 60);
             }
         }
         else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
