@@ -8,6 +8,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #ifndef MAX
 #define MAX(a, b) (a > b ? a : b)
