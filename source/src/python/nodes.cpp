@@ -29,7 +29,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<BufferRef, NodeRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop"_a = false);
 
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "grain_length"_a = 0.1, "rate"_a = 1.0, "max_grains"_a = 2048);
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048);
 
 #ifdef __APPLE__
 
