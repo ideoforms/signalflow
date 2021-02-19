@@ -481,6 +481,18 @@ void AudioGraph::show_status(float frequency)
     }
 }
 
+std::string AudioGraph::get_status()
+{
+    int node_count = this->get_node_count();
+    std::string nodes = (node_count == 1 ? "node" : "nodes");
+    int patch_count = this->get_patch_count();
+    std::string patches = (patch_count == 1 ? "patch" : "patches");
+    float cpu_usage = this->get_cpu_usage() * 100.0;
+    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", " + std::to_string(patch_count) + " " + patches + ", " + std::to_string(cpu_usage) + "% CPU usage";
+
+    return status;
+}
+
 int AudioGraph::get_sample_rate()
 {
     return this->sample_rate;
