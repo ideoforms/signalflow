@@ -350,7 +350,17 @@ std::vector<NodeRef> AudioGraph::get_outputs()
     std::vector<NodeRef> outputs;
     for (auto pair : this->output->inputs)
     {
-        outputs.push_back(*pair.second);
+        /*------------------------------------------------------------------------
+         * When a node is disconnected from the graph output, it is replaced
+         * with a Constant(0) (see Node::disconnect_outputs). Ignore these
+         * when listing the graph outputs. At some point, this should be
+         * replaced by disconnecting them properly.
+         *-----------------------------------------------------------------------*/
+        NodeRef output = *pair.second;
+        if (output->name != "constant")
+        {
+            outputs.push_back(*pair.second);
+        }
     }
     return outputs;
 }
