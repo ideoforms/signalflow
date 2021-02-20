@@ -39,10 +39,8 @@ void RandomUniform::process(Buffer &out, int num_frames)
 
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->reset, channel, frame))
-            {
-                gsl_rng_set(this->rng, this->seed);
-            }
+            SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
+
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->value[channel] = this->random_uniform(min->out[channel][frame], this->max->out[channel][frame]);
