@@ -80,6 +80,7 @@
 #include <signalflow/node/stochastic/random-coin.h>
 #include <signalflow/node/stochastic/random-exponential.h>
 #include <signalflow/node/stochastic/random-gaussian.h>
+#include <signalflow/node/stochastic/random-impulse-sequence.h>
 #include <signalflow/node/stochastic/random-impulse.h>
 #include <signalflow/node/stochastic/random-uniform.h>
 #include <signalflow/node/stochastic/white-noise.h>
