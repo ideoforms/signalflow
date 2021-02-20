@@ -8,6 +8,7 @@ namespace signalflow
 Sum::Sum()
 {
     this->name = "sum";
+    this->has_variable_inputs = true;
 }
 
 Sum::Sum(std::initializer_list<NodeRef> inputs)

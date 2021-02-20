@@ -162,7 +162,7 @@ public:
      * @return The output nodes.
      *
      *--------------------------------------------------------------------------------*/
-    std::vector<NodeRef> get_outputs();
+    std::list<NodeRef> get_outputs();
 
     /**--------------------------------------------------------------------------------
      * Schedule a node for rendering without connecting the node to the graph's output.

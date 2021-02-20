@@ -385,6 +385,7 @@ void Node::disconnect_inputs()
 
 void Node::disconnect_outputs()
 {
+    // TODO: Can this method be removed?
     /*------------------------------------------------------------------------
      * Don't iterate over outputs as the output set will change during
      * iteration (as calling set_input on each output of the node will 
@@ -396,8 +397,23 @@ void Node::disconnect_outputs()
         auto output = *(this->outputs.begin());
         Node *target = output.first;
         std::string name = output.second;
-        target->set_input(name, new Constant(0.0));
+        //        target->set_input(name, new Constant(0.0));
+
+        // This is causing crashes
+        if (target->has_variable_inputs)
+        {
+            target->remove_input(this);
+        }
+        else
+        {
+            target->set_input(name, new Constant(0.0));
+        }
     }
+}
+
+bool Node::get_has_variable_inputs()
+{
+    return this->has_variable_inputs;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

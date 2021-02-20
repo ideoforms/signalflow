@@ -9,6 +9,7 @@ AudioOut_Abstract::AudioOut_Abstract()
     // do we need to set num_output channels to allocate the right number of output buffers?
     this->set_channels(2, 0);
     this->no_input_upmix = true;
+    this->has_variable_inputs = true;
     this->input_index = 0;
 }
 
@@ -54,16 +55,17 @@ void AudioOut_Abstract::remove_input(NodeRef node)
     {
         if (*(param.second) == node)
         {
-            this->Node::destroy_input(param.first);
+            this->destroy_input(param.first);
+            audio_inputs.remove(node);
             removed = true;
+            node->remove_output(this, param.first);
             break;
         }
     }
     if (!removed)
     {
-        throw std::runtime_error("Couldn't find node to remove");
+        std::cerr << "Couldn't find node to remove" << std::endl;
     }
-    audio_inputs.remove(node);
 }
 
 void AudioOut_Abstract::replace_input(NodeRef node, NodeRef other)
