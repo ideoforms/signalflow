@@ -9,7 +9,7 @@ namespace signalflow
 class EnvelopeASR : public Node
 {
 public:
-    EnvelopeASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef curve = 1.0, NodeRef clock = 1.0);
+    EnvelopeASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef curve = 1.0, NodeRef clock = nullptr);
 
     NodeRef attack;
     NodeRef sustain;

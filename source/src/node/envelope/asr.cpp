@@ -19,6 +19,11 @@ EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeR
     this->create_input("curve", this->curve);
     this->create_input("clock", this->clock);
     this->phase = std::vector<float>(this->num_output_channels, std::numeric_limits<float>::max());
+
+    if (!clock)
+    {
+        this->trigger();
+    }
 }
 
 void EnvelopeASR::trigger(std::string name, float value)
