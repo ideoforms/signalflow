@@ -9,6 +9,7 @@ ChannelArray::ChannelArray()
 {
     this->name = "channel-array";
     this->no_input_upmix = true;
+    this->has_variable_inputs = true;
 }
 
 ChannelArray::ChannelArray(std::initializer_list<NodeRef> inputs)

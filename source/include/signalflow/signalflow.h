@@ -80,6 +80,7 @@
 #include <signalflow/node/stochastic/random-coin.h>
 #include <signalflow/node/stochastic/random-exponential.h>
 #include <signalflow/node/stochastic/random-gaussian.h>
+#include <signalflow/node/stochastic/random-impulse-sequence.h>
 #include <signalflow/node/stochastic/random-impulse.h>
 #include <signalflow/node/stochastic/random-uniform.h>
 #include <signalflow/node/stochastic/white-noise.h>
@@ -126,6 +127,7 @@
 #include <signalflow/node/sequencing/counter.h>
 #include <signalflow/node/sequencing/euclidean.h>
 #include <signalflow/node/sequencing/flipflop.h>
+#include <signalflow/node/sequencing/impulse-sequence.h>
 #include <signalflow/node/sequencing/index.h>
 #include <signalflow/node/sequencing/latch.h>
 

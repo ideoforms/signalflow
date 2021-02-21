@@ -8,6 +8,7 @@
 
 #include <stdexcept>
 #include <string>
+#include <vector>
 
 #ifndef MAX
 #define MAX(a, b) (a > b ? a : b)
@@ -35,5 +36,7 @@ float signalflow_amplitude_to_db(float amp);
 
 void signalflow_save_block_to_text_file(sample *block, int num_samples, std::string filename);
 void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::string filename);
+
+std::vector<int> signalflow_binary_sequence_to_vector(std::string binary);
 
 }

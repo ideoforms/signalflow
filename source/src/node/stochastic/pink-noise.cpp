@@ -43,10 +43,7 @@ void PinkNoise::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(reset, channel, frame))
-            {
-                gsl_rng_set(this->rng, this->seed);
-            }
+            SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
             out[channel][frame] = 0;
             for (int octave = this->initial_octave; octave < this->initial_octave + this->num_octaves; octave++)

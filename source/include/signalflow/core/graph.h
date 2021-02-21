@@ -62,7 +62,13 @@ public:
     void show_structure();
 
     /**--------------------------------------------------------------------------------
-     * Print current graph status (node count, patch count, CPU usage) to stdout.
+     * Get current graph status (node count, patch count, CPU usage).
+     *
+     *--------------------------------------------------------------------------------*/
+    std::string get_status();
+
+    /**--------------------------------------------------------------------------------
+     * Print current graph status to stdout.
      * If frequency is non-zero, show status every `frequency` seconds.
      *
      * @param frequency Interval between prints, in seconds.
@@ -156,7 +162,7 @@ public:
      * @return The output nodes.
      *
      *--------------------------------------------------------------------------------*/
-    std::vector<NodeRef> get_outputs();
+    std::list<NodeRef> get_outputs();
 
     /**--------------------------------------------------------------------------------
      * Schedule a node for rendering without connecting the node to the graph's output.

@@ -42,10 +42,7 @@ void WhiteNoise::process(Buffer &out, int num_frames)
 
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(reset, channel, frame))
-            {
-                gsl_rng_set(rng, seed);
-            }
+            SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
             float min = this->min->out[channel][frame];
             float max = this->max->out[channel][frame];

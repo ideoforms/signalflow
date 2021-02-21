@@ -3,14 +3,15 @@
 namespace signalflow
 {
 
-Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef grain_length, NodeRef rate, NodeRef max_grains)
-    : buffer(buffer), pos(pos), clock(clock), grain_length(grain_length), rate(rate), max_grains(max_grains)
+Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef duration, NodeRef pan, NodeRef rate, NodeRef max_grains)
+    : buffer(buffer), pos(pos), clock(clock), duration(duration), pan(pan), rate(rate), max_grains(max_grains)
 {
     this->name = "granulator";
 
     this->create_input("pos", this->pos);
     this->create_input("clock", this->clock);
-    this->create_input("grain_length", this->grain_length);
+    this->create_input("duration", this->duration);
+    this->create_input("pan", this->pan);
     this->create_input("rate", this->rate);
     this->create_input("max_grains", this->max_grains);
 
@@ -20,16 +21,9 @@ Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef gra
     this->create_buffer("envelope", envelope);
 
     this->set_channels(1, 2);
-    this->pan = 0.5;
     this->create_input("pan", this->pan);
 
     this->clock_last = 0.0;
-}
-
-void Granulator::set_spatialisation(int num_channels, NodeRef pan)
-{
-    this->num_output_channels = num_channels;
-    this->pan = pan;
 }
 
 void Granulator::process(Buffer &out, int num_frames)
@@ -44,7 +38,7 @@ void Granulator::process(Buffer &out, int num_frames)
     {
         sample pos = this->pos->out[0][frame];
         sample clock_value = this->clock->out[0][frame];
-        sample grain_length = this->grain_length->out[0][frame];
+        sample duration = this->duration->out[0][frame];
         sample rate = this->rate->out[0][frame];
         sample pan = this->pan->out[0][frame];
         sample max_grains = this->max_grains->out[0][frame];
@@ -53,7 +47,7 @@ void Granulator::process(Buffer &out, int num_frames)
         {
             if (this->grains.size() < max_grains)
             {
-                Grain *grain = new Grain(buffer, pos * buffer->get_sample_rate(), grain_length * buffer->get_sample_rate(), rate, pan);
+                Grain *grain = new Grain(buffer, pos * buffer->get_sample_rate(), duration * buffer->get_sample_rate(), rate, pan);
                 this->grains.push_back(grain);
             }
         }
@@ -89,8 +83,8 @@ void Granulator::process(Buffer &out, int num_frames)
                  * TODO: Handle >2 channels
                  *-----------------------------------------------------------------------*/
                 float rv = s * amp;
-                out[0][frame] += rv * (1.0 - grain->pan);
-                out[1][frame] += rv * (grain->pan);
+                out[0][frame] += rv * (1.0 - 0.5 * (grain->pan + 1));
+                out[1][frame] += rv * (0.5 * (grain->pan + 1));
 
                 it++;
             }

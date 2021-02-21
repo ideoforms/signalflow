@@ -6,6 +6,12 @@
 #include <gsl/gsl_rng.h>
 #include <sys/time.h>
 
+#define SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()             \
+    if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->reset, channel, frame)) \
+    {                                                                  \
+        this->StochasticNode::trigger(SIGNALFLOW_TRIGGER_RESET);       \
+    }
+
 namespace signalflow
 {
 

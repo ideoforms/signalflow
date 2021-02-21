@@ -33,10 +33,7 @@ void RandomImpulse::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->reset, channel, frame))
-            {
-                gsl_rng_set(this->rng, this->seed);
-            }
+            SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
             float freq = this->frequency->out[channel][frame];
             if (freq == 0)

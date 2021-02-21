@@ -36,7 +36,6 @@ void ClockDivider::process(Buffer &out, int num_frames)
             bool rv = SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame);
             if (rv)
             {
-                this->counter[channel] += 1;
                 int factor = this->factor->out[channel][frame];
                 if (this->counter[channel] >= factor)
                 {
@@ -47,6 +46,7 @@ void ClockDivider::process(Buffer &out, int num_frames)
                 {
                     this->out[channel][frame] = 0;
                 }
+                this->counter[channel] += 1;
             }
             else
             {

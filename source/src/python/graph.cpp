@@ -20,6 +20,7 @@ void init_python_graph(py::module &m)
         .def_property_readonly("cpu_usage", &AudioGraph::get_cpu_usage)
         .def_property_readonly("output", &AudioGraph::get_output)
         .def_property_readonly("outputs", &AudioGraph::get_outputs)
+        .def_property_readonly("status", &AudioGraph::get_status)
 
         /*--------------------------------------------------------------------------------
          * Methods

@@ -109,6 +109,14 @@ public:
     virtual void add_input(NodeRef input);
     virtual void remove_input(NodeRef input);
 
+    /*------------------------------------------------------------------------
+     * Register an output.
+     * Note that this must be mirrored with a call to `set_input` on the
+     * output node.
+     *-----------------------------------------------------------------------*/
+    virtual void add_output(Node *target, std::string name);
+    virtual void remove_output(Node *target, std::string name);
+
     /**------------------------------------------------------------------------
      * Disconnect inputs.
      *
@@ -142,6 +150,15 @@ public:
      *
      *-----------------------------------------------------------------------*/
     virtual int get_num_output_channels_allocated();
+
+    /**------------------------------------------------------------------------
+     * Queries whether the node has a variable input count
+     * (for example, ChannelArray, Sum, AudioOut)
+     *
+     * @returns true or false
+     *
+     *-----------------------------------------------------------------------*/
+    bool get_has_variable_inputs();
 
     /*------------------------------------------------------------------------
      * Get/set properties.
@@ -316,14 +333,6 @@ protected:
     virtual void destroy_input(std::string name);
 
     /*------------------------------------------------------------------------
-     * Register an output.
-     * Note that this must be mirrored with a call to `set_input` on the
-     * output node.
-     *-----------------------------------------------------------------------*/
-    virtual void add_output(Node *target, std::string name);
-    virtual void remove_output(Node *target, std::string name);
-
-    /*------------------------------------------------------------------------
       * Register properties.
       *-----------------------------------------------------------------------*/
     virtual void add_property(std::string name, PropertyRef &property);
@@ -368,6 +377,12 @@ protected:
      * graph traversal.
      *-----------------------------------------------------------------------*/
     bool has_rendered;
+
+    /*------------------------------------------------------------------------
+     * Flag indicating whether the node has a variable input count
+     * (e.g. ChannelArray, Sum, AudioOut_Abstract, etc)
+     *-----------------------------------------------------------------------*/
+    bool has_variable_inputs;
 
     /*------------------------------------------------------------------------
      * Number of actual in/out channels. This should always reflect

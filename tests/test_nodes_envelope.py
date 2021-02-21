@@ -6,7 +6,7 @@ from . import process_tree
 import numpy as np
 import pytest
 
-SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB = -96
+SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB = -60
 SIGNALFLOW_LINEAR_ENVELOPE_MIN = 0.0
 
 def test_envelope_adsr(graph):

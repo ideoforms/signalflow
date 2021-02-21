@@ -1,23 +1,29 @@
 #include "signalflow/core/graph.h"
 #include "signalflow/node/envelope/asr.h"
 #include <limits>
+#include <math.h>
 
 namespace signalflow
 {
 
-EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef clock)
-    : attack(attack), sustain(sustain), release(release), clock(clock)
+EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef curve, NodeRef clock)
+    : attack(attack), sustain(sustain), release(release), curve(curve), clock(clock)
 {
     SIGNALFLOW_CHECK_GRAPH();
 
     this->name = "envelope-asr";
-    this->curve = SIGNALFLOW_CURVE_LINEAR;
 
     this->create_input("attack", this->attack);
     this->create_input("sustain", this->sustain);
     this->create_input("release", this->release);
+    this->create_input("curve", this->curve);
     this->create_input("clock", this->clock);
     this->phase = std::vector<float>(this->num_output_channels, std::numeric_limits<float>::max());
+
+    if (!clock)
+    {
+        this->trigger();
+    }
 }
 
 void EnvelopeASR::trigger(std::string name, float value)
@@ -86,16 +92,9 @@ void EnvelopeASR::process(Buffer &out, int num_frames)
 
             this->phase[channel] += 1.0 / this->graph->get_sample_rate();
 
-            if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
+            if (this->curve->out[channel][frame] != 1.0)
             {
-                rv = signalflow_db_to_amplitude((rv - 1) * 60);
-            }
-            else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
-            {
-            }
-            else
-            {
-                throw std::runtime_error("Invalid curve value");
+                rv = powf(rv, this->curve->out[channel][frame]);
             }
 
             out[channel][frame] = rv;

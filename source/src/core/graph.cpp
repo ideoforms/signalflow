@@ -225,7 +225,8 @@ void AudioGraph::reset_graph()
      *-----------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
-        node->disconnect_outputs();
+        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+        output->remove_input(node);
     }
     nodes_to_remove.clear();
 
@@ -345,14 +346,10 @@ NodeRef AudioGraph::get_output()
     return this->output;
 }
 
-std::vector<NodeRef> AudioGraph::get_outputs()
+std::list<NodeRef> AudioGraph::get_outputs()
 {
-    std::vector<NodeRef> outputs;
-    for (auto pair : this->output->inputs)
-    {
-        outputs.push_back(*pair.second);
-    }
-    return outputs;
+    AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
+    return output->get_inputs();
 }
 
 NodeRef AudioGraph::add_node(NodeRef node)
@@ -479,6 +476,18 @@ void AudioGraph::show_status(float frequency)
         this->monitor = new AudioGraphMonitor(this, frequency);
         this->monitor->start();
     }
+}
+
+std::string AudioGraph::get_status()
+{
+    int node_count = this->get_node_count();
+    std::string nodes = (node_count == 1 ? "node" : "nodes");
+    int patch_count = this->get_patch_count();
+    std::string patches = (patch_count == 1 ? "patch" : "patches");
+    float cpu_usage = this->get_cpu_usage() * 100.0;
+    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", " + std::to_string(patch_count) + " " + patches + ", " + std::to_string(cpu_usage) + "% CPU usage";
+
+    return status;
 }
 
 int AudioGraph::get_sample_rate()

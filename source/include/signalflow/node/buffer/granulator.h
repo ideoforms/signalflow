@@ -28,7 +28,8 @@ public:
     Granulator(BufferRef buffer = nullptr,
                NodeRef clock = 0,
                NodeRef pos = 0,
-               NodeRef grain_length = 0.1,
+               NodeRef duration = 0.1,
+               NodeRef pan = 0.0,
                NodeRef rate = 1.0,
                NodeRef max_grains = 2048);
 
@@ -37,13 +38,12 @@ public:
 
     NodeRef pos;
     NodeRef clock;
-    NodeRef grain_length;
-    NodeRef rate;
+    NodeRef duration;
     NodeRef pan;
+    NodeRef rate;
     NodeRef max_grains;
 
     virtual void process(Buffer &out, int num_frames);
-    virtual void set_spatialisation(int num_channels, NodeRef pan);
 
 private:
     sample clock_last;
