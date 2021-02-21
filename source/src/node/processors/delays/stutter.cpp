@@ -41,16 +41,15 @@ Stutter::~Stutter()
 
 void Stutter::trigger(std::string name, float value)
 {
-    if (name != SIGNALFLOW_DEFAULT_TRIGGER)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        throw std::runtime_error("Unknown trigger: " + name);
-    }
-    for (int channel = 0; channel < this->num_input_channels; channel++)
-    {
-        this->stutter_index[channel] = 0;
-        this->stutters_to_do[channel] = this->stutter_count->out[channel][0];
-        this->stutter_samples_remaining[channel] = this->stutter_time->out[channel][0] * graph->get_sample_rate();
-        this->stutter_sample_buffer_offset[channel] = stutter_samples_remaining[channel];
+        for (int channel = 0; channel < this->num_input_channels; channel++)
+        {
+            this->stutter_index[channel] = 0;
+            this->stutters_to_do[channel] = this->stutter_count->out[channel][0];
+            this->stutter_samples_remaining[channel] = this->stutter_time->out[channel][0] * graph->get_sample_rate();
+            this->stutter_sample_buffer_offset[channel] = stutter_samples_remaining[channel];
+        }
     }
 }
 

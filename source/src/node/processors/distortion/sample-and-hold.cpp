@@ -33,9 +33,12 @@ void SampleAndHold::process(Buffer &out, int num_frames)
 
 void SampleAndHold::trigger(std::string name, float value)
 {
-    for (int channel = 0; channel < this->num_output_channels; channel++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        values[channel] = input->out[channel][0];
+        for (int channel = 0; channel < this->num_output_channels; channel++)
+        {
+            values[channel] = input->out[channel][0];
+        }
     }
 }
 

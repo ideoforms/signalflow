@@ -22,9 +22,12 @@ void Counter::alloc()
 
 void Counter::trigger(std::string name, float value)
 {
-    for (int i = 0; i < this->num_output_channels; i++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        this->counter[i] += 1;
+        for (int i = 0; i < this->num_output_channels; i++)
+        {
+            this->counter[i] += 1;
+        }
     }
 }
 

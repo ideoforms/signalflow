@@ -22,9 +22,12 @@ void RandomUniform::alloc()
 
 void RandomUniform::trigger(std::string name, float value)
 {
-    for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        this->value[channel] = this->random_uniform(min->out[channel][0], this->max->out[channel][0]);
+        for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+        {
+            this->value[channel] = this->random_uniform(min->out[channel][0], this->max->out[channel][0]);
+        }
     }
 }
 
