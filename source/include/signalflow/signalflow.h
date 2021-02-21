@@ -59,6 +59,7 @@
 #include <signalflow/node/oscillators/impulse.h>
 #include <signalflow/node/oscillators/line.h>
 #include <signalflow/node/oscillators/saw.h>
+#include <signalflow/node/oscillators/sine-lfo.h>
 #include <signalflow/node/oscillators/sine.h>
 #include <signalflow/node/oscillators/square.h>
 #include <signalflow/node/oscillators/triangle.h>

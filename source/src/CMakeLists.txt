@@ -88,6 +88,8 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/impulse.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/triangle.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/wavetable.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/lfo.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/sine-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-recorder.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-player.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/grainsegments.cpp
