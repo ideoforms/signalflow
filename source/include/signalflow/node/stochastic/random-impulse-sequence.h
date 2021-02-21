@@ -9,7 +9,7 @@ class RandomImpulseSequence : public StochasticNode
 
 public:
     RandomImpulseSequence(NodeRef probability = 0.5, NodeRef length = 8,
-                          NodeRef clock = nullptr, NodeRef explore = nullptr, NodeRef reset = nullptr);
+                          NodeRef clock = nullptr, NodeRef explore = nullptr, NodeRef generate = nullptr, NodeRef reset = nullptr);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
@@ -22,6 +22,7 @@ private:
     NodeRef length;
     NodeRef clock;
     NodeRef explore;
+    NodeRef generate;
 };
 
 REGISTER(RandomImpulseSequence, "random-impulse-sequence")

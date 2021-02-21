@@ -4,14 +4,15 @@ namespace signalflow
 {
 
 RandomImpulseSequence::RandomImpulseSequence(NodeRef probability, NodeRef length,
-                                             NodeRef clock, NodeRef explore, NodeRef reset)
-    : StochasticNode(), probability(probability), length(length), clock(clock), explore(explore)
+                                             NodeRef clock, NodeRef explore, NodeRef generate, NodeRef reset)
+    : StochasticNode(), probability(probability), length(length), clock(clock), explore(explore), generate(generate)
 {
     this->name = "random-impulse-sequence";
     this->create_input("probability", this->probability);
     this->create_input("length", this->length);
     this->create_input("clock", this->clock);
     this->create_input("explore", this->explore);
+    this->create_input("generate", this->generate);
     this->sequence.resize(256);
 
     for (int i = 0; i < this->sequence.size(); i++)
@@ -36,11 +37,24 @@ void RandomImpulseSequence::trigger(std::string name, float value)
             this->position[channel] = (this->position[channel] + 1) % ((int) this->length->out[channel][0]);
         }
     }
+    else if (name == SIGNALFLOW_TRIGGER_GENERATE)
+    {
+        // Regenerate whole sequence
+        for (int i = 0; i < this->sequence.size(); i++)
+        {
+            this->sequence[i] = this->random_uniform(0, 1) < this->probability->out[0][0];
+        }
+    }
     else if (name == SIGNALFLOW_TRIGGER_EXPLORE)
     {
         for (int i = 0; i < this->sequence.size(); i++)
         {
-            this->sequence[i] = this->random_uniform(0, 1) < this->probability->out[0][0];
+            // Toggle with small probability
+            // TODO: Incorporate PExplorer algorithms (shift, swap, etc)
+            if (this->random_uniform(0, 1) < 0.2)
+            {
+                this->sequence[i] = this->random_uniform(0, 1) < this->probability->out[0][0];
+            }
         }
     }
     else
@@ -63,6 +77,14 @@ void RandomImpulseSequence::process(Buffer &out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->explore, channel, frame))
+            {
+                this->trigger(SIGNALFLOW_TRIGGER_EXPLORE);
+            }
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->generate, channel, frame))
+            {
+                this->trigger(SIGNALFLOW_TRIGGER_GENERATE);
+            }
 
             if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame))
             {
