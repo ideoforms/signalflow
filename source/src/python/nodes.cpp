@@ -184,17 +184,26 @@ void init_python_nodes(py::module &m)
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0);
 
+    py::class_<SawLFO, Node, NodeRefTemplate<SawLFO>>(m, "SawLFO")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
+
     py::class_<Saw, Node, NodeRefTemplate<Saw>>(m, "Saw")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
 
-    py::class_<SineLFO, LFO, NodeRefTemplate<SineLFO>>(m, "SineLFO")
+    py::class_<SineLFO, Node, NodeRefTemplate<SineLFO>>(m, "SineLFO")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
 
     py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
 
+    py::class_<SquareLFO, Node, NodeRefTemplate<SquareLFO>>(m, "SquareLFO")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "width"_a = 0.5);
+
     py::class_<Square, Node, NodeRefTemplate<Square>>(m, "Square")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "width"_a = 0.5);
+
+    py::class_<TriangleLFO, Node, NodeRefTemplate<TriangleLFO>>(m, "TriangleLFO")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
 
     py::class_<Triangle, Node, NodeRefTemplate<Triangle>>(m, "Triangle")
         .def(py::init<NodeRef>(), "frequency"_a = 440);

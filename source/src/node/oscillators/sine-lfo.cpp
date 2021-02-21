@@ -7,6 +7,7 @@ namespace signalflow
 SineLFO::SineLFO(NodeRef frequency, NodeRef min, NodeRef max)
     : LFO(frequency, min, max)
 {
+    this->name = "sine-lfo";
 }
 
 void SineLFO::process(Buffer &out, int num_frames)
