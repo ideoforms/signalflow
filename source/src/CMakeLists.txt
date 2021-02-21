@@ -19,6 +19,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-impulse-sequence.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-uniform.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-exponential.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-exponential-dist.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-gaussian.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-brownian.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-coin.cpp

@@ -306,21 +306,24 @@ void init_python_nodes(py::module &m)
     py::class_<RandomCoin, StochasticNode, NodeRefTemplate<RandomCoin>>(m, "RandomCoin")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "probability"_a = 0.5, "clock"_a = nullptr, "reset"_a = nullptr);
 
-    py::class_<RandomExponential, StochasticNode, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
+    py::class_<RandomExponentialDist, StochasticNode, NodeRefTemplate<RandomExponentialDist>>(m, "RandomExponentialDist")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "scale"_a = 0.0, "clock"_a = nullptr, "reset"_a = nullptr);
+
+    py::class_<RandomUniform, StochasticNode, NodeRefTemplate<RandomUniform>>(m, "RandomUniform")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<RandomGaussian, StochasticNode, NodeRefTemplate<RandomGaussian>>(m, "RandomGaussian")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "mean"_a = 0.0, "sigma"_a = 0.0, "clock"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<RandomImpulseSequence, StochasticNode, NodeRefTemplate<RandomImpulseSequence>>(m, "RandomImpulseSequence")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "probability"_a = 0.5, "length"_a = 8, "clock"_a = nullptr, "explore"_a = nullptr, "reset"_a = nullptr);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "probability"_a = 0.5, "length"_a = 8, "clock"_a = nullptr, "explore"_a = nullptr, "generate"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<RandomImpulse, StochasticNode, NodeRefTemplate<RandomImpulse>>(m, "RandomImpulse")
         .def(py::init<NodeRef, signalflow_event_distribution_t, NodeRef>(), "frequency"_a = 1.0, "distribution"_a = SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, "reset"_a = nullptr)
         .def(py::init<NodeRef, std::string, NodeRef>(), "frequency"_a, "distribution"_a, "reset"_a = nullptr);
 
-    py::class_<RandomUniform, StochasticNode, NodeRefTemplate<RandomUniform>>(m, "RandomUniform")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = 0.0, "max"_a = 1.0, "clock"_a = nullptr, "reset"_a = nullptr);
+    py::class_<RandomExponential, StochasticNode, NodeRefTemplate<RandomExponential>>(m, "RandomExponential")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "min"_a = 0.001, "max"_a = 1.0, "clock"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<WhiteNoise, StochasticNode, NodeRefTemplate<WhiteNoise>>(m, "WhiteNoise")
         .def(py::init<NodeRef, NodeRef, NodeRef, bool, bool, NodeRef>(), "frequency"_a = 0.0, "min"_a = -1.0, "max"_a = 1.0, "interpolate"_a = true, "random_interval"_a = true, "reset"_a = nullptr);
