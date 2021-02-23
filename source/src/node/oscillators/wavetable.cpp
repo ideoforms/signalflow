@@ -53,10 +53,10 @@ void Wavetable::process(Buffer &out, int num_frames)
             }
             if (this->phase_map)
             {
-                index = this->phase_map->get_frame(index * this->phase_map->get_num_frames());
+                index = this->phase_map->get_frame(0, index * this->phase_map->get_num_frames());
             }
 
-            float rv = this->buffer->get_frame(index * this->buffer->get_num_frames());
+            float rv = this->buffer->get_frame(0, index * this->buffer->get_num_frames());
 
             out[channel][frame] = rv;
 

@@ -143,20 +143,19 @@ public:
     std::vector<BufferRef> split(int num_frames_per_part);
 
     /**------------------------------------------------------------------------
+     * @param channel The channel number
      * @param index A sample offset, between [0, num_frames].
      * @returns A sample value, between [-1, 1].
      *
      *------------------------------------------------------------------------*/
-    sample get(double offset);
+    sample get(int channel, double offset);
 
     /**------------------------------------------------------------------------
      * @param frame The absolute frame value to retrieve.
      * @return The raw value stored within that frame.
      *
-     * TODO Add support for buffers with >1 channel.
-     *
      *------------------------------------------------------------------------*/
-    sample get_frame(double frame);
+    sample get_frame(int channel, double frame);
 
     /**------------------------------------------------------------------------
      * @param frame_index The frame index to set

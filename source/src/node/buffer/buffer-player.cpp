@@ -53,6 +53,7 @@ void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
     {
         Node::set_buffer(name, buffer);
         this->num_output_channels = buffer->get_num_channels();
+        this->rate_scale_factor = buffer->get_sample_rate() / graph->get_sample_rate();
     }
 }
 
@@ -94,14 +95,14 @@ void BufferPlayer::process(Buffer &out, int num_frames)
         {
             if ((int) this->phase < loop_end)
             {
-                s = this->buffer->data[channel][(int) this->phase];
+                s = this->buffer->get_frame(channel, phase);
             }
             else
             {
                 if (loop->out[channel][frame] && this->phase != std::numeric_limits<int>::max())
                 {
                     this->phase = loop_start;
-                    s = this->buffer->data[channel][(int) this->phase];
+                    s = this->buffer->get_frame(channel, phase);
                 }
                 else
                 {
@@ -117,7 +118,7 @@ void BufferPlayer::process(Buffer &out, int num_frames)
         }
 
         if ((int) this->phase < loop_end)
-            this->phase += this->rate->out[0][frame];
+            this->phase += this->rate->out[0][frame] * this->rate_scale_factor;
     }
 }
 

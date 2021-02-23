@@ -96,7 +96,7 @@ void GrainSegments::process(Buffer &out, int num_frames)
                  * Apply grain envelope.
                  *-----------------------------------------------------------------------*/
                 float env_phase = (float) (grain->samples_done) / grain->sample_length;
-                float amp = this->envelope->get(env_phase);
+                float amp = this->envelope->get(0, env_phase);
 
                 grain->samples_done += grain->rate;
 

@@ -16,7 +16,7 @@ void WaveShaper::process(Buffer &out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             float input = this->input->out[channel][frame];
-            out[channel][frame] = this->buffer->get(input);
+            out[channel][frame] = this->buffer->get(0, input);
         }
     }
 }

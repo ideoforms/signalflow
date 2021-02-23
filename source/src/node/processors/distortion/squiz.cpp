@@ -32,11 +32,11 @@ void Squiz::process(Buffer &out, int num_frames)
         {
             if (this->repitched_read_pos_chunk_counter[channel] < this->chunk_size->out[channel][frame])
             {
-                sample read_last = this->buffers[channel]->get(this->repitched_read_pos[channel]);
+                sample read_last = this->buffers[channel]->get(0, this->repitched_read_pos[channel]);
                 this->repitched_read_pos[channel] += this->rate->out[channel][frame];
                 if (this->repitched_read_pos[channel] >= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES)
                     this->repitched_read_pos[channel] -= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES;
-                sample read_cur = this->buffers[channel]->get(this->repitched_read_pos[channel]);
+                sample read_cur = this->buffers[channel]->get(0, this->repitched_read_pos[channel]);
                 if (read_cur > 0 && read_last <= 0)
                 {
                     this->repitched_read_pos_chunk_counter[channel]++;
@@ -56,11 +56,11 @@ void Squiz::process(Buffer &out, int num_frames)
                 this->out[channel][frame] = 0.0;
             }
 
-            sample read_last = this->buffers[channel]->get(this->read_pos[channel]);
+            sample read_last = this->buffers[channel]->get(0, this->read_pos[channel]);
             this->read_pos[channel] += 1;
             if (this->read_pos[channel] >= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES)
                 this->read_pos[channel] -= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES;
-            sample read_cur = this->buffers[channel]->get(this->read_pos[channel]);
+            sample read_cur = this->buffers[channel]->get(channel, this->read_pos[channel]);
 
             if (read_cur > 0 && read_last <= 0)
             {

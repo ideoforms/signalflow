@@ -330,7 +330,7 @@ bool Buffer::set(int channel_index,
     }
 }
 
-sample Buffer::get_frame(double frame)
+sample Buffer::get_frame(int channel, double frame)
 {
     if (!this->data)
     {
@@ -349,12 +349,12 @@ sample Buffer::get_frame(double frame)
     if (this->interpolate == SIGNALFLOW_INTERPOLATION_LINEAR)
     {
         double frame_frac = (frame - (int) frame);
-        sample rv = ((1.0 - frame_frac) * this->data[0][(int) frame]) + (frame_frac * this->data[0][(int) ceil(frame)]);
+        sample rv = ((1.0 - frame_frac) * this->data[channel][(int) frame]) + (frame_frac * this->data[channel][(int) ceil(frame)]);
         return rv;
     }
     else if (this->interpolate == SIGNALFLOW_INTERPOLATION_NONE)
     {
-        return this->data[0][(int) frame];
+        return this->data[channel][(int) frame];
     }
     else
     {
@@ -362,10 +362,10 @@ sample Buffer::get_frame(double frame)
     }
 }
 
-sample Buffer::get(double offset)
+sample Buffer::get(int channel, double offset)
 {
     double frame = this->offset_to_frame(offset);
-    return this->get_frame(frame);
+    return this->get_frame(channel, frame);
 }
 
 void Buffer::fill(sample value)

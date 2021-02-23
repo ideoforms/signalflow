@@ -25,6 +25,7 @@ public:
 
 private:
     double phase;
+    double rate_scale_factor;
 };
 
 REGISTER(BufferPlayer, "buffer-player")

@@ -68,13 +68,13 @@ void Granulator::process(Buffer &out, int num_frames)
                 double buffer_index = grain->sample_start + grain->samples_done;
                 while (buffer_index > this->buffer->get_num_frames())
                     buffer_index -= this->buffer->get_num_frames();
-                sample s = this->buffer->get(buffer_index);
+                sample s = this->buffer->get(0, buffer_index);
 
                 /*------------------------------------------------------------------------
                  * Apply grain envelope.
                  *-----------------------------------------------------------------------*/
                 float env_phase = (float) grain->samples_done / grain->sample_length;
-                float amp = this->envelope->get(env_phase * this->envelope->get_num_frames());
+                float amp = this->envelope->get(0, env_phase * this->envelope->get_num_frames());
 
                 grain->samples_done += grain->rate;
 

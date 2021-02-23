@@ -78,18 +78,18 @@ def test_buffer_write_from_python(graph):
 
 def test_buffer_interpolate(graph):
     b = Buffer(1, 2, np.array([[ 1, 2 ]]))
-    assert b.get(0) == 1
-    assert b.get(1) == 2
-    assert b.get(0.5) == 1.5
-    assert b.get(0.25) == 1.25
-    assert b.get(-0.5) == 1
-    assert b.get(1.5) == 2
+    assert b.get(0, 0) == 1
+    assert b.get(0, 1) == 2
+    assert b.get(0, 0.5) == 1.5
+    assert b.get(0, 0.25) == 1.25
+    assert b.get(0, -0.5) == 1
+    assert b.get(0, 1.5) == 2
 
     b.interpolate = SIGNALFLOW_INTERPOLATION_NONE
-    assert b.get(0) == 1
-    assert b.get(1) == 2
-    assert b.get(0.5) == 1
-    assert b.get(0.25) == 1
+    assert b.get(0, 0) == 1
+    assert b.get(0, 1) == 2
+    assert b.get(0, 0.5) == 1
+    assert b.get(0, 0.25) == 1
 
 def test_buffer_fill(graph):
     b = Buffer(4, 44100)
