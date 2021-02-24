@@ -115,10 +115,116 @@ cd build
 
 Documentation is in the works.
 
-In the meantime, to list all available nodes:
+## Node classes
+
+The following Node classes are currently available:
 
 ```
-pydoc3 signalflow
+Abs
+Add
+AllpassDelay
+AmplitudeToDecibels
+AudioIn
+AudioOut_Abstract
+    AudioOut
+    AudioOut_Dummy
+BiquadFilter
+BufferPlayer
+BufferRecorder
+ChannelArray
+ChannelMixer
+ChannelSelect
+Clip
+ClockDivider
+CombDelay
+Compressor
+Constant
+Counter
+CrossCorrelate
+DecibelsToAmplitude
+Divide
+EQ
+Envelope
+EnvelopeADSR
+EnvelopeASR
+Equal
+Euclidean
+FFT
+FFTContinuousPhaseVocoder
+FFTConvolve
+FFTFindPeaks
+FFTLPF
+FFTPhaseVocoder
+FFTTonality
+FlipFlop
+Fold
+Gate
+Granulator
+GreaterThan
+GreaterThanOrEqual
+IFFT
+If
+Impulse
+ImpulseSequence
+Index
+LFO
+Latch
+LessThan
+LessThanOrEqual
+Line
+LinearPanner
+Logistic
+Maximiser
+MidiNoteToFrequency
+Modulo
+MoogVCF
+MouseDown
+MouseX
+MouseY
+Multiply
+NotEqual
+OneTapDelay
+OnsetDetector
+Pow
+RMS
+Resample
+RoundToScale
+SVFFilter
+SampleAndHold
+Saw
+SawLFO
+ScaleLinExp
+ScaleLinLin
+Sine
+SineLFO
+Smooth
+Square
+SquareLFO
+Squiz
+StereoBalance
+StereoWidth
+StochasticNode
+    PinkNoise
+    RandomBrownian
+    RandomCoin
+    RandomExponential
+    RandomExponentialDist
+    RandomGaussian
+    RandomImpulse
+    RandomImpulseSequence
+    RandomUniform
+    WhiteNoise
+Stutter
+Subtract
+Sum
+Tanh
+Triangle
+TriangleLFO
+WaveShaper
+Wavetable
+Wavetable2D
+WetDry
+Wrap
 ```
 
 ## License
