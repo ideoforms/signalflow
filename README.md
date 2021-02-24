@@ -2,7 +2,7 @@
 
 ![ci](https://github.com/ideoforms/signal/workflows/ci/badge.svg)
 
-SignalFlow is an audio synthesis framework designed for clear and concise expression of complex musical ideas. It has interfaces for Python and C++, and so can be used for experimentation in iPython/Jupyter or embedded into cross-platform applications.
+SignalFlow is an audio synthesis framework designed for clear and concise expression of complex musical ideas. Its core is written in C++, with a complete Python interface, and so can be used for audio experimentation in iPython/Jupyter or embedded into cross-platform applications.
 
 SignalFlow is in alpha status. All interfaces may be subject to change.
 
@@ -15,7 +15,7 @@ from signalflow import *
 # An AudioGraph is made up of a network of interconnected Nodes, which generate
 # and process audio. 
 #--------------------------------------------------------------------------------
-graph = AudioGraph()
+graph = AudioGraph(start=True)
 
 #--------------------------------------------------------------------------------
 # Passing an array of frequencies creates a stereo output.
@@ -28,7 +28,8 @@ sine = Sine([440, 880])
 env = EnvelopeASR(0.01, 0.1, 0.5)
 
 #--------------------------------------------------------------------------------
-# Use standard arithmetic operations to combine signals.
+# Use standard arithmetic operations to combine signals. When a multi-channel 
+# signal is multiplied by a mono signal, the mono signal is auto-upmixed.
 #--------------------------------------------------------------------------------
 output = sine * env
 
@@ -36,7 +37,6 @@ output = sine * env
 # Connect the output to the graph, and begin playback.
 #--------------------------------------------------------------------------------
 graph.play(output)
-graph.start()
 graph.wait()
 ```
 
