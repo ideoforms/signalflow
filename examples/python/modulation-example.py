@@ -17,7 +17,7 @@ graph.show_status(1)
 clock = Impulse(8)
 frequency = ScaleLinExp(SawLFO(0.2), 0, 1, 200, 2000)
 sample_hold = SampleAndHold(frequency, clock)
-sine = Triangle(sample_hold) * 0.5
+sine = TriangleOscillator(sample_hold) * 0.5
 env = EnvelopeASR(attack=0.001, sustain=0.001, release=0.1, clock=clock)
 
 #------------------------------------------------------------------------

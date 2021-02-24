@@ -21,7 +21,7 @@ audio_in = AudioIn()
 #--------------------------------------------------------------------------------
 # Add some ringmod and delay.
 #--------------------------------------------------------------------------------
-audio_out = audio_in * Sine(200)
+audio_out = audio_in * SineOscillator(200)
 audio_out = audio_out + CombDelay(audio_out, 0.2, 0.8) * 0.3
 output = ChannelArray([ audio_out, audio_out ])
 

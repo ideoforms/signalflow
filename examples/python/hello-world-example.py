@@ -15,7 +15,7 @@ graph = AudioGraph(start=True)
 #------------------------------------------------------------------------
 # Create a sine oscillator, attenuate by 12dB, and pan to stereo.
 #------------------------------------------------------------------------
-sine = Sine(440)
+sine = SineOscillator(440)
 sine = sine * db_to_amplitude(-12)
 stereo = LinearPanner(2, sine)
 
