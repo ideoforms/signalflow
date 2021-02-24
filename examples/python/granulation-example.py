@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 
 #------------------------------------------------------------------------
-# SignalFlow: Hello World example.
-#
-# Play a sine tone.
+# SignalFlow: Modulation example.
 #------------------------------------------------------------------------
 from signalflow import *
+import os
 
 #------------------------------------------------------------------------
 # Create the global processing graph.
@@ -13,14 +12,18 @@ from signalflow import *
 graph = AudioGraph(start=True)
 
 #------------------------------------------------------------------------
-# Create a sine oscillator, attenuate by 12dB, and pan to stereo.
+# Load an audio buffer.
 #------------------------------------------------------------------------
-sine = Sine(440)
-sine = sine * db_to_amplitude(-12)
-stereo = LinearPanner(2, sine)
+audio_path = os.path.join(os.path.dirname(__file__), "../audio/gliss.aif")
+buf = Buffer(audio_path)
+clock = RandomImpulse(50)
+pos = WhiteNoise(1, min=0, max=buf.duration, interpolate=False)
+pan = RandomUniform(-1, 1, clock=clock)
+rate = RandomExponential(0.1, 10, clock=clock)
+granulator = Granulator(buf, clock, pan=pan, pos=pos, rate=rate, duration=0.1)
 
 #------------------------------------------------------------------------
-# Play the
+# Play the output.
 #------------------------------------------------------------------------
-graph.play(stereo)
+graph.play(granulator)
 graph.wait()

@@ -6,14 +6,15 @@
 #--------------------------------------------------------------------------------
 
 import signalflow as sf
+import os
 
-graph = sf.AudioGraph()
+graph = sf.AudioGraph(start=True)
 
-buf = sf.Buffer("../audio/stereo-count.wav")
+audio_path = os.path.join(os.path.dirname(__file__), "../audio/stereo-count.wav")
+buf = sf.Buffer(audio_path)
 player = sf.BufferPlayer(buf, loop=True)
 
 print("Loaded buffer: %s" % buf)
 
 graph.play(player)
-graph.start()
 graph.wait()
