@@ -73,7 +73,7 @@ VampAnalysis::~VampAnalysis()
 void VampAnalysis::process(Buffer &out, int num_frames)
 {
     RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
-    Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
+    Plugin::FeatureSet features = this->plugin->process(this->input->out.data, rt);
     if (features[this->output_index].size())
     {
         Plugin::Feature feature = features[this->output_index][0];
@@ -113,7 +113,7 @@ VampEventExtractor::VampEventExtractor(NodeRef input, std::string plugin_id)
 void VampEventExtractor::process(Buffer &out, int num_frames)
 {
     RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
-    Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
+    Plugin::FeatureSet features = this->plugin->process(this->input->out.data, rt);
     if (features[this->output_index].size())
     {
         Plugin::Feature feature = features[this->output_index][0];
@@ -140,7 +140,7 @@ VampSegmenter::VampSegmenter(NodeRef input, std::string plugin_id)
 void VampSegmenter::process(Buffer &out, int num_frames)
 {
     RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
-    Plugin::FeatureSet features = this->plugin->process(this->input->out, rt);
+    Plugin::FeatureSet features = this->plugin->process(this->input->out.data, rt);
     if (features[this->output_index].size())
     {
         Plugin::Feature feature = features[this->output_index][0];

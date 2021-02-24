@@ -74,6 +74,7 @@
 #include <signalflow/node/buffer/buffer-player.h>
 #include <signalflow/node/buffer/buffer-recorder.h>
 #include <signalflow/node/buffer/granulator.h>
+#include <signalflow/node/buffer/segment-player.h>
 
 /*------------------------------------------------------------------------
  * Random processes
