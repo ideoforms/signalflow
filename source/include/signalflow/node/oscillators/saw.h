@@ -4,10 +4,10 @@
 
 namespace signalflow
 {
-class Saw : public Node
+class SawOscillator : public Node
 {
 public:
-    Saw(NodeRef frequency = 440);
+    SawOscillator(NodeRef frequency = 440);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
@@ -18,5 +18,5 @@ private:
     std::vector<float> phase;
 };
 
-REGISTER(Saw, "saw")
+REGISTER(SawOscillator, "saw")
 }

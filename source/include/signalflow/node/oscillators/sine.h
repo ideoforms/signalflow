@@ -4,10 +4,10 @@
 
 namespace signalflow
 {
-class Sine : public Node
+class SineOscillator : public Node
 {
 public:
-    Sine(NodeRef frequency = 440);
+    SineOscillator(NodeRef frequency = 440);
 
     virtual void process(Buffer &out, int num_frames) override;
     virtual void alloc() override;
@@ -18,5 +18,5 @@ private:
     std::vector<float> phase;
 };
 
-REGISTER(Sine, "sine")
+REGISTER(SineOscillator, "sine")
 }

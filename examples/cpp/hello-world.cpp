@@ -22,7 +22,7 @@ int main()
     /*------------------------------------------------------------------------
      * 440hz Hello World
      *-----------------------------------------------------------------------*/
-    NodeRef sine = new Sine(440);
+    NodeRef sine = new SineOscillator(440);
 
     /*------------------------------------------------------------------------
      * The AudioGraph can have multiple inputs, summed to output.

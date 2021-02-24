@@ -1,4 +1,4 @@
-from signalflow import Sine, AudioGraph, Line
+from signalflow import SineOscillator, AudioGraph, Line
 import signalflow as sf
 import numpy as np
 from . import process_tree, graph
@@ -6,21 +6,21 @@ import pytest
 
 def test_node_no_graph():
     with pytest.raises(Exception):
-        a = Sine(440)
+        a = SineOscillator(440)
 
 def test_node_process(graph):
-    a = Sine(440)
+    a = SineOscillator(440)
     a.process(1024)
     assert a.output_buffer.shape == (32, 1024)
 
 def test_node_add_input(graph):
-    a = Sine(440)
-    b = Sine(440)
+    a = SineOscillator(440)
+    b = SineOscillator(440)
     with pytest.raises(RuntimeError):
         a.add_input(b)
 
 def test_node_set_input(graph):
-    a = Sine(440)
+    a = SineOscillator(440)
 
     #--------------------------------------------------------------------------------
     # Note that, when an input is set to a scalar value and the existing input

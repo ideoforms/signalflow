@@ -36,7 +36,7 @@ int main()
 
     std::vector<BufferRef> buffers({ bufferA, bufferB });
     BufferRef2D buffer2D = new Buffer2D(buffers);
-    NodeRef morph = new Saw(2.0);
+    NodeRef morph = new SawOscillator(2.0);
     morph = morph * 0.5 + 0.5;
 
     float freq = 50.0;

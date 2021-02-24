@@ -18,7 +18,7 @@ int main()
     /*------------------------------------------------------------------------
      * Create a stereo pair of oscillating sine waves, an octave apart.
      *-----------------------------------------------------------------------*/
-    NodeRef sine = new Sine({ 40, 80 });
+    NodeRef sine = new SineOscillator({ 40, 80 });
 
     /*------------------------------------------------------------------------
      * Create a WaveShaperBuffer and populate it with a cubic function.
@@ -41,7 +41,7 @@ int main()
      * Add some delay and stereo width modulation.
      *-----------------------------------------------------------------------*/
     NodeRef delay = new CombDelay(shaper, 0.5, 0.5, 0.5);
-    NodeRef width = new Sine(0.2);
+    NodeRef width = new SineOscillator(0.2);
     NodeRef throb = new StereoWidth(delay, width.scale(0.5, 1));
 
     /*------------------------------------------------------------------------

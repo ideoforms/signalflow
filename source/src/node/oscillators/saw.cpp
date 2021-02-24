@@ -4,7 +4,7 @@
 namespace signalflow
 {
 
-Saw::Saw(NodeRef frequency)
+SawOscillator::SawOscillator(NodeRef frequency)
     : frequency(frequency)
 {
     SIGNALFLOW_CHECK_GRAPH();
@@ -14,12 +14,12 @@ Saw::Saw(NodeRef frequency)
     this->alloc();
 }
 
-void Saw::alloc()
+void SawOscillator::alloc()
 {
     this->phase.resize(this->num_output_channels_allocated);
 }
 
-void Saw::process(Buffer &out, int num_frames)
+void SawOscillator::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

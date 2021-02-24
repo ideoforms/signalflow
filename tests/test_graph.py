@@ -1,4 +1,4 @@
-from signalflow import AudioGraph, AudioOut_Dummy, Buffer, Sine, Line, Constant, Add
+from signalflow import AudioGraph, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add
 from . import process_tree, count_zero_crossings
 import pytest
 import numpy as np
@@ -18,7 +18,7 @@ def test_graph_sample_rate():
         graph.sample_rate = 0
 
     buf = Buffer(1, 1000)
-    sine = Sine(10)
+    sine = SineOscillator(10)
     process_tree(sine, buf)
     assert count_zero_crossings(buf.data[0]) == 10
 
@@ -39,7 +39,7 @@ def test_graph_cyclic():
 
 def test_graph_render():
     graph = AudioGraph()
-    sine = Sine(440)
+    sine = SineOscillator(440)
     graph.play(sine)
     with pytest.raises(RuntimeError):
         graph.render(441000)
@@ -73,7 +73,7 @@ def test_graph_dummy_audioout():
     output = AudioOut_Dummy(2)
     graph = AudioGraph(output_device=output)
 
-    sine = Sine([ 220, 440 ])
+    sine = SineOscillator([ 220, 440 ])
     graph.play(sine)
 
     graph.render(1024)

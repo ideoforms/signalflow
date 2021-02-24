@@ -20,7 +20,7 @@ int main()
     /*------------------------------------------------------------------------
      * Create a simple envelope-modulated triangle wave.
      *-----------------------------------------------------------------------*/
-    NodeRef triangle = new Triangle(1000);
+    NodeRef triangle = new TriangleOscillator(1000);
     NodeRef envelope = new EnvelopeASR(0.01, 0.0, 0.1);
     NodeRef output = triangle * envelope;
 

@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------
- * Sine field example
+ * SineOscillator field example
  *
  * An array of delayed sine pings.
  *-----------------------------------------------------------------------*/
@@ -21,7 +21,7 @@ int main()
      *-----------------------------------------------------------------------*/
     for (int x = 0; x < 32; x++)
     {
-        NodeRef sine = new Sine(random_uniform(220, 1660));
+        NodeRef sine = new SineOscillator(random_uniform(220, 1660));
         NodeRef resample = new Resample(sine, 11025, 12);
         NodeRef noise = new WhiteNoise(0.3, true, 1.0, 2);
         NodeRef dust = new RandomImpulse(noise);

@@ -21,9 +21,9 @@ int main()
      * This is shorthand for:
      *
      * NodeRef multiplex = new ChannelArray({ 58.3, 59.1, 60.0, 60.3, 60.5 });
-     * NodeRef saw = new Saw(multiplex);
+     * NodeRef saw = new SawOscillator(multiplex);
      *-----------------------------------------------------------------------*/
-    NodeRef saw = new Saw({ 58.3, 59.1, 60.0, 60.3, 60.5 });
+    NodeRef saw = new SawOscillator({ 58.3, 59.1, 60.0, 60.3, 60.5 });
 
     /*------------------------------------------------------------------------
      * ChannelMixer up-mixes or down-mixes between different numbers of channels.
@@ -35,7 +35,7 @@ int main()
     /*------------------------------------------------------------------------
      * To add some life, add a resonant filter with wandering cutoff
      *-----------------------------------------------------------------------*/
-    NodeRef sine = new Sine(0.1);
+    NodeRef sine = new SineOscillator(0.1);
     NodeRef cutoff = sine.scale(200, 8000);
     NodeRef moog = new MoogVCF(mix, cutoff, 2);
 

@@ -4,10 +4,10 @@
 
 namespace signalflow
 {
-class Triangle : public Node
+class TriangleOscillator : public Node
 {
 public:
-    Triangle(NodeRef frequency = 440);
+    TriangleOscillator(NodeRef frequency = 440);
 
     NodeRef frequency;
 
@@ -18,5 +18,5 @@ private:
     std::vector<float> phase;
 };
 
-REGISTER(Triangle, "triangle")
+REGISTER(TriangleOscillator, "triangle")
 }

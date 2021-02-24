@@ -4,7 +4,7 @@
 namespace signalflow
 {
 
-Triangle::Triangle(NodeRef frequency)
+TriangleOscillator::TriangleOscillator(NodeRef frequency)
     : frequency(frequency)
 {
     SIGNALFLOW_CHECK_GRAPH();
@@ -14,12 +14,12 @@ Triangle::Triangle(NodeRef frequency)
     this->alloc();
 }
 
-void Triangle::alloc()
+void TriangleOscillator::alloc()
 {
     this->phase.resize(this->num_output_channels_allocated);
 }
 
-void Triangle::process(Buffer &out, int num_frames)
+void TriangleOscillator::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

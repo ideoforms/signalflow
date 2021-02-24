@@ -24,22 +24,22 @@ int main()
 
     /*------------------------------------------------------------------------
      * Create a pair of sawtooth waves, scaled between 0..8, used to index
-     * over the array. The Saw nodes are output over consecutive channels.
+     * over the array. The SawOscillator nodes are output over consecutive channels.
      *
      * Index casts the `index` inputs to an integer, used to select the
      * output frequency. Via automatic channel upmixing, this creates
      * two parallel counters, phasing gradually against each other.
      *-----------------------------------------------------------------------*/
-    NodeRef saw = new Saw({ 1, 0.97 });
+    NodeRef saw = new SawOscillator({ 1, 0.97 });
     saw = saw.scale(0, 8);
     NodeRef index = new Index(freqs, saw);
 
     /*------------------------------------------------------------------------
-     * Use the resultant values as frequency parameters of a Sine node,
-     * with a time-synced pair of Triangle waves to act as envelopes.
+     * Use the resultant values as frequency parameters of a SineOscillator node,
+     * with a time-synced pair of TriangleOscillator waves to act as envelopes.
      *-----------------------------------------------------------------------*/
-    NodeRef sine = new Sine(index);
-    NodeRef envelope = new Triangle({ 8, 7.76 });
+    NodeRef sine = new SineOscillator(index);
+    NodeRef envelope = new TriangleOscillator({ 8, 7.76 });
     envelope = envelope.scale(0, 1);
     sine = sine * envelope;
 

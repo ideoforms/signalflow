@@ -4,10 +4,10 @@
 
 namespace signalflow
 {
-class Square : public Node
+class SquareOscillator : public Node
 {
 public:
-    Square(NodeRef frequency = 440, NodeRef width = 0.5);
+    SquareOscillator(NodeRef frequency = 440, NodeRef width = 0.5);
 
     NodeRef frequency;
     NodeRef width;
@@ -19,5 +19,5 @@ private:
     std::vector<float> phase;
 };
 
-REGISTER(Square, "square")
+REGISTER(SquareOscillator, "square")
 }

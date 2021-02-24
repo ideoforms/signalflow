@@ -1,4 +1,4 @@
-from signalflow import Buffer, BufferPlayer, BufferRecorder, Sine
+from signalflow import Buffer, BufferPlayer, BufferRecorder, SineOscillator
 from signalflow import SIGNALFLOW_NODE_STATE_ACTIVE, SIGNALFLOW_NODE_STATE_STOPPED
 from . import graph
 from . import process_tree
@@ -21,7 +21,7 @@ def test_buffer_player(graph):
 def test_buffer_recorder(graph):
     record_buf = Buffer(2, 1024)
 
-    sine = Sine(440)
+    sine = SineOscillator(440)
     recorder = BufferRecorder(record_buf, sine, loop=False)
     assert recorder.num_input_channels == 2
     assert recorder.num_output_channels == 0
@@ -33,7 +33,7 @@ def test_buffer_recorder(graph):
     assert list(record_buf.data[0]) == pytest.approx(sine_rendered, abs=0.0001)
     assert list(record_buf.data[1]) == pytest.approx(sine_rendered, abs=0.0001)
 
-    sine2 = Sine(2000)
+    sine2 = SineOscillator(2000)
     recorder2 = BufferRecorder(record_buf, sine2, feedback=0.5, loop=True)
     assert recorder2.num_input_channels == 2
     assert recorder2.num_output_channels == 0
@@ -44,7 +44,7 @@ def test_buffer_recorder(graph):
     sine_rendered2 = 0.5 * sine_rendered + np.sin(np.arange(len(record_buf)) * np.pi * 2 * 2000 / graph.sample_rate)
     assert list(record_buf.data[0]) == pytest.approx(sine_rendered2, abs=0.001)
 
-    sine3 = Sine(2000)
+    sine3 = SineOscillator(2000)
     recorder2.set_input("input", sine3)
     process_tree(recorder2, num_frames=len(record_buf))
     assert recorder2.state == SIGNALFLOW_NODE_STATE_ACTIVE

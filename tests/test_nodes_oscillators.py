@@ -1,4 +1,4 @@
-from signalflow import Sine
+from signalflow import SineOscillator
 from signalflow import Buffer
 import signalflow as sf
 from . import graph
@@ -11,11 +11,11 @@ Fs = 1000
 N = 1024
 
 def test_nodes_oscillators_sine(graph):
-    a = Sine([ 10, 20 ])
+    a = SineOscillator([ 10, 20 ])
     process_tree(a, num_frames=N)
 
     #--------------------------------------------------------------------------------
-    # The output of Sine() seems to diverge from np.sin() so this precision is
+    # The output of SineOscillator() seems to diverge from np.sin() so this precision is
     # not very high. Should find out why at some point -- probably numerical
     # precision.
     #--------------------------------------------------------------------------------
@@ -26,7 +26,7 @@ def test_nodes_oscillators_sine(graph):
     assert list(a.output_buffer[1]) == pytest.approx(expected, abs=0.0001)
 
 def test_nodes_oscillators_saw(graph):
-    a = sf.Saw([ 1, 2 ])
+    a = sf.SawOscillator([ 1, 2 ])
     graph.sample_rate = 16
     graph.render_subgraph(a, graph.sample_rate)
 
@@ -37,7 +37,7 @@ def test_nodes_oscillators_saw(graph):
     assert list(a.output_buffer[1]) == pytest.approx(expected1)
 
 def test_nodes_oscillators_triangle(graph):
-    a = sf.Triangle([ 1, 2 ])
+    a = sf.TriangleOscillator([ 1, 2 ])
     graph.sample_rate = 16
     graph.render_subgraph(a, graph.sample_rate)
 
@@ -53,7 +53,7 @@ def test_nodes_oscillators_triangle(graph):
     assert list(a.output_buffer[1][:graph.sample_rate]) == pytest.approx(expected1, rel=0.00001)
 
 def test_nodes_oscillators_square(graph):
-    a = sf.Square([ 1, 2 ])
+    a = sf.SquareOscillator([ 1, 2 ])
     graph.sample_rate = 16
     graph.render_subgraph(a, graph.sample_rate)
 

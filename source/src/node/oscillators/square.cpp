@@ -4,7 +4,7 @@
 namespace signalflow
 {
 
-Square::Square(NodeRef frequency, NodeRef width)
+SquareOscillator::SquareOscillator(NodeRef frequency, NodeRef width)
     : frequency(frequency), width(width)
 {
     SIGNALFLOW_CHECK_GRAPH();
@@ -17,12 +17,12 @@ Square::Square(NodeRef frequency, NodeRef width)
     this->alloc();
 }
 
-void Square::alloc()
+void SquareOscillator::alloc()
 {
     this->phase.resize(this->num_output_channels_allocated);
 }
 
-void Square::process(Buffer &out, int num_frames)
+void SquareOscillator::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

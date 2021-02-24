@@ -4,7 +4,7 @@
 namespace signalflow
 {
 
-Sine::Sine(NodeRef frequency)
+SineOscillator::SineOscillator(NodeRef frequency)
     : frequency(frequency)
 {
     SIGNALFLOW_CHECK_GRAPH();
@@ -28,12 +28,12 @@ Sine::Sine(NodeRef frequency)
     this->alloc();
 }
 
-void Sine::alloc()
+void SineOscillator::alloc()
 {
     this->phase.resize(this->num_output_channels_allocated);
 }
 
-void Sine::process(Buffer &out, int num_frames)
+void SineOscillator::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {

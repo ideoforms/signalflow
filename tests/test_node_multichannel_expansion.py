@@ -1,4 +1,4 @@
-from signalflow import Sine, Square, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
+from signalflow import SineOscillator, SquareOscillator, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
 from signalflow import BiquadFilter, AllpassDelay, WaveShaper, WaveShaperBuffer, Constant, Add
 from signalflow import InvalidChannelCountException
 import numpy as np
@@ -10,7 +10,7 @@ from . import DEFAULT_BUFFER_LENGTH
 from . import graph
 
 def test_expansion_mono(graph):
-    a = Sine(1)
+    a = SineOscillator(1)
     assert a.num_output_channels == 1
     assert a.num_input_channels == 1
 
@@ -19,7 +19,7 @@ def test_expansion_multi(graph):
     When passed an array as an argument, the input is automatically converted
     into a ChannelArray and the output number of channels should be increased.
     """
-    a = Sine([ 0.0, 1.0 ])
+    a = SineOscillator([ 0.0, 1.0 ])
     assert a.num_output_channels == 2
     assert a.num_input_channels == 2
 
@@ -35,7 +35,7 @@ def test_expansion_multi(graph):
 def test_expansion_upmix():
     output = AudioOut_Dummy(4)
     graph = AudioGraph(output_device=output)
-    a = Square([ 440, 880, 1320 ], [ 0.3, 0.7 ])
+    a = SquareOscillator([ 440, 880, 1320 ], [ 0.3, 0.7 ])
     assert a.num_input_channels == 3
     assert a.num_output_channels == 3
 
@@ -55,7 +55,7 @@ def test_expansion_upmix():
     # When processed through a Graph, multichannel expansion duplicates the
     # 2-channel width node to become 3-channel
     #--------------------------------------------------------------------------------
-    a = Square([ 440, 880, 1320 ], [ 0.3, 0.7 ])
+    a = SquareOscillator([ 440, 880, 1320 ], [ 0.3, 0.7 ])
     graph.play(a)
     graph.render(1024)
     assert graph.node_count == 4
@@ -86,7 +86,7 @@ def test_expansion_many_channels(graph):
     (the Constant(0.5)) for automatic upmixing by the AudioGraph.
     """
     frequencies = 1000 + np.arange(100) * 100
-    a = Sine(frequencies) * 0.5
+    a = SineOscillator(frequencies) * 0.5
     mixer = ChannelMixer(1, a)
     graph.render_subgraph(mixer, 2048)
     peak_frequencies = get_peak_frequencies(mixer.output_buffer[0], graph.sample_rate)
@@ -96,9 +96,9 @@ def test_expansion_many_channels(graph):
     assert a.output_buffer.shape == (100, 2048)
 
 def test_expansion_channel_array(graph):
-    a = Sine(440)
-    b = Sine(880)
-    c = Sine([ 1760, 3520 ])
+    a = SineOscillator(440)
+    b = SineOscillator(880)
+    c = SineOscillator([ 1760, 3520 ])
     d = ChannelArray([ a, b, c ])
     e = ChannelMixer(1, d)
     assert a.num_input_channels == a.num_output_channels == 1
@@ -113,7 +113,7 @@ def test_expansion_channel_array(graph):
     assert np.all(peak_frequencies == pytest.approx([ 440, 880, 1760, 3520 ], abs=(graph.sample_rate / DEFAULT_BUFFER_LENGTH / 2)))
 
 def test_expansion_channel_mismatch(graph):
-    a = Sine([ 440, 880 ])
+    a = SineOscillator([ 440, 880 ])
     with pytest.raises(InvalidChannelCountException):
         b = LinearPanner(2, a)
     b = Buffer([ 1, 2, 3 ])
@@ -125,7 +125,7 @@ def test_expansion_recursive(graph):
     """
     Check that num_output_channels values propagate through the graph.
     """
-    a = Sine(440)
+    a = SineOscillator(440)
     b = BiquadFilter(a)
     buf = WaveShaperBuffer(256)
     buf.fill(lambda n: n ** 2)
@@ -174,7 +174,7 @@ def test_expansion_recursive_processing():
     graph.stop(d)
 
 def test_expansion_buffer_reallocation(graph):
-    a = Sine([440] * 4)
+    a = SineOscillator([440] * 4)
     assert a.num_output_channels == 4
     assert a.num_output_channels_allocated == 32
     a.set_input("frequency", [440] * 100)

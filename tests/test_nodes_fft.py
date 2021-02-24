@@ -1,5 +1,5 @@
 from signalflow import Buffer, EnvelopeASR
-from signalflow import Sine, Impulse, FFT, IFFT
+from signalflow import SineOscillator, Impulse, FFT, IFFT
 
 try:
     from signalflow import FFTConvolve
@@ -26,13 +26,13 @@ def test_fft(graph):
     buffer_a = Buffer(1, fft_size)
     buffer_b = Buffer(1, num_bins * 2)
 
-    process_tree(Sine(440), buffer_a)
+    process_tree(SineOscillator(440), buffer_a)
 
     spectrum = np.fft.rfft(buffer_a.data[0])
     mags_py = np.abs(spectrum)[:num_bins]
     angles_py = np.angle(spectrum)[:num_bins]
 
-    fft = FFT(Sine(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
+    fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
     process_tree(fft, buffer_b)
 
     # Apple vDSP applies a scaling factor of 2x after forward FFT
@@ -50,7 +50,7 @@ def test_fft_windowed(graph):
     buffer_a = Buffer(1, fft_size)
     buffer_b = Buffer(1, num_bins * 2)
 
-    process_tree(Sine(440), buffer_a)
+    process_tree(SineOscillator(440), buffer_a)
 
     # Modify to match the symmetry of vDSP FFT
     window = np.hanning(buffer_a.num_frames + 1)[:buffer_a.num_frames]
@@ -59,7 +59,7 @@ def test_fft_windowed(graph):
     mags_py = np.abs(spectrum)[:num_bins]
     angles_py = np.angle(spectrum)[:num_bins]
 
-    fft = FFT(Sine(440), fft_size=fft_size, hop_size=fft_size, do_window=True)
+    fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=True)
     process_tree(fft, buffer_b)
 
     # Apple vDSP applies a scaling factor of 2x after forward FFT
@@ -79,9 +79,9 @@ def test_fft_ifft(graph):
         buffer_a = Buffer(1, buffer_size)
         buffer_b = Buffer(1, buffer_size)
 
-        process_tree(Sine(440), buffer_a)
+        process_tree(SineOscillator(440), buffer_a)
 
-        fft = FFT(Sine(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
+        fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
         ifft = IFFT(fft)
         process_tree(ifft, buffer_b)
 
@@ -97,9 +97,9 @@ def test_fft_ifft_split(graph):
     buffer_b2 = Buffer(1, fft_size // 2)
     buffer_b3 = Buffer(1, fft_size // 2)
 
-    process_tree(Sine(440), buffer_a)
+    process_tree(SineOscillator(440), buffer_a)
 
-    fft = FFT(Sine(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
+    fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
     ifft = IFFT(fft)
     process_tree(ifft, buffer_b1)
     process_tree(ifft, buffer_b2)
@@ -121,9 +121,9 @@ def test_fft_convolve(graph):
     process_tree(Impulse(0), buffer_a)
 
     buffer_b = Buffer(1, fft_size)
-    process_tree(Sine(440), buffer_b)
+    process_tree(SineOscillator(440), buffer_b)
 
-    fft = FFT(Sine(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
+    fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
     convolve = FFTConvolve(fft, buffer_a)
     ifft = IFFT(convolve) * 0.5
     buffer_c = Buffer(1, fft_size)
@@ -137,7 +137,7 @@ def test_fft_convolve_split(graph):
 
     buffer_ir = Buffer(1, fft_size * 4)
     envelope_duration_seconds = buffer_ir.num_frames / graph.sample_rate
-    envelope = EnvelopeASR(0, 0, envelope_duration_seconds) * Sine(440)
+    envelope = EnvelopeASR(0, 0, envelope_duration_seconds) * SineOscillator(440)
     process_tree(envelope, buffer_ir)
 
     fft = FFT(Impulse(0), fft_size=fft_size, hop_size=fft_size, do_window=False)
