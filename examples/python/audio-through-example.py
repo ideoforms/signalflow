@@ -1,28 +1,29 @@
 #!/usr/bin/env python3
 
 #--------------------------------------------------------------------------------
-# Example: Audio through
+# Example: Audio playthrough, from input to output.
+# (Be careful to listen through headphones or feedback might occur.)
 #--------------------------------------------------------------------------------
 
 from signalflow import *
 
-graph = AudioGraph()
+graph = AudioGraph(start=True)
 
+#--------------------------------------------------------------------------------
+# Read single channel input.
+# To specify the audio device to use, add to ~/.signalflow/config:
+# 
+# [audio]
+# input_device_name = "My Device"
+#--------------------------------------------------------------------------------
 audio_in = AudioIn()
 
-fft = FFT(audio_in * 0.1, 2048, 1024, 1024, do_window=False)
-# sine = Sine(440) * EnvelopeASR(0, 0, 0.1) * 0.1
-# fft = FFT(sine * 0.1, 1024, 512, 512, do_window=False)
-ir_buffer = Buffer("/Users/daniel/Projects/Chirp/Impulse Responses/impulse_responses/spaces/RT60 3 - 5/3.8875_EchoBridge.wav")
-convolve = FFTConvolve(fft, ir_buffer);
-output = IFFT(convolve) * 0.1
-# output = ChannelArray([ output, output ])
-# sine = Sine([ 440, 441 ]) * 0.1
-# sine = sine + output
+#--------------------------------------------------------------------------------
+# Add some ringmod and delay.
+#--------------------------------------------------------------------------------
+audio_out = audio_in * Sine(200)
+audio_out = audio_out + CombDelay(audio_out, 0.2, 0.8) * 0.3
+output = ChannelArray([ audio_out, audio_out ])
 
 graph.play(output)
-graph.start()
-try:
-    graph.wait()
-except KeyboardInterrupt:
-    pass
+graph.wait()
