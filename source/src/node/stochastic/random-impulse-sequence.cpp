@@ -15,7 +15,7 @@ RandomImpulseSequence::RandomImpulseSequence(NodeRef probability, NodeRef length
     this->create_input("generate", this->generate);
     this->sequence.resize(256);
 
-    for (int i = 0; i < this->sequence.size(); i++)
+    for (size_t i = 0; i < this->sequence.size(); i++)
     {
         this->sequence[i] = std::numeric_limits<int>::max();
     }
@@ -40,14 +40,14 @@ void RandomImpulseSequence::trigger(std::string name, float value)
     else if (name == SIGNALFLOW_TRIGGER_GENERATE)
     {
         // Regenerate whole sequence
-        for (int i = 0; i < this->sequence.size(); i++)
+        for (size_t i = 0; i < this->sequence.size(); i++)
         {
             this->sequence[i] = this->random_uniform(0, 1) < this->probability->out[0][0];
         }
     }
     else if (name == SIGNALFLOW_TRIGGER_EXPLORE)
     {
-        for (int i = 0; i < this->sequence.size(); i++)
+        for (size_t i = 0; i < this->sequence.size(); i++)
         {
             // Toggle with small probability
             // TODO: Incorporate PExplorer algorithms (shift, swap, etc)
@@ -67,7 +67,7 @@ void RandomImpulseSequence::process(Buffer &out, int num_frames)
 {
     if (this->sequence[0] == std::numeric_limits<int>::max())
     {
-        for (int i = 0; i < this->sequence.size(); i++)
+        for (size_t i = 0; i < this->sequence.size(); i++)
         {
             this->sequence[i] = this->random_uniform(0, 1) < this->probability->out[0][0];
         }

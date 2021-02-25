@@ -148,7 +148,7 @@ void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::stri
 std::vector<int> signalflow_binary_sequence_to_vector(std::string binary)
 {
     std::vector<int> binary_digits(binary.length());
-    for (int i = 0; i < binary.length(); i++)
+    for (size_t i = 0; i < binary.length(); i++)
     {
         if (binary[i] == '0')
         {
