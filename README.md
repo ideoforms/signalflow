@@ -227,9 +227,3 @@ WetDry
 Wrap
 ```
 
-## License
-
-For non-commercial use, SignalFlow is available under the terms of the [GPL v3](http://www.gnu.org/licenses/gpl-3.0.en.html).
-
-For commercial use, please [contact the author](http://erase.net/contact).
-
