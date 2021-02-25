@@ -13,6 +13,7 @@ public:
 
     virtual void process(Buffer &out, int num_frames);
 
+private:
     BufferRef buffer;
     int num_partitions;
     std::vector<sample *> ir_partitions;

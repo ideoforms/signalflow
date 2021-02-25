@@ -115,8 +115,6 @@ void FFTConvolve::process(Buffer &out, int num_frames)
         vDSP_ctoz((DSPComplex *) this->output_sum_polar, 2,
                   &buffer_split, 1,
                   this->num_bins);
-        //        this->out[hop][0] = this->input->out[hop][0];
-        //        this->out[hop][this->num_bins] = this->input->out[hop][this->num_bins];
     }
 }
 
