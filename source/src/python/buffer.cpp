@@ -8,7 +8,6 @@ void init_python_buffer(py::module &m)
     py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer", "A buffer of audio samples")
         .def(py::init<>())
         .def(py::init<std::string>())
-        .def(py::init<std::string, int>())
         .def(py::init<int, int>(), R"pbdoc(
             Init
             ----
@@ -66,4 +65,9 @@ void init_python_buffer(py::module &m)
 
     py::class_<WaveShaperBuffer, Buffer, BufferRefTemplate<WaveShaperBuffer>>(m, "WaveShaperBuffer")
         .def(py::init<int>());
+
+    py::class_<EnvelopeBuffer, Buffer, BufferRefTemplate<EnvelopeBuffer>>(m, "EnvelopeBuffer")
+        .def(py::init<int>())
+        .def(py::init<std::string>())
+        .def(py::init<std::string, int>());
 }

@@ -85,21 +85,6 @@ public:
     Buffer(std::string filename);
 
     /**------------------------------------------------------------------------
-      * Initialise a buffer with the wavetable/envelope named `name`.
-      *
-      * The list of supported buffer identifiers:
-      *
-      *   hanning: Hanning envelope
-      *   triangle: Symmetrical linear ramp from 0..1..0
-      *   linear-decay: Linear decay from 1..0
-      *
-      * @param name One of the recognised names above
-      * @param num_frames Length of buffer
-      *
-      *------------------------------------------------------------------------*/
-    Buffer(std::string name, int num_frames);
-
-    /**------------------------------------------------------------------------
       * Destroy the buffer.
       *
       *------------------------------------------------------------------------*/
@@ -291,6 +276,21 @@ class EnvelopeBuffer : public Buffer
 {
 public:
     EnvelopeBuffer(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+
+    /**------------------------------------------------------------------------
+      * Initialise a buffer with the envelope named `name`.
+      *
+      * The list of supported buffer identifiers:
+      *
+      *   hanning: Hanning envelope
+      *   triangle: Symmetrical linear ramp from 0..1..0
+      *   linear-decay: Linear decay from 1..0
+      *
+      * @param name One of the recognised names above
+      * @param num_frames Length of buffer
+      *
+      *------------------------------------------------------------------------*/
+    EnvelopeBuffer(std::string name, int num_frames = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 
     /**------------------------------------------------------------------------
      * @param position An envelope position between [0, 1].

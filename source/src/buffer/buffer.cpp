@@ -79,34 +79,6 @@ Buffer::Buffer(std::string filename)
     this->load(filename);
 }
 
-Buffer::Buffer(std::string name, int num_frames)
-    : Buffer(1, num_frames)
-{
-    if (name == "triangle")
-    {
-        for (int x = 0; x < num_frames / 2; x++)
-            this->data[0][x] = (float) x / (num_frames / 2);
-        for (int x = 0; x < num_frames / 2; x++)
-            this->data[0][(num_frames / 2) + x] = 1.0 - (float) x / (num_frames / 2);
-    }
-    else if (name == "linear-decay")
-    {
-        for (int x = 0; x < num_frames; x++)
-            this->data[0][x] = 1.0 - (float) x / num_frames;
-    }
-    else if (name == "hanning")
-    {
-        for (int x = 0; x < num_frames; x++)
-        {
-            this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (num_frames - 1)));
-        }
-    }
-    else
-    {
-        throw std::runtime_error("Invalid buffer name: " + name);
-    }
-}
-
 Buffer::~Buffer()
 {
     if (this->data)
@@ -457,6 +429,34 @@ EnvelopeBuffer::EnvelopeBuffer(int length)
      * Initialise to a flat envelope at maximum amplitude.
      *-----------------------------------------------------------------------*/
     this->fill(1.0);
+}
+
+EnvelopeBuffer::EnvelopeBuffer(std::string name, int num_frames)
+    : EnvelopeBuffer(num_frames)
+{
+    if (name == "triangle")
+    {
+        for (int x = 0; x < num_frames / 2; x++)
+            this->data[0][x] = (float) x / (num_frames / 2);
+        for (int x = 0; x < num_frames / 2; x++)
+            this->data[0][(num_frames / 2) + x] = 1.0 - (float) x / (num_frames / 2);
+    }
+    else if (name == "linear-decay")
+    {
+        for (int x = 0; x < num_frames; x++)
+            this->data[0][x] = 1.0 - (float) x / num_frames;
+    }
+    else if (name == "hanning")
+    {
+        for (int x = 0; x < num_frames; x++)
+        {
+            this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (num_frames - 1)));
+        }
+    }
+    else
+    {
+        throw std::runtime_error("Invalid buffer name: " + name);
+    }
 }
 
 double EnvelopeBuffer::offset_to_frame(double offset)
