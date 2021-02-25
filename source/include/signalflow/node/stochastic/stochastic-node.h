@@ -2,6 +2,15 @@
 
 #include "signalflow/node/node.h"
 
+/*--------------------------------------------------------------------------------
+ * This is needed to prevent compile-time errors on Big Sur.
+ * vecLib (Accelerate) on macOS 11 provides its own CBLAS defines which
+ * clash with the gsl versions. If present, don't also include the gsl ones.
+ *-------------------------------------------------------------------------------*/
+#ifdef CBLAS_H
+#define __GSL_CBLAS_H__
+#endif
+
 #include <gsl/gsl_randist.h>
 #include <gsl/gsl_rng.h>
 #include <sys/time.h>
