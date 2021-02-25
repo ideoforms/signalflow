@@ -22,7 +22,7 @@ int main()
 
     centroid->poll(10, "centroid");
 
-    NodeRef sine = new Sine(centroid);
+    NodeRef sine = new SineOscillator(centroid);
 
     graph->play(sine);
     graph->start();

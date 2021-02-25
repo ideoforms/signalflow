@@ -41,7 +41,7 @@ int main()
      *-----------------------------------------------------------------------*/
     for (int i = 0; i < 5; i++)
     {
-        NodeRef rate = new WhiteNoise(0.5, true, 0.3, 1.8);
+        NodeRef rate = new WhiteNoise(0.5, 0.3, 1.8, true);
         NodeRef sampler = new BufferPlayer(buffer, rate, true);
 
         /*------------------------------------------------------------------------

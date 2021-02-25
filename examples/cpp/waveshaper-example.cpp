@@ -34,7 +34,7 @@ int main()
      * WaveShaper will clip this to [-1, 1] (as well as mapping the samples
      * based on the buffer's cubic function).
      *-----------------------------------------------------------------------*/
-    NodeRef overdriven = sine * new WhiteNoise(0.2, true, 1, 3);
+    NodeRef overdriven = sine * new WhiteNoise(0.2, 1, 3, true);
     NodeRef shaper = new WaveShaper(overdriven, buffer);
 
     /*------------------------------------------------------------------------
