@@ -368,6 +368,11 @@ float Buffer::get_sample_rate()
     return this->sample_rate;
 }
 
+void Buffer::set_sample_rate(float sample_rate)
+{
+    this->sample_rate = sample_rate;
+}
+
 int Buffer::get_num_channels()
 {
     return this->num_channels;

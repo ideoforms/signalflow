@@ -197,6 +197,14 @@ public:
     float get_sample_rate();
 
     /**------------------------------------------------------------------------
+     * Set the buffer's audio sample rate.
+     *
+     * @param sample_rate The sample rate
+     *
+     *------------------------------------------------------------------------*/
+    void set_sample_rate(float sample_rate);
+
+    /**------------------------------------------------------------------------
      * Get the number of channels in the buffer.
      *
      * @returns The number of channels.

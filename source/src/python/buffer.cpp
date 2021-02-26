@@ -21,7 +21,9 @@ void init_python_buffer(py::module &m)
                 throw std::runtime_error("Invalid channel index: " + std::to_string(b));
             }
             std::vector<sample> a_vec(a->data[b], a->data[b] + a->get_num_frames());
-            return new Buffer(a_vec);
+            BufferRef buffer = new Buffer(a_vec);
+            buffer->set_sample_rate(a->get_sample_rate());
+            return buffer;
         })
         .def("__str__", [](BufferRef a) {
             return "Buffer (" + std::to_string(a->get_num_channels()) + " channels, " + std::to_string(a->get_num_frames()) + " frames)";
