@@ -9,8 +9,8 @@ from signalflow import *
 import numpy as np
 import random
 
-feedback = 0.99
-note_interval = 0.5
+feedback = 0.97
+note_interval = 0.125
 
 #--------------------------------------------------------------------------------
 # Karplus-Strong synthesis requires a short delay line whose delay time
@@ -20,13 +20,14 @@ note_interval = 0.5
 # block size so we can render a reasonable range of frequencies.
 #--------------------------------------------------------------------------------
 config = AudioGraphConfig()
-config.output_buffer_size = 64
+config.output_buffer_size = 128
 graph = AudioGraph(config=config, start=True)
+graph.show_status(2)
 
 #--------------------------------------------------------------------------------
 # Short burst of noise to excite the delay line
 #--------------------------------------------------------------------------------
-excitation_buf = Buffer(np.random.uniform(-1, 1, 512))
+excitation_buf = Buffer(np.random.uniform(-1, 1, 256))
 player = BufferPlayer(excitation_buf)
 
 #--------------------------------------------------------------------------------
@@ -41,13 +42,13 @@ output = player * 0.5 + feedback_reader
 # RandomExponential will generate a random signal at audio rate. Zero it and
 # it will only generate when triggered.
 #--------------------------------------------------------------------------------
-random_frequency = RandomExponential(50, 200, clock=0)
-rounded_frequency = RoundToScale(random_frequency)
+random_frequency = RandomExponential(1, 6, clock=0)
+rounded_frequency = Round(random_frequency) * 50
 
 #--------------------------------------------------------------------------------
 # Write to the feedback buffer.
 #--------------------------------------------------------------------------------
-feedback_writer = FeedbackBufferWriter(feedback_buf, SVFFilter(output, "low_pass", 8000) * feedback, 1/rounded_frequency)
+feedback_writer = FeedbackBufferWriter(feedback_buf, SVFFilter(output, "low_pass", 6000) * feedback, 1/rounded_frequency)
 
 #--------------------------------------------------------------------------------
 # Play the rendered output as a stereo signal.

@@ -37,6 +37,7 @@
 #include <signalflow/node/operators/multiply.h>
 #include <signalflow/node/operators/pow.h>
 #include <signalflow/node/operators/round-to-scale.h>
+#include <signalflow/node/operators/round.h>
 #include <signalflow/node/operators/scale.h>
 #include <signalflow/node/operators/subtract.h>
 #include <signalflow/node/operators/sum.h>

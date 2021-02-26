@@ -162,6 +162,9 @@ void init_python_nodes(py::module &m)
     py::class_<RoundToScale, Node, NodeRefTemplate<RoundToScale>>(m, "RoundToScale")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
+    py::class_<Round, Node, NodeRefTemplate<Round>>(m, "Round")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
     py::class_<ScaleLinExp, Node, NodeRefTemplate<ScaleLinExp>>(m, "ScaleLinExp")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "a"_a = 0, "b"_a = 1, "c"_a = 1, "d"_a = 10);
 
