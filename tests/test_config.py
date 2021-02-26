@@ -1,4 +1,4 @@
-from signalflow import AudioGraph, SignalFlowConfig
+from signalflow import AudioGraph, AudioGraphConfig
 
 def test_config():
     graph = AudioGraph()

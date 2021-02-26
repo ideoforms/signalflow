@@ -11,10 +11,10 @@
 namespace signalflow
 {
 
-class SignalFlowConfig
+class AudioGraphConfig
 {
 public:
-    SignalFlowConfig();
+    AudioGraphConfig();
 
     /**--------------------------------------------------------------------------------
      * Get the preferred sample rate.

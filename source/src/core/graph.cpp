@@ -19,7 +19,7 @@ namespace signalflow
 
 AudioGraph *shared_graph = NULL;
 
-AudioGraph::AudioGraph(SignalFlowConfig *config,
+AudioGraph::AudioGraph(AudioGraphConfig *config,
                        NodeRef output_device,
                        bool start)
 {
@@ -532,7 +532,7 @@ float AudioGraph::get_cpu_usage()
     return this->cpu_usage;
 }
 
-SignalFlowConfig &AudioGraph::get_config()
+AudioGraphConfig &AudioGraph::get_config()
 {
     return this->config;
 }

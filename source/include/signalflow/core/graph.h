@@ -22,7 +22,7 @@ class AudioGraphMonitor;
 class AudioGraph
 {
 public:
-    AudioGraph(SignalFlowConfig *config = nullptr,
+    AudioGraph(AudioGraphConfig *config = nullptr,
                NodeRef output_device = nullptr,
                bool start = false);
 
@@ -313,7 +313,7 @@ public:
       * @return The config.
       *
       *--------------------------------------------------------------------------------*/
-    SignalFlowConfig &get_config();
+    AudioGraphConfig &get_config();
 
 private:
     std::set<NodeRef> scheduled_nodes;
@@ -331,7 +331,7 @@ private:
 
     NodeRef input = nullptr;
     NodeRef output = nullptr;
-    SignalFlowConfig config;
+    AudioGraphConfig config;
 
     SNDFILE *recording_fd;
     float *recording_buffer;

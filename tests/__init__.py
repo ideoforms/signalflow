@@ -57,7 +57,7 @@ def get_peak_frequencies(samples, sample_rate):
 
 @pytest.fixture(scope="function")
 def graph():
-    config = signalflow.SignalFlowConfig()
+    config = signalflow.AudioGraphConfig()
     config.sample_rate = 44100
     config.input_buffer_size = 2048
     config.output_buffer_size = 2048
