@@ -9,7 +9,7 @@ from signalflow import *
 import numpy as np
 import random
 
-feedback = 0.97
+feedback = 0.99
 note_interval = 0.125
 
 #--------------------------------------------------------------------------------
@@ -35,7 +35,6 @@ player = BufferPlayer(excitation_buf)
 #--------------------------------------------------------------------------------
 feedback_buf = Buffer(1, 2048)
 feedback_reader = FeedbackBufferReader(feedback_buf)
-output = player * 0.5 + feedback_reader
 
 #--------------------------------------------------------------------------------
 # Pick a random frequency each time a note is played. If `clock` is non-zero,
@@ -48,7 +47,8 @@ rounded_frequency = Round(random_frequency) * 50
 #--------------------------------------------------------------------------------
 # Write to the feedback buffer.
 #--------------------------------------------------------------------------------
-feedback_writer = FeedbackBufferWriter(feedback_buf, SVFFilter(output, "low_pass", 6000) * feedback, 1/rounded_frequency)
+output = SVFFilter(player * 0.5 + feedback_reader, "low_pass", 4000)
+feedback_writer = FeedbackBufferWriter(feedback_buf, output * feedback, 1/rounded_frequency)
 
 #--------------------------------------------------------------------------------
 # Play the rendered output as a stereo signal.
