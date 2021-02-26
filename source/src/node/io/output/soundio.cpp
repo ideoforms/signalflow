@@ -54,7 +54,15 @@ void write_callback(struct SoundIoOutStream *outstream,
         }
         if (out_node->get_state() == SIGNALFLOW_NODE_STATE_ACTIVE)
         {
-            shared_graph->render(frame_count);
+            try
+            {
+                shared_graph->render(frame_count);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "Exception in AudioGraph: " << e.what() << std::endl;
+                exit(1);
+            }
 
             for (int frame = 0; frame < frame_count; frame++)
             {
