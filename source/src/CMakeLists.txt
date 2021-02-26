@@ -71,10 +71,11 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-mixer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-array.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-select.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/frequency-to-midi-note.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/midi-note-to-frequency.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/multiply.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/pow.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/round.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/round-to-scale.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/scale.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/subtract.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/sum.cpp
@@ -95,6 +96,8 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/square-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-recorder.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-player.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/feedback-buffer-reader.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/feedback-buffer-writer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/grainsegments.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/segment-player.cpp

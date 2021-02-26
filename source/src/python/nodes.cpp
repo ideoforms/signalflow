@@ -28,6 +28,12 @@ void init_python_nodes(py::module &m)
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder")
         .def(py::init<BufferRef, NodeRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop"_a = false);
 
+    py::class_<FeedbackBufferReader, Node, NodeRefTemplate<FeedbackBufferReader>>(m, "FeedbackBufferReader")
+        .def(py::init<BufferRef>(), "buffer"_a = nullptr);
+
+    py::class_<FeedbackBufferWriter, Node, NodeRefTemplate<FeedbackBufferWriter>>(m, "FeedbackBufferWriter")
+        .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "input"_a = 0.0, "delay_time"_a = 0.1);
+
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048);
 
@@ -140,6 +146,9 @@ void init_python_nodes(py::module &m)
 
     py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
+
+    py::class_<FrequencyToMidiNote, Node, NodeRefTemplate<FrequencyToMidiNote>>(m, "FrequencyToMidiNote")
+        .def(py::init<NodeRef>(), "a"_a = 0);
 
     py::class_<MidiNoteToFrequency, Node, NodeRefTemplate<MidiNoteToFrequency>>(m, "MidiNoteToFrequency")
         .def(py::init<NodeRef>(), "a"_a = 0);

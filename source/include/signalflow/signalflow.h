@@ -32,10 +32,11 @@
 #include <signalflow/node/operators/channel-select.h>
 #include <signalflow/node/operators/comparison.h>
 #include <signalflow/node/operators/divide.h>
+#include <signalflow/node/operators/frequency-to-midi-note.h>
 #include <signalflow/node/operators/midi-note-to-frequency.h>
 #include <signalflow/node/operators/multiply.h>
 #include <signalflow/node/operators/pow.h>
-#include <signalflow/node/operators/round.h>
+#include <signalflow/node/operators/round-to-scale.h>
 #include <signalflow/node/operators/scale.h>
 #include <signalflow/node/operators/subtract.h>
 #include <signalflow/node/operators/sum.h>
@@ -73,6 +74,8 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/buffer/buffer-player.h>
 #include <signalflow/node/buffer/buffer-recorder.h>
+#include <signalflow/node/buffer/feedback-buffer-reader.h>
+#include <signalflow/node/buffer/feedback-buffer-writer.h>
 #include <signalflow/node/buffer/granulator.h>
 #include <signalflow/node/buffer/segment-player.h>
 
