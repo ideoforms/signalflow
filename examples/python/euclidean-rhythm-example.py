@@ -1,26 +1,32 @@
 #!/usr/bin/env python3
 
+#------------------------------------------------------------------------
+# SignalFlow: Euclidean rhythm example, using a global pulse
+# and ClockDivider to drive a series of rhythm generators.
+# Impulses are passed through resonant filters of different freqencies.
+#------------------------------------------------------------------------
 from signalflow import *
 import random
 
 graph = AudioGraph(start=True)
 
-eu0 = Euclidean(Impulse(4), 24, 7)
-flt0 = SVFFilter(eu0, "band_pass", cutoff=80, resonance=0.997) * 9
+clock = Impulse(10)
 
-eu1 = Euclidean(Impulse(8), 13, 9)
+eu0 = Euclidean(ClockDivider(clock, 2), 24, 7)
+flt0 = SVFFilter(eu0, "band_pass", cutoff=80, resonance=0.99) * 9
+graph.play(LinearPanner(2, flt0, 0.0))
+
+eu1 = Euclidean(clock, 13, 9)
 flt1 = SVFFilter(eu1, "band_pass", cutoff=800, resonance=0.98) * 0.2
+graph.play(LinearPanner(2, flt1, -0.5))
 
-eu2 = Euclidean(Impulse(8), 16, 11)
+eu2 = Euclidean(clock, 16, 11)
 flt2 = SVFFilter(eu2, "band_pass", cutoff=8000, resonance=0.97) * 0.1
+graph.play(LinearPanner(2, flt2, 0.5))
 
-eu3 = Euclidean(Impulse(4), 19, 12)
+eu3 = Euclidean(ClockDivider(clock, 2), 19, 12)
 reson = RandomExponential(0.99, 0.999, eu3)
 flt3 = SVFFilter(eu3, "band_pass", cutoff=480, resonance=reson) * 0.2
-
-graph.play(LinearPanner(2, flt0, 0.0))
-graph.play(LinearPanner(2, flt1, -0.5))
-graph.play(LinearPanner(2, flt2, 0.5))
 graph.play(LinearPanner(2, flt3, 0))
 
 graph.wait()
