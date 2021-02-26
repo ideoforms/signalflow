@@ -59,7 +59,7 @@ void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
 
 void BufferPlayer::trigger(std::string name, float value)
 {
-    if (name == SIGNALFLOW_TRIGGER_SET_POSITION)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
         /*----------------------------------------------------------------
          * Set the offset within the buffer, in samples.

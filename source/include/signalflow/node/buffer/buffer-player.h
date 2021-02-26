@@ -20,7 +20,7 @@ public:
     NodeRef loop_end = nullptr;
 
     virtual void set_buffer(std::string, BufferRef buffer);
-    virtual void trigger(std::string = SIGNALFLOW_TRIGGER_SET_POSITION, float value = 0.0);
+    virtual void trigger(std::string = SIGNALFLOW_DEFAULT_TRIGGER, float value = 0.0);
     virtual void process(Buffer &out, int num_frames);
 
 private:
