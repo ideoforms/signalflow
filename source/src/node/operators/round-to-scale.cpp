@@ -1,4 +1,4 @@
-#include "signalflow/node/operators/round.h"
+#include "signalflow/node/operators/round-to-scale.h"
 
 namespace signalflow
 {
