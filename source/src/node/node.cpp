@@ -86,15 +86,6 @@ void Node::_process(Buffer &out, int num_frames)
         throw std::runtime_error("Node " + this->name + " cannot render because output buffer size is insufficient (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
     }
 
-    // TODO fix last-sample trigger magic
-    //    if (this->last_num_frames > 0)
-    //    {
-    //        for (int i = 0; i < this->num_output_channels; i++)
-    //        {
-    //            out[i][-1] = out[i][last_num_frames - 1];
-    //        }
-    //    }
-
     /*--------------------------------------------------------------------------------
      * Must use `num_output_channels_allocated`, rather than `num_output_channels`,
      * as the additional allocated channels may be used for upmixing, and otherwise

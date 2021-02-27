@@ -21,12 +21,34 @@ Node *create()
 
 class NodeRegistry
 {
+    /**------------------------------------------------------------------------
+ * The NodeRegistry is a singleton that stores all of the known Node
+ * classes by name. Each Node class header calls the REGISTRY macro
+ * to register the class, so that objects of the class can be
+ * constructed programmatically by using the class name:
+ *
+ *   NodeRef player = NodeRegistry::global()->create("buffer-player")
+ *
+ * This is needed when a graph is constructed from json or other
+ * serialisation.
+ *
+ *-----------------------------------------------------------------------*/
+
 public:
     NodeRegistry();
     virtual ~NodeRegistry();
 
+    /**------------------------------------------------------------------------
+     * Return the global node registry.
+     *
+     *-----------------------------------------------------------------------*/
     static NodeRegistry *global();
 
+    /**------------------------------------------------------------------------
+     * Instantiate a Node of the given name.
+     * @param name The name given when registering the class with ->add
+     *
+     *-----------------------------------------------------------------------*/
     Node *create(std::string name);
 
     /*------------------------------------------------------------------------
@@ -40,6 +62,7 @@ public:
         return true;
     }
 
+private:
     /*------------------------------------------------------------------------
      * Maps node names to constructors
      *-----------------------------------------------------------------------*/

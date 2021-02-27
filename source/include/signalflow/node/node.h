@@ -67,6 +67,11 @@ typedef NodeRefTemplate<Node> NodeRef;
 class Node
 {
 
+    /**------------------------------------------------------------------------
+ * A Node is a single signal-processing unit in the DSP graph.
+ *
+ *-----------------------------------------------------------------------*/
+
 public:
     Node();
     virtual ~Node();
@@ -90,12 +95,15 @@ public:
     virtual void process(int num_frames);
 
     /*------------------------------------------------------------------------
-     * Get state.
+     * Get state. Most nodes begin in state ACTIVE. Nodes which have a
+     * finite lifetime (e.g. envelopes) then transition to STOPPED.
+     * If the node is part of a Patch, this may then be used to stop the patch.
      *-----------------------------------------------------------------------*/
     virtual signalflow_node_state_t get_state();
 
     /*------------------------------------------------------------------------
-     * Get/set inputs.
+     * Get/set inputs. An input is a {string, Node} pair that can be used
+     * to modulate the destination node.
      *-----------------------------------------------------------------------*/
     virtual NodeRef get_input(std::string name);
     virtual void set_input(std::string name, const NodeRef &input);
@@ -103,14 +111,17 @@ public:
 
     /*------------------------------------------------------------------------
      * The `add_input` method is used only by variable-input nodes
-     * which can take multiple unnamed inputs. The superclass implementation
-     * throws an exception when called.
+     * which can accept arbitrary numbers of unnamed inputs. Examples include
+     * AudioOut, Sum, and ChannelMixer. This method must be subclassed by
+     * variable-input nodes. (See get_has_variable_inputs())
+     *
+     * The superclass implementation throws an exception when called.
      *-----------------------------------------------------------------------*/
     virtual void add_input(NodeRef input);
     virtual void remove_input(NodeRef input);
 
     /*------------------------------------------------------------------------
-     * Register an output.
+     * Register an output. Should be called in the Node's constructor.
      * Note that this must be mirrored with a call to `set_input` on the
      * output node.
      *-----------------------------------------------------------------------*/
@@ -118,13 +129,15 @@ public:
     virtual void remove_output(Node *target, std::string name);
 
     /**------------------------------------------------------------------------
-     * Disconnect inputs.
+     * Disconnect inputs. Called when removing a node from the graph.
+     * TODO: Can this be retired?
      *
      *-----------------------------------------------------------------------*/
     virtual void disconnect_inputs();
 
     /**------------------------------------------------------------------------
-     * Disconnect outputs.
+     * Disconnect outputs. Called when removing a node from the graph.
+     * TODO: Can this be retired?
      *
      *-----------------------------------------------------------------------*/
     virtual void disconnect_outputs();
@@ -144,7 +157,11 @@ public:
     virtual int get_num_output_channels();
 
     /**------------------------------------------------------------------------
-     * Get the number of output channels allocated.
+     * Get the number of output channels allocated in memory.
+     * Initially, a node allocates SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS
+     * channels. During the course of graph construction, if more channels
+     * than this are required, it re-allocates the memory.
+     *
      * @returns The number of output channels allocated in memory, which
      *          is at least as large as num_output_channels.
      *
@@ -167,7 +184,7 @@ public:
     virtual PropertyRef get_property(std::string name);
 
     /*------------------------------------------------------------------------
-     * Get/set buffer values.
+     * Get/set buffer properties, as used by BufferPlayer, Granulator, etc.
      *-----------------------------------------------------------------------*/
     virtual void set_buffer(std::string name, BufferRef buffer);
 
@@ -178,7 +195,7 @@ public:
                          float value = 1);
 
     /*------------------------------------------------------------------------
-     * Outputs the node's value at a user-specified frequency.
+     * Print the node's output value to stdout at a specified frequency.
      *-----------------------------------------------------------------------*/
     virtual void poll(float frequency = 1.0, std::string label = "");
 
@@ -265,7 +282,7 @@ public:
     Buffer out;
 
     /*------------------------------------------------------------------------
-     *
+     * Used to cache
      *-----------------------------------------------------------------------*/
     std::vector<float> last_sample;
 
