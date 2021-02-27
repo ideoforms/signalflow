@@ -102,6 +102,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/grainsegments.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/segment-player.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/beat-cutter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/flipflop.cpp
