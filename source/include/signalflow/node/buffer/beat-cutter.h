@@ -15,6 +15,7 @@ public:
                NodeRef duty_cycle = 1.0);
 
     virtual void process(Buffer &out, int num_frames);
+    virtual void set_buffer(std::string, BufferRef buffer);
 
 protected:
     BufferRef buffer;

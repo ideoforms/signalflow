@@ -16,33 +16,55 @@ BeatCutter::BeatCutter(BufferRef buffer,
 {
     this->name = "beat-cutter";
 
-    this->set_channels(1, buffer->get_num_channels());
-
-    this->create_buffer("buffer", buffer);
     this->create_input("stutter_probability", this->stutter_probability);
     this->create_input("stutter_count", this->stutter_count);
     this->create_input("jump_probability", this->jump_probability);
     this->create_input("duty_cycle", this->duty_cycle);
 
     this->segment_offsets.resize(segment_count);
-    this->segment_length = (int) ((float) this->buffer->get_num_frames() / segment_count);
-    for (int i = 0; i < segment_count; i++)
-    {
-        this->segment_offsets[i] = roundf((float) i * this->buffer->get_num_frames() / segment_count);
-    }
 
     this->phase = 0;
     this->segment_index = 0;
     this->segment_phase = 0;
     this->segment_duty = 1.0;
-    this->current_segment_offset = this->segment_offsets[0];
-    this->next_segment_offset = this->segment_offsets[1];
+    this->current_segment_offset = 0;
+    this->next_segment_offset = 0;
+    this->current_stutter_length = 0;
 
-    this->current_stutter_length = this->segment_length;
+    this->create_buffer("buffer", this->buffer);
+    this->set_channels(1, 0);
+    if (buffer)
+    {
+        this->set_buffer("buffer", buffer);
+    }
+}
+
+void BeatCutter::set_buffer(std::string name, BufferRef buffer)
+{
+    if (name == "buffer")
+    {
+        this->Node::set_buffer(name, buffer);
+        this->num_output_channels = buffer->get_num_channels();
+
+        this->segment_length = (int) ((float) this->buffer->get_num_frames() / this->segment_count);
+        for (int i = 0; i < this->segment_count; i++)
+        {
+            this->segment_offsets[i] = roundf((float) i * this->buffer->get_num_frames() / this->segment_count);
+        }
+
+        this->current_segment_offset = this->segment_offsets[0];
+        this->next_segment_offset = this->segment_offsets[1];
+        this->current_stutter_length = this->segment_length;
+    }
 }
 
 void BeatCutter::process(Buffer &out, int num_frames)
 {
+    if (!this->buffer)
+    {
+        return;
+    }
+
     sample rv;
 
     for (int frame = 0; frame < num_frames; frame++)

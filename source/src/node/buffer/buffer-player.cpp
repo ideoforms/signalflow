@@ -13,7 +13,6 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop, NodeRef
 
     this->name = "buffer-player";
 
-    this->buffer = buffer;
     this->create_buffer("buffer", this->buffer);
     this->set_channels(1, 0);
 
@@ -51,7 +50,7 @@ void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
 {
     if (name == "buffer")
     {
-        Node::set_buffer(name, buffer);
+        this->Node::set_buffer(name, buffer);
         this->num_output_channels = buffer->get_num_channels();
         this->rate_scale_factor = buffer->get_sample_rate() / graph->get_sample_rate();
     }
