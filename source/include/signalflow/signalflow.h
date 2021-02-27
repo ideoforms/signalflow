@@ -87,6 +87,7 @@
 #include <signalflow/node/stochastic/logistic.h>
 #include <signalflow/node/stochastic/pink-noise.h>
 #include <signalflow/node/stochastic/random-brownian.h>
+#include <signalflow/node/stochastic/random-choice.h>
 #include <signalflow/node/stochastic/random-coin.h>
 #include <signalflow/node/stochastic/random-exponential-dist.h>
 #include <signalflow/node/stochastic/random-exponential.h>
