@@ -10,26 +10,20 @@ import random
 
 graph = AudioGraph(start=True)
 
-patch = Patch()
-divider = patch.add_input("divider", 1.0)
-amp = patch.add_input("amp", 1.0)
-clock = patch.add_input("clock", 0)
-length = patch.add_input("length", 24)
-events = patch.add_input("events", 8)
-cutoff = patch.add_input("frequency", 8000)
-resonance = patch.add_input("resonance", 0.97)
-pan = patch.add_input("pan", 0.0)
-clock = ClockDivider(clock, divider)
-eu = patch.add_node(Euclidean(clock, length, events))
-flt = SVFFilter(eu, "band_pass", cutoff=cutoff, resonance=resonance)
-panned = LinearPanner(2, flt * amp, pan)
-patch.set_output(panned)
-spec = patch.create_spec()
+class EuclideanPatch (Patch):
+    def __init__(self, clock, divider=1, length=24, events=8, cutoff=8000, resonance=0.99, pan=0.0, amp=0.5):
+        super().__init__()
+        self.clock = clock
+        self.divider = ClockDivider(self.clock, divider)
+        self.eu = Euclidean(self.divider, length, events)
+        self.flt = SVFFilter(self.eu, "low_pass", cutoff=cutoff, resonance=resonance)
+        self.panned = LinearPanner(2, self.flt * amp, pan)
+        self.set_output(self.panned)
 
 clock = Impulse(8)
-Patch(spec, { "clock" : clock, "divider": 2, "length": 24,  "events": 7, "frequency": 80, "resonance": 0.99, "pan": 0.0, "amp": 20 }).play()
-Patch(spec, { "clock" : clock, "divider": 1, "length": 13, "events": 9, "frequency": 800, "resonance": 0.98, "pan": 0.7, "amp": 0.2 }).play()
-Patch(spec, { "clock" : clock, "divider": 1, "length": 16, "events": 11, "frequency": 8000, "resonance": 0.97, "pan": -0.7, "amp": 0.1 }).play()
-Patch(spec, { "clock" : clock, "divider": 2, "length": 19, "events": 12, "frequency": 480, "resonance": 0.99, "amp": 0.2 }).play()
+EuclideanPatch(clock, 2, 23, 7, 80, 0.99, 0.0, 20.0).play()
+EuclideanPatch(clock, 1, 13, 9, 800, 0.98, 0.7, 0.2).play()
+EuclideanPatch(clock, 1, 16, 11, 8000, 0.97, -0.7, 0.1).play()
+EuclideanPatch(clock, 2, 19, 12, 480, 0.99, 0.0, 0.2).play()
 
 graph.wait()
