@@ -12,7 +12,8 @@ public:
                NodeRef stutter_probability = 0.0,
                NodeRef stutter_count = 1,
                NodeRef jump_probability = 0.0,
-               NodeRef duty_cycle = 1.0);
+               NodeRef duty_cycle = 1.0,
+               NodeRef rate = 1.0);
 
     virtual void process(Buffer &out, int num_frames);
     virtual void set_buffer(std::string, BufferRef buffer);
@@ -24,11 +25,12 @@ protected:
     NodeRef stutter_count;
     NodeRef jump_probability;
     NodeRef duty_cycle;
+    NodeRef rate;
 
     std::vector<int> segment_offsets;
-    int phase;
+    float phase;
     int segment_index;
-    int segment_phase;
+    float segment_phase;
     int segment_length;
     float segment_duty;
     int current_segment_offset;

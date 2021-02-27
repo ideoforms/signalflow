@@ -11,8 +11,9 @@ BeatCutter::BeatCutter(BufferRef buffer,
                        NodeRef stutter_probability,
                        NodeRef stutter_count,
                        NodeRef jump_probability,
-                       NodeRef duty_cycle)
-    : buffer(buffer), segment_count(segment_count), stutter_probability(stutter_probability), stutter_count(stutter_count), jump_probability(jump_probability), duty_cycle(duty_cycle)
+                       NodeRef duty_cycle,
+                       NodeRef rate)
+    : buffer(buffer), segment_count(segment_count), stutter_probability(stutter_probability), stutter_count(stutter_count), jump_probability(jump_probability), duty_cycle(duty_cycle), rate(rate)
 {
     this->name = "beat-cutter";
 
@@ -20,6 +21,7 @@ BeatCutter::BeatCutter(BufferRef buffer,
     this->create_input("stutter_count", this->stutter_count);
     this->create_input("jump_probability", this->jump_probability);
     this->create_input("duty_cycle", this->duty_cycle);
+    this->create_input("rate", this->rate);
 
     this->segment_offsets.resize(segment_count);
 
@@ -71,9 +73,9 @@ void BeatCutter::process(Buffer &out, int num_frames)
     {
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            if (this->segment_duty == 1 || (this->segment_phase % this->current_stutter_length) < (this->segment_duty * this->current_stutter_length))
+            if (this->segment_duty == 1 || (fmod(this->segment_phase, this->current_stutter_length)) < (this->segment_duty * this->current_stutter_length))
             {
-                rv = this->buffer->data[channel][this->current_segment_offset + this->segment_phase % this->current_stutter_length];
+                rv = this->buffer->get(channel, this->current_segment_offset + fmod(this->segment_phase, this->current_stutter_length));
                 out[channel][frame] = rv;
             }
             else
@@ -82,10 +84,9 @@ void BeatCutter::process(Buffer &out, int num_frames)
             }
         }
 
-        this->phase += 1;
-        this->segment_phase += 1;
-        this->phase = this->phase % this->buffer->get_num_frames();
-        if (this->phase == this->next_segment_offset)
+        this->phase += this->rate->out[0][frame];
+        this->segment_phase += this->rate->out[0][frame];
+        if (this->phase >= this->next_segment_offset)
         {
             this->segment_index = (this->segment_index + 1) % this->segment_count;
             this->segment_phase = 0;
@@ -106,8 +107,11 @@ void BeatCutter::process(Buffer &out, int num_frames)
                 this->current_stutter_length = this->segment_length;
             }
             this->next_segment_offset = this->segment_offsets[(this->segment_index + 1) % this->segment_count];
+            if (this->next_segment_offset == 0)
+                this->next_segment_offset = this->buffer->get_num_frames();
             this->segment_duty = this->duty_cycle->out[0][frame];
         }
+        this->phase = fmod(this->phase, this->buffer->get_num_frames());
     }
 }
 
