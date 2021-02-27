@@ -287,6 +287,10 @@ void Patch::parse()
 {
     if (!this->parsed)
     {
+        if (this->output == nullptr)
+        {
+            throw std::runtime_error("Patch does not have an output set");
+        }
         this->_iterate_from_node(this->output);
         this->parsed = true;
         signalflow_debug("Parsed patch (total %lu nodes)\n", this->nodes.size());
