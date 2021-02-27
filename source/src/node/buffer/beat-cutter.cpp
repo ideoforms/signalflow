@@ -12,8 +12,9 @@ BeatCutter::BeatCutter(BufferRef buffer,
                        NodeRef stutter_count,
                        NodeRef jump_probability,
                        NodeRef duty_cycle,
-                       NodeRef rate)
-    : buffer(buffer), segment_count(segment_count), stutter_probability(stutter_probability), stutter_count(stutter_count), jump_probability(jump_probability), duty_cycle(duty_cycle), rate(rate)
+                       NodeRef rate,
+                       NodeRef segment_rate)
+    : buffer(buffer), segment_count(segment_count), stutter_probability(stutter_probability), stutter_count(stutter_count), jump_probability(jump_probability), duty_cycle(duty_cycle), rate(rate), segment_rate(segment_rate)
 {
     this->name = "beat-cutter";
 
@@ -22,6 +23,7 @@ BeatCutter::BeatCutter(BufferRef buffer,
     this->create_input("jump_probability", this->jump_probability);
     this->create_input("duty_cycle", this->duty_cycle);
     this->create_input("rate", this->rate);
+    this->create_input("segment_rate", this->segment_rate);
 
     this->segment_offsets.resize(segment_count);
 
@@ -32,6 +34,7 @@ BeatCutter::BeatCutter(BufferRef buffer,
     this->current_segment_offset = 0;
     this->next_segment_offset = 0;
     this->current_stutter_length = 0;
+    this->current_segment_rate = 1.0;
 
     this->create_buffer("buffer", this->buffer);
     this->set_channels(1, 0);
@@ -85,12 +88,13 @@ void BeatCutter::process(Buffer &out, int num_frames)
         }
 
         this->phase += this->rate->out[0][frame];
-        this->segment_phase += this->rate->out[0][frame];
+        this->segment_phase += this->rate->out[0][frame] * current_segment_rate;
         if (this->phase >= this->next_segment_offset)
         {
             this->segment_index = (this->segment_index + 1) % this->segment_count;
             this->segment_phase = 0;
             this->current_segment_offset = this->segment_offsets[this->segment_index];
+            this->current_segment_rate = this->segment_rate->out[0][frame];
             if (random_uniform() < this->jump_probability->out[0][frame])
             {
                 // jump
