@@ -17,13 +17,18 @@ class PatchSpec
 {
 public:
     /**----------------------------------------------------------------------------------
-     * Create a new PatchSpec with the given name. The name is used to uniquely
-     * identify the patch in the global PatchRegistry.
-     *
-     * @param name A human-readable name, used to uniquely identify
+     * Create a new empty PatchSpec.
      *
      *---------------------------------------------------------------------------------*/
-    PatchSpec(std::string name);
+    PatchSpec();
+
+    /**----------------------------------------------------------------------------------
+     * Load a PatchSpec from the given filename.
+     *
+     * @param filename Path to a .json file containing the patch specification.
+     *
+     *---------------------------------------------------------------------------------*/
+    PatchSpec(std::string filename);
 
     /**----------------------------------------------------------------------------------
      * Methods for creating a PatchSpec from NodeSpecs.
@@ -40,6 +45,13 @@ public:
      *
      *---------------------------------------------------------------------------------*/
     std::string get_name();
+
+    /**----------------------------------------------------------------------------------
+     * Set a PatchSpec's name.
+     * @param name The human-readable name.
+     *
+     *---------------------------------------------------------------------------------*/
+    void set_name(std::string name);
 
     /*----------------------------------------------------------------------------------
      * Load a PatchSpec from disk.

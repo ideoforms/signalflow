@@ -13,9 +13,16 @@ using namespace json11;
 
 namespace signalflow
 {
-PatchSpec::PatchSpec(std::string name)
+
+PatchSpec::PatchSpec()
 {
-    this->name = name;
+    this->name = "Unnamed Patch";
+}
+
+PatchSpec::PatchSpec(std::string filename)
+    : PatchSpec()
+{
+    this->load(filename);
 }
 
 void PatchSpec::load(std::string filename)
@@ -254,6 +261,11 @@ void PatchSpec::set_output(PatchNodeSpec *spec)
 std::string PatchSpec::get_name()
 {
     return this->name;
+}
+
+void PatchSpec::set_name(std::string name)
+{
+    this->name = name;
 }
 
 PatchNodeSpec *PatchSpec::get_root()

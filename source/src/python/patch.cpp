@@ -25,6 +25,9 @@ void init_python_patch(py::module &m)
         .def_readonly("nodes", &Patch::nodes)
         .def_readonly("inputs", &Patch::inputs)
 
+        .def("play", [](PatchRef patch) { patch->get_graph()->play(patch); })
+        .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
+
         // template methods
         .def("add_input", [](Patch &patch, std::string name) { return patch.add_input(name); })
         .def("add_input", [](Patch &patch, std::string name, float value) { return patch.add_input(name, value); })

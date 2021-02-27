@@ -278,6 +278,11 @@ void Patch::set_output(NodeRef out)
     this->add_node(out);
 }
 
+AudioGraph *Patch::get_graph()
+{
+    return this->graph;
+}
+
 void Patch::parse()
 {
     if (!this->parsed)
@@ -301,7 +306,8 @@ PatchSpecRef Patch::create_spec()
     NodeRef root = this->output;
     this->last_id = 0;
 
-    PatchSpecRef spec = new PatchSpec(this->name);
+    PatchSpecRef spec = new PatchSpec();
+    spec->set_name(this->name);
     spec->output = this->_create_spec_from_node(root);
     spec->nodespecs = this->nodespecs;
 

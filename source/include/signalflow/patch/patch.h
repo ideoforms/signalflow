@@ -69,6 +69,8 @@ public:
     NodeRef add_node(NodeRef node);
     void set_output(NodeRef out);
 
+    AudioGraph *get_graph();
+
     /**------------------------------------------------------------------------
      * Parse the nodes within a Patch, beginning at the output and iterating
      * to inputs. This is necessary for functions such as auto-free.
