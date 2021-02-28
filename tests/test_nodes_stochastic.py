@@ -49,25 +49,19 @@ def test_random_uniform(graph):
     assert all(a.output_buffer[0][:9] == value10)
     assert all(a.output_buffer[0][9:] != value10)
 
+def _test_stochastic_node(graph, node, value_condition):
+    node.set_seed(123)
+    graph.render_subgraph(node)
+    values = node.output_buffer[0].copy()
+    assert value_condition(values)
+    graph.render_subgraph(node, reset=True)
+    assert np.all(values != node.output_buffer[0])
+    node.set_seed(123)
+    graph.render_subgraph(node, reset=True)
+    assert np.all(values == node.output_buffer[0])
+
 def test_random_uniform_seed(graph):
-    a = sf.RandomUniform(0, 1)
-    a.set_seed(123)
-    graph.render_subgraph(a)
-    values = a.output_buffer[0].copy()
-    graph.render_subgraph(a, reset=True)
-    assert np.all(values != a.output_buffer[0])
-    a.set_seed(123)
-    graph.render_subgraph(a, reset=True)
-    assert np.all(values == a.output_buffer[0])
+    _test_stochastic_node(graph, sf.RandomUniform(0, 1), lambda values: np.all(values > 0) and np.all(values < 1))
 
 def test_random_gaussian_seed(graph):
-    a = sf.RandomGaussian(3, 0.1)
-    a.set_seed(123)
-    graph.render_subgraph(a)
-    values = a.output_buffer[0].copy()
-    assert np.all(values > 2) and np.all(values < 4)
-    graph.render_subgraph(a, reset=True)
-    assert np.all(values != a.output_buffer[0])
-    a.set_seed(123)
-    graph.render_subgraph(a, reset=True)
-    assert np.all(values == a.output_buffer[0])
+    _test_stochastic_node(graph, sf.RandomGaussian(3, 0.1), lambda values: np.all(values > 2) and np.all(values < 4))
