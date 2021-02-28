@@ -34,8 +34,7 @@ def test_random_uniform(graph):
 
     # New random values after trigger() called
     a.trigger()
-    graph.reset_subgraph(a)
-    graph.render_subgraph(a)
+    graph.render_subgraph(a, reset=True)
     value10 = a.output_buffer[0][0]
     assert value10 >= 10 and value10 <= 20
     assert value00 != value10
@@ -46,7 +45,17 @@ def test_random_uniform(graph):
 
     # New random values after audio-rate trigger
     clock.output_buffer[0][9] = 1.0
-    graph.reset_subgraph(a)
-    graph.render_subgraph(a)
+    graph.render_subgraph(a, reset=True)
     assert all(a.output_buffer[0][:9] == value10)
     assert all(a.output_buffer[0][9:] != value10)
+
+def test_random_uniform_seed(graph):
+    a = sf.RandomUniform(0, 1)
+    a.set_seed(123)
+    graph.render_subgraph(a)
+    values = a.output_buffer[0].copy()
+    graph.render_subgraph(a, reset=True)
+    assert np.all(values != a.output_buffer[0])
+    a.set_seed(123)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(values == a.output_buffer[0])

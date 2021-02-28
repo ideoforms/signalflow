@@ -35,16 +35,17 @@ void RandomUniform::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
-        if (this->value[channel] == std::numeric_limits<float>::max())
-        {
-            this->value[channel] = this->random_uniform(min->out[channel][0], this->max->out[channel][0]);
-        }
-
         for (int frame = 0; frame < num_frames; frame++)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
-            if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            /*--------------------------------------------------------------------------------
+             * New random number should be generated on 3 conditions:
+             *  - output has not yet been initialised (so is equal to float max), or
+             *  - clock is null (in which case generate a new value each sample), or
+             *  - a trigger has been received on the clock
+             *--------------------------------------------------------------------------------*/
+            if (this->value[channel] == std::numeric_limits<float>::max() || clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->value[channel] = this->random_uniform(min->out[channel][frame], this->max->out[channel][frame]);
             }
