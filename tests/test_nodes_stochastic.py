@@ -5,6 +5,7 @@ from . import graph, process_tree
 
 import numpy as np
 
+
 def test_random_impulse(graph):
     frequency = 1000
 
@@ -18,6 +19,7 @@ def test_random_impulse(graph):
     process_tree(a, buffer=b)
     impulse_count = np.sum(b.data[0])
     assert (impulse_count - frequency) < (0.1 * frequency)
+
 
 def test_random_uniform(graph):
     clock = sf.Node()
@@ -49,19 +51,33 @@ def test_random_uniform(graph):
     assert all(a.output_buffer[0][:9] == value10)
     assert all(a.output_buffer[0][9:] != value10)
 
+
 def _test_stochastic_node(graph, node, value_condition):
     node.set_seed(123)
     graph.render_subgraph(node)
     values = node.output_buffer[0].copy()
     assert value_condition(values)
     graph.render_subgraph(node, reset=True)
-    assert np.all(values != node.output_buffer[0])
+    assert np.any(values != node.output_buffer[0])
     node.set_seed(123)
     graph.render_subgraph(node, reset=True)
     assert np.all(values == node.output_buffer[0])
 
+
 def test_random_uniform_seed(graph):
-    _test_stochastic_node(graph, sf.RandomUniform(0, 1), lambda values: np.all(values > 0) and np.all(values < 1))
+    _test_stochastic_node(graph, sf.RandomUniform(0, 1),
+                          lambda values: np.all(values > 0) and np.all(values < 1))
+
 
 def test_random_gaussian_seed(graph):
-    _test_stochastic_node(graph, sf.RandomGaussian(3, 0.1), lambda values: np.all(values > 2) and np.all(values < 4))
+    _test_stochastic_node(graph, sf.RandomGaussian(3, 0.1),
+                          lambda values: np.all(values > 2) and np.all(values < 4))
+
+
+def test_random_exponential_seed(graph):
+    _test_stochastic_node(graph, sf.RandomExponential(1, 10),
+                          lambda values: np.all(values > 1) and np.all(values < 10))
+
+def test_random_coin_seed(graph):
+    _test_stochastic_node(graph, sf.RandomCoin(0.5),
+                          lambda values: np.all((values == 0) | (values == 1)))

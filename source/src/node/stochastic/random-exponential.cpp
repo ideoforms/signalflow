@@ -32,18 +32,14 @@ void RandomExponential::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
-        if (this->value[channel] == std::numeric_limits<float>::max())
-        {
-            this->value[channel] = this->random_uniform(min->out[channel][0], this->max->out[channel][0]);
-        }
-
         for (int frame = 0; frame < num_frames; frame++)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
-            if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (this->value[channel] == std::numeric_limits<float>::max() || clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
-                this->value[channel] = signalflow_scale_lin_exp(this->random_uniform(0, 1), 0, 1, min->out[channel][frame], this->max->out[channel][frame]);
+                this->value[channel] = signalflow_scale_lin_exp(this->random_uniform(0, 1),
+                                                                0, 1, min->out[channel][frame], this->max->out[channel][frame]);
             }
 
             this->out[channel][frame] = this->value[channel];

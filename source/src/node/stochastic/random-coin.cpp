@@ -40,16 +40,11 @@ void RandomCoin::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
-        if (this->value[channel] == std::numeric_limits<float>::max())
-        {
-            this->value[channel] = gsl_rng_uniform(this->rng) < this->probability->out[channel][0];
-        }
-
         for (int frame = 0; frame < num_frames; frame++)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
-            if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (this->value[channel] == std::numeric_limits<float>::max() || clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->value[channel] = gsl_rng_uniform(this->rng) < this->probability->out[channel][frame];
             }
