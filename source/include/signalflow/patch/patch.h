@@ -32,6 +32,15 @@ public:
         : std::shared_ptr<T>(ptr) {}
     PatchRefTemplate(PatchSpecRef patchspec)
         : std::shared_ptr<T>(new T(patchspec)) {}
+
+    NodeRef operator*(NodeRef other);
+    NodeRef operator*(double constant);
+    NodeRef operator+(NodeRef other);
+    NodeRef operator+(double constant);
+    NodeRef operator-(NodeRef other);
+    NodeRef operator-(double constant);
+    NodeRef operator/(NodeRef other);
+    NodeRef operator/(double constant);
 };
 
 typedef PatchRefTemplate<Patch> PatchRef;
@@ -65,6 +74,7 @@ public:
      * Methods for creating a Patch template from live Node objects.
      *---------------------------------------------------------------------------------*/
     NodeRef add_input(std::string name, sample default_value = 0);
+
     BufferRef add_buffer_input(std::string name);
     NodeRef add_node(NodeRef node);
     void set_output(NodeRef out);

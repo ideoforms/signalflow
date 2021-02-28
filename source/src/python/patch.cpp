@@ -11,6 +11,16 @@ void init_python_patch(py::module &m)
         .def(py::init<PatchRef, std::unordered_map<std::string, NodeRef>>())
         .def(py::init<PatchRef>())
         .def(py::init<>())
+
+        .def("__mul__", [](PatchRef a, NodeRef b) { return a * b; })
+        .def("__mul__", [](PatchRef a, float b) { return a * NodeRef(b); })
+        .def("__add__", [](PatchRef a, NodeRef b) { return a + b; })
+        .def("__add__", [](PatchRef a, float b) { return a + NodeRef(b); })
+        .def("__sub__", [](PatchRef a, NodeRef b) { return a - b; })
+        .def("__sub__", [](PatchRef a, float b) { return a - NodeRef(b); })
+        .def("__truediv__", [](PatchRef a, NodeRef b) { return a / b; })
+        .def("__truediv__", [](PatchRef a, float b) { return a / NodeRef(b); })
+
         // Breaks other properties (auto_free, inputs, etc).
         // Need a policy on this: either *only* inputs should be accessible through properties,
         // or inputs should all only be accessible through set_input(...)

@@ -27,6 +27,7 @@ void init_python_node(py::module &m)
         .def(py::init<>([](int value) { return new Constant(value); }))
         .def(py::init<>([](float value) { return new Constant(value); }))
         .def(py::init<>([](std::vector<NodeRef> value) { return new ChannelArray(value); }))
+        .def(py::init<>([](PatchRef patch) { return patch->output; }))
 
         /*--------------------------------------------------------------------------------
          * Operators
@@ -170,6 +171,11 @@ void init_python_node(py::module &m)
 
     // numpy arrays
     py::implicitly_convertible<py::array, Node>();
+
+    // allows patches to be used in place of nodes as Node inputs, using the
+    // conversion constructor above:
+    // .def(py::init<>([](PatchRef patch) { return patch->output; }))
+    py::implicitly_convertible<Patch, Node>();
 
     py::class_<NodeRegistry>(m, "NodeRegistry")
         .def(py::init<>())

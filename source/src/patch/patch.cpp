@@ -5,6 +5,11 @@
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/patch/patch-registry.h"
 
+#include "signalflow/node/operators/add.h"
+#include "signalflow/node/operators/divide.h"
+#include "signalflow/node/operators/multiply.h"
+#include "signalflow/node/operators/subtract.h"
+
 #include <iostream>
 #include <memory>
 
@@ -160,6 +165,7 @@ void Patch::set_input(std::string name, NodeRef value)
         throw std::runtime_error("Patch has no such parameter: " + name);
     }
     NodeRef current = this->inputs[name];
+    bool found_input = false;
     for (NodeRef node : this->nodes)
     {
         for (auto param : node->inputs)
@@ -168,8 +174,13 @@ void Patch::set_input(std::string name, NodeRef value)
             {
                 // Update routing
                 node->set_input(param.first, value);
+                found_input = true;
             }
         }
+    }
+    if (!found_input)
+    {
+        throw std::runtime_error("Couldn't find input: " + name);
     }
     this->inputs[name] = value;
 }
@@ -268,7 +279,6 @@ NodeRef Patch::add_node(NodeRef node)
     node->patch = this;
     return node;
 }
-
 void Patch::set_output(NodeRef out)
 {
     /*----------------------------------------------------------------------------
@@ -390,5 +400,55 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
 
     return this->nodespecs[nodespec->get_id()];
 }
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator*(NodeRef other)
+{
+    return new Multiply(this->get()->output, other);
+}
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator*(double constant)
+{
+    return new Multiply(this->get()->output, constant);
+}
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator+(NodeRef other)
+{
+    return new Add(this->get()->output, other);
+}
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator+(double constant)
+{
+    return new Add(this->get()->output, constant);
+}
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator-(NodeRef other)
+{
+    return new Subtract(this->get()->output, other);
+}
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator-(double constant)
+{
+    return new Subtract(this->get()->output, constant);
+}
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator/(NodeRef other)
+{
+    return new Divide(this->get()->output, other);
+}
+
+template <class T>
+NodeRef PatchRefTemplate<T>::operator/(double constant)
+{
+    return new Divide(this->get()->output, constant);
+}
+
+template class PatchRefTemplate<Patch>;
 
 }
