@@ -25,8 +25,7 @@ void RandomGaussian::trigger(std::string name, float value)
     {
         for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
         {
-            this->value[channel] = random_gaussian(this->mean->out[channel][0],
-                                                   this->sigma->out[channel][0]);
+            this->value[channel] = this->mean->out[channel][0] + gsl_ran_gaussian(this->rng, this->sigma->out[channel][0]);
         }
     }
     else
@@ -45,8 +44,7 @@ void RandomGaussian::process(Buffer &out, int num_frames)
 
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
-                this->value[channel] = random_gaussian(this->mean->out[channel][frame],
-                                                       this->sigma->out[channel][frame]);
+                this->value[channel] = this->mean->out[channel][frame] + gsl_ran_gaussian(this->rng, this->sigma->out[channel][frame]);
             }
 
             this->out[channel][frame] = this->value[channel];

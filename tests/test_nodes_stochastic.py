@@ -59,3 +59,15 @@ def test_random_uniform_seed(graph):
     a.set_seed(123)
     graph.render_subgraph(a, reset=True)
     assert np.all(values == a.output_buffer[0])
+
+def test_random_gaussian_seed(graph):
+    a = sf.RandomGaussian(3, 0.1)
+    a.set_seed(123)
+    graph.render_subgraph(a)
+    values = a.output_buffer[0].copy()
+    assert np.all(values > 2) and np.all(values < 4)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(values != a.output_buffer[0])
+    a.set_seed(123)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(values == a.output_buffer[0])
