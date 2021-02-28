@@ -53,13 +53,13 @@ void WhiteNoise::process(Buffer &out, int num_frames)
             if (this->steps_remaining[channel] <= 0)
             {
                 // pick a new target value
-                float target = min + ((max - min) * gsl_rng_uniform(this->rng));
+                float target = this->random_uniform(min, max);
 
                 if (frequency > 0)
                 {
                     if (random_interval)
                     {
-                        this->steps_remaining[channel] = (int) (gsl_rng_uniform(this->rng) * this->graph->get_sample_rate() / (frequency / 2.0));
+                        this->steps_remaining[channel] = (int) (this->random_uniform() * this->graph->get_sample_rate() / (frequency / 2.0));
                     }
                     else
                     {

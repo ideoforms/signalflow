@@ -2,17 +2,7 @@
 
 #include "signalflow/node/node.h"
 
-/*--------------------------------------------------------------------------------
- * This is needed to prevent compile-time errors on Big Sur.
- * vecLib (Accelerate) on macOS 11 provides its own CBLAS defines which
- * clash with the gsl versions. If present, don't also include the gsl ones.
- *-------------------------------------------------------------------------------*/
-#ifdef CBLAS_H
-#define __GSL_CBLAS_H__
-#endif
-
-#include <gsl/gsl_randist.h>
-#include <gsl/gsl_rng.h>
+#include <random>
 #include <sys/time.h>
 
 #define SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()             \
@@ -32,11 +22,13 @@ public:
     virtual void set_seed(unsigned long int seed);
 
 protected:
-    double random_uniform(double from, double to);
+    double random_uniform(double from = 0.0, double to = 1.0);
+    double random_gaussian(double mean = 0.0, double sigma = 1.0);
 
     NodeRef reset;
     unsigned long int seed;
-    gsl_rng *rng;
+
+    std::mt19937 rng;
 };
 
 }

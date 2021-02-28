@@ -1,4 +1,3 @@
-#include "signalflow/core/random.h"
 #include "signalflow/node/stochastic/random-brownian.h"
 
 namespace signalflow
@@ -26,7 +25,8 @@ void RandomBrownian::trigger(std::string name, float value)
     {
         for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
         {
-            this->value[channel] += gsl_ran_gaussian(this->rng, this->delta->out[channel][0]);
+            this->value[channel] += this->random_gaussian(0, this->delta->out[channel][0]);
+
             if (this->value[channel] > this->max->out[channel][0])
                 this->value[channel] = this->max->out[channel][0] - (this->value[channel] - this->max->out[channel][0]);
             else if (this->value[channel] < this->min->out[channel][0])
@@ -49,7 +49,7 @@ void RandomBrownian::process(Buffer &out, int num_frames)
 
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
-                this->value[channel] += gsl_ran_gaussian(this->rng, this->delta->out[channel][frame]);
+                this->value[channel] += this->random_gaussian(0, this->delta->out[channel][frame]);
                 if (this->value[channel] > this->max->out[channel][frame])
                     this->value[channel] = this->max->out[channel][frame] - (this->value[channel] - this->max->out[channel][frame]);
                 else if (this->value[channel] < this->min->out[channel][frame])

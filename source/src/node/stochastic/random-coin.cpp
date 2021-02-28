@@ -1,7 +1,5 @@
 #include "signalflow/node/stochastic/random-coin.h"
 
-#include "signalflow/core/random.h"
-
 #include <limits>
 
 namespace signalflow
@@ -27,7 +25,7 @@ void RandomCoin::trigger(std::string name, float value)
     {
         for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
         {
-            this->value[channel] = gsl_rng_uniform(this->rng) < this->probability->out[channel][0];
+            this->value[channel] = this->random_uniform() < this->probability->out[channel][0];
         }
     }
     else
@@ -46,7 +44,7 @@ void RandomCoin::process(Buffer &out, int num_frames)
 
             if (this->value[channel] == std::numeric_limits<float>::max() || clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
-                this->value[channel] = gsl_rng_uniform(this->rng) < this->probability->out[channel][frame];
+                this->value[channel] = this->random_uniform() < this->probability->out[channel][frame];
             }
 
             this->out[channel][frame] = this->value[channel];
