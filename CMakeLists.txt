@@ -63,10 +63,6 @@ else()
     message(FATAL_ERROR "Couldn't find libsndfile")
 endif()
 
-find_package(GSL REQUIRED)
-message("Found libgsl")
-add_definitions(-DHAVE_GSL)
-
 find_library(FFTW3F fftw3f)
 if (FFTW3F)
     message("Found fftw3f")
@@ -111,7 +107,6 @@ set(SRC ${SRC} source/lib/json11/json11.cpp)
 #-------------------------------------------------------------------------------
 add_library(signalflow SHARED ${SRC})
 target_link_libraries(signalflow ${SNDFILE} ${SOUNDIO})
-target_link_libraries(signalflow GSL::gsl GSL::gslcblas)
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     target_link_libraries(signalflow
         "-framework Accelerate"

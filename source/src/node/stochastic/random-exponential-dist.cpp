@@ -24,7 +24,7 @@ void RandomExponentialDist::trigger(std::string name, float value)
     {
         for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
         {
-            this->value[channel] = random_exponential(this->scale->out[channel][0]);
+            this->value[channel] = this->random_exponential(this->scale->out[channel][0]);
         }
     }
     else
@@ -43,7 +43,7 @@ void RandomExponentialDist::process(Buffer &out, int num_frames)
 
             if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
-                this->value[channel] = random_exponential(this->scale->out[channel][frame]);
+                this->value[channel] = this->random_exponential(this->scale->out[channel][frame]);
             }
 
             this->out[channel][frame] = this->value[channel];

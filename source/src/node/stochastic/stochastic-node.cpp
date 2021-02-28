@@ -23,12 +23,17 @@ StochasticNode::StochasticNode(NodeRef reset)
 
 double StochasticNode::random_uniform(double from, double to)
 {
-    return std::uniform_real_distribution<float>(from, to)(this->rng);
+    return std::uniform_real_distribution<double>(from, to)(this->rng);
 }
 
 double StochasticNode::random_gaussian(double mean, double sigma)
 {
-    return std::normal_distribution<float>(mean, sigma)(this->rng);
+    return std::normal_distribution<double>(mean, sigma)(this->rng);
+}
+
+double StochasticNode::random_exponential(double lambda)
+{
+    return std::exponential_distribution<double>(lambda)(this->rng);
 }
 
 void StochasticNode::set_seed(unsigned long int seed)

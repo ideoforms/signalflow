@@ -68,13 +68,13 @@ graph->wait();
 #### macOS
 
 ```
-brew install python libsndfile libsoundio gsl
+brew install python libsndfile libsoundio
 ```
 
 #### Linux, Raspberry Pi
 
 ```
-apt-get install git cmake g++ python3-pip libasound2-dev libgsl0-dev libsndfile1-dev libsoundio-dev fftw3-dev 
+apt-get install git cmake g++ python3-pip libasound2-dev libsndfile1-dev libsoundio-dev fftw3-dev
 ```
 
 If you experience an error on Raspberry Pi `libf77blas.so.3: cannot open shared object file`:
