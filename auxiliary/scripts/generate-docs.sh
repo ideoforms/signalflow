@@ -15,4 +15,4 @@ fi
 GIT_REPO_DIR=$(git rev-parse --show-toplevel)
 cd "$GIT_REPO_DIR"
 
-doxygen aux/docs/signalflow.dox
+doxygen auxiliary/docs/signalflow.dox
