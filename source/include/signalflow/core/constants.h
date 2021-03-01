@@ -17,7 +17,8 @@ typedef RingBuffer<sample> SampleRingBuffer;
 #if defined(__APPLE__) && !defined(FFT_FFTW)
 #define FFT_ACCELERATE
 #else
-#define FFT_FFTW
+// Tim: removed as now defined by CMake as a compiler switch
+//#define FFT_FFTW
 #endif
 
 /*------------------------------------------------------------------------

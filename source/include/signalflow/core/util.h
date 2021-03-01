@@ -17,7 +17,7 @@
 
 namespace signalflow
 {
-
+double signalflow_seconds_since_midnight();
 double signalflow_timestamp();
 
 double signalflow_clip(double value, double min, double max);

@@ -1,5 +1,6 @@
 #include "signalflow/core/graph-monitor.h"
-#include <unistd.h>
+//#include <unistd.h>
+#include <thread>
 
 namespace signalflow
 {
@@ -22,12 +23,14 @@ void AudioGraphMonitor::stop()
 
 void AudioGraphMonitor::run_thread()
 {
-    float sleep_time = 1e6 * (1.0 / this->frequency);
+    //float sleep_time = 1e6 * (1.0 / this->frequency);
+    float sleep_time = 1.0 / this->frequency;
     while (this->running)
     {
         std::string status = this->graph->get_status();
         std::cout << status << std::endl;
-        usleep(sleep_time);
+        //usleep(sleep_time);
+        std::this_thread::sleep_for(std::chrono::duration<float>(sleep_time));
     }
 }
 

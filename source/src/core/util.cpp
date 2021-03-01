@@ -10,10 +10,29 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
+#include <chrono>
+#include <ctime>
 
 namespace signalflow
 {
+
+/*--------------------------------------------------------------------*
+ * signalflow_seconds_since_midnight(): Return number of seconds since midnight
+ * based on the the system clock.
+ *--------------------------------------------------------------------*/
+double signalflow_seconds_since_midnight()
+{
+    auto now = std::chrono::system_clock::now();
+
+    time_t tnow = std::chrono::system_clock::to_time_t(now);
+    tm *date = std::localtime(&tnow);
+    date->tm_hour = 0;
+    date->tm_min = 0;
+    date->tm_sec = 0;
+    auto midnight = std::chrono::system_clock::from_time_t(std::mktime(date));
+
+    return std::chrono::duration<double>(now - midnight).count();
+}
 
 /*--------------------------------------------------------------------*
  * timestamp(): Return microsecond-accurate timestamp.
@@ -21,9 +40,11 @@ namespace signalflow
  *--------------------------------------------------------------------*/
 double signalflow_timestamp()
 {
-    timeval tv;
+    /*timeval tv;
     gettimeofday(&tv, NULL);
     return tv.tv_sec + (tv.tv_usec / 1000000.0);
+    */
+    return signalflow_seconds_since_midnight();
 }
 
 /*--------------------------------------------------------------------*

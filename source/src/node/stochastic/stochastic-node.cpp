@@ -11,14 +11,16 @@ StochasticNode::StochasticNode(NodeRef reset)
 {
     this->create_input("reset", this->reset);
 
-    struct timeval tv;
+    //struct timeval tv;
 
     /*--------------------------------------------------------------------*
      * Seed with current time multiplied by microsecond part, to give
      * a pretty decent non-correlated seed.
      *--------------------------------------------------------------------*/
-    gettimeofday(&tv, 0);
-    this->rng.seed(tv.tv_sec * tv.tv_usec);
+    //gettimeofday(&tv, 0);
+    //this->rng.seed(tv.tv_sec * tv.tv_usec);
+    auto t = signalflow_seconds_since_midnight();
+    this->rng.seed(int(t) + int(t * 1e6));
 }
 
 double StochasticNode::random_uniform(double from, double to)

@@ -42,7 +42,8 @@ void NodeMonitor::run_thread()
         {
             fprintf(stderr, "%s: %.5f\n", this->label.c_str(), this->node->out[0][0]);
         }
-        usleep(sleep_time);
+        //usleep(sleep_time);
+        std::this_thread::sleep_for(std::chrono::duration<float, std::micro>(sleep_time));
     }
 }
 
