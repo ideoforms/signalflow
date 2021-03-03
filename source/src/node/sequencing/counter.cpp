@@ -1,5 +1,7 @@
 #include "signalflow/node/sequencing/counter.h"
 
+#include <limits>
+
 namespace signalflow
 {
 
@@ -17,16 +19,25 @@ Counter::Counter(NodeRef clock, NodeRef min, NodeRef max)
 
 void Counter::alloc()
 {
-    this->counter.resize(this->num_output_channels_allocated);
+    this->counter.resize(this->num_output_channels_allocated, std::numeric_limits<int>::max());
 }
 
 void Counter::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        for (int i = 0; i < this->num_output_channels; i++)
+        for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            this->counter[i] += 1;
+            if (this->counter[channel] == std::numeric_limits<int>::max())
+            {
+                this->counter[channel] = this->min->out[channel][0];
+            }
+            else
+            {
+                this->counter[channel] += 1;
+                if (this->counter[channel] >= this->max->out[channel][0])
+                    this->counter[channel] = this->min->out[channel][0];
+            }
         }
     }
 }
@@ -40,11 +51,25 @@ void Counter::process(Buffer &out, int num_frames)
             bool rv = SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame);
             if (rv)
             {
-                this->counter[channel] += 1;
-                if (this->counter[channel] >= this->max->out[channel][frame])
+                if (this->counter[channel] == std::numeric_limits<int>::max())
+                {
                     this->counter[channel] = this->min->out[channel][frame];
+                }
+                else
+                {
+                    this->counter[channel] += 1;
+                    if (this->counter[channel] >= this->max->out[channel][frame])
+                        this->counter[channel] = this->min->out[channel][frame];
+                }
             }
-            this->out[channel][frame] = this->counter[channel];
+            if (this->counter[channel] == std::numeric_limits<int>::max())
+            {
+                this->out[channel][frame] = 0;
+            }
+            else
+            {
+                this->out[channel][frame] = this->counter[channel];
+            }
         }
     }
 }

@@ -109,6 +109,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/flipflop.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/latch.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/clock-divider.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/sequence.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/impulse-sequence.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/euclidean.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/vamp.cpp

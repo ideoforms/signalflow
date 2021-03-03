@@ -1,4 +1,5 @@
 #include "signalflow/node/sequencing/clock-divider.h"
+#include <limits>
 
 namespace signalflow
 {
@@ -16,7 +17,7 @@ ClockDivider::ClockDivider(NodeRef clock, NodeRef factor)
 
 void ClockDivider::alloc()
 {
-    this->counter.resize(this->num_output_channels_allocated);
+    this->counter.resize(this->num_output_channels_allocated, std::numeric_limits<int>::max());
 }
 
 void ClockDivider::trigger(std::string name, float value)

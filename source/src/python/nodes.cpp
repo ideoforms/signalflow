@@ -324,6 +324,9 @@ void init_python_nodes(py::module &m)
     py::class_<Latch, Node, NodeRefTemplate<Latch>>(m, "Latch")
         .def(py::init<NodeRef, NodeRef>(), "set"_a = 0, "reset"_a = 0);
 
+    py::class_<Sequence, Node, NodeRefTemplate<Sequence>>(m, "Sequence")
+        .def(py::init<std::vector<float>, NodeRef>(), "sequence"_a = std::vector<int>(), "clock"_a = nullptr);
+
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);
 

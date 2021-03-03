@@ -142,6 +142,7 @@
 #include <signalflow/node/sequencing/impulse-sequence.h>
 #include <signalflow/node/sequencing/index.h>
 #include <signalflow/node/sequencing/latch.h>
+#include <signalflow/node/sequencing/sequence.h>
 
 /*------------------------------------------------------------------------
  * Analysis and MIR
