@@ -13,7 +13,7 @@ void init_python_util(py::module &m);
 PYBIND11_MODULE(signalflow, m)
 {
     m.doc() = R"pbdoc(
-    signalflow
+    SignalFlow
     ----------
 
     A framework for audio DSP.

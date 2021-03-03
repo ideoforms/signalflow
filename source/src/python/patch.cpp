@@ -6,12 +6,18 @@ void init_python_patch(py::module &m)
      * Patch
      *-------------------------------------------------------------------------------*/
     py::class_<Patch, PatchRefTemplate<Patch>>(m, "Patch")
+        /*--------------------------------------------------------------------------------
+         * Constructors
+         *-------------------------------------------------------------------------------*/
         .def(py::init<PatchSpecRef, std::unordered_map<std::string, NodeRef>>())
         .def(py::init<PatchSpecRef>())
         .def(py::init<PatchRef, std::unordered_map<std::string, NodeRef>>())
         .def(py::init<PatchRef>())
         .def(py::init<>())
 
+        /*--------------------------------------------------------------------------------
+         * Operators
+         *-------------------------------------------------------------------------------*/
         .def("__mul__", [](PatchRef a, NodeRef b) { return a * b; })
         .def("__mul__", [](PatchRef a, float b) { return a * NodeRef(b); })
         .def("__add__", [](PatchRef a, NodeRef b) { return a + b; })
@@ -38,7 +44,9 @@ void init_python_patch(py::module &m)
         .def("play", [](PatchRef patch) { patch->get_graph()->play(patch); })
         .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
 
-        // template methods
+        /*--------------------------------------------------------------------------------
+         * Patch specification methods
+         *-------------------------------------------------------------------------------*/
         .def("add_input", [](Patch &patch, std::string name) { return patch.add_input(name); })
         .def("add_input", [](Patch &patch, std::string name, float value) { return patch.add_input(name, value); })
         .def("add_input", &Patch::add_input)

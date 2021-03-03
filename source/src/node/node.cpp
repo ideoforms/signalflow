@@ -3,7 +3,6 @@
 #include "signalflow/node/operators/add.h"
 #include "signalflow/node/operators/divide.h"
 #include "signalflow/node/operators/multiply.h"
-#include "signalflow/node/operators/pow.h"
 #include "signalflow/node/operators/scale.h"
 #include "signalflow/node/operators/subtract.h"
 
@@ -486,19 +485,6 @@ void Node::poll(float frequency, std::string label)
     this->monitor = new NodeMonitor(this, label, frequency);
     this->monitor->start();
 }
-
-//NodeRef Node::scale(float from, float to, signalflow_scale_t scale)
-//{
-//    switch (scale)
-//    {
-//        case SIGNALFLOW_SCALE_LIN_LIN:
-//            return NodeRef(new ScaleLinLin(this, -1, 1, from, to));
-//        case SIGNALFLOW_SCALE_LIN_EXP:
-//            return NodeRef(new ScaleLinExp(this, -1, 1, from, to));
-//        default:
-//            return nullptr;
-//    }
-//}
 
 ///////////////////////////////////////////////////////////////////////////////
 

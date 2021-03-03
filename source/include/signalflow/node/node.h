@@ -200,16 +200,6 @@ public:
     virtual void poll(float frequency = 1.0, std::string label = "");
 
     /*------------------------------------------------------------------------
-     * Returns a new Node that scales the output of this node from
-     * `from` to `to`.
-     *
-     * TODO: This is poor syntax and assumes the output will always
-     *       range from [-1, 1]. Need a way to specify output ranges and
-     *       scale accordingly. `class ValueRange`?
-     *-----------------------------------------------------------------------*/
-    //    virtual NodeRef scale(float from, float to, signalflow_scale_t scale = SIGNALFLOW_SCALE_LIN_LIN);
-
-    /*------------------------------------------------------------------------
      * Get the number of samples in the node's output buffer, per channel.
      *-----------------------------------------------------------------------*/
     int get_output_buffer_length();
