@@ -17,8 +17,9 @@
 
 namespace signalflow
 {
-double signalflow_seconds_since_midnight();
+//double signalflow_seconds_since_midnight();
 double signalflow_timestamp();
+long signalflow_create_random_seed();
 
 double signalflow_clip(double value, double min, double max);
 double signalflow_wrap(double value, double min, double max);
