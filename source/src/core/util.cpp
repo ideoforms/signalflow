@@ -68,7 +68,7 @@ long signalflow_create_random_seed()
     // seconds since epoch
     auto now = high_resolution_clock::now().time_since_epoch();
     double s = duration<double>(now).count();
-    return long(s) * long((s - long(s)) * 1e6);
+    return long(s) * long((s - long(s)) * 1e9);
 }
 
 /*--------------------------------------------------------------------*
