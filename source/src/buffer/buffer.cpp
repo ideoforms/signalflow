@@ -10,14 +10,6 @@
 #ifdef WIN32
 //#include <windows.h>
 #include <io.h>
-/* Values for the second argument to access.
-   These may be OR'd together.  */
-#define R_OK 4 /* Test for read permission.  */
-#define W_OK 2 /* Test for write permission.  */
-#define   X_OK    1       /* execute permission - unsupported in windows*/
-#define F_OK 0 /* Test for existence.  */
-#define _USE_MATH_DEFINES 
-#include <math.h>
 #else
 #include <unistd.h>
 #endif
@@ -138,10 +130,10 @@ void Buffer::resize(int num_channels, int num_frames)
 void Buffer::load(std::string filename)
 {
     std::string path = filename;
-    if (access(path.c_str(), F_OK) != 0)
+    if (access(path.c_str(), 0) != 0)
     {
         path = SIGNALFLOW_USER_DIR + "/audio/" + filename;
-        if (access(path.c_str(), F_OK) != 0)
+        if (access(path.c_str(), 0) != 0)
         {
             throw std::runtime_error(std::string("Couldn't find file at path: ") + filename);
         }
