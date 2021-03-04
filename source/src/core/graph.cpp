@@ -11,8 +11,6 @@
 #include "signalflow/node/io/output/soundio.h"
 
 #include <string.h>
-//#include <sys/time.h>
-//#include <unistd.h>
 
 namespace signalflow
 {

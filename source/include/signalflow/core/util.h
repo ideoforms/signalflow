@@ -17,7 +17,6 @@
 
 namespace signalflow
 {
-//double signalflow_seconds_since_midnight();
 double signalflow_timestamp();
 long signalflow_create_random_seed();
 

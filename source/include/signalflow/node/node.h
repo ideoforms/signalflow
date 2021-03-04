@@ -7,8 +7,6 @@
 #include "signalflow/core/property.h"
 #include "signalflow/node/registry.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include <memory>
 #include <set>
 #include <string>

@@ -10,7 +10,6 @@ StochasticNode::StochasticNode(NodeRef reset)
     : Node(), reset(reset)
 {
     this->create_input("reset", this->reset);
-
     this->rng.seed(signalflow_create_random_seed());
 }
 

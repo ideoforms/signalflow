@@ -1,7 +1,6 @@
 #include "signalflow/node/node.h"
 
 #include <thread>
-//#include <unistd.h>
 
 namespace signalflow
 {

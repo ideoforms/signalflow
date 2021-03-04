@@ -20,7 +20,7 @@ void NodeMonitor::start()
 
 void NodeMonitor::run_thread()
 {
-    float sleep_time = 1e6 * (1.0 / this->frequency);
+    float sleep_time = 1.0f / this->frequency;
     char buffer[1024];
     while (this->running)
     {
@@ -42,8 +42,7 @@ void NodeMonitor::run_thread()
         {
             fprintf(stderr, "%s: %.5f\n", this->label.c_str(), this->node->out[0][0]);
         }
-        //usleep(sleep_time);
-        std::this_thread::sleep_for(std::chrono::duration<float, std::micro>(sleep_time));
+        std::this_thread::sleep_for(std::chrono::duration<float>(sleep_time));
     }
 }
 
