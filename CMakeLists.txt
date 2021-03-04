@@ -58,6 +58,20 @@ add_subdirectory("source/src")
 set(SRC ${SRC} source/lib/json11/json11.cpp)
 
 #-------------------------------------------------------------------------------
+# For builds of the Python bindings, add Python dependencies and flags
+#-------------------------------------------------------------------------------
+if (CMAKE_BUILD_PYTHON)
+    find_package (Python3 COMPONENTS Interpreter Development)
+    include_directories(${Python3_INCLUDE_DIRS})
+    set(CMAKE_SHARED_LIBRARY_PREFIX "")
+    if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+        set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
+        add_link_options(-w -undefined dynamic_lookup)
+    endif()
+endif()
+
+
+#-------------------------------------------------------------------------------
 # Specify output library
 #-------------------------------------------------------------------------------
 add_library(signalflow SHARED ${SRC})
@@ -135,20 +149,6 @@ if (VAMP)
     target_link_libraries(signalflow ${VAMP})
 else()
     message(WARNING "Couldn't find vamp")
-endif()
-
-
-#-------------------------------------------------------------------------------
-# For builds of the Python bindings, add Python dependencies and flags
-#-------------------------------------------------------------------------------
-if (CMAKE_BUILD_PYTHON)
-    find_package (Python3 COMPONENTS Interpreter Development)
-    include_directories(${Python3_INCLUDE_DIRS})
-    set(CMAKE_SHARED_LIBRARY_PREFIX "")
-    if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-        set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
-        add_link_options(-w -undefined dynamic_lookup)
-    endif()
 endif()
 
 
