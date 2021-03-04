@@ -7,10 +7,10 @@ namespace signalflow
 {
 
 StochasticNode::StochasticNode(NodeRef reset)
-    : Node(), reset(reset)
+    : Node(), reset(reset), seed(signalflow_create_random_seed())
 {
     this->create_input("reset", this->reset);
-    this->rng.seed(signalflow_create_random_seed());
+    this->rng.seed(seed);
 }
 
 double StochasticNode::random_uniform(double from, double to)
