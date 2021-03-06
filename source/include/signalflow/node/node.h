@@ -7,7 +7,6 @@
 #include "signalflow/core/property.h"
 #include "signalflow/node/registry.h"
 
-#include <math.h>
 #include <memory>
 #include <set>
 #include <string>

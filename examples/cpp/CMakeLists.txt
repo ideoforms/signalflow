@@ -40,3 +40,10 @@ foreach (EXAMPLE ${EXAMPLES})
     )
     target_link_libraries(${EXAMPLE_NAME} signalflow)
 endforeach()
+
+if (WIN32 AND FFTW_BUILD_DIR)
+    file(COPY "${FFTW_BUILD_DIR}/libfftw3-3.dll" DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY "${FFTW_BUILD_DIR}/libfftw3f-3.dll" DESTINATION ${CMAKE_BINARY_DIR})
+    file(COPY "${FFTW_BUILD_DIR}/libfftw3l-3.dll" DESTINATION ${CMAKE_BINARY_DIR})
+endif()
+

@@ -16,8 +16,13 @@ typedef RingBuffer<sample> SampleRingBuffer;
 
 #if defined(__APPLE__) && !defined(FFT_FFTW)
 #define FFT_ACCELERATE
-#else
-#define FFT_FFTW
+#endif
+
+/*------------------------------------------------------------------------
+ * Absent macro definitions in Windows
+ *-----------------------------------------------------------------------*/
+#if defined(WIN32) && !defined(M_PI)
+#define M_PI 3.14159265358979323846
 #endif
 
 /*------------------------------------------------------------------------

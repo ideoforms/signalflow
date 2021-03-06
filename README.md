@@ -83,6 +83,17 @@ If you experience an error on Raspberry Pi `libf77blas.so.3: cannot open shared 
 sudo apt-get install libatlas-base-dev
 ```
 
+#### Windows
+
+This is work in progress.
+
+Currently, dependencies need to be downloaded and built by hand. These can be placed anywhere.
+- https://github.com/timmb/libsoundio - check out the `fix-msvc` branch.
+  - Use CMake GUI to build libsoundio with Visual Studio 2019 with binaries in a subfolder of that repo named `build`. (Configure, Generate, Open project, Batch build all configurations)
+- https://github.com/libsndfile/libsndfile
+  - Use CMake GUI to build libsndfile with Visual Studio 2019 with binaries in a subfolder of that repo named `build`. (Configure, Generate, Open project, Batch build all configurations)
+- Download Windows binaries of FFTW from http://fftw.org/install/windows.html.
+
 ### Build (Python)
 
 ```
@@ -100,6 +111,13 @@ cd build
 cmake ..
 make -j8
 ```
+
+### Build (Windows)
+
+Use CMake GUI to build signalflow. Press configure and you will see three empty fields to fill in with the path to the two build folders and the FFTW binaries folder (see above). Set these parameters then press Configure, then Generate then Open. Then build in Visual Studio 2019.
+
+As of 2021-03-03, only the signalflow project has been ported to build correctly on Windows. Only tested in x64 and for Debug builds. Tested using Visual Studio 2019.
+
 
 ## Examples
 

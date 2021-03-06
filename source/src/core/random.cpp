@@ -5,7 +5,6 @@
 #include "signalflow/core/random.h"
 #include "signalflow/core/util.h"
 #include <random>
-#include <sys/time.h>
 
 #include <limits.h>
 
@@ -23,13 +22,7 @@ std::mt19937 rng;
  *--------------------------------------------------------------------*/
 void random_init()
 {
-    /*--------------------------------------------------------------------*
-     * Seed with current time multiplied by microsecond part, to give
-     * a pretty decent non-correlated seed.
-     *--------------------------------------------------------------------*/
-    struct timeval tv;
-    gettimeofday(&tv, 0);
-    random_seed(tv.tv_sec * tv.tv_usec);
+    random_seed(signalflow_create_random_seed());
 }
 
 void random_seed(long seed)

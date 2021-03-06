@@ -6,7 +6,13 @@
 
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef WIN32
+#include <io.h>
+#else
 #include <unistd.h>
+#endif
+
 #include <vector>
 
 #define SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE 1024
@@ -123,10 +129,10 @@ void Buffer::resize(int num_channels, int num_frames)
 void Buffer::load(std::string filename)
 {
     std::string path = filename;
-    if (access(path.c_str(), F_OK) != 0)
+    if (access(path.c_str(), 0) != 0)
     {
         path = SIGNALFLOW_USER_DIR + "/audio/" + filename;
-        if (access(path.c_str(), F_OK) != 0)
+        if (access(path.c_str(), 0) != 0)
         {
             throw std::runtime_error(std::string("Couldn't find file at path: ") + filename);
         }
