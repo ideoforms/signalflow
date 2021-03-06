@@ -20,7 +20,7 @@ std::vector<std::vector<std::vector<int>>> _partition(std::vector<std::vector<in
 {
     std::vector<std::vector<std::vector<int>>> partitions(2);
     bool found_partition = false;
-    for (int i = 0; i < sequence.size(); i++)
+    for (size_t i = 0; i < sequence.size(); i++)
     {
         if (i == 0 || !found_partition)
         {
@@ -46,7 +46,7 @@ std::vector<std::vector<int>> _interleave(std::vector<std::vector<int>> sequence
 {
     int num_arrays = (sequenceA.size() > sequenceB.size()) ? sequenceA.size() : sequenceB.size();
     std::vector<std::vector<int>> rv(num_arrays);
-    for (int i = 0; i < num_arrays; i++)
+    for (size_t i = 0; i < num_arrays; i++)
     {
         if (i < sequenceA.size())
         {
