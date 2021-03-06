@@ -35,6 +35,15 @@ class EuclideanPatch (Patch):
         self.panned = LinearPanner(2, self.flt * self.amp, self.pan)
         self.set_output(self.panned)
 
+class PingPongDelayPatch (Patch):
+    def __init__(self, input=0, delay_time=1/8, feedback=0.7, wet=0.3):
+        super().__init__()
+        mono_input = ChannelMixer(1, input)
+        delay_l = AllpassDelay(mono_input, delaytime=delay_time, feedback=feedback)
+        delay_r = OneTapDelay(delay_l, delaytime=(delay_time/2))
+        wetdry = WetDry(input, [ delay_l, delay_r ], wet)
+        self.set_output(wetdry)
+
 clock = Impulse(8)
 
 #--------------------------------------------------------------------------------
@@ -42,7 +51,7 @@ clock = Impulse(8)
 #--------------------------------------------------------------------------------
 a = EuclideanPatch(clock, 2, 23, 7, 80, 0.99, 0.0, 10.0)
 b = EuclideanPatch(clock, 3, 13, 9, 800, 0.98, 0.7, 0.2)
-c = EuclideanPatch(clock, 4, 16, 11, 8000, 0.97, -0.7, 0.1)
+c = EuclideanPatch(clock, 4, 16, 11, 8000, 0.97, -0.7, 0.05)
 d = EuclideanPatch(clock, 2, 19, 12, 480, 0.99, 0.0, 0.2)
 
 #--------------------------------------------------------------------------------
@@ -52,15 +61,9 @@ mix = a + b + c + d
 mix = Tanh(mix * 10)
 
 #--------------------------------------------------------------------------------
-# Add ping-pong delay: two all-pass delay lines, the right delayed by 1/16s.
-#--------------------------------------------------------------------------------
-delay_l = AllpassDelay(ChannelMixer(1, mix), delaytime=1/8, feedback=0.7)
-delay_r = OneTapDelay(AllpassDelay(ChannelMixer(1, mix), delaytime=1/8, feedback=0.7), delaytime=1/16)
-
-#--------------------------------------------------------------------------------
 # Mix the wet/dry signals and play the output.
 #--------------------------------------------------------------------------------
-wetdry = WetDry(mix, [ delay_l, delay_r ], 0.25)
-wetdry.play()
+pingpong = PingPongDelayPatch(mix)
+pingpong.play()
 
 graph.wait()
