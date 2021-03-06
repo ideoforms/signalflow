@@ -70,6 +70,9 @@ void init_python_nodes(py::module &m)
     py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope")
         .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(), "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
 
+    py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0, "clock"_a = nullptr);
+
     py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder")
         .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
 
@@ -195,9 +198,6 @@ void init_python_nodes(py::module &m)
 
     py::class_<LFO, Node, NodeRefTemplate<LFO>>(m, "LFO")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
-
-    py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0);
 
     py::class_<SawLFO, Node, NodeRefTemplate<SawLFO>>(m, "SawLFO")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
@@ -325,7 +325,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "set"_a = 0, "reset"_a = 0);
 
     py::class_<Sequence, Node, NodeRefTemplate<Sequence>>(m, "Sequence")
-        .def(py::init<std::vector<float>, NodeRef>(), "sequence"_a = std::vector<int>(), "clock"_a = nullptr);
+        .def(py::init<std::vector<float>, NodeRef>(), "sequence"_a = std::vector<float>(), "clock"_a = nullptr);
 
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);

@@ -27,6 +27,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/adsr.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/asr.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/envelope.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/line.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fftnode.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/ifft.cpp
@@ -84,7 +85,6 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/trigonometry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/comparison.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/constant.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/line.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/saw.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/sine.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/square.cpp

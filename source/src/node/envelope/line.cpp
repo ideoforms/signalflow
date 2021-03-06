@@ -1,11 +1,11 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/oscillators/line.h"
+#include "signalflow/node/envelope/line.h"
 
 namespace signalflow
 {
 
-Line::Line(NodeRef from, NodeRef to, NodeRef time, NodeRef loop)
-    : from(from), to(to), time(time), loop(loop)
+Line::Line(NodeRef from, NodeRef to, NodeRef time, NodeRef loop, NodeRef clock)
+    : from(from), to(to), time(time), loop(loop), clock(clock)
 {
     this->name = "line";
 
@@ -13,6 +13,7 @@ Line::Line(NodeRef from, NodeRef to, NodeRef time, NodeRef loop)
     this->create_input("to", this->to);
     this->create_input("time", this->time);
     this->create_input("loop", this->loop);
+    this->create_input("clock", this->clock);
 
     this->alloc();
 }
@@ -31,8 +32,10 @@ void Line::trigger(std::string name, float value)
     {
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            this->duration_samples[channel] = 0.0;
             this->step[channel] = 0;
+            this->duration_samples[channel] = this->graph->get_sample_rate() * this->time->out[channel][0] - 1;
+            this->value[channel] = this->from->out[channel][0];
+            this->value_change_per_step[channel] = (this->to->out[channel][0] - this->from->out[channel][0]) / this->duration_samples[channel];
         }
     }
 }
@@ -43,8 +46,9 @@ void Line::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (!duration_samples[channel])
+            if (!duration_samples[channel] || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
+                this->step[channel] = 0;
                 this->duration_samples[channel] = this->graph->get_sample_rate() * this->time->out[channel][frame] - 1;
                 this->value[channel] = this->from->out[channel][frame];
                 this->value_change_per_step[channel] = (this->to->out[channel][frame] - this->from->out[channel][frame]) / this->duration_samples[channel];

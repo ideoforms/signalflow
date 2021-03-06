@@ -59,7 +59,6 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/oscillators/constant.h>
 #include <signalflow/node/oscillators/impulse.h>
-#include <signalflow/node/oscillators/line.h>
 #include <signalflow/node/oscillators/saw-lfo.h>
 #include <signalflow/node/oscillators/saw.h>
 #include <signalflow/node/oscillators/sine-lfo.h>
@@ -103,6 +102,7 @@
 #include <signalflow/node/envelope/adsr.h>
 #include <signalflow/node/envelope/asr.h>
 #include <signalflow/node/envelope/envelope.h>
+#include <signalflow/node/envelope/line.h>
 
 /*------------------------------------------------------------------------
  * Processors
