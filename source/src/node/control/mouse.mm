@@ -12,6 +12,13 @@ MouseX::MouseX()
     : Node()
 {
     this->name = "mousex";
+
+    /*--------------------------------------------------------------------------------
+     * The first time the mouse location is polled, it appears to do some additional
+     * initialisation that is non-real-time safe and causes a buffer overrun in
+     * the real-time thread. Do it here instead.
+     *--------------------------------------------------------------------------------*/
+    [NSEvent mouseLocation];
 }
 
 void MouseX::process(Buffer &out, int num_frames)
@@ -29,6 +36,11 @@ MouseY::MouseY()
     : Node()
 {
     this->name = "mousey";
+
+    /*--------------------------------------------------------------------------------
+     * See comment in MouseX
+     *--------------------------------------------------------------------------------*/
+    [NSEvent mouseLocation];
 }
 
 void MouseY::process(Buffer &out, int num_frames)
@@ -47,6 +59,11 @@ MouseDown::MouseDown(NodeRef button_index)
 {
     this->name = "mousedown";
     this->create_input("button_index", this->button_index);
+
+    /*--------------------------------------------------------------------------------
+     * See comment in MouseX
+     *--------------------------------------------------------------------------------*/
+    [NSEvent pressedMouseButtons];
 }
 
 void MouseDown::process(Buffer &out, int num_frames)
