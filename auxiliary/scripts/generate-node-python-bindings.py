@@ -6,7 +6,7 @@
 #
 # Usage:
 
-#   aux/scripts/generate-node-python-bindings.py > source/src/python/nodes.cpp
+#   auxiliary/scripts/generate-node-python-bindings.py > source/src/python/nodes.cpp
 #
 # Requirements:
 #

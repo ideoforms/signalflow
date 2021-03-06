@@ -10,10 +10,12 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/time.h>
+#include <chrono>
+#include <ctime>
 
 namespace signalflow
 {
+
 
 /*--------------------------------------------------------------------*
  * timestamp(): Return microsecond-accurate timestamp.
@@ -21,9 +23,30 @@ namespace signalflow
  *--------------------------------------------------------------------*/
 double signalflow_timestamp()
 {
-    timeval tv;
-    gettimeofday(&tv, NULL);
-    return tv.tv_sec + (tv.tv_usec / 1000000.0);
+ 
+    auto now = std::chrono::system_clock::now();
+
+    time_t tnow = std::chrono::system_clock::to_time_t(now);
+    tm *date = std::localtime(&tnow);
+    date->tm_hour = 0;
+    date->tm_min = 0;
+    date->tm_sec = 0;
+    auto midnight = std::chrono::system_clock::from_time_t(std::mktime(date));
+
+    return std::chrono::duration<double>(now - midnight).count();
+}
+
+long signalflow_create_random_seed()
+{
+    /*--------------------------------------------------------------------*
+     * Seed with current time multiplied by microsecond part, to give
+     * a pretty decent non-correlated seed.
+     *--------------------------------------------------------------------*/
+    using namespace std::chrono;
+    // seconds since epoch
+    auto now = high_resolution_clock::now().time_since_epoch();
+    double s = duration<double>(now).count();
+    return long(s) * long((s - long(s)) * 1e9);
 }
 
 /*--------------------------------------------------------------------*

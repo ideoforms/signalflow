@@ -11,8 +11,6 @@
 #include "signalflow/node/io/output/soundio.h"
 
 #include <string.h>
-#include <sys/time.h>
-#include <unistd.h>
 
 namespace signalflow
 {
@@ -106,24 +104,32 @@ AudioGraph::~AudioGraph()
 
 void AudioGraph::wait(float time)
 {
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
-
-    while (true)
+    // TODO Tim: I've tried to keep the original logic here, but most likely std::this_thread::sleep_for(std::chrono::duration<float>(time)) would make more sense
+    do 
     {
-        usleep(10000);
-        if (time)
-        {
-            gettimeofday(&tv, NULL);
-            double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
-            double dt = t1 - t0;
-            if (dt > time)
-            {
-                break;
-            }
-        }
-    }
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        time -= 0.01f;
+    } 
+    while (time > 0);
+
+    //struct timeval tv;
+    //gettimeofday(&tv, NULL);
+    //double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
+
+    //while (true)
+    //{
+    //    usleep(10000);
+    //    if (time)
+    //    {
+    //        gettimeofday(&tv, NULL);
+    //        double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
+    //        double dt = t1 - t0;
+    //        if (dt > time)
+    //        {
+    //            break;
+    //        }
+    //    }
+    //}
 }
 
 void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)

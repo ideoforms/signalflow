@@ -7,18 +7,10 @@ namespace signalflow
 {
 
 StochasticNode::StochasticNode(NodeRef reset)
-    : Node(), reset(reset)
+    : Node(), reset(reset), seed(signalflow_create_random_seed())
 {
     this->create_input("reset", this->reset);
-
-    struct timeval tv;
-
-    /*--------------------------------------------------------------------*
-     * Seed with current time multiplied by microsecond part, to give
-     * a pretty decent non-correlated seed.
-     *--------------------------------------------------------------------*/
-    gettimeofday(&tv, 0);
-    this->rng.seed(tv.tv_sec * tv.tv_usec);
+    this->rng.seed(seed);
 }
 
 double StochasticNode::random_uniform(double from, double to)
