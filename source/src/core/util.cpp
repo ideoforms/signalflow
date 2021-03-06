@@ -5,17 +5,16 @@
 #include "signalflow/buffer/buffer.h"
 #include "signalflow/core/util.h"
 
+#include <chrono>
+#include <ctime>
 #include <limits.h>
 #include <math.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <chrono>
-#include <ctime>
 
 namespace signalflow
 {
-
 
 /*--------------------------------------------------------------------*
  * timestamp(): Return microsecond-accurate timestamp.
@@ -23,7 +22,7 @@ namespace signalflow
  *--------------------------------------------------------------------*/
 double signalflow_timestamp()
 {
- 
+
     auto now = std::chrono::system_clock::now();
 
     time_t tnow = std::chrono::system_clock::to_time_t(now);

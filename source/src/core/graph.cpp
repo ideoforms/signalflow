@@ -105,12 +105,11 @@ AudioGraph::~AudioGraph()
 void AudioGraph::wait(float time)
 {
     // TODO Tim: I've tried to keep the original logic here, but most likely std::this_thread::sleep_for(std::chrono::duration<float>(time)) would make more sense
-    do 
+    do
     {
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         time -= 0.01f;
-    } 
-    while (time > 0);
+    } while (time > 0);
 
     //struct timeval tv;
     //gettimeofday(&tv, NULL);
