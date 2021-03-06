@@ -210,7 +210,7 @@ public:
      * @returns The number of channels.
      *
      *------------------------------------------------------------------------*/
-    int get_num_channels();
+    unsigned int get_num_channels();
 
     /**------------------------------------------------------------------------
      * Get the number of frames in the buffer.
@@ -218,7 +218,7 @@ public:
      * @returns The number of frames.
      *
      *------------------------------------------------------------------------*/
-    int get_num_frames();
+    unsigned long get_num_frames();
 
     /**------------------------------------------------------------------------
      * Get the duration of the buffer.
@@ -264,12 +264,12 @@ public:
      *------------------------------------------------------------------------*/
     sample *&operator[](int index);
 
-    sample **data = NULL;
+    sample **data = nullptr;
 
 protected:
     float sample_rate;
-    int num_channels;
-    int num_frames;
+    unsigned int num_channels;
+    unsigned long num_frames;
     float duration;
 
     signalflow_interpolation_mode_t interpolate;

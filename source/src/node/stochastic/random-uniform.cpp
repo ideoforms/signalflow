@@ -49,7 +49,7 @@ void RandomUniform::process(Buffer &out, int num_frames)
              *  - clock is null (in which case generate a new value each sample), or
              *  - a trigger has been received on the clock
              *--------------------------------------------------------------------------------*/
-            if (this->value[channel] == std::numeric_limits<float>::max() || clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (this->value[channel] == std::numeric_limits<float>::max() || clock == nullptr || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->value[channel] = this->random_uniform(min->out[channel][frame], this->max->out[channel][frame]);
             }

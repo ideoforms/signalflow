@@ -18,7 +18,7 @@ class AudioIn_SoundIO : public AudioIn_Abstract
 {
 public:
     AudioIn_SoundIO();
-    virtual ~AudioIn_SoundIO();
+    virtual ~AudioIn_SoundIO() override;
     virtual int init() override;
     virtual int start() override;
     virtual int stop() override;

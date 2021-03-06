@@ -42,7 +42,7 @@ void RandomCoin::process(Buffer &out, int num_frames)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
-            if (this->value[channel] == std::numeric_limits<float>::max() || clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (this->value[channel] == std::numeric_limits<float>::max() || clock == nullptr || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->value[channel] = this->random_uniform() < this->probability->out[channel][frame];
             }

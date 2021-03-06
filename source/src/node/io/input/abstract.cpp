@@ -2,7 +2,7 @@
 
 namespace signalflow
 {
-AudioIn_Abstract *shared_in = NULL;
+AudioIn_Abstract *shared_in = nullptr;
 
 AudioIn_Abstract::AudioIn_Abstract()
 {

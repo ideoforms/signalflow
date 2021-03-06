@@ -13,7 +13,7 @@ class CombDelay : public UnaryOpNode
 {
 public:
     CombDelay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 0.5);
-    ~CombDelay();
+    ~CombDelay() override;
 
     virtual void process(Buffer &out, int num_frames) override;
 

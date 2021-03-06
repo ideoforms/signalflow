@@ -15,7 +15,7 @@
 namespace signalflow
 {
 
-AudioGraph *shared_graph = NULL;
+AudioGraph *shared_graph = nullptr;
 
 AudioGraph::AudioGraph(AudioGraphConfig *config,
                        NodeRef output_device,
@@ -60,7 +60,7 @@ AudioGraph::AudioGraph(AudioGraphConfig *config,
     this->node_count = 0;
     this->_node_count_tmp = 0;
     this->cpu_usage = 0.0;
-    this->monitor = NULL;
+    this->monitor = nullptr;
 
     this->recording_fd = NULL;
     this->recording_num_channels = 0;
@@ -99,7 +99,7 @@ AudioGraph::~AudioGraph()
 {
     AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
     audioout->destroy();
-    shared_graph = NULL;
+    shared_graph = nullptr;
 }
 
 void AudioGraph::wait(float time)
@@ -110,25 +110,6 @@ void AudioGraph::wait(float time)
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
         time -= 0.01f;
     } while (time > 0);
-
-    //struct timeval tv;
-    //gettimeofday(&tv, NULL);
-    //double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
-
-    //while (true)
-    //{
-    //    usleep(10000);
-    //    if (time)
-    //    {
-    //        gettimeofday(&tv, NULL);
-    //        double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
-    //        double dt = t1 - t0;
-    //        if (dt > time)
-    //        {
-    //            break;
-    //        }
-    //    }
-    //}
 }
 
 void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)

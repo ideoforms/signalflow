@@ -31,8 +31,8 @@ Node::Node()
 
     this->no_input_upmix = false;
 
-    this->monitor = NULL;
-    this->patch = NULL;
+    this->monitor = nullptr;
+    this->patch = nullptr;
 
     this->has_rendered = false;
     this->num_output_channels_allocated = 0;

@@ -50,7 +50,7 @@ void read_callback(struct SoundIoInStream *instream,
         {
             for (int channel = 0; channel < layout->channel_count; channel += 1)
             {
-                float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
+                float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
                 input->buffer->data[channel][input->write_pos] = *ptr;
             }
             input->write_pos = (input->write_pos + 1) % input->buffer->get_num_frames();
@@ -143,7 +143,7 @@ int AudioIn_SoundIO::destroy()
     {
     }
 
-    shared_in = NULL;
+    shared_in = nullptr;
     soundio_instream_destroy(this->instream);
     soundio_device_unref(this->device);
 

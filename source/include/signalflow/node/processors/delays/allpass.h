@@ -13,7 +13,7 @@ class AllpassDelay : public UnaryOpNode
 {
 public:
     AllpassDelay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 0.5);
-    ~AllpassDelay();
+    ~AllpassDelay() override;
 
     virtual void process(Buffer &out, int num_frames) override;
 

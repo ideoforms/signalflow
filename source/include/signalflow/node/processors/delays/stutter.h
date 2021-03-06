@@ -16,7 +16,7 @@ public:
             NodeRef stutter_count = 1,
             NodeRef clock = nullptr,
             float max_stutter_time = 1.0);
-    ~Stutter();
+    ~Stutter() override;
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;

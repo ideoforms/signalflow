@@ -41,7 +41,7 @@ void RandomExponentialDist::process(Buffer &out, int num_frames)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
-            if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (clock == nullptr || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->value[channel] = this->random_exponential(this->scale->out[channel][frame]);
             }

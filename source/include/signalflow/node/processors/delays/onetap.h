@@ -12,7 +12,7 @@ class OneTapDelay : public UnaryOpNode
 {
 public:
     OneTapDelay(NodeRef input = 0.0, NodeRef delaytime = 0.1, float maxdelaytime = 0.5);
-    ~OneTapDelay();
+    ~OneTapDelay() override;
 
     virtual void process(Buffer &out, int num_frames) override;
 

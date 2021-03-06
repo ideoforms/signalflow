@@ -57,7 +57,7 @@ void init_python_buffer(py::module &m)
              *-------------------------------------------------------------------------------*/
             py::str dummy_data_owner;
             return py::array_t<float>(
-                { buf.get_num_channels(), buf.get_num_frames() },
+                { (int) buf.get_num_channels(), (int) buf.get_num_frames() },
                 { sizeof(float) * buf.get_num_frames(), sizeof(float) },
                 buf.data[0],
                 dummy_data_owner);

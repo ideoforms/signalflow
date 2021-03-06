@@ -38,7 +38,7 @@ void RandomChoice::process(Buffer &out, int num_frames)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
-            if (clock == 0 || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (clock == nullptr || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 int index = (int) this->random_uniform(0, this->values.size());
                 this->value[channel] = this->values[index];

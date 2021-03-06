@@ -39,9 +39,9 @@ class NodeRefTemplate : public std::shared_ptr<T>
 {
 public:
     NodeRefTemplate()
-        : std::shared_ptr<T>(nullptr) {};
+        : std::shared_ptr<T>(nullptr) {}
     NodeRefTemplate(T *ptr)
-        : std::shared_ptr<T>(ptr) {};
+        : std::shared_ptr<T>(ptr) {}
     NodeRefTemplate(double x);
     NodeRefTemplate(int x);
     NodeRefTemplate(std::initializer_list<NodeRefTemplate> x);

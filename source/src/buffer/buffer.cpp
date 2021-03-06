@@ -122,7 +122,7 @@ void Buffer::resize(int num_channels, int num_frames)
     }
     else
     {
-        this->data = 0;
+        this->data = nullptr;
     }
 }
 
@@ -228,7 +228,7 @@ void Buffer::save(std::string filename)
 
     if (!sndfile)
     {
-        throw std::runtime_error(std::string("Failed to write soundfile (") + std::string(sf_strerror(NULL)) + ")");
+        throw std::runtime_error(std::string("Failed to write soundfile (") + std::string(sf_strerror(nullptr)) + ")");
     }
 
     int frames_per_write = SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE;
@@ -379,12 +379,12 @@ void Buffer::set_sample_rate(float sample_rate)
     this->sample_rate = sample_rate;
 }
 
-int Buffer::get_num_channels()
+unsigned int Buffer::get_num_channels()
 {
     return this->num_channels;
 }
 
-int Buffer::get_num_frames()
+unsigned long Buffer::get_num_frames()
 {
     return this->num_frames;
 }

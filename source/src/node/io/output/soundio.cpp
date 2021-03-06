@@ -68,7 +68,7 @@ void write_callback(struct SoundIoOutStream *outstream,
             {
                 for (int channel = 0; channel < layout->channel_count; channel += 1)
                 {
-                    float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
+                    float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
                     *ptr = shared_graph->get_output()->out[channel][frame];
 
                     /*-----------------------------------------------------------------------*
@@ -87,7 +87,7 @@ void write_callback(struct SoundIoOutStream *outstream,
             {
                 for (int channel = 0; channel < layout->channel_count; channel += 1)
                 {
-                    float *ptr = (float *) (areas[channel].ptr + areas[channel].step * frame);
+                    float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
                     *ptr = 0;
                 }
             }
