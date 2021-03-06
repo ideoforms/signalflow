@@ -53,8 +53,21 @@ def test_random_uniform(graph):
 
 
 def _test_stochastic_node(graph, node, value_condition):
+    # Test to see whether values are reproducible when using a random initial seed
+    # and trigger() to reset
+    graph.render_subgraph(node, reset=True)
+    values = node.output_buffer[0].copy()
+    assert value_condition(values)
+    graph.render_subgraph(node, reset=True)
+    assert np.any(values != node.output_buffer[0])
+    node.trigger("reset")
+    graph.render_subgraph(node, reset=True)
+    assert np.all(values == node.output_buffer[0])
+
+    # Test to see whether values are reproducible when using a fixed initial seed
+    # and re-seeding manually
     node.set_seed(123)
-    graph.render_subgraph(node)
+    graph.render_subgraph(node, reset=True)
     values = node.output_buffer[0].copy()
     assert value_condition(values)
     graph.render_subgraph(node, reset=True)

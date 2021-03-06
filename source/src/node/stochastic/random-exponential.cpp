@@ -22,9 +22,16 @@ void RandomExponential::alloc()
 
 void RandomExponential::trigger(std::string name, float value)
 {
-    for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        this->value[channel] = signalflow_scale_lin_exp(this->random_uniform(0, 1), 0, 1, min->out[channel][0], this->max->out[channel][0]);
+        for (int channel = 0; channel < this->num_output_channels_allocated; channel++)
+        {
+            this->value[channel] = signalflow_scale_lin_exp(this->random_uniform(0, 1), 0, 1, min->out[channel][0], this->max->out[channel][0]);
+        }
+    }
+    else
+    {
+        this->StochasticNode::trigger(name, value);
     }
 }
 

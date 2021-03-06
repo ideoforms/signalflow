@@ -29,6 +29,10 @@ void RandomUniform::trigger(std::string name, float value)
             this->value[channel] = this->random_uniform(min->out[channel][0], this->max->out[channel][0]);
         }
     }
+    else
+    {
+        this->StochasticNode::trigger(name, value);
+    }
 }
 
 void RandomUniform::process(Buffer &out, int num_frames)
