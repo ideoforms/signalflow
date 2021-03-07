@@ -21,8 +21,10 @@ public:
 
 private:
     float phase;
+    float level;
     signalflow_curve_t curve;
     bool released = false;
+    float release_decrement_per_frame;
 };
 
 REGISTER(EnvelopeADSR, "envelope-adsr")

@@ -20,7 +20,6 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
 
 void EnvelopeADSR::process(Buffer &out, int num_frames)
 {
-    sample rv;
     float phase_step = 1.0f / this->graph->get_sample_rate();
 
     for (int frame = 0; frame < num_frames; frame++)
@@ -39,15 +38,41 @@ void EnvelopeADSR::process(Buffer &out, int num_frames)
         if (gate == 0.0 && !this->released)
         {
             this->released = true;
+            if (release > 0)
+            {
+                this->release_decrement_per_frame = this->level / (release * graph->get_sample_rate());
+            }
+            else
+            {
+                this->release_decrement_per_frame = this->level;
+            }
         }
 
-        if (this->phase < attack)
+        if (this->released)
+        {
+            /*------------------------------------------------------------------------
+             * Release phase.
+             *-----------------------------------------------------------------------*/
+            this->level -= this->release_decrement_per_frame;
+            if (this->level <= 0)
+            {
+                /*------------------------------------------------------------------------
+                 * Envelope has finished.
+                 *-----------------------------------------------------------------------*/
+                this->level = 0.0;
+
+                if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
+                {
+                    this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
+                }
+            }
+        }
+        else if (this->phase < attack)
         {
             /*------------------------------------------------------------------------
              * Attack phase.
              *-----------------------------------------------------------------------*/
-            rv = (this->phase / attack);
-            this->phase += phase_step;
+            this->level = (this->phase / attack);
         }
         else if (this->phase <= attack + decay)
         {
@@ -55,50 +80,26 @@ void EnvelopeADSR::process(Buffer &out, int num_frames)
              * Sustain phase.
              *-----------------------------------------------------------------------*/
             float proportion_through_decay = ((this->phase - attack) / decay);
-            rv = sustain + (1.0 - proportion_through_decay) * (1.0 - sustain);
-            this->phase += phase_step;
+            this->level = sustain + (1.0 - proportion_through_decay) * (1.0 - sustain);
         }
         else
         {
-            if (!released)
-            {
-                rv = sustain;
-            }
-            else
-            {
-                if (this->phase < attack + decay + release)
-                {
-                    /*------------------------------------------------------------------------
-                     * Release phase.
-                     *-----------------------------------------------------------------------*/
-                    rv = sustain - sustain * (this->phase - (attack + decay)) / release;
-                }
-                else
-                {
-                    /*------------------------------------------------------------------------
-                     * Envelope has finished.
-                     *-----------------------------------------------------------------------*/
-                    rv = 0.0;
-
-                    if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
-                    {
-                        this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
-                    }
-                }
-                this->phase += phase_step;
-            }
+            this->level = sustain;
         }
+        this->phase += phase_step;
 
+        float rv;
         if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
         {
-            if (rv > 0)
+            if (this->level > 0)
             {
-                rv = signalflow_db_to_amplitude((rv - 1) * 60);
+                rv = signalflow_db_to_amplitude((this->level - 1) * 60);
             }
         }
         else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
         {
             // no adjustment needed
+            rv = this->level;
         }
         else
         {
