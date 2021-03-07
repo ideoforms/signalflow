@@ -10,12 +10,15 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
     this->phase = 0.0;
 
     this->name = "envelope-adsr";
-    this->curve = SIGNALFLOW_CURVE_EXPONENTIAL;
     this->create_input("attack", this->attack);
     this->create_input("decay", this->decay);
     this->create_input("sustain", this->sustain);
     this->create_input("release", this->release);
     this->create_input("gate", this->gate);
+
+    this->curve = SIGNALFLOW_CURVE_EXPONENTIAL;
+    this->released = false;
+    this->level = 0.0;
 }
 
 void EnvelopeADSR::process(Buffer &out, int num_frames)
