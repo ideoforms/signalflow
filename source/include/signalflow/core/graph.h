@@ -53,7 +53,7 @@ public:
      * @param time Time to run, in seconds.
      *
      *--------------------------------------------------------------------------------*/
-    void wait(float time = 0.0f);
+    void wait(float time = -1.f);
 
     /**--------------------------------------------------------------------------------
      * Print the AudioGraph structure to stdout.
