@@ -27,11 +27,12 @@ class NotePatch (Patch):
         env = EnvelopeADSR(0.001, 0.5, 0.7, 0.2, gate=gate)
         wavetable = self.add_buffer_input("wavetable")
         signal = Wavetable(wavetable, freq)
-        signal = Resample(signal, bit_rate=1)
+        signal = Resample(signal, bit_rate=3)
         filter_env = EnvelopeADSR(0.001, 0.1, 0.5, 0.5, gate=gate) ** 4
         filter_env = ScaleLinExp(filter_env, 0, 1, 800, 8000)
         filter_lfo = SineLFO(5, 0.7, 1.3)
-        signal = SVFFilter(signal, SIGNALFLOW_FILTER_TYPE_LOW_PASS, filter_env * filter_lfo, 0.6)
+        resonance = RandomUniform(0.5, 0.99, Impulse(0))
+        signal = SVFFilter(signal, SIGNALFLOW_FILTER_TYPE_LOW_PASS, filter_env * filter_lfo, resonance)
         lfo = SineLFO(8, 0.6, 1.0)
         output = LinearPanner(2, signal * env * amplitude * 0.3)
         output = Resample(output, bit_rate=8)
@@ -79,6 +80,7 @@ def main(args):
                     print("No patch found for note %d" % message.note)
     except KeyboardInterrupt:
         print("Stopping playback")
+        default_input.close()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Use MIDI input to play synth voices using SignalFlow")
