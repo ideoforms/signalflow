@@ -24,18 +24,18 @@ class NotePatch (Patch):
         amplitude = self.add_input("amplitude", 0.5)
         gate = self.add_input("gate", 1.0)
         freq = MidiNoteToFrequency(note)
-        env = EnvelopeADSR(0.001, 0.5, 0.7, 0.2, gate=gate)
+        env = EnvelopeADSR(0.001, 0.5, 0.9, 0.2, gate=gate)
         wavetable = self.add_buffer_input("wavetable")
         signal = Wavetable(wavetable, freq)
         signal = Resample(signal, bit_rate=3)
         filter_env = EnvelopeADSR(0.001, 0.1, 0.5, 0.5, gate=gate) ** 4
         filter_env = ScaleLinExp(filter_env, 0, 1, 800, 8000)
-        filter_lfo = SineLFO(5, 0.7, 1.3)
+        filter_lfo = SineLFO(RandomUniform(3, 8, Impulse(0)), 0.7, 1.3)
         resonance = RandomUniform(0.5, 0.99, Impulse(0))
         signal = SVFFilter(signal, SIGNALFLOW_FILTER_TYPE_LOW_PASS, filter_env * filter_lfo, resonance)
         lfo = SineLFO(8, 0.6, 1.0)
         pan = RandomUniform(-0.5, 0.5, Impulse(0))
-        output = LinearPanner(2, signal * env * amplitude * 0.3, pan)
+        output = LinearPanner(2, signal * env * amplitude * lfo * 0.2, pan)
         output = Resample(output, bit_rate=8)
         self.set_output(output)
 
@@ -74,6 +74,7 @@ def main(args):
     patch = NotePatch()
     spec = patch.create_spec()
     voices = [ None ] * 128
+    print(spec.to_json())
 
     try:
         for message in default_input:
