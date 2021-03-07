@@ -34,22 +34,29 @@ class NotePatch (Patch):
         resonance = RandomUniform(0.5, 0.99, Impulse(0))
         signal = SVFFilter(signal, SIGNALFLOW_FILTER_TYPE_LOW_PASS, filter_env * filter_lfo, resonance)
         lfo = SineLFO(8, 0.6, 1.0)
-        output = LinearPanner(2, signal * env * amplitude * 0.3)
+        pan = RandomUniform(-0.5, 0.5, Impulse(0))
+        output = LinearPanner(2, signal * env * amplitude * 0.3, pan)
         output = Resample(output, bit_rate=8)
         self.set_output(output)
 
-def make_buf():
+def make_wavetable():
+    """
+    Make a warm-sounding wavetable buffer, using the first 12 harmonics
+    of a sawtooth wave.
+    """
     wavetable_size = 1024
-    tri = np.zeros(wavetable_size)
-    for n in range(1, 64):
-        tri += np.sin(np.arange(wavetable_size) * n * np.pi * 2.0 / wavetable_size) / n
-    return Buffer(1, wavetable_size, np.array([ tri ]))
+    saw = np.zeros(wavetable_size)
+    for n in range(1, 12):
+        saw += np.sin(np.arange(wavetable_size) * n * np.pi * 2.0 / wavetable_size) / n
+    return Buffer(1, wavetable_size, np.array([ saw ]))
 
 def main(args):
-    voices = [ None ] * 128
     graph = AudioGraph(start=True)
     graph.show_status(0.5)
 
+    #--------------------------------------------------------------------------------
+    # If the -l flag is passed, list MIDI input devices
+    #--------------------------------------------------------------------------------
     if args.list_devices:
         print("Input devices:")
         for device in mido.get_input_names():
@@ -59,18 +66,28 @@ def main(args):
     default_input = mido.open_input(args.device_name)
     print(" - Opened input: %s" % default_input)
 
-    buf = make_buf()
+    #--------------------------------------------------------------------------------
+    # Create a re-usable patch specification,
+    # and an array of voice holders to store the currently-played voices.
+    #--------------------------------------------------------------------------------
+    buf = make_wavetable()
     patch = NotePatch()
     spec = patch.create_spec()
+    voices = [ None ] * 128
+
     try:
         for message in default_input:
+            #--------------------------------------------------------------------------------
+            # Each time a MIDI note event is received, either trigger or release
+            # the appropriate voice.
+            #--------------------------------------------------------------------------------
             if message.type == 'note_on':
                 voice = Patch(spec)
                 voice.set_input("note", message.note)
                 voice.set_input("amplitude", message.velocity / 127)
                 voice.set_input("wavetable", buf)
                 voice.auto_free = True
-                graph.play(voice)
+                voice.play()
                 voices[message.note] = voice
             elif message.type == 'note_off':
                 if voices[message.note] is not None:
