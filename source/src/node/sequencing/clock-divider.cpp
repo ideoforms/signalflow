@@ -41,17 +41,17 @@ void ClockDivider::process(Buffer &out, int num_frames)
                 if (this->counter[channel] >= factor)
                 {
                     this->counter[channel] = 0;
-                    this->out[channel][frame] = 1;
+                    out[channel][frame] = 1;
                 }
                 else
                 {
-                    this->out[channel][frame] = 0;
+                    out[channel][frame] = 0;
                 }
                 this->counter[channel] += 1;
             }
             else
             {
-                this->out[channel][frame] = 0;
+                out[channel][frame] = 0;
             }
         }
     }

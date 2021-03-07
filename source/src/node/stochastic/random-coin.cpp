@@ -47,7 +47,7 @@ void RandomCoin::process(Buffer &out, int num_frames)
                 this->value[channel] = this->random_uniform() < this->probability->out[channel][frame];
             }
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
         }
     }
 }

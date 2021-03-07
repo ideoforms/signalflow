@@ -46,7 +46,7 @@ void RandomExponentialDist::process(Buffer &out, int num_frames)
                 this->value[channel] = this->random_exponential(this->scale->out[channel][frame]);
             }
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
         }
     }
 }

@@ -138,11 +138,11 @@ void Euclidean::process(Buffer &out, int num_frames)
             if (rv)
             {
                 this->position = (this->position + 1) % this->sequence_length_cur;
-                this->out[channel][frame] = this->events[this->position];
+                out[channel][frame] = this->events[this->position];
             }
             else
             {
-                this->out[channel][frame] = 0.0;
+                out[channel][frame] = 0.0;
             }
         }
     }

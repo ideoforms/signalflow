@@ -1,5 +1,6 @@
 #pragma once
 
+#include "signalflow/core/constants.h"
 #include <memory>
 #include <string>
 #include <vector>
@@ -18,11 +19,11 @@ public:
     virtual std::vector<float> float_array_value() { return std::vector<float>(); }
     virtual std::vector<std::string> string_array_value() { return std::vector<std::string>(); }
 
-    virtual void set_int_value(int value) {}
-    virtual void set_float_value(float value) {}
-    virtual void set_string_value(std::string value) {}
-    virtual void set_float_array_value(std::vector<float> value) {}
-    virtual void set_string_array_value(std::vector<std::string> value) {}
+    virtual void set_int_value(int value) { UNUSED(value); }
+    virtual void set_float_value(float value) { UNUSED(value); }
+    virtual void set_string_value(std::string value) { UNUSED(value); }
+    virtual void set_float_array_value(std::vector<float> value) { UNUSED(value); }
+    virtual void set_string_array_value(std::vector<std::string> value) { UNUSED(value); }
 };
 
 template <typename T>

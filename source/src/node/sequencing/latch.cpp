@@ -56,7 +56,7 @@ void Latch::process(Buffer &out, int num_frames)
                 this->value[channel] = 0;
             }
 
-            this->out[channel][frame] = (int) this->value[channel];
+            out[channel][frame] = (int) this->value[channel];
         }
     }
 }

@@ -44,7 +44,7 @@ void RandomChoice::process(Buffer &out, int num_frames)
                 this->value[channel] = this->values[index];
             }
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
         }
     }
 }

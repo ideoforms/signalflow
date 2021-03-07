@@ -48,7 +48,7 @@ void RandomGaussian::process(Buffer &out, int num_frames)
                                                              this->sigma->out[channel][frame]);
             }
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
         }
     }
 }

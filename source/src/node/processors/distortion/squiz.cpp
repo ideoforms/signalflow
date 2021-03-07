@@ -44,11 +44,11 @@ void Squiz::process(Buffer &out, int num_frames)
 
                 if (this->repitched_read_pos_chunk_counter[channel] < this->chunk_size->out[channel][frame])
                 {
-                    this->out[channel][frame] = read_cur;
+                    out[channel][frame] = read_cur;
                 }
                 else
                 {
-                    this->out[channel][frame] = 0.0;
+                    out[channel][frame] = 0.0;
                 }
             }
             else

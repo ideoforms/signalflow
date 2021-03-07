@@ -56,7 +56,7 @@ void Sum::process(Buffer &out, int num_frames)
         {
             for (int frame = 0; frame < num_frames; frame++)
             {
-                this->out[channel][frame] += input->out[channel][frame];
+                out[channel][frame] += input->out[channel][frame];
             }
         }
     }

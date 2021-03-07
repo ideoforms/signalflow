@@ -49,7 +49,7 @@ void RandomExponential::process(Buffer &out, int num_frames)
                                                                 0, 1, min->out[channel][frame], this->max->out[channel][frame]);
             }
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
         }
     }
 }

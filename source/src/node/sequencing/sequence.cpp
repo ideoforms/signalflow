@@ -25,9 +25,12 @@ void Sequence::alloc()
 
 void Sequence::trigger(std::string name, float value)
 {
-    for (int i = 0; i < this->num_output_channels; i++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        this->position[i] = (this->position[i] + 1) % sequence.size();
+        for (int i = 0; i < this->num_output_channels; i++)
+        {
+            this->position[i] = (this->position[i] + 1) % sequence.size();
+        }
     }
 }
 
@@ -45,11 +48,11 @@ void Sequence::process(Buffer &out, int num_frames)
 
             if (this->position[channel] == SIGNALFLOW_SEQUENCE_NOT_YET_STARTED)
             {
-                this->out[channel][frame] = 0.0;
+                out[channel][frame] = 0.0;
             }
             else
             {
-                this->out[channel][frame] = this->sequence[this->position[channel]];
+                out[channel][frame] = this->sequence[this->position[channel]];
             }
         }
     }

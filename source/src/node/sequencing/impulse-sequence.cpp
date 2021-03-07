@@ -23,9 +23,12 @@ void ImpulseSequence::alloc()
 
 void ImpulseSequence::trigger(std::string name, float value)
 {
-    for (int i = 0; i < this->num_output_channels; i++)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        this->position[i] = (this->position[i] + 1) % sequence.size();
+        for (int i = 0; i < this->num_output_channels; i++)
+        {
+            this->position[i] = (this->position[i] + 1) % sequence.size();
+        }
     }
 }
 
@@ -38,12 +41,12 @@ void ImpulseSequence::process(Buffer &out, int num_frames)
             bool rv = SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame);
             if (rv)
             {
-                this->out[channel][frame] = this->sequence[this->position[channel]];
+                out[channel][frame] = this->sequence[this->position[channel]];
                 this->position[channel] = (this->position[channel] + 1) % sequence.size();
             }
             else
             {
-                this->out[channel][frame] = 0.0;
+                out[channel][frame] = 0.0;
             }
         }
     }

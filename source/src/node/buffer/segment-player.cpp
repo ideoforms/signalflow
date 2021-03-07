@@ -47,14 +47,17 @@ void SegmentPlayer::process(Buffer &out, int num_frames)
 
 void SegmentPlayer::trigger(std::string name, float value)
 {
-    PropertyRef onsetsref = this->get_property("onsets");
-    if (onsetsref)
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        std::vector<float> onsets = onsetsref->float_array_value();
-        if (onsets.size() > 0)
+        PropertyRef onsetsref = this->get_property("onsets");
+        if (onsetsref)
         {
-            int index = random_integer(0, onsets.size());
-            this->phase = onsets[index];
+            std::vector<float> onsets = onsetsref->float_array_value();
+            if (onsets.size() > 0)
+            {
+                int index = random_integer(0, onsets.size());
+                this->phase = onsets[index];
+            }
         }
     }
 }

@@ -97,19 +97,19 @@ void SVFFilter::process(Buffer &out, int num_frames)
             switch (this->filter_type)
             {
                 case SIGNALFLOW_FILTER_TYPE_LOW_PASS:
-                    this->out[channel][frame] = v2;
+                    out[channel][frame] = v2;
                     break;
                 case SIGNALFLOW_FILTER_TYPE_BAND_PASS:
-                    this->out[channel][frame] = v1;
+                    out[channel][frame] = v1;
                     break;
                 case SIGNALFLOW_FILTER_TYPE_HIGH_PASS:
-                    this->out[channel][frame] = v0 - k[channel] * v1 - v2;
+                    out[channel][frame] = v0 - k[channel] * v1 - v2;
                     break;
                 case SIGNALFLOW_FILTER_TYPE_NOTCH:
-                    this->out[channel][frame] = v2 + (v0 - k[channel] * v1 - v2);
+                    out[channel][frame] = v2 + (v0 - k[channel] * v1 - v2);
                     break;
                 case SIGNALFLOW_FILTER_TYPE_PEAK:
-                    this->out[channel][frame] = v2 - (v0 - k[channel] * v1 - v2);
+                    out[channel][frame] = v2 - (v0 - k[channel] * v1 - v2);
                     break;
                 default:
                     throw std::runtime_error("SVFFilter does not support this filter type");

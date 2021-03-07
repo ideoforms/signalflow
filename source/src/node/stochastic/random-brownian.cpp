@@ -56,7 +56,7 @@ void RandomBrownian::process(Buffer &out, int num_frames)
                     this->value[channel] = this->min->out[channel][frame] + (this->min->out[channel][frame] - this->value[channel]);
             }
 
-            this->out[channel][frame] = this->value[channel];
+            out[channel][frame] = this->value[channel];
         }
     }
 }

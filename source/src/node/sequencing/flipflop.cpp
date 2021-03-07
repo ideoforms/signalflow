@@ -37,7 +37,7 @@ void FlipFlop::process(Buffer &out, int num_frames)
             {
                 this->value[channel] = !this->value[channel];
             }
-            this->out[channel][frame] = (int) this->value[channel];
+            out[channel][frame] = (int) this->value[channel];
         }
     }
 }

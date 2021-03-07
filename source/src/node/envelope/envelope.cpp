@@ -121,7 +121,7 @@ void Envelope::process(Buffer &out, int num_frames)
             }
         }
 
-        this->out[0][frame] = rv;
+        out[0][frame] = rv;
     }
 }
 

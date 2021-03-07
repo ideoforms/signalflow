@@ -64,11 +64,11 @@ void Counter::process(Buffer &out, int num_frames)
             }
             if (this->counter[channel] == std::numeric_limits<int>::max())
             {
-                this->out[channel][frame] = 0;
+                out[channel][frame] = 0;
             }
             else
             {
-                this->out[channel][frame] = this->counter[channel];
+                out[channel][frame] = this->counter[channel];
             }
         }
     }

@@ -88,19 +88,19 @@ void Stutter::process(Buffer &out, int num_frames)
 
                 if (this->stutter_index[channel] == 0)
                 {
-                    this->out[channel][frame] = this->input->out[channel][frame];
+                    out[channel][frame] = this->input->out[channel][frame];
                 }
                 else
                 {
                     // TODO this won't quite work
                     int buffer_sample_offset = -this->stutter_samples_remaining[channel];
-                    this->out[channel][frame] = this->buffers[channel]->get(buffer_sample_offset);
+                    out[channel][frame] = this->buffers[channel]->get(buffer_sample_offset);
                 }
             }
             else
             {
                 // not stuttering, just output our input
-                this->out[channel][frame] = this->input->out[channel][frame];
+                out[channel][frame] = this->input->out[channel][frame];
             }
 
             if (this->stutter_index[channel] == 0)

@@ -46,10 +46,10 @@ void BiquadFilter::process(Buffer &out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             float in = this->input->out[channel][frame];
-            float out = in * a0[channel] + z1[channel];
-            z1[channel] = in * a1[channel] + z2[channel] - b1[channel] * out;
-            z2[channel] = in * a2[channel] - b2[channel] * out;
-            this->out[channel][frame] = out;
+            float value = in * a0[channel] + z1[channel];
+            z1[channel] = in * a1[channel] + z2[channel] - b1[channel] * value;
+            z2[channel] = in * a2[channel] - b2[channel] * value;
+            out[channel][frame] = value;
         }
     }
 }

@@ -54,7 +54,7 @@ Buffer::Buffer(int num_channels, int num_frames)
 Buffer::Buffer(int num_channels, int num_frames, sample **data)
     : Buffer(num_channels, num_frames)
 {
-    for (int channel = 0; channel < this->num_channels; channel++)
+    for (unsigned int channel = 0; channel < this->num_channels; channel++)
     {
         memcpy(this->data[channel], data[channel], num_frames * sizeof(sample));
     }
@@ -63,7 +63,7 @@ Buffer::Buffer(int num_channels, int num_frames, sample **data)
 Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>> data)
     : Buffer(num_channels, num_frames)
 {
-    for (int channel = 0; channel < this->num_channels; channel++)
+    for (unsigned int channel = 0; channel < this->num_channels; channel++)
     {
         std::copy(data[channel].begin(), data[channel].end(), this->data[channel]);
     }
@@ -115,7 +115,7 @@ void Buffer::resize(int num_channels, int num_frames)
         this->data = new sample *[this->num_channels]();
 
         sample *data_channels = new sample[this->num_channels * this->num_frames]();
-        for (int channel = 0; channel < this->num_channels; channel++)
+        for (unsigned int channel = 0; channel < this->num_channels; channel++)
         {
             this->data[channel] = data_channels + (this->num_frames * channel);
         }
@@ -186,7 +186,7 @@ void Buffer::load(std::string filename)
         for (int frame = 0; frame < count; frame++)
         {
             // TODO: Vector-accelerated de-interleave
-            for (int channel = 0; channel < info.channels; channel++)
+            for (unsigned int channel = 0; channel < info.channels; channel++)
             {
                 this->data[channel][total_frames_read] = buffer[frame * info.channels + channel];
             }
@@ -245,7 +245,7 @@ void Buffer::save(std::string filename)
         for (int frame = 0; frame < frames_this_write; frame++)
         {
             // TODO: Vector-accelerated interleave
-            for (int channel = 0; channel < info.channels; channel++)
+            for (unsigned int channel = 0; channel < info.channels; channel++)
             {
                 buffer[frame * info.channels + channel] = this->data[channel][frame_index];
             }
@@ -348,7 +348,7 @@ sample Buffer::get(int channel, double offset)
 
 void Buffer::fill(sample value)
 {
-    for (int channel = 0; channel < this->num_channels; channel++)
+    for (unsigned int channel = 0; channel < this->num_channels; channel++)
     {
         for (int frame = 0; frame < this->num_frames; frame++)
         {
@@ -359,7 +359,7 @@ void Buffer::fill(sample value)
 
 void Buffer::fill(const std::function<float(float)> f)
 {
-    for (int channel = 0; channel < this->num_channels; channel++)
+    for (unsigned int channel = 0; channel < this->num_channels; channel++)
     {
         for (int frame = 0; frame < this->num_frames; frame++)
         {
@@ -420,7 +420,7 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
     Buffer *buffer = (Buffer *) this->get();
 
     std::vector<std::vector<sample>> output(buffer->get_num_channels());
-    for (int channel = 0; channel < buffer->get_num_channels(); channel++)
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
     {
         output[channel].resize(buffer->get_num_frames());
         for (int frame = 0; frame < buffer->get_num_frames(); frame++)

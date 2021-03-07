@@ -5,7 +5,7 @@ namespace signalflow
 
 RandomImpulseSequence::RandomImpulseSequence(NodeRef probability, NodeRef length,
                                              NodeRef clock, NodeRef explore, NodeRef generate, NodeRef reset)
-    : StochasticNode(), probability(probability), length(length), clock(clock), explore(explore), generate(generate)
+    : StochasticNode(reset), probability(probability), length(length), clock(clock), explore(explore), generate(generate)
 {
     this->name = "random-impulse-sequence";
     this->create_input("probability", this->probability);
@@ -88,12 +88,12 @@ void RandomImpulseSequence::process(Buffer &out, int num_frames)
 
             if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame))
             {
-                this->out[channel][frame] = this->sequence[this->position[channel]];
+                out[channel][frame] = this->sequence[this->position[channel]];
                 this->position[channel] = (this->position[channel] + 1) % ((int) this->length->out[channel][frame]);
             }
             else
             {
-                this->out[channel][frame] = 0.0;
+                out[channel][frame] = 0.0;
             }
         }
     }
