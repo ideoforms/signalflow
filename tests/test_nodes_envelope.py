@@ -1,4 +1,4 @@
-from signalflow import Buffer, Envelope, EnvelopeADSR
+from signalflow import Buffer, Envelope, EnvelopeRect, EnvelopeADSR, Impulse, OneTapDelay
 from signalflow import db_to_amplitude
 from . import graph
 from . import process_tree
@@ -8,6 +8,29 @@ import pytest
 
 SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB = -60
 SIGNALFLOW_LINEAR_ENVELOPE_MIN = 0.0
+
+def test_envelope_rect(graph):
+    # Without a clock signal, generate a single pulse at t = 0
+    graph.sample_rate = 1000
+    env = EnvelopeRect(0.1)
+    graph.render_subgraph(env, reset=True)
+    assert env.output_buffer[0][0] == pytest.approx(1.0)
+    assert env.output_buffer[0][99] == pytest.approx(1.0)
+    assert env.output_buffer[0][100] == pytest.approx(0.0)
+
+    # Trigger 2x envelope pulses at t = 0.1, 0.2
+    env = EnvelopeRect(0.01, clock=OneTapDelay(Impulse(10.0), 0.1))
+    graph.render_subgraph(env, reset=True)
+    assert env.output_buffer[0][0] == pytest.approx(0.0)
+    assert env.output_buffer[0][99] == pytest.approx(0.0)
+    assert env.output_buffer[0][100] == pytest.approx(1.0)
+    assert env.output_buffer[0][109] == pytest.approx(1.0)
+    assert env.output_buffer[0][110] == pytest.approx(0.0)
+    assert env.output_buffer[0][199] == pytest.approx(0.0)
+    assert env.output_buffer[0][200] == pytest.approx(1.0)
+    assert env.output_buffer[0][209] == pytest.approx(1.0)
+    assert env.output_buffer[0][210] == pytest.approx(0.0)
+
 
 def test_envelope_adsr(graph):
     graph.sample_rate = 1000

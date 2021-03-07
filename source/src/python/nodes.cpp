@@ -73,6 +73,9 @@ void init_python_nodes(py::module &m)
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0, "clock"_a = nullptr);
 
+    py::class_<EnvelopeRect, Node, NodeRefTemplate<EnvelopeRect>>(m, "EnvelopeRect")
+        .def(py::init<NodeRef, NodeRef>(), "sustain"_a = 1.0, "clock"_a = nullptr);
+
     py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder")
         .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
 

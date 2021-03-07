@@ -28,6 +28,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/asr.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/envelope.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/line.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/rect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fftnode.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/ifft.cpp

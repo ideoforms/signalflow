@@ -103,6 +103,7 @@
 #include <signalflow/node/envelope/asr.h>
 #include <signalflow/node/envelope/envelope.h>
 #include <signalflow/node/envelope/line.h>
+#include <signalflow/node/envelope/rect.h>
 
 /*------------------------------------------------------------------------
  * Processors
