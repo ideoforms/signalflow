@@ -2,17 +2,19 @@
 
 #------------------------------------------------------------------------
 # SignalFlow: Use a MIDI keyboard to trigger patch voices.
-# The mido module is required for this example.
+# The mido module is required for this example:
+#
+#   pip3 install mido python-rtmidi
 #
 # For help on MIDI devices, run this example with the -h flag.
 #------------------------------------------------------------------------
+import sys
 try:
     import mido
 except ModuleNotFoundError:
-    print("This example requires mido: pip3 install mido")
+    print("This example requires mido: pip3 install mido python-rtmidi")
     sys.exit(1)
 
-import sys
 import numpy as np
 import argparse
 from signalflow import *
