@@ -26,7 +26,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<BufferRef, int, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "segment_count"_a = 8, "stutter_probability"_a = 0.0, "stutter_count"_a = 1, "jump_probability"_a = 0.0, "duty_cycle"_a = 1.0, "rate"_a = 1.0, "segment_rate"_a = 1.0);
 
     py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0, "clock"_a = nullptr);
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0, "start_time"_a = nullptr, "end_time"_a = nullptr, "clock"_a = nullptr);
 
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder")
         .def(py::init<BufferRef, NodeRef, NodeRef, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop"_a = false);

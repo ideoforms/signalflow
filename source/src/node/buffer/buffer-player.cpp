@@ -6,8 +6,9 @@
 namespace signalflow
 {
 
-BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop, NodeRef clock)
-    : rate(rate), loop(loop), clock(clock)
+BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop,
+                           NodeRef start_time, NodeRef end_time, NodeRef clock)
+    : rate(rate), loop(loop), start_time(start_time), end_time(end_time), clock(clock)
 {
     SIGNALFLOW_CHECK_GRAPH();
 
@@ -26,10 +27,10 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop, NodeRef
     }
 
     this->create_input("rate", this->rate);
-    this->create_input("clock", this->clock);
-    this->create_input("loop_start", this->loop_start);
-    this->create_input("loop_end", this->loop_end);
     this->create_input("loop", this->loop);
+    this->create_input("start_time", this->start_time);
+    this->create_input("end_time", this->end_time);
+    this->create_input("clock", this->clock);
 
     /*--------------------------------------------------------------------------------
      * In cases where a clock is set, we don't immediately want to begin playback,
@@ -39,10 +40,11 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop, NodeRef
      * offset so int range should be used.
      *--------------------------------------------------------------------------------*/
     this->phase = std::numeric_limits<int>::max();
+    this->state = SIGNALFLOW_NODE_STATE_STOPPED;
 
     if (!clock)
     {
-        this->trigger();
+        this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
     }
 }
 
@@ -63,7 +65,15 @@ void BufferPlayer::trigger(std::string name, float value)
         /*----------------------------------------------------------------
          * Set the offset within the buffer, in samples.
          *----------------------------------------------------------------*/
-        this->phase = value;
+        if (this->start_time)
+        {
+            this->phase = buffer->get_sample_rate() * this->start_time->out[0][0];
+        }
+        else
+        {
+            this->phase = 0.0;
+        }
+        this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
     }
     else
     {
@@ -81,42 +91,49 @@ void BufferPlayer::process(Buffer &out, int num_frames)
 
     sample s;
 
-    int loop_start = this->loop_start ? (buffer->get_num_frames() * this->loop_start->out[0][0]) : 0;
-    int loop_end = this->loop_end ? (buffer->get_num_frames() * this->loop_end->out[0][0]) : buffer->get_num_frames();
+    int start_frame = this->start_time ? (buffer->get_sample_rate() * this->start_time->out[0][0]) : 0;
+    int end_frame = this->end_time ? (buffer->get_sample_rate() * this->end_time->out[0][0]) : buffer->get_num_frames();
 
     for (int frame = 0; frame < num_frames; frame++)
     {
         if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
         {
-            this->trigger(SIGNALFLOW_TRIGGER_SET_POSITION);
+            this->trigger();
         }
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            if ((int) this->phase < loop_end)
+            if (this->state == SIGNALFLOW_NODE_STATE_STOPPED)
             {
-                s = this->buffer->get_frame(channel, phase);
+                s = 0.0;
             }
             else
             {
-                if (loop->out[channel][frame] && this->phase != std::numeric_limits<int>::max())
+                if ((int) this->phase < end_frame)
                 {
-                    this->phase = loop_start;
                     s = this->buffer->get_frame(channel, phase);
                 }
                 else
                 {
-                    if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
+                    if (loop->out[channel][frame] || this->phase == std::numeric_limits<int>::max())
                     {
-                        this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
+                        this->phase = start_frame;
+                        s = this->buffer->get_frame(channel, phase);
                     }
-                    s = 0.0;
+                    else
+                    {
+                        if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
+                        {
+                            this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
+                        }
+                        s = 0.0;
+                    }
                 }
             }
 
             out[channel][frame] = s;
         }
 
-        if ((int) this->phase < loop_end)
+        if ((int) this->phase < end_frame)
             this->phase += this->rate->out[0][frame] * this->rate_scale_factor;
     }
 }
