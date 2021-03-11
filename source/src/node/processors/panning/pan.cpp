@@ -32,9 +32,9 @@ void LinearPanner::process(Buffer &out, int num_frames)
             out[0][frame] = in * sqrtf((1.0 - pan));
             out[1][frame] = in * sqrtf(pan);
         }
-        else if (this->num_output_channels == 4)
+        else
         {
-            // TODO calculate channels frames based on pan as angle in radians
+            throw std::runtime_error("Unsupported channel count");
         }
     }
 }
