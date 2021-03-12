@@ -219,7 +219,12 @@ void AudioGraph::reset_graph()
     }
     nodes_to_remove.clear();
 
-    for (auto patch : patches_to_remove)
+    /*------------------------------------------------------------------------
+     * Avoid segfaults if another thread modifies patches_to_remove
+     * (with patch.stop()) while the audio thread is iterating over it.
+     *-----------------------------------------------------------------------*/
+    std::set<Patch *> patches_to_remove_copy = patches_to_remove;
+    for (auto patch : patches_to_remove_copy)
     {
         for (auto patchref : patches)
         {
