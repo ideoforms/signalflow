@@ -30,8 +30,7 @@ int main()
      * output frequency. Via automatic channel upmixing, this creates
      * two parallel counters, phasing gradually against each other.
      *-----------------------------------------------------------------------*/
-    NodeRef saw = new SawOscillator({ 1, 0.97 });
-    saw = saw.scale(0, 8);
+    NodeRef saw = new SawLFO({ 1, 0.97 }, 0, 8);
     NodeRef index = new Index(freqs, saw);
 
     /*------------------------------------------------------------------------
@@ -39,8 +38,7 @@ int main()
      * with a time-synced pair of TriangleOscillator waves to act as envelopes.
      *-----------------------------------------------------------------------*/
     NodeRef sine = new SineOscillator(index);
-    NodeRef envelope = new TriangleOscillator({ 8, 7.76 });
-    envelope = envelope.scale(0, 1);
+    NodeRef envelope = new TriangleLFO({ 8.0, 7.76 }, 0, 1);
     sine = sine * envelope;
 
     /*------------------------------------------------------------------------
