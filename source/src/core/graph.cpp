@@ -224,6 +224,7 @@ void AudioGraph::reset_graph()
      * (with patch.stop()) while the audio thread is iterating over it.
      *-----------------------------------------------------------------------*/
     std::set<Patch *> patches_to_remove_copy = patches_to_remove;
+    this->patches_to_remove.clear();
     for (auto patch : patches_to_remove_copy)
     {
         for (auto patchref : patches)
@@ -235,7 +236,6 @@ void AudioGraph::reset_graph()
             }
         }
     }
-    this->patches_to_remove.clear();
 
     /*------------------------------------------------------------------------
      * Clear the record of processed nodes.
