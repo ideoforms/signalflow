@@ -21,8 +21,11 @@ import mido
 params = [
     [ 0.25, 1.0, [ 0.0, 0.3, 0.7, 0.9 ] ],
     [ 2.0, 0.75, [ 0.0, 0.4, 0.7, 0.7 ] ],
-    [ 8.17, 0.9, [ 0.0, 0.1, 0.7, 1.8 ] ]
+    [ 3.07, 0.8, [ 0.0, 0.1, 0.5, 0.8 ] ]
 ]
+lfo_rate = 4.0
+lfo_am_level = 0.2
+lfo_pm_level = 0.1
 
 #------------------------------------------------------------------------
 # Create the global processing graph.
@@ -34,10 +37,13 @@ class FM3 (Patch):
     def __init__(self, frequency, params):
         super().__init__()
         gate = self.add_input("gate", 1)
+        lfo = TriangleLFO(lfo_rate, -1, 1)
+        frequency = frequency * (1.0 + 0.1 * lfo * lfo_pm_level)
         op2 = FMOp(frequency, *params[2], gate)
         op1 = FMOp(frequency, *params[1], gate, fm=op2)
         op0 = FMOp(frequency, *params[0], gate, fm=op1+op2)
         stereo = LinearPanner(2, op0 + op1)
+        stereo = stereo * (1.0 + lfo * lfo_am_level)
         self.set_output(stereo * 0.1)
 
 class FMOp (Patch):
