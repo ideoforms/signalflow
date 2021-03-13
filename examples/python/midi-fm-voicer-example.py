@@ -9,6 +9,22 @@
 from signalflow import *
 import mido
 
+#--------------------------------------------------------------------------------
+# Parameters for each FM operator:
+#   [ coarse, level, detune, envelope ]
+#
+# where
+#   coarse is a multiple of the fundamental frequency
+#   level is 0..1
+#   detune is -1..+1
+#   envelope is an ASR envelope with attack, sustain, release in seconds
+#--------------------------------------------------------------------------------
+params = [
+    [ 1.0, 1.0, 0, [ 0.0, 0.3, 0.5 ] ],
+    [ 2.0, 0.75, 0, [ 0.0, 0.1, 0.5 ] ],
+    [ 3.5, 0.6, 0, [ 0.0, 0.1, 0.5 ] ]
+]
+
 #------------------------------------------------------------------------
 # Create the global processing graph.
 #------------------------------------------------------------------------
@@ -18,32 +34,28 @@ graph.show_status(1)
 class FM3 (Patch):
     def __init__(self, f0, params):
         super().__init__()
-        p0 = params[0]
-        p1 = params[1]
-        p2 = params[2]
-        op2 = FMOp(f0, p2[0], detune=p2[2], env=p2[3])
-        op1 = FMOp(f0, p1[0], detune=p1[2], env=p1[3])
-        op0 = FMOp(f0, p0[0], op1 + op2, p0[1], detune=p0[2], env=p0[3])
-        stereo = LinearPanner(2, op0)
-        self.set_output(stereo)
+        op2 = FMOp(f0, *params[2])
+        op1 = FMOp(f0, *params[1], fm=op2)
+        op0 = FMOp(f0, *params[0], fm=op1)
+        stereo = LinearPanner(2, op0 + op1)
+        self.set_output(stereo * 0.1)
 
 class FMOp (Patch):
-    def __init__(self, f0, coarse, fm=None, fm_amp=None, detune=0, env=[0.25, 1, 1]):
+    def __init__(self, f0, coarse, level, detune, env, fm=None):
+        """
+        FM operator that follows the exponential output curve of the Yamaha DX7:
+        https://sound.stackexchange.com/a/42979/33063
+        """
         super().__init__()
+        amplitude = ScaleLinExp(level, 0, 1, 0.0005, 1)
         freq = f0 * coarse
         if fm is not None:
-            fm_amp = ScaleLinExp(fm_amp, 0, 1, 0.01, 100)
-            freq = freq + (fm * f0 * fm_amp)
+            freq = freq + (f0 * fm * 14)
         freq = freq * (1 + 0.0005 * detune)
         sine = SineOscillator(freq)
         env = EnvelopeASR(env[0], env[1], env[2], curve=2)
-        self.set_output(sine * env * 0.1)
+        self.set_output(sine * env * amplitude)
 
-params = [
-    [ 0.5, 0.73, 0, [ 0.0, 0.3, 0.5 ] ],
-    [ 3, 0.79, 0, [ 0.0, 0.1, 0.3 ] ],
-    [ 1.0, 1.0, 0, [ 0.0, 0.1, 0.2 ] ]
-]
 
 class MIDIVoicer:
     def __init__(self, device_name=None, voice_count=16):
