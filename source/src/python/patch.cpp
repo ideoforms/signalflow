@@ -20,12 +20,16 @@ void init_python_patch(py::module &m)
          *-------------------------------------------------------------------------------*/
         .def("__mul__", [](PatchRef a, NodeRef b) { return a * b; })
         .def("__mul__", [](PatchRef a, float b) { return a * NodeRef(b); })
+        .def("__rmul__", [](PatchRef a, float b) { return a * NodeRef(b); })
         .def("__add__", [](PatchRef a, NodeRef b) { return a + b; })
         .def("__add__", [](PatchRef a, float b) { return a + NodeRef(b); })
+        .def("__radd__", [](PatchRef a, float b) { return a + NodeRef(b); })
         .def("__sub__", [](PatchRef a, NodeRef b) { return a - b; })
         .def("__sub__", [](PatchRef a, float b) { return a - NodeRef(b); })
+        .def("__rsub__", [](PatchRef a, float b) { return a - NodeRef(b); })
         .def("__truediv__", [](PatchRef a, NodeRef b) { return a / b; })
         .def("__truediv__", [](PatchRef a, float b) { return a / NodeRef(b); })
+        .def("__rtruediv__", [](PatchRef a, float b) { return a / NodeRef(b); })
 
         // Breaks other properties (auto_free, inputs, etc).
         // Need a policy on this: either *only* inputs should be accessible through properties,
