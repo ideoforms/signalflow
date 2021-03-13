@@ -11,18 +11,17 @@ import mido
 
 #--------------------------------------------------------------------------------
 # Parameters for each FM operator:
-#   [ coarse, level, detune, envelope ]
+#   [ coarse, level, envelope ]
 #
 # where
 #   coarse is a multiple of the fundamental frequency
 #   level is 0..1
-#   detune is -1..+1
 #   envelope is an ASR envelope with attack, sustain, release in seconds
 #--------------------------------------------------------------------------------
 params = [
-    [ 1.0, 1.0, 0, [ 0.0, 0.3, 0.7, 0.9 ] ],
-    [ 2.0, 0.75, 0, [ 0.0, 0.4, 0.7, 0.7 ] ],
-    [ 3.17, 0.9, 0, [ 0.0, 0.1, 0.7, 0.8 ] ]
+    [ 0.25, 1.0, [ 0.0, 0.3, 0.7, 0.9 ] ],
+    [ 2.0, 0.75, [ 0.0, 0.4, 0.7, 0.7 ] ],
+    [ 8.17, 0.9, [ 0.0, 0.1, 0.7, 1.8 ] ]
 ]
 
 #------------------------------------------------------------------------
@@ -42,7 +41,7 @@ class FM3 (Patch):
         self.set_output(stereo * 0.1)
 
 class FMOp (Patch):
-    def __init__(self, f0, coarse, level, detune, env, gate, fm=None):
+    def __init__(self, f0, coarse, level, env, gate, fm=None):
         """
         FM operator that follows the exponential output curve of the Yamaha DX7:
         https://sound.stackexchange.com/a/42979/33063
@@ -52,7 +51,6 @@ class FMOp (Patch):
         frequency = f0 * coarse
         if fm is not None:
             frequency = frequency + (f0 * fm * 14)
-        frequency = frequency * (1 + 0.0005 * detune)
         sine = SineOscillator(frequency)
         env = EnvelopeADSR(*env, gate=gate)
         self.set_output(sine * env * amplitude)
