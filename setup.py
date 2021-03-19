@@ -43,5 +43,7 @@ setup(
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
     setup_requires=['pytest-runner'],
-    tests_require=['pytest', 'numpy', 'scipy']
+    tests_require=['pytest', 'numpy', 'scipy'],
+    package_dir={ '': 'auxiliary/libs' },
+    packages=['signalflow_midi']
 )

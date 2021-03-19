@@ -7,7 +7,7 @@
 #   pip3 install mido python-rtmidi
 #------------------------------------------------------------------------
 from signalflow import *
-import mido
+from signalflow_midi import *
 
 #--------------------------------------------------------------------------------
 # Parameters for each FM operator:
@@ -19,9 +19,9 @@ import mido
 #   envelope is an ASR envelope with attack, sustain, release in seconds
 #--------------------------------------------------------------------------------
 params = [
-    [ 0.25, 1.0, [ 0.0, 0.3, 0.7, 0.9 ] ],
-    [ 2.0, 0.75, [ 0.0, 0.4, 0.7, 0.7 ] ],
-    [ 3.07, 0.8, [ 0.0, 0.1, 0.5, 0.8 ] ]
+    [ 1.00, 1.0, [ 0.0, 0.3, 0.7, 0.9 ] ],
+    [ 2.0, 0.75, [ 0.0, 0.4, 0.6, 0.9 ] ],
+    [ 9.1, 0.95, [ 0.0, 0.1, 0.2, 0.9 ] ]
 ]
 lfo_rate = 4.0
 lfo_am_level = 0.2
@@ -58,26 +58,18 @@ class FMOp (Patch):
         if fm is not None:
             frequency = frequency + (f0 * fm * 14)
         sine = SineOscillator(frequency)
-        env = EnvelopeADSR(*env, gate=gate)
+        env = EnvelopeADSR(*env, gate=gate) ** 2
         self.set_output(sine * env * amplitude)
 
-
-class MIDIVoicer:
-    def __init__(self, device_name=None):
-        self.input = mido.open_input(device_name)
-        self.notes = [None] * 128
-
-    def run(self):
-        for message in self.input:
-            if message.type == 'note_on':
-                voice = FM3(midi_note_to_frequency(message.note), params)
-                voice.play()
-                voice.auto_free = True
-                self.notes[message.note] = voice
-            elif message.type == 'note_off':
-                if self.notes[message.note]:
-                    self.notes[message.note].set_input("gate", 0)
-                    self.notes[message.note] = None
-
-voicer = MIDIVoicer()
-voicer.run()
+#--------------------------------------------------------------------------------
+# MIDIManager is part of the signalflow_midi helper package.
+# This snippet specifies that the "FM3" patch should be used to play individual
+# MIDI voices when a key is pressed.
+#
+# The patch must support parameters named `frequency` and `gate`.
+#
+# To use a specific MIDI input device, replace None below with the device name. 
+#--------------------------------------------------------------------------------
+manager = MIDIManager(device_name=None)
+manager.set_voice_patch(FM3, params=params)
+graph.wait()

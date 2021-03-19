@@ -22,6 +22,8 @@ class MIDIManager:
         if MIDIManager.shared_manager is None:
             MIDIManager.shared_manager = self
 
+        print("Opened MIDI input device: %s" % self.input.name)
+
     def handle_message(self, message):
         if message.type == 'control_change':
             self.on_control_change(message.control, message.value)
@@ -40,7 +42,7 @@ class MIDIManager:
             MIDIManager.shared_manager = MIDIManager()
         return MIDIManager.shared_manager
 
-    def set_voice_class(self, cls, **kwargs):
+    def set_voice_patch(self, cls, **kwargs):
         self.voice_class = cls
         self.voice_class_kwargs = kwargs
 
