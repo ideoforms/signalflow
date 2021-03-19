@@ -16,7 +16,7 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
     this->create_input("release", this->release);
     this->create_input("gate", this->gate);
 
-    this->curve = SIGNALFLOW_CURVE_EXPONENTIAL;
+    this->curve = SIGNALFLOW_CURVE_LINEAR;
     this->released = false;
     this->level = 0.0;
 }
