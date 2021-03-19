@@ -63,6 +63,8 @@ public:
     void disconnect();
     bool get_auto_free();
     void set_auto_free(bool value);
+    NodeRef get_auto_free_node();
+    void set_auto_free_node(NodeRef node);
     void node_state_changed(Node *node);
 
     NodeRef output = nullptr;
@@ -101,7 +103,8 @@ public:
 private:
     NodeRef instantiate(PatchNodeSpec *nodespec);
     void set_state(signalflow_patch_state_t state);
-    bool auto_free = false;
+    bool auto_free;
+    NodeRef auto_free_node;
     signalflow_patch_state_t state;
     AudioGraph *graph;
 

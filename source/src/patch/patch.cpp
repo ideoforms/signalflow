@@ -22,6 +22,7 @@ Patch::Patch()
 {
     this->graph = shared_graph;
     this->auto_free = false;
+    this->auto_free_node = nullptr;
 }
 
 Patch::Patch(PatchSpecRef patchspec)
@@ -218,13 +219,26 @@ void Patch::set_auto_free(bool value)
 {
     this->auto_free = value;
 }
+void Patch::set_auto_free_node(NodeRef node)
+{
+    this->auto_free_node = node;
+    this->auto_free = true;
+}
+
+NodeRef Patch::get_auto_free_node()
+{
+    return this->auto_free_node;
+}
 
 void Patch::node_state_changed(Node *node)
 {
     if (node->get_state() == SIGNALFLOW_NODE_STATE_STOPPED && this->auto_free)
     {
-        this->set_state(SIGNALFLOW_PATCH_STATE_STOPPED);
-        this->disconnect();
+        if (this->auto_free_node == nullptr || this->auto_free_node.get() == node)
+        {
+            this->set_state(SIGNALFLOW_PATCH_STATE_STOPPED);
+            this->disconnect();
+        }
     }
 }
 

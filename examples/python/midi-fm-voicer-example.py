@@ -20,8 +20,8 @@ from signalflow_midi import *
 #--------------------------------------------------------------------------------
 params = [
     [ 1.00, 1.0, [ 0.0, 0.3, 0.7, 0.9 ] ],
-    [ 2.0, 0.75, [ 0.0, 0.4, 0.6, 0.9 ] ],
-    [ 9.1, 0.95, [ 0.0, 0.1, 0.2, 0.9 ] ]
+    [ 2.0, 0.75, [ 0.0, 0.4, 0.6, 0.5 ] ],
+    [ 9.1, 0.95, [ 0.0, 0.1, 0.2, 0.3 ] ]
 ]
 lfo_rate = 4.0
 lfo_am_level = 0.2
@@ -45,6 +45,7 @@ class FM3 (Patch):
         stereo = LinearPanner(2, op0 + op1)
         stereo = stereo * (1.0 + lfo * lfo_am_level)
         self.set_output(stereo * 0.1)
+        self.auto_free_node = op0.env
 
 class FMOp (Patch):
     def __init__(self, f0, coarse, level, env, gate, fm=None):
@@ -58,8 +59,8 @@ class FMOp (Patch):
         if fm is not None:
             frequency = frequency + (f0 * fm * 14)
         sine = SineOscillator(frequency)
-        env = EnvelopeADSR(*env, gate=gate) ** 2
-        self.set_output(sine * env * amplitude)
+        self.env = EnvelopeADSR(*env, gate=gate)
+        self.set_output(sine * (self.env ** 2) * amplitude)
 
 #--------------------------------------------------------------------------------
 # MIDIManager is part of the signalflow_midi helper package.
