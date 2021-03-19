@@ -43,9 +43,15 @@ def test_envelope_adsr(graph):
     graph.render_subgraph(env, reset=True)
     assert env.output_buffer[0][0] == pytest.approx(0.0)
     assert env.output_buffer[0][10] == pytest.approx(1.0)
+    """
+    TODO: add test for exponential curve
     assert env.output_buffer[0][110] == pytest.approx(db_to_amplitude(SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB * 0.5))
     assert env.output_buffer[0][199] == pytest.approx(db_to_amplitude(SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB * 0.5))
     assert env.output_buffer[0][250] == pytest.approx(db_to_amplitude(SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB), abs=0.0000001)
+    """
+    assert env.output_buffer[0][110] == 0.5
+    assert env.output_buffer[0][199] == 0.5
+    assert env.output_buffer[0][250] == 0.0
 
     #--------------------------------------------------------------------------------
     # Release early, right after attack segment
@@ -55,4 +61,7 @@ def test_envelope_adsr(graph):
     graph.render_subgraph(env, reset=True)
     assert env.output_buffer[0][0] == pytest.approx(0.0)
     assert env.output_buffer[0][10] == pytest.approx(1.0)
+    """
     assert env.output_buffer[0][60] == pytest.approx(db_to_amplitude(SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB), abs=0.0000001)
+    """
+    assert env.output_buffer[0][61] == 0.0
