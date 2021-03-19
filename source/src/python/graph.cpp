@@ -63,6 +63,10 @@ void init_python_graph(py::module &m)
             {
                 if (PyErr_CheckSignals() != 0)
                     throw py::error_already_set();
+                /*--------------------------------------------------------------------------------
+                 * Release the GIL so that other threads can do processing.
+                 *-------------------------------------------------------------------------------*/
+                py::gil_scoped_release release;
             }
         })
         .def("wait", [](AudioGraph &graph, float timeout_seconds) {
@@ -84,6 +88,11 @@ void init_python_graph(py::module &m)
                         break;
                     }
                 }
+
+                /*--------------------------------------------------------------------------------
+                 * Release the GIL so that other threads can do processing.
+                 *-------------------------------------------------------------------------------*/
+                py::gil_scoped_release release;
             }
         });
 }
