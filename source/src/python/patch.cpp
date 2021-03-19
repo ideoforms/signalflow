@@ -47,6 +47,7 @@ void init_python_patch(py::module &m)
         .def_readonly("output", &Patch::output)
         .def_readonly("nodes", &Patch::nodes)
         .def_readonly("inputs", &Patch::inputs)
+        .def_property_readonly("graph", &Patch::get_graph)
 
         .def("play", [](PatchRef patch) { patch->get_graph()->play(patch); })
         .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
