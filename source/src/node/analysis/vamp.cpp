@@ -106,6 +106,10 @@ VampEventExtractor::VampEventExtractor(NodeRef input, std::string plugin_id)
     : VampAnalysis(input, plugin_id)
 {
     this->name = "vamp_events";
+
+    this->add_property("timestamps", this->timestamps);
+    this->add_property("labels", this->labels);
+
     this->set_property("timestamps", { 0 });
     this->set_property("labels", { "" });
 }

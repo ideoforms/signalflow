@@ -32,6 +32,9 @@ class VampEventExtractor : public VampAnalysis
 public:
     VampEventExtractor(NodeRef input = 0.0, std::string plugin_id = "vamp:vamp-example-plugins:percussiononsets:onsets");
     virtual void process(Buffer &out, int num_frames);
+
+    PropertyRef timestamps;
+    PropertyRef labels;
 };
 
 class VampSegmenter : public VampAnalysis
