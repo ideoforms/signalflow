@@ -75,6 +75,10 @@ void BufferPlayer::trigger(std::string name, float value)
         }
         this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
     }
+    else if (name == SIGNALFLOW_TRIGGER_SET_POSITION)
+    {
+        this->phase = buffer->get_sample_rate() * value;
+    }
     else
     {
         throw std::runtime_error("Unknown trigger: " + name);
