@@ -18,7 +18,7 @@ class MIDIManager:
         self.voice_class_kwargs = None
         self.notes = [None] * 128
         self.note_handler = None
-        self.control_handlers = [None] * 128
+        self.control_handlers = [[] for _ in range(128)]
         if MIDIManager.shared_manager is None:
             MIDIManager.shared_manager = self
 
@@ -50,15 +50,14 @@ class MIDIManager:
         self.note_handler = handler
 
     def add_control_handler(self, control, handler):
-        assert self.control_handlers[control] is None
-        self.control_handlers[control] = handler
+        self.control_handlers[control].append(handler)
 
     def on_control_change(self, control, value):
-        if self.control_handlers[control] is not None:
-            self.control_handlers[control].on_change(value)
+        for handler in self.control_handlers[control]:
+            handler.on_change(value)
 
 class MIDIControl (Patch):
-    def __init__(self, control, range_min, range_max, initial=None, mode="relative", manager=None, curve="linear"):
+    def __init__(self, control, range_min, range_max, initial=None, mode="absolute", manager=None, curve="linear"):
         super().__init__()
         if manager is None:
             manager = MIDIManager.get_shared_manager()
@@ -71,11 +70,11 @@ class MIDIControl (Patch):
         self.curve = curve
         if initial:
             if self.curve == "exponential":
-                self.value = scale_exp_lin(initial, range_min, range_max, 0, 1)
+                self._value_norm = scale_exp_lin(initial, range_min, range_max, 0, 1)
             elif self.curve == "linear":
-                self.value = scale_lin_lin(initial, range_min, range_max, 0, 1)
+                self._value_norm = scale_lin_lin(initial, range_min, range_max, 0, 1)
         else:
-            self.value = 0.5
+            self._value_norm = 0.5
         self.update()
         self.mode = mode
 
@@ -83,20 +82,20 @@ class MIDIControl (Patch):
 
     def on_change(self, value):
         if self.mode == "absolute":
-            self.value = value / 127.0
+            self._value_norm = value / 127.0
         else:
             change = (value - 64) / 127.0
-            self.value += change
-            if self.value < 0:
-                self.value = 0
-            if self.value > 1:
-                self.value = 1
+            self._value_norm += change
+            if self._value_norm < 0:
+                self._value_norm = 0
+            if self._value_norm > 1:
+                self._value_norm = 1
         self.update()
 
     def update(self):
         if self.curve == "exponential":
-            value_scaled = scale_lin_exp(self.value, 0, 1, self.range_min, self.range_max)
+            value_scaled = scale_lin_exp(self._value_norm, 0, 1, self.range_min, self.range_max)
         elif self.curve == "linear":
-            value_scaled = scale_lin_lin(self.value, 0, 1, self.range_min, self.range_max)
+            value_scaled = scale_lin_lin(self._value_norm, 0, 1, self.range_min, self.range_max)
         self.set_input("value", value_scaled)
 
