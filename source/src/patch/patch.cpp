@@ -23,6 +23,7 @@ Patch::Patch()
     this->graph = shared_graph;
     this->auto_free = false;
     this->auto_free_node = nullptr;
+    this->trigger_node = nullptr;
 }
 
 Patch::Patch(PatchSpecRef patchspec)
@@ -215,10 +216,12 @@ bool Patch::get_auto_free()
 {
     return this->auto_free;
 }
+
 void Patch::set_auto_free(bool value)
 {
     this->auto_free = value;
 }
+
 void Patch::set_auto_free_node(NodeRef node)
 {
     this->auto_free_node = node;
@@ -228,6 +231,16 @@ void Patch::set_auto_free_node(NodeRef node)
 NodeRef Patch::get_auto_free_node()
 {
     return this->auto_free_node;
+}
+
+void Patch::set_trigger_node(NodeRef node)
+{
+    this->trigger_node = node;
+}
+
+NodeRef Patch::get_trigger_node()
+{
+    return this->trigger_node;
 }
 
 void Patch::node_state_changed(Node *node)
@@ -240,6 +253,15 @@ void Patch::node_state_changed(Node *node)
             this->disconnect();
         }
     }
+}
+
+void Patch::trigger()
+{
+    if (this->trigger_node == nullptr)
+    {
+        throw std::runtime_error("No trigger node set");
+    }
+    this->trigger_node->trigger();
 }
 
 /*------------------------------------------------------------------------

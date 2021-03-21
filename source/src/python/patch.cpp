@@ -38,12 +38,19 @@ void init_python_patch(py::module &m)
         .def("set_input", [](Patch &patch, std::string name, float value) { patch.set_input(name, value); })
         .def("set_input", [](Patch &patch, std::string name, NodeRef node) { patch.set_input(name, node); })
         .def("set_input", [](Patch &patch, std::string name, BufferRef buffer) { patch.set_input(name, buffer); })
-        .def("set_auto_free", &Patch::set_auto_free)
+
         .def("get_auto_free", &Patch::get_auto_free)
-        .def("set_auto_free_node", &Patch::set_auto_free_node)
-        .def("get_auto_free_node", &Patch::set_auto_free_node)
+        .def("set_auto_free", &Patch::set_auto_free)
         .def_property("auto_free", &Patch::get_auto_free, &Patch::set_auto_free)
+
+        .def("get_auto_free_node", &Patch::get_auto_free_node)
+        .def("set_auto_free_node", &Patch::set_auto_free_node)
         .def_property("auto_free_node", &Patch::get_auto_free_node, &Patch::set_auto_free_node)
+
+        .def("get_trigger_node", &Patch::get_trigger_node)
+        .def("set_trigger_node", &Patch::set_trigger_node)
+        .def_property("trigger_node", &Patch::get_trigger_node, &Patch::set_trigger_node)
+
         .def_readonly("output", &Patch::output)
         .def_readonly("nodes", &Patch::nodes)
         .def_readonly("inputs", &Patch::inputs)
@@ -51,6 +58,7 @@ void init_python_patch(py::module &m)
 
         .def("play", [](PatchRef patch) { patch->get_graph()->play(patch); })
         .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
+        .def("trigger", &Patch::trigger)
 
         /*--------------------------------------------------------------------------------
          * Patch specification methods

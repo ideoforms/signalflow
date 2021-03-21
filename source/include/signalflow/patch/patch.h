@@ -67,6 +67,9 @@ public:
     void set_auto_free_node(NodeRef node);
     void node_state_changed(Node *node);
 
+    NodeRef get_trigger_node();
+    void set_trigger_node(NodeRef node);
+
     NodeRef output = nullptr;
     std::unordered_map<std::string, NodeRef> inputs;
     std::unordered_map<std::string, BufferRef> buffer_inputs;
@@ -93,6 +96,8 @@ public:
      *-----------------------------------------------------------------------*/
     void parse();
 
+    void trigger();
+
     /*----------------------------------------------------------------------------------
      * Parse a template from live Node objects to create a network of NodeDefs
      *---------------------------------------------------------------------------------*/
@@ -105,6 +110,7 @@ private:
     void set_state(signalflow_patch_state_t state);
     bool auto_free;
     NodeRef auto_free_node;
+    NodeRef trigger_node;
     signalflow_patch_state_t state;
     AudioGraph *graph;
 
