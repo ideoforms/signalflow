@@ -30,3 +30,17 @@ To run the unit test suite:
 ```
 python3 setup.py test
 ```
+
+## Documentation
+
+To generate and serve the docs:
+
+```
+pip3 install mkdocs mkdocs-material
+mkdocs serve
+```
+
+To deploy docs to GitHub:
+```
+mkdocs gh-deploy
+```
