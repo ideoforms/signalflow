@@ -60,6 +60,8 @@ public:
      *
      *--------------------------------------------------------------------------------*/
     void show_structure();
+    std::string get_structure();
+    std::string get_structure(NodeRef &root, int depth);
 
     /**--------------------------------------------------------------------------------
      * Get current graph status (node count, patch count, CPU usage).

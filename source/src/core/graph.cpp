@@ -434,29 +434,39 @@ void AudioGraph::stop_recording()
 void AudioGraph::show_structure()
 {
     std::cout << "AudioGraph" << std::endl;
-    this->show_structure(this->output, 0);
+
+    std::string structure = this->get_structure();
+    std::cout << structure;
 }
 
-void AudioGraph::show_structure(NodeRef &root, int depth)
+std::string AudioGraph::get_structure(NodeRef &root, int depth)
 {
-    std::cout << std::string(depth * 2, ' ');
-    std::cout << " * " << root->name << std::endl;
+    std::string structure;
+    structure += std::string(depth * 3, ' ');
+    structure += " * " + root->name + "\n";
     for (auto pair : root->inputs)
     {
-        std::cout << std::string((depth + 1) * 2 + 1, ' ');
+        structure += std::string((depth + 1) * 3, ' ');
 
         NodeRef param_node = *(pair.second);
         if (param_node->name == "constant")
         {
             Constant *constant = (Constant *) (param_node.get());
-            std::cout << pair.first << ": " << constant->value << std::endl;
+            structure += pair.first + ": " + std::to_string(constant->value) + "\n";
         }
         else
         {
-            std::cout << pair.first << ":" << std::endl;
-            this->show_structure(param_node, depth + 1);
+            structure += pair.first + ":" + "\n";
+            structure += this->get_structure(param_node, depth + 1);
         }
     }
+
+    return structure;
+}
+
+std::string AudioGraph::get_structure()
+{
+    return this->get_structure(this->output, 0);
 }
 
 void AudioGraph::show_status(float frequency)

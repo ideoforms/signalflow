@@ -21,6 +21,7 @@ void init_python_graph(py::module &m)
         .def_property_readonly("output", &AudioGraph::get_output)
         .def_property_readonly("outputs", &AudioGraph::get_outputs)
         .def_property_readonly("status", &AudioGraph::get_status)
+        .def_property_readonly("structure", [](AudioGraph &graph) { return graph.get_structure(); })
 
         /*--------------------------------------------------------------------------------
          * Methods
