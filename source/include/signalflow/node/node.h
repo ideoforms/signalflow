@@ -67,9 +67,9 @@ class Node
 {
 
     /**------------------------------------------------------------------------
- * A Node is a single signal-processing unit in the DSP graph.
- *
- *-----------------------------------------------------------------------*/
+     * A Node is a single signal-processing unit in the DSP graph.
+     *
+     *-----------------------------------------------------------------------*/
 
 public:
     Node();
