@@ -1,0 +1,30 @@
+site_name: SignalFlow
+theme:
+  name: material
+  features:
+   - navigation.tabs
+
+repo_name: ideoforms/signalflow
+repo_url: https://github.com/ideoforms/signalflow
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/ideoforms
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/ideoforms
+
+markdown_extensions:
+ - admonition
+ - pymdownx.tabbed
+ - pymdownx.highlight
+ - pymdownx.superfences
+
+nav:
+ - Home:
+   - Home: index.md
+   - Getting started: getting-started.md
+   - License: license.md
+ - Nodes:
+    - Nodes: nodex/index.md
+    - The node: nodex/index.md
