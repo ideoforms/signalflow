@@ -8,7 +8,7 @@ class Counter : public Node
 {
 
 public:
-    Counter(NodeRef clock = 0, NodeRef min = 0, NodeRef max = 0);
+    Counter(NodeRef clock = 0, NodeRef min = 0, NodeRef max = 2147483647);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;

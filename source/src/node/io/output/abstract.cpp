@@ -1,4 +1,5 @@
 #include "signalflow/node/io/output/abstract.h"
+#include <algorithm>
 
 namespace signalflow
 {
