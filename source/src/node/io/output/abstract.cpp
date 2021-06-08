@@ -42,6 +42,10 @@ void AudioOut_Abstract::process(Buffer &out, int num_frames)
 
 void AudioOut_Abstract::add_input(NodeRef node)
 {
+    if (std::find(std::begin(audio_inputs), std::end(audio_inputs), node) != std::end(audio_inputs))
+    {
+        throw std::runtime_error("Node is already playing");
+    }
     audio_inputs.push_back(node);
     std::string input_name = "input" + std::to_string(input_index);
     this->input_index++;
