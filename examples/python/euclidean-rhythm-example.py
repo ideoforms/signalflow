@@ -39,8 +39,8 @@ class PingPongDelayPatch (Patch):
     def __init__(self, input=0, delay_time=1/8, feedback=0.7, wet=0.3):
         super().__init__()
         mono_input = ChannelMixer(1, input)
-        delay_l = AllpassDelay(mono_input, delaytime=delay_time, feedback=feedback)
-        delay_r = OneTapDelay(delay_l, delaytime=(delay_time/2))
+        delay_l = AllpassDelay(mono_input, delay_time=delay_time, feedback=feedback)
+        delay_r = OneTapDelay(delay_l, delay_time=(delay_time/2))
         wetdry = WetDry(input, [ delay_l, delay_r ], wet)
         self.set_output(wetdry)
 
