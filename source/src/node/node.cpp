@@ -497,6 +497,11 @@ void Node::poll(float frequency, std::string label)
     }
 }
 
+float Node::get_value()
+{
+    throw std::runtime_error("get_value() is only applicable to Constant nodes");
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)

@@ -34,4 +34,9 @@ void Constant::process(Buffer &out, int num_frames)
 #endif
 }
 
+float Constant::get_value()
+{
+    return this->value;
+}
+
 }

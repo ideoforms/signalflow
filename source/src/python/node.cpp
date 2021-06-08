@@ -88,6 +88,7 @@ void init_python_node(py::module &m)
         .def_property_readonly("num_output_channels_allocated", &Node::get_num_output_channels_allocated)
         .def_property_readonly("patch", &Node::get_patch)
         .def_property_readonly("state", &Node::get_state)
+        .def_property_readonly("value", &Node::get_value)
         .def_property_readonly("inputs", [](Node &node) {
             std::unordered_map<std::string, NodeRef> inputs(node.inputs.size());
             for (auto input : node.inputs)

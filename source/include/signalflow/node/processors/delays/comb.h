@@ -12,13 +12,13 @@ namespace signalflow
 class CombDelay : public UnaryOpNode
 {
 public:
-    CombDelay(NodeRef input = 0.0, NodeRef delaytime = 0.1, NodeRef feedback = 0.5, float maxdelaytime = 0.5);
+    CombDelay(NodeRef input = 0.0, NodeRef delay_time = 0.1, NodeRef feedback = 0.5, float max_delay_time = 0.5);
     ~CombDelay() override;
 
     virtual void process(Buffer &out, int num_frames) override;
 
 private:
-    NodeRef delaytime;
+    NodeRef delay_time;
     NodeRef feedback;
 
     std::vector<SampleRingBuffer *> buffers;

@@ -10,8 +10,9 @@ public:
     Constant(sample value = 0);
 
     float value;
+    virtual float get_value() override;
 
-    virtual void process(Buffer &out, int num_frames);
+    virtual void process(Buffer &out, int num_frames) override;
 };
 
 REGISTER(Constant, "constant")
