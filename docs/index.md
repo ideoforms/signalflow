@@ -1,5 +1,8 @@
 # SignalFlow
 
+!!! warning
+    This documentation is a work-in-progress and may have sections that are missing or incomplete.
+
 SignalFlow is an audio DSP framework whose goal is to make it quick and intuitive to explore complex sonic ideas. Its core is C++11, with a full Python API, allowing for rapid prototyping (in Jupyter, PyCharm, or python CLI), efficient processing (with cross-platform hardware acceleration), and lots of built-in node classes for creative exploration. 
 
 SignalFlow has robust support for macOS and Linux (including Raspberry Pi), and has work-in-progress support for Windows. The overall project is currently in alpha status, and interfaces may change without warning.

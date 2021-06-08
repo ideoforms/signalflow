@@ -24,7 +24,14 @@ nav:
  - Home:
    - Home: index.md
    - Getting started: getting-started.md
+   - Examples: examples.md
    - License: license.md
+ - The AudioGraph:
+    - The AudioGraph: graph/index.md
  - Nodes:
-    - Nodes: nodex/index.md
-    - The node: nodex/index.md
+    - Nodes: node/index.md
+    - Reference library: node/library.md
+ - Buffers:
+    - Buffers: buffer/index.md
+ - Patches:
+    - Patches: patch/index.md
