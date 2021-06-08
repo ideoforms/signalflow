@@ -482,8 +482,19 @@ void Node::trigger(std::string name, float value)
 
 void Node::poll(float frequency, std::string label)
 {
-    this->monitor = new NodeMonitor(this, label, frequency);
-    this->monitor->start();
+    if (frequency > 0)
+    {
+        this->monitor = new NodeMonitor(this, label, frequency);
+        this->monitor->start();
+    }
+    else
+    {
+        if (this->monitor)
+        {
+            this->monitor->stop();
+            // TODO: Properly free monitor
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
