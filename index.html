@@ -181,8 +181,56 @@
   
   
     <li class="md-tabs__item">
-      <a href="nodex/index.md" class="md-tabs__link">
+      <a href="graph/" class="md-tabs__link">
+        The AudioGraph
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="node/" class="md-tabs__link">
         Nodes
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="buffer/" class="md-tabs__link">
+        Buffers
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="patch/" class="md-tabs__link">
+        Patches
       </a>
     </li>
   
@@ -341,6 +389,18 @@
   
   
     <li class="md-nav__item">
+      <a href="examples/" class="md-nav__link">
+        Examples
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="license/" class="md-nav__link">
         License
       </a>
@@ -368,11 +428,53 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
       
       <label class="md-nav__link" for="__nav_2">
+        The AudioGraph
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="The AudioGraph" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          The AudioGraph
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="graph/" class="md-nav__link">
+        The AudioGraph
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
         Nodes
         <span class="md-nav__icon md-icon"></span>
       </label>
       <nav class="md-nav" aria-label="Nodes" data-md-level="1">
-        <label class="md-nav__title" for="__nav_2">
+        <label class="md-nav__title" for="__nav_3">
           <span class="md-nav__icon md-icon"></span>
           Nodes
         </label>
@@ -383,7 +485,7 @@
   
   
     <li class="md-nav__item">
-      <a href="nodex/index.md" class="md-nav__link">
+      <a href="node/" class="md-nav__link">
         Nodes
       </a>
     </li>
@@ -395,8 +497,92 @@
   
   
     <li class="md-nav__item">
-      <a href="nodex/index.md" class="md-nav__link">
-        The node
+      <a href="node/library/" class="md-nav__link">
+        Reference library
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        Buffers
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Buffers" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Buffers
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="buffer/" class="md-nav__link">
+        Buffers
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Patches
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Patches" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Patches
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="patch/" class="md-nav__link">
+        Patches
       </a>
     </li>
   
@@ -472,6 +658,10 @@
                 
                 
                 <h1 id="signalflow">SignalFlow</h1>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This documentation is a work-in-progress and may have sections that are missing or incomplete.</p>
+</div>
 <p>SignalFlow is an audio DSP framework whose goal is to make it quick and intuitive to explore complex sonic ideas. Its core is C++11, with a full Python API, allowing for rapid prototyping (in Jupyter, PyCharm, or python CLI), efficient processing (with cross-platform hardware acceleration), and lots of built-in node classes for creative exploration. </p>
 <p>SignalFlow has robust support for macOS and Linux (including Raspberry Pi), and has work-in-progress support for Windows. The overall project is currently in alpha status, and interfaces may change without warning.</p>
 <p>This documentation currently focuses specifically on Python interfaces and examples.</p>
