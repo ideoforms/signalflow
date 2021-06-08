@@ -18,8 +18,13 @@ import os
 import re
 import sys
 import glob
+import argparse
 import subprocess
 import CppHeaderParser
+
+parser = argparse.ArgumentParser()
+parser.add_argument("-m", "--markdown", action="store_true")
+args = parser.parse_args()
 
 node_superclasses = [ "Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO" ]
 omitted_classes = [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode", "StochasticNode" ]
@@ -63,6 +68,8 @@ def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
     return output
 
 def generate_all_bindings():
+    output_markdown = ""
+    folder_last = ""
     output = ""
     output += generate_class_bindings("AudioIn", [[]]) + "\n"
     output += generate_class_bindings("AudioOut_Abstract", []) + "\n"
@@ -77,6 +84,12 @@ def generate_all_bindings():
     ]], "AudioOut_Abstract") + "\n"
 
     for source_file in source_files:
+        folder = re.sub(".*node/", "", source_file)
+        folder = os.path.dirname(folder)
+        if folder != folder_last:
+            output_markdown += "\n## " + folder + "\n\n"
+            folder_last = folder
+
         try:
             header = CppHeaderParser.CppHeader(source_file)
         except CppHeaderParser.CppParseError as e:
@@ -123,9 +136,12 @@ def generate_all_bindings():
                 output += "\n\n"
                 if class_name in macos_only_classes:
                     output += "#endif\n\n"
-    return output
 
-bindings = generate_all_bindings()
+                output_markdown_params = ", ".join(("%s=%s" % (param["name"], param["default"])) for param in constructor_parameter_sets[0])
+                output_markdown += "- **%s** `(%s)`\n" % (class_name, output_markdown_params)
+    return output, output_markdown
+
+bindings, markdown = generate_all_bindings()
 bindings = re.sub("\n", "\n    ", bindings)
 output = '''#include "signalflow/python/python.h"
 
@@ -138,4 +154,7 @@ void init_python_nodes(py::module &m)
 }}
 '''.format(bindings=bindings)
 
-print(output)
+if args.markdown:
+    print(markdown)
+else:
+    print(output)
