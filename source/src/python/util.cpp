@@ -22,4 +22,8 @@ void init_python_util(py::module &m)
     m.def("save_block_to_wav_file", signalflow_save_block_to_wav_file, R"pbdoc(Write a block of PCM float samples to a .wav file)pbdoc");
 
     m.def("random_seed", random_seed, R"pbdoc(Set the global random seed)pbdoc");
+    m.def(
+        "random_uniform", []() { return random_uniform(); }, R"pbdoc(Return a uniformly random number)pbdoc");
+    m.def(
+        "random_uniform", [](float from, float to) { return random_uniform(from, to); }, R"pbdoc(Return a uniformly random number)pbdoc");
 }
