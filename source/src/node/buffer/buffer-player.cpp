@@ -2,6 +2,7 @@
 #include "signalflow/node/buffer/buffer-player.h"
 
 #include <stdlib.h>
+#include <limits>
 
 namespace signalflow
 {
