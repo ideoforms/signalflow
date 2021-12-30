@@ -32,7 +32,7 @@ def test_nodes_sequencing_counter(graph):
     counter = Counter(clock, 4, 8)
     graph.render_subgraph(counter)
     expected = np.repeat([ 0, 4, 5, 6, 7, 4, 5, 6 ], Fs/8)
-    actual = counter.output_buffer[0][:Fs].astype(np.int)
+    actual = counter.output_buffer[0][:Fs].astype(int)
     assert np.array_equal(expected, actual)
 
 def test_nodes_sequencing_flipflop(graph):
@@ -41,5 +41,5 @@ def test_nodes_sequencing_flipflop(graph):
     flipflop = FlipFlop(clock)
     graph.render_subgraph(flipflop)
     expected = np.repeat([ 0, 1, 0, 1 ], Fs/4)
-    actual = flipflop.output_buffer[0][:Fs].astype(np.int)
+    actual = flipflop.output_buffer[0][:Fs].astype(int)
     assert np.array_equal(expected, actual)
