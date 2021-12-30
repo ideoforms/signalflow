@@ -34,7 +34,7 @@ void LinearPanner::process(Buffer &out, int num_frames)
         }
         else
         {
-            throw std::runtime_error("Unsupported channel count");
+            throw std::runtime_error("LinearPanner: Unsupported channel count");
         }
     }
 }
