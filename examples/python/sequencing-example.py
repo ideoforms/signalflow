@@ -42,7 +42,7 @@ class HiHatPatch (Patch):
         noise = SVFFilter(noise, "high_pass", 8000)
         env = EnvelopeASR(0.001, 0.01, 0.1, clock=clock)
         pan = SineLFO(0.5, -0.3, 0.3)
-        output = LinearPanner(2, noise * env * amp, pan)
+        output = StereoPanner(noise * env * amp, pan)
         self.set_output(output)
 
 #------------------------------------------------------------------------

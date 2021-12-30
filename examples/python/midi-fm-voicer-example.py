@@ -42,7 +42,7 @@ class FM3 (Patch):
         op2 = FMOp(frequency, *params[2], gate)
         op1 = FMOp(frequency, *params[1], gate, fm=op2)
         op0 = FMOp(frequency, *params[0], gate, fm=op1+op2)
-        stereo = LinearPanner(2, op0 + op1)
+        stereo = StereoPanner(op0 + op1)
         stereo = stereo * (1.0 + lfo * lfo_am_level)
         self.set_output(stereo * 0.1)
         self.auto_free_node = op0.env

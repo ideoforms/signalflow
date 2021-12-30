@@ -89,9 +89,16 @@ public:
     /**------------------------------------------------------------------------
      * If no buffer pointer given, output to the Node's default output buffer.
      *
-     * TODO: Is this needed?
+     * @param num_frames The number of frames to generate.
      *-----------------------------------------------------------------------*/
     virtual void process(int num_frames);
+
+    /**------------------------------------------------------------------------
+     * If no buffer pointer given and no num_frames specified, fill the
+     * Node's default output buffer.
+     *
+     *-----------------------------------------------------------------------*/
+    // virtual void process();
 
     /*------------------------------------------------------------------------
      * Get state. Most nodes begin in state ACTIVE. Nodes which have a

@@ -6,7 +6,7 @@ import pytest
 
 def test_nodes_multichannel_pan(graph):
     a = 0.5
-    b = sf.LinearPanner(2, a, -1.0)
+    b = sf.StereoPanner(a, -1.0)
     graph.render_subgraph(b)
     assert all(b.output_buffer[0] == 0.5)
     assert all(b.output_buffer[1] == 0.0)

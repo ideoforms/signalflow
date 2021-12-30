@@ -1,4 +1,4 @@
-from signalflow import SineOscillator, SquareOscillator, ChannelMixer, ChannelArray, LinearPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
+from signalflow import SineOscillator, SquareOscillator, ChannelMixer, ChannelArray, StereoPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
 from signalflow import BiquadFilter, AllpassDelay, WaveShaper, WaveShaperBuffer, Constant, Add
 from signalflow import InvalidChannelCountException
 import numpy as np
@@ -115,7 +115,7 @@ def test_expansion_channel_array(graph):
 def test_expansion_channel_mismatch(graph):
     a = SineOscillator([ 440, 880 ])
     with pytest.raises(InvalidChannelCountException):
-        b = LinearPanner(2, a)
+        b = StereoPanner(a)
     b = Buffer([ 1, 2, 3 ])
     c = BufferPlayer(b)
     with pytest.raises(InvalidChannelCountException):

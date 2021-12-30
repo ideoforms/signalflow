@@ -55,7 +55,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/svf.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/eq.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/filters/moog.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/pan.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-panner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-balance.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-width.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/smooth.cpp

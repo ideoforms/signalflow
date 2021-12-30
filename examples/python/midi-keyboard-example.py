@@ -37,7 +37,7 @@ class NotePatch (Patch):
         signal = SVFFilter(signal, SIGNALFLOW_FILTER_TYPE_LOW_PASS, filter_env * filter_lfo, resonance)
         lfo = SineLFO(8, 0.6, 1.0)
         pan = RandomUniform(-0.5, 0.5, Impulse(0))
-        output = LinearPanner(2, signal * env * amplitude * lfo * 0.2, pan)
+        output = StereoPanner(signal * env * amplitude * lfo * 0.2, pan)
         output = Resample(output, bit_rate=8)
         self.set_output(output)
 

@@ -24,7 +24,7 @@ env = EnvelopeASR(attack=0.001, sustain=0.001, release=0.1, clock=clock)
 # Apply the envelope, and stereo pan between speakers.
 #------------------------------------------------------------------------
 mono = sine * env
-stereo = LinearPanner(2, mono, SineLFO(0.5, -1, 1))
+stereo = StereoPanner(mono, SineLFO(0.5, -1, 1))
 
 #------------------------------------------------------------------------
 # Add some delay.

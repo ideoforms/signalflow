@@ -287,11 +287,11 @@ void init_python_nodes(py::module &m)
     py::class_<Fold, Node, NodeRefTemplate<Fold>>(m, "Fold")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
-    py::class_<LinearPanner, Node, NodeRefTemplate<LinearPanner>>(m, "LinearPanner")
-        .def(py::init<int, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.0);
-
     py::class_<StereoBalance, Node, NodeRefTemplate<StereoBalance>>(m, "StereoBalance")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "balance"_a = 0);
+
+    py::class_<StereoPanner, Node, NodeRefTemplate<StereoPanner>>(m, "StereoPanner")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "pan"_a = 0.0);
 
     py::class_<StereoWidth, Node, NodeRefTemplate<StereoWidth>>(m, "StereoWidth")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);

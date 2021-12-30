@@ -17,7 +17,7 @@ graph = AudioGraph(start=True)
 #------------------------------------------------------------------------
 sine = SineOscillator(440)
 sine = sine * db_to_amplitude(-12)
-stereo = LinearPanner(2, sine)
+stereo = StereoPanner(sine)
 
 #------------------------------------------------------------------------
 # Play the

@@ -32,7 +32,7 @@ class EuclideanPatch (Patch):
         self.pan = self.add_input("pan", pan)
         self.eu = Euclidean(ClockDivider(self.clock, self.divider), self.sequence_length, self.num_events)
         self.flt = SVFFilter(self.eu, "low_pass", cutoff=self.cutoff, resonance=self.resonance)
-        self.panned = LinearPanner(2, self.flt * self.amp, self.pan)
+        self.panned = StereoPanner(self.flt * self.amp, self.pan)
         self.set_output(self.panned)
 
 class PingPongDelayPatch (Patch):
