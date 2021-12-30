@@ -17,21 +17,21 @@ int main()
      *-----------------------------------------------------------------------*/
     BufferRef buffer = new Buffer("audio/gliss.aif");
     NodeRef sampler = new BufferPlayer(buffer, new WhiteNoise(0.3, true), true);
-    NodeRef sampler_pan = new LinearPanner(2, sampler, -0.5);
+    NodeRef sampler_pan = new StereoPanner(sampler, -0.5);
     graph->play(sampler_pan);
 
     /*------------------------------------------------------------------------
      * Add some gentle crackle.
      *-----------------------------------------------------------------------*/
     NodeRef noise = new WhiteNoise(50, true);
-    NodeRef noise_pan = new LinearPanner(2, noise, 0.5);
+    NodeRef noise_pan = new StereoPanner(noise, 0.5);
     graph->play(noise_pan);
 
     /*------------------------------------------------------------------------
      * Add some occasional pops.
      *-----------------------------------------------------------------------*/
     NodeRef dust = new RandomImpulse(1);
-    NodeRef dust_pan = new LinearPanner(2, dust, 0.0);
+    NodeRef dust_pan = new StereoPanner(dust, 0.0);
     graph->play(dust_pan);
 
     /*------------------------------------------------------------------------

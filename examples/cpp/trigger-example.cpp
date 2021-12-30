@@ -27,7 +27,7 @@ int main()
     /*------------------------------------------------------------------------
      * Pan the output across the stereo field.
      *-----------------------------------------------------------------------*/
-    NodeRef panned = new LinearPanner(2, output);
+    NodeRef panned = new StereoPanner(output);
 
     graph->play(panned);
     graph->start();

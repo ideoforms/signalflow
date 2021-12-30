@@ -43,7 +43,7 @@ int main()
     NodeRef wavetable2D = new Wavetable2D(buffer2D, freq, 1.0);
     NodeRef delay = new CombDelay(wavetable2D, 0.1, 0.3);
 
-    NodeRef pan = new LinearPanner(2, delay);
+    NodeRef pan = new StereoPanner(delay);
 
     graph->play(pan);
 

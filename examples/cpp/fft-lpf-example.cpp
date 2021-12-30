@@ -32,7 +32,7 @@ int main()
     /*------------------------------------------------------------------------
      * Pan the output to centre of stereo field.
      *-----------------------------------------------------------------------*/
-    NodeRef pan = new LinearPanner(2, output);
+    NodeRef pan = new StereoPanner(output);
 
     /*------------------------------------------------------------------------
      * Send to output.
