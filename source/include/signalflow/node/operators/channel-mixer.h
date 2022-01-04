@@ -19,7 +19,6 @@ public:
     virtual void process(Buffer &out, int num_frames);
     virtual void update_channels();
 
-    std::list<NodeRef> inputs;
     int channels;
     bool amplitude_compensation;
     float amplitude_compensation_level;
