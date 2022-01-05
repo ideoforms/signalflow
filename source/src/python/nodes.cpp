@@ -287,6 +287,9 @@ void init_python_nodes(py::module &m)
     py::class_<Fold, Node, NodeRefTemplate<Fold>>(m, "Fold")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
+    py::class_<AzimuthPanner, Node, NodeRefTemplate<AzimuthPanner>>(m, "AzimuthPanner")
+        .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
+
     py::class_<ChannelPanner, Node, NodeRefTemplate<ChannelPanner>>(m, "ChannelPanner")
         .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
