@@ -25,7 +25,7 @@ void AzimuthPanner::process(Buffer &out, int num_frames)
 
         for (int channel = 0; channel < this->get_num_output_channels(); channel++)
         {
-            float distance = fabsf(pan + 0.5 - channel);
+            float distance = fabsf(pan + 0.5f - channel);
             distance = signalflow_fold(distance,
                                        0,
                                        this->get_num_output_channels() / 2);

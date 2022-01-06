@@ -31,8 +31,11 @@ SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
 {
     this->name = "spatial-panner";
 
-    auto speakers = this->env->get_speakers();
-    this->set_channels(1, speakers.size());
+    if (this->env)
+    {
+        auto speakers = this->env->get_speakers();
+        this->set_channels(1, speakers.size());
+    }
 
     this->create_input("input", this->input);
     this->create_input("x", this->x);
