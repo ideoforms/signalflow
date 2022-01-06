@@ -60,6 +60,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/stereo-width.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/channel-panner.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/azimuth-panner.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/panning/spatial-environment.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/smooth.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/clip.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/wrap.cpp

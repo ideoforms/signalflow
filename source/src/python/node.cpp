@@ -181,4 +181,10 @@ void init_python_node(py::module &m)
     py::class_<NodeRegistry>(m, "NodeRegistry")
         .def(py::init<>())
         .def("create", &NodeRegistry::create);
+
+    // object-based panning helper classes
+    py::class_<SpatialEnvironment, std::shared_ptr<SpatialEnvironment>>(m, "SpatialEnvironment")
+        .def(py::init<>())
+        .def("add_speaker", &SpatialEnvironment::add_speaker);
+    py::class_<SpatialSpeaker, std::shared_ptr<SpatialSpeaker>>(m, "SpatialSpeaker");
 }

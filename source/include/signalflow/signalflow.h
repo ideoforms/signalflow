@@ -129,6 +129,7 @@
 #include <signalflow/node/processors/fold.h>
 #include <signalflow/node/processors/panning/azimuth-panner.h>
 #include <signalflow/node/processors/panning/channel-panner.h>
+#include <signalflow/node/processors/panning/spatial-environment.h>
 #include <signalflow/node/processors/panning/stereo-balance.h>
 #include <signalflow/node/processors/panning/stereo-panner.h>
 #include <signalflow/node/processors/panning/stereo-width.h>
