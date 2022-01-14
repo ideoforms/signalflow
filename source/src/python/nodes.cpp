@@ -190,6 +190,15 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<int>>(), "inputs"_a)
         .def(py::init<std::vector<float>>(), "inputs"_a);
 
+    py::class_<Sin, Node, NodeRefTemplate<Sin>>(m, "Sin")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
+    py::class_<Cos, Node, NodeRefTemplate<Cos>>(m, "Cos")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
+    py::class_<Tan, Node, NodeRefTemplate<Tan>>(m, "Tan")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
     py::class_<Tanh, Node, NodeRefTemplate<Tanh>>(m, "Tanh")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
