@@ -17,12 +17,27 @@ std::shared_ptr<SpatialSpeaker> SpatialEnvironment::add_speaker(unsigned int cha
 {
     auto speaker = std::make_shared<SpatialSpeaker>(channel, x, y);
     this->speakers.push_back(speaker);
+
+    if (speaker->channel < this->channels.size())
+    {
+        this->channels[speaker->channel] = speaker;
+    }
+    else
+    {
+        this->channels.resize(speaker->channel + 1);
+        this->channels[speaker->channel] = speaker;
+    }
     return speaker;
 }
 
 std::vector<std::shared_ptr<SpatialSpeaker>> SpatialEnvironment::get_speakers()
 {
     return speakers;
+}
+
+std::vector<std::shared_ptr<SpatialSpeaker>> SpatialEnvironment::get_channels()
+{
+    return channels;
 }
 
 SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
@@ -33,8 +48,8 @@ SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
 
     if (this->env)
     {
-        auto speakers = this->env->get_speakers();
-        this->set_channels(1, speakers.size());
+        auto channels = this->env->get_channels();
+        this->set_channels(1, channels.size());
     }
 
     this->create_input("input", this->input);
@@ -45,7 +60,7 @@ SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
 
 void SpatialPanner::process(Buffer &out, int num_frames)
 {
-    auto speakers = this->env->get_speakers();
+    auto speakers = this->env->get_channels();
 
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -58,11 +73,14 @@ void SpatialPanner::process(Buffer &out, int num_frames)
             float y = this->y->out[0][frame];
 
             auto speaker = speakers[channel];
-            float distance = sqrtf(powf(speaker->x - x, 2) + powf(speaker->y - y, 2));
-            float amp = (radius - distance) / radius;
-            if (amp < 0)
-                amp = 0;
-            out[channel][frame] = amp * input;
+            if (speaker)
+            {
+                float distance = sqrtf(powf(speaker->x - x, 2) + powf(speaker->y - y, 2));
+                float amp = (radius - distance) / radius;
+                if (amp < 0)
+                    amp = 0;
+                out[channel][frame] = amp * input;
+            }
         }
     }
 }

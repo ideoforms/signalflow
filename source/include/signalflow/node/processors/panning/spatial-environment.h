@@ -22,9 +22,11 @@ public:
     SpatialEnvironment();
     std::shared_ptr<SpatialSpeaker> add_speaker(unsigned int channel, float x, float y);
     std::vector<std::shared_ptr<SpatialSpeaker>> get_speakers();
+    std::vector<std::shared_ptr<SpatialSpeaker>> get_channels();
 
 private:
     std::vector<std::shared_ptr<SpatialSpeaker>> speakers;
+    std::vector<std::shared_ptr<SpatialSpeaker>> channels;
 };
 
 class SpatialPanner : public Node
