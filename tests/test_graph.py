@@ -94,3 +94,11 @@ def test_graph_clear():
     graph.clear()
     graph.render_to_buffer(buffer)
     assert np.all(buffer.data[0] == 0)
+
+def test_graph_num_output_channels():
+    output = AudioOut_Dummy(5)
+    graph = AudioGraph(output_device=output)
+
+    assert graph.num_output_channels == 5
+
+    del graph
