@@ -521,6 +521,19 @@ int AudioGraph::get_output_buffer_size()
     }
 }
 
+int AudioGraph::get_num_output_channels()
+{
+    if (this->output)
+    {
+        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+        return output->get_num_input_channels();
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 int AudioGraph::get_node_count()
 {
     return this->node_count;

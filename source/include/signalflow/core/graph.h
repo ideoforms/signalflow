@@ -284,6 +284,15 @@ public:
     int get_output_buffer_size();
 
     /**--------------------------------------------------------------------------------
+      * Query the number of output channels, which in turn queries the
+      * AudioOut_Abstract subclass that the AudioGraph is connected to.
+      *
+      * @return The number of channels.
+      *
+      *--------------------------------------------------------------------------------*/
+    int get_num_output_channels();
+
+    /**--------------------------------------------------------------------------------
      * Query the number of nodes in the audio graph.
      * This includes all of the nodes in every patch.
      *
