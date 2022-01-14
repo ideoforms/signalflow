@@ -4,8 +4,10 @@ namespace signalflow
 {
 
 SpatialSpeaker::SpatialSpeaker(unsigned int channel,
-                               float x, float y)
-    : channel(channel), x(x), y(y)
+                               float x,
+                               float y,
+                               float z)
+    : channel(channel), x(x), y(y), z(z)
 {
 }
 
@@ -13,9 +15,12 @@ SpatialEnvironment::SpatialEnvironment()
 {
 }
 
-std::shared_ptr<SpatialSpeaker> SpatialEnvironment::add_speaker(unsigned int channel, float x, float y)
+std::shared_ptr<SpatialSpeaker> SpatialEnvironment::add_speaker(unsigned int channel,
+                                                                float x,
+                                                                float y,
+                                                                float z)
 {
-    auto speaker = std::make_shared<SpatialSpeaker>(channel, x, y);
+    auto speaker = std::make_shared<SpatialSpeaker>(channel, x, y, z);
     this->speakers.push_back(speaker);
 
     if (speaker->channel < this->channels.size())
@@ -41,8 +46,8 @@ std::vector<std::shared_ptr<SpatialSpeaker>> SpatialEnvironment::get_channels()
 }
 
 SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
-                             NodeRef input, NodeRef x, NodeRef y, NodeRef radius)
-    : env(env), input(input), x(x), y(y), radius(radius)
+                             NodeRef input, NodeRef x, NodeRef y, NodeRef z, NodeRef radius)
+    : env(env), input(input), x(x), y(y), z(z), radius(radius)
 {
     this->name = "spatial-panner";
 
@@ -55,6 +60,7 @@ SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
     this->create_input("input", this->input);
     this->create_input("x", this->x);
     this->create_input("y", this->y);
+    this->create_input("z", this->z);
     this->create_input("radius", this->radius);
 }
 
@@ -71,11 +77,12 @@ void SpatialPanner::process(Buffer &out, int num_frames)
         {
             float x = this->x->out[0][frame];
             float y = this->y->out[0][frame];
+            float z = this->z->out[0][frame];
 
             auto speaker = speakers[channel];
             if (speaker)
             {
-                float distance = sqrtf(powf(speaker->x - x, 2) + powf(speaker->y - y, 2));
+                float distance = sqrtf(powf(speaker->x - x, 2) + powf(speaker->y - y, 2) + powf(speaker->z - z, 2));
                 float amp = (radius - distance) / radius;
                 if (amp < 0)
                     amp = 0;
