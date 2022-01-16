@@ -181,7 +181,7 @@ void Node::update_channels()
             NodeRef input_node = *ptr;
             if (input_node->get_num_output_channels() > this->num_input_channels)
             {
-                throw invalid_channel_count_exception("Node " + input_node->name + " has more output channels than " + this->name + " supports. Either downmix with ChannelMixer, or select the intended channels with ChannelSelect.");
+                throw invalid_channel_count_exception("Node " + input_node->name + " has more output channels than " + this->name + " supports (" + std::to_string(input_node->get_num_output_channels()) + " > " + std::to_string(this->num_input_channels) + "). Either downmix with ChannelMixer, or select the intended channels with ChannelSelect.");
             }
         }
     }
