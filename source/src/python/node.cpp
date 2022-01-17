@@ -185,6 +185,7 @@ void init_python_node(py::module &m)
     // object-based panning helper classes
     py::class_<SpatialEnvironment, std::shared_ptr<SpatialEnvironment>>(m, "SpatialEnvironment")
         .def(py::init<>())
-        .def("add_speaker", &SpatialEnvironment::add_speaker);
+        .def("add_speaker", [](SpatialEnvironment &env, int channel, float x, float y) { env.add_speaker(channel, x, y); })
+        .def("add_speaker", [](SpatialEnvironment &env, int channel, float x, float y, float z) { env.add_speaker(channel, x, y, z); });
     py::class_<SpatialSpeaker, std::shared_ptr<SpatialSpeaker>>(m, "SpatialSpeaker");
 }
