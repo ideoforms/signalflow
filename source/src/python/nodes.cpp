@@ -303,7 +303,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
     py::class_<SpatialPanner, Node, NodeRefTemplate<SpatialPanner>>(m, "SpatialPanner")
-        .def(py::init<std::shared_ptr<SpatialEnvironment>, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "env"_a = nullptr, "input"_a = 0.0, "x"_a = 0.0, "y"_a = 0.0, "z"_a = 0.0, "radius"_a = 1.0);
+        .def(py::init<std::shared_ptr<SpatialEnvironment>, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, std::string>(), "env"_a = nullptr, "input"_a = 0.0, "x"_a = 0.0, "y"_a = 0.0, "z"_a = 0.0, "radius"_a = 1.0, "algorithm"_a = "dbap");
 
     py::class_<StereoBalance, Node, NodeRefTemplate<StereoBalance>>(m, "StereoBalance")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "balance"_a = 0);

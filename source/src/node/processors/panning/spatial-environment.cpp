@@ -46,8 +46,9 @@ std::vector<std::shared_ptr<SpatialSpeaker>> SpatialEnvironment::get_channels()
 }
 
 SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
-                             NodeRef input, NodeRef x, NodeRef y, NodeRef z, NodeRef radius)
-    : env(env), input(input), x(x), y(y), z(z), radius(radius)
+                             NodeRef input, NodeRef x, NodeRef y, NodeRef z, NodeRef radius,
+                             std::string algorithm)
+    : env(env), input(input), x(x), y(y), z(z), radius(radius), algorithm(algorithm)
 {
     this->name = "spatial-panner";
 
@@ -62,32 +63,58 @@ SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
     this->create_input("y", this->y);
     this->create_input("z", this->z);
     this->create_input("radius", this->radius);
+
+    if (algorithm != "dbap" && algorithm != "nearest")
+    {
+        throw std::runtime_error("Invalid spatialisation algorithm: " + algorithm);
+    }
 }
 
 void SpatialPanner::process(Buffer &out, int num_frames)
 {
     auto speakers = this->env->get_channels();
 
-    for (int frame = 0; frame < num_frames; frame++)
+    if (algorithm == "dbap")
     {
-        float input = this->input->out[0][frame];
-        float radius = this->radius->out[0][frame];
-
-        for (int channel = 0; channel < this->get_num_output_channels(); channel++)
+        for (int frame = 0; frame < num_frames; frame++)
         {
-            float x = this->x->out[0][frame];
-            float y = this->y->out[0][frame];
-            float z = this->z->out[0][frame];
-
-            auto speaker = speakers[channel];
-            if (speaker)
+            for (int channel = 0; channel < this->get_num_output_channels(); channel++)
             {
-                float distance = sqrtf(powf(speaker->x - x, 2) + powf(speaker->y - y, 2) + powf(speaker->z - z, 2));
-                float amp = (radius - distance) / radius;
-                if (amp < 0)
-                    amp = 0;
-                out[channel][frame] = amp * input;
+                auto speaker = speakers[channel];
+                if (speaker)
+                {
+                    float distance = sqrtf(powf(speaker->x - this->x->out[0][frame], 2) + powf(speaker->y - this->y->out[0][frame], 2) + powf(speaker->z - this->z->out[0][frame], 2));
+
+                    float amp = (this->radius->out[0][frame] - distance) / this->radius->out[0][frame];
+                    if (amp < 0)
+                        amp = 0;
+                    out[channel][frame] = amp * this->input->out[0][frame];
+                }
             }
+        }
+    }
+    else if (algorithm == "nearest")
+    {
+        for (int frame = 0; frame < num_frames; frame++)
+        {
+            unsigned int nearest_index = -1;
+            float nearest_distance = std::numeric_limits<float>::max();
+            for (int channel = 0; channel < this->get_num_output_channels(); channel++)
+            {
+                auto speaker = speakers[channel];
+                if (speaker)
+                {
+                    float distance = sqrtf(powf(speaker->x - this->x->out[0][frame], 2) + powf(speaker->y - this->y->out[0][frame], 2) + powf(speaker->z - this->z->out[0][frame], 2));
+
+                    if (distance < nearest_distance)
+                    {
+                        nearest_distance = distance;
+                        nearest_index = channel;
+                    }
+                    out[channel][frame] = 0.0;
+                }
+            }
+            out[nearest_index][frame] = this->input->out[0][frame];
         }
     }
 }

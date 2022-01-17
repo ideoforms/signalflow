@@ -38,7 +38,8 @@ public:
                   NodeRef x = 0.0,
                   NodeRef y = 0.0,
                   NodeRef z = 0.0,
-                  NodeRef radius = 1.0);
+                  NodeRef radius = 1.0,
+                  std::string algorithm = "dbap");
 
     virtual void process(Buffer &out, int num_frames) override;
 
@@ -48,6 +49,7 @@ public:
     NodeRef y;
     NodeRef z;
     NodeRef radius;
+    std::string algorithm;
 };
 
 REGISTER(SpatialPanner, "spatial-panner")
