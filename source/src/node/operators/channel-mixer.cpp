@@ -4,12 +4,24 @@
 namespace signalflow
 {
 
-ChannelMixer::ChannelMixer(int channels, NodeRef input, bool amplitude_compensation)
-    : UnaryOpNode(input), channels(channels), amplitude_compensation(amplitude_compensation)
+ChannelMixer::ChannelMixer(int num_channels, NodeRef input, bool amplitude_compensation)
+    : UnaryOpNode(input), amplitude_compensation(amplitude_compensation)
 {
     this->name = "channel-mixer";
     this->amplitude_compensation_level = 1.0;
-    this->update_channels();
+
+    this->create_property("num_channels", this->num_channels);
+    this->set_property("num_channels", num_channels);
+}
+
+void ChannelMixer::set_property(std::string name, const PropertyRef &value)
+{
+    Node::set_property(name, value);
+
+    if (name == "num_channels")
+    {
+        this->update_channels();
+    }
 }
 
 void ChannelMixer::process(Buffer &out, int num_frames)
@@ -22,21 +34,22 @@ void ChannelMixer::process(Buffer &out, int num_frames)
         memset(out[channel], 0, num_frames * sizeof(sample));
     }
 
-    for (int out_channel = 0; out_channel < this->channels; out_channel++)
+    int channels = this->num_channels->int_value();
+    for (int out_channel = 0; out_channel < channels; out_channel++)
     {
         /*------------------------------------------------------------------------
          * out_channel_pan ranges from [0..1], where
          * leftmost channel = 0, rightmost channel = 1
          *-----------------------------------------------------------------------*/
-        if (this->channels > 1)
-            out_channel_pan = signalflow_scale_lin_lin(out_channel, 0, this->channels - 1, 0, 1);
+        if (channels > 1)
+            out_channel_pan = signalflow_scale_lin_lin(out_channel, 0, channels - 1, 0, 1);
         else
             out_channel_pan = 0.5;
 
         for (int in_channel = 0; in_channel < this->num_input_channels; in_channel++)
         {
             float channel_amp = 1.0;
-            if (this->channels > 1)
+            if (channels > 1)
             {
                 if (this->num_input_channels > 1)
                     in_channel_pan = signalflow_scale_lin_lin(in_channel, 0, this->num_input_channels - 1, 0, 1);
@@ -44,7 +57,7 @@ void ChannelMixer::process(Buffer &out, int num_frames)
                     in_channel_pan = 0.5;
 
                 float channel_distance = fabs(in_channel_pan - out_channel_pan);
-                float channel_distance_max = 1.0 / (this->channels - 1);
+                float channel_distance_max = 1.0 / (channels - 1);
                 channel_amp = signalflow_scale_lin_lin(channel_distance,
                                                        channel_distance_max, 0,
                                                        0, 1);
@@ -62,7 +75,12 @@ void ChannelMixer::process(Buffer &out, int num_frames)
 
 void ChannelMixer::update_channels()
 {
-    this->set_channels(this->input->get_num_output_channels(), this->channels);
+    /*--------------------------------------------------------------------------------
+     * This logic needs to override update_channels, so that it is called successfully
+     * in case `this->input` changes its number of output channels.
+     *--------------------------------------------------------------------------------*/
+    this->set_channels(this->input->get_num_output_channels(),
+                       this->num_channels->int_value());
 
     if (this->amplitude_compensation)
     {
