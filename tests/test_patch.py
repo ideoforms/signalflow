@@ -1,5 +1,5 @@
 from signalflow import PatchSpec, Patch, Buffer, BufferPlayer
-from signalflow import Multiply, SineOscillator, EnvelopeASR, SquareOscillator, Sum, Add
+from signalflow import Multiply, SineOscillator, EnvelopeASR, SquareOscillator, Sum, Add, AzimuthPanner
 from . import graph
 import numpy as np
 
@@ -59,4 +59,17 @@ def test_patch_free(graph):
 
     patch = Patch(spec)
     patch.auto_free = True
+    # TODO
 
+def test_patch_serialise_property(graph):
+    """
+    Test that an int Property is properly serialised and instantiated.
+    """
+    prototype = Patch()
+    panner = AzimuthPanner(3, 0)
+    prototype.set_output(panner)
+    spec = prototype.create_spec()
+
+    patch = Patch(spec)
+    assert patch.output.num_output_channels == 3
+    assert patch.output.get_property("num_channels") == 3
