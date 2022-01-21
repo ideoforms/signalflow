@@ -2,6 +2,7 @@ from signalflow import PatchSpec, Patch, Buffer, BufferPlayer
 from signalflow import Multiply, SineOscillator, EnvelopeASR, SquareOscillator, Sum, Add, AzimuthPanner
 from . import graph
 import numpy as np
+import json
 
 def test_patch(graph):
     prototype = Patch()
@@ -61,7 +62,7 @@ def test_patch_free(graph):
     patch.auto_free = True
     # TODO
 
-def test_patch_serialise_property(graph):
+def test_patch_property_serialisation(graph):
     """
     Test that an int Property is properly serialised and instantiated.
     """
@@ -73,3 +74,18 @@ def test_patch_serialise_property(graph):
     patch = Patch(spec)
     assert patch.output.num_output_channels == 3
     assert patch.output.get_property("num_channels") == 3
+
+def test_patch_property_serialisation_json(graph):
+    prototype = Patch()
+    panner = AzimuthPanner(3, 0)
+    prototype.set_output(panner)
+    spec = prototype.create_spec()
+    spec_json = spec.to_json()
+    spec_json_obj = json.loads(spec_json)
+
+    assert spec_json_obj["nodes"][0]["properties"]["num_channels"] == 3
+
+    spec_new = PatchSpec()
+    spec_new.from_json(spec_json)
+    patch = Patch(spec_new)
+    assert patch.output.num_output_channels == 3

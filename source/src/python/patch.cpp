@@ -73,6 +73,7 @@ void init_python_patch(py::module &m)
 
     py::class_<PatchSpec, PatchSpecRefTemplate<PatchSpec>>(m, "PatchSpec")
         .def(py::init<std::string>())
+        .def(py::init<>())
         .def_property_readonly("name", &PatchSpec::get_name)
         .def("print", [](PatchSpec &patchspec) { patchspec.print(); })
         .def("load", &PatchSpec::load)
