@@ -91,4 +91,14 @@ std::string PatchNodeSpec::get_input_name()
     return this->input_name;
 }
 
+void PatchNodeSpec::add_property(std::string name, PropertyRef property)
+{
+    this->properties[name] = property;
+}
+
+std::unordered_map<std::string, PropertyRef> PatchNodeSpec::get_properties()
+{
+    return this->properties;
+}
+
 }

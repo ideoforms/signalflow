@@ -1,5 +1,6 @@
 #pragma once
 
+#include <signalflow/core/property.h>
 #include <string>
 #include <unordered_map>
 
@@ -37,6 +38,9 @@ public:
     void add_buffer_input(std::string patch_input_name,
                           std::string node_input_name);
 
+    std::unordered_map<std::string, PropertyRef> get_properties();
+    void add_property(std::string name, PropertyRef property);
+
 private:
     std::string name = "";
     int id = -1;
@@ -45,6 +49,7 @@ private:
     std::string input_name;
     std::unordered_map<std::string, PatchNodeSpec *> inputs;
     std::unordered_map<std::string, std::string> buffer_inputs;
+    std::unordered_map<std::string, PropertyRef> properties;
 };
 
 }

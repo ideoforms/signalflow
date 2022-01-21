@@ -92,8 +92,11 @@ void PatchSpec::from_json(std::string buf)
         {
             is_output = true;
         }
-        auto inputs = node_obj["inputs"];
 
+        /*--------------------------------------------------------------------------------
+         * Parse inputs
+         *--------------------------------------------------------------------------------*/
+        auto inputs = node_obj["inputs"];
         for (auto input_pair : inputs.object_items())
         {
             std::string input_key = input_pair.first;
@@ -109,6 +112,19 @@ void PatchSpec::from_json(std::string buf)
                 PatchNodeSpec *ptr = this->get_node_spec(id);
                 nodespec->add_input(input_key, ptr);
             }
+        }
+
+        /*--------------------------------------------------------------------------------
+         * Parse properties
+         *--------------------------------------------------------------------------------*/
+        auto properties = node_obj["properties"];
+        for (auto property_pair : properties.object_items())
+        {
+            std::string property_name = property_pair.first;
+            auto input_value = property_pair.second;
+
+            // TODO: properly handle float, string, etc properties
+            nodespec->add_property(property_name, input_value.int_value());
         }
 
         signalflow_debug("Adding node with name %s\n", nodespec->get_name().c_str());
@@ -173,6 +189,8 @@ std::string PatchSpec::to_json()
     for (auto pair : nodespecs)
     {
         PatchNodeSpec *spec = pair.second;
+        Json::object inputs;
+        Json::object properties;
 
         if (spec->get_name() == "constant")
         {
@@ -187,7 +205,7 @@ std::string PatchSpec::to_json()
         {
             object["is_output"] = true;
         }
-        Json::object inputs;
+
         for (auto input_pair : spec->get_inputs())
         {
             std::string input_name = input_pair.first;
@@ -223,6 +241,27 @@ std::string PatchSpec::to_json()
         {
             object["inputs"] = inputs;
         }
+
+        for (auto property_pair : spec->get_properties())
+        {
+            std::string property_name = property_pair.first;
+            PropertyRef property_value = property_pair.second;
+
+            switch (property_value->get_property_type())
+            {
+                case SIGNALFLOW_PROPERTY_TYPE_FLOAT:
+                    properties[property_name] = property_value->float_value();
+                    break;
+                case SIGNALFLOW_PROPERTY_TYPE_INT:
+                    properties[property_name] = property_value->int_value();
+                    break;
+            }
+        }
+        if (properties.size() > 0)
+        {
+            object["properties"] = properties;
+        }
+
         nodes.push_back(object);
     }
 
@@ -303,6 +342,12 @@ void PatchSpec::print(PatchNodeSpec *root, int depth)
             std::cout << pair.first << ":" << std::endl;
             this->print(pair.second, depth + 1);
         }
+    }
+
+    for (auto pair : root->get_properties())
+    {
+        std::cout << std::string((depth + 1) * 2 + 1, ' ');
+        std::cout << " >> property: " << pair.first << ": " << pair.second->string_value() << std::endl;
     }
 }
 

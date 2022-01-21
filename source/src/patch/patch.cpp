@@ -131,6 +131,13 @@ NodeRef Patch::instantiate(PatchNodeSpec *nodespec)
             this->buffer_inputs[patch_input_name] = placeholder;
         }
 
+        for (auto property : nodespec->get_properties())
+        {
+            std::string property_name = property.first;
+            PropertyRef property_value = property.second;
+            noderef->set_property(property_name, property_value);
+        }
+
         noderef->set_patch(this);
     }
 
@@ -412,6 +419,12 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
                 PatchNodeSpec *input_spec = this->_create_spec_from_node(input_node);
                 nodespec->add_input(input.first, input_spec);
             }
+        }
+
+        for (auto property : node->properties)
+        {
+            PropertyRef propertyref = *(property.second);
+            nodespec->add_property(property.first, propertyref);
         }
 
         for (auto buffer : node->buffers)
