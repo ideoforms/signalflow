@@ -122,6 +122,16 @@ void init_python_node(py::module &m)
         .def("set_input", [](Node &node, std::string name, float value) { node.set_input(name, value); })
         .def("set_input", [](Node &node, std::string name, NodeRef noderef) { node.set_input(name, noderef); })
         .def("get_input", &Node::get_input)
+        .def("get_property", [](Node &node, std::string name) -> py::object {
+            PropertyRef property = node.get_property(name);
+            switch (property->get_property_type())
+            {
+                case SIGNALFLOW_PROPERTY_TYPE_INT:
+                    return py::cast(property->int_value());
+                case SIGNALFLOW_PROPERTY_TYPE_FLOAT:
+                    return py::cast(property->float_value());
+            }
+        })
         .def("add_input", &Node::add_input)
         .def("trigger", [](Node &node) { node.trigger(); })
         .def("trigger", [](Node &node, std::string name) { node.trigger(name); })
