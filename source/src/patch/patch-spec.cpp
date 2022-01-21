@@ -124,7 +124,7 @@ void PatchSpec::from_json(std::string buf)
             auto input_value = property_pair.second;
 
             // TODO: properly handle float, string, etc properties
-            nodespec->add_property(property_name, input_value.int_value());
+            nodespec->create_property(property_name, input_value.int_value());
         }
 
         signalflow_debug("Adding node with name %s\n", nodespec->get_name().c_str());

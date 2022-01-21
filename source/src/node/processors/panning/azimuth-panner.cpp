@@ -12,7 +12,7 @@ AzimuthPanner::AzimuthPanner(int channels, NodeRef input, NodeRef pan, NodeRef w
     this->create_input("pan", this->pan);
     this->create_input("width", this->width);
 
-    this->add_property("num_channels", this->num_channels);
+    this->create_property("num_channels", this->num_channels);
     this->set_property("num_channels", channels);
 }
 

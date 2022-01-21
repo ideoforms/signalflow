@@ -356,7 +356,7 @@ protected:
     /*------------------------------------------------------------------------
       * Register properties.
       *-----------------------------------------------------------------------*/
-    virtual void add_property(std::string name, PropertyRef &property);
+    virtual void create_property(std::string name, PropertyRef &property);
 
     /*------------------------------------------------------------------------
      * Register buffer inputs.

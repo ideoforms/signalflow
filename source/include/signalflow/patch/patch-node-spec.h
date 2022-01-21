@@ -39,7 +39,7 @@ public:
                           std::string node_input_name);
 
     std::unordered_map<std::string, PropertyRef> get_properties();
-    void add_property(std::string name, PropertyRef property);
+    void create_property(std::string name, PropertyRef property);
 
 private:
     std::string name = "";

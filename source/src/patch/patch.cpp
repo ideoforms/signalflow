@@ -424,7 +424,7 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
         for (auto property : node->properties)
         {
             PropertyRef propertyref = *(property.second);
-            nodespec->add_property(property.first, propertyref);
+            nodespec->create_property(property.first, propertyref);
         }
 
         for (auto buffer : node->buffers)

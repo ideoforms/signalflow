@@ -9,7 +9,7 @@ Index::Index(PropertyRef list, NodeRef index)
     this->name = "index";
 
     this->create_input("index", this->index);
-    this->add_property("list", this->list);
+    this->create_property("list", this->list);
 }
 
 void Index::process(Buffer &out, int num_frames)

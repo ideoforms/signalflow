@@ -410,7 +410,7 @@ bool Node::get_has_variable_inputs()
 // Properties
 ////////////////////////////////////////////////////////////////////////////////
 
-void Node::add_property(std::string name, PropertyRef &value)
+void Node::create_property(std::string name, PropertyRef &value)
 {
     this->properties[name] = &value;
 }
