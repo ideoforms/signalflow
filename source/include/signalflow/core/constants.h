@@ -165,7 +165,7 @@ typedef enum : unsigned int
     SIGNALFLOW_CURVE_EXPONENTIAL
 } signalflow_curve_t;
 
-typedef enum
+typedef enum : unsigned int
 {
     SIGNALFLOW_FILTER_TYPE_LOW_PASS,
     SIGNALFLOW_FILTER_TYPE_HIGH_PASS,
