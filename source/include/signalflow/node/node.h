@@ -227,6 +227,7 @@ public:
 
     /*------------------------------------------------------------------------
      * Hash table of parameters: (name, pointer to NodeRef)
+     *
      * Must be a pointer, rather than the NodeRef itself, as the actual
      * storage for the pointer is held directly in the node's named
      * parameter field (e.g. node->frequency, node->pan). The inputs
@@ -238,10 +239,12 @@ public:
 
     /*------------------------------------------------------------------------
      * Set of outputs.
+     *
      * Each output is a std::pair containing 
      *  - a reference to the Node connected outwards to
      *  - a string containing the name of the parameter that this node
      *    modulates.
+     *
      * Note that a node may modulate two different parameters of the same
      * node.
      *-----------------------------------------------------------------------*/

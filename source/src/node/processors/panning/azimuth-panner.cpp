@@ -8,11 +8,22 @@ AzimuthPanner::AzimuthPanner(int channels, NodeRef input, NodeRef pan, NodeRef w
 {
     this->name = "azimuth-panner";
 
-    this->set_channels(1, channels);
-
     this->create_input("input", this->input);
     this->create_input("pan", this->pan);
     this->create_input("width", this->width);
+
+    this->add_property("num_channels", this->num_channels);
+    this->set_property("num_channels", channels);
+}
+
+void AzimuthPanner::set_property(std::string property_name, const PropertyRef &value)
+{
+    if (property_name == "num_channels")
+    {
+        this->set_channels(1, value->int_value());
+    }
+
+    Node::set_property(property_name, value);
 }
 
 void AzimuthPanner::process(Buffer &out, int num_frames)
