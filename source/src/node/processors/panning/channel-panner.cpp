@@ -19,6 +19,16 @@ ChannelPanner::ChannelPanner(int channels, NodeRef input, NodeRef pan, NodeRef w
     this->set_property("num_channels", channels);
 }
 
+void ChannelPanner::set_property(std::string name, const PropertyRef &value)
+{
+    if (name == "num_channels")
+    {
+        this->set_channels(1, value->int_value());
+    }
+
+    Node::set_property(name, value);
+}
+
 void ChannelPanner::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
