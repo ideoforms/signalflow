@@ -14,6 +14,7 @@ public:
     NodeRef input;
     NodeRef pan;
     NodeRef width;
+    PropertyRef num_channels;
 };
 
 REGISTER(ChannelPanner, "channel-panner")

@@ -13,6 +13,10 @@ ChannelPanner::ChannelPanner(int channels, NodeRef input, NodeRef pan, NodeRef w
     this->create_input("input", this->input);
     this->create_input("pan", this->pan);
     this->create_input("width", this->width);
+
+    // can this now be done in the same way as create_input?
+    this->add_property("num_channels", this->num_channels);
+    this->set_property("num_channels", channels);
 }
 
 void ChannelPanner::process(Buffer &out, int num_frames)
