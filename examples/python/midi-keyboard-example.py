@@ -53,7 +53,7 @@ def make_wavetable():
     return Buffer(1, wavetable_size, np.array([ saw ]))
 
 def main(args):
-    graph = AudioGraph(start=True)
+    graph = AudioGraph()
     graph.show_status(0.5)
 
     #--------------------------------------------------------------------------------

@@ -34,7 +34,6 @@ int main(int argc, char **argv)
      *-----------------------------------------------------------------------*/
     PatchRef patch = new Patch(spec);
     graph->play(patch->output);
-    graph->start();
     graph->wait();
 
     return 0;

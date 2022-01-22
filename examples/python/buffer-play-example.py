@@ -8,7 +8,7 @@
 import signalflow as sf
 import os
 
-graph = sf.AudioGraph(start=True)
+graph = sf.AudioGraph()
 
 audio_path = os.path.join(os.path.dirname(__file__), "../audio/stereo-count.wav")
 buf = sf.Buffer(audio_path)

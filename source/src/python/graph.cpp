@@ -9,7 +9,7 @@ void init_python_graph(py::module &m)
         .def(py::init<AudioGraphConfig *, NodeRef, bool>(),
              "config"_a = nullptr,
              "output_device"_a = nullptr,
-             "start"_a = false)
+             "start"_a = true)
 
         /*--------------------------------------------------------------------------------
          * Properties

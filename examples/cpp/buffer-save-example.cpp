@@ -33,7 +33,7 @@ int main()
      * It must be connected to the graph's output to trigger processing.
      *-----------------------------------------------------------------------*/
     NodeRef recorder = new BufferRecorder(buffer, input);
-    graph->play(recorder);
+    graph->add_node(recorder);
 
     NodeRef rms = new RMS(input);
     graph->play(rms * 0.0);

@@ -50,6 +50,5 @@ int main()
         graph->play(sampler * 0.2);
     }
 
-    graph->start();
     graph->wait();
 }

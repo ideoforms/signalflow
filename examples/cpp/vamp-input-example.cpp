@@ -25,6 +25,5 @@ int main()
     NodeRef sine = new SineOscillator(centroid);
 
     graph->play(sine);
-    graph->start();
     graph->wait();
 }

@@ -40,6 +40,5 @@ int main()
     NodeRef moog = new MoogVCF(mix, cutoff, 2);
 
     graph->play(moog);
-    graph->start();
     graph->wait();
 }

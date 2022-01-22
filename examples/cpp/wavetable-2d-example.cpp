@@ -46,7 +46,5 @@ int main()
     NodeRef pan = new StereoPanner(delay);
 
     graph->play(pan);
-
-    graph->start();
     graph->wait();
 }

@@ -48,6 +48,5 @@ int main()
     NodeRef width = new StereoWidth(sine, 0.5);
 
     graph->play(width);
-    graph->start();
     graph->wait();
 }

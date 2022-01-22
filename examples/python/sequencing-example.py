@@ -5,8 +5,8 @@
 #
 # Complex sequencing is best achieved using a counterpart library
 # that is specifically designed for control sequences
-# (e.g. https://github.com/ideoforms/isobar). For simple, SignalFlow
-# sequences includes several nodes for producing patterns and structure
+# (e.g. https://github.com/ideoforms/isobar). For simple sequences,
+# SignalFlow includes several nodes for producing patterns and structure
 # within the DSP graph.
 #------------------------------------------------------------------------
 from signalflow import *
@@ -16,6 +16,7 @@ import numpy as np
 # Create the global processing graph.
 #------------------------------------------------------------------------
 graph = AudioGraph()
+graph.show_status(1)
 
 class SquareArpPatch (Patch):
     #------------------------------------------------------------------------
@@ -70,8 +71,6 @@ amp_sequence = Sequence([ 0.1, 0.25, 0.5, 0.1 ], clock=clock)
 graph.play(HiHatPatch(clock, amp=amp_sequence))
 
 #------------------------------------------------------------------------
-# Don't start the graph until all of the sequences have been
-# scheduled or they may play slightly out of sync
+# Run indefinitely.
 #------------------------------------------------------------------------
-graph.start()
 graph.wait()

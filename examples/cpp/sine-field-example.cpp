@@ -14,7 +14,6 @@ int main()
      * Create the global processing graph and begin playback.
      *-----------------------------------------------------------------------*/
     AudioGraphRef graph = new AudioGraph();
-    graph->start();
 
     /*------------------------------------------------------------------------
      * Create a bank of sine bleeps.

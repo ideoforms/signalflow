@@ -24,7 +24,7 @@ class AudioGraph
 public:
     AudioGraph(AudioGraphConfig *config = nullptr,
                NodeRef output_device = nullptr,
-               bool start = false);
+               bool start = true);
 
     virtual ~AudioGraph();
 

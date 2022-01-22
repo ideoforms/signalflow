@@ -5,7 +5,7 @@
 #------------------------------------------------------------------------
 from signalflow import *
 
-graph = AudioGraph(start=True)
+graph = AudioGraph()
 
 #------------------------------------------------------------------------
 # Change frequency on average once per second.

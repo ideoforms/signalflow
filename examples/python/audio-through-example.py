@@ -7,7 +7,7 @@
 
 from signalflow import *
 
-graph = AudioGraph(start=True)
+graph = AudioGraph()
 
 #--------------------------------------------------------------------------------
 # Read single channel input.

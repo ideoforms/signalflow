@@ -32,6 +32,5 @@ int main()
     NodeRef attenuated = pan * 0.2;
     graph->play(attenuated);
 
-    graph->start();
     graph->wait();
 }

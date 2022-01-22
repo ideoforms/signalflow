@@ -30,7 +30,6 @@ int main()
     NodeRef panned = new StereoPanner(output);
 
     graph->play(panned);
-    graph->start();
 
     while (true)
     {

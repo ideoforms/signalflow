@@ -1,5 +1,5 @@
 /*------------------------------------------------------------------------
- * Hello, World.
+ * Hello, world.
  *
  * The canonical 440hz sine wave example.
  *-----------------------------------------------------------------------*/
@@ -7,7 +7,7 @@
 #include <signalflow/signalflow.h>
 
 /*------------------------------------------------------------------------
- * All objects are in the signal:: namespace.
+ * All objects are in the signalflow:: namespace.
  * Import this namespace for code brevity.
  *-----------------------------------------------------------------------*/
 using namespace signalflow;
@@ -15,23 +15,22 @@ using namespace signalflow;
 int main()
 {
     /*------------------------------------------------------------------------
-     * Instantiate a single AudioGraph object for all global audio processing.
+     * Instantiate a single AudioGraph object for global audio processing.
      *-----------------------------------------------------------------------*/
     AudioGraphRef graph = new AudioGraph();
 
     /*------------------------------------------------------------------------
-     * 440hz Hello World
+     * Create a sine wave oscillator at 440Hz.
      *-----------------------------------------------------------------------*/
     NodeRef sine = new SineOscillator(440);
 
     /*------------------------------------------------------------------------
-     * The AudioGraph can have multiple inputs, summed to output.
+     * Begin playing the oscillator.
      *-----------------------------------------------------------------------*/
     graph->play(sine);
 
     /*------------------------------------------------------------------------
-     * Begin audio processing, and run indefinitely.
+     * Run indefinitely.
      *-----------------------------------------------------------------------*/
-    graph->start();
     graph->wait();
 }

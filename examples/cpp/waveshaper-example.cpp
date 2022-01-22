@@ -48,6 +48,5 @@ int main()
      * Send to output and start processing.
      *-----------------------------------------------------------------------*/
     graph->play(throb);
-    graph->start();
     graph->wait();
 }

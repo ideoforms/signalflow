@@ -54,8 +54,7 @@ int main()
     graph->play(granulator);
 
     /*------------------------------------------------------------------------
-     * Begin audio processing, and loop forever.
+     * Loop forever.
      *-----------------------------------------------------------------------*/
-    graph->start();
     graph->wait();
 }

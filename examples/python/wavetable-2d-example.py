@@ -6,7 +6,7 @@
 from signalflow import *
 import numpy as np
 
-graph = AudioGraph(start=True)
+graph = AudioGraph()
 
 wavetable_size = 4096
 
