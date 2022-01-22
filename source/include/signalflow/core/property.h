@@ -113,33 +113,34 @@ public:
     virtual void set_string_array_value(std::vector<std::string> new_value) override { value = new_value; }
 };
 
-class PropertyRef : public std::shared_ptr<Property>
+template <class T>
+class PropertyRefTemplate : public std::shared_ptr<T>
 {
 public:
     using std::shared_ptr<Property>::shared_ptr;
 
-    PropertyRef()
-        : std::shared_ptr<Property>() {}
-    PropertyRef(Property *property)
-        : std::shared_ptr<Property>(property) {}
-    PropertyRef(double value)
-        : std::shared_ptr<Property>(new FloatProperty(value)) {}
-    PropertyRef(int value)
-        : std::shared_ptr<Property>(new IntProperty(value)) {}
-    PropertyRef(std::string value)
-        : std::shared_ptr<Property>(new StringProperty(value)) {}
-    PropertyRef(const char *value)
-        : std::shared_ptr<Property>(new StringProperty(value)) {}
-    PropertyRef(std::initializer_list<float> value)
-        : std::shared_ptr<Property>(new FloatArrayProperty(value)) {}
-    PropertyRef(std::vector<float> value)
-        : std::shared_ptr<Property>(new FloatArrayProperty(value)) {}
-    PropertyRef(std::initializer_list<std::string> value)
-        : std::shared_ptr<Property>(new StringArrayProperty(value)) {}
-    PropertyRef(std::vector<std::string> value)
-        : std::shared_ptr<Property>(new StringArrayProperty(value)) {}
-
-    // void set_value(int value) { this->get()->set_value(value); }
+    PropertyRefTemplate()
+        : std::shared_ptr<T>() {}
+    PropertyRefTemplate(Property *property)
+        : std::shared_ptr<T>(property) {}
+    PropertyRefTemplate(double value)
+        : std::shared_ptr<T>(new FloatProperty(value)) {}
+    PropertyRefTemplate(int value)
+        : std::shared_ptr<T>(new IntProperty(value)) {}
+    PropertyRefTemplate(std::string value)
+        : std::shared_ptr<T>(new StringProperty(value)) {}
+    PropertyRefTemplate(const char *value)
+        : std::shared_ptr<T>(new StringProperty(value)) {}
+    PropertyRefTemplate(std::initializer_list<float> value)
+        : std::shared_ptr<T>(new FloatArrayProperty(value)) {}
+    PropertyRefTemplate(std::vector<float> value)
+        : std::shared_ptr<T>(new FloatArrayProperty(value)) {}
+    PropertyRefTemplate(std::initializer_list<std::string> value)
+        : std::shared_ptr<T>(new StringArrayProperty(value)) {}
+    PropertyRefTemplate(std::vector<std::string> value)
+        : std::shared_ptr<T>(new StringArrayProperty(value)) {}
 };
+
+typedef PropertyRefTemplate<Property> PropertyRef;
 
 }

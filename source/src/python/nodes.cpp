@@ -40,6 +40,9 @@ void init_python_nodes(py::module &m)
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048);
 
+    py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer")
+        .def(py::init<BufferRef, std::vector<float>>(), "buffer"_a = nullptr, "onsets"_a = 0);
+
 #ifdef __APPLE__
 
     py::class_<MouseX, Node, NodeRefTemplate<MouseX>>(m, "MouseX")
@@ -121,7 +124,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<float>>(), "inputs"_a);
 
     py::class_<ChannelMixer, Node, NodeRefTemplate<ChannelMixer>>(m, "ChannelMixer")
-        .def(py::init<int, NodeRef, bool>(), "channels"_a = 1, "input"_a = 0, "amplitude_compensation"_a = true);
+        .def(py::init<int, NodeRef, bool>(), "num_channels"_a = 1, "input"_a = 0, "amplitude_compensation"_a = true);
 
     py::class_<ChannelSelect, Node, NodeRefTemplate<ChannelSelect>>(m, "ChannelSelect")
         .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 0, "step"_a = 1);

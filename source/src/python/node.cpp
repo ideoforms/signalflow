@@ -130,6 +130,10 @@ void init_python_node(py::module &m)
                     return py::cast(property->int_value());
                 case SIGNALFLOW_PROPERTY_TYPE_FLOAT:
                     return py::cast(property->float_value());
+                case SIGNALFLOW_PROPERTY_TYPE_STRING:
+                    return py::cast(property->string_value());
+                default:
+                    return py::none();
             }
         })
         .def("add_input", &Node::add_input)
@@ -198,4 +202,16 @@ void init_python_node(py::module &m)
         .def("add_speaker", [](SpatialEnvironment &env, int channel, float x, float y) { env.add_speaker(channel, x, y); })
         .def("add_speaker", [](SpatialEnvironment &env, int channel, float x, float y, float z) { env.add_speaker(channel, x, y, z); });
     py::class_<SpatialSpeaker, std::shared_ptr<SpatialSpeaker>>(m, "SpatialSpeaker");
+
+    // WORK IN PROGRESS
+    /*
+    py::class_<Property, PropertyRefTemplate<Property>>(m, "Property")
+        .def(py::init<>([](float value) { return new FloatProperty(value); }))
+        .def(py::init<>([](std::vector<float> value) { return new FloatArrayProperty(value); }));
+
+    // TODO: These implicitly_convertibles may not be needed - may be safer just to
+    //  force specific types at the C++ signature level. TBD.
+    py::implicitly_convertible<float, Property>();
+    py::implicitly_convertible<std::vector<float>, Property>();
+     */
 }
