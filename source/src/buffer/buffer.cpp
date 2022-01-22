@@ -183,10 +183,10 @@ void Buffer::load(std::string filename)
     while (true)
     {
         int count = sf_readf_float(sndfile, buffer, frames_per_read);
-        for (unsigned int frame = 0; frame < count; frame++)
+        for (int frame = 0; frame < count; frame++)
         {
             // TODO: Vector-accelerated de-interleave
-            for (unsigned int channel = 0; channel < info.channels; channel++)
+            for (int channel = 0; channel < info.channels; channel++)
             {
                 this->data[channel][total_frames_read] = buffer[frame * info.channels + channel];
             }
@@ -239,7 +239,7 @@ void Buffer::save(std::string filename)
     while (true)
     {
         int frames_this_write = frames_per_write;
-        if (this->num_frames - frame_index < frames_this_write)
+        if ((int) this->num_frames - frame_index < frames_this_write)
             frames_this_write = this->num_frames - frame_index;
 
         for (unsigned int frame = 0; frame < frames_this_write; frame++)
