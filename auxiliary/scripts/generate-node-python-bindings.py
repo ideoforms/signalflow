@@ -27,7 +27,7 @@ parser.add_argument("-m", "--markdown", action="store_true")
 args = parser.parse_args()
 
 node_superclasses = [ "Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO" ]
-omitted_classes = [ "VampAnalysis", "SegmentPlayer", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode", "StochasticNode" ]
+omitted_classes = [ "VampAnalysis", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode", "StochasticNode" ]
 macos_only_classes = [ "MouseX", "MouseY", "MouseDown", "FFTConvolve" ]
 
 top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).decode().strip()

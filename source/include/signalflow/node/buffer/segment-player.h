@@ -7,14 +7,14 @@ namespace signalflow
 class SegmentPlayer : public Node
 {
 public:
-    SegmentPlayer(BufferRef buffer = nullptr, PropertyRef onsets = {});
+    SegmentPlayer(BufferRef buffer = nullptr, std::vector<float> onsets = {});
+
+    virtual void process(Buffer &out, int num_frames) override;
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
 
     BufferRef buffer;
-
+    PropertyRef onsets;
     float phase;
-
-    virtual void process(Buffer &out, int num_frames);
-    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0);
 };
 
 REGISTER(SegmentPlayer, "segment-player")

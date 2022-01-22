@@ -1,3 +1,4 @@
+#include "signalflow/core/graph.h"
 #include "signalflow/core/random.h"
 #include "signalflow/node/buffer/segment-player.h"
 
@@ -6,18 +7,18 @@
 namespace signalflow
 {
 
-SegmentPlayer::SegmentPlayer(BufferRef buffer, PropertyRef onsets)
+SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets)
     : buffer(buffer)
 {
     this->name = "segment-player";
 
     this->set_channels(1, buffer->get_num_channels());
-
     this->create_buffer("buffer", buffer);
+    this->create_property("onsets", this->onsets);
+    this->set_property("onsets", onsets);
 
     this->phase = 0.0;
 
-    this->set_property("onsets", {});
     this->trigger();
 }
 
@@ -56,7 +57,7 @@ void SegmentPlayer::trigger(std::string name, float value)
             if (onsets.size() > 0)
             {
                 int index = random_integer(0, onsets.size());
-                this->phase = onsets[index];
+                this->phase = onsets[index] * this->get_graph()->get_sample_rate();
             }
         }
     }
