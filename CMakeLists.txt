@@ -11,10 +11,10 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
 
 #-------------------------------------------------------------------------------
-# For now, don't build natively for Apple silicon so that we can continue to
-# link against x86_64 libraries
+# By default, build for Apple silicon.
+# TODO: Test and fix for x86
 #-------------------------------------------------------------------------------
-set(CMAKE_OSX_ARCHITECTURES "x86_64")
+set(CMAKE_OSX_ARCHITECTURES "arm64")
 
 #-------------------------------------------------------------------------------
 # Shared compiler flags.
