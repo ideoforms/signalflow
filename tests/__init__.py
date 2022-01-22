@@ -62,5 +62,6 @@ def graph():
     config.input_buffer_size = 2048
     config.output_buffer_size = 2048
     graph = signalflow.AudioGraph(config=config,
-                                  output_device=signalflow.AudioOut_Dummy(2))
+                                  output_device=signalflow.AudioOut_Dummy(2),
+                                  start=False)
     return graph

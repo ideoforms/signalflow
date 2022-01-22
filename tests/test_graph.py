@@ -4,12 +4,12 @@ import pytest
 import numpy as np
 
 def test_graph():
-    graph = AudioGraph()
+    graph = AudioGraph(start=False)
     assert graph
     del graph
 
 def test_graph_sample_rate():
-    graph = AudioGraph()
+    graph = AudioGraph(start=False)
     assert graph.sample_rate > 0
     graph.sample_rate = 1000
     assert graph.sample_rate == 1000
@@ -25,7 +25,7 @@ def test_graph_sample_rate():
     del graph
 
 def test_graph_cyclic():
-    graph = AudioGraph()
+    graph = AudioGraph(start=False)
     graph.sample_rate = 1000
     line = Line(0, 1, 1)
     m1 = line * 1
@@ -38,7 +38,7 @@ def test_graph_cyclic():
     del graph
 
 def test_graph_render():
-    graph = AudioGraph()
+    graph = AudioGraph(start=False)
     sine = SineOscillator(440)
     graph.play(sine)
     with pytest.raises(RuntimeError):
@@ -46,7 +46,7 @@ def test_graph_render():
     del graph
 
 def test_graph_add_remove_node():
-    graph = AudioGraph()
+    graph = AudioGraph(start=False)
     constant1 = Constant(1)
     constant2 = Constant(2)
     add = Add(constant1, constant2)
@@ -57,7 +57,7 @@ def test_graph_add_remove_node():
     assert np.all(add.output_buffer[0] == 3)
     del graph
 
-    graph = AudioGraph()
+    graph = AudioGraph(start=False)
     constant1 = Constant(1)
     constant2 = Constant(2)
     add = Add(constant1, constant2)
@@ -71,7 +71,7 @@ def test_graph_add_remove_node():
 
 def test_graph_dummy_audioout():
     output = AudioOut_Dummy(2)
-    graph = AudioGraph(output_device=output)
+    graph = AudioGraph(output_device=output, start=False)
 
     sine = SineOscillator([ 220, 440 ])
     graph.play(sine)
@@ -83,7 +83,7 @@ def test_graph_dummy_audioout():
     del graph
 
 def test_graph_clear():
-    graph = AudioGraph()
+    graph = AudioGraph(start=False)
     c1 = Constant(1)
     graph.play(c1)
     c2 = Constant(2)
@@ -97,7 +97,7 @@ def test_graph_clear():
 
 def test_graph_num_output_channels():
     output = AudioOut_Dummy(5)
-    graph = AudioGraph(output_device=output)
+    graph = AudioGraph(output_device=output, start=False)
 
     assert graph.num_output_channels == 5
 
