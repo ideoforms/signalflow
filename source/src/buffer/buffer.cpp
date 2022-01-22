@@ -252,7 +252,7 @@ void Buffer::save(std::string filename)
             frame_index++;
         }
         sf_writef_float(sndfile, buffer, frames_this_write);
-        if (frame_index >= this->num_frames)
+        if ((unsigned int) frame_index >= this->num_frames)
             break;
     }
 
