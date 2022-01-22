@@ -91,7 +91,7 @@ void EnvelopeADSR::process(Buffer &out, int num_frames)
         }
         this->phase += phase_step;
 
-        float rv;
+        float rv = 0.0;
         if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
         {
             if (this->level > 0)
