@@ -22,7 +22,7 @@ public:
     virtual void process(Buffer &out, int num_frames) override;
 
 private:
-    signalflow_filter_type_t filter_type;
+    PropertyRef filter_type;
     NodeRef cutoff;
     NodeRef resonance;
 

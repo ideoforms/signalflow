@@ -5,13 +5,13 @@ namespace signalflow
 {
 
 ChannelMixer::ChannelMixer(int num_channels, NodeRef input, bool amplitude_compensation)
-    : UnaryOpNode(input), amplitude_compensation(amplitude_compensation)
+    : UnaryOpNode(input), num_channels(num_channels), amplitude_compensation(amplitude_compensation)
 {
     this->name = "channel-mixer";
     this->amplitude_compensation_level = 1.0;
 
     this->create_property("num_channels", this->num_channels);
-    this->set_property("num_channels", num_channels);
+    this->update_channels();
 }
 
 void ChannelMixer::set_property(std::string name, const PropertyRef &value)

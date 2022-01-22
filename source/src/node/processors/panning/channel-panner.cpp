@@ -3,20 +3,17 @@
 namespace signalflow
 {
 
-ChannelPanner::ChannelPanner(int channels, NodeRef input, NodeRef pan, NodeRef width)
-    : input(input), pan(pan), width(width)
+ChannelPanner::ChannelPanner(int num_channels, NodeRef input, NodeRef pan, NodeRef width)
+    : num_channels(num_channels), input(input), pan(pan), width(width)
 {
     this->name = "channel-panner";
 
-    this->set_channels(1, channels);
+    this->set_channels(1, num_channels);
 
+    this->create_property("num_channels", this->num_channels);
     this->create_input("input", this->input);
     this->create_input("pan", this->pan);
     this->create_input("width", this->width);
-
-    // can this now be done in the same way as create_input?
-    this->create_property("num_channels", this->num_channels);
-    this->set_property("num_channels", channels);
 }
 
 void ChannelPanner::set_property(std::string name, const PropertyRef &value)

@@ -3,17 +3,17 @@
 namespace signalflow
 {
 
-AzimuthPanner::AzimuthPanner(int channels, NodeRef input, NodeRef pan, NodeRef width)
-    : input(input), pan(pan), width(width)
+AzimuthPanner::AzimuthPanner(int num_channels, NodeRef input, NodeRef pan, NodeRef width)
+    : num_channels(num_channels), input(input), pan(pan), width(width)
 {
     this->name = "azimuth-panner";
 
+    this->create_property("num_channels", this->num_channels);
     this->create_input("input", this->input);
     this->create_input("pan", this->pan);
     this->create_input("width", this->width);
 
-    this->create_property("num_channels", this->num_channels);
-    this->set_property("num_channels", channels);
+    this->set_channels(1, num_channels);
 }
 
 void AzimuthPanner::set_property(std::string property_name, const PropertyRef &value)

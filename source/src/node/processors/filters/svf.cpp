@@ -50,10 +50,11 @@ SVFFilter::SVFFilter(NodeRef input,
                      signalflow_filter_type_t filter_type,
                      NodeRef cutoff,
                      NodeRef resonance)
-    : UnaryOpNode(input), filter_type(filter_type), cutoff(cutoff), resonance(resonance)
+    : UnaryOpNode(input), filter_type((int) filter_type), cutoff(cutoff), resonance(resonance)
 {
     this->name = "svf-filter";
 
+    this->create_property("filter_type", this->filter_type);
     this->create_input("cutoff", this->cutoff);
     this->create_input("resonance", this->resonance);
 
@@ -94,7 +95,7 @@ void SVFFilter::process(Buffer &out, int num_frames)
             ic1eq[channel] = 2 * v1 - ic1eq[channel];
             ic2eq[channel] = 2 * v2 - ic2eq[channel];
 
-            switch (this->filter_type)
+            switch (this->filter_type->int_value())
             {
                 case SIGNALFLOW_FILTER_TYPE_LOW_PASS:
                     out[channel][frame] = v2;

@@ -17,9 +17,9 @@ public:
     virtual void process(Buffer &out, int num_frames);
 
 private:
-    int offset;
-    int maximum;
-    int step;
+    PropertyRef offset;
+    PropertyRef maximum;
+    PropertyRef step;
 };
 
 REGISTER(ChannelSelect, "channel-select")
