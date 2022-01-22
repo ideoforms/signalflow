@@ -242,10 +242,10 @@ void Buffer::save(std::string filename)
         if ((int) this->num_frames - frame_index < frames_this_write)
             frames_this_write = this->num_frames - frame_index;
 
-        for (unsigned int frame = 0; frame < frames_this_write; frame++)
+        for (int frame = 0; frame < frames_this_write; frame++)
         {
             // TODO: Vector-accelerated interleave
-            for (unsigned int channel = 0; channel < info.channels; channel++)
+            for (int channel = 0; channel < info.channels; channel++)
             {
                 buffer[frame * info.channels + channel] = this->data[channel][frame_index];
             }
@@ -297,7 +297,7 @@ bool Buffer::set(int channel_index,
                  int frame_index,
                  sample value)
 {
-    if (channel_index >= 0 && channel_index < this->num_channels && frame_index >= 0 && frame_index < this->num_frames)
+    if (channel_index >= 0 && (unsigned) channel_index < this->num_channels && frame_index >= 0 && (unsigned) frame_index < this->num_frames)
     {
         this->data[channel_index][frame_index] = value;
         return true;

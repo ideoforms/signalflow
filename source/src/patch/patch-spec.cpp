@@ -255,6 +255,11 @@ std::string PatchSpec::to_json()
                 case SIGNALFLOW_PROPERTY_TYPE_INT:
                     properties[property_name] = property_value->int_value();
                     break;
+                case SIGNALFLOW_PROPERTY_TYPE_STRING:
+                    properties[property_name] = property_value->string_value();
+                    break;
+                default:
+                    break;
             }
         }
         if (properties.size() > 0)

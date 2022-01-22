@@ -44,7 +44,7 @@ std::vector<std::vector<std::vector<int>>> _partition(std::vector<std::vector<in
 
 std::vector<std::vector<int>> _interleave(std::vector<std::vector<int>> sequenceA, std::vector<std::vector<int>> sequenceB)
 {
-    int num_arrays = (sequenceA.size() > sequenceB.size()) ? sequenceA.size() : sequenceB.size();
+    size_t num_arrays = (sequenceA.size() > sequenceB.size()) ? sequenceA.size() : sequenceB.size();
     std::vector<std::vector<int>> rv(num_arrays);
     for (size_t i = 0; i < num_arrays; i++)
     {

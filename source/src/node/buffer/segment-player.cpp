@@ -30,7 +30,7 @@ void SegmentPlayer::process(Buffer &out, int num_frames)
     {
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            if ((int) this->phase < buffer->get_num_frames())
+            if ((unsigned int) this->phase < buffer->get_num_frames())
             {
                 s = this->buffer->data[channel][(int) this->phase];
             }

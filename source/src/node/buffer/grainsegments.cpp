@@ -88,7 +88,7 @@ void GrainSegments::process(Buffer &out, int num_frames)
                  * Obtain the correct sample from the buffer.
                  *-----------------------------------------------------------------------*/
                 int buffer_index = grain->sample_start + grain->samples_done;
-                while (buffer_index > this->buffer->get_num_frames())
+                while ((unsigned) buffer_index > this->buffer->get_num_frames())
                     buffer_index -= this->buffer->get_num_frames();
                 sample s = this->buffer->data[0][(int) buffer_index];
 
