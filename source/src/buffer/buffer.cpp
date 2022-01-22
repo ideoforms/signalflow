@@ -153,11 +153,11 @@ void Buffer::load(std::string filename)
          * frames as possible into the existing allocation. Check that the
          * existing config is compatible with the audio file.
          *-----------------------------------------------------------------------*/
-        if (this->num_channels != info.channels)
+        if ((int) this->num_channels != info.channels)
         {
             throw std::runtime_error(std::string("Can't read audio: audio file channel count does not match buffer"));
         }
-        if (this->sample_rate != info.samplerate)
+        if ((int) this->sample_rate != info.samplerate)
         {
             throw std::runtime_error(std::string("Can't read audio: audio file sample rate does not match buffer"));
         }
@@ -178,12 +178,12 @@ void Buffer::load(std::string filename)
     int frames_per_read = SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE;
     int samples_per_read = frames_per_read * info.channels;
     sample *buffer = new sample[samples_per_read];
-    int total_frames_read = 0;
+    unsigned int total_frames_read = 0;
 
     while (true)
     {
         int count = sf_readf_float(sndfile, buffer, frames_per_read);
-        for (int frame = 0; frame < count; frame++)
+        for (unsigned int frame = 0; frame < count; frame++)
         {
             // TODO: Vector-accelerated de-interleave
             for (unsigned int channel = 0; channel < info.channels; channel++)
@@ -242,7 +242,7 @@ void Buffer::save(std::string filename)
         if (this->num_frames - frame_index < frames_this_write)
             frames_this_write = this->num_frames - frame_index;
 
-        for (int frame = 0; frame < frames_this_write; frame++)
+        for (unsigned int frame = 0; frame < frames_this_write; frame++)
         {
             // TODO: Vector-accelerated interleave
             for (unsigned int channel = 0; channel < info.channels; channel++)
@@ -350,7 +350,7 @@ void Buffer::fill(sample value)
 {
     for (unsigned int channel = 0; channel < this->num_channels; channel++)
     {
-        for (int frame = 0; frame < this->num_frames; frame++)
+        for (unsigned int frame = 0; frame < this->num_frames; frame++)
         {
             this->data[channel][frame] = value;
         }
@@ -361,7 +361,7 @@ void Buffer::fill(const std::function<float(float)> f)
 {
     for (unsigned int channel = 0; channel < this->num_channels; channel++)
     {
-        for (int frame = 0; frame < this->num_frames; frame++)
+        for (unsigned int frame = 0; frame < this->num_frames; frame++)
         {
             double offset = this->frame_to_offset(frame);
             this->data[channel][frame] = f(offset);
@@ -423,7 +423,7 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
     for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
     {
         output[channel].resize(buffer->get_num_frames());
-        for (int frame = 0; frame < buffer->get_num_frames(); frame++)
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
         {
             output[channel][frame] = buffer->data[channel][frame] * constant;
         }
