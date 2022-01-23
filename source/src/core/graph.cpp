@@ -60,7 +60,14 @@ AudioGraph::AudioGraph(AudioGraphConfig *config,
     this->sample_rate = audio_out->get_sample_rate();
     this->node_count = 0;
     this->_node_count_tmp = 0;
+
+    /*--------------------------------------------------------------------------------
+     * Monitor CPU usage, taking an exponential moving average to reduce the impact
+     * of noise and spikes.
+     *--------------------------------------------------------------------------------*/
+    this->cpu_usage_smoothing = 0.95;
     this->cpu_usage = 0.0;
+
     this->monitor = nullptr;
 
     this->recording_fd = NULL;
@@ -301,11 +308,12 @@ void AudioGraph::render(int num_frames)
     double t1 = signalflow_timestamp();
     double dt = t1 - t0;
     double t_max = (double) num_frames / this->sample_rate;
-    this->cpu_usage = dt / t_max;
-    if (this->cpu_usage > 1.0)
+    float cpu_usage = dt / t_max;
+    if (cpu_usage > 1.0)
     {
         std::cerr << "Warning: buffer overrun?" << std::endl;
     }
+    this->cpu_usage = (1.0 - this->cpu_usage_smoothing) * cpu_usage + this->cpu_usage_smoothing * this->cpu_usage;
 }
 
 void AudioGraph::render_to_buffer(BufferRef buffer, int block_size)

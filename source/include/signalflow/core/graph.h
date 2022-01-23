@@ -340,6 +340,7 @@ private:
     int node_count;
     int _node_count_tmp;
     float cpu_usage;
+    float cpu_usage_smoothing;
 
     NodeRef input = nullptr;
     NodeRef output = nullptr;
