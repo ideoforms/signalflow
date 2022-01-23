@@ -130,8 +130,12 @@ void init_python_node(py::module &m)
                     return py::cast(property->int_value());
                 case SIGNALFLOW_PROPERTY_TYPE_FLOAT:
                     return py::cast(property->float_value());
+                case SIGNALFLOW_PROPERTY_TYPE_FLOAT_ARRAY:
+                    return py::cast(property->float_array_value());
                 case SIGNALFLOW_PROPERTY_TYPE_STRING:
                     return py::cast(property->string_value());
+                case SIGNALFLOW_PROPERTY_TYPE_STRING_ARRAY:
+                    return py::cast(property->string_array_value());
                 default:
                     return py::none();
             }

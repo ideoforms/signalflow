@@ -19,8 +19,7 @@ PatchSpec::PatchSpec()
     this->name = "Unnamed Patch";
 }
 
-PatchSpec::PatchSpec(std::string filename)
-    : PatchSpec()
+PatchSpec::PatchSpec(std::string filename) : PatchSpec()
 {
     this->load(filename);
 }
@@ -124,7 +123,14 @@ void PatchSpec::from_json(std::string buf)
             auto input_value = property_pair.second;
 
             // TODO: properly handle float, string, etc properties
-            nodespec->create_property(property_name, input_value.int_value());
+            if (input_value.is_number())
+            {
+                nodespec->add_property(property_name, input_value.int_value());
+            }
+            else
+            {
+
+            }
         }
 
         signalflow_debug("Adding node with name %s\n", nodespec->get_name().c_str());
@@ -249,14 +255,20 @@ std::string PatchSpec::to_json()
 
             switch (property_value->get_property_type())
             {
-                case SIGNALFLOW_PROPERTY_TYPE_FLOAT:
-                    properties[property_name] = property_value->float_value();
-                    break;
                 case SIGNALFLOW_PROPERTY_TYPE_INT:
                     properties[property_name] = property_value->int_value();
                     break;
+                case SIGNALFLOW_PROPERTY_TYPE_FLOAT:
+                    properties[property_name] = property_value->float_value();
+                    break;
+                case SIGNALFLOW_PROPERTY_TYPE_FLOAT_ARRAY:
+                    properties[property_name] = property_value->float_array_value();
+                    break;
                 case SIGNALFLOW_PROPERTY_TYPE_STRING:
                     properties[property_name] = property_value->string_value();
+                    break;
+                case SIGNALFLOW_PROPERTY_TYPE_STRING_ARRAY:
+                    properties[property_name] = property_value->string_array_value();
                     break;
                 default:
                     break;

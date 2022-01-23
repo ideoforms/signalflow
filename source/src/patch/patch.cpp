@@ -5,10 +5,10 @@
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/patch/patch-registry.h"
 
-#include "signalflow/node/operators/add.h"
-#include "signalflow/node/operators/divide.h"
 #include "signalflow/node/operators/multiply.h"
+#include "signalflow/node/operators/add.h"
 #include "signalflow/node/operators/subtract.h"
+#include "signalflow/node/operators/divide.h"
 
 #include <iostream>
 #include <memory>
@@ -321,6 +321,7 @@ NodeRef Patch::add_node(NodeRef node)
     nodes.insert(node);
     node->patch = this;
     return node;
+
 }
 void Patch::set_output(NodeRef out)
 {
@@ -424,7 +425,7 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
         for (auto property : node->properties)
         {
             PropertyRef propertyref = *(property.second);
-            nodespec->create_property(property.first, propertyref);
+            nodespec->add_property(property.first, propertyref);
         }
 
         for (auto buffer : node->buffers)
