@@ -43,7 +43,7 @@ Node::Node()
      * (e.g. when creating an AudioOut before the graph has been instantiated).
      *
      *-----------------------------------------------------------------------*/
-    if (shared_graph && shared_graph->get_config().get_output_buffer_size() && false)
+    if (shared_graph && shared_graph->get_config().get_output_buffer_size())
     {
         this->output_buffer_length = shared_graph->get_config().get_output_buffer_size();
     }
@@ -216,7 +216,7 @@ void Node::free()
 
 void Node::resize_output_buffers(int output_buffer_count)
 {
-    if (output_buffer_count <= this->out.get_num_channels() && this->output_buffer_length <= this->out.get_num_frames())
+    if ((unsigned) output_buffer_count <= this->out.get_num_channels() && (unsigned) this->output_buffer_length <= this->out.get_num_frames())
     {
         /*------------------------------------------------------------------------
          * If enough channels and frames already allocated, don't do anything.
