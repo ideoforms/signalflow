@@ -300,10 +300,10 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
     py::class_<AzimuthPanner, Node, NodeRefTemplate<AzimuthPanner>>(m, "AzimuthPanner")
-        .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
+        .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "num_channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
     py::class_<ChannelPanner, Node, NodeRefTemplate<ChannelPanner>>(m, "ChannelPanner")
-        .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
+        .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "num_channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
     py::class_<SpatialPanner, Node, NodeRefTemplate<SpatialPanner>>(m, "SpatialPanner")
         .def(py::init<std::shared_ptr<SpatialEnvironment>, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, std::string>(), "env"_a = nullptr, "input"_a = 0.0, "x"_a = 0.0, "y"_a = 0.0, "z"_a = 0.0, "radius"_a = 1.0, "algorithm"_a = "dbap");
@@ -343,7 +343,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::string, NodeRef>(), "sequence"_a, "clock"_a = nullptr);
 
     py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
-        .def(py::init<PropertyRef, NodeRef>(), "list"_a = 0, "index"_a = 0);
+        .def(py::init<std::vector<float>, NodeRef>(), "list"_a = 0, "index"_a = 0);
 
     py::class_<Latch, Node, NodeRefTemplate<Latch>>(m, "Latch")
         .def(py::init<NodeRef, NodeRef>(), "set"_a = 0, "reset"_a = 0);

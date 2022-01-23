@@ -8,7 +8,7 @@ class Index : public Node
 {
 
 public:
-    Index(PropertyRef list = {}, NodeRef index = 0);
+    Index(std::vector<float> list = {}, NodeRef index = 0);
 
     virtual void process(Buffer &out, int num_frames);
 

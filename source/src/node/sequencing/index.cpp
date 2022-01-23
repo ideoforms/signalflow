@@ -3,7 +3,7 @@
 namespace signalflow
 {
 
-Index::Index(PropertyRef list, NodeRef index)
+Index::Index(std::vector<float> list, NodeRef index)
     : Node(), list(list), index(index)
 {
     this->name = "index";
