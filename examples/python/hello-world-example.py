@@ -10,7 +10,7 @@ from signalflow import *
 #------------------------------------------------------------------------
 # Create the global processing graph.
 #------------------------------------------------------------------------
-graph = AudioGraph(start=False)
+graph = AudioGraph()
 
 #------------------------------------------------------------------------
 # Create a sine oscillator, attenuate by 12dB, and pan to stereo.
