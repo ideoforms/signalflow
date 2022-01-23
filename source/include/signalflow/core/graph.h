@@ -72,6 +72,7 @@ public:
     /**--------------------------------------------------------------------------------
      * Print current graph status to stdout.
      * If frequency is non-zero, show status every `frequency` seconds.
+     * If frequency is zero, show status once (and stop recurrently showing status).
      *
      * @param frequency Interval between prints, in seconds.
      *

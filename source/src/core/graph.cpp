@@ -475,10 +475,25 @@ void AudioGraph::show_status(float frequency)
     {
         if (this->monitor)
         {
-            throw std::runtime_error("AudioGraph is already polling state");
+            this->monitor->set_frequency(frequency);
+            if (!this->monitor->is_running())
+            {
+                this->monitor->start();
+            }
         }
-        this->monitor = new AudioGraphMonitor(this, frequency);
-        this->monitor->start();
+        else
+        {
+            this->monitor = new AudioGraphMonitor(this, frequency);
+            this->monitor->start();
+        }
+    }
+    else
+    {
+        std::cout << this->get_status() << std::endl;
+        if (this->monitor)
+        {
+            this->monitor->stop();
+        }
     }
 }
 

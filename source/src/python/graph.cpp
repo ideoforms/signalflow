@@ -32,7 +32,8 @@ void init_python_graph(py::module &m)
         .def("clear", &AudioGraph::clear)
 
         .def("show_structure", [](AudioGraph &graph) { graph.show_structure(); })
-        .def("show_status", &AudioGraph::show_status)
+        .def("show_status", [](AudioGraph &graph, float frequency) { graph.show_status(frequency); })
+        .def("show_status", [](AudioGraph &graph) { graph.show_status(); })
         .def("render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); })
         .def("render_to_buffer", [](AudioGraph &graph, BufferRef buffer) { graph.render_to_buffer(buffer); })
         .def(

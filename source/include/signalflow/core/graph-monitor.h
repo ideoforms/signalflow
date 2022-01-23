@@ -13,13 +13,15 @@ public:
 
     void start();
     void stop();
+    void set_frequency(float frequency);
+    bool is_running();
 
 private:
     void run_thread();
     AudioGraphRef graph;
     float frequency;
     bool running;
-    std::shared_ptr<std::thread> thread;
+    std::thread thread;
 };
 
 }
