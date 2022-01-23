@@ -469,7 +469,7 @@ std::string AudioGraph::get_structure()
     return this->get_structure(this->output, 0);
 }
 
-void AudioGraph::show_status(float frequency)
+void AudioGraph::poll(float frequency)
 {
     if (frequency > 0)
     {

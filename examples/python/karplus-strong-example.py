@@ -22,7 +22,7 @@ note_interval = 0.125
 config = AudioGraphConfig()
 config.output_buffer_size = 128
 graph = AudioGraph(config=config, start=True)
-graph.show_status(2)
+graph.poll(2)
 
 #--------------------------------------------------------------------------------
 # Short burst of noise to excite the delay line

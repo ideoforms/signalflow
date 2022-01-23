@@ -9,7 +9,7 @@ from signalflow import *
 # Create the global processing graph.
 #------------------------------------------------------------------------
 graph = AudioGraph()
-graph.show_status(1)
+graph.poll(1)
 
 #------------------------------------------------------------------------
 # Create a regular impulse that is used to trigger an envelope and S&H.

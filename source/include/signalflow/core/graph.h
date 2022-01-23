@@ -77,7 +77,7 @@ public:
      * @param frequency Interval between prints, in seconds.
      *
      *--------------------------------------------------------------------------------*/
-    void show_status(float frequency = 0.0);
+    void poll(float frequency = 0.0);
 
     /**--------------------------------------------------------------------------------
      * Perform batch (offline) processing of a given node graph.

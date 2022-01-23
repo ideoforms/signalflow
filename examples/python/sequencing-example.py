@@ -16,7 +16,7 @@ import numpy as np
 # Create the global processing graph.
 #------------------------------------------------------------------------
 graph = AudioGraph()
-graph.show_status(1)
+graph.poll(1)
 
 class SquareArpPatch (Patch):
     #------------------------------------------------------------------------

@@ -31,7 +31,7 @@ lfo_pm_level = 0.1
 # Create the global processing graph.
 #------------------------------------------------------------------------
 graph = AudioGraph()
-graph.show_status(1)
+graph.poll(1)
 
 class FM3 (Patch):
     def __init__(self, frequency, params):

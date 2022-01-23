@@ -45,7 +45,7 @@ int main()
     spec->print();
 
     graph->start();
-    graph->show_status(2);
+    graph->poll(2);
 
     std::set<PatchRef> synths;
 

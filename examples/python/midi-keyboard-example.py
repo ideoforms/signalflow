@@ -54,7 +54,7 @@ def make_wavetable():
 
 def main(args):
     graph = AudioGraph()
-    graph.show_status(0.5)
+    graph.poll(0.5)
 
     #--------------------------------------------------------------------------------
     # If the -l flag is passed, list MIDI input devices
