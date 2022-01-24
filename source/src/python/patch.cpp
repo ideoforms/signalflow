@@ -51,7 +51,7 @@ void init_python_patch(py::module &m)
         .def("set_trigger_node", &Patch::set_trigger_node)
         .def_property("trigger_node", &Patch::get_trigger_node, &Patch::set_trigger_node)
 
-        .def_readonly("output", &Patch::output)
+        .def_property("output", &Patch::get_output, &Patch::set_output)
         .def_readonly("nodes", &Patch::nodes)
         .def_readonly("inputs", &Patch::inputs)
         .def_property_readonly("graph", &Patch::get_graph)

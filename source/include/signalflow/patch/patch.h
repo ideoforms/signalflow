@@ -82,6 +82,7 @@ public:
 
     BufferRef add_buffer_input(std::string name);
     NodeRef add_node(NodeRef node);
+    NodeRef get_output();
     void set_output(NodeRef out);
 
     AudioGraph *get_graph();

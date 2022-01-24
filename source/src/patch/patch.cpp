@@ -5,10 +5,10 @@
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/patch/patch-registry.h"
 
-#include "signalflow/node/operators/multiply.h"
 #include "signalflow/node/operators/add.h"
-#include "signalflow/node/operators/subtract.h"
 #include "signalflow/node/operators/divide.h"
+#include "signalflow/node/operators/multiply.h"
+#include "signalflow/node/operators/subtract.h"
 
 #include <iostream>
 #include <memory>
@@ -321,8 +321,13 @@ NodeRef Patch::add_node(NodeRef node)
     nodes.insert(node);
     node->patch = this;
     return node;
-
 }
+
+NodeRef Patch::get_output()
+{
+    return this->output;
+}
+
 void Patch::set_output(NodeRef out)
 {
     /*----------------------------------------------------------------------------
