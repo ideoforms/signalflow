@@ -49,8 +49,6 @@ class Patch
 {
 public:
     Patch();
-    Patch(PatchRef patch);
-    Patch(PatchRef patch, std::unordered_map<std::string, NodeRef> params);
     Patch(PatchSpecRef patchspec);
     Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> params);
     Patch(std::string name);
@@ -118,7 +116,7 @@ private:
     void _iterate_from_node(const NodeRef &node);
 
     /*----------------------------------------------------------------------------------
-     * Template stuff
+     * Methods for creating a patch prototype.
      *---------------------------------------------------------------------------------*/
     int last_id = 0;
 

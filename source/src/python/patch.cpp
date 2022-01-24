@@ -11,8 +11,6 @@ void init_python_patch(py::module &m)
          *-------------------------------------------------------------------------------*/
         .def(py::init<PatchSpecRef, std::unordered_map<std::string, NodeRef>>())
         .def(py::init<PatchSpecRef>())
-        .def(py::init<PatchRef, std::unordered_map<std::string, NodeRef>>())
-        .def(py::init<PatchRef>())
         .def(py::init<>())
 
         /*--------------------------------------------------------------------------------

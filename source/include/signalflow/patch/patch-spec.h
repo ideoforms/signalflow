@@ -26,54 +26,71 @@ public:
      * Load a PatchSpec from the given filename.
      *
      * @param filename Path to a .json file containing the patch specification.
-     *
      *---------------------------------------------------------------------------------*/
     PatchSpec(std::string filename);
 
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Methods for creating a PatchSpec from NodeSpecs.
+    ////////////////////////////////////////////////////////////////////////////////////
+
     /**----------------------------------------------------------------------------------
-     * Methods for creating a PatchSpec from NodeSpecs.
+     * Add a node spec to this patch spec.
      *
+     * @param node The PatchNodeSpec to add
      *---------------------------------------------------------------------------------*/
     void add_node_spec(PatchNodeSpec *node);
+
+    /**----------------------------------------------------------------------------------
+     * Define a node spec as this patch spec's output.
+     *
+     * @param node The PatchNodeSpec to set as output
+     *---------------------------------------------------------------------------------*/
     void set_output(PatchNodeSpec *node);
+
     PatchNodeSpec *get_node_spec(int id);
-    PatchNodeSpec *get_root();
+    PatchNodeSpec *get_output();
 
     /**----------------------------------------------------------------------------------
      * Query a PatchSpec's name.
-     * @returns The human-readable name.
      *
+     * @returns The human-readable name.
      *---------------------------------------------------------------------------------*/
     std::string get_name();
 
     /**----------------------------------------------------------------------------------
      * Set a PatchSpec's name.
-     * @param name The human-readable name.
      *
+     * @param name The human-readable name.
      *---------------------------------------------------------------------------------*/
     void set_name(std::string name);
 
-    /*----------------------------------------------------------------------------------
-     * Load a PatchSpec from disk.
+    /**----------------------------------------------------------------------------------
+     * Load a PatchSpec from file.
+     *
+     * @param filename The json file containing the PatchSpec.
      *---------------------------------------------------------------------------------*/
     void load(std::string filename);
 
-    /*----------------------------------------------------------------------------------
-     * Save a PatchSpec to disk.
+    /**----------------------------------------------------------------------------------
+     * Save a PatchSpec to file.
+     *
+     * @param filename The json file to write to.
      *---------------------------------------------------------------------------------*/
     void save(std::string filename);
 
-    /*----------------------------------------------------------------------------------
-     * Load a PatchSpec from json text.
+    /**----------------------------------------------------------------------------------
+     * Read a PatchSpec from a json string.
      *---------------------------------------------------------------------------------*/
     void from_json(std::string json);
 
-    /*----------------------------------------------------------------------------------
-     * Export a PatchSpec to json.
+    /**----------------------------------------------------------------------------------
+     * Export a PatchSpec to a json string.
+     *
+     * @returns A valid json string encapsulating the PatchSpec.
      *---------------------------------------------------------------------------------*/
     std::string to_json();
 
-    /*----------------------------------------------------------------------------------
+    /**----------------------------------------------------------------------------------
      * Store a PatchSpec to the global PatchRegistry so that it can be
      * instantiated by name.
      *---------------------------------------------------------------------------------*/
@@ -93,7 +110,6 @@ protected:
 private:
     std::string name;
 
-    int last_id = 0;
     void print(PatchNodeSpec *root, int depth);
 };
 

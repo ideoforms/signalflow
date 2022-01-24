@@ -19,7 +19,8 @@ PatchSpec::PatchSpec()
     this->name = "Unnamed Patch";
 }
 
-PatchSpec::PatchSpec(std::string filename) : PatchSpec()
+PatchSpec::PatchSpec(std::string filename)
+    : PatchSpec()
 {
     this->load(filename);
 }
@@ -129,7 +130,6 @@ void PatchSpec::from_json(std::string buf)
             }
             else
             {
-
             }
         }
 
@@ -324,7 +324,7 @@ void PatchSpec::set_name(std::string name)
     this->name = name;
 }
 
-PatchNodeSpec *PatchSpec::get_root()
+PatchNodeSpec *PatchSpec::get_output()
 {
     return this->output;
 }

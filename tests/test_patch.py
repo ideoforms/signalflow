@@ -40,7 +40,7 @@ def test_patch_duplicate(graph):
     c = patch.add_input("c", 3)
     sum = patch.add_node(Sum([a, b, c]))
     patch.set_output(sum)
-    duplicate = Patch(patch)
+    duplicate = Patch(patch.create_spec())
     duplicate.set_input("a", 1)
     duplicate.set_input("b", 2)
     duplicate.set_input("c", 3)

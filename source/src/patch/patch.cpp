@@ -29,7 +29,7 @@ Patch::Patch()
 Patch::Patch(PatchSpecRef patchspec)
     : Patch()
 {
-    PatchNodeSpec *nodespec = patchspec->get_root();
+    PatchNodeSpec *nodespec = patchspec->get_output();
     this->output = this->instantiate(nodespec);
     this->parsed = true;
 }
@@ -45,23 +45,13 @@ Patch::Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> in
     }
 }
 
-Patch::Patch(PatchRef patch)
-    : Patch(patch->create_spec())
-{
-}
-
-Patch::Patch(PatchRef patch, std::unordered_map<std::string, NodeRef> inputs)
-    : Patch(patch->create_spec(), inputs)
-{
-}
-
 Patch::Patch(std::string name)
     : Patch()
 {
     PatchSpecRef patchspec = PatchRegistry::global()->get(name);
     if (patchspec)
     {
-        PatchNodeSpec *nodespec = patchspec->get_root();
+        PatchNodeSpec *nodespec = patchspec->get_output();
         this->output = this->instantiate(nodespec);
     }
 }
