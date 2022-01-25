@@ -15,7 +15,7 @@ from signalflow import *
 # An AudioGraph is made up of a network of interconnected Nodes, which generate
 # and process audio. 
 #--------------------------------------------------------------------------------
-graph = AudioGraph(start=True)
+graph = AudioGraph()
 
 #--------------------------------------------------------------------------------
 # Passing an array of frequencies creates a stereo output.
@@ -57,7 +57,6 @@ NodeRef env = new ASREnvelope(0.01, 0.1, 0.5);
 NodeRef ping = sine * env;
 
 graph->play(ping);
-graph->start();
 graph->wait();
 ```
 
@@ -207,7 +206,7 @@ Pow
 RMS
 Resample
 RoundToScale
-SVFFilter
+SVFilter
 SampleAndHold
 Saw
 SawLFO
