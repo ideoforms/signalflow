@@ -17,7 +17,7 @@ int main(int argc, char **argv)
      * A PatchSpec contains a description of a synthesis graph.
      * It takes a short human-readable name, drawn from [0-9a-zA-Z_-]
      *-----------------------------------------------------------------------*/
-    PatchSpecRef spec = new PatchSpec("patch");
+    PatchSpecRef spec = new PatchSpec();
 
     /*------------------------------------------------------------------------
      * ->load() parses the specified JSON file and creates a graph 
@@ -33,7 +33,7 @@ int main(int argc, char **argv)
      * TODO: Instantiate two synths with different frequencies/pans.
      *-----------------------------------------------------------------------*/
     PatchRef patch = new Patch(spec);
-    graph->play(patch->output);
+    graph->play(patch);
     graph->wait();
 
     return 0;
