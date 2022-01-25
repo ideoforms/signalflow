@@ -64,10 +64,10 @@ void init_python_nodes(py::module &m)
 
 #endif
 
-    py::class_<EnvelopeADSR, Node, NodeRefTemplate<EnvelopeADSR>>(m, "EnvelopeADSR")
+    py::class_<ADSREnvelope, Node, NodeRefTemplate<ADSREnvelope>>(m, "ADSREnvelope")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "decay"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "gate"_a = 0);
 
-    py::class_<EnvelopeASR, Node, NodeRefTemplate<EnvelopeASR>>(m, "EnvelopeASR")
+    py::class_<ASREnvelope, Node, NodeRefTemplate<ASREnvelope>>(m, "ASREnvelope")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "curve"_a = 1.0, "clock"_a = nullptr);
 
     py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope")

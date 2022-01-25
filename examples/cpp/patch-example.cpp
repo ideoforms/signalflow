@@ -26,7 +26,7 @@ PatchSpecRef create_synth()
     NodeRef width = patch->add_input("width", 0.5);
     NodeRef pan = patch->add_input("pan", 0.0);
     NodeRef square = patch->add_node(new SquareOscillator(freq, width));
-    NodeRef asr = patch->add_node(new EnvelopeASR(0.0, 0.0, 1.3));
+    NodeRef asr = patch->add_node(new ASREnvelope(0.0, 0.0, 1.3));
     NodeRef shaped = patch->add_node(square * asr * 0.05);
     NodeRef stereo = patch->add_node(new StereoPanner(shaped, pan));
     NodeRef delay = new CombDelay(stereo, 0.1, 0.9, 0.5);

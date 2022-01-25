@@ -26,11 +26,11 @@ class NotePatch (Patch):
         amplitude = self.add_input("amplitude", 0.5)
         gate = self.add_input("gate", 1.0)
         freq = MidiNoteToFrequency(note)
-        env = EnvelopeADSR(0.001, 0.5, 0.9, 0.2, gate=gate)
+        env = ADSREnvelope(0.001, 0.5, 0.9, 0.2, gate=gate)
         wavetable = self.add_buffer_input("wavetable")
         signal = Wavetable(wavetable, freq)
         signal = Resample(signal, bit_rate=3)
-        filter_env = EnvelopeADSR(0.001, 0.1, 0.5, 0.5, gate=gate) ** 4
+        filter_env = ADSREnvelope(0.001, 0.1, 0.5, 0.5, gate=gate) ** 4
         filter_env = ScaleLinExp(filter_env, 0, 1, 800, 8000)
         filter_lfo = SineLFO(RandomUniform(3, 8, Impulse(0)), 0.7, 1.3)
         resonance = RandomUniform(0.5, 0.99, Impulse(0))

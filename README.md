@@ -25,7 +25,7 @@ sine = SineOscillator([440, 880])
 #--------------------------------------------------------------------------------
 # Simple attack/sustain/release envelope with linear curves.
 #--------------------------------------------------------------------------------
-env = EnvelopeASR(0.01, 0.1, 0.5)
+env = ASREnvelope(0.01, 0.1, 0.5)
 
 #--------------------------------------------------------------------------------
 # Use standard arithmetic operations to combine signals. When a multi-channel 
@@ -53,7 +53,7 @@ using namespace signalflow;
 AudioGraphRef graph = new AudioGraph();
 
 NodeRef sine = new SineOscillator({ 440, 880 });
-NodeRef env = new EnvelopeASR(0.01, 0.1, 0.5);
+NodeRef env = new ASREnvelope(0.01, 0.1, 0.5);
 NodeRef ping = sine * env;
 
 graph->play(ping);
@@ -163,8 +163,8 @@ DecibelsToAmplitude
 Divide
 EQ
 Envelope
-EnvelopeADSR
-EnvelopeASR
+ADSREnvelope
+ASREnvelope
 Equal
 Euclidean
 FFT

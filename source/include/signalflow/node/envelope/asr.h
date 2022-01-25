@@ -6,10 +6,10 @@
 namespace signalflow
 {
 
-class EnvelopeASR : public Node
+class ASREnvelope : public Node
 {
 public:
-    EnvelopeASR(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef curve = 1.0, NodeRef clock = nullptr);
+    ASREnvelope(NodeRef attack = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef curve = 1.0, NodeRef clock = nullptr);
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
     virtual void process(Buffer &out, int num_frames) override;
 
@@ -23,6 +23,6 @@ private:
     std::vector<float> phase;
 };
 
-REGISTER(EnvelopeASR, "envelope-asr")
+REGISTER(ASREnvelope, "asr-envelope")
 
 }

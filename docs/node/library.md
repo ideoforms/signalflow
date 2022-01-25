@@ -25,8 +25,8 @@
 
 ## envelope
 
-- **EnvelopeADSR** `(attack=0.1, decay=0.1, sustain=0.5, release=0.1, gate=0)`
-- **EnvelopeASR** `(attack=0.1, sustain=0.5, release=0.1, curve=1.0, clock=nullptr)`
+- **ADSREnvelope** `(attack=0.1, decay=0.1, sustain=0.5, release=0.1, gate=0)`
+- **ASREnvelope** `(attack=0.1, sustain=0.5, release=0.1, curve=1.0, clock=nullptr)`
 - **Envelope** `(levels=std::vector<NodeRef> ( ), times=std::vector<NodeRef> ( ), curves=std::vector<NodeRef> ( ), clock=nullptr, loop=false)`
 - **Line** `(from=0.0, to=1.0, time=1.0, loop=0, clock=nullptr)`
 - **EnvelopeRect** `(sustain=1.0, clock=nullptr)`

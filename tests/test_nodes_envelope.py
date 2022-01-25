@@ -1,4 +1,4 @@
-from signalflow import Buffer, Envelope, EnvelopeRect, EnvelopeADSR, Impulse, OneTapDelay
+from signalflow import Buffer, Envelope, EnvelopeRect, ADSREnvelope, Impulse, OneTapDelay
 from signalflow import db_to_amplitude
 from . import graph
 from . import process_tree
@@ -39,7 +39,7 @@ def test_envelope_adsr(graph):
     # Sustain for full duration of envelope
     #--------------------------------------------------------------------------------
     gate = Envelope([1, 1, 0], [0.2, 0])
-    env = EnvelopeADSR(0.01, 0.1, 0.5, 0.05, gate=gate)
+    env = ADSREnvelope(0.01, 0.1, 0.5, 0.05, gate=gate)
     graph.render_subgraph(env, reset=True)
     assert env.output_buffer[0][0] == pytest.approx(0.0)
     assert env.output_buffer[0][10] == pytest.approx(1.0)
@@ -57,7 +57,7 @@ def test_envelope_adsr(graph):
     # Release early, right after attack segment
     #--------------------------------------------------------------------------------
     gate = Envelope([1, 1, 0], [0.011, 0])
-    env = EnvelopeADSR(0.01, 0.1, 0.5, 0.05, gate=gate)
+    env = ADSREnvelope(0.01, 0.1, 0.5, 0.05, gate=gate)
     graph.render_subgraph(env, reset=True)
     assert env.output_buffer[0][0] == pytest.approx(0.0)
     assert env.output_buffer[0][10] == pytest.approx(1.0)

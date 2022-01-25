@@ -89,7 +89,7 @@ def test_node_write_to_output_buffer(graph):
 
 
 def test_node_trigger(graph):
-    env = sf.EnvelopeASR(0, 0, 0.01)
+    env = sf.ASREnvelope(0, 0, 0.01)
     graph.play(env)
 
     graph.render(1024)

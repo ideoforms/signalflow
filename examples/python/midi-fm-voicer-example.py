@@ -34,9 +34,13 @@ graph = AudioGraph()
 graph.poll(1)
 
 class FM3 (Patch):
-    def __init__(self, frequency, params):
+    def __init__(self, frequency, amplitude, params, gate=1):
         super().__init__()
-        gate = self.add_input("gate", 1)
+
+        frequency = self.add_input("frequency", frequency)
+        amplitude = self.add_input("amplitude", amplitude)
+        gate = self.add_input("gate", gate)
+
         lfo = TriangleLFO(lfo_rate, -1, 1)
         frequency = frequency * (1.0 + 0.1 * lfo * lfo_pm_level)
         op2 = FMOp(frequency, *params[2], gate)
@@ -44,7 +48,8 @@ class FM3 (Patch):
         op0 = FMOp(frequency, *params[0], gate, fm=op1+op2)
         stereo = StereoPanner(op0 + op1)
         stereo = stereo * (1.0 + lfo * lfo_am_level)
-        self.set_output(stereo * 0.1)
+
+        self.output = stereo * 0.1 * amplitude
         self.auto_free_node = op0.env
 
 class FMOp (Patch):
@@ -59,8 +64,8 @@ class FMOp (Patch):
         if fm is not None:
             frequency = frequency + (f0 * fm * 14)
         sine = SineOscillator(frequency)
-        self.env = EnvelopeADSR(*env, gate=gate)
-        self.set_output(sine * (self.env ** 2) * amplitude)
+        self.env = ADSREnvelope(*env, gate=gate)
+        self.output = sine * (self.env ** 2) * amplitude
 
 #--------------------------------------------------------------------------------
 # MIDIManager is part of the signalflow_midi helper package.

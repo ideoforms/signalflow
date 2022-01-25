@@ -6,12 +6,12 @@
 namespace signalflow
 {
 
-EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef curve, NodeRef clock)
+ASREnvelope::ASREnvelope(NodeRef attack, NodeRef sustain, NodeRef release, NodeRef curve, NodeRef clock)
     : attack(attack), sustain(sustain), release(release), curve(curve), clock(clock)
 {
     SIGNALFLOW_CHECK_GRAPH();
 
-    this->name = "envelope-asr";
+    this->name = "asr-envelope";
 
     this->create_input("attack", this->attack);
     this->create_input("sustain", this->sustain);
@@ -26,7 +26,7 @@ EnvelopeASR::EnvelopeASR(NodeRef attack, NodeRef sustain, NodeRef release, NodeR
     }
 }
 
-void EnvelopeASR::trigger(std::string name, float value)
+void ASREnvelope::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
@@ -38,7 +38,7 @@ void EnvelopeASR::trigger(std::string name, float value)
     }
 }
 
-void EnvelopeASR::process(Buffer &out, int num_frames)
+void ASREnvelope::process(Buffer &out, int num_frames)
 {
     sample rv;
 

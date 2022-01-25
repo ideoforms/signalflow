@@ -24,7 +24,7 @@ int main()
         NodeRef resample = new Resample(sine, 11025, 12);
         NodeRef noise = new WhiteNoise(0.3, 1.0, 2);
         NodeRef dust = new RandomImpulse(noise);
-        NodeRef env = new EnvelopeASR(0.005, 0.01, 0.05);
+        NodeRef env = new ASREnvelope(0.005, 0.01, 0.05);
         env->set_input("clock", dust);
 
         NodeRef sum = resample * env;

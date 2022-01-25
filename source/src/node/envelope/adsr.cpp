@@ -4,12 +4,12 @@
 namespace signalflow
 {
 
-EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeRef release, NodeRef gate)
+ADSREnvelope::ADSREnvelope(NodeRef attack, NodeRef decay, NodeRef sustain, NodeRef release, NodeRef gate)
     : attack(attack), decay(decay), sustain(sustain), release(release), gate(gate)
 {
     this->phase = 0.0;
 
-    this->name = "envelope-adsr";
+    this->name = "adsr-envelope";
     this->create_input("attack", this->attack);
     this->create_input("decay", this->decay);
     this->create_input("sustain", this->sustain);
@@ -21,7 +21,7 @@ EnvelopeADSR::EnvelopeADSR(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
     this->level = 0.0;
 }
 
-void EnvelopeADSR::process(Buffer &out, int num_frames)
+void ADSREnvelope::process(Buffer &out, int num_frames)
 {
     float phase_step = 1.0f / this->graph->get_sample_rate();
 

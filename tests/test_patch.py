@@ -1,5 +1,5 @@
 from signalflow import PatchSpec, Patch, Buffer, BufferPlayer
-from signalflow import Multiply, SineOscillator, EnvelopeASR, SquareOscillator, Sum, Add, AzimuthPanner
+from signalflow import Multiply, SineOscillator, ASREnvelope, SquareOscillator, Sum, Add, AzimuthPanner
 from . import graph
 import numpy as np
 import json
@@ -53,7 +53,7 @@ def test_patch_duplicate(graph):
 def test_patch_free(graph):
     prototype = Patch()
     sine = prototype.add_node(SineOscillator(440))
-    envelope = prototype.add_node(EnvelopeASR(0.0, 0.0, 0.01))
+    envelope = prototype.add_node(ASREnvelope(0.0, 0.0, 0.01))
     output = sine * envelope
     prototype.set_output(output)
     spec = prototype.create_spec()

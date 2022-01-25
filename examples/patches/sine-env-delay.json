@@ -41,7 +41,7 @@
 			}
 		},
 		{
-			"node": "linear-panner",
+			"node": "stereo-panner",
 			"id": 4,
 			"is_output": true,
 			"inputs": {

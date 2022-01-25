@@ -106,7 +106,7 @@ This can be used to your advantage with the boolean operator nodes.
 
 ```python
 on_the_right = MouseX() > 0.5
-envelope = EnvelopeASR(0, 0, 0.5, clock=on_the_right)
+envelope = ASREnvelope(0, 0, 0.5, clock=on_the_right)
 square = SquareOscillator(100)
 output = envelope * square * 0.1
 output.play()

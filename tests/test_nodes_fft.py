@@ -1,4 +1,4 @@
-from signalflow import Buffer, EnvelopeASR
+from signalflow import Buffer, ASREnvelope
 from signalflow import SineOscillator, Impulse, FFT, IFFT
 
 try:
@@ -137,7 +137,7 @@ def test_fft_convolve_split(graph):
 
     buffer_ir = Buffer(1, fft_size * 4)
     envelope_duration_seconds = buffer_ir.num_frames / graph.sample_rate
-    envelope = EnvelopeASR(0, 0, envelope_duration_seconds) * SineOscillator(440)
+    envelope = ASREnvelope(0, 0, envelope_duration_seconds) * SineOscillator(440)
     process_tree(envelope, buffer_ir)
 
     fft = FFT(Impulse(0), fft_size=fft_size, hop_size=fft_size, do_window=False)

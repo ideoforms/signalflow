@@ -6,10 +6,10 @@
 namespace signalflow
 {
 
-class EnvelopeADSR : public Node
+class ADSREnvelope : public Node
 {
 public:
-    EnvelopeADSR(NodeRef attack = 0.1, NodeRef decay = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef gate = 0);
+    ADSREnvelope(NodeRef attack = 0.1, NodeRef decay = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef gate = 0);
 
     virtual void process(Buffer &out, int num_frames);
 
@@ -27,6 +27,6 @@ private:
     float release_decrement_per_frame;
 };
 
-REGISTER(EnvelopeADSR, "envelope-adsr")
+REGISTER(ADSREnvelope, "adsr-envelope")
 
 }
