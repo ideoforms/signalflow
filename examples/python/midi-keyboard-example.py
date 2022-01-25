@@ -74,7 +74,7 @@ def main(args):
     #--------------------------------------------------------------------------------
     buf = make_wavetable()
     patch = NotePatch()
-    spec = patch.create_spec()
+    spec = patch.to_spec()
     voices = [ None ] * 128
     print(spec.to_json())
 

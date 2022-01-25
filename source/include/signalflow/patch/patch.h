@@ -141,7 +141,7 @@ public:
     /**--------------------------------------------------------------------------------
      * Parse a template from live Node objects to create a network of NodeDefs
      *--------------------------------------------------------------------------------*/
-    PatchSpecRef create_spec();
+    PatchSpecRef to_spec();
 
 protected:
     /**--------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ private:
 
     /**--------------------------------------------------------------------------------
      * Properties and methods used when creating a patch prototype,
-     * used in create_spec()
+     * used in to_spec()
      *--------------------------------------------------------------------------------*/
     bool parsed = false;
     int last_id = 0;
@@ -177,7 +177,7 @@ private:
     std::set<NodeRef> parsed_nodes;
     std::map<int, PatchNodeSpec *> nodespecs;
 
-    PatchNodeSpec *create_spec_from_node(const NodeRef &node);
+    PatchNodeSpec *to_spec_from_node(const NodeRef &node);
     std::string get_input_name(const NodeRef &node);
     std::string get_input_name(const BufferRef &buf);
 

@@ -11,7 +11,7 @@ def test_patch(graph):
     player = prototype.add_node(BufferPlayer(buf_in, loop=True))
     output = prototype.add_node(Multiply(input, player))
     prototype.set_output(output)
-    spec = prototype.create_spec()
+    spec = prototype.to_spec()
 
     patch = Patch(spec)
     buf_in = Buffer([ 2, 2, 2, 2 ])
@@ -40,7 +40,7 @@ def test_patch_duplicate(graph):
     c = patch.add_input("c", 3)
     sum = patch.add_node(Sum([a, b, c]))
     patch.set_output(sum)
-    duplicate = Patch(patch.create_spec())
+    duplicate = Patch(patch.to_spec())
     duplicate.set_input("a", 1)
     duplicate.set_input("b", 2)
     duplicate.set_input("c", 3)
@@ -56,7 +56,7 @@ def test_patch_free(graph):
     envelope = prototype.add_node(ASREnvelope(0.0, 0.0, 0.01))
     output = sine * envelope
     prototype.set_output(output)
-    spec = prototype.create_spec()
+    spec = prototype.to_spec()
 
     patch = Patch(spec)
     patch.auto_free = True
@@ -69,7 +69,7 @@ def test_patch_property_serialisation(graph):
     prototype = Patch()
     panner = AzimuthPanner(3, 0)
     prototype.set_output(panner)
-    spec = prototype.create_spec()
+    spec = prototype.to_spec()
 
     patch = Patch(spec)
     assert patch.output.num_output_channels == 3
@@ -79,7 +79,7 @@ def test_patch_property_serialisation_json(graph):
     prototype = Patch()
     panner = AzimuthPanner(3, 0)
     prototype.set_output(panner)
-    spec = prototype.create_spec()
+    spec = prototype.to_spec()
     spec_json = spec.to_json()
     spec_json_obj = json.loads(spec_json)
 

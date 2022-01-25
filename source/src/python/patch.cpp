@@ -67,7 +67,7 @@ void init_python_patch(py::module &m)
         .def("add_buffer_input", &Patch::add_buffer_input)
         .def("add_node", &Patch::add_node)
         .def("set_output", &Patch::set_output)
-        .def("create_spec", &Patch::create_spec);
+        .def("to_spec", &Patch::to_spec);
 
     py::class_<PatchSpec, PatchSpecRefTemplate<PatchSpec>>(m, "PatchSpec")
         .def(py::init<std::string>())

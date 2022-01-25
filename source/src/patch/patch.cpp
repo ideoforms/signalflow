@@ -360,7 +360,7 @@ void Patch::parse()
 /*----------------------------------------------------------------------------
  * Scans the patch graph beginning from its outputs.
  *----------------------------------------------------------------------------*/
-PatchSpecRef Patch::create_spec()
+PatchSpecRef Patch::to_spec()
 {
     // TODO: Currently have parsed property in this object and spec
     if (this->output == nullptr)
@@ -372,7 +372,7 @@ PatchSpecRef Patch::create_spec()
 
     PatchSpecRef spec = new PatchSpec();
     spec->set_name(this->name);
-    spec->output = this->create_spec_from_node(root);
+    spec->output = this->to_spec_from_node(root);
     spec->nodespecs = this->nodespecs;
 
     for (auto node : nodes)
@@ -406,7 +406,7 @@ void Patch::iterate_from_node(const NodeRef &node)
     }
 }
 
-PatchNodeSpec *Patch::create_spec_from_node(const NodeRef &node)
+PatchNodeSpec *Patch::to_spec_from_node(const NodeRef &node)
 {
     PatchNodeSpec *nodespec = new PatchNodeSpec(node->get_name());
     nodespec->set_id(this->last_id++);
@@ -423,7 +423,7 @@ PatchNodeSpec *Patch::create_spec_from_node(const NodeRef &node)
             NodeRef input_node = *(input.second);
             if (input_node)
             {
-                PatchNodeSpec *input_spec = this->create_spec_from_node(input_node);
+                PatchNodeSpec *input_spec = this->to_spec_from_node(input_node);
                 nodespec->add_input(input.first, input_spec);
             }
         }
