@@ -5,18 +5,18 @@
 
 namespace signalflow
 {
-class SVFFilter : public UnaryOpNode
+class SVFilter : public UnaryOpNode
 {
 public:
-    SVFFilter(NodeRef input = 0.0,
-              signalflow_filter_type_t filter_type = SIGNALFLOW_FILTER_TYPE_LOW_PASS,
-              NodeRef cutoff = 440,
-              NodeRef resonance = 0.0);
+    SVFilter(NodeRef input = 0.0,
+             signalflow_filter_type_t filter_type = SIGNALFLOW_FILTER_TYPE_LOW_PASS,
+             NodeRef cutoff = 440,
+             NodeRef resonance = 0.0);
 
-    SVFFilter(NodeRef input,
-              std::string filter_type,
-              NodeRef cutoff = 440,
-              NodeRef resonance = 0.0);
+    SVFilter(NodeRef input,
+             std::string filter_type,
+             NodeRef cutoff = 440,
+             NodeRef resonance = 0.0);
 
     virtual void alloc() override;
     virtual void process(Buffer &out, int num_frames) override;
@@ -31,6 +31,6 @@ private:
     std::vector<float> ic1eq, ic2eq, g, k, a1, a2, a3;
 };
 
-REGISTER(SVFFilter, "svf-filter")
+REGISTER(SVFilter, "sv-filter")
 
 }

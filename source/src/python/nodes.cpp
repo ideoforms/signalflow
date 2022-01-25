@@ -292,7 +292,7 @@ void init_python_nodes(py::module &m)
     py::class_<MoogVCF, Node, NodeRefTemplate<MoogVCF>>(m, "MoogVCF")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "cutoff"_a = 200.0, "resonance"_a = 0.0);
 
-    py::class_<SVFFilter, Node, NodeRefTemplate<SVFFilter>>(m, "SVFFilter")
+    py::class_<SVFilter, Node, NodeRefTemplate<SVFilter>>(m, "SVFilter")
         .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.0)
         .def(py::init<NodeRef, std::string, NodeRef, NodeRef>(), "input"_a, "filter_type"_a, "cutoff"_a = 440, "resonance"_a = 0.0);
 

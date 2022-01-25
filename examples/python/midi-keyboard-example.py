@@ -34,7 +34,7 @@ class NotePatch (Patch):
         filter_env = ScaleLinExp(filter_env, 0, 1, 800, 8000)
         filter_lfo = SineLFO(RandomUniform(3, 8, Impulse(0)), 0.7, 1.3)
         resonance = RandomUniform(0.5, 0.99, Impulse(0))
-        signal = SVFFilter(signal, SIGNALFLOW_FILTER_TYPE_LOW_PASS, filter_env * filter_lfo, resonance)
+        signal = SVFilter(signal, SIGNALFLOW_FILTER_TYPE_LOW_PASS, filter_env * filter_lfo, resonance)
         lfo = SineLFO(8, 0.6, 1.0)
         pan = RandomUniform(-0.5, 0.5, Impulse(0))
         output = StereoPanner(signal * env * amplitude * lfo * 0.2, pan)

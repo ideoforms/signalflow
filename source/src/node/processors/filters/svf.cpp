@@ -46,13 +46,13 @@
 namespace signalflow
 {
 
-SVFFilter::SVFFilter(NodeRef input,
-                     signalflow_filter_type_t filter_type,
-                     NodeRef cutoff,
-                     NodeRef resonance)
+SVFilter::SVFilter(NodeRef input,
+                   signalflow_filter_type_t filter_type,
+                   NodeRef cutoff,
+                   NodeRef resonance)
     : UnaryOpNode(input), filter_type((int) filter_type), cutoff(cutoff), resonance(resonance)
 {
-    this->name = "svf-filter";
+    this->name = "sv-filter";
 
     this->create_property("filter_type", this->filter_type);
     this->create_input("cutoff", this->cutoff);
@@ -61,15 +61,15 @@ SVFFilter::SVFFilter(NodeRef input,
     this->alloc();
 }
 
-SVFFilter::SVFFilter(NodeRef input,
-                     std::string filter_type,
-                     NodeRef cutoff,
-                     NodeRef resonance)
-    : SVFFilter(input, SIGNALFLOW_FILTER_TYPE_MAP[filter_type], cutoff, resonance)
+SVFilter::SVFilter(NodeRef input,
+                   std::string filter_type,
+                   NodeRef cutoff,
+                   NodeRef resonance)
+    : SVFilter(input, SIGNALFLOW_FILTER_TYPE_MAP[filter_type], cutoff, resonance)
 {
 }
 
-void SVFFilter::alloc()
+void SVFilter::alloc()
 {
     this->ic1eq.resize(this->num_output_channels_allocated, 0.0);
     this->ic2eq.resize(this->num_output_channels_allocated, 0.0);
@@ -80,7 +80,7 @@ void SVFFilter::alloc()
     this->a3.resize(this->num_output_channels_allocated, 0.0);
 }
 
-void SVFFilter::process(Buffer &out, int num_frames)
+void SVFilter::process(Buffer &out, int num_frames)
 {
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -113,13 +113,13 @@ void SVFFilter::process(Buffer &out, int num_frames)
                     out[channel][frame] = v2 - (v0 - k[channel] * v1 - v2);
                     break;
                 default:
-                    throw std::runtime_error("SVFFilter does not support this filter type");
+                    throw std::runtime_error("SVFilter does not support this filter type");
             }
         }
     }
 }
 
-void SVFFilter::_recalculate(int frame)
+void SVFilter::_recalculate(int frame)
 {
     for (int channel = 0; channel < num_output_channels; channel++)
     {

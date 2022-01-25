@@ -47,7 +47,7 @@ rounded_frequency = Round(random_frequency) * 50
 #--------------------------------------------------------------------------------
 # Write to the feedback buffer.
 #--------------------------------------------------------------------------------
-output = SVFFilter(player * 0.5 + feedback_reader, "low_pass", 4000)
+output = SVFilter(player * 0.5 + feedback_reader, "low_pass", 4000)
 feedback_writer = FeedbackBufferWriter(feedback_buf, output * feedback, 1/rounded_frequency)
 
 #--------------------------------------------------------------------------------

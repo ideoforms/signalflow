@@ -29,7 +29,7 @@ class SquareArpPatch (Patch):
         frequency = MidiNoteToFrequency(sequence + fundamental)
         square = SquareOscillator(frequency, width=SineLFO([0.1, 0.11], 0.05, 0.5))
         filter_env = ScaleLinExp(ASREnvelope(0.001, 0.01, 0.1, clock=clock) ** 3, 0, 1, 100, 5000)
-        filtered = SVFFilter(square, "low_pass", filter_env, resonance=0.2) * 0.2
+        filtered = SVFilter(square, "low_pass", filter_env, resonance=0.2) * 0.2
         balanced = StereoBalance(filtered, pan)
         self.set_output(balanced)
 
@@ -40,7 +40,7 @@ class HiHatPatch (Patch):
     def __init__(self, clock, amp=1.0):
         super().__init__()
         noise = WhiteNoise()
-        noise = SVFFilter(noise, "high_pass", 8000)
+        noise = SVFilter(noise, "high_pass", 8000)
         env = ASREnvelope(0.001, 0.01, 0.1, clock=clock)
         pan = SineLFO(0.5, -0.3, 0.3)
         output = StereoPanner(noise * env * amp, pan)

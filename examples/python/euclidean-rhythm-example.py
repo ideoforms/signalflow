@@ -31,7 +31,7 @@ class EuclideanPatch (Patch):
         self.amp = self.add_input("amp", amp)
         self.pan = self.add_input("pan", pan)
         self.eu = Euclidean(ClockDivider(self.clock, self.divider), self.sequence_length, self.num_events)
-        self.flt = SVFFilter(self.eu, "low_pass", cutoff=self.cutoff, resonance=self.resonance)
+        self.flt = SVFilter(self.eu, "low_pass", cutoff=self.cutoff, resonance=self.resonance)
         self.panned = StereoPanner(self.flt * self.amp, self.pan)
         self.set_output(self.panned)
 

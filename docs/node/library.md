@@ -122,7 +122,7 @@
 - **BiquadFilter** `(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0, peak_gain=0.0)`
 - **EQ** `(input=0.0, low_gain=1.0, mid_gain=1.0, high_gain=1.0, low_freq=500, high_freq=5000)`
 - **MoogVCF** `(input=0.0, cutoff=200.0, resonance=0.0)`
-- **SVFFilter** `(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0)`
+- **SVFilter** `(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0)`
 
 ## processors
 
