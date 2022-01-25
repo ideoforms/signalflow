@@ -7,7 +7,7 @@ NodeMonitor::NodeMonitor(NodeRef node, std::string label, float frequency)
     : node(node), frequency(frequency), label(label)
 {
     if (label == "")
-        this->label = this->node->name;
+        this->label = this->node->get_name();
     else
         this->label = label;
 }

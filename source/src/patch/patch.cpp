@@ -168,7 +168,7 @@ void Patch::set_input(std::string name, NodeRef value)
     bool found_input = false;
     for (NodeRef node : this->nodes)
     {
-        for (auto param : node->inputs)
+        for (auto param : node->get_inputs())
         {
             if ((param.second)->get() == current.get())
             {
@@ -194,7 +194,7 @@ void Patch::set_input(std::string name, BufferRef value)
     BufferRef current = this->buffer_inputs[name];
     for (NodeRef node : this->nodes)
     {
-        for (auto param : node->buffers)
+        for (auto param : node->get_buffers())
         {
             if ((param.second)->get() == current.get())
             {
@@ -379,7 +379,7 @@ PatchSpecRef Patch::create_spec()
     {
         if (parsed_nodes.find(node) == parsed_nodes.end())
         {
-            throw std::runtime_error("Patch contains unconnected node (" + node->name + ").");
+            throw std::runtime_error("Patch contains unconnected node (" + node->get_name() + ").");
         }
     }
 
@@ -388,7 +388,7 @@ PatchSpecRef Patch::create_spec()
 
 void Patch::iterate_from_node(const NodeRef &node)
 {
-    for (auto input : node->inputs)
+    for (auto input : node->get_inputs())
     {
         NodeRef input_node = *(input.second);
         if (input_node)
@@ -396,7 +396,7 @@ void Patch::iterate_from_node(const NodeRef &node)
             if (nodes.find(input_node) == nodes.end())
             {
                 // Lazy - use a better way of checking for constant
-                if (input_node->name != "constant")
+                if (input_node->get_name() != "constant")
                 {
                     this->add_node(input_node);
                     this->iterate_from_node(input_node);
@@ -408,17 +408,17 @@ void Patch::iterate_from_node(const NodeRef &node)
 
 PatchNodeSpec *Patch::create_spec_from_node(const NodeRef &node)
 {
-    PatchNodeSpec *nodespec = new PatchNodeSpec(node->name);
+    PatchNodeSpec *nodespec = new PatchNodeSpec(node->get_name());
     nodespec->set_id(this->last_id++);
 
-    if (node->name == "constant")
+    if (node->get_name() == "constant")
     {
         Constant *constant = (Constant *) node.get();
         nodespec->set_constant_value(constant->value);
     }
     else
     {
-        for (auto input : node->inputs)
+        for (auto input : node->get_inputs())
         {
             NodeRef input_node = *(input.second);
             if (input_node)
@@ -434,7 +434,7 @@ PatchNodeSpec *Patch::create_spec_from_node(const NodeRef &node)
             nodespec->add_property(property.first, propertyref);
         }
 
-        for (auto buffer : node->buffers)
+        for (auto buffer : node->get_buffers())
         {
             BufferRef input_buffer = *(buffer.second);
             std::string buffer_input_name = this->get_input_name(input_buffer);

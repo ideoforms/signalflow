@@ -132,15 +132,15 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
         return;
     }
 
-    if (!(node->inputs.size() > 0 || node->name == "constant" || node->name == "audioout" || node->name == "audioin"))
+    if (!(node->get_inputs().size() > 0 || node->get_name() == "constant" || node->get_name() == "audioout" || node->get_name() == "audioin"))
     {
-        signalflow_debug("Node %s has no registered inputs", node->name.c_str());
+        signalflow_debug("Node %s has no registered inputs", node->get_name().c_str());
     }
 
     /*------------------------------------------------------------------------
      * Pull our inputs before we generate our own outputs.
      *-----------------------------------------------------------------------*/
-    for (auto input : node->inputs)
+    for (auto input : node->get_inputs())
     {
         NodeRef input_node = *(input.second);
         if (input_node)
@@ -165,8 +165,8 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
              *-----------------------------------------------------------------------*/
             if (input_node->get_num_output_channels() < node->get_num_input_channels() && !node->no_input_upmix && input_node->get_num_output_channels() > 0)
             {
-                signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", input_node->name.c_str(),
-                                 node->name.c_str(), node->get_num_input_channels(), input_node->name.c_str(), input_node->get_num_output_channels());
+                signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", input_node->get_name().c_str(),
+                                 node->get_name().c_str(), node->get_num_input_channels(), input_node->get_name().c_str(), input_node->get_num_output_channels());
 
                 /*------------------------------------------------------------------------
                  * Ensure the input node's output buffer re-allocation has been done.
@@ -196,7 +196,7 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 
     node->_process(node->out, num_frames);
 
-    if (node->name != "constant")
+    if (node->get_name() != "constant")
     {
         node->has_rendered = true;
         this->_node_count_tmp++;
@@ -258,7 +258,7 @@ void AudioGraph::reset_graph()
 void AudioGraph::reset_subgraph(NodeRef node)
 {
     node->has_rendered = false;
-    for (auto input : node->inputs)
+    for (auto input : node->get_inputs())
     {
         NodeRef input_node = *(input.second);
         if (input_node && input_node->has_rendered)
@@ -457,7 +457,7 @@ std::string AudioGraph::get_structure(NodeRef &root, int depth)
         structure += std::string((depth + 1) * 3, ' ');
 
         NodeRef param_node = *(pair.second);
-        if (param_node->name == "constant")
+        if (param_node->get_name() == "constant")
         {
             Constant *constant = (Constant *) (param_node.get());
             structure += pair.first + ": " + std::to_string(constant->value) + "\n";

@@ -181,7 +181,7 @@ void Node::update_channels()
             NodeRef input_node = *ptr;
             if (input_node->get_num_output_channels() > this->num_input_channels)
             {
-                throw invalid_channel_count_exception("Node " + input_node->name + " has more output channels than " + this->name + " supports (" + std::to_string(input_node->get_num_output_channels()) + " > " + std::to_string(this->num_input_channels) + "). Either downmix with ChannelMixer, or select the intended channels with ChannelSelect.");
+                throw invalid_channel_count_exception("Node " + input_node->get_name() + " has more output channels than " + this->name + " supports (" + std::to_string(input_node->get_num_output_channels()) + " > " + std::to_string(this->num_input_channels) + "). Either downmix with ChannelMixer, or select the intended channels with ChannelSelect.");
             }
         }
     }
@@ -246,6 +246,11 @@ int Node::get_output_buffer_length()
 // States
 ////////////////////////////////////////////////////////////////////////////////
 
+std::string Node::get_name()
+{
+    return this->name;
+}
+
 signalflow_node_state_t Node::get_state()
 {
     return this->state;
@@ -266,6 +271,26 @@ void Node::set_state(signalflow_node_state_t state)
 ////////////////////////////////////////////////////////////////////////////////
 // Inputs and outputs
 ////////////////////////////////////////////////////////////////////////////////
+
+std::unordered_map<std::string, NodeRef *> Node::get_inputs()
+{
+    return this->inputs;
+}
+
+std::set<std::pair<Node *, std::string>> Node::get_outputs()
+{
+    return this->outputs;
+}
+
+std::unordered_map<std::string, PropertyRef *> Node::get_properties()
+{
+    return this->properties;
+}
+
+std::unordered_map<std::string, BufferRef *> Node::get_buffers()
+{
+    return this->buffers;
+}
 
 void Node::create_input(std::string name, NodeRef &input)
 {

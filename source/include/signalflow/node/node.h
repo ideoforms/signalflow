@@ -100,6 +100,12 @@ public:
      *-----------------------------------------------------------------------*/
     // virtual void process();
 
+    /**------------------------------------------------------------------------
+     * Get this node's human-readable name.
+     * @returns The name
+     *-----------------------------------------------------------------------*/
+    std::string get_name();
+
     /*------------------------------------------------------------------------
      * Get state. Most nodes begin in state ACTIVE. Nodes which have a
      * finite lifetime (e.g. envelopes) then transition to STOPPED.
@@ -111,6 +117,7 @@ public:
      * Get/set inputs. An input is a {string, Node} pair that can be used
      * to modulate the destination node.
      *-----------------------------------------------------------------------*/
+
     virtual NodeRef get_input(std::string name);
     virtual void set_input(std::string name, const NodeRef &input);
     virtual void set_input(std::string name, float value);
@@ -221,61 +228,6 @@ public:
     AudioGraph *get_graph();
 
     /*------------------------------------------------------------------------
-     * Human-readable name identifier [a-z0-9-]
-     *----------------------------------------------------------------------*/
-    std::string name;
-
-    /*------------------------------------------------------------------------
-     * Hash table of parameters: (name, pointer to NodeRef)
-     *
-     * Must be a pointer, rather than the NodeRef itself, as the actual
-     * storage for the pointer is held directly in the node's named
-     * parameter field (e.g. node->frequency, node->pan). The inputs
-     * dict is a lookup table which stores pointers to the fields, so that
-     * they can be populated when the node is instantiated, such as from
-     * a graph of NodeDefs.
-     *-----------------------------------------------------------------------*/
-    std::unordered_map<std::string, NodeRef *> inputs;
-
-    /*------------------------------------------------------------------------
-     * Set of outputs.
-     *
-     * Each output is a std::pair containing 
-     *  - a reference to the Node connected outwards to
-     *  - a string containing the name of the parameter that this node
-     *    modulates.
-     *
-     * Note that a node may modulate two different parameters of the same
-     * node.
-     *-----------------------------------------------------------------------*/
-    std::set<std::pair<Node *, std::string>> outputs;
-
-    /*------------------------------------------------------------------------
-     * Hash table of properties: (name, PropertyRef *)
-     * A property is a static, non-streaming value assigned to this node.
-     * Properties may be ints, floats, strings or arrays.
-     *
-     * Similar to `inputs`, each property actually points to a local 
-     * PropertyRef field which must be separately allocated on the object.
-     *-----------------------------------------------------------------------*/
-    std::unordered_map<std::string, PropertyRef *> properties;
-
-    /*------------------------------------------------------------------------
-     * Buffers are distinct from parameters, pointing to a fixed
-     * area of sample storage that must be non-null.
-     *-----------------------------------------------------------------------*/
-    std::unordered_map<std::string, BufferRef *> buffers;
-
-    /*------------------------------------------------------------------------
-     * Pointer to the Graph that this node is a part of.
-     * Set automatically in constructor.
-     *
-     * TODO: Should be an AudioGraphRef.
-     *       This is harder to accomplish than it looks.
-     *-----------------------------------------------------------------------*/
-    AudioGraph *graph = nullptr;
-
-    /*------------------------------------------------------------------------
      * Buffer containing this node's output.
      *-----------------------------------------------------------------------*/
     Buffer out;
@@ -297,6 +249,11 @@ public:
      * Primarily used for Constant nodes
      *-----------------------------------------------------------------------*/
     virtual float get_value();
+
+    std::unordered_map<std::string, NodeRef *> get_inputs();
+    std::set<std::pair<Node *, std::string>> get_outputs();
+    std::unordered_map<std::string, PropertyRef *> get_properties();
+    std::unordered_map<std::string, BufferRef *> get_buffers();
 
 protected:
     /*------------------------------------------------------------------------
@@ -369,6 +326,71 @@ protected:
     virtual void set_patch(Patch *patch);
 
     /*------------------------------------------------------------------------
+     * Human-readable name identifier [a-z0-9-]
+     *----------------------------------------------------------------------*/
+    std::string name;
+
+    /*------------------------------------------------------------------------
+     * Hash table of parameters: (name, pointer to NodeRef)
+     *
+     * Must be a pointer, rather than the NodeRef itself, as the actual
+     * storage for the pointer is held directly in the node's named
+     * parameter field (e.g. node->frequency, node->pan). The inputs
+     * dict is a lookup table which stores pointers to the fields, so that
+     * they can be populated when the node is instantiated, such as from
+     * a graph of NodeDefs.
+     *-----------------------------------------------------------------------*/
+    std::unordered_map<std::string, NodeRef *> inputs;
+
+    /*------------------------------------------------------------------------
+     * Set of outputs.
+     *
+     * Each output is a std::pair containing
+     *  - a reference to the Node connected outwards to
+     *  - a string containing the name of the parameter that this node
+     *    modulates.
+     *
+     * Note that a node may modulate two different parameters of the same
+     * node.
+     *-----------------------------------------------------------------------*/
+    std::set<std::pair<Node *, std::string>> outputs;
+
+    /*------------------------------------------------------------------------
+     * Hash table of properties: (name, PropertyRef *)
+     * A property is a static, non-streaming value assigned to this node.
+     * Properties may be ints, floats, strings or arrays.
+     *
+     * Similar to `inputs`, each property actually points to a local
+     * PropertyRef field which must be separately allocated on the object.
+     *-----------------------------------------------------------------------*/
+    std::unordered_map<std::string, PropertyRef *> properties;
+
+    /*------------------------------------------------------------------------
+     * Buffers are distinct from parameters, pointing to a fixed
+     * area of sample storage that must be non-null.
+     *-----------------------------------------------------------------------*/
+    std::unordered_map<std::string, BufferRef *> buffers;
+
+    /*------------------------------------------------------------------------
+     * Pointer to the Graph that this node is a part of.
+     * Set automatically in constructor.
+     *
+     * TODO: Should be an AudioGraphRef.
+     *       This is harder to accomplish than it looks.
+     *-----------------------------------------------------------------------*/
+    AudioGraph *graph = nullptr;
+
+    /*------------------------------------------------------------------------
+     * Pointer to the Patch that this node is a part of, if any.
+     *-----------------------------------------------------------------------*/
+    Patch *patch = nullptr;
+
+    /*------------------------------------------------------------------------
+     * Used for polling this output of this node.
+     *-----------------------------------------------------------------------*/
+    NodeMonitor *monitor = nullptr;
+
+    /*------------------------------------------------------------------------
      * Output buffer length, in samples.
      *-----------------------------------------------------------------------*/
     int output_buffer_length;
@@ -419,20 +441,10 @@ protected:
 
 private:
     /*------------------------------------------------------------------------
-     * Used for polling this output of this node.
-     *-----------------------------------------------------------------------*/
-    NodeMonitor *monitor;
-
-    /*------------------------------------------------------------------------
      * Wrapper around process(), called by AudioGraph.pull_input,
      * which handles caching of earlier frames etc.
      *-----------------------------------------------------------------------*/
     virtual void _process(Buffer &out, int num_frames);
-
-    /*------------------------------------------------------------------------
-     * Pointer to the Patch that this node is a part of, if any.
-     *-----------------------------------------------------------------------*/
-    Patch *patch = nullptr;
 
     /*------------------------------------------------------------------------
      * Allow friends to access private methods

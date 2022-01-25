@@ -82,7 +82,7 @@ void init_python_node(py::module &m)
         /*--------------------------------------------------------------------------------
          * Properties
          *-------------------------------------------------------------------------------*/
-        .def_readonly("name", &Node::name)
+        .def_property_readonly("name", &Node::get_name)
         .def_property_readonly("num_output_channels", &Node::get_num_output_channels)
         .def_property_readonly("num_input_channels", &Node::get_num_input_channels)
         .def_property_readonly("num_output_channels_allocated", &Node::get_num_output_channels_allocated)
@@ -90,8 +90,8 @@ void init_python_node(py::module &m)
         .def_property_readonly("state", &Node::get_state)
         .def_property_readonly("value", &Node::get_value)
         .def_property_readonly("inputs", [](Node &node) {
-            std::unordered_map<std::string, NodeRef> inputs(node.inputs.size());
-            for (auto input : node.inputs)
+            std::unordered_map<std::string, NodeRef> inputs(node.get_inputs().size());
+            for (auto input : node.get_inputs())
             {
                 inputs[input.first] = *(input.second);
             }

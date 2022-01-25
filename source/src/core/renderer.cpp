@@ -17,7 +17,7 @@ void GraphRenderer::render_node(NodeRef node)
         return;
     this->rendered_nodes.insert(node.get());
 
-    if (node->name == "constant")
+    if (node->get_name() == "constant")
     {
         /*------------------------------------------------------------------------
          * Render constant numeric values in a ring
@@ -32,14 +32,14 @@ void GraphRenderer::render_node(NodeRef node)
          * Render Node names in a box
          *-----------------------------------------------------------------------*/
         nodestream << "\"" << (void const *) node.get() << "\" [fontname=\"helvetica-bold\", label = \"";
-        nodestream << node->name;
+        nodestream << node->get_name();
         nodestream << "\"]; ";
     }
 
     /*------------------------------------------------------------------------
      * Collate edges, titled based on their node input
      *-----------------------------------------------------------------------*/
-    for (auto param : node->inputs)
+    for (auto param : node->get_inputs())
     {
         NodeRef value = *(param.second);
         if (value)
