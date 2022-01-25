@@ -380,7 +380,7 @@ void AudioGraph::play(PatchRef patch)
      *----------------------------------------------------------------------------*/
     patch->parse();
 
-    output->add_input(patch->output);
+    output->add_input(patch->get_output());
     this->patches.insert(patch);
 }
 
@@ -398,7 +398,7 @@ void AudioGraph::stop(PatchRef patch)
 void AudioGraph::stop(Patch *patch)
 {
     patches_to_remove.insert(patch);
-    nodes_to_remove.insert(patch->output);
+    nodes_to_remove.insert(patch->get_output());
 }
 
 void AudioGraph::stop(NodeRef node)

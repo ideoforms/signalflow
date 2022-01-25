@@ -50,8 +50,8 @@ void init_python_patch(py::module &m)
         .def_property("trigger_node", &Patch::get_trigger_node, &Patch::set_trigger_node)
 
         .def_property("output", &Patch::get_output, &Patch::set_output)
-        .def_readonly("nodes", &Patch::nodes)
-        .def_readonly("inputs", &Patch::inputs)
+        .def_property_readonly("nodes", &Patch::get_nodes)
+        .def_property_readonly("inputs", &Patch::get_inputs)
         .def_property_readonly("graph", &Patch::get_graph)
 
         .def("play", [](PatchRef patch) { patch->get_graph()->play(patch); })

@@ -27,7 +27,7 @@ void init_python_node(py::module &m)
         .def(py::init<>([](int value) { return new Constant(value); }))
         .def(py::init<>([](float value) { return new Constant(value); }))
         .def(py::init<>([](std::vector<NodeRef> value) { return new ChannelArray(value); }))
-        .def(py::init<>([](PatchRef patch) { return patch->output; }))
+        .def(py::init<>([](PatchRef patch) { return patch->get_output(); }))
 
         /*--------------------------------------------------------------------------------
          * Operators

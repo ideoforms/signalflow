@@ -24,6 +24,7 @@ Patch::Patch()
     this->auto_free = false;
     this->auto_free_node = nullptr;
     this->trigger_node = nullptr;
+    this->state = SIGNALFLOW_PATCH_STATE_ACTIVE;
 }
 
 Patch::Patch(PatchSpecRef patchspec)
@@ -204,7 +205,7 @@ void Patch::set_input(std::string name, BufferRef value)
     }
 }
 
-void Patch::disconnect()
+void Patch::stop()
 {
     this->graph->stop(this);
 }
@@ -247,7 +248,7 @@ void Patch::node_state_changed(Node *node)
         if (this->auto_free_node == nullptr || this->auto_free_node.get() == node)
         {
             this->set_state(SIGNALFLOW_PATCH_STATE_STOPPED);
-            this->disconnect();
+            this->stop();
         }
     }
 }
@@ -280,7 +281,7 @@ BufferRef Patch::add_buffer_input(std::string name)
     return placeholder;
 }
 
-std::string Patch::_get_input_name(const NodeRef &node)
+std::string Patch::get_input_name(const NodeRef &node)
 {
     for (auto input : this->inputs)
     {
@@ -293,13 +294,13 @@ std::string Patch::_get_input_name(const NodeRef &node)
     return "";
 }
 
-std::string Patch::_get_input_name(const BufferRef &buffer)
+std::string Patch::get_input_name(const BufferRef &buf)
 {
     for (auto input : this->buffer_inputs)
     {
         std::string name = input.first;
         BufferRef buffer_ptr = input.second;
-        if (buffer_ptr.get() == buffer.get())
+        if (buffer_ptr.get() == buf.get())
             return name;
     }
 
@@ -311,6 +312,16 @@ NodeRef Patch::add_node(NodeRef node)
     nodes.insert(node);
     node->patch = this;
     return node;
+}
+
+std::set<NodeRef> Patch::get_nodes()
+{
+    return this->nodes;
+}
+
+std::unordered_map<std::string, NodeRef> Patch::get_inputs()
+{
+    return this->inputs;
 }
 
 NodeRef Patch::get_output()
@@ -340,7 +351,7 @@ void Patch::parse()
         {
             throw std::runtime_error("Patch does not have an output set");
         }
-        this->_iterate_from_node(this->output);
+        this->iterate_from_node(this->output);
         this->parsed = true;
         signalflow_debug("Parsed patch (total %lu nodes)\n", this->nodes.size());
     }
@@ -361,7 +372,7 @@ PatchSpecRef Patch::create_spec()
 
     PatchSpecRef spec = new PatchSpec();
     spec->set_name(this->name);
-    spec->output = this->_create_spec_from_node(root);
+    spec->output = this->create_spec_from_node(root);
     spec->nodespecs = this->nodespecs;
 
     for (auto node : nodes)
@@ -375,7 +386,7 @@ PatchSpecRef Patch::create_spec()
     return spec;
 }
 
-void Patch::_iterate_from_node(const NodeRef &node)
+void Patch::iterate_from_node(const NodeRef &node)
 {
     for (auto input : node->inputs)
     {
@@ -388,14 +399,14 @@ void Patch::_iterate_from_node(const NodeRef &node)
                 if (input_node->name != "constant")
                 {
                     this->add_node(input_node);
-                    this->_iterate_from_node(input_node);
+                    this->iterate_from_node(input_node);
                 }
             }
         }
     }
 }
 
-PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
+PatchNodeSpec *Patch::create_spec_from_node(const NodeRef &node)
 {
     PatchNodeSpec *nodespec = new PatchNodeSpec(node->name);
     nodespec->set_id(this->last_id++);
@@ -412,7 +423,7 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
             NodeRef input_node = *(input.second);
             if (input_node)
             {
-                PatchNodeSpec *input_spec = this->_create_spec_from_node(input_node);
+                PatchNodeSpec *input_spec = this->create_spec_from_node(input_node);
                 nodespec->add_input(input.first, input_spec);
             }
         }
@@ -426,7 +437,7 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
         for (auto buffer : node->buffers)
         {
             BufferRef input_buffer = *(buffer.second);
-            std::string buffer_input_name = this->_get_input_name(input_buffer);
+            std::string buffer_input_name = this->get_input_name(input_buffer);
             if (!buffer_input_name.empty())
             {
                 nodespec->add_buffer_input(buffer_input_name, buffer.first);
@@ -434,7 +445,7 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
         }
     }
 
-    std::string input_name = this->_get_input_name(node);
+    std::string input_name = this->get_input_name(node);
     if (!input_name.empty())
     {
         nodespec->set_input_name(input_name);
@@ -449,49 +460,49 @@ PatchNodeSpec *Patch::_create_spec_from_node(const NodeRef &node)
 template <class T>
 NodeRef PatchRefTemplate<T>::operator*(NodeRef other)
 {
-    return new Multiply(this->get()->output, other);
+    return new Multiply(this->get()->get_output(), other);
 }
 
 template <class T>
 NodeRef PatchRefTemplate<T>::operator*(double constant)
 {
-    return new Multiply(this->get()->output, constant);
+    return new Multiply(this->get()->get_output(), constant);
 }
 
 template <class T>
 NodeRef PatchRefTemplate<T>::operator+(NodeRef other)
 {
-    return new Add(this->get()->output, other);
+    return new Add(this->get()->get_output(), other);
 }
 
 template <class T>
 NodeRef PatchRefTemplate<T>::operator+(double constant)
 {
-    return new Add(this->get()->output, constant);
+    return new Add(this->get()->get_output(), constant);
 }
 
 template <class T>
 NodeRef PatchRefTemplate<T>::operator-(NodeRef other)
 {
-    return new Subtract(this->get()->output, other);
+    return new Subtract(this->get()->get_output(), other);
 }
 
 template <class T>
 NodeRef PatchRefTemplate<T>::operator-(double constant)
 {
-    return new Subtract(this->get()->output, constant);
+    return new Subtract(this->get()->get_output(), constant);
 }
 
 template <class T>
 NodeRef PatchRefTemplate<T>::operator/(NodeRef other)
 {
-    return new Divide(this->get()->output, other);
+    return new Divide(this->get()->get_output(), other);
 }
 
 template <class T>
 NodeRef PatchRefTemplate<T>::operator/(double constant)
 {
-    return new Divide(this->get()->output, constant);
+    return new Divide(this->get()->get_output(), constant);
 }
 
 template class PatchRefTemplate<Patch>;
