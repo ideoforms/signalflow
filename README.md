@@ -40,26 +40,6 @@ graph.play(output)
 graph.wait()
 ```
 
-To do the same in C++:
-
-```cpp
-#include <signalflow/signalflow.h>
-using namespace signalflow;
-
-/*------------------------------------------------------------------------
- * Classes ending in *Ref are subclasses of std::shared_ptr which
- * automatically handle memory management.
- *-----------------------------------------------------------------------*/
-AudioGraphRef graph = new AudioGraph();
-
-NodeRef sine = new SineOscillator({ 440, 880 });
-NodeRef env = new ASREnvelope(0.01, 0.1, 0.5);
-NodeRef ping = sine * env;
-
-graph->play(ping);
-graph->wait();
-```
-
 ## Installation
 
 ### Dependencies
