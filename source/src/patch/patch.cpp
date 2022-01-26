@@ -343,6 +343,9 @@ AudioGraph *Patch::get_graph()
     return this->graph;
 }
 
+/*----------------------------------------------------------------------------
+ * Scans the patch graph beginning from its outputs.
+ *----------------------------------------------------------------------------*/
 void Patch::parse()
 {
     if (!this->parsed)
@@ -351,15 +354,32 @@ void Patch::parse()
         {
             throw std::runtime_error("Patch does not have an output set");
         }
-        this->iterate_from_node(this->output);
+        this->parse_from_root(this->output);
         this->parsed = true;
         signalflow_debug("Parsed patch (total %lu nodes)\n", this->nodes.size());
     }
 }
 
-/*----------------------------------------------------------------------------
- * Scans the patch graph beginning from its outputs.
- *----------------------------------------------------------------------------*/
+void Patch::parse_from_root(const NodeRef &node)
+{
+    for (auto input : node->get_inputs())
+    {
+        NodeRef input_node = *(input.second);
+        if (input_node)
+        {
+            if (nodes.find(input_node) == nodes.end())
+            {
+                // Lazy - use a better way of checking for constant
+                if (input_node->get_name() != "constant")
+                {
+                    this->add_node(input_node);
+                    this->parse_from_root(input_node);
+                }
+            }
+        }
+    }
+}
+
 PatchSpecRef Patch::to_spec()
 {
     // TODO: Currently have parsed property in this object and spec
@@ -384,26 +404,6 @@ PatchSpecRef Patch::to_spec()
     }
 
     return spec;
-}
-
-void Patch::iterate_from_node(const NodeRef &node)
-{
-    for (auto input : node->get_inputs())
-    {
-        NodeRef input_node = *(input.second);
-        if (input_node)
-        {
-            if (nodes.find(input_node) == nodes.end())
-            {
-                // Lazy - use a better way of checking for constant
-                if (input_node->get_name() != "constant")
-                {
-                    this->add_node(input_node);
-                    this->iterate_from_node(input_node);
-                }
-            }
-        }
-    }
 }
 
 PatchNodeSpec *Patch::to_spec_from_node(const NodeRef &node)

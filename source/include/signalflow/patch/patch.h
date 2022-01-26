@@ -124,16 +124,6 @@ public:
     AudioGraph *get_graph();
 
     /**--------------------------------------------------------------------------------
-     * Parse the nodes within a Patch, beginning at the output and iterating
-     * to inputs. This is necessary for functions such as auto-free.
-     * If the Patch has already been parsed, which is implicitly true if
-     * it has been instantiated from a PatchSpec, returns without performing
-     * any actions.
-     *
-     *--------------------------------------------------------------------------------*/
-    void parse();
-
-    /**--------------------------------------------------------------------------------
      * Trigger this Patch.
      *--------------------------------------------------------------------------------*/
     void trigger();
@@ -150,6 +140,16 @@ protected:
      *--------------------------------------------------------------------------------*/
     void node_state_changed(Node *node);
 
+    /**--------------------------------------------------------------------------------
+     * Parse the nodes within a Patch, beginning at the output and iterating
+     * to inputs. This is necessary for functions such as auto-free.
+     * If the Patch has already been parsed, which is implicitly true if
+     * it has been instantiated from a PatchSpec, returns without performing
+     * any actions.
+     *--------------------------------------------------------------------------------*/
+    void parse();
+    void parse_from_root(const NodeRef &node);
+
 private:
     std::string name;
     NodeRef output = nullptr;
@@ -163,9 +163,9 @@ private:
     signalflow_patch_state_t state;
     AudioGraph *graph;
 
-    NodeRef instantiate(PatchNodeSpec *nodespec);
     void set_state(signalflow_patch_state_t state);
-    void iterate_from_node(const NodeRef &node);
+
+    NodeRef instantiate(PatchNodeSpec *nodespec);
 
     /**--------------------------------------------------------------------------------
      * Properties and methods used when creating a patch prototype,
@@ -182,6 +182,7 @@ private:
     std::string get_input_name(const BufferRef &buf);
 
     friend class Node;
+    friend class AudioGraph;
 };
 
 }

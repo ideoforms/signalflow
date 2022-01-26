@@ -375,8 +375,13 @@ void AudioGraph::play(PatchRef patch)
      * of its constituent nodes (needed for things like auto-free).
      *
      * However, if it has been constructed from raw nodes, its structure needs
-     * to be parsed before playback to stop unwanted things from happening.
+     * to be parsed before playback to stop unwanted things from happening
+     * (such as auto-free being ignored).
+     *
      * Calling patch->parse() parses the patch if it has not been parsed already.
+     * This is inefficient, so it's always better to instantiate a Patch from
+     * a PatchSpec. (TODO: Should instantiating patches without a PatchSpec
+     * be deprecated?)
      *----------------------------------------------------------------------------*/
     patch->parse();
 
