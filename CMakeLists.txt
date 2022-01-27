@@ -11,10 +11,10 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
 
 #-------------------------------------------------------------------------------
-# By default, build for Apple silicon.
-# TODO: Test and fix for x86
+# By default, build a universal library on Apple.
+# Select a single architecture for a faster build.
 #-------------------------------------------------------------------------------
-set(CMAKE_OSX_ARCHITECTURES "arm64")
+set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 
 #-------------------------------------------------------------------------------
 # Shared compiler flags.
