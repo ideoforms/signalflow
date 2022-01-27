@@ -2,7 +2,7 @@
 
 ![ci](https://github.com/ideoforms/signal/workflows/ci/badge.svg)
 
-SignalFlow is an audio synthesis framework designed for clear and concise expression of complex musical ideas. Its core is written in C++, with a complete Python interface, and so can be used for audio experimentation in iPython/Jupyter or embedded into cross-platform applications.
+SignalFlow is a sound synthesis framework designed for clear and concise expression of complex musical ideas. It has an extensive Python API, for fluid audio experimentation in iPython/Jupyter. Its core is written in C++11, so it can also be embedded into other cross-platform applications.
 
 SignalFlow is in alpha status. All interfaces may be subject to change.
 
@@ -36,7 +36,7 @@ output = sine * env
 #--------------------------------------------------------------------------------
 # Connect the output to the graph, and begin playback.
 #--------------------------------------------------------------------------------
-graph.play(output)
+output.play()
 graph.wait()
 ```
 
