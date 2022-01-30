@@ -19,6 +19,7 @@ class MIDIManager:
         self.notes = [None] * 128
         self.note_handler = None
         self.control_handlers = [[] for _ in range(128)]
+        self.control_values = [0] * 128
         if MIDIManager.shared_manager is None:
             MIDIManager.shared_manager = self
 
@@ -29,7 +30,9 @@ class MIDIManager:
             self.on_control_change(message.control, message.value)
         elif message.type == 'note_on':
             if self.voice_class:
-                voice = self.voice_class(midi_note_to_frequency(message.note), **self.voice_class_kwargs)
+                voice = self.voice_class(frequency=midi_note_to_frequency(message.note),
+                                         amplitude=message.velocity / 127,
+                                         **self.voice_class_kwargs)
                 voice.play()
                 voice.auto_free = True
                 self.notes[message.note] = voice
@@ -53,8 +56,12 @@ class MIDIManager:
         self.control_handlers[control].append(handler)
 
     def on_control_change(self, control, value):
+        self.control_values[control] = value
         for handler in self.control_handlers[control]:
             handler.on_change(value)
+
+    def get_control_value(self, control):
+        return self.control_values[control]
 
 class MIDIControl (Patch):
     def __init__(self, control, range_min, range_max, initial=None, mode="absolute", manager=None, curve="linear"):
