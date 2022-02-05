@@ -40,6 +40,8 @@ void AllpassDelay::process(Buffer &out, int num_frames)
             sample feedback = this->feedback->out[channel][frame];
             float offset = delay * this->graph->get_sample_rate();
 
+            // Moorer combined feedforward/feedback comb filter, giving an allpass response
+            // https://valhalladsp.com/2011/01/21/reverbs-diffusion-allpass-delays-and-metallic-artifacts/
             sample v = input->out[channel][frame] - feedback * buffers[channel]->get(-offset);
             sample rv = feedback * v + buffers[channel]->get(-offset);
             out[channel][frame] = rv;
