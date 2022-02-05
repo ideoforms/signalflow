@@ -114,6 +114,13 @@ AudioGraphConfig::AudioGraphConfig()
                     throw std::runtime_error("Invalid section parameter name: " + section_name + " > " + parameter_name);
                 }
             }
+            else if (section_name == "midi")
+            {
+                /*--------------------------------------------------------------------------------
+                 * midi config stanza is used by the signalflow_midi Python module.
+                 * Ignore it.
+                 *--------------------------------------------------------------------------------*/
+            }
             else
             {
                 throw std::runtime_error("Invalid section name: " + section_name);

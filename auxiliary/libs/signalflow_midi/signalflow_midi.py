@@ -4,13 +4,31 @@
 # MIDI Control for SignalFlow
 #------------------------------------------------------------------------
 from signalflow import *
+import configparser
 import threading
+import logging
 import mido
+import os
+
+logger = logging.getLogger(__name__)
 
 class MIDIManager:
     shared_manager = None
 
     def __init__(self, device_name=None):
+        if device_name is None:
+            config_path = os.path.expanduser("~/.signalflow/config")
+            parser = configparser.ConfigParser()
+            parser.read(config_path)
+            try:
+                #--------------------------------------------------------------------------------
+                # configparser includes quote marks in its values, so strip these out.
+                #--------------------------------------------------------------------------------
+                device_name = parser.get(section="midi", option="input_device_name")
+                device_name = device_name.strip('"')
+            except configparser.NoOptionError:
+                pass
+
         self.input = mido.open_input(device_name)
         self.input.callback = self.handle_message
 
@@ -23,12 +41,14 @@ class MIDIManager:
         if MIDIManager.shared_manager is None:
             MIDIManager.shared_manager = self
 
-        print("Opened MIDI input device: %s" % self.input.name)
+        logger.info("Opened MIDI input device: %s" % self.input.name)
 
     def handle_message(self, message):
         if message.type == 'control_change':
+            logger.debug("Received MIDI control change: control %d, value %d" % (message.control, message.value))
             self.on_control_change(message.control, message.value)
         elif message.type == 'note_on':
+            logger.debug("Received MIDI note on: note %d, velocity %d" % (message.note, message.velocity))
             if self.voice_class:
                 voice = self.voice_class(frequency=midi_note_to_frequency(message.note),
                                          amplitude=message.velocity / 127,
@@ -37,10 +57,12 @@ class MIDIManager:
                 voice.auto_free = True
                 self.notes[message.note] = voice
         elif message.type == 'note_off':
+            logger.debug("Received MIDI note off: note %d" % (message.note))
             if self.notes[message.note]:
                 self.notes[message.note].set_input("gate", 0)
 
-    def get_shared_manager():
+    @classmethod
+    def get_shared_manager(cls):
         if MIDIManager.shared_manager is None:
             MIDIManager.shared_manager = MIDIManager()
         return MIDIManager.shared_manager
