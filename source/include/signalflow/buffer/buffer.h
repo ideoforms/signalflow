@@ -229,6 +229,14 @@ public:
     float get_duration();
 
     /**------------------------------------------------------------------------
+     * Get the filename that the buffer was loaded from / saved to, if set.
+     *
+     * @returns The filename, or an empty string.
+     *
+     *------------------------------------------------------------------------*/
+    std::string get_filename();
+
+    /**------------------------------------------------------------------------
      * Get a pointer to the buffer's data.
      * Each element points to a `sample *` containing a channel of audio.
      *
@@ -267,6 +275,7 @@ public:
     sample **data = nullptr;
 
 protected:
+    std::string filename;
     float sample_rate;
     unsigned int num_channels;
     unsigned long num_frames;

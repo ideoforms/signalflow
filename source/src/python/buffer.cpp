@@ -33,7 +33,16 @@ void init_python_buffer(py::module &m)
             return buffer;
         })
         .def("__str__", [](BufferRef a) {
-            return "Buffer (" + std::to_string(a->get_num_channels()) + " channels, " + std::to_string(a->get_num_frames()) + " frames)";
+            std::string filename = a->get_filename();
+            printf("filename %s\n", filename.c_str());
+            if (filename.empty())
+            {
+                return "Buffer (" + std::to_string(a->get_num_channels()) + " channels, " + std::to_string(a->get_num_frames()) + " frames)";
+            }
+            else
+            {
+                return "Buffer (" + filename + ", " + std::to_string(a->get_num_channels()) + " channels, " + std::to_string(a->get_num_frames()) + " frames)";
+            }
         })
         .def("__mul__", [](BufferRef a, float b) { return a * b; })
         .def("__rmul__", [](BufferRef a, float b) { return a * b; })

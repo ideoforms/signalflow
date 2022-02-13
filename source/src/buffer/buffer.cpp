@@ -209,8 +209,8 @@ void Buffer::load(std::string filename)
     }
 
     delete[] buffer;
-
     sf_close(sndfile);
+    this->filename = filename;
 
     // TODO Logging
     // std::cout << "Read " << info.channels << " channels, " << info.frames << " frames" << std::endl;
@@ -257,8 +257,8 @@ void Buffer::save(std::string filename)
     }
 
     delete[] buffer;
-
     sf_close(sndfile);
+    this->filename = filename;
 }
 
 std::vector<BufferRef> Buffer::split(int num_frames_per_part)
@@ -392,6 +392,11 @@ unsigned long Buffer::get_num_frames()
 float Buffer::get_duration()
 {
     return this->duration;
+}
+
+std::string Buffer::get_filename()
+{
+    return this->filename;
 }
 
 void Buffer::set_interpolation_mode(signalflow_interpolation_mode_t mode)
