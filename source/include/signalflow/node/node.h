@@ -142,20 +142,6 @@ public:
     virtual void remove_output(Node *target, std::string name);
 
     /**------------------------------------------------------------------------
-     * Disconnect inputs. Called when removing a node from the graph.
-     * TODO: Can this be retired?
-     *
-     *-----------------------------------------------------------------------*/
-    virtual void disconnect_inputs();
-
-    /**------------------------------------------------------------------------
-     * Disconnect outputs. Called when removing a node from the graph.
-     * TODO: Can this be retired?
-     *
-     *-----------------------------------------------------------------------*/
-    virtual void disconnect_outputs();
-
-    /**------------------------------------------------------------------------
      * Get the number of input channels.
      * @returns The number of input channels expected by the node.
      *

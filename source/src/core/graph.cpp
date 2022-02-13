@@ -219,10 +219,28 @@ void AudioGraph::reset_graph()
     /*------------------------------------------------------------------------
      * Disconnect any nodes and patches that are scheduled to be removed.
      *-----------------------------------------------------------------------*/
+
+    // Formerly, we naively assumed that the node was hard-wired to the graph output.
+    //        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
+    //        output->remove_input(node);
+
     for (auto node : nodes_to_remove)
     {
-        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
-        output->remove_input(node);
+        while (node->outputs.size() > 0)
+        {
+            auto output = *(node->outputs.begin());
+            Node *target = output.first;
+            std::string name = output.second;
+
+            if (target->has_variable_inputs)
+            {
+                target->remove_input(node);
+            }
+            else
+            {
+                target->set_input(name, new Constant(0.0));
+            }
+        }
     }
     nodes_to_remove.clear();
 
@@ -363,6 +381,12 @@ NodeRef AudioGraph::add_node(NodeRef node)
 void AudioGraph::remove_node(NodeRef node)
 {
     this->scheduled_nodes.erase(node);
+}
+
+void AudioGraph::add_patch(PatchRef patch)
+{
+    patch->parse();
+    this->patches.insert(patch);
 }
 
 void AudioGraph::play(PatchRef patch)

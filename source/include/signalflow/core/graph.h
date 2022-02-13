@@ -197,6 +197,17 @@ public:
     void play(NodeRef node);
 
     /**--------------------------------------------------------------------------------
+     * Similar to add_node, but for patches.
+     * Is a bit of a hacky workaround for the situation in which a Patch is connected
+     * to a node for playback - this does not register the Patch as playing or parse it,
+     * so auto_free breaks and the patch hangs around forever. Needs fixing at some point.
+     *
+     * @param patch The patch to add.
+     *
+     *--------------------------------------------------------------------------------*/
+    void add_patch(PatchRef patch);
+
+    /**--------------------------------------------------------------------------------
      * Begin playing the specified patch, by connecting it to the graph's output.
      * This can also be written as patch->connect(graph->get_output()).
      *

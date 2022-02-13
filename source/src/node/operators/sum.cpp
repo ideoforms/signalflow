@@ -69,9 +69,26 @@ void Sum::add_input(NodeRef input)
     this->Node::create_input(input_name, input_list.back());
 }
 
-void Sum::remove_input(NodeRef input)
+void Sum::remove_input(NodeRef node)
 {
-    this->input_list.remove(input);
+    // Copied from audioout_abstract
+    // TODO: Apply this to a general VariableInputNode class
+    bool removed = false;
+    for (auto param : this->inputs)
+    {
+        if (*(param.second) == node)
+        {
+            this->destroy_input(param.first);
+            this->input_list.remove(node);
+            removed = true;
+            node->remove_output(this, param.first);
+            break;
+        }
+    }
+    if (!removed)
+    {
+        std::cerr << "Couldn't find node to remove" << std::endl;
+    }
 }
 
 void Sum::set_input(std::string name, const NodeRef &node)

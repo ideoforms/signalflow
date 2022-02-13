@@ -56,6 +56,7 @@ void init_python_patch(py::module &m)
 
         .def("play", [](PatchRef patch) { patch->get_graph()->play(patch); })
         .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
+        .def("add_to_graph", [](PatchRef patch) { patch->get_graph()->add_patch(patch); })
         .def("trigger", &Patch::trigger)
 
         /*--------------------------------------------------------------------------------

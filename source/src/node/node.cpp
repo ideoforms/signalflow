@@ -390,42 +390,6 @@ void Node::remove_output(Node *target, std::string name)
     this->outputs.erase(std::make_pair(target, name));
 }
 
-void Node::disconnect_inputs()
-{
-    for (auto param : this->inputs)
-    {
-        this->set_input(param.first, 0);
-    }
-}
-
-void Node::disconnect_outputs()
-{
-    // TODO: Can this method be removed?
-    /*------------------------------------------------------------------------
-     * Don't iterate over outputs as the output set will change during
-     * iteration (as calling set_input on each output of the node will 
-     * change our own `outputs` array). Instead, keep trying until all
-     * outputs are removed.
-     *-----------------------------------------------------------------------*/
-    while (this->outputs.size() > 0)
-    {
-        auto output = *(this->outputs.begin());
-        Node *target = output.first;
-        std::string name = output.second;
-        //        target->set_input(name, new Constant(0.0));
-
-        // This is causing crashes
-        if (target->has_variable_inputs)
-        {
-            target->remove_input(this);
-        }
-        else
-        {
-            target->set_input(name, new Constant(0.0));
-        }
-    }
-}
-
 bool Node::get_has_variable_inputs()
 {
     return this->has_variable_inputs;
