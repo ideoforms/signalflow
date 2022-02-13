@@ -38,6 +38,7 @@ class MIDIManager:
         self.note_handler = None
         self.control_handlers = [[] for _ in range(128)]
         self.control_values = [0] * 128
+        self.channel_handlers = [[] for _ in range(16)]
         if MIDIManager.shared_manager is None:
             MIDIManager.shared_manager = self
 
@@ -60,6 +61,13 @@ class MIDIManager:
             logger.debug("Received MIDI note off: note %d" % (message.note))
             if self.notes[message.note]:
                 self.notes[message.note].set_input("gate", 0)
+
+        try:
+            channel = message.channel
+            for handler in self.channel_handlers[channel]:
+                handler.handle_message(message)
+        except AttributeError:
+            pass
 
     @classmethod
     def get_shared_manager(cls):
@@ -84,6 +92,13 @@ class MIDIManager:
 
     def get_control_value(self, control):
         return self.control_values[control]
+
+    def add_channel_handler(self, channel, handler):
+        self.channel_handlers[channel].append(handler)
+
+    def remove_channel_handler(self, channel, handler):
+        self.channel_handlers[channel].remove(handler)
+
 
 class MIDIControl (Patch):
     def __init__(self, control, range_min, range_max, initial=None, mode="absolute", manager=None, curve="linear"):
