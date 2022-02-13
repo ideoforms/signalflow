@@ -34,7 +34,6 @@ void init_python_buffer(py::module &m)
         })
         .def("__str__", [](BufferRef a) {
             std::string filename = a->get_filename();
-            printf("filename %s\n", filename.c_str());
             if (filename.empty())
             {
                 return "Buffer (" + std::to_string(a->get_num_channels()) + " channels, " + std::to_string(a->get_num_frames()) + " frames)";
