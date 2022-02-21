@@ -28,6 +28,8 @@ class MIDIManager:
                 device_name = device_name.strip('"')
             except configparser.NoOptionError:
                 pass
+            except configparser.NoSectionError:
+                pass
 
         self.input = mido.open_input(device_name)
         self.input.callback = self.handle_message
