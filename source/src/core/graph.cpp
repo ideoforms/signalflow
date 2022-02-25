@@ -12,6 +12,7 @@
 
 #include <iomanip>
 #include <limits.h>
+#include <sstream>
 #include <string.h>
 
 namespace signalflow
