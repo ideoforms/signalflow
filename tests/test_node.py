@@ -1,4 +1,4 @@
-from signalflow import SineOscillator, AudioGraph, Line
+from signalflow import SineOscillator, AudioGraph, Line, SIGNALFLOW_MAX_CHANNELS
 import signalflow as sf
 import numpy as np
 from . import process_tree, graph
@@ -11,7 +11,7 @@ def test_node_no_graph():
 def test_node_process(graph):
     a = SineOscillator(440)
     a.process(1024)
-    assert a.output_buffer.shape == (32, 1024)
+    assert a.output_buffer.shape == (SIGNALFLOW_MAX_CHANNELS, 1024)
 
 def test_node_add_input(graph):
     a = SineOscillator(440)
@@ -79,13 +79,13 @@ def test_node_write_to_output_buffer(graph):
     # Better would be to have a precise and rigorous block size throughout, which
     # would mean adding a block buffer between the audio I/O and the Graph.
     #--------------------------------------------------------------------------------
-    assert a.output_buffer.shape == (32, 256)
-    a.output_buffer[31][255] = 1.0
-    assert a.output_buffer[31][255] == 1.0
+    assert a.output_buffer.shape == (SIGNALFLOW_MAX_CHANNELS, 256)
+    a.output_buffer[SIGNALFLOW_MAX_CHANNELS-1][255] = 1.0
+    assert a.output_buffer[SIGNALFLOW_MAX_CHANNELS-1][255] == 1.0
     with pytest.raises(IndexError):
-        a.output_buffer[32][255] == 1.0
+        a.output_buffer[SIGNALFLOW_MAX_CHANNELS][255] == 1.0
     with pytest.raises(IndexError):
-        a.output_buffer[31][256] == 1.0
+        a.output_buffer[SIGNALFLOW_MAX_CHANNELS][256] == 1.0
 
 
 def test_node_trigger(graph):

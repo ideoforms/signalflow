@@ -1,4 +1,4 @@
-from signalflow import SineOscillator, SquareOscillator, ChannelMixer, ChannelArray, StereoPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy
+from signalflow import SineOscillator, SquareOscillator, ChannelMixer, ChannelArray, StereoPanner, Buffer, BufferPlayer, AudioGraph, AudioOut_Dummy, SIGNALFLOW_MAX_CHANNELS
 from signalflow import BiquadFilter, AllpassDelay, WaveShaper, WaveShaperBuffer, Constant, Add
 from signalflow import InvalidChannelCountException
 import numpy as np
@@ -176,7 +176,7 @@ def test_expansion_recursive_processing():
 def test_expansion_buffer_reallocation(graph):
     a = SineOscillator([440] * 4)
     assert a.num_output_channels == 4
-    assert a.num_output_channels_allocated == 32
+    assert a.num_output_channels_allocated == SIGNALFLOW_MAX_CHANNELS
     a.set_input("frequency", [440] * 100)
     assert a.num_output_channels == 100
     assert a.num_output_channels_allocated == 100
@@ -186,9 +186,10 @@ def test_expansion_input_reallocation(graph):
     Need to allocate more output buffers for upmixing
     rename num_output_channels_allocated to num_allocated_output_buffers
     """
+    channel_count = SIGNALFLOW_MAX_CHANNELS + 1
     a = Constant(4)
-    b = Add(a, [9] * 33)
-    assert b.num_output_channels == 33
-    assert b.num_input_channels == 33
+    b = Add(a, [9] * channel_count)
+    assert b.num_output_channels == channel_count
+    assert b.num_input_channels == channel_count
     assert a.num_output_channels == 1
-    assert a.num_output_channels_allocated == 33
+    assert a.num_output_channels_allocated == channel_count
