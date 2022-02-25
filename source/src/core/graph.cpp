@@ -378,7 +378,7 @@ NodeRef AudioGraph::add_node(NodeRef node)
 {
     if (this->config.get_cpu_usage_limit() > 0.0 && this->cpu_usage > this->config.get_cpu_usage_limit())
     {
-        std::cerr << "AudioGraph:: CPU usage is beyond permitted limit, not playing node" << std::endl;
+        std::cerr << "AudioGraph: CPU usage is beyond permitted limit, not playing node" << std::endl;
         return nullptr;
     }
 
@@ -395,7 +395,7 @@ bool AudioGraph::add_patch(PatchRef patch)
 {
     if (this->config.get_cpu_usage_limit() > 0.0 && this->cpu_usage > this->config.get_cpu_usage_limit())
     {
-        std::cerr << "AudioGraph:: CPU usage is beyond permitted limit, not adding patch" << std::endl;
+        std::cerr << "AudioGraph: CPU usage is beyond permitted limit, not adding patch" << std::endl;
         return false;
     }
 
@@ -408,7 +408,7 @@ bool AudioGraph::play(PatchRef patch)
 {
     if (this->config.get_cpu_usage_limit() > 0.0 && this->cpu_usage > this->config.get_cpu_usage_limit())
     {
-        std::cerr << "AudioGraph:: CPU usage is beyond permitted limit, not playing patch" << std::endl;
+        std::cerr << "AudioGraph: CPU usage is beyond permitted limit, not playing patch" << std::endl;
         return false;
     }
 
@@ -439,7 +439,7 @@ bool AudioGraph::play(NodeRef node)
 {
     if (this->config.get_cpu_usage_limit() > 0.0 && this->cpu_usage > this->config.get_cpu_usage_limit())
     {
-        std::cerr << "AudioGraph:: CPU usage is beyond permitted limit, not playing node" << std::endl;
+        std::cerr << "AudioGraph: CPU usage is beyond permitted limit, not playing node" << std::endl;
         return false;
     }
 
