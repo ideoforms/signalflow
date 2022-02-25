@@ -35,12 +35,13 @@ typedef RingBuffer<sample> SampleRingBuffer;
  * Max supported number of output channels. Impacts memory usage.
  * TODO: Retire this constant.
  *-----------------------------------------------------------------------*/
-#define SIGNALFLOW_MAX_CHANNELS 32
+#define SIGNALFLOW_MAX_CHANNELS 64
 
 /*------------------------------------------------------------------------
  * Initial number of output buffers to allocate per node
+ * TODO: Turn this into a run-time config parameter
  *-----------------------------------------------------------------------*/
-#define SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS 32
+#define SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS 64
 
 /*------------------------------------------------------------------------
  * Max supported number of FFT bins.
