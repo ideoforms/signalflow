@@ -54,9 +54,9 @@ void init_python_patch(py::module &m)
         .def_property_readonly("inputs", &Patch::get_inputs)
         .def_property_readonly("graph", &Patch::get_graph)
 
-        .def("play", [](PatchRef patch) { patch->get_graph()->play(patch); })
+        .def("play", [](PatchRef patch) { return patch->get_graph()->play(patch); })
         .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
-        .def("add_to_graph", [](PatchRef patch) { patch->get_graph()->add_patch(patch); })
+        .def("add_to_graph", [](PatchRef patch) { return patch->get_graph()->add_patch(patch); })
         .def("trigger", &Patch::trigger)
 
         /*--------------------------------------------------------------------------------

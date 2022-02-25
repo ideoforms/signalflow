@@ -391,24 +391,25 @@ void AudioGraph::remove_node(NodeRef node)
     this->scheduled_nodes.erase(node);
 }
 
-void AudioGraph::add_patch(PatchRef patch)
+bool AudioGraph::add_patch(PatchRef patch)
 {
     if (this->config.get_cpu_usage_limit() > 0.0 && this->cpu_usage > this->config.get_cpu_usage_limit())
     {
         std::cerr << "AudioGraph:: CPU usage is beyond permitted limit, not adding patch" << std::endl;
-        return;
+        return false;
     }
 
     patch->parse();
     this->patches.insert(patch);
+    return true;
 }
 
-void AudioGraph::play(PatchRef patch)
+bool AudioGraph::play(PatchRef patch)
 {
     if (this->config.get_cpu_usage_limit() > 0.0 && this->cpu_usage > this->config.get_cpu_usage_limit())
     {
         std::cerr << "AudioGraph:: CPU usage is beyond permitted limit, not playing patch" << std::endl;
-        return;
+        return false;
     }
 
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
@@ -431,18 +432,20 @@ void AudioGraph::play(PatchRef patch)
 
     output->add_input(patch->get_output());
     this->patches.insert(patch);
+    return true;
 }
 
-void AudioGraph::play(NodeRef node)
+bool AudioGraph::play(NodeRef node)
 {
     if (this->config.get_cpu_usage_limit() > 0.0 && this->cpu_usage > this->config.get_cpu_usage_limit())
     {
         std::cerr << "AudioGraph:: CPU usage is beyond permitted limit, not playing node" << std::endl;
-        return;
+        return false;
     }
 
     AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
     output->add_input(node);
+    return true;
 }
 
 void AudioGraph::stop(PatchRef patch)

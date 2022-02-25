@@ -192,9 +192,10 @@ public:
      * This can also be written as node->connect(graph->get_output()).
      *
      * @param node The node to begin playing.
+     * @return true if the add succeeded, false otherwise
      *
      *--------------------------------------------------------------------------------*/
-    void play(NodeRef node);
+    bool play(NodeRef node);
 
     /**--------------------------------------------------------------------------------
      * Similar to add_node, but for patches.
@@ -204,17 +205,18 @@ public:
      *
      *
      * @param patch The patch to add.
+     * @return true if the add succeeded, false otherwise
      *--------------------------------------------------------------------------------*/
-    void add_patch(PatchRef patch);
+    bool add_patch(PatchRef patch);
 
     /**--------------------------------------------------------------------------------
      * Begin playing the specified patch, by connecting it to the graph's output.
      * This can also be written as patch->connect(graph->get_output()).
      *
      * @param patch The patch to begin playing.
-     *
+     * @return true if the add succeeded, false otherwise
      *--------------------------------------------------------------------------------*/
-    void play(PatchRef patch);
+    bool play(PatchRef patch);
 
     /**--------------------------------------------------------------------------------
      * Disconnect a node from the graph's output.
