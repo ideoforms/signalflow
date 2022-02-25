@@ -10,6 +10,7 @@
 #include "signalflow/node/io/output/ios.h"
 #include "signalflow/node/io/output/soundio.h"
 
+#include <iomanip>
 #include <limits.h>
 #include <string.h>
 
@@ -541,7 +542,15 @@ std::string AudioGraph::get_status()
     int patch_count = this->get_patch_count();
     std::string patches = (patch_count == 1 ? "patch" : "patches");
     float cpu_usage = this->get_cpu_usage() * 100.0;
-    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", " + std::to_string(patch_count) + " " + patches + ", " + std::to_string(cpu_usage) + "% CPU usage";
+
+    /*--------------------------------------------------------------------------------
+     * Would be nice to use std::format but this is only available in c++20.
+     *--------------------------------------------------------------------------------*/
+    std::stringstream ss;
+    ss << std::fixed << std::setprecision(2) << cpu_usage;
+    std::string cpu_usage_str = ss.str();
+
+    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", " + std::to_string(patch_count) + " " + patches + ", " + cpu_usage_str + "% CPU usage";
 
     return status;
 }
