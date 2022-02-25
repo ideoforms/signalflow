@@ -109,6 +109,10 @@ AudioGraphConfig::AudioGraphConfig()
                 {
                     this->output_device_name = parameter_value;
                 }
+                else if (parameter_name == "cpu_usage_limit")
+                {
+                    this->cpu_usage_limit = std::stof(parameter_value);
+                }
                 else
                 {
                     throw std::runtime_error("Invalid section parameter name: " + section_name + " > " + parameter_name);
@@ -179,6 +183,16 @@ void AudioGraphConfig::set_output_device_name(const std::string &name)
     this->output_device_name = name;
 }
 
+float AudioGraphConfig::get_cpu_usage_limit() const
+{
+    return this->cpu_usage_limit;
+}
+
+void AudioGraphConfig::set_cpu_usage_limit(float limit)
+{
+    this->cpu_usage_limit = limit;
+}
+
 void AudioGraphConfig::print() const
 {
     std::cout << "SignalFlow config" << std::endl;
@@ -188,6 +202,7 @@ void AudioGraphConfig::print() const
     std::cout << " - output_buffer_size = " << this->output_buffer_size << std::endl;
     std::cout << " - input_device_name = " << this->input_device_name << std::endl;
     std::cout << " - output_device_name = " << this->output_device_name << std::endl;
+    std::cout << " - cpu_usage_limit = " << this->cpu_usage_limit << std::endl;
 }
 
 }

@@ -110,6 +110,24 @@ public:
     void set_output_device_name(const std::string &name);
 
     /**--------------------------------------------------------------------------------
+     * Get the current CPU usage limit.
+     *
+     * @returns The limit, from 0.0 to 1.0.
+     *
+     *--------------------------------------------------------------------------------*/
+    float get_cpu_usage_limit() const;
+
+    /**--------------------------------------------------------------------------------
+     * Set the current CPU usage limit.
+     * When the CPU usage is above this value, no more nodes or patches can be added.
+     * A value of 0.0 means that no limit is applied.
+     *
+     * @param limit The CPU usage limit.
+     *
+     *--------------------------------------------------------------------------------*/
+    void set_cpu_usage_limit(float limit);
+
+    /**--------------------------------------------------------------------------------
      * Print the current config to stdout.
      *
      *--------------------------------------------------------------------------------*/
@@ -121,6 +139,7 @@ private:
     unsigned int output_buffer_size = 0;
     std::string input_device_name;
     std::string output_device_name;
+    float cpu_usage_limit = 0.0;
 };
 
 } /* namespace signalflow */

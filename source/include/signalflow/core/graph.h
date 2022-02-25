@@ -202,8 +202,8 @@ public:
      * to a node for playback - this does not register the Patch as playing or parse it,
      * so auto_free breaks and the patch hangs around forever. Needs fixing at some point.
      *
-     * @param patch The patch to add.
      *
+     * @param patch The patch to add.
      *--------------------------------------------------------------------------------*/
     void add_patch(PatchRef patch);
 
