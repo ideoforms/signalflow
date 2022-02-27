@@ -57,6 +57,13 @@ void init_python_node(py::module &m)
             }
             return new ChannelSelect(a, start, stop, step);
         })
+        /*--------------------------------------------------------------------------------
+         * Explicitly handle the case in which an input is assigned a float value.
+         * Under the bonnet, SignalFlow then checks whether the input is already
+         * a `Constant` object; if so, it updates the value of this object, rather
+         * than destroying the Constant and creating a new input.
+         *-------------------------------------------------------------------------------*/
+        .def("__setattr__", [](NodeRef a, std::string attr, float value) { a->set_input(attr, value); })
         .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
         .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
 
