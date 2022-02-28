@@ -78,10 +78,14 @@ void Sum::remove_input(NodeRef node)
     {
         if (*(param.second) == node)
         {
+            /*--------------------------------------------------------------------------------
+             * Remove Node outgoing reference first, to avoid node being garbage collected.
+             *--------------------------------------------------------------------------------*/
+            node->remove_output(this, param.first);
+
             this->destroy_input(param.first);
             this->input_list.remove(node);
             removed = true;
-            node->remove_output(this, param.first);
             break;
         }
     }
