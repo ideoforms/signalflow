@@ -98,10 +98,11 @@
 #include <signalflow/node/stochastic/white-noise.h>
 
 /*------------------------------------------------------------------------
- * Envelopes
+ * Envelopes and lifecycle
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/envelope/adsr.h>
 #include <signalflow/node/envelope/asr.h>
+#include <signalflow/node/envelope/detect-silence.h>
 #include <signalflow/node/envelope/envelope.h>
 #include <signalflow/node/envelope/line.h>
 #include <signalflow/node/envelope/rect.h>
@@ -151,21 +152,15 @@
 
 /*------------------------------------------------------------------------
  * Analysis and MIR
- * (In development)
  *-----------------------------------------------------------------------*/
-// #include <signalflow/node/analysis/vamp.h>
 #include <signalflow/node/analysis/cross-correlate.h>
 #include <signalflow/node/analysis/onset-detector.h>
+#include <signalflow/node/analysis/vamp.h>
 
 /*------------------------------------------------------------------------
  * Control interfaces
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/control/mouse.h>
-
-/*------------------------------------------------------------------------
- * Analysis
- *-----------------------------------------------------------------------*/
-#include <signalflow/node/analysis/vamp.h>
 
 /*------------------------------------------------------------------------
  * FFT

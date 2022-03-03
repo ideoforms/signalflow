@@ -70,6 +70,9 @@ void init_python_nodes(py::module &m)
     py::class_<ASREnvelope, Node, NodeRefTemplate<ASREnvelope>>(m, "ASREnvelope")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "curve"_a = 1.0, "clock"_a = nullptr);
 
+    py::class_<DetectSilence, Node, NodeRefTemplate<DetectSilence>>(m, "DetectSilence")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "threshold"_a = 0.0001);
+
     py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope")
         .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(), "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
 
