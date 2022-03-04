@@ -64,12 +64,13 @@ void write_callback(struct SoundIoOutStream *outstream,
                 exit(1);
             }
 
+            NodeRef output = shared_graph->get_output();
             for (int frame = 0; frame < frame_count; frame++)
             {
                 for (int channel = 0; channel < layout->channel_count; channel += 1)
                 {
                     float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
-                    *ptr = shared_graph->get_output()->out[channel][frame];
+                    *ptr = output->out[channel][frame];
 
                     /*-----------------------------------------------------------------------*
                      * Hard limiter.
