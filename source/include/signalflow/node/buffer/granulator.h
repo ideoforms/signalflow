@@ -43,10 +43,12 @@ public:
     NodeRef rate;
     NodeRef max_grains;
 
-    virtual void process(Buffer &out, int num_frames);
+    virtual void process(Buffer &out, int num_frames) override;
+    virtual void set_buffer(std::string name, BufferRef buffer) override;
 
 private:
     sample clock_last;
+    double rate_scale_factor;
 
     std::vector<Grain *> grains;
 };

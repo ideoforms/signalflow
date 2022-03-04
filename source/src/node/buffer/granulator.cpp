@@ -1,10 +1,11 @@
+#include "signalflow/core/graph.h"
 #include "signalflow/node/buffer/granulator.h"
 
 namespace signalflow
 {
 
 Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef duration, NodeRef pan, NodeRef rate, NodeRef max_grains)
-    : buffer(buffer), pos(pos), clock(clock), duration(duration), pan(pan), rate(rate), max_grains(max_grains)
+    : pos(pos), clock(clock), duration(duration), pan(pan), rate(rate), max_grains(max_grains)
 {
     this->name = "granulator";
 
@@ -15,7 +16,11 @@ Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef dur
     this->create_input("rate", this->rate);
     this->create_input("max_grains", this->max_grains);
 
-    this->create_buffer("buffer", buffer);
+    this->create_buffer("buffer", this->buffer);
+    if (buffer)
+    {
+        this->set_buffer("buffer", buffer);
+    }
 
     this->envelope = new EnvelopeBuffer("triangle");
     this->create_buffer("envelope", envelope);
@@ -24,6 +29,15 @@ Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef dur
     this->create_input("pan", this->pan);
 
     this->clock_last = 0.0;
+}
+
+void Granulator::set_buffer(std::string name, BufferRef buffer)
+{
+    if (name == "buffer")
+    {
+        this->Node::set_buffer(name, buffer);
+        this->rate_scale_factor = buffer->get_sample_rate() / graph->get_sample_rate();
+    }
 }
 
 void Granulator::process(Buffer &out, int num_frames)
@@ -76,11 +90,12 @@ void Granulator::process(Buffer &out, int num_frames)
                 float env_phase = (float) grain->samples_done / grain->sample_length;
                 float amp = this->envelope->get(0, env_phase);
 
-                grain->samples_done += grain->rate;
+                grain->samples_done += grain->rate * this->rate_scale_factor;
 
                 /*------------------------------------------------------------------------
                  * Calculate pan.
                  * TODO: Handle >2 channels
+                 * TODO: Handle <2 channels
                  *-----------------------------------------------------------------------*/
                 float rv = s * amp;
                 out[0][frame] += rv * (1.0 - 0.5 * (grain->pan + 1));
