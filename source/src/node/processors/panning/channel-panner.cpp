@@ -34,17 +34,25 @@ void ChannelPanner::process(Buffer &out, int num_frames)
         sample in = this->input->out[0][frame];
         sample width = this->width->out[0][frame];
 
-        for (int channel = 0; channel < this->get_num_output_channels(); channel++)
+        for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            float distance = fabsf(pan - channel);
-            if (distance < width)
+            float distance = pan - channel;
+            if (distance == 0)
             {
-                float amp = 1.0f - distance / width;
-                out[channel][frame] = in * amp;
+                out[channel][frame] = in;
             }
             else
             {
-                out[channel][frame] = 0.0;
+                distance = fabsf(distance);
+                if (distance < width)
+                {
+                    float amp = 1.0f - distance / width;
+                    out[channel][frame] = in * amp;
+                }
+                else
+                {
+                    out[channel][frame] = 0.0;
+                }
             }
         }
     }
