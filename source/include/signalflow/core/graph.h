@@ -124,10 +124,9 @@ public:
      *
      * @param buffer The buffer to render to. The buffer must have a channel count
      *               equal or less than that of the graph's output unit.
-     * @param block_size The size of each block to process, in frames.
      *
      *--------------------------------------------------------------------------------*/
-    void render_to_buffer(BufferRef buffer, int block_size = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
+    void render_to_buffer(BufferRef buffer);
 
     /**--------------------------------------------------------------------------------
      * Reset the audio graph:

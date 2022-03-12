@@ -12,6 +12,7 @@ AudioOut_Abstract::AudioOut_Abstract()
     this->no_input_upmix = true;
     this->has_variable_inputs = true;
     this->input_index = 0;
+    this->buffer_size = SIGNALFLOW_DEFAULT_BLOCK_SIZE;
 }
 
 void AudioOut_Abstract::process(Buffer &out, int num_frames)
