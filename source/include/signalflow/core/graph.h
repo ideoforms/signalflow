@@ -129,6 +129,14 @@ public:
     void render_to_buffer(BufferRef buffer);
 
     /**--------------------------------------------------------------------------------
+     * Allocate an output buffer of specified duration, and render the graph to it.
+     *
+     * @param duration The duration of the render, in seconds.
+     *
+     *--------------------------------------------------------------------------------*/
+    BufferRef render_to_buffer(float duration);
+
+    /**--------------------------------------------------------------------------------
      * Reset the audio graph:
      *  - do garbage collection on any nodes/patches that are scheduled to be removed
      *  - clear rendered flags across the whole graph

@@ -36,7 +36,12 @@ void init_python_graph(py::module &m)
         .def("poll", [](AudioGraph &graph, float frequency) { graph.poll(frequency); })
         .def("poll", [](AudioGraph &graph) { graph.poll(); })
         .def("render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); })
-        .def("render_to_buffer", [](AudioGraph &graph, BufferRef buffer) { graph.render_to_buffer(buffer); })
+        .def("render_to_buffer", [](AudioGraph &graph, BufferRef buffer) {
+            graph.render_to_buffer(buffer);
+        })
+        .def("render_to_buffer", [](AudioGraph &graph, float duration) {
+            return graph.render_to_buffer(duration);
+        })
         .def(
             "render_subgraph", [](AudioGraph &graph, NodeRef node, int num_frames, bool reset) {
                 if (reset)
