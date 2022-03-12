@@ -12,6 +12,7 @@ using namespace signalflow;
 int main(int argc, char **argv)
 {
     AudioGraphRef graph = new AudioGraph();
+    graph->poll(1);
 
     /*------------------------------------------------------------------------
      * A PatchSpec contains a description of a synthesis graph.
