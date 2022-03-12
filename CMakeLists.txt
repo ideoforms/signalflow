@@ -12,9 +12,12 @@ set(CMAKE_MACOSX_RPATH 1)
 
 #-------------------------------------------------------------------------------
 # By default, build a universal library on Apple.
-# Select a single architecture for a faster build.
+# For a faster build, select a single architecture by defining the
+# environmental variable CMAKE_OSX_ARCHITECTURES.
 #-------------------------------------------------------------------------------
-set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+if (NOT CMAKE_OSX_ARCHITECTURES)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif()
 
 #-------------------------------------------------------------------------------
 # Shared compiler flags.
