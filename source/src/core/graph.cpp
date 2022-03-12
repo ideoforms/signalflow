@@ -368,6 +368,11 @@ NodeRef AudioGraph::get_output()
     return this->output;
 }
 
+void AudioGraph::set_output(NodeRef output_device)
+{
+    this->output = output_device;
+}
+
 std::list<NodeRef> AudioGraph::get_outputs()
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());

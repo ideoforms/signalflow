@@ -160,6 +160,14 @@ public:
     NodeRef get_output();
 
     /**--------------------------------------------------------------------------------
+      * Set the current audio output device.
+      *
+      * @param output_device The new audio output device.
+      *
+      *--------------------------------------------------------------------------------*/
+    void set_output(NodeRef output_device);
+
+    /**--------------------------------------------------------------------------------
      * Returns a list of the nodes currently connected to the AudioGraph's output.
      *
      * @return The output nodes.
@@ -355,7 +363,6 @@ private:
     float cpu_usage;
     float cpu_usage_smoothing;
 
-    NodeRef input = nullptr;
     NodeRef output = nullptr;
     AudioGraphConfig config;
 
