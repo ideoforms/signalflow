@@ -77,7 +77,7 @@ void ADSREnvelope::process(Buffer &out, int num_frames)
              *-----------------------------------------------------------------------*/
             this->level = (this->phase / attack);
         }
-        else if (this->phase <= attack + decay)
+        else if (this->phase < attack + decay)
         {
             /*------------------------------------------------------------------------
              * Sustain phase.
