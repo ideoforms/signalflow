@@ -56,17 +56,17 @@ Querying `graph.status` returns a one-line description of the number of nodes an
 AudioGraph: 235 active nodes, 6 patches, 13.953516% CPU usage
 ```
 
-To automatically poll and print the graph's status periodically, call `graph.show_status(interval)`, where `interval` is in seconds:
+To automatically poll and print the graph's status periodically, call `graph.poll(interval)`, where `interval` is in seconds:
 
 ```
->>> graph.show_status(1)
+>>> graph.poll(1)
 AudioGraph: 118 active nodes, 3 patches, 7.097344% CPU usage
 AudioGraph: 118 active nodes, 3 patches, 7.166250% CPU usage
 AudioGraph: 40 active nodes, 1 patch, 2.601211% CPU usage
 ```
 
 !!! note
-    Note that `show_status` does not print any output in Jupyter notebooks due to the way that Jupyter handles stdout/stderr.
+    Note that `poll` does not print any output in Jupyter notebooks due to the way that Jupyter handles stdout/stderr.
 
 ### Structure
 
