@@ -92,8 +92,11 @@ Buffer::~Buffer()
         delete this->data[0];
         delete this->data;
 
-        size_t num_bytes = this->num_frames * this->num_channels * sizeof(sample);
-        shared_graph->register_memory_dealloc(num_bytes);
+        if (shared_graph)
+        {
+            size_t num_bytes = this->num_frames * this->num_channels * sizeof(sample);
+            shared_graph->register_memory_dealloc(num_bytes);
+        }
     }
 }
 
@@ -104,8 +107,11 @@ void Buffer::resize(int num_channels, int num_frames)
         delete this->data[0];
         delete this->data;
 
-        size_t num_bytes = this->num_frames * this->num_channels * sizeof(sample);
-        shared_graph->register_memory_dealloc(num_bytes);
+        if (shared_graph)
+        {
+            size_t num_bytes = this->num_frames * this->num_channels * sizeof(sample);
+            shared_graph->register_memory_dealloc(num_bytes);
+        }
     }
 
     this->num_channels = num_channels;
@@ -126,8 +132,11 @@ void Buffer::resize(int num_channels, int num_frames)
             this->data[channel] = data_channels + (this->num_frames * channel);
         }
 
-        size_t num_bytes = num_frames * num_channels * sizeof(sample);
-        shared_graph->register_memory_alloc(num_bytes);
+        if (shared_graph)
+        {
+            size_t num_bytes = num_frames * num_channels * sizeof(sample);
+            shared_graph->register_memory_alloc(num_bytes);
+        }
     }
     else
     {
