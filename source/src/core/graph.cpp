@@ -70,6 +70,8 @@ AudioGraph::AudioGraph(AudioGraphConfig *config,
     this->cpu_usage_smoothing = 0.95;
     this->cpu_usage = 0.0;
 
+    this->memory_usage = 0;
+
     this->monitor = nullptr;
 
     this->recording_fd = NULL;
@@ -592,7 +594,13 @@ std::string AudioGraph::get_status()
     ss << std::fixed << std::setprecision(2) << cpu_usage;
     std::string cpu_usage_str = ss.str();
 
-    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", " + std::to_string(patch_count) + " " + patches + ", " + cpu_usage_str + "% CPU usage";
+    ss.clear();
+    ss.str("");
+    float memory_usage_mb = (this->memory_usage / 1024) / (float) 1024;
+    ss << std::fixed << std::setprecision(1) << memory_usage_mb;
+    std::string memory_usage_str = ss.str();
+
+    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", " + std::to_string(patch_count) + " " + patches + ", " + cpu_usage_str + "% CPU usage, " + memory_usage_str + "MB memory usage";
 
     return status;
 }
@@ -652,9 +660,24 @@ float AudioGraph::get_cpu_usage()
     return this->cpu_usage;
 }
 
+size_t AudioGraph::get_memory_usage()
+{
+    return this->memory_usage;
+}
+
 AudioGraphConfig &AudioGraph::get_config()
 {
     return this->config;
+}
+
+void AudioGraph::register_memory_alloc(size_t num_bytes)
+{
+    memory_usage += num_bytes;
+}
+
+void AudioGraph::register_memory_dealloc(size_t num_bytes)
+{
+    memory_usage -= num_bytes;
 }
 
 }

@@ -348,12 +348,24 @@ public:
     float get_cpu_usage();
 
     /**--------------------------------------------------------------------------------
+      * Query the amount of RAM used by Buffer storage.
+      *
+      * @return The number of bytes stored in RAM.
+      *
+      *--------------------------------------------------------------------------------*/
+    size_t get_memory_usage();
+
+    /**--------------------------------------------------------------------------------
       * Get the current graph config.
       *
       * @return The config.
       *
       *--------------------------------------------------------------------------------*/
     AudioGraphConfig &get_config();
+
+protected:
+    void register_memory_alloc(size_t num_bytes);
+    void register_memory_dealloc(size_t num_bytes);
 
 private:
     std::set<NodeRef> scheduled_nodes;
@@ -369,6 +381,7 @@ private:
     int _node_count_tmp;
     float cpu_usage;
     float cpu_usage_smoothing;
+    size_t memory_usage;
 
     NodeRef output = nullptr;
     AudioGraphConfig config;
@@ -376,6 +389,8 @@ private:
     SNDFILE *recording_fd;
     float *recording_buffer;
     int recording_num_channels;
+
+    friend class Buffer;
 };
 
 class AudioGraphRef : public std::shared_ptr<AudioGraph>
