@@ -102,3 +102,14 @@ def test_graph_num_output_channels():
     assert graph.num_output_channels == 5
 
     del graph
+
+def test_graph_render_to_buffer():
+    output = AudioOut_Dummy(2)
+    graph = AudioGraph(output_device=output)
+    c = Constant(3)
+    graph.play(c)
+    b = graph.render_to_buffer(1.0)
+    assert b.num_channels == 2
+    assert b.num_frames == graph.sample_rate
+    assert np.all(b.data[0] == 3)
+    assert np.all(b.data[1] == 0)
