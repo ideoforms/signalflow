@@ -31,7 +31,6 @@ void DetectSilence::process(Buffer &out, int num_frames)
         }
         if (silent && this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
         {
-            printf("detected silence\n");
             this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
         }
     }
