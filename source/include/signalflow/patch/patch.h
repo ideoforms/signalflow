@@ -62,6 +62,7 @@ public:
 
     /**--------------------------------------------------------------------------------
      * Set a named patch input to a constant value.
+     * TODO: Rename to create_input for consistency with Node?
      * @param name The name of the input
      * @param value The value to set
      *--------------------------------------------------------------------------------*/
@@ -109,6 +110,7 @@ public:
     std::unordered_map<std::string, NodeRef> get_inputs();
 
     NodeRef add_input(std::string name, sample default_value = 0);
+    NodeRef add_input(std::string name, NodeRef value);
     BufferRef add_buffer_input(std::string name);
 
     std::set<NodeRef> get_nodes();

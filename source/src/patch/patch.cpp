@@ -274,6 +274,13 @@ NodeRef Patch::add_input(std::string name, sample default_value)
     return placeholder;
 }
 
+NodeRef Patch::add_input(std::string name, NodeRef value)
+{
+    this->inputs[name] = value;
+    nodes.insert(value);
+    return value;
+}
+
 BufferRef Patch::add_buffer_input(std::string name)
 {
     BufferRef placeholder = new Buffer();

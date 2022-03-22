@@ -37,6 +37,9 @@ void init_python_patch(py::module &m)
         .def("set_input", [](Patch &patch, std::string name, NodeRef node) { patch.set_input(name, node); })
         .def("set_input", [](Patch &patch, std::string name, BufferRef buffer) { patch.set_input(name, buffer); })
 
+        // TODO
+        //        .def("get_input", &Patch::get_input)
+
         .def("get_auto_free", &Patch::get_auto_free)
         .def("set_auto_free", &Patch::set_auto_free)
         .def_property("auto_free", &Patch::get_auto_free, &Patch::set_auto_free)
@@ -64,7 +67,7 @@ void init_python_patch(py::module &m)
          *-------------------------------------------------------------------------------*/
         .def("add_input", [](Patch &patch, std::string name) { return patch.add_input(name); })
         .def("add_input", [](Patch &patch, std::string name, float value) { return patch.add_input(name, value); })
-        .def("add_input", &Patch::add_input)
+        .def("add_input", [](Patch &patch, std::string name, NodeRef value) { return patch.add_input(name, value); })
         .def("add_buffer_input", &Patch::add_buffer_input)
         .def("add_node", &Patch::add_node)
         .def("set_output", &Patch::set_output)
