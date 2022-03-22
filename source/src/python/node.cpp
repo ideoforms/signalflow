@@ -64,7 +64,16 @@ void init_python_node(py::module &m)
          * than destroying the Constant and creating a new input.
          *-------------------------------------------------------------------------------*/
         .def("__setattr__", [](NodeRef a, std::string attr, float value) { a->set_input(attr, value); })
-        .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
+        .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) {
+            if (value == nullptr)
+            {
+                throw std::runtime_error("Node: Cannot set an input to null");
+            }
+            else
+            {
+                a->set_input(attr, value);
+            }
+        })
         .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
 
         /*--------------------------------------------------------------------------------
