@@ -523,18 +523,20 @@ std::string AudioGraph::get_structure(NodeRef &root, int depth)
     structure += " * " + root->name + "\n";
     for (auto pair : root->inputs)
     {
-        structure += std::string((depth + 1) * 3, ' ');
-
         NodeRef param_node = *(pair.second);
-        if (param_node->get_name() == "constant")
+        if (param_node)
         {
-            Constant *constant = (Constant *) (param_node.get());
-            structure += pair.first + ": " + std::to_string(constant->value) + "\n";
-        }
-        else
-        {
-            structure += pair.first + ":" + "\n";
-            structure += this->get_structure(param_node, depth + 1);
+            structure += std::string((depth + 1) * 3, ' ');
+            if (param_node->get_name() == "constant")
+            {
+                Constant *constant = (Constant *) (param_node.get());
+                structure += pair.first + ": " + std::to_string(constant->value) + "\n";
+            }
+            else
+            {
+                structure += pair.first + ":" + "\n";
+                structure += this->get_structure(param_node, depth + 1);
+            }
         }
     }
 
