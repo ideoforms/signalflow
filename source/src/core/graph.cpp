@@ -223,11 +223,6 @@ void AudioGraph::reset_graph()
     /*------------------------------------------------------------------------
      * Disconnect any nodes and patches that are scheduled to be removed.
      *-----------------------------------------------------------------------*/
-
-    // Formerly, we naively assumed that the node was hard-wired to the graph output.
-    //        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
-    //        output->remove_input(node);
-
     for (auto node : nodes_to_remove)
     {
         while (node->outputs.size() > 0)
