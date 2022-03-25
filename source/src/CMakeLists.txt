@@ -103,6 +103,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/square-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-recorder.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-player.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-looper.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/feedback-buffer-reader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/feedback-buffer-writer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/grainsegments.cpp

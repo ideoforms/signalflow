@@ -76,6 +76,8 @@ typedef RingBuffer<sample> SampleRingBuffer;
 #define SIGNALFLOW_DEFAULT_TRIGGER "trigger"
 
 #define SIGNALFLOW_TRIGGER_RESET "reset"
+#define SIGNALFLOW_TRIGGER_PLAY "play"
+#define SIGNALFLOW_TRIGGER_RECORD "record"
 #define SIGNALFLOW_TRIGGER_SET_POSITION "set_position"
 #define SIGNALFLOW_TRIGGER_SET_LOOP_START "loop_start"
 #define SIGNALFLOW_TRIGGER_SET_LOOP_END "loop_end"
