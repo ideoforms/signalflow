@@ -35,9 +35,9 @@ void Granulator::set_buffer(std::string name, BufferRef buffer)
 {
     if (name == "buffer")
     {
-        this->Node::set_buffer(name, buffer);
         this->rate_scale_factor = buffer->get_sample_rate() / graph->get_sample_rate();
     }
+    this->Node::set_buffer(name, buffer);
 }
 
 void Granulator::process(Buffer &out, int num_frames)
