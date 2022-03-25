@@ -22,6 +22,19 @@ BufferRecorder::BufferRecorder(BufferRef buffer, NodeRef input, NodeRef feedback
     this->set_channels(buffer->get_num_channels(), 0);
 }
 
+void BufferRecorder::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
+    {
+        this->set_state(SIGNALFLOW_NODE_STATE_ACTIVE);
+        this->phase = 0.0;
+    }
+    else if (name == SIGNALFLOW_TRIGGER_SET_POSITION)
+    {
+        this->phase = buffer->get_sample_rate() * value;
+    }
+}
+
 void BufferRecorder::process(Buffer &out, int num_frames)
 {
     /*--------------------------------------------------------------------------------
