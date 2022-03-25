@@ -76,9 +76,9 @@ def test_graph_dummy_audioout():
     sine = SineOscillator([ 220, 440 ])
     graph.play(sine)
 
-    graph.render(1024)
-    samples = graph.output.output_buffer[0][:1024]
-    assert len(samples) == 1024
+    graph.render(256)
+    samples = graph.output.output_buffer[0][:256]
+    assert len(samples) == 256
 
     del graph
 
