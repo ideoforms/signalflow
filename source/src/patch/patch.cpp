@@ -253,13 +253,13 @@ void Patch::node_state_changed(Node *node)
     }
 }
 
-void Patch::trigger()
+void Patch::trigger(std::string name, float value)
 {
     if (this->trigger_node == nullptr)
     {
         throw std::runtime_error("No trigger node set");
     }
-    this->trigger_node->trigger();
+    this->trigger_node->trigger(name, value);
 }
 
 /*------------------------------------------------------------------------

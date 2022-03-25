@@ -57,6 +57,10 @@ void BufferLooper::trigger(std::string name, float value)
     {
         this->phase = buffer->get_sample_rate() * value;
     }
+    else
+    {
+        throw std::runtime_error("Unknown trigger: " + name);
+    }
 }
 
 void BufferLooper::process(Buffer &out, int num_frames)
