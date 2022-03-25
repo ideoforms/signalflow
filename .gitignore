@@ -6,8 +6,9 @@ examples/audio
 examples-dev/
 recordings/
 _site/
-TODO
-NOTES
+site/
+TODO.md
+NOTES.md
 *.swp
 *-test
 *-test.cpp
