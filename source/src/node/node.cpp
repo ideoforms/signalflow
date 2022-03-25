@@ -128,7 +128,22 @@ void Node::update_channels()
 {
     if (this->matches_input_channels)
     {
-        int max_channels = 1;
+        /*--------------------------------------------------------------------------------
+         * Initialise max_channels to be num_output_channels, rather than 1.
+         * This is done because we only ever want to _increase_ the channel count when
+         * matching input_channels. Otherwise, pathological behaviour can occur, such
+         * as when stereo inputs are repeatedly added and removed from a Sum() node,
+         * in which case num_input_channels will repeatedly drop down to 1 every time
+         * the last node is removed.
+         *
+         * Is this the correct design decision? It could cause confusing behaviour in
+         * other situations (in which the user explicitly wants the num_output_channels
+         * to drop back down). The alternative would be to switch to using a Bus
+         * metaphor when mixing varying numbers of inputs, and connected a fixed
+         * 2-channel Bus to the Sum node. That approach would also be more CPU-efficient,
+         * as it wouldn't require constantly calling update_channels on the Sum node.
+         *-------------------------------------------------------------------------------*/
+        int max_channels = this->num_output_channels;
         for (auto input : this->inputs)
         {
             NodeRef *ptr = input.second;
