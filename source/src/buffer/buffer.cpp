@@ -487,6 +487,13 @@ EnvelopeBuffer::EnvelopeBuffer(std::string name, int num_frames)
             this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (num_frames - 1)));
         }
     }
+    else if (name == "rectangular")
+    {
+        for (int x = 0; x < num_frames; x++)
+        {
+            this->data[0][x] = 1.0;
+        }
+    }
     else
     {
         throw std::runtime_error("Invalid buffer name: " + name);
