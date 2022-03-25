@@ -67,13 +67,14 @@ void Wavetable::process(Buffer &out, int num_frames)
     }
 }
 
-Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfade, NodeRef sync)
-    : buffer(buffer), frequency(frequency), crossfade(crossfade), sync(sync)
+Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfade, NodeRef phase, NodeRef sync)
+    : buffer(buffer), frequency(frequency), crossfade(crossfade), phase(phase), sync(sync)
 {
     this->name = "wavetable2d";
 
     this->create_input("frequency", this->frequency);
     this->create_input("crossfade", this->crossfade);
+    this->create_input("phase", this->phase);
     this->create_input("sync", this->sync);
 
     // Named Buffer inputs don't yet work for Buffer2Ds :-(
@@ -84,7 +85,7 @@ Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfad
 
 void Wavetable2D::alloc()
 {
-    this->current_phase.resize(this->num_output_channels_allocated);
+    this->phase_offset.resize(this->num_output_channels_allocated);
 }
 
 void Wavetable2D::process(Buffer &out, int num_frames)
@@ -94,14 +95,22 @@ void Wavetable2D::process(Buffer &out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             float frequency = this->frequency->out[channel][frame];
-            int index = this->current_phase[channel] * this->buffer->get_num_frames();
+
+            float current_phase = this->phase_offset[channel] + this->phase->out[channel][frame];
+            current_phase = fmod(current_phase, 1);
+            while (current_phase < 0)
+            {
+                current_phase += 1;
+            }
+
+            float index = current_phase * this->buffer->get_num_frames();
             float rv = this->buffer->get2D(index, this->crossfade->out[0][frame]);
 
             out[channel][frame] = rv;
 
-            this->current_phase[channel] += (frequency / this->graph->get_sample_rate());
-            while (this->current_phase[channel] >= 1.0)
-                this->current_phase[channel] -= 1.0;
+            this->phase_offset[channel] += (frequency / this->graph->get_sample_rate());
+            while (this->phase_offset[channel] >= 1.0)
+                this->phase_offset[channel] -= 1.0;
         }
     }
 }

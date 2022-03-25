@@ -71,7 +71,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "curve"_a = 1.0, "clock"_a = nullptr);
 
     py::class_<DetectSilence, Node, NodeRefTemplate<DetectSilence>>(m, "DetectSilence")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "threshold"_a = 0.0001);
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "threshold"_a = 0.00001);
 
     py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope")
         .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(), "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
@@ -221,7 +221,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
 
     py::class_<SawOscillator, Node, NodeRefTemplate<SawOscillator>>(m, "SawOscillator")
-        .def(py::init<NodeRef>(), "frequency"_a = 440);
+        .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "phase"_a = nullptr);
 
     py::class_<SineLFO, Node, NodeRefTemplate<SineLFO>>(m, "SineLFO")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
@@ -245,7 +245,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, BufferRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "phase"_a = 0, "sync"_a = 0, "phase_map"_a = nullptr);
 
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D")
-        .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "sync"_a = 0);
+        .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "phase"_a = 0.0, "sync"_a = 0);
 
     py::class_<Clip, Node, NodeRefTemplate<Clip>>(m, "Clip")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
