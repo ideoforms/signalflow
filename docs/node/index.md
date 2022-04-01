@@ -10,20 +10,17 @@ A `Node` object is an audio processing unit that performs one single function. F
 To start a node playing, simply call the `play()` method:
 
 ```
->>> graph = AudioGraph(start=True)
->>> node = SineOscillator()
->>> node.play()
+graph = AudioGraph()
+node = SineOscillator()
+node.play()
 ```
 
-An oscillator node like this does not actually have a "playing" state. The `play()` method simply connects it to the `output` node of the current global `AudioGraph`. The next time the graph processes a block of samples, the graph's `output` node then calls upon the sine oscillator to generate a block.
-
-!!! info
-    `node.play()` is actually syntactical sugar for `graph.play(node)`, which is also equivalent to `graph.output.add_input(node)`. These alternative formulations are useful in rare cases in which you have more than one graph. 
+This connects the node to the `output` node of the current global `AudioGraph`. The next time the graph processes a block of samples, the graph's `output` node then calls upon the sine oscillator to generate a block.
 
 To stop a node playing:
 
 ```
->>> node.stop()
+node.stop()
 ```
 
 This disconnects the node from the output device that it is connected to. 

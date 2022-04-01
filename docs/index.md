@@ -15,11 +15,11 @@ This documentation currently focuses specifically on Python interfaces and examp
 
 At its core, SignalFlow has a handful of key concepts.
 
-- At the top level is the **graph**, which connects to the system's audio input/output hardware.
-- The graph comprises of a network of **nodes**, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.
+- At the top level is the **AudioGraph**, which connects to the system's audio input/output hardware.
+- The graph comprises of a network of **Nodes**, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.
 - Nodes may have multiple **inputs**, which determine which synthesis properties can be modulated at runtime.
-- A node can also have **buffer** properties, which contain audio waveform data that can be read and written to, for playback or recording of samples.
-- Nodes can be grouped in a **patch**, which is a user-defined configuration of nodes. A patch may have one or more named inputs that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to automatically remove itself from the graph when a specified node's playback is complete, which is useful for automatic memory management.
+- A node can also have **Buffer** properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. 
+- Nodes can be grouped in a **Patch**, which is a user-defined configuration of nodes. A patch may have one or more named inputs that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to automatically remove itself from the graph when a specified node's playback is complete, which is important for automatic memory management.
 
 ## Example
 
@@ -38,7 +38,7 @@ graph.wait()
 
 This demo shows a few syntactical benefits that SignalFlow provides to make it easy to work with audio:
 
- - The 2-item array of frequency values passed to `SineOscillator` is expanded to create a 2-channel output. If you passed a 10-item array, the output would have 10 channels. 
+ - The 2-item array of frequency values passed to `SineOscillator` is expanded to create a stereo, 2-channel output. If you passed a 10-item array, the output would have 10 channels. 
  - Mathematical operators like `*` can be used to multiply, add, subtract or divide the output of nodes, and creates a new output Node that corresponds to the output of the operation. This example uses an envelope to modulate the amplitude of an oscillator.
  - Even through the envelope is mono and the oscillator is stereo, SignalFlow does the right thing and upmixes the envelope's values to create a stereo output, so that the same envelope shape is applied to the L and R channels of the oscillator, before creating a stereo output. This is called "automatic upmixing", and is handy when working with multichannel graphs.
 
