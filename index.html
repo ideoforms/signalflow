@@ -450,6 +450,66 @@
   
 
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="graph/creating/" class="md-nav__link">
+        Creating the graph
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="graph/config/" class="md-nav__link">
+        Configuration
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="graph/properties/" class="md-nav__link">
+        Status and properties
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="graph/recording/" class="md-nav__link">
+        Recording the audio output
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="graph/stopping/" class="md-nav__link">
+        Stopping the graph
+      </a>
+    </li>
+  
+
+          
         </ul>
       </nav>
     </li>
@@ -497,8 +557,92 @@
   
   
     <li class="md-nav__item">
+      <a href="node/playback/" class="md-nav__link">
+        Playback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="node/inputs/" class="md-nav__link">
+        Inputs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="node/operators/" class="md-nav__link">
+        Operators
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="node/multichannel/" class="md-nav__link">
+        Multichannel
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="node/properties/" class="md-nav__link">
+        Status and properties
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="node/stochastic/" class="md-nav__link">
+        Stochastic nodes
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
       <a href="node/library/" class="md-nav__link">
         Reference library
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="node/developing/" class="md-nav__link">
+        Developing a new Node class
       </a>
     </li>
   
@@ -662,29 +806,35 @@
 <p class="admonition-title">Warning</p>
 <p>This documentation is a work-in-progress and may have sections that are missing or incomplete.</p>
 </div>
-<p>SignalFlow is an audio DSP framework whose goal is to make it quick and intuitive to explore complex sonic ideas. Its core is C++11, with a full Python API, allowing for rapid prototyping (in Jupyter, PyCharm, or python CLI), efficient processing (with cross-platform hardware acceleration), and lots of built-in node classes for creative exploration. </p>
+<p>SignalFlow is an audio DSP framework whose goal is to make it quick and intuitive to explore complex sonic ideas. It has a simple and consistent Python API, allowing for rapid prototyping in Jupyter, PyCharm, or on the command-line. It comes with over 100 of built-in node classes for creative exploration.</p>
+<p>Its core is implemented in C++11, with cross-platform hardware acceleration.  </p>
 <p>SignalFlow has robust support for macOS and Linux (including Raspberry Pi), and has work-in-progress support for Windows. The overall project is currently in alpha status, and interfaces may change without warning.</p>
 <p>This documentation currently focuses specifically on Python interfaces and examples.</p>
 <h2 id="overview">Overview</h2>
-<p>At its core, SignalFlow has a handful of key concepts. It comprises a <strong>graph</strong> (or network) of <strong>nodes</strong>, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.</p>
-<p>Nodes may have multiple <strong>inputs</strong>, which determine the synthesis properties that can be modulated at runtime. A node can also have <strong>buffer</strong> properties, which contain audio waveform data that can be read and written to, for playback or recording of samples.</p>
-<p>Nodes can be grouped in a <strong>patch</strong>, which is a user-defined configuration of nodes. A patch may have one or more named inputs that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to automatically remove itself from the graph when a specified node's playback is complete, which is useful for automatic memory management.</p>
+<p>At its core, SignalFlow has a handful of key concepts.</p>
+<ul>
+<li>At the top level is the <strong>AudioGraph</strong>, which connects to the system's audio input/output hardware.</li>
+<li>The graph comprises of a network of <strong>Nodes</strong>, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.</li>
+<li>Nodes may have multiple <strong>inputs</strong>, which determine which synthesis properties can be modulated at runtime.</li>
+<li>A node can also have <strong>Buffer</strong> properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. </li>
+<li>Nodes can be grouped in a <strong>Patch</strong>, which is a user-defined configuration of nodes. A patch may have one or more named inputs that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to automatically remove itself from the graph when a specified node's playback is complete, which is important for automatic memory management.</li>
+</ul>
 <h2 id="example">Example</h2>
-<p>Let's take a look at the simplest possible SignalFlow example. Here, we create and immediately start the <code>AudioGraph</code>, construct a single-channel sine oscillator with a frequency of 440Hz, connect the oscillator to the graph's output, and run the graph indefinitely.</p>
+<p>Let's take a look at a minimal SignalFlow example. Here, we create and immediately start the <code>AudioGraph</code>, construct a stereo sine oscillator, connect the oscillator to the graph's output, and run the graph indefinitely.</p>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">signalflow</span> <span class="kn">import</span> <span class="o">*</span>
 
-<span class="n">graph</span> <span class="o">=</span> <span class="n">AudioGraph</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">AudioGraph</span><span class="p">()</span>
 <span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">([</span><span class="mi">440</span><span class="p">,</span> <span class="mi">880</span><span class="p">])</span>
-<span class="n">envelope</span> <span class="o">=</span> <span class="n">EnvelopeASR</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">sine</span> <span class="o">*</span> <span class="n">env</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+<span class="n">envelope</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">sine</span> <span class="o">*</span> <span class="n">envelope</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 <span class="n">graph</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
 </code></pre></div>
 <p>This demo shows a few syntactical benefits that SignalFlow provides to make it easy to work with audio:</p>
 <ul>
-<li>The 2-item array of frequency values passed to <code>SineOscillator</code> is expanded to create a 2-channel output. If you passed a 10-item array, the output would have 10 channels. </li>
-<li>Mathematical operators like <code>*</code> can be used to multiply, add, subtract or divide the output of nodes, and creates a new output Node that corresponds to the output of the operation. This example multiplies an envelope with an oscillator.</li>
-<li>Even through the envelope is mono and the oscillator is stereo, SignalFlow does the right thing and upmixes the envelope's values to create a stereo output, so that the same envelope shape is applied to the L and R channels of the oscillator, before creating a stereo output. This is called "automatic upmixing", and is very handy when working with multichannel graphs.</li>
+<li>The 2-item array of frequency values passed to <code>SineOscillator</code> is expanded to create a stereo, 2-channel output. If you passed a 10-item array, the output would have 10 channels. </li>
+<li>Mathematical operators like <code>*</code> can be used to multiply, add, subtract or divide the output of nodes, and creates a new output Node that corresponds to the output of the operation. This example uses an envelope to modulate the amplitude of an oscillator.</li>
+<li>Even through the envelope is mono and the oscillator is stereo, SignalFlow does the right thing and upmixes the envelope's values to create a stereo output, so that the same envelope shape is applied to the L and R channels of the oscillator, before creating a stereo output. This is called "automatic upmixing", and is handy when working with multichannel graphs.</li>
 </ul>
 <p>In subsequent examples, we will skip the <code>import</code> line and assume you have already imported everything from the <code>signalflow</code> namespace.</p>
 <div class="admonition info">
@@ -692,7 +842,7 @@
 <p>If you want to keep your namespaces better separated, you might want to do something like the below.
 <div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">signalflow</span> <span class="k">as</span> <span class="nn">sf</span>
 
-<span class="n">graph</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">AudioGraph</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">AudioGraph</span><span class="p">()</span>
 <span class="n">sine</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">SineOscillator</span><span class="p">(</span><span class="mi">440</span><span class="p">)</span>
 <span class="o">...</span>
 </code></pre></div></p>

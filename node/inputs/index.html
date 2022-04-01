@@ -14,7 +14,7 @@
     
     
       
-        <title>isobar - SignalFlow</title>
+        <title>Inputs - SignalFlow</title>
       
     
     
@@ -59,7 +59,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#isobar" class="md-skip">
+        <a href="#nodes" class="md-skip">
           Skip to content
         </a>
       
@@ -89,7 +89,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              isobar
+              Inputs
             
           </span>
         </div>
@@ -189,13 +189,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../node/" class="md-tabs__link">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
         Nodes
       </a>
     </li>
@@ -464,12 +466,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
       
       <label class="md-nav__link" for="__nav_3">
         Nodes
@@ -487,7 +491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Nodes
       </a>
     </li>
@@ -499,7 +503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/playback/" class="md-nav__link">
+      <a href="../playback/" class="md-nav__link">
         Playback
       </a>
     </li>
@@ -509,11 +513,98 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../node/inputs/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Inputs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Inputs
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#node-inputs" class="md-nav__link">
+    Node inputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Node inputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#audio-rate-inputs" class="md-nav__link">
+    Audio-rate inputs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggers" class="md-nav__link">
+    Triggers
+  </a>
+  
+    <nav class="md-nav" aria-label="Triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calling-trigger" class="md-nav__link">
+    Calling trigger()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audio-rate-triggers" class="md-nav__link">
+    Audio-rate triggers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer-inputs" class="md-nav__link">
+    Buffer inputs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -523,7 +614,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/operators/" class="md-nav__link">
+      <a href="../operators/" class="md-nav__link">
         Operators
       </a>
     </li>
@@ -535,7 +626,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/multichannel/" class="md-nav__link">
+      <a href="../multichannel/" class="md-nav__link">
         Multichannel
       </a>
     </li>
@@ -547,7 +638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/properties/" class="md-nav__link">
+      <a href="../properties/" class="md-nav__link">
         Status and properties
       </a>
     </li>
@@ -559,7 +650,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/stochastic/" class="md-nav__link">
+      <a href="../stochastic/" class="md-nav__link">
         Stochastic nodes
       </a>
     </li>
@@ -571,7 +662,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/library/" class="md-nav__link">
+      <a href="../library/" class="md-nav__link">
         Reference library
       </a>
     </li>
@@ -583,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/developing/" class="md-nav__link">
+      <a href="../developing/" class="md-nav__link">
         Developing a new Node class
       </a>
     </li>
@@ -706,9 +797,56 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#documentation" class="md-nav__link">
-    Documentation
+  <a href="#node-inputs" class="md-nav__link">
+    Node inputs
   </a>
+  
+    <nav class="md-nav" aria-label="Node inputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#audio-rate-inputs" class="md-nav__link">
+    Audio-rate inputs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggers" class="md-nav__link">
+    Triggers
+  </a>
+  
+    <nav class="md-nav" aria-label="Triggers">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#calling-trigger" class="md-nav__link">
+    Calling trigger()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#audio-rate-triggers" class="md-nav__link">
+    Audio-rate triggers
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer-inputs" class="md-nav__link">
+    Buffer inputs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -724,39 +862,82 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/_isobar/example.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/node/inputs.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="isobar">isobar</h1>
-<p>isobar is a Python library for creating and manipulating musical patterns, designed for use in algorithmic composition, generative music and sonification. It makes it quick and easy to express complex musical ideas, and can send and receive events from various different sources: MIDI, OSC, SocketIO, and .mid files.</p>
-<h2 id="documentation">Documentation</h2>
-<div class="highlight"><pre><span></span><code>    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
+                <h1 id="nodes">Nodes</h1>
+<h2 id="node-inputs">Node inputs</h2>
+<p>A node has three different classes of input:</p>
+<ul>
+<li><strong>Audio-rate inputs</strong>: Takes the output of another node as an input, for continuous modulation of synthesis parameters</li>
+<li><strong>Trigger inputs</strong>: Used to trigger discrete control events — for example, restarting buffer playback</li>
+<li><strong>Buffer inputs</strong>: Used to pass the contents of an audio buffer to a node — for example, as a source of audio samples, or an envelope shape</li>
+</ul>
+<h3 id="audio-rate-inputs">Audio-rate inputs</h3>
+<p>Virtually every node has one or more audio-rate inputs. Put simply, an audio-rate input is <strong>the output of another node</strong>. Let's look at a short example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">lfo</span> <span class="o">=</span> <span class="n">SineLFO</span><span class="p">()</span>
+<span class="n">signal</span> <span class="o">=</span> <span class="n">SquareOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">lfo</span><span class="p">)</span>
 </code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Installation in a virtual environment</p>
-<p>The best way to make sure that you end up with the correct versions and
-without any incompatibility problems between packages it to use a <strong>virtual
-environment</strong>. Don't know what this is or how to set it up? We recommend
-to start by reading a [tutorial on virtual environments][6] for Python.</p>
-</div>
-<div class="admonition warning">
-<p class="admonition-title">Installation on macOS</p>
-<p>When you're running the pre-installed version of Python on macOS, <code>pip</code>
-tries to install packages in a folder for which your user might not have
-the adequate permissions. There are two possible solutions for this:</p>
-</div>
-<div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Unix</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code>docker run --rm -it -p 8000:8000 -v ${PWD}:/docs squidfunk/mkdocs-material
+<p>In this case, we are passing the output of a <code>SineLFO</code> as the pulse width of a <code>SquareOscillator</code>. This is an audio-rate input.</p>
+<p>Although it's not obvious, the <code>frequency</code> parameter is also an audio-rate input. Any constant value (such as the <code>200</code> here) is behind the scenes implemented as a <code>Constant</code> node, which continuously outputs the value at an audio rate.</p>
+<p>All audio-rate inputs can be modified just like a normal Python property. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">signal</span><span class="o">.</span><span class="n">frequency</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
 </code></pre></div>
-</div>
-<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Windows</label><div class="tabbed-content">
-<div class="highlight"><pre><span></span><code>docker run --rm -it -p 8000:8000 -v &quot;%cd%&quot;:/docs squidfunk/mkdocs-material
+<h3 id="triggers">Triggers</h3>
+<p>When working with sequencing and timing, it is often useful be able to trigger discrete events within a node. This is where trigger inputs come in handy.</p>
+<p>There are two different ways to handle trigger inputs:</p>
+<ul>
+<li>by calling the <code>trigger()</code> method on a <code>Node</code></li>
+<li>by passing a Node to an input that corresponds to an audio-rate trigger</li>
+</ul>
+<h4 id="calling-trigger">Calling trigger()</h4>
+<p>To generate trigger events at arbitrary times, call <code>node.trigger()</code>. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">freq_env</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+<span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="n">freq_env</span><span class="p">)</span>
+<span class="n">sine</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">freq_env</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
+<p>This is useful because it can be done outside the audio thread. For example, <code>trigger()</code> could be called each time a MIDI note event is received. </p>
+<p>The <code>trigger()</code> method takes an optional <code>name</code> parameter, which is used by <code>Node</code> classes containing more than one type of trigger. This example uses the <code>set_position</code> trigger of <code>BufferPlayer</code> to seek to a new location in the sample every second. </p>
+<div class="highlight"><pre><span></span><code><span class="n">buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">&quot;../audio/stereo-count.wav&quot;</span><span class="p">)</span>
+<span class="n">player</span> <span class="o">=</span> <span class="n">BufferPlayer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">player</span><span class="o">.</span><span class="n">trigger</span><span class="p">(</span><span class="s2">&quot;set_position&quot;</span><span class="p">,</span> <span class="n">random_uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">buffer</span><span class="o">.</span><span class="n">duration</span><span class="p">))</span>
+    <span class="n">graph</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Because the <code>trigger</code> method happens outside the audio thread, it will take effect at the start of the next audio block. This means that, if you are running at 44.1kHz with an audio buffer size of 1024 samples, this could introduce a latency of up to <code>1024/44100 = 0.023s</code>.   For time-critical events like drum triggers, this can be minimised by reducing the <a href="/graph/config">hardware output buffer size</a>.</p>
+<p>This constraint also means that only one event can be triggered per audio block. To trigger events at a faster rate than the hardware buffer size allows, see <strong>Audio-rate triggers</strong> below.  </p>
 </div>
-</div>
+<h4 id="audio-rate-triggers">Audio-rate triggers</h4>
+<p>It is often desirable to trigger events using the audio-rate output of another Node object as a source of trigger events, to give sample-level precision in timing. Most nodes that support <code>trigger</code> inputs can also be triggered by a corresponding audio-rate input. </p>
+<p>Triggers happen at zero-crossings — that is, when the output of the node passes above zero (i.e., from <code>&lt;= 0</code> to <code>&gt;0</code>). For example, to create a clock with an oscillating tempo to re-trigger buffer playback: </p>
+<div class="highlight"><pre><span></span><code><span class="n">clock</span> <span class="o">=</span> <span class="n">Impulse</span><span class="p">(</span><span class="n">SineLFO</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">&quot;../audio/stereo-count.wav&quot;</span><span class="p">)</span>
+<span class="n">player</span> <span class="o">=</span> <span class="n">BufferPlayer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">clock</span><span class="o">=</span><span class="n">clock</span><span class="p">)</span>
+<span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<p>This can be used to your advantage with the boolean operator nodes. </p>
+<div class="highlight"><pre><span></span><code><span class="n">on_the_right</span> <span class="o">=</span> <span class="n">MouseX</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+<span class="n">envelope</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">clock</span><span class="o">=</span><span class="n">on_the_right</span><span class="p">)</span>
+<span class="n">square</span> <span class="o">=</span> <span class="n">SquareOscillator</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">envelope</span> <span class="o">*</span> <span class="n">square</span> <span class="o">*</span> <span class="mf">0.1</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<p><em>TODO: Should the name of the trigger() event always be identical to the trigger input name? So <code>clock</code> for envelopes, buffer player, etc...?</em></p>
+<h3 id="buffer-inputs">Buffer inputs</h3>
+<p>The third type of input supported by nodes is the <a href="/buffer/">buffer</a>. Nodes often take buffer inputs as sources of audio samples. They are also useful as sources of envelope shape data (for example, to shape the grains of a Granulator), or general control data (for example, recording motion patterns from a <code>MouseX</code> input).</p>
+<div class="highlight"><pre><span></span><code><span class="n">buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">&quot;../audio/stereo-count.wav&quot;</span><span class="p">)</span>
+<span class="n">player</span> <span class="o">=</span> <span class="n">BufferPlayer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<p><a href="/node/operators">→ Next: Operators</a></p>
                 
               
               
@@ -772,6 +953,41 @@ the adequate permissions. There are two possible solutions for this:</p>
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../playback/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Playback" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Playback
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../operators/" class="md-footer__link md-footer__link--next" aria-label="Next: Operators" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Operators
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

@@ -1,3 +1,6 @@
+doc writing guide - 
+https://numpy.org/numpy-tutorials/content/tutorial-style-guide.html
+
  - Overview
     - Graphs, Nodes, Buffers, Patches
  - Getting Started
@@ -14,12 +17,16 @@
    - Graph status
    - Recording the audio output
  - Buffers
+   - Why called before? Because can store (e.g.) control data, not just audio
    - Buffer types
    - Interpolation
    - Creating buffers
      - From a sound file
      - From a sample array
      - From a function
+   - Recording to buffers
+     - Audio data
+     - Control data
    - Saving buffers
    - Reading buffer data
  - Patches
