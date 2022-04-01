@@ -107,11 +107,19 @@ void AudioGraph::clear()
     this->node_count = 0;
 }
 
-AudioGraph::~AudioGraph()
+void AudioGraph::destroy()
 {
     AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
-    audioout->destroy();
+    if (audioout)
+    {
+        audioout->destroy();
+    }
     shared_graph = nullptr;
+}
+
+AudioGraph::~AudioGraph()
+{
+    this->destroy();
 }
 
 void AudioGraph::wait(float time)
@@ -237,7 +245,26 @@ void AudioGraph::reset_graph()
             }
             else
             {
-                target->set_input(name, new Constant(0.0));
+                /*------------------------------------------------------------------------
+                 * All of this is a slightly gross way to ensure that Patch inputs
+                 * are kept in sync correctly when a Patch's input node is removed.
+                 * This aspect of Patch needs redesigning at some point...
+                 *------------------------------------------------------------------------*/
+                NodeRef zero = new Constant(0.0);
+                target->set_input(name, zero);
+                if (target->get_patch())
+                {
+                    Patch *patch = target->get_patch();
+                    for (auto input : patch->get_inputs())
+                    {
+                        auto input_name = input.first;
+                        auto input_node = input.second;
+                        if (target == input_node.get())
+                        {
+                            patch->set_input(input_name, zero);
+                        }
+                    }
+                }
             }
         }
     }

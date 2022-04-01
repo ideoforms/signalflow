@@ -47,6 +47,12 @@ public:
     void clear();
 
     /**--------------------------------------------------------------------------------
+     * Terminate and free audio I/O, and terminate the shared graph.
+     *
+     **--------------------------------------------------------------------------------*/
+    void destroy();
+
+    /**--------------------------------------------------------------------------------
      * Run (and block the main thread) for a given number of seconds, or forever if
      * a time is not specified.
      *
