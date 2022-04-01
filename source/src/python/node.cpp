@@ -157,6 +157,7 @@ void init_python_node(py::module &m)
             }
         })
         .def("add_input", &Node::add_input)
+        .def("remove_input", &Node::remove_input)
         .def("trigger", [](Node &node) { node.trigger(); })
         .def("trigger", [](Node &node, std::string name) { node.trigger(name); })
         .def("trigger", [](Node &node, std::string name, float value) { node.trigger(name, value); })
