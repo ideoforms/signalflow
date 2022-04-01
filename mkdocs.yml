@@ -28,9 +28,21 @@ nav:
    - License: license.md
  - The AudioGraph:
     - The AudioGraph: graph/index.md
+    - Creating the graph: graph/creating.md
+    - Configuration: graph/config.md
+    - Status and properties: graph/properties.md
+    - Recording the audio output: graph/recording.md
+    - Stopping the graph: graph/stopping.md
  - Nodes:
     - Nodes: node/index.md
+    - Playback: node/playback.md
+    - Inputs: node/inputs.md
+    - Operators: node/operators.md
+    - Multichannel: node/multichannel.md
+    - Status and properties: node/properties.md
+    - Stochastic nodes: node/stochastic.md
     - Reference library: node/library.md
+    - Developing a new Node class: node/developing.md
  - Buffers:
     - Buffers: buffer/index.md
  - Patches:
