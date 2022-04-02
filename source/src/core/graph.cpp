@@ -119,7 +119,6 @@ void AudioGraph::destroy()
 
 AudioGraph::~AudioGraph()
 {
-    this->destroy();
 }
 
 void AudioGraph::wait(float time)
