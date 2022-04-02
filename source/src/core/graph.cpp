@@ -208,8 +208,11 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 
     node->_process(node->out, num_frames);
 
-    if (node->get_name() != "constant")
+    if (node->get_name() != "constant" && node->get_name().substr(0, 8) != "audioout")
     {
+        /*--------------------------------------------------------------------------------
+         *
+         *--------------------------------------------------------------------------------*/
         node->has_rendered = true;
         this->_node_count_tmp++;
     }
@@ -228,9 +231,9 @@ void AudioGraph::reset_graph()
     }
     nodes_to_replace.clear();
 
-    /*------------------------------------------------------------------------
+    /*--------------------------------------------------------------------------------
      * Disconnect any nodes and patches that are scheduled to be removed.
-     *-----------------------------------------------------------------------*/
+     *--------------------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
         while (node->outputs.size() > 0)
@@ -448,6 +451,10 @@ bool AudioGraph::play(PatchRef patch)
     {
         std::cerr << "AudioGraph: CPU usage is beyond permitted limit, not playing patch" << std::endl;
         return false;
+    }
+    if (patch->get_state() == SIGNALFLOW_PATCH_STATE_STOPPED)
+    {
+        throw patch_finished_playback_exception();
     }
 
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
