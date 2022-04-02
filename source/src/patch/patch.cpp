@@ -288,6 +288,12 @@ BufferRef Patch::add_buffer_input(std::string name)
     return placeholder;
 }
 
+BufferRef Patch::add_buffer_input(std::string name, BufferRef value)
+{
+    this->buffer_inputs[name] = value;
+    return value;
+}
+
 std::string Patch::get_input_name(const NodeRef &node)
 {
     for (auto input : this->inputs)

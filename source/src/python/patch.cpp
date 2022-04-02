@@ -31,7 +31,8 @@ void init_python_patch(py::module &m)
 
         // Breaks other properties (auto_free, inputs, etc).
         // Need a policy on this: either *only* inputs should be accessible through properties,
-        // or inputs should all only be accessible through set_input(...)
+        // or inputs should all only be accessible through set_input(...).
+        // Ideally, `obj.input = x` should call set_input iff .input is a pre-existing input.
         // .def("__setattr__", [](PatchRef a, std::string attr, NodeRef value) { a->set_input(attr, value); })
         .def("set_input", [](Patch &patch, std::string name, float value) { patch.set_input(name, value); })
         .def("set_input", [](Patch &patch, std::string name, NodeRef node) { patch.set_input(name, node); })
@@ -56,6 +57,7 @@ void init_python_patch(py::module &m)
         .def_property_readonly("nodes", &Patch::get_nodes)
         .def_property_readonly("inputs", &Patch::get_inputs)
         .def_property_readonly("graph", &Patch::get_graph)
+        .def_property_readonly("state", &Patch::get_state)
 
         .def("play", [](PatchRef patch) { return patch->get_graph()->play(patch); })
         .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
@@ -70,7 +72,9 @@ void init_python_patch(py::module &m)
         .def("add_input", [](Patch &patch, std::string name) { return patch.add_input(name); })
         .def("add_input", [](Patch &patch, std::string name, float value) { return patch.add_input(name, value); })
         .def("add_input", [](Patch &patch, std::string name, NodeRef value) { return patch.add_input(name, value); })
-        .def("add_buffer_input", &Patch::add_buffer_input)
+        .def("add_buffer_input", [](Patch &patch, std::string name) { return patch.add_buffer_input(name); })
+        .def("add_buffer_input", [](Patch &patch, std::string name, BufferRef value) { return patch.add_buffer_input(name, value); })
+
         .def("add_node", &Patch::add_node)
         .def("set_output", &Patch::set_output)
         .def("to_spec", &Patch::to_spec);
@@ -88,4 +92,12 @@ void init_python_patch(py::module &m)
     py::class_<PatchRegistry>(m, "PatchRegistry")
         .def(py::init(&PatchRegistry::global))
         .def("create", &PatchRegistry::create);
+
+    /*--------------------------------------------------------------------------------
+     * Constants and enums
+     *-------------------------------------------------------------------------------*/
+    py::enum_<signalflow_patch_state_t>(m, "signalflow_patch_state_t", py::arithmetic(), "signalflow_patch_state_t")
+        .value("SIGNALFLOW_PATCH_STATE_ACTIVE", SIGNALFLOW_PATCH_STATE_ACTIVE, "Active")
+        .value("SIGNALFLOW_PATCH_STATE_STOPPED", SIGNALFLOW_PATCH_STATE_STOPPED, "Stopped")
+        .export_values();
 }

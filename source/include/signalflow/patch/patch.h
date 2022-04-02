@@ -112,6 +112,7 @@ public:
     NodeRef add_input(std::string name, sample default_value = 0);
     NodeRef add_input(std::string name, NodeRef value);
     BufferRef add_buffer_input(std::string name);
+    BufferRef add_buffer_input(std::string name, BufferRef value);
 
     std::set<NodeRef> get_nodes();
     NodeRef add_node(NodeRef node);
