@@ -7,8 +7,8 @@ A `Patch` represents a connected group of `Nodes`, analogous to a synthesizer. D
 
 Behind the scenes, the structure of a `Patch` is encapsulated by a `PatchSpec`, a template which can be instantiated or serialised to a JSON file for later use.  
 
-- Defining a Patch
-- Playback
+- [A Patch structure is defined](/patch/defining) either by declaring a Patch subclass or with a JSON specification file
+- [Play and stop a Patch](/patch/playback) by connecting it to the AudioGraph or the input of another Patch or Node 
 - Patch inputs
   - Audio-rate inputs
   - Buffer inputs

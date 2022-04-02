@@ -13,4 +13,4 @@ For a full list of the operators that can be applied to a `Patch`, see [Node ope
 
 ---
 
-[→ Next: Exporting and importing patches](/patch/exporting)
+[→ Next: Patch properties](/patch/properties)

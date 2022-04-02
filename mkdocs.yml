@@ -49,8 +49,8 @@ nav:
     - Playback: patch/playback.md
     - Inputs: patch/inputs.md
     - Operators: patch/operators.md
-    - Exporting and importing patches: patch/exporting.md
     - Patch properties: patch/properties.md
+    - Exporting and importing patches: patch/exporting.md
     - Auto-free and memory management: patch/auto-free.md
  - Buffers:
     - Buffers: buffer/index.md
