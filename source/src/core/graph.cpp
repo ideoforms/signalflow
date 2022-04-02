@@ -114,11 +114,15 @@ void AudioGraph::destroy()
     {
         audioout->destroy();
     }
-    shared_graph = nullptr;
+    if (shared_graph == this)
+    {
+        shared_graph = nullptr;
+    }
 }
 
 AudioGraph::~AudioGraph()
 {
+    this->destroy();
 }
 
 void AudioGraph::wait(float time)
