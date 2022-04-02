@@ -47,7 +47,7 @@ void init_python_node(py::module &m)
         .def("__pow__", [](NodeRef a, NodeRef b) { return new Pow(a, b); })
         .def("__pow__", [](NodeRef a, float b) { return new Pow(a, b); })
         .def("__rpow__", [](NodeRef a, float b) { return new Pow(b, a); })
-        .def("__sub__", [](NodeRef a, float b) { return new Pow(b, a); })
+        .def("__mod__", [](NodeRef a, NodeRef b) { return new Modulo(a, b); })
         .def("__getitem__", [](NodeRef a, int index) { return new ChannelSelect(a, index); })
         .def("__getitem__", [](NodeRef a, py::slice slice) {
             ssize_t start, stop, step, slicelength;
@@ -93,7 +93,6 @@ void init_python_node(py::module &m)
         .def("__ge__", [](NodeRef a, NodeRef b) { return new GreaterThanOrEqual(a, b); })
         .def("__lt__", [](NodeRef a, NodeRef b) { return new LessThan(a, b); })
         .def("__le__", [](NodeRef a, NodeRef b) { return new LessThanOrEqual(a, b); })
-        .def("__mod__", [](NodeRef a, NodeRef b) { return new Modulo(a, b); })
 
         /*--------------------------------------------------------------------------------
          * Properties
@@ -102,6 +101,8 @@ void init_python_node(py::module &m)
         .def_property_readonly("num_output_channels", &Node::get_num_output_channels)
         .def_property_readonly("num_input_channels", &Node::get_num_input_channels)
         .def_property_readonly("num_output_channels_allocated", &Node::get_num_output_channels_allocated)
+        .def_property_readonly("matches_input_channels", &Node::get_matches_input_channels)
+        .def_property_readonly("has_variable_inputs", &Node::get_has_variable_inputs)
         .def_property_readonly("patch", &Node::get_patch)
         .def_property_readonly("state", &Node::get_state)
         .def_property_readonly("value", &Node::get_value)
@@ -186,8 +187,19 @@ void init_python_node(py::module &m)
         .def("play", [](NodeRef node) { node->get_graph()->play(node); })
         .def("stop", [](NodeRef node) { node->get_graph()->stop(node); });
 
+    /*--------------------------------------------------------------------------------
+     * StochasticNode
+     *-------------------------------------------------------------------------------*/
     py::class_<StochasticNode, Node, NodeRefTemplate<StochasticNode>>(m, "StochasticNode")
         .def("set_seed", &StochasticNode::set_seed);
+
+    /*--------------------------------------------------------------------------------
+     * Constants and enums
+     *-------------------------------------------------------------------------------*/
+    py::enum_<signalflow_node_state_t>(m, "signalflow_node_state_t", py::arithmetic(), "signalflow_node_state_t")
+        .value("SIGNALFLOW_NODE_STATE_ACTIVE", SIGNALFLOW_NODE_STATE_ACTIVE, "Active")
+        .value("SIGNALFLOW_NODE_STATE_STOPPED", SIGNALFLOW_NODE_STATE_STOPPED, "Stopped")
+        .export_values();
 
     py::enum_<signalflow_filter_type_t>(m, "signalflow_filter_type_t", py::arithmetic(), "Filter type")
         .value("SIGNALFLOW_FILTER_TYPE_LOW_PASS", SIGNALFLOW_FILTER_TYPE_LOW_PASS, "Low-pass filter")
@@ -199,6 +211,10 @@ void init_python_node(py::module &m)
         .value("SIGNALFLOW_FILTER_TYPE_HIGH_SHELF", SIGNALFLOW_FILTER_TYPE_HIGH_SHELF, "High-shelf filter")
         .export_values();
 
+    /*--------------------------------------------------------------------------------
+     * implicitly_convertible() allows dynamic run-time casting from numeric to
+     * Node types.
+     *-------------------------------------------------------------------------------*/
     py::implicitly_convertible<int, Node>();
     py::implicitly_convertible<float, Node>();
 

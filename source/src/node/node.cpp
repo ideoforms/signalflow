@@ -405,6 +405,11 @@ void Node::remove_output(Node *target, std::string name)
     this->outputs.erase(std::make_pair(target, name));
 }
 
+bool Node::get_matches_input_channels()
+{
+    return this->matches_input_channels;
+}
+
 bool Node::get_has_variable_inputs()
 {
     return this->has_variable_inputs;

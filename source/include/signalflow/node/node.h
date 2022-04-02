@@ -167,6 +167,14 @@ public:
      *-----------------------------------------------------------------------*/
     virtual int get_num_output_channels_allocated();
 
+    /*------------------------------------------------------------------------
+     * Queries whether the node's num_output_channels is automatically
+     * increased to match the number of channels of its inputs
+     *
+     * @returns true or false
+     *-----------------------------------------------------------------------*/
+    bool get_matches_input_channels();
+
     /**------------------------------------------------------------------------
      * Queries whether the node has a variable input count
      * (for example, ChannelArray, Sum, AudioOut)

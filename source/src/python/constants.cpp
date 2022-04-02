@@ -16,11 +16,6 @@ void init_python_constants(py::module &m)
         .value("SIGNALFLOW_EVENT_DISTRIBUTION_POISSON", SIGNALFLOW_EVENT_DISTRIBUTION_POISSON, "Poisson distribution")
         .export_values();
 
-    py::enum_<signalflow_node_state_t>(m, "signalflow_node_state_t", py::arithmetic(), "signalflow_node_state_t")
-        .value("SIGNALFLOW_NODE_STATE_ACTIVE", SIGNALFLOW_NODE_STATE_ACTIVE, "Active")
-        .value("SIGNALFLOW_NODE_STATE_STOPPED", SIGNALFLOW_NODE_STATE_STOPPED, "Stopped")
-        .export_values();
-
     m.attr("SIGNALFLOW_MAX_CHANNELS") = SIGNALFLOW_MAX_CHANNELS;
     m.attr("SIGNALFLOW_DEFAULT_FFT_SIZE") = SIGNALFLOW_DEFAULT_FFT_SIZE;
     m.attr("SIGNALFLOW_MAX_FFT_SIZE") = SIGNALFLOW_MAX_FFT_SIZE;
