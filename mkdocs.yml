@@ -41,9 +41,16 @@ nav:
     - Multichannel: node/multichannel.md
     - Status and properties: node/properties.md
     - Stochastic nodes: node/stochastic.md
-    - Reference library: node/library.md
     - Developing a new Node class: node/developing.md
- - Buffers:
-    - Buffers: buffer/index.md
+    - Reference library: node/library.md
  - Patches:
     - Patches: patch/index.md
+    - Defining a Patch: patch/defining.md
+    - Playback: patch/playback.md
+    - Inputs: patch/inputs.md
+    - Operators: patch/operators.md
+    - Exporting and importing patches: patch/exporting.md
+    - Patch properties: patch/properties.md
+    - Auto-free and memory management: patch/auto-free.md
+ - Buffers:
+    - Buffers: buffer/index.md

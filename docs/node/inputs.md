@@ -27,6 +27,25 @@ All audio-rate inputs can be modified just like a normal Python property. For ex
 signal.frequency = TriangleOscillator(0.5, 100, 1000)
 ```
 
+#### Variable input nodes
+
+Some nodes have a variable number of inputs, which can change over the Node's lifetime. For example, `Sum()` takes an arbitrary number of input Nodes, and generates an output which is the sum of all of its inputs.
+
+For variable-input nodes such as this, audio-rate inputs are added with `add_input()`, and can be removed with `remove_input()`.
+
+```python
+a = Constant(1)
+b = Constant(2)
+c = Constant(3)
+sum = Sum()
+sum.add_input(a)
+sum.add_input(b)
+sum.add_input(c)
+# sum will now generate an output of 6.0
+```
+
+It is possible to check whether a Node object takes variable inputs by querying `node.has_variable_inputs`.
+
 ### Triggers
 
 When working with sequencing and timing, it is often useful be able to trigger discrete events within a node. This is where trigger inputs come in handy.
