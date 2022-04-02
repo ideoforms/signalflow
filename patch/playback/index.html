@@ -14,7 +14,7 @@
     
     
       
-        <title>Howto: MIDI control - SignalFlow</title>
+        <title>Playback - SignalFlow</title>
       
     
     
@@ -59,7 +59,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#howto-midi-control" class="md-skip">
+        <a href="#patch" class="md-skip">
           Skip to content
         </a>
       
@@ -89,7 +89,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Howto: MIDI control
+              Playback
             
           </span>
         </div>
@@ -205,13 +205,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../patch/" class="md-tabs__link">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
         Patches
       </a>
     </li>
@@ -602,12 +604,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       <label class="md-nav__link" for="__nav_4">
         Patches
@@ -625,7 +629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Patches
       </a>
     </li>
@@ -637,7 +641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/defining/" class="md-nav__link">
+      <a href="../defining/" class="md-nav__link">
         Defining a Patch
       </a>
     </li>
@@ -647,11 +651,85 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../patch/playback/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Playback
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Playback
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#playing-a-patch" class="md-nav__link">
+    Playing a Patch
+  </a>
+  
+    <nav class="md-nav" aria-label="Playing a Patch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-a-patch-subclass" class="md-nav__link">
+    From a Patch subclass
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-a-patchspec" class="md-nav__link">
+    From a PatchSpec
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connecting-a-patch-to-another-patchs-input" class="md-nav__link">
+    Connecting a Patch to another Patch's input
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stopping-a-patch" class="md-nav__link">
+    Stopping a Patch
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -661,7 +739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/inputs/" class="md-nav__link">
+      <a href="../inputs/" class="md-nav__link">
         Inputs
       </a>
     </li>
@@ -673,7 +751,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/operators/" class="md-nav__link">
+      <a href="../operators/" class="md-nav__link">
         Operators
       </a>
     </li>
@@ -685,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/properties/" class="md-nav__link">
+      <a href="../properties/" class="md-nav__link">
         Patch properties
       </a>
     </li>
@@ -697,7 +775,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/exporting/" class="md-nav__link">
+      <a href="../exporting/" class="md-nav__link">
         Exporting and importing patches
       </a>
     </li>
@@ -709,7 +787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/auto-free/" class="md-nav__link">
+      <a href="../auto-free/" class="md-nav__link">
         Auto-free and memory management
       </a>
     </li>
@@ -783,6 +861,55 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#playing-a-patch" class="md-nav__link">
+    Playing a Patch
+  </a>
+  
+    <nav class="md-nav" aria-label="Playing a Patch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#from-a-patch-subclass" class="md-nav__link">
+    From a Patch subclass
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#from-a-patchspec" class="md-nav__link">
+    From a PatchSpec
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#connecting-a-patch-to-another-patchs-input" class="md-nav__link">
+    Connecting a Patch to another Patch's input
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stopping-a-patch" class="md-nav__link">
+    Stopping a Patch
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -793,12 +920,51 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/howto/midi.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/patch/playback.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="howto-midi-control">Howto: MIDI control</h1>
+                <h1 id="patch">Patch</h1>
+<h2 id="playing-a-patch">Playing a Patch</h2>
+<p>Once a <code>Patch</code> has been defined or imported, it can be instantiated in two different ways depending on how it was defined:</p>
+<ul>
+<li><a href="#from-a-patch-subclass">From a Patch subclass</a></li>
+<li><a href="#from-a-patchspec">From a PatchSpec</a></li>
+</ul>
+<h3 id="from-a-patch-subclass">From a Patch subclass</h3>
+<p>The simplest way to instantiate a Patch is by defining it as a Patch subclass, and then instantiating it in the same way as a Node. </p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Hat</span> <span class="p">(</span><span class="n">Patch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">WhiteNoise</span><span class="p">()</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">env</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_auto_free</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">hat</span> <span class="o">=</span> <span class="n">Hat</span><span class="p">()</span>
+<span class="n">hat</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<p>Once a Patch has finished, its state changes to <code>SIGNALFLOW_PATCH_STATE_STOPPED</code>.</p>
+<p>Just as with nodes, it is important to remember that playing a patch means "connecting it to the graph". For this reason, it is not possible to play the same patch more than once, as it is already connected to the graph.</p>
+<p>To play multiples of a particular <code>Patch</code> type, simply create and play multiple instances.</p>
+<h3 id="from-a-patchspec">From a PatchSpec</h3>
+<p>Once a <code>PatchSpec</code> has been created or imported, it can be played by instantiating a <code>Patch</code> with the <code>PatchSpec</code> as an argument:</p>
+<div class="highlight"><pre><span></span><code><span class="n">patch</span> <span class="o">=</span> <span class="n">Patch</span><span class="p">(</span><span class="n">patch_spec</span><span class="p">)</span>
+<span class="n">patch</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="connecting-a-patch-to-another-patchs-input">Connecting a Patch to another Patch's input</h3>
+<p>A <code>Patch</code> can be connected to the input of another <code>Patch</code> (or Node), in exactly the same way described in <a href="/node/playback#connecting-a-node-to-another-nodes-input">Connecting a Node to another Node's input</a>.</p>
+<p>Once you have got to grips with this paradigm, it becomes simple to build up sophisticated processing graphs by abstracting complex functionality within individual <code>Patch</code> objects, and connecting them to one another. </p>
+<h2 id="stopping-a-patch">Stopping a Patch</h2>
+<p>As in <a href="/node/playback">Node playback</a>, stopping a Patch disconnects it from the AudioGraph. Patches with <a href="/patch/auto-free">auto-free</a> are automatically stopped when their lifetimes ends. Patches with an unlimited lifespan must be stopped manually, with:</p>
+<div class="highlight"><pre><span></span><code><span class="n">patch</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre></div>
+<p>This disconnects the Patch from its output.</p>
+<hr />
+<p><a href="/patch/inputs">→ Next: Patch inputs</a></p>
                 
               
               
@@ -814,6 +980,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../defining/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Defining a Patch" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Defining a Patch
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../inputs/" class="md-footer__link md-footer__link--next" aria-label="Next: Inputs" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Inputs
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

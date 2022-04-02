@@ -14,7 +14,7 @@
     
     
       
-        <title>Howto: MIDI control - SignalFlow</title>
+        <title>Defining a Patch - SignalFlow</title>
       
     
     
@@ -59,7 +59,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#howto-midi-control" class="md-skip">
+        <a href="#patch" class="md-skip">
           Skip to content
         </a>
       
@@ -89,7 +89,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Howto: MIDI control
+              Defining a Patch
             
           </span>
         </div>
@@ -205,13 +205,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../patch/" class="md-tabs__link">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
         Patches
       </a>
     </li>
@@ -602,12 +604,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       <label class="md-nav__link" for="__nav_4">
         Patches
@@ -625,7 +629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Patches
       </a>
     </li>
@@ -635,11 +639,71 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../patch/defining/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Defining a Patch
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Defining a Patch
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#defining-a-patch" class="md-nav__link">
+    Defining a Patch
+  </a>
+  
+    <nav class="md-nav" aria-label="Defining a Patch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-patch-subclass" class="md-nav__link">
+    Creating a Patch subclass
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-patchspec-from-json" class="md-nav__link">
+    Creating a PatchSpec from JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -649,7 +713,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/playback/" class="md-nav__link">
+      <a href="../playback/" class="md-nav__link">
         Playback
       </a>
     </li>
@@ -661,7 +725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/inputs/" class="md-nav__link">
+      <a href="../inputs/" class="md-nav__link">
         Inputs
       </a>
     </li>
@@ -673,7 +737,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/operators/" class="md-nav__link">
+      <a href="../operators/" class="md-nav__link">
         Operators
       </a>
     </li>
@@ -685,7 +749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/properties/" class="md-nav__link">
+      <a href="../properties/" class="md-nav__link">
         Patch properties
       </a>
     </li>
@@ -697,7 +761,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/exporting/" class="md-nav__link">
+      <a href="../exporting/" class="md-nav__link">
         Exporting and importing patches
       </a>
     </li>
@@ -709,7 +773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/auto-free/" class="md-nav__link">
+      <a href="../auto-free/" class="md-nav__link">
         Auto-free and memory management
       </a>
     </li>
@@ -783,6 +847,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#defining-a-patch" class="md-nav__link">
+    Defining a Patch
+  </a>
+  
+    <nav class="md-nav" aria-label="Defining a Patch">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-patch-subclass" class="md-nav__link">
+    Creating a Patch subclass
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-a-patchspec-from-json" class="md-nav__link">
+    Creating a PatchSpec from JSON
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -793,12 +892,49 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/howto/midi.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/patch/defining.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="howto-midi-control">Howto: MIDI control</h1>
+                <h1 id="patch">Patch</h1>
+<h2 id="defining-a-patch">Defining a Patch</h2>
+<p>A Patch is made up of a connected network of Nodes, together with a set of properties that determine how the Patch can be controlled.</p>
+<p>There are two general ways to define the structure of a Patch:</p>
+<ul>
+<li>Create a new class that subclasses <code>Patch</code>. In general, this is the recommended approach for defining new Patches.</li>
+<li>Create a <a href="https://www.json.org/json-en.html">JSON</a> file that can be loaded as a <code>PatchSpec</code>, which describes the structure of a patch </li>
+</ul>
+<h3 id="creating-a-patch-subclass">Creating a Patch subclass</h3>
+<p>The quickest and most intuitive way to define a <code>Patch</code> is by subclassing the <code>Patch</code> class itself. Let's look at an example.</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Bleep</span> <span class="p">(</span><span class="n">Patch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mi">880</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+        <span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">sine</span> <span class="o">*</span> <span class="n">env</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_auto_free</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<p>In the above example:</p>
+<ul>
+<li>At the very start of the <code>__init__</code> function, <code>super().__init__()</code> must be called to initialise the Patch and its storage. <strong>This is vital! Without it, your program will crash.</strong> </li>
+<li>Two audio-rate input parameters are defined. The <code>add_input()</code> method is used to define them as inputs of the <code>Patch</code>, which can then be subsequently modulated. Note that the <code>add_input()</code> method returns a reference to the frequency node, which then acts as a pointer to the input node.</li>
+<li><code>self.set_output()</code> is used to define the Patch's output. A Patch can only have one single output.</li>
+<li>Finally, <code>self.set_auto_free()</code> is used to automatically stop and free the Patch after playback of the envelope is completed. <a href="/patch/auto-free">More about auto-free...</a> </li>
+</ul>
+<p>You can now instantiate a <code>Bleep</code> object in just the same way as you would instantiate and play a Node:</p>
+<div class="highlight"><pre><span></span><code>b = Bleep(frequency=440, duration=0.2)
+b.play()
+</code></pre></div>
+<p>If you query <code>graph.status</code> after playback has finished, you should see that the <code>Patch</code> is automatically freed and the number of nodes returns to 0. </p>
+<h3 id="creating-a-patchspec-from-json">Creating a PatchSpec from JSON</h3>
+<p>The structure of a <code>Patch</code> is described by a <code>PatchSpec</code>, which can in turn be imported/exported in the <a href="https://www.json.org/json-en.html">JSON</a> text-based data interchange format. </p>
+<p>For information on loading or saving PatchSpecs as JSON, see <a href="/patch/exporting">Exporting and importing patches</a>.</p>
+<hr />
+<p><a href="/patch/playback">→ Next: Playing and stopping a Patch</a></p>
                 
               
               
@@ -814,6 +950,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../" class="md-footer__link md-footer__link--prev" aria-label="Previous: Patches" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Patches
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../playback/" class="md-footer__link md-footer__link--next" aria-label="Next: Playback" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Playback
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

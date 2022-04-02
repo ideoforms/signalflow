@@ -213,8 +213,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../buffer/" class="md-tabs__link">
-        Buffers
+      <a href="../patch/" class="md-tabs__link">
+        Patches
       </a>
     </li>
   
@@ -229,8 +229,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../patch/" class="md-tabs__link">
-        Patches
+      <a href="../buffer/" class="md-tabs__link">
+        Buffers
       </a>
     </li>
   
@@ -585,8 +585,8 @@
   
   
     <li class="md-nav__item">
-      <a href="library/" class="md-nav__link">
-        Reference library
+      <a href="developing/" class="md-nav__link">
+        Developing a new Node class
       </a>
     </li>
   
@@ -597,8 +597,8 @@
   
   
     <li class="md-nav__item">
-      <a href="developing/" class="md-nav__link">
-        Developing a new Node class
+      <a href="library/" class="md-nav__link">
+        Reference library
       </a>
     </li>
   
@@ -624,13 +624,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       <label class="md-nav__link" for="__nav_4">
-        Buffers
+        Patches
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="Buffers" data-md-level="1">
+      <nav class="md-nav" aria-label="Patches" data-md-level="1">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
-          Buffers
+          Patches
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -639,8 +639,92 @@
   
   
     <li class="md-nav__item">
-      <a href="../buffer/" class="md-nav__link">
-        Buffers
+      <a href="../patch/" class="md-nav__link">
+        Patches
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patch/defining/" class="md-nav__link">
+        Defining a Patch
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patch/playback/" class="md-nav__link">
+        Playback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patch/inputs/" class="md-nav__link">
+        Inputs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patch/operators/" class="md-nav__link">
+        Operators
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patch/properties/" class="md-nav__link">
+        Patch properties
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patch/exporting/" class="md-nav__link">
+        Exporting and importing patches
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../patch/auto-free/" class="md-nav__link">
+        Auto-free and memory management
       </a>
     </li>
   
@@ -666,13 +750,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       <label class="md-nav__link" for="__nav_5">
-        Patches
+        Buffers
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="Patches" data-md-level="1">
+      <nav class="md-nav" aria-label="Buffers" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          Patches
+          Buffers
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -681,8 +765,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../patch/" class="md-nav__link">
-        Patches
+      <a href="../buffer/" class="md-nav__link">
+        Buffers
       </a>
     </li>
   
@@ -730,6 +814,18 @@
                 
                 <h1 id="nodes">Nodes</h1>
 <p>A <code>Node</code> object is an audio processing unit that performs one single function. For example, a Node's role may be to synthesize a waveform, read from a buffer, or take two input Nodes and sum their values.</p>
+<ul>
+<li>Nodes are <a href="/node/playback">played and stopped</a> by connecting them to the AudioGraph </li>
+<li>A node has one or more <a href="/node/inputs#audio-rate-inputs">audio-rate inputs</a>, which can be modulated by other nodes</li>
+<li>Some nodes can be triggered with <a href="/node/inputs#triggers">trigger inputs</a> — for example, to restart playback, or set the position of an envelope</li>
+<li>Some nodes can be used to play back the contents of <a href="/node/inputs#buffer-inputs">buffer inputs</a>, or can use buffer data as a source of modulation</li>
+<li>The output of multiple nodes can be combined and modulated with use of the standard Python <a href="/node/operators">operators</a> (+, -, *, %, etc)</li>
+<li>The output of a node can be mono (single-channel) or <a href="/node/multichannel">multichannel</a></li>
+<li>A Node's status and output can be examined by querying its <a href="/node/properties">status and properties</a></li>
+<li>Some Nodes generate unpredictable <a href="/node/stochastic">stochastic output</a>, which can be controlled via its internal random number generator </li>
+<li>Details of how to create a new Node type are detailed in <a href="/node/developing">Developing a new Node class</a></li>
+<li>For an overview of every type of Node available in SignalFlow, see the <a href="/node/library">Node Reference Library</a></li>
+</ul>
 <hr />
 <p><a href="/node/playback">→ Next: Node playback</a></p>
                 

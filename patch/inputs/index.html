@@ -14,7 +14,7 @@
     
     
       
-        <title>Howto: MIDI control - SignalFlow</title>
+        <title>Inputs - SignalFlow</title>
       
     
     
@@ -59,7 +59,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#howto-midi-control" class="md-skip">
+        <a href="#patch" class="md-skip">
           Skip to content
         </a>
       
@@ -89,7 +89,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Howto: MIDI control
+              Inputs
             
           </span>
         </div>
@@ -205,13 +205,15 @@
         
   
   
+    
+  
 
 
   
   
   
     <li class="md-tabs__item">
-      <a href="../../patch/" class="md-tabs__link">
+      <a href="../" class="md-tabs__link md-tabs__link--active">
         Patches
       </a>
     </li>
@@ -602,12 +604,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
       
       <label class="md-nav__link" for="__nav_4">
         Patches
@@ -625,7 +629,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         Patches
       </a>
     </li>
@@ -637,7 +641,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/defining/" class="md-nav__link">
+      <a href="../defining/" class="md-nav__link">
         Defining a Patch
       </a>
     </li>
@@ -649,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/playback/" class="md-nav__link">
+      <a href="../playback/" class="md-nav__link">
         Playback
       </a>
     </li>
@@ -659,11 +663,78 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../patch/inputs/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Inputs
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Inputs
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#patch-inputs" class="md-nav__link">
+    Patch inputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Patch inputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#audio-rate-inputs" class="md-nav__link">
+    Audio-rate inputs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggers" class="md-nav__link">
+    Triggers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer-inputs" class="md-nav__link">
+    Buffer inputs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -673,7 +744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/operators/" class="md-nav__link">
+      <a href="../operators/" class="md-nav__link">
         Operators
       </a>
     </li>
@@ -685,7 +756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/properties/" class="md-nav__link">
+      <a href="../properties/" class="md-nav__link">
         Patch properties
       </a>
     </li>
@@ -697,7 +768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/exporting/" class="md-nav__link">
+      <a href="../exporting/" class="md-nav__link">
         Exporting and importing patches
       </a>
     </li>
@@ -709,7 +780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/auto-free/" class="md-nav__link">
+      <a href="../auto-free/" class="md-nav__link">
         Auto-free and memory management
       </a>
     </li>
@@ -783,6 +854,48 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#patch-inputs" class="md-nav__link">
+    Patch inputs
+  </a>
+  
+    <nav class="md-nav" aria-label="Patch inputs">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#audio-rate-inputs" class="md-nav__link">
+    Audio-rate inputs
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggers" class="md-nav__link">
+    Triggers
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#buffer-inputs" class="md-nav__link">
+    Buffer inputs
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -793,12 +906,85 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/howto/midi.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/ideoforms/signalflow/edit/master/docs/patch/inputs.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="howto-midi-control">Howto: MIDI control</h1>
+                <h1 id="patch">Patch</h1>
+<h2 id="patch-inputs">Patch inputs</h2>
+<p>Just like a <a href="/node/inputs">Node</a>, a Patch supports three different classes of input:</p>
+<ul>
+<li><strong>Audio-rate inputs</strong>: Takes the output of another Node or Patch as an input, for continuous modulation of synthesis parameters</li>
+<li><strong>Trigger inputs</strong>: Used to trigger discrete control events — for example, restarting buffer playback</li>
+<li><strong>Buffer inputs</strong>: Used to pass the contents of an audio buffer to a patch — for example, as a source of audio samples, or an envelope shape</li>
+</ul>
+<h3 id="audio-rate-inputs">Audio-rate inputs</h3>
+<p>A Patch supports any number of user-defined named inputs, which can be used to modulate the nodes within the patch.</p>
+<p>Each input must be defined by calling <code>add_input()</code> when the Patch is first defined, with an optional default value.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Note that Patches do not yet support <a href="/node/inputs/#variable-input-nodes">variable inputs</a>.</p>
+</div>
+<p>When a Patch is playing, the value of its inputs can be set using <code>patch.set_input()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Bloop</span> <span class="p">(</span><span class="n">Patch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mi">880</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">frequency</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="n">frequency</span><span class="p">)</span>
+        <span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">sine</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_auto_free</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">bloop</span> <span class="o">=</span> <span class="n">Bloop</span><span class="p">()</span>
+<span class="n">bloop</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="n">bloop</span><span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;frequency&quot;</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</code></pre></div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Note that Patches do not yet support setting inputs with Python properties (e.g. <code>patch.prop_name = 123</code>), as is possible with <a href="/node/inputs/#audio-rate-inputs">node inputs</a>.</p>
+</div>
+<h3 id="triggers">Triggers</h3>
+<p>When defining a <code>Patch</code>, it is possible to define which Node should receive <code>trigger()</code> events sent to the Patch. This is done with <code>patch.set_trigger_node()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Hat</span> <span class="p">(</span><span class="n">Patch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="mf">0.1</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_input</span><span class="p">(</span><span class="s2">&quot;duration&quot;</span><span class="p">,</span> <span class="n">duration</span><span class="p">)</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="n">WhiteNoise</span><span class="p">()</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">duration</span><span class="p">,</span> <span class="n">curve</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">noise</span> <span class="o">*</span> <span class="n">env</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_trigger_node</span><span class="p">(</span><span class="n">env</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="n">Hat</span><span class="p">()</span>
+<span class="n">h</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="o">...</span>
+<span class="n">h</span><span class="o">.</span><span class="n">trigger</span><span class="p">()</span> <span class="c1"># triggers a hit, resetting the ASREnvelope to its start point</span>
+</code></pre></div>
+<p>This can be used to create a <code>Patch</code> that stays connected to the AudioGraph and can be retriggered to play a hit.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>Note that Patches only presently support trigger events directed to a single node within the patch, and cannot route triggers to multiple different nodes.</p>
+</div>
+<h3 id="buffer-inputs">Buffer inputs</h3>
+<p>Buffer inputs can be declared at define time by calling <code>self.add_buffer_input()</code>. Similar to <code>add_input</code>, the return value is a placeholder <code>Buffer</code> that can be used wherever you would normally pass a <code>Buffer</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">WobblyPlayer</span> <span class="p">(</span><span class="n">Patch</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">buffer</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">buffer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_buffer_input</span><span class="p">(</span><span class="s2">&quot;buffer&quot;</span><span class="p">,</span> <span class="n">buffer</span><span class="p">)</span>
+        <span class="n">rate</span> <span class="o">=</span> <span class="n">SineLFO</span><span class="p">(</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">)</span>
+        <span class="n">player</span> <span class="o">=</span> <span class="n">BufferPlayer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">rate</span><span class="o">=</span><span class="n">rate</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output</span><span class="p">(</span><span class="n">player</span><span class="p">)</span>
+
+<span class="n">buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">&quot;examples/audio/stereo-count.wav&quot;</span><span class="p">)</span>
+<span class="n">player</span> <span class="o">=</span> <span class="n">WobblyPlayer</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+<span class="n">player</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<p>The buffer can then be replaced at runtime by calling <code>set_input()</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">player</span><span class="o">.</span><span class="n">set_input</span><span class="p">(</span><span class="s2">&quot;buffer&quot;</span><span class="p">,</span> <span class="n">another_buffer</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<p><a href="/patch/operators">→ Next: Operators</a></p>
                 
               
               
@@ -814,6 +1000,41 @@
       
         
 <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../playback/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Playback" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Playback
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../operators/" class="md-footer__link md-footer__link--next" aria-label="Next: Operators" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Operators
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">

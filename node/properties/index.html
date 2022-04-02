@@ -213,8 +213,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../buffer/" class="md-tabs__link">
-        Buffers
+      <a href="../../patch/" class="md-tabs__link">
+        Patches
       </a>
     </li>
   
@@ -229,8 +229,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../patch/" class="md-tabs__link">
-        Patches
+      <a href="../../buffer/" class="md-tabs__link">
+        Buffers
       </a>
     </li>
   
@@ -628,8 +628,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../library/" class="md-nav__link">
-        Reference library
+      <a href="../developing/" class="md-nav__link">
+        Developing a new Node class
       </a>
     </li>
   
@@ -640,8 +640,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../developing/" class="md-nav__link">
-        Developing a new Node class
+      <a href="../library/" class="md-nav__link">
+        Reference library
       </a>
     </li>
   
@@ -667,13 +667,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       <label class="md-nav__link" for="__nav_4">
-        Buffers
+        Patches
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="Buffers" data-md-level="1">
+      <nav class="md-nav" aria-label="Patches" data-md-level="1">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
-          Buffers
+          Patches
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -682,8 +682,92 @@
   
   
     <li class="md-nav__item">
-      <a href="../../buffer/" class="md-nav__link">
-        Buffers
+      <a href="../../patch/" class="md-nav__link">
+        Patches
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/defining/" class="md-nav__link">
+        Defining a Patch
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/playback/" class="md-nav__link">
+        Playback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/inputs/" class="md-nav__link">
+        Inputs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/operators/" class="md-nav__link">
+        Operators
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/properties/" class="md-nav__link">
+        Patch properties
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/exporting/" class="md-nav__link">
+        Exporting and importing patches
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/auto-free/" class="md-nav__link">
+        Auto-free and memory management
       </a>
     </li>
   
@@ -709,13 +793,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       <label class="md-nav__link" for="__nav_5">
-        Patches
+        Buffers
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="Patches" data-md-level="1">
+      <nav class="md-nav" aria-label="Buffers" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          Patches
+          Buffers
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -724,8 +808,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/" class="md-nav__link">
-        Patches
+      <a href="../../buffer/" class="md-nav__link">
+        Buffers
       </a>
     </li>
   
@@ -801,6 +885,7 @@
                 
                 <h1 id="nodes">Nodes</h1>
 <h2 id="node-properties">Node properties</h2>
+<p>A <code>Node</code> has a number of read-only properties which can be used to query its status at a given moment in time.</p>
 <table>
 <thead>
 <tr>
@@ -811,42 +896,47 @@
 </thead>
 <tbody>
 <tr>
-<td><code>name</code></td>
+<td>name</td>
 <td>str</td>
 <td>Short alphanumeric string that identifies the type of node (for example, <code>asr-envelope</code>)</td>
 </tr>
 <tr>
-<td><code>num_output_channels</code></td>
+<td>num_output_channels</td>
 <td>int</td>
 <td>The number of output channels that the node generates.</td>
 </tr>
 <tr>
-<td><code>num_input_channels</code></td>
+<td>num_input_channels</td>
 <td>int</td>
 <td>The number of input channels that the node takes. Note that most nodes have <code>matches_input_channels</code> set, meaning that their <code>num_input_channels</code> will be automatically increased according to their inputs. To learn more, see <a href="/node/multichannel">Nodes: Multichannel</a>.</td>
 </tr>
 <tr>
-<td><code>matches_input_channels</code></td>
+<td>matches_input_channels</td>
 <td>bool</td>
 <td>Whether the node automatically increases its <code>num_input_channels</code> based on its inputs. To learn more, see <a href="/node/multichannel">Nodes: Multichannel</a>.</td>
 </tr>
 <tr>
-<td><code>output_buffer</code></td>
+<td>has_variable_inputs</td>
+<td>bool</td>
+<td>Whether the node supports an <a href="/node/inputs#variable-input-nodes">arbitrary number of audio-rate inputs</a></td>
+</tr>
+<tr>
+<td>output_buffer</td>
 <td>numpy.ndarray</td>
 <td>Contains the Node's most recent audio output, in <code>float32</code> samples. The buffer is indexed by <code>channel</code> x <code>frame</code>, so to obtain the 32nd sample in the first channel, query: <code>node.output_buffer[0][31]</code>.</td>
 </tr>
 <tr>
-<td><code>inputs</code></td>
+<td>inputs</td>
 <td>dict</td>
 <td>A dict containing all of the <code>Node</code>'s audio-rate inputs. Note that buffer inputs are not currently included within this dict.</td>
 </tr>
 <tr>
-<td><code>state</code></td>
+<td>state</td>
 <td>int</td>
 <td>The Node's current playback state, which can be one of <code>SIGNALFLOW_NODE_STATE_ACTIVE</code> and <code>SIGNALFLOW_NODE_STATE_STOPPED</code>. The <code>STOPPED</code> state only applies to those nodes which have a finite duration (e.g. <code>ASREnvelope</code>, or <code>BufferPlayer</code> with looping disabled) and have reached the end of playback. Nodes continue to have a state of <code>ACTIVE</code> whether or not they are connected to the graph.</td>
 </tr>
 <tr>
-<td><code>patch</code></td>
+<td>patch</td>
 <td>Patch</td>
 <td>Indicates the <a href="/patch">Patch</a> that the node is part of, or None if the Node does not belong to a Patch.</td>
 </tr>

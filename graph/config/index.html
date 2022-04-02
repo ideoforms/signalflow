@@ -213,8 +213,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../buffer/" class="md-tabs__link">
-        Buffers
+      <a href="../../patch/" class="md-tabs__link">
+        Patches
       </a>
     </li>
   
@@ -229,8 +229,8 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../patch/" class="md-tabs__link">
-        Patches
+      <a href="../../buffer/" class="md-tabs__link">
+        Buffers
       </a>
     </li>
   
@@ -635,8 +635,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/library/" class="md-nav__link">
-        Reference library
+      <a href="../../node/developing/" class="md-nav__link">
+        Developing a new Node class
       </a>
     </li>
   
@@ -647,8 +647,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../node/developing/" class="md-nav__link">
-        Developing a new Node class
+      <a href="../../node/library/" class="md-nav__link">
+        Reference library
       </a>
     </li>
   
@@ -674,13 +674,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
       
       <label class="md-nav__link" for="__nav_4">
-        Buffers
+        Patches
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="Buffers" data-md-level="1">
+      <nav class="md-nav" aria-label="Patches" data-md-level="1">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
-          Buffers
+          Patches
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -689,8 +689,92 @@
   
   
     <li class="md-nav__item">
-      <a href="../../buffer/" class="md-nav__link">
-        Buffers
+      <a href="../../patch/" class="md-nav__link">
+        Patches
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/defining/" class="md-nav__link">
+        Defining a Patch
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/playback/" class="md-nav__link">
+        Playback
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/inputs/" class="md-nav__link">
+        Inputs
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/operators/" class="md-nav__link">
+        Operators
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/properties/" class="md-nav__link">
+        Patch properties
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/exporting/" class="md-nav__link">
+        Exporting and importing patches
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../patch/auto-free/" class="md-nav__link">
+        Auto-free and memory management
       </a>
     </li>
   
@@ -716,13 +800,13 @@
         <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
       
       <label class="md-nav__link" for="__nav_5">
-        Patches
+        Buffers
         <span class="md-nav__icon md-icon"></span>
       </label>
-      <nav class="md-nav" aria-label="Patches" data-md-level="1">
+      <nav class="md-nav" aria-label="Buffers" data-md-level="1">
         <label class="md-nav__title" for="__nav_5">
           <span class="md-nav__icon md-icon"></span>
-          Patches
+          Buffers
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
@@ -731,8 +815,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../../patch/" class="md-nav__link">
-        Patches
+      <a href="../../buffer/" class="md-nav__link">
+        Buffers
       </a>
     </li>
   
@@ -825,27 +909,27 @@
 </thead>
 <tbody>
 <tr>
-<td><code>output_device_name</code></td>
+<td>output_device_name</td>
 <td>The name of the audio output device to use. This must precisely match the device's name in your system.</td>
 </tr>
 <tr>
-<td><code>input_device_name</code></td>
+<td>input_device_name</td>
 <td>The name of the input device to use.</td>
 </tr>
 <tr>
-<td><code>sample_rate</code></td>
+<td>sample_rate</td>
 <td>The audio sample rate to use.</td>
 </tr>
 <tr>
-<td><code>output_buffer_size</code></td>
+<td>output_buffer_size</td>
 <td>The size of the hardware output audio buffer, in samples. A larger buffer reduces the chance of buffer overflows and glitches, but at the cost of higher latency. Note that this config option merely specifies the <strong>preferred</strong> output buffer size, which may not be available in the system hardware. To check the actual buffer size used by the AudioGraph, query <code>graph.output_buffer_size</code> after instantiation.</td>
 </tr>
 <tr>
-<td><code>input_buffer_size</code></td>
+<td>input_buffer_size</td>
 <td>The size of the hardware input audio buffer.</td>
 </tr>
 <tr>
-<td><code>cpu_usage_limit</code></td>
+<td>cpu_usage_limit</td>
 <td>Imposes a hard limit on the CPU usage permitted by SignalFlow. If the estimated (single-core) CPU usage exceeds this value, no more nodes or patches can be created until it returns to below the limit. Floating-point value between 0..1, where 0.5 means 50% CPU.</td>
 </tr>
 </tbody>
