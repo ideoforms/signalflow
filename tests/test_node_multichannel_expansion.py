@@ -62,7 +62,7 @@ def test_expansion_upmix():
     a = SquareOscillator([440, 880, 1320], [0.3, 0.7])
     graph.play(a)
     graph.render(256)
-    assert graph.node_count == 4
+    assert graph.node_count == 3
     assert np.all(a.inputs["frequency"].output_buffer[0][:256] == 440.0)
     assert np.all(a.inputs["frequency"].output_buffer[1][:256] == 880.0)
     assert np.all(a.inputs["frequency"].output_buffer[2][:256] == 1320.0)
@@ -78,7 +78,7 @@ def test_expansion_upmix():
     # --------------------------------------------------------------------------------
     # Only remaining note is the abstract audio output node
     # --------------------------------------------------------------------------------
-    assert graph.node_count == 1
+    assert graph.node_count == 0
 
 
 def test_expansion_many_channels(graph):
