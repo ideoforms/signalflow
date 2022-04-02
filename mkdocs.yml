@@ -49,7 +49,7 @@ nav:
     - Playback: patch/playback.md
     - Inputs: patch/inputs.md
     - Operators: patch/operators.md
-    - Patch properties: patch/properties.md
+    - Properties: patch/properties.md
     - Exporting and importing patches: patch/exporting.md
     - Auto-free and memory management: patch/auto-free.md
  - Buffers:
