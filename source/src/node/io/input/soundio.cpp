@@ -40,7 +40,7 @@ void read_callback(struct SoundIoInStream *instream,
         int err;
 
         if ((err = soundio_instream_begin_read(instream, &areas, &frame_count)))
-            throw std::runtime_error("libsoundio error on begin read: " + std::string(soundio_strerror(err)));
+            throw audio_io_exception("libsoundio error on begin read: " + std::string(soundio_strerror(err)));
 
         if (!input)
             continue;
@@ -57,7 +57,7 @@ void read_callback(struct SoundIoInStream *instream,
         }
 
         if ((err = soundio_instream_end_read(instream)))
-            throw std::runtime_error("libsoundio error on end read: " + std::string(soundio_strerror(err)));
+            throw audio_io_exception("libsoundio error on end read: " + std::string(soundio_strerror(err)));
 
         frames_left -= frame_count;
     }
@@ -91,15 +91,15 @@ int AudioIn_SoundIO::init()
     this->soundio = ((AudioOut_SoundIO *) this->graph->get_output().get())->soundio;
 
     if (!this->soundio)
-        throw std::runtime_error("libsoundio init error: No output node found in graph (initialising input before output?)");
+        throw audio_io_exception("libsoundio init error: No output node found in graph (initialising input before output?)");
 
     int default_in_device_index = soundio_default_input_device_index(this->soundio);
     if (default_in_device_index < 0)
-        throw std::runtime_error("libsoundio init error: no input devices found.");
+        throw device_not_found_exception("No input devices found.");
 
     this->device = soundio_get_input_device(this->soundio, default_in_device_index);
     if (!device)
-        throw std::runtime_error("libsoundio init error: out of memory.");
+        throw audio_io_exception("libsoundio init error: out of memory.");
 
     this->instream = soundio_instream_create(device);
     this->instream->format = SoundIoFormatFloat32NE;
@@ -109,12 +109,12 @@ int AudioIn_SoundIO::init()
 
     if ((err = soundio_instream_open(this->instream)))
     {
-        throw std::runtime_error("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
+        throw audio_io_exception("libsoundio init error: unable to open device: " + std::string(soundio_strerror(err)));
     }
 
     if ((err = soundio_instream_start(instream)))
     {
-        throw std::runtime_error("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
+        throw audio_io_exception("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
     }
 
     this->num_output_channels = this->instream->layout.channel_count;

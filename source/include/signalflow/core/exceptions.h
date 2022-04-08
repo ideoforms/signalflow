@@ -35,6 +35,26 @@ struct invalid_channel_count_exception : public std::runtime_error
         : std::runtime_error(message) {}
 };
 
+struct device_not_found_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    device_not_found_exception()
+        : std::runtime_error("No such audio I/O device could be found") {}
+    device_not_found_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
+struct audio_io_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    audio_io_exception()
+        : std::runtime_error("An audio I/O error occurred") {}
+    audio_io_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
 struct patch_finished_playback_exception : public std::runtime_error
 {
     using std::runtime_error::runtime_error;

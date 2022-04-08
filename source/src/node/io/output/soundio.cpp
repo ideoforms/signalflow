@@ -50,7 +50,7 @@ void write_callback(struct SoundIoOutStream *outstream,
 
         if ((err = soundio_outstream_begin_write(outstream, &areas, &frame_count)))
         {
-            throw std::runtime_error("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
+            throw audio_io_exception("libsoundio error on begin write: " + std::string(soundio_strerror(err)));
         }
         if (out_node->get_state() == SIGNALFLOW_NODE_STATE_ACTIVE)
         {
@@ -96,7 +96,7 @@ void write_callback(struct SoundIoOutStream *outstream,
 
         if ((err = soundio_outstream_end_write(outstream)))
         {
-            throw std::runtime_error("libsoundio error on end write: " + std::string(soundio_strerror(err)));
+            throw audio_io_exception("libsoundio error on end write: " + std::string(soundio_strerror(err)));
         }
 
         frames_left -= frame_count;
@@ -141,23 +141,23 @@ int AudioOut_SoundIO::init()
     this->soundio = soundio_create();
 
     if (!this->soundio)
-        throw std::runtime_error("libsoundio error: out of memory");
+        throw audio_io_exception("libsoundio error: out of memory");
 
     if ((err = soundio_connect(this->soundio)))
-        throw std::runtime_error("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
+        throw audio_io_exception("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
 
     soundio_flush_events(this->soundio);
 
     int default_out_device_index = soundio_default_output_device_index(this->soundio);
     if (default_out_device_index < 0)
-        throw std::runtime_error("libsoundio error: no output devices found.");
+        throw device_not_found_exception("No audio devices were found");
 
     if (!this->device_name.empty())
     {
         int index = soundio_get_device_by_name(this->soundio, this->device_name.c_str());
         if (index == -1)
         {
-            throw std::runtime_error("Could not find device name: " + this->device_name);
+            throw device_not_found_exception("Could not find device name: " + this->device_name);
         }
         this->device = soundio_get_output_device(this->soundio, index);
     }
@@ -167,7 +167,7 @@ int AudioOut_SoundIO::init()
     }
 
     if (!device)
-        throw std::runtime_error("libsoundio error: out of memory.");
+        throw audio_io_exception("libsoundio error: out of memory.");
 
     this->outstream = soundio_outstream_create(device);
     if (soundio_device_supports_format(device, SoundIoFormatFloat32NE))
@@ -176,7 +176,7 @@ int AudioOut_SoundIO::init()
     }
     else
     {
-        throw std::runtime_error("libsoundio error: sample format not supported");
+        throw audio_io_exception("libsoundio error: sample format not supported");
     }
     this->outstream->write_callback = write_callback;
     this->outstream->sample_rate = this->device->sample_rate_current;
@@ -187,7 +187,7 @@ int AudioOut_SoundIO::init()
 
     if ((err = soundio_outstream_open(this->outstream)))
     {
-        throw std::runtime_error("libsoundio error: unable to open device: " + std::string(soundio_strerror(err)));
+        throw audio_io_exception("libsoundio error: unable to open device: " + std::string(soundio_strerror(err)));
     }
 
     if (this->outstream->layout_error)
@@ -220,7 +220,7 @@ int AudioOut_SoundIO::start()
 {
     int err;
     if ((err = soundio_outstream_start(outstream)))
-        throw std::runtime_error("libsoundio error: unable to start device: " + std::string(soundio_strerror(err)));
+        throw audio_io_exception("libsoundio error: unable to start device: " + std::string(soundio_strerror(err)));
     this->set_state(SIGNALFLOW_NODE_STATE_ACTIVE);
 
     return 0;
