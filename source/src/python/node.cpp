@@ -167,7 +167,7 @@ void init_python_node(py::module &m)
             node.last_num_frames = num_frames;
         })
         .def("process", [](Node &node, Buffer &buffer) {
-            if (node.get_num_output_channels() != buffer.get_num_channels())
+            if ((unsigned int) node.get_num_output_channels() != buffer.get_num_channels())
             {
                 throw std::runtime_error("Buffer and Node output channels don't match");
             }

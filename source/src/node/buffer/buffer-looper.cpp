@@ -37,7 +37,7 @@ void BufferLooper::trigger(std::string name, float value)
     }
     else if (name == SIGNALFLOW_TRIGGER_PLAY)
     {
-        if (this->state = SIGNALFLOW_NODE_STATE_STOPPED)
+        if (this->state == SIGNALFLOW_NODE_STATE_STOPPED)
         {
             this->phase = 0.0;
         }
@@ -46,7 +46,7 @@ void BufferLooper::trigger(std::string name, float value)
     }
     else if (name == SIGNALFLOW_TRIGGER_RECORD)
     {
-        if (this->state = SIGNALFLOW_NODE_STATE_STOPPED)
+        if (this->state == SIGNALFLOW_NODE_STATE_STOPPED)
         {
             this->phase = 0.0;
         }

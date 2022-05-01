@@ -1,4 +1,5 @@
 #include "signalflow/node/processors/panning/spatial-environment.h"
+#include <limits>
 
 namespace signalflow
 {

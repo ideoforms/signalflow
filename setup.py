@@ -21,7 +21,7 @@ class CMakeBuild(build_ext):
         extdir = os.path.abspath(self.build_lib)
 
         cfg = 'Debug' if self.debug else 'Release'
-        build_args = ['--config', cfg, '-j', '8']
+        build_args = ['--config', cfg, '-j', '2']
 
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
                       '-DCMAKE_BUILD_PYTHON=1',
