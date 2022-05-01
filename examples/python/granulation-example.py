@@ -10,6 +10,7 @@ import os
 # Create the global processing graph.
 #------------------------------------------------------------------------
 graph = AudioGraph()
+graph.poll(2)
 
 #------------------------------------------------------------------------
 # Load an audio buffer.

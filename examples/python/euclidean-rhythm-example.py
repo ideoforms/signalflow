@@ -9,6 +9,7 @@ from signalflow import *
 import random
 
 graph = AudioGraph()
+graph.poll(1)
 
 #------------------------------------------------------------------------
 # Subclass Patch to create a re-usable subgraph.

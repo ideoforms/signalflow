@@ -6,6 +6,7 @@
 from signalflow import *
 
 graph = AudioGraph()
+graph.poll(1)
 
 #------------------------------------------------------------------------
 # Change frequency on average once per second.

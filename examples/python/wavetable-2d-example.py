@@ -7,6 +7,7 @@ from signalflow import *
 import numpy as np
 
 graph = AudioGraph()
+graph.poll(1)
 
 wavetable_size = 4096
 
