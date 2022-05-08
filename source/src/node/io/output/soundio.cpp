@@ -179,11 +179,13 @@ int AudioOut_SoundIO::init()
         throw audio_io_exception("libsoundio error: sample format not supported");
     }
     this->outstream->write_callback = write_callback;
-    this->outstream->sample_rate = this->device->sample_rate_current;
+    // Use the user-specified sample rate.
+    this->outstream->sample_rate = this->sample_rate;
     this->outstream->software_latency = (double) this->buffer_size / this->outstream->sample_rate;
     this->outstream->userdata = (void *) this;
-
-    this->sample_rate = this->outstream->sample_rate;
+    // With a device with multiple layouts, use the first.
+    // To check: is this always the layout with the most channels?
+    this->outstream->layout = device->layouts[0];
 
     if ((err = soundio_outstream_open(this->outstream)))
     {
