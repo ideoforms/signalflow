@@ -56,6 +56,8 @@ void init_python_buffer(py::module &m)
         .def_property_readonly("duration", &Buffer::get_duration)
         .def_property("interpolate", &Buffer::get_interpolation_mode, &Buffer::set_interpolation_mode)
 
+#ifndef __linux__
+        // This does not compile on Raspberry Pi OS (2022-08) - to fix
         .def_property_readonly("data", [](Buffer &buf) {
             /*--------------------------------------------------------------------------------
              * Assigning a data owner to the array ensures that it is returned as a
@@ -70,6 +72,7 @@ void init_python_buffer(py::module &m)
                 buf.data[0],
                 dummy_data_owner);
         })
+#endif
 
         /*--------------------------------------------------------------------------------
          * Methods
