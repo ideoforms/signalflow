@@ -180,6 +180,10 @@ int AudioOut_SoundIO::init()
     }
     this->outstream->write_callback = write_callback;
     // Use the user-specified sample rate.
+    if (!this->sample_rate)
+    {
+        this->sample_rate = this->device->sample_rate_current;
+    }
     this->outstream->sample_rate = this->sample_rate;
     this->outstream->software_latency = (double) this->buffer_size / this->outstream->sample_rate;
     this->outstream->userdata = (void *) this;

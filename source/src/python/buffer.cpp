@@ -56,7 +56,7 @@ void init_python_buffer(py::module &m)
         .def_property_readonly("duration", &Buffer::get_duration)
         .def_property("interpolate", &Buffer::get_interpolation_mode, &Buffer::set_interpolation_mode)
 
-#ifndef __linux__
+#if !(defined(__linux__) && defined(__arm__))
         // This does not compile on Raspberry Pi OS (2022-08) - to fix
         .def_property_readonly("data", [](Buffer &buf) {
             /*--------------------------------------------------------------------------------
