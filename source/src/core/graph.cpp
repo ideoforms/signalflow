@@ -361,7 +361,7 @@ void AudioGraph::render(int num_frames)
     float cpu_usage = dt / t_max;
     if (cpu_usage > 1.0)
     {
-        std::cerr << "Warning: buffer overrun?" << std::endl;
+        // std::cerr << "Warning: buffer overrun?" << std::endl;
     }
     this->cpu_usage = (1.0 - this->cpu_usage_smoothing) * cpu_usage + this->cpu_usage_smoothing * this->cpu_usage;
 }

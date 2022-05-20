@@ -96,7 +96,7 @@ void write_callback(struct SoundIoOutStream *outstream,
 
         if ((err = soundio_outstream_end_write(outstream)))
         {
-            throw audio_io_exception("libsoundio error on end write: " + std::string(soundio_strerror(err)));
+            // throw audio_io_exception("libsoundio error on end write: " + std::string(soundio_strerror(err)));
         }
 
         frames_left -= frame_count;
