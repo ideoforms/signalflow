@@ -26,4 +26,6 @@ void init_python_util(py::module &m)
         "random_uniform", []() { return random_uniform(); }, R"pbdoc(Return a uniformly random number)pbdoc");
     m.def(
         "random_uniform", [](float from, float to) { return random_uniform(from, to); }, R"pbdoc(Return a uniformly random number)pbdoc");
+    m.def(
+        "random_exponential", [](float from, float to) { return random_exponential(from, to); }, R"pbdoc(Return a random number, exponentially distributed across a fixed range)pbdoc");
 }
