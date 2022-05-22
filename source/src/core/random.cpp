@@ -65,7 +65,12 @@ bool random_coin(double limit = 0.5)
     return value < limit;
 }
 
-float random_exponential(float mu)
+float random_exponential(float from, float to)
+{
+    return signalflow_scale_lin_exp(random_uniform(), 0, 1, from, to);
+}
+
+float random_exponential_dist(float mu)
 {
     return std::exponential_distribution<double>(mu)(rng);
 }

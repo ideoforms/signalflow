@@ -17,6 +17,7 @@ double random_uniform(double from, double to);
 unsigned long random_integer(unsigned long from, unsigned long to);
 bool random_coin(double limit);
 void random_shuffle(int *values, int count);
-float random_exponential(float mu);
+float random_exponential(float from, float to);
+float random_exponential_dist(float mu);
 
 }

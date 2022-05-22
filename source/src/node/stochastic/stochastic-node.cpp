@@ -23,9 +23,14 @@ double StochasticNode::random_gaussian(double mean, double sigma)
     return std::normal_distribution<double>(mean, sigma)(this->rng);
 }
 
-double StochasticNode::random_exponential(double lambda)
+double StochasticNode::random_exponential_dist(double lambda)
 {
     return std::exponential_distribution<double>(lambda)(this->rng);
+}
+
+double StochasticNode::random_exponential(double from, double to)
+{
+    return signalflow_scale_lin_exp(this->random_uniform(0, 1), 0, 1, from, to);
 }
 
 void StochasticNode::set_seed(unsigned long int seed)
