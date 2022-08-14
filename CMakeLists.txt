@@ -68,7 +68,6 @@ endif()
 #-------------------------------------------------------------------------------
 set(SRC)
 add_subdirectory("source/src")
-set(SRC ${SRC} source/lib/json11/json11.cpp)
 
 #-------------------------------------------------------------------------------
 # For builds of the Python bindings, add Python dependencies and flags
@@ -138,6 +137,11 @@ if (VAMP)
 else()
     message(WARNING "Couldn't find vamp")
 endif()
+
+find_library(JSON11 json11)
+if (JSON11)
+    target_link_libraries(signalflow ${JSON11})
+endif ()
 
 
 #-------------------------------------------------------------------------------

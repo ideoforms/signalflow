@@ -11,6 +11,10 @@
     {
       "name": "libsoundio",
       "version>=": "2.0.0#6"
+    },
+    {
+      "name": "json11",
+      "version>=": "2017-06-20#4"
     }
   ]
 }
