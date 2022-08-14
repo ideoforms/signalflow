@@ -29,5 +29,17 @@
       "version>=": "3.3.10#4",
       "platform": "!osx"
     }
-  ]
+  ],
+  "default-features": [],
+  "features": {
+    "vamp": {
+      "description": "Build Vamp plugins",
+      "dependencies": [
+        {
+          "name": "vamp-sdk",
+          "version>=": "2.10#4"
+        }
+      ]
+    }
+  }
 }
