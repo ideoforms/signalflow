@@ -23,6 +23,11 @@
     {
       "name": "python3",
       "version>=": "3.10.5#2"
+    },
+    {
+      "name": "fftw3",
+      "version>=": "3.3.10#4",
+      "platform": "!osx"
     }
   ]
 }
