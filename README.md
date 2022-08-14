@@ -46,7 +46,7 @@ graph.wait()
 
 To install the Python library on macOS, install dependencies with homebrew:
 ```
-brew install cmake python libsndfile libsoundio
+brew install cmake python
 ```
 
 Clone this repository, then build and install with `pip`:
