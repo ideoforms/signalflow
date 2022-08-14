@@ -47,8 +47,6 @@ endif()
 include_directories(
     /usr/local/include
     source/include
-    source/lib
-    source/lib/pybind11/include
 )
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
