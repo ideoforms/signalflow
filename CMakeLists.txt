@@ -143,6 +143,11 @@ if (JSON11)
     target_link_libraries(signalflow ${JSON11})
 endif ()
 
+find_library(PYBIND11 pybind11)
+if (PYBIND11)
+    target_link_libraries(signalflow ${PYBIND11})
+endif ()
+
 
 #-------------------------------------------------------------------------------
 # Specify additional linker dependencies
