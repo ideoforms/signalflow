@@ -20,7 +20,7 @@ set(CMAKE_MACOSX_RPATH 1)
 # environmental variable CMAKE_OSX_ARCHITECTURES.
 #-------------------------------------------------------------------------------
 if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+    set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD}")
 endif()
 
 #-------------------------------------------------------------------------------
