@@ -1,0 +1,45 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "signalflow",
+  "version-string": "0.0.1",
+  "builtin-baseline": "f93ba152d55e1d243160e690bc302ffe8638358e",
+  "dependencies": [
+    {
+      "name": "libsndfile",
+      "version>=": "1.1.0#1"
+    },
+    {
+      "name": "libsoundio",
+      "version>=": "2.0.0#6"
+    },
+    {
+      "name": "json11",
+      "version>=": "2017-06-20#4"
+    },
+    {
+      "name": "pybind11",
+      "version>=": "2.10.0#1"
+    },
+    {
+      "name": "python3",
+      "version>=": "3.10.5#2"
+    },
+    {
+      "name": "fftw3",
+      "version>=": "3.3.10#4",
+      "platform": "!osx"
+    }
+  ],
+  "default-features": [],
+  "features": {
+    "vamp": {
+      "description": "Build Vamp plugins",
+      "dependencies": [
+        {
+          "name": "vamp-sdk",
+          "version>=": "2.10#4"
+        }
+      ]
+    }
+  }
+}

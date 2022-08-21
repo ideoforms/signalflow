@@ -1,6 +1,5 @@
 #include "signalflow/patch/patch-spec.h"
 
-#include "json11/json11.hpp"
 #include "signalflow/core/core.h"
 #include "signalflow/node/registry.h"
 #include "signalflow/patch/patch-registry.h"
@@ -8,6 +7,8 @@
 #include <algorithm>
 #include <fstream>
 #include <iostream>
+
+#include <json11.hpp>
 
 using namespace json11;
 
