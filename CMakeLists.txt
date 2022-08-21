@@ -2,6 +2,15 @@ cmake_minimum_required(VERSION 3.12.0)
 
 # set(VCPKG_MANIFEST_FEATURES "vamp") # uncomment to enable vamp-sdk
 
+#-------------------------------------------------------------------------------
+# By default, build a universal library on Apple.
+# For a faster build, select a single architecture by defining the
+# environmental variable CMAKE_OSX_ARCHITECTURES.
+#-------------------------------------------------------------------------------
+if (NOT CMAKE_OSX_ARCHITECTURES)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif()
+
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "Vcpkg toolchain file")
 
@@ -15,15 +24,6 @@ endif()
 #-------------------------------------------------------------------------------
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
-
-#-------------------------------------------------------------------------------
-# By default, build a universal library on Apple.
-# For a faster build, select a single architecture by defining the
-# environmental variable CMAKE_OSX_ARCHITECTURES.
-#-------------------------------------------------------------------------------
-if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD}")
-endif()
 
 #-------------------------------------------------------------------------------
 # Shared compiler flags.
@@ -124,23 +124,29 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     endif()
 endif(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
-find_library(VAMP vamp-hostsdk)
-if (VAMP)
-    message("Found vamp")
-    add_definitions(-DHAVE_VAMP)
-    target_link_libraries(signalflow ${VAMP})
-else()
-    message(WARNING "Couldn't find vamp")
-endif()
+if (${VCPKG_MANIFEST_FEATURES} MATCHES "vamp")
+    find_library(VAMP vamp-hostsdk)
+    if (VAMP)
+        message("Found vamp")
+        add_definitions(-DHAVE_VAMP)
+        target_link_libraries(signalflow ${VAMP})
+    else ()
+        message(WARNING "Couldn't find vamp")
+    endif ()
+endif ()
 
 find_library(JSON11 json11)
 if (JSON11)
     target_link_libraries(signalflow ${JSON11})
+else()
+    message(WARNING "Couldn't find json11")
 endif ()
 
-find_library(PYBIND11 pybind11)
-if (PYBIND11)
-    target_link_libraries(signalflow ${PYBIND11})
+find_package(pybind11 CONFIG REQUIRED)
+if (pybind11_FOUND)
+    target_link_libraries(signalflow pybind11::lto pybind11::embed pybind11::module)
+else()
+    message(WARNING "Couldn't find pybind11")
 endif ()
 
 
