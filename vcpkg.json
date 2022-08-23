@@ -5,10 +5,6 @@
   "builtin-baseline": "f93ba152d55e1d243160e690bc302ffe8638358e",
   "dependencies": [
     {
-      "name": "libsndfile",
-      "version>=": "1.1.0#1"
-    },
-    {
       "name": "json11",
       "version>=": "2017-06-20#4"
     },
@@ -19,7 +15,8 @@
     }
   ],
   "default-features": [
-    "soundio"
+    "soundio",
+    "fileio"
   ],
   "features": {
     "soundio": {
@@ -28,6 +25,15 @@
         {
           "name": "libsoundio",
           "version>=": "2.0.0#6"
+        }
+      ]
+    },
+    "fileio": {
+      "description": "Build with support for audio file input/output",
+      "dependencies": [
+        {
+          "name": "libsndfile",
+          "version>=": "1.1.0#1"
         }
       ]
     },
