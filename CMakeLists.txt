@@ -3,6 +3,11 @@ cmake_minimum_required(VERSION 3.12.0)
 #-------------------------------------------------------------------------------
 # Build features
 #-------------------------------------------------------------------------------
+option(CMAKE_BUILD_SOUNDIO "Audio Hardware I/O support" ON)
+if (CMAKE_BUILD_SOUNDIO)
+    list(APPEND VCPKG_MANIFEST_FEATURES "soundio")
+endif ()
+
 option(CMAKE_BUILD_PYTHON "Build Python bindings" OFF)
 if (CMAKE_BUILD_PYTHON)
     list(APPEND VCPKG_MANIFEST_FEATURES "python")
@@ -112,10 +117,12 @@ add_library(signalflow SHARED ${SRC})
 # Dependencies
 #-------------------------------------------------------------------------------
 
-find_package(libsoundio CONFIG REQUIRED)
-if (libsoundio_FOUND)
-    add_definitions(-DHAVE_SOUNDIO)
-    target_link_libraries(signalflow libsoundio::libsoundio libsoundio::libsoundio_static)
+if (CMAKE_BUILD_SOUNDIO)
+    find_package(libsoundio CONFIG REQUIRED)
+    if (libsoundio_FOUND)
+        add_definitions(-DHAVE_SOUNDIO)
+        target_link_libraries(signalflow libsoundio::libsoundio libsoundio::libsoundio_static)
+    endif ()
 endif ()
 
 find_package(SndFile CONFIG REQUIRED)

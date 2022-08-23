@@ -9,10 +9,6 @@
       "version>=": "1.1.0#1"
     },
     {
-      "name": "libsoundio",
-      "version>=": "2.0.0#6"
-    },
-    {
       "name": "json11",
       "version>=": "2017-06-20#4"
     },
@@ -22,8 +18,19 @@
       "platform": "!osx"
     }
   ],
-  "default-features": [],
+  "default-features": [
+    "soundio"
+  ],
   "features": {
+    "soundio": {
+      "description": "Build with support for audio hardware input/output",
+      "dependencies": [
+        {
+          "name": "libsoundio",
+          "version>=": "2.0.0#6"
+        }
+      ]
+    },
     "python": {
       "description": "Build Python3 bindings",
       "dependencies": [
