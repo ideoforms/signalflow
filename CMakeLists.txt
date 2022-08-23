@@ -18,10 +18,14 @@ if (CMAKE_BUILD_VAMP)
     list(APPEND VCPKG_MANIFEST_FEATURES "vamp")
 endif ()
 
-message("Building with features:")
-foreach (feature IN LISTS VCPKG_MANIFEST_FEATURES)
-    message("    - ${feature}")
-endforeach ()
+if (VCPKG_MANIFEST_FEATURES)
+    message("Building with features:")
+    foreach (feature IN LISTS VCPKG_MANIFEST_FEATURES)
+        message("    - ${feature}")
+    endforeach ()
+else ()
+    message("Building without any extra features")
+endif ()
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "Vcpkg toolchain file")
