@@ -1,14 +1,29 @@
 cmake_minimum_required(VERSION 3.12.0)
 
 #-------------------------------------------------------------------------------
-# Enable/Disable features
-# Uncomment and modify feature list to build with specific features.
+# Build features
 #-------------------------------------------------------------------------------
-# set(VCPKG_MANIFEST_FEATURES "vamp") # uncomment to enable vamp-sdk
+option(CMAKE_BUILD_PYTHON "Build Python bindings" OFF)
+if (CMAKE_BUILD_PYTHON)
+    list(APPEND VCPKG_MANIFEST_FEATURES "python")
+endif ()
+
+option(CMAKE_BUILD_VAMP "Vamp plugin support" OFF)
+if (CMAKE_BUILD_VAMP)
+    list(APPEND VCPKG_MANIFEST_FEATURES "vamp")
+endif ()
+
+message("Building with features:")
+foreach (feature IN LISTS VCPKG_MANIFEST_FEATURES)
+    message("    - ${feature}")
+endforeach ()
 
 set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
         CACHE STRING "Vcpkg toolchain file")
 
+#-------------------------------------------------------------------------------
+# Project
+#-------------------------------------------------------------------------------
 project(SignalFlow C CXX)
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Develop)
@@ -128,7 +143,7 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     endif()
 endif(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
-if (${VCPKG_MANIFEST_FEATURES} MATCHES "vamp")
+if (CMAKE_BUILD_VAMP)
     find_library(VAMP vamp-hostsdk)
     if (VAMP)
         message("Found vamp")
@@ -146,11 +161,20 @@ else()
     message(WARNING "Couldn't find json11")
 endif ()
 
-find_package(pybind11 CONFIG REQUIRED)
-if (pybind11_FOUND)
-    target_link_libraries(signalflow pybind11::lto pybind11::embed pybind11::module)
-else()
-    message(WARNING "Couldn't find pybind11")
+if (CMAKE_BUILD_PYTHON)
+    find_package(Python3 COMPONENTS Development REQUIRED)
+    if (python3_FOUND)
+        target_link_libraries(signalflow Python3::Python)
+    else()
+        message(WARNING "Couldn't find python3")
+    endif ()
+
+    find_package(pybind11 CONFIG REQUIRED)
+    if (pybind11_FOUND)
+        target_link_libraries(signalflow pybind11::lto pybind11::embed pybind11::module)
+    else()
+        message(WARNING "Couldn't find pybind11")
+    endif ()
 endif ()
 
 

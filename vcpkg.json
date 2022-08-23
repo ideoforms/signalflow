@@ -17,14 +17,6 @@
       "version>=": "2017-06-20#4"
     },
     {
-      "name": "pybind11",
-      "version>=": "2.10.0#1"
-    },
-    {
-      "name": "python3",
-      "version>=": "3.10.5#2"
-    },
-    {
       "name": "fftw3",
       "version>=": "3.3.10#4",
       "platform": "!osx"
@@ -32,6 +24,19 @@
   ],
   "default-features": [],
   "features": {
+    "python": {
+      "description": "Build Python3 bindings",
+      "dependencies": [
+        {
+          "name": "pybind11",
+          "version>=": "2.10.0#1"
+        },
+        {
+          "name": "python3",
+          "version>=": "3.10.5#2"
+        }
+      ]
+    },
     "vamp": {
       "description": "Build Vamp plugins",
       "dependencies": [
