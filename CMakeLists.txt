@@ -52,7 +52,6 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif()
 
 include_directories(
-    /usr/local/include
     source/include
 )
 
