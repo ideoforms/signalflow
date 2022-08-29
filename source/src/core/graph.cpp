@@ -43,9 +43,11 @@ AudioGraph::AudioGraph(AudioGraphConfig *config,
     }
     else
     {
+#ifdef HAVE_SOUNDIO
         this->output = new AudioOut(this->config.get_output_device_name(),
                                     this->config.get_sample_rate(),
                                     this->config.get_output_buffer_size());
+#endif
         if (!this->output)
         {
             throw std::runtime_error("AudioGraph: Couldn't find audio output device");
@@ -74,9 +76,11 @@ AudioGraph::AudioGraph(AudioGraphConfig *config,
 
     this->monitor = nullptr;
 
+#ifdef HAVE_SNDFILE
     this->recording_fd = NULL;
     this->recording_num_channels = 0;
     this->recording_buffer = (float *) calloc(SIGNALFLOW_DEFAULT_BLOCK_SIZE * SIGNALFLOW_MAX_CHANNELS, sizeof(float));
+#endif
 
     if (start)
     {
@@ -334,6 +338,7 @@ void AudioGraph::render(int num_frames)
     this->node_count = this->_node_count_tmp;
     signalflow_debug("AudioGraph: pull %d frames, %d nodes", num_frames, this->node_count);
 
+#ifdef HAVE_SNDFILE
     if (this->recording_fd)
     {
         /*------------------------------------------------------------------------
@@ -350,6 +355,7 @@ void AudioGraph::render(int num_frames)
         }
         sf_writef_float(this->recording_fd, this->recording_buffer, num_frames);
     }
+#endif
 
     /*------------------------------------------------------------------------
      * Calculate CPU usage (approximately) by measuring the % of time
@@ -517,6 +523,7 @@ void AudioGraph::replace(NodeRef node, NodeRef other)
     nodes_to_replace.insert(std::make_pair(node, other));
 }
 
+#ifdef HAVE_SNDFILE
 void AudioGraph::start_recording(const std::string &filename, int num_channels)
 {
     SF_INFO info;
@@ -544,6 +551,7 @@ void AudioGraph::stop_recording()
 {
     sf_close(this->recording_fd);
 }
+#endif
 
 void AudioGraph::show_structure()
 {

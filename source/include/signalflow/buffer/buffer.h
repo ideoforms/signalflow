@@ -77,12 +77,14 @@ public:
      *------------------------------------------------------------------------*/
     Buffer(std::vector<sample> data);
 
+#ifdef HAVE_SNDFILE
     /**------------------------------------------------------------------------
      * Load the contents of the audio file `filename` into a new buffer.
      * The file must be of a format that libsndfile can read.
      *
      *------------------------------------------------------------------------*/
     Buffer(std::string filename);
+#endif
 
     /**------------------------------------------------------------------------
       * Destroy the buffer.
@@ -96,6 +98,7 @@ public:
       *------------------------------------------------------------------------*/
     void resize(int num_channels, int num_frames);
 
+#ifdef HAVE_SNDFILE
     /**------------------------------------------------------------------------
      * Load the contents of `filename` into the buffer.
      * If the buffer is smaller than the file's contents, only the first
@@ -115,6 +118,7 @@ public:
      *
      *------------------------------------------------------------------------*/
     void save(std::string filename);
+#endif
 
     /**------------------------------------------------------------------------
      * Splits the buffer into chunks of `num_frames_per_part` frames,
@@ -228,6 +232,7 @@ public:
      *------------------------------------------------------------------------*/
     float get_duration();
 
+#ifdef HAVE_SNDFILE
     /**------------------------------------------------------------------------
      * Get the filename that the buffer was loaded from / saved to, if set.
      *
@@ -235,6 +240,7 @@ public:
      *
      *------------------------------------------------------------------------*/
     std::string get_filename();
+#endif
 
     /**------------------------------------------------------------------------
      * Get a pointer to the buffer's data.
@@ -275,7 +281,9 @@ public:
     sample **data = nullptr;
 
 protected:
+#ifdef HAVE_SNDFILE
     std::string filename;
+#endif
     float sample_rate;
     unsigned int num_channels;
     unsigned long num_frames;
