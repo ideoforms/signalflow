@@ -1,6 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
   "name": "signalflow",
+  "description": "A sound synthesis framework designed for clear and concise expression of complex musical ideas",
+  "homepage": "https://ideoforms.github.io/signalflow/",
   "version-string": "0.0.1",
   "builtin-baseline": "f93ba152d55e1d243160e690bc302ffe8638358e",
   "dependencies": [
