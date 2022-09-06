@@ -14,6 +14,7 @@ using namespace signalflow;
 
 int main()
 {
+#ifdef HAVE_SNDFILE
     /*------------------------------------------------------------------------
      * Instantiate a global processing graph.
      *-----------------------------------------------------------------------*/
@@ -48,4 +49,9 @@ int main()
     granulator->set_input("max_grains", 50);
     graph->play(granulator * 0.2);
     graph->wait();
+
+#else
+    std::cerr << "signalflow was not built with libsndfile" << std::endl;
+    return 0;
+#endif
 }

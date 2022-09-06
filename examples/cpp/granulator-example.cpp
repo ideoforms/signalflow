@@ -14,6 +14,8 @@ using namespace signalflow;
 
 int main()
 {
+#ifdef HAVE_SNDFILE
+
     /*------------------------------------------------------------------------
      * Instantiate a single AudioGraph object for all global audio processing.
      *-----------------------------------------------------------------------*/
@@ -25,7 +27,7 @@ int main()
     BufferRef buffer = new Buffer("audio/gliss.aif");
 
     /*------------------------------------------------------------------------
-     * RandomImpulse creates an impulse train with randomised interval, at a 
+     * RandomImpulse creates an impulse train with randomised interval, at a
      * given mean frequency. This is used to trigger grains.
      *-----------------------------------------------------------------------*/
     NodeRef dust = new RandomImpulse(100.0);
@@ -57,4 +59,9 @@ int main()
      * Loop forever.
      *-----------------------------------------------------------------------*/
     graph->wait();
+
+#else
+    std::cerr << "signalflow was not built with libsndfile" << std::endl;
+    return 0;
+#endif
 }

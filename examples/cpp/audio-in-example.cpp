@@ -7,14 +7,13 @@
  * Make some noise when starting the patch.
  *-----------------------------------------------------------------------*/
 
-#ifdef HAVE_SOUNDIO
-
 #include <signalflow/signalflow.h>
 
 using namespace signalflow;
 
 int main()
 {
+#ifdef HAVE_SOUNDIO
     /*------------------------------------------------------------------------
      * Instantiate a global processing graph.
      *-----------------------------------------------------------------------*/
@@ -53,5 +52,8 @@ int main()
     }
 
     graph->wait();
-}
+#else
+    std::cerr << "signalflow was not built with libsoundio" << std::endl;
+    return 0;
 #endif
+}
