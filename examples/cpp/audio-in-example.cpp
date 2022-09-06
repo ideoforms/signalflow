@@ -7,6 +7,8 @@
  * Make some noise when starting the patch.
  *-----------------------------------------------------------------------*/
 
+#ifdef HAVE_SOUNDIO
+
 #include <signalflow/signalflow.h>
 
 using namespace signalflow;
@@ -52,3 +54,4 @@ int main()
 
     graph->wait();
 }
+#endif
