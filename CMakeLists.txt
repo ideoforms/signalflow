@@ -219,9 +219,3 @@ else()
     #-------------------------------------------------------------------------------
     add_subdirectory("examples/cpp")
 endif()
-
-#-------------------------------------------------------------------------------
-# Install shared lib and all includes
-#-------------------------------------------------------------------------------
-install(TARGETS signalflow DESTINATION lib)
-install(DIRECTORY source/include/signalflow DESTINATION include)
