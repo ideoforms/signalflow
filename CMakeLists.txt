@@ -49,9 +49,6 @@ set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems
 # Project
 #-------------------------------------------------------------------------------
 project(SignalFlow C CXX)
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Develop)
-endif()
 
 #-------------------------------------------------------------------------------
 # Use C++11
