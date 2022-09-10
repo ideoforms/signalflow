@@ -1,4 +1,14 @@
 cmake_minimum_required(VERSION 3.12.0)
+
+#-------------------------------------------------------------------------------
+# By default, build a universal library on Apple.
+# For a faster build, select a single architecture by defining the
+# environmental variable CMAKE_OSX_ARCHITECTURES.
+#-------------------------------------------------------------------------------
+if (NOT CMAKE_OSX_ARCHITECTURES)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+endif()
+
 project(SignalFlow C CXX)
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Develop)
@@ -9,15 +19,6 @@ endif()
 #-------------------------------------------------------------------------------
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
-
-#-------------------------------------------------------------------------------
-# By default, build a universal library on Apple.
-# For a faster build, select a single architecture by defining the
-# environmental variable CMAKE_OSX_ARCHITECTURES.
-#-------------------------------------------------------------------------------
-if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
-endif()
 
 #-------------------------------------------------------------------------------
 # Shared compiler flags.
