@@ -32,7 +32,7 @@ int main()
      * Add some occasional pops.
      *-----------------------------------------------------------------------*/
     NodeRef dust = new RandomImpulse(1);
-    NodeRef dust_pan = new SteoreoPanner(dust, 0.0);
+    NodeRef dust_pan = new StereoPanner(dust, 0.0);
     graph->play(dust_pan);
 
     /*------------------------------------------------------------------------
