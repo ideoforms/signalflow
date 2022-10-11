@@ -60,6 +60,9 @@
           "version>=": "2.10#4"
         }
       ]
+    },
+    "examples": {
+      "description": "Build examples",
     }
   }
 }

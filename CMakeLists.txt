@@ -33,6 +33,8 @@ if (CMAKE_BUILD_VAMP)
     list(APPEND VCPKG_MANIFEST_FEATURES "vamp")
 endif ()
 
+option(BUILD_EXAMPLES "Build examples" OFF)
+
 if (VCPKG_MANIFEST_FEATURES)
     message("Building with features:")
     foreach (feature IN LISTS VCPKG_MANIFEST_FEATURES)
@@ -98,6 +100,13 @@ endif()
 #-------------------------------------------------------------------------------
 set(SRC)
 add_subdirectory("source/src")
+
+#-------------------------------------------------------------------------------
+# Build C++ examples
+#-------------------------------------------------------------------------------
+if(BUILD_EXAMPLES)
+    add_subdirectory("examples/cpp")
+endif(BUILD_EXAMPLES)
 
 #-------------------------------------------------------------------------------
 # For builds of the Python bindings, add Python dependencies and flags
@@ -210,11 +219,6 @@ endif()
 
 if (CMAKE_BUILD_PYTHON)
     target_link_libraries(signalflow ${PYTHON_LIBRARY})
-else()
-    #-------------------------------------------------------------------------------
-    # Build examples
-    #-------------------------------------------------------------------------------
-    add_subdirectory("examples/cpp")
 endif()
 
 #-------------------------------------------------------------------------------
