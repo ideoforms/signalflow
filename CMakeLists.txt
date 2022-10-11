@@ -34,6 +34,10 @@ if (CMAKE_BUILD_VAMP)
 endif ()
 
 option(BUILD_EXAMPLES "Build examples" OFF)
+if (BUILD_EXAMPLES)
+    list(APPEND VCPKG_MANIFEST_FEATURES "examples")
+endif ()
+
 
 if (VCPKG_MANIFEST_FEATURES)
     message("Building with features:")
