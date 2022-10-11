@@ -1,0 +1,68 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg/master/scripts/vcpkg.schema.json",
+  "name": "signalflow",
+  "description": "A sound synthesis framework designed for clear and concise expression of complex musical ideas",
+  "homepage": "https://ideoforms.github.io/signalflow/",
+  "version-string": "0.0.1",
+  "builtin-baseline": "f93ba152d55e1d243160e690bc302ffe8638358e",
+  "dependencies": [
+    {
+      "name": "json11",
+      "version>=": "2017-06-20#4"
+    },
+    {
+      "name": "fftw3",
+      "version>=": "3.3.10#4",
+      "platform": "!osx"
+    }
+  ],
+  "default-features": [
+    "soundio",
+    "fileio"
+  ],
+  "features": {
+    "soundio": {
+      "description": "Build with support for audio hardware input/output",
+      "dependencies": [
+        {
+          "name": "libsoundio",
+          "version>=": "2.0.0#6"
+        }
+      ]
+    },
+    "fileio": {
+      "description": "Build with support for audio file input/output",
+      "dependencies": [
+        {
+          "name": "libsndfile",
+          "version>=": "1.1.0#1"
+        }
+      ]
+    },
+    "python": {
+      "description": "Build Python3 bindings",
+      "dependencies": [
+        {
+          "name": "pybind11",
+          "version>=": "2.10.0#1"
+        },
+        {
+          "name": "python3",
+          "version>=": "3.10.5#2"
+        }
+      ]
+    },
+    "vamp": {
+      "description": "Build Vamp plugins",
+      "dependencies": [
+        {
+          "name": "vamp-sdk",
+          "version>=": "2.10#4"
+        }
+      ]
+    },
+    "examples": {
+      "description": "Build examples"
+    }
+  }
+}

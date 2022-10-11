@@ -24,7 +24,7 @@ class CMakeBuild(build_ext):
         build_args = ['--config', cfg, '-j', '2']
 
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
-                      '-DCMAKE_BUILD_PYTHON=1',
+                      '-DCMAKE_BUILD_PYTHON=ON',
                       '-DCMAKE_BUILD_TYPE=' + cfg]
         if 'CMAKE_OSX_ARCHITECTURES' in os.environ:
             cmake_args += ['-DCMAKE_OSX_ARCHITECTURES=%s' % os.environ['CMAKE_OSX_ARCHITECTURES']]

@@ -2,7 +2,10 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/core/exceptions.h"
 #include "signalflow/core/graph.h"
+
+#ifdef HAVE_SNDFILE
 #include <sndfile.h>
+#endif
 
 #include <stdlib.h>
 #include <string.h>
@@ -79,11 +82,13 @@ Buffer::Buffer(std::vector<sample> data)
 {
 }
 
+#ifdef HAVE_SNDFILE
 Buffer::Buffer(std::string filename)
 {
     this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
     this->load(filename);
 }
+#endif
 
 Buffer::~Buffer()
 {
@@ -144,6 +149,7 @@ void Buffer::resize(int num_channels, int num_frames)
     }
 }
 
+#ifdef HAVE_SNDFILE
 void Buffer::load(std::string filename)
 {
     std::string path = filename;
@@ -278,6 +284,7 @@ void Buffer::save(std::string filename)
     sf_close(sndfile);
     this->filename = filename;
 }
+#endif
 
 std::vector<BufferRef> Buffer::split(int num_frames_per_part)
 {
@@ -412,10 +419,12 @@ float Buffer::get_duration()
     return this->duration;
 }
 
+#ifdef HAVE_SNDFILE
 std::string Buffer::get_filename()
 {
     return this->filename;
 }
+#endif
 
 void Buffer::set_interpolation_mode(signalflow_interpolation_mode_t mode)
 {

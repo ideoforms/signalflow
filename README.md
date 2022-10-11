@@ -45,12 +45,12 @@ graph.wait()
 ### macOS
 
 To install the Python library on macOS, install dependencies with homebrew:
-```
-brew install cmake python libsndfile libsoundio
+```sh
+brew install cmake python
 ```
 
 Clone this repository, then build and install with `pip`:
-```
+```sh
 pip3 install .
 ```
 
@@ -58,18 +58,18 @@ pip3 install .
 ### Linux, Raspberry Pi
 
 To install the Python library on Linux, install dependencies with apt:
-```
+```sh
 apt-get install git cmake g++ python3-pip libasound2-dev libsndfile1-dev libsoundio-dev fftw3-dev
 ```
 
 If you experience an error on Raspberry Pi `libf77blas.so.3: cannot open shared object file`:
 
-```
+```sh
 sudo apt-get install libatlas-base-dev
 ```
 
 Clone this repository, then build and install with `pip`:
-```
+```sh
 pip3 install .
 ```
 
@@ -91,7 +91,22 @@ As of 2021-03-03, only the signalflow project has been ported to build correctly
 
 ## Build (C++)
 
-To build and install the C++ core without the Python binding layer:
+### Dependencies
+
+Ensure the vcpkg submodule is checked out
+
+```sh
+git submodule init
+git submodule update
+```
+
+Run the vcpkg bootstrap script (you can leave out `-disableMetrics` if you want to send usage data to Microsoft)
+```sh
+cd vcpkg
+./bootstrap-vcpkg.sh -disableMetrics
+```
+
+Build and install the C++ core without the Python binding layer:
 ```
 mkdir build
 cd build

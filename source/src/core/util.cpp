@@ -161,11 +161,13 @@ void signalflow_save_block_to_text_file(sample *block, int num_samples, std::str
     fclose(fd);
 }
 
+#ifdef HAVE_SNDFILE
 void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::string filename)
 {
     BufferRef buf = new Buffer(1, num_samples, &block);
     buf->save(filename);
 }
+#endif
 
 std::vector<int> signalflow_binary_sequence_to_vector(std::string binary)
 {

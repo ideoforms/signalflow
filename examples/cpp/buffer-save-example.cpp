@@ -13,6 +13,7 @@ using namespace signalflow;
 
 int main()
 {
+#if defined(HAVE_SOUNDIO) && defined(HAVE_SNDFILE)
     /*------------------------------------------------------------------------
      * Instantiate the global processing graph.
      *-----------------------------------------------------------------------*/
@@ -49,4 +50,9 @@ int main()
     std::cout << "Finished recording." << std::endl;
 
     buffer->save("out.wav");
+
+#else
+    std::cerr << "signalflow was not built with libsoundio and/or libsndfile" << std::endl;
+    return 0;
+#endif
 }

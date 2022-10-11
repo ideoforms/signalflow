@@ -10,6 +10,7 @@ using namespace signalflow;
 
 int main()
 {
+#ifdef HAVE_SNDFILE
     AudioGraphRef graph = new AudioGraph();
 
     /*------------------------------------------------------------------------
@@ -38,4 +39,9 @@ int main()
      * Loop indefinitely.
      *-----------------------------------------------------------------------*/
     graph->wait();
+
+#else
+    std::cerr << "signalflow was not built with libsndfile" << std::endl;
+    return 0;
+#endif
 }

@@ -35,7 +35,9 @@ float signalflow_db_to_amplitude(float db);
 float signalflow_amplitude_to_db(float amp);
 
 void signalflow_save_block_to_text_file(sample *block, int num_samples, std::string filename);
+#ifdef HAVE_SNDFILE
 void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::string filename);
+#endif
 
 std::vector<int> signalflow_binary_sequence_to_vector(std::string binary);
 

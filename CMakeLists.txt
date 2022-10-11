@@ -1,23 +1,66 @@
 cmake_minimum_required(VERSION 3.12.0)
-project(SignalFlow C CXX)
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Develop)
+
+#-------------------------------------------------------------------------------
+# By default, build a universal library on Apple.
+# For a faster build, select a single architecture by defining the
+# environmental variable CMAKE_OSX_ARCHITECTURES.
+# Must be set prior to `project()`
+#-------------------------------------------------------------------------------
+if (NOT CMAKE_OSX_ARCHITECTURES)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 endif()
+
+#-------------------------------------------------------------------------------
+# Build features
+#-------------------------------------------------------------------------------
+option(CMAKE_BUILD_SOUNDIO "Audio Hardware I/O support" ON)
+if (CMAKE_BUILD_SOUNDIO)
+    list(APPEND VCPKG_MANIFEST_FEATURES "soundio")
+endif ()
+
+option(CMAKE_BUILD_FILEIO "Audio File I/O support" ON)
+if (CMAKE_BUILD_FILEIO)
+    list(APPEND VCPKG_MANIFEST_FEATURES "fileio")
+endif ()
+
+option(CMAKE_BUILD_PYTHON "Build Python bindings" OFF)
+if (CMAKE_BUILD_PYTHON)
+    list(APPEND VCPKG_MANIFEST_FEATURES "python")
+endif ()
+
+option(CMAKE_BUILD_VAMP "Vamp plugin support" OFF)
+if (CMAKE_BUILD_VAMP)
+    list(APPEND VCPKG_MANIFEST_FEATURES "vamp")
+endif ()
+
+option(BUILD_EXAMPLES "Build examples" OFF)
+if (BUILD_EXAMPLES)
+    list(APPEND VCPKG_MANIFEST_FEATURES "examples")
+endif ()
+
+
+if (VCPKG_MANIFEST_FEATURES)
+    message("Building with features:")
+    foreach (feature IN LISTS VCPKG_MANIFEST_FEATURES)
+        message("    - ${feature}")
+    endforeach ()
+else ()
+    message("Building without any extra features")
+endif ()
+
+set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        CACHE STRING "Vcpkg toolchain file")
+
+#-------------------------------------------------------------------------------
+# Project
+#-------------------------------------------------------------------------------
+project(SignalFlow C CXX)
 
 #-------------------------------------------------------------------------------
 # Use C++11
 #-------------------------------------------------------------------------------
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
-
-#-------------------------------------------------------------------------------
-# By default, build a universal library on Apple.
-# For a faster build, select a single architecture by defining the
-# environmental variable CMAKE_OSX_ARCHITECTURES.
-#-------------------------------------------------------------------------------
-if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES "${ARCHS_STANDARD}")
-endif()
 
 #-------------------------------------------------------------------------------
 # Shared compiler flags.
@@ -41,10 +84,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif()
 
 include_directories(
-    /usr/local/include
     source/include
-    source/lib
-    source/lib/pybind11/include
 )
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
@@ -64,7 +104,14 @@ endif()
 #-------------------------------------------------------------------------------
 set(SRC)
 add_subdirectory("source/src")
-set(SRC ${SRC} source/lib/json11/json11.cpp)
+
+#-------------------------------------------------------------------------------
+# Build C++ examples
+#-------------------------------------------------------------------------------
+if(BUILD_EXAMPLES)
+    message("Building signalflow examples")
+    add_subdirectory("examples/cpp")
+endif(BUILD_EXAMPLES)
 
 #-------------------------------------------------------------------------------
 # For builds of the Python bindings, add Python dependencies and flags
@@ -90,42 +137,25 @@ add_library(signalflow SHARED ${SRC})
 # Dependencies
 #-------------------------------------------------------------------------------
 
-set(SOUNDIO_BUILD_DIR "" CACHE PATH "Path to built SoundIO library (will use find_library if blank)")
-if (SOUNDIO_BUILD_DIR)
-    set(SOUNDIO_INCLUDE_DIR "${SOUNDIO_BUILD_DIR}/.." CACHE PATH "Path to SoundIO include directory (ignored if SOUNDIO_BUILD_DIR is blank")
-    add_definitions(-DHAVE_SOUNDIO)
-    target_link_libraries(signalflow "${SOUNDIO_BUILD_DIR}/$<CONFIG>/soundio.lib")
-    include_directories(signalflow "${SOUNDIO_BUILD_DIR}/$<CONFIG>/")
-    include_directories(signalflow "${SOUNDIO_INCLUDE_DIR}/")
-else()
-    find_library(SOUNDIO soundio)
-    if (SOUNDIO)
-        message("Found libsoundio")
+if (CMAKE_BUILD_SOUNDIO)
+    find_package(libsoundio CONFIG REQUIRED)
+    if (libsoundio_FOUND)
         add_definitions(-DHAVE_SOUNDIO)
-        target_link_libraries(signalflow ${SOUNDIO})
-    else()
-        message(SEND_ERROR "Couldn't find libsoundio")
-    endif()
-endif()
+        target_link_libraries(signalflow libsoundio::libsoundio libsoundio::libsoundio_static)
+    else ()
+        message(WARNING "could not find libsoundio")
+    endif ()
+endif ()
 
-
-set(SNDFILE_BUILD_DIR "" CACHE PATH "Path to build sndfile library (will use find_library if blank)")
-if (SNDFILE_BUILD_DIR)
-    set(SNDFILE_INCLUDE_DIR "${SNDFILE_BUILD_DIR}/../include" CACHE PATH "Path to sndfile include directory (ignored if SNDFILE_BUILD_DIR is blank")
-    add_definitions(-DHAVE_SNDFILE)
-    target_link_libraries(signalflow "${SNDFILE_BUILD_DIR}/$<CONFIG>/sndfile.lib")
-    include_directories(signalflow "${SNDFILE_BUILD_DIR}/include/")
-    include_directories(signalflow "${SNDFILE_INCLUDE_DIR}/")
-else()
-    find_library(SNDFILE sndfile)
-    if (SNDFILE)
-        message("Found sndfile")
+if (CMAKE_BUILD_FILEIO)
+    find_package(SndFile CONFIG REQUIRED)
+    if (SndFile_FOUND)
         add_definitions(-DHAVE_SNDFILE)
-        target_link_libraries(signalflow ${SNDFILE})
-        else()
-        message(SEND_ERROR "Couldn't find libsndfile")
-    endif()
-endif()
+        target_link_libraries(signalflow SndFile::sndfile)
+    else ()
+        message(WARNING "could not find libsndfile")
+    endif ()
+endif ()
 
 if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     set(FFTW_BUILD_DIR "" CACHE PATH "Path to prebuilt FFTW library (will use find_library if blank)")
@@ -138,27 +168,48 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
             "${FFTW_BUILD_DIR}/libfftw3l-3.lib"
         )
     else()
-        find_library(FFTW3F fftw3f)
-        if (FFTW3F)
-            message("Found fftw3f")
-            target_link_libraries(signalflow ${FFTW3F})
+        find_package(FFTW3f CONFIG REQUIRED)
+        target_link_libraries(signalflow PRIVATE FFTW3::fftw3f)
+        if (FFTW3f_FOUND)
             add_definitions(-DFFT_FFTW)
-            else()
-            # if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-                message(FATAL_ERROR "Couldn't find fftw3f")
-            # endif()
-        endif()
+        endif ()
     endif()
 endif(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 
-find_library(VAMP vamp-hostsdk)
-if (VAMP)
-    message("Found vamp")
-    add_definitions(-DHAVE_VAMP)
-    target_link_libraries(signalflow ${VAMP})
+if (CMAKE_BUILD_VAMP)
+    find_library(VAMP vamp-hostsdk)
+    if (VAMP)
+        message("Found vamp")
+        add_definitions(-DHAVE_VAMP)
+        target_link_libraries(signalflow ${VAMP})
+    else ()
+        message(WARNING "Couldn't find vamp")
+    endif ()
+endif ()
+
+find_package(JSON11 CONFIG REQUIRED)
+if (JSON11_FOUND)
+    target_link_libraries(signalflow ${JSON11_LIBRARIES})
+    target_include_directories(signalflow PRIVATE ${JSON11_INCLUDE_DIRS})
 else()
-    message(WARNING "Couldn't find vamp")
-endif()
+    message(WARNING "Couldn't find json11")
+endif ()
+
+if (CMAKE_BUILD_PYTHON)
+    find_package(Python3 COMPONENTS Development REQUIRED)
+    if (python3_FOUND)
+        target_link_libraries(signalflow Python3::Python)
+    else()
+        message(WARNING "Couldn't find python3")
+    endif ()
+
+    find_package(pybind11 CONFIG REQUIRED)
+    if (pybind11_FOUND)
+        target_link_libraries(signalflow pybind11::lto pybind11::embed pybind11::module)
+    else()
+        message(WARNING "Couldn't find pybind11")
+    endif ()
+endif ()
 
 
 #-------------------------------------------------------------------------------
@@ -173,11 +224,6 @@ endif()
 
 if (CMAKE_BUILD_PYTHON)
     target_link_libraries(signalflow ${PYTHON_LIBRARY})
-else()
-    #-------------------------------------------------------------------------------
-    # Build examples
-    #-------------------------------------------------------------------------------
-    add_subdirectory("examples/cpp")
 endif()
 
 #-------------------------------------------------------------------------------

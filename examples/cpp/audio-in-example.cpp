@@ -13,6 +13,7 @@ using namespace signalflow;
 
 int main()
 {
+#ifdef HAVE_SOUNDIO
     /*------------------------------------------------------------------------
      * Instantiate a global processing graph.
      *-----------------------------------------------------------------------*/
@@ -51,4 +52,8 @@ int main()
     }
 
     graph->wait();
+#else
+    std::cerr << "signalflow was not built with libsoundio" << std::endl;
+    return 0;
+#endif
 }
