@@ -105,6 +105,7 @@ add_subdirectory("source/src")
 # Build C++ examples
 #-------------------------------------------------------------------------------
 if(BUILD_EXAMPLES)
+    message("Building signalflow examples")
     add_subdirectory("examples/cpp")
 endif(BUILD_EXAMPLES)
 
