@@ -63,6 +63,62 @@ void BeatCutter::set_buffer(std::string name, BufferRef buffer)
     }
 }
 
+void BeatCutter::set_segment(int segment_index, int frame)
+{
+    this->segment_index = segment_index;
+    this->current_segment_offset = this->segment_offsets[segment_index];
+    int next_segment_index = (segment_index + 1) % this->segment_count;
+    this->next_segment_offset = this->segment_offsets[next_segment_index];
+    // This is needed to track when phase has exceeded the next segment offset
+    if (this->next_segment_offset == 0)
+        this->next_segment_offset = this->buffer->get_num_frames();
+
+    this->segment_phase = 0.0;
+
+    /*--------------------------------------------------------------------------------
+     * Take snapshots of parameters that are modulated and captured at the start
+     * of each segment:
+     *  - segment_rate
+     *  - duty_cycle
+     *  - jump
+     *  - stutter
+     *--------------------------------------------------------------------------------*/
+    this->current_segment_rate = this->segment_rate->out[0][frame];
+    this->segment_duty = this->duty_cycle->out[0][frame];
+    if (random_uniform() < this->jump_probability->out[0][frame])
+    {
+        // jump
+        this->current_segment_offset = this->segment_offsets[random_integer(0, this->segment_count)];
+    }
+    if (random_uniform() < this->stutter_probability->out[0][frame])
+    {
+        // stutter
+        float current_stutter_count = this->stutter_count->out[0][frame];
+        this->current_stutter_length = (int) (this->segment_length / current_stutter_count);
+    }
+    else
+    {
+        this->current_stutter_length = this->segment_length;
+    }
+}
+
+void BeatCutter::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_TRIGGER_PLAY_SEGMENT)
+    {
+        int segment_index = (int) value;
+        if (segment_index < this->segment_count)
+        {
+            this->set_segment(segment_index);
+            this->phase = this->current_segment_offset;
+        }
+    }
+    else
+    {
+        throw std::runtime_error("Unknown trigger: " + name);
+    }
+}
+
 void BeatCutter::process(Buffer &out, int num_frames)
 {
     if (!this->buffer)
@@ -89,31 +145,10 @@ void BeatCutter::process(Buffer &out, int num_frames)
 
         this->phase += this->rate->out[0][frame];
         this->segment_phase += this->rate->out[0][frame] * current_segment_rate;
+
         if (this->phase >= this->next_segment_offset)
         {
-            this->segment_index = (this->segment_index + 1) % this->segment_count;
-            this->segment_phase = 0;
-            this->current_segment_offset = this->segment_offsets[this->segment_index];
-            this->current_segment_rate = this->segment_rate->out[0][frame];
-            if (random_uniform() < this->jump_probability->out[0][frame])
-            {
-                // jump
-                this->current_segment_offset = this->segment_offsets[random_integer(0, this->segment_count)];
-            }
-            if (random_uniform() < this->stutter_probability->out[0][frame])
-            {
-                // stutter
-                float current_stutter_count = this->stutter_count->out[0][frame];
-                this->current_stutter_length = (int) (this->segment_length / current_stutter_count);
-            }
-            else
-            {
-                this->current_stutter_length = this->segment_length;
-            }
-            this->next_segment_offset = this->segment_offsets[(this->segment_index + 1) % this->segment_count];
-            if (this->next_segment_offset == 0)
-                this->next_segment_offset = this->buffer->get_num_frames();
-            this->segment_duty = this->duty_cycle->out[0][frame];
+            this->set_segment((this->segment_index + 1) % this->segment_count, frame);
         }
         this->phase = fmod(this->phase, this->buffer->get_num_frames());
     }
