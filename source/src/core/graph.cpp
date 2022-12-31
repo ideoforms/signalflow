@@ -137,6 +137,11 @@ void AudioGraph::wait(float time)
     }
 }
 
+void AudioGraph::render_subgraph(const NodeRef &node)
+{
+    this->render_subgraph(node, this->get_output_buffer_size());
+}
+
 void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 {
     /*------------------------------------------------------------------------
@@ -316,6 +321,11 @@ void AudioGraph::reset_subgraph(NodeRef node)
             this->reset_subgraph(input_node);
         }
     }
+}
+
+void AudioGraph::render()
+{
+    this->render(this->get_output_buffer_size());
 }
 
 void AudioGraph::render(int num_frames)

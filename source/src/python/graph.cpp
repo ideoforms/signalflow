@@ -38,6 +38,7 @@ void init_python_graph(py::module &m)
         .def("show_structure", [](AudioGraph &graph) { graph.show_structure(); })
         .def("poll", [](AudioGraph &graph, float frequency) { graph.poll(frequency); })
         .def("poll", [](AudioGraph &graph) { graph.poll(); })
+        .def("render", [](AudioGraph &graph) { graph.render(); })
         .def("render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); })
         .def("render_to_buffer", [](AudioGraph &graph, BufferRef buffer) {
             graph.render_to_buffer(buffer);
@@ -51,9 +52,16 @@ void init_python_graph(py::module &m)
                 {
                     graph.reset_subgraph(node);
                 }
-                graph.render_subgraph(node, num_frames);
+                if (num_frames > 0)
+                {
+                    graph.render_subgraph(node, num_frames);
+                }
+                else
+                {
+                    graph.render_subgraph(node);
+                }
             },
-            "node"_a, "num_frames"_a = SIGNALFLOW_DEFAULT_BLOCK_SIZE, "reset"_a = false)
+            "node"_a, "num_frames"_a = 0, "reset"_a = false)
         .def("reset_subgraph", &AudioGraph::reset_subgraph)
         .def("play", [](AudioGraph &graph, NodeRef node) { graph.play(node); })
         .def("play", [](AudioGraph &graph, PatchRef patch) { graph.play(patch); })
