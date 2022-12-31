@@ -74,7 +74,19 @@ void init_python_node(py::module &m)
                 a->set_input(attr, value);
             }
         })
-        .def("__getattr__", [](NodeRef a, std::string attr) { return a->get_input(attr); })
+        .def("__getattr__", [](NodeRef a, std::string attr) {
+            /*--------------------------------------------------------------------------------
+             * For double-underscored attributes, throw a correct attribute error.
+             *-------------------------------------------------------------------------------*/
+            if (attr.length() > 2 && attr.substr(0, 2) == "__")
+            {
+                throw py::attribute_error("No such attribute: " + attr);
+            }
+            else
+            {
+                return a->get_input(attr);
+            }
+        })
 
         /*--------------------------------------------------------------------------------
          * Need to define an explicit hashing function because when we overwrite __eq__,
