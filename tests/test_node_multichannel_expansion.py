@@ -6,7 +6,7 @@ import numpy as np
 import pytest
 import math
 
-from . import process_tree, count_zero_crossings, get_peak_frequencies
+from . import count_zero_crossings, get_peak_frequencies
 from . import DEFAULT_BUFFER_LENGTH
 from . import graph
 
@@ -31,7 +31,7 @@ def test_expansion_multi(graph):
     assert frequency.inputs["input0"].name == "constant"
     assert frequency.inputs["input1"].name == "constant"
 
-    process_tree(a)
+    graph.render_subgraph(a)
     assert np.all(frequency.inputs["input0"].output_buffer[0] == 0.0)
     assert np.all(frequency.inputs["input1"].output_buffer[0] == 1.0)
 
@@ -42,18 +42,6 @@ def test_expansion_upmix():
     a = SquareOscillator([440, 880, 1320], [0.3, 0.7])
     assert a.num_input_channels == 3
     assert a.num_output_channels == 3
-
-    process_tree(a)
-    assert np.all(a.inputs["frequency"].output_buffer[0][:256] == 440.0)
-    assert np.all(a.inputs["frequency"].output_buffer[1][:256] == 880.0)
-    assert np.all(a.inputs["frequency"].output_buffer[2][:256] == 1320.0)
-    assert np.all(a.inputs["width"].output_buffer[0][:256] == 0.3)
-    assert np.all(a.inputs["width"].output_buffer[1][:256] == 0.7)
-    assert np.all(a.inputs["width"].output_buffer[2][:256] == 0.0)
-
-    assert count_zero_crossings(a.output_buffer[0][:256]) == math.ceil(440 * 256 / graph.sample_rate)
-    assert count_zero_crossings(a.output_buffer[1][:256]) == math.ceil(880 * 256 / graph.sample_rate)
-    assert count_zero_crossings(a.output_buffer[2][:256]) == 0
 
     # --------------------------------------------------------------------------------
     # When processed through a Graph, multichannel expansion duplicates the
@@ -113,8 +101,10 @@ def test_expansion_channel_array(graph):
     assert d.num_input_channels == d.num_output_channels == 4
     assert e.num_input_channels == 4
     assert e.num_output_channels == 1
-    buf = Buffer(1, DEFAULT_BUFFER_LENGTH)
-    process_tree(e, buffer=buf)
+    buf = Buffer(1, 1024)
+    graph.play(e)
+    graph.render_to_buffer(buf)
+
     peak_frequencies = get_peak_frequencies(buf.data[0], graph.sample_rate)
     assert np.all(
         peak_frequencies == pytest.approx([440, 880, 1760, 3520], abs=(graph.sample_rate / DEFAULT_BUFFER_LENGTH / 2)))
@@ -165,9 +155,6 @@ def test_expansion_recursive_processing():
     """
     Check that processing/upmixing propagates through the graph when
     an input's channel count is increased.
-
-    Needs to be run through AudioGraph because simple process_tree
-    doesn't do upmixing.
     """
     output = AudioOut_Dummy(2)
     graph = AudioGraph(output_device=output)

@@ -1,7 +1,6 @@
 from signalflow import Buffer, BufferPlayer, BufferRecorder, SineOscillator
 from signalflow import SIGNALFLOW_NODE_STATE_ACTIVE, SIGNALFLOW_NODE_STATE_STOPPED
 from . import graph
-from . import process_tree
 
 import numpy as np
 import pytest

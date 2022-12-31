@@ -1,9 +1,6 @@
 from signalflow import Buffer, Envelope, EnvelopeRect, ADSREnvelope, Impulse, OneTapDelay
-from signalflow import db_to_amplitude
 from . import graph
-from . import process_tree
 
-import numpy as np
 import pytest
 
 SIGNALFLOW_EXPONENTIAL_ENVELOPE_MIN_DB = -60

@@ -1,7 +1,7 @@
 from signalflow import RandomImpulse, Buffer
 from signalflow import SIGNALFLOW_EVENT_DISTRIBUTION_POISSON
 import signalflow as sf
-from . import graph, process_tree
+from . import graph
 
 import numpy as np
 
@@ -11,15 +11,20 @@ def test_random_impulse(graph):
 
     b = Buffer(1, graph.sample_rate)
     a = RandomImpulse(frequency)
-    process_tree(a, buffer=b)
+    graph.play(a)
+    graph.render_to_buffer(b)
     impulse_count = np.sum(b.data[0])
-    assert (impulse_count - frequency) < (0.1 * frequency)
+    assert impulse_count > 0
+    assert np.abs(impulse_count - frequency) < (0.1 * frequency)
+    graph.stop(a)
 
     a = RandomImpulse(frequency, SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
-    process_tree(a, buffer=b)
+    graph.play(a)
+    graph.render_to_buffer(b)
     impulse_count = np.sum(b.data[0])
-    assert (impulse_count - frequency) < (0.1 * frequency)
-
+    assert impulse_count > 0
+    assert np.abs(impulse_count - frequency) < (0.1 * frequency)
+    graph.stop(a)
 
 def test_random_uniform(graph):
     clock = sf.Node()

@@ -1,7 +1,7 @@
 from signalflow import SineOscillator, AudioGraph, Line, SIGNALFLOW_MAX_CHANNELS
 import signalflow as sf
 import numpy as np
-from . import process_tree, graph
+from . import graph
 import pytest
 
 
