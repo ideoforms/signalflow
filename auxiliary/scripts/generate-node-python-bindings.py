@@ -74,7 +74,8 @@ def generate_all_bindings():
     output += generate_class_bindings("AudioIn", [[]]) + "\n"
     output += generate_class_bindings("AudioOut_Abstract", []) + "\n"
     output += generate_class_bindings("AudioOut_Dummy", [[
-        { "name": "num_channels", "type": "int", "default": 2 }
+        { "name": "num_channels", "type": "int", "default": 2 },
+        { "name": "buffer_size", "type": "int", "default": "SIGNALFLOW_DEFAULT_BLOCK_SIZE" },
     ]], "AudioOut_Abstract") + "\n"
 
     output += generate_class_bindings("AudioOut", [[
