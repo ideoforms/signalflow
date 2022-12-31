@@ -42,42 +42,24 @@ def test_graph_render(graph):
     del graph
 
 
-def test_graph_add_remove_node():
-    graph = AudioGraph(start=False, output_device=AudioOut_Dummy(2))
+def test_graph_add_remove_node(graph):
     constant1 = Constant(1)
     constant2 = Constant(2)
     add = Add(constant1, constant2)
     graph.add_node(add)
-    buffer = Buffer(1, 1024)
-    graph.render_to_buffer(buffer)
-    assert np.all(buffer.data[0] == 0.0)
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 0.0)
     assert np.all(add.output_buffer[0] == 3)
-    del graph
+    graph.remove_node(add)
 
-    graph = AudioGraph(start=False, output_device=AudioOut_Dummy(2))
     constant1 = Constant(1)
     constant2 = Constant(2)
     add = Add(constant1, constant2)
     graph.add_node(add)
     graph.remove_node(add)
-    buffer = Buffer(1, 1024)
-    graph.render_to_buffer(buffer)
-    assert np.all(buffer.data[0] == 0.0)
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 0.0)
     assert np.all(add.output_buffer[0] == 0)
-    del graph
-
-
-def test_graph_dummy_audioout():
-    output = AudioOut_Dummy(2)
-    graph = AudioGraph(output_device=output, start=False)
-
-    sine = SineOscillator([220, 440])
-    graph.play(sine)
-
-    graph.render(256)
-    samples = graph.output.output_buffer[0][:256]
-    assert len(samples) == 256
-
     del graph
 
 
@@ -101,9 +83,7 @@ def test_graph_num_output_channels():
     del graph
 
 
-def test_graph_render_to_buffer():
-    output = AudioOut_Dummy(2)
-    graph = AudioGraph(output_device=output)
+def test_graph_render_to_buffer(graph):
     c = Constant(3)
     graph.play(c)
     b = graph.render_to_buffer(1.0)

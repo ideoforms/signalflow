@@ -19,7 +19,7 @@ def test_buffer_player(graph):
     assert np.array_equal(output.data[0][:len(buf)], buf.data[0])
 
 def test_buffer_recorder(graph):
-    record_buf = Buffer(2, graph.output_buffer_size)
+    record_buf = Buffer(2, graph.output_buffer_size - 1)
 
     sine = SineOscillator(440)
     recorder = BufferRecorder(record_buf, sine, loop=False)
@@ -30,8 +30,8 @@ def test_buffer_recorder(graph):
     graph.render(len(record_buf) + 1)
     assert recorder.state == SIGNALFLOW_NODE_STATE_STOPPED
     sine_rendered = np.sin(np.arange(len(record_buf)) * np.pi * 2 * 440 / graph.sample_rate)
-    assert list(record_buf.data[0]) == pytest.approx(sine_rendered, abs=0.0001)
-    assert list(record_buf.data[1]) == pytest.approx(sine_rendered, abs=0.0001)
+    assert record_buf.data[0] == pytest.approx(sine_rendered, abs=0.0001)
+    assert record_buf.data[1] == pytest.approx(sine_rendered, abs=0.0001)
 
 def test_buffer_recorder_overdub(graph):
     record_buf = Buffer(2, graph.output_buffer_size)
@@ -45,11 +45,11 @@ def test_buffer_recorder_overdub(graph):
     graph.render_subgraph(recorder, reset=True)
     assert recorder.state == SIGNALFLOW_NODE_STATE_ACTIVE
     sine_rendered = np.sin(np.arange(len(record_buf)) * np.pi * 2 * 440 / graph.sample_rate)
-    assert list(record_buf.data[0]) == pytest.approx(sine_rendered, abs=0.001)
+    assert record_buf.data[0] == pytest.approx(sine_rendered, abs=0.001)
 
     sine2 = SineOscillator(2000)
     recorder.set_input("input", sine2)
     graph.render_subgraph(recorder, reset=True)
     assert recorder.state == SIGNALFLOW_NODE_STATE_ACTIVE
     sine_rendered = 0.5 * sine_rendered + np.sin(np.arange(len(record_buf)) * np.pi * 2 * 2000 / graph.sample_rate)
-    assert list(record_buf.data[0]) == pytest.approx(sine_rendered, abs=0.001)
+    assert record_buf.data[0] == pytest.approx(sine_rendered, abs=0.001)

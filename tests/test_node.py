@@ -76,40 +76,31 @@ def test_node_write_to_output_buffer(graph):
     a.output_buffer[0][3] = 1.0
     assert a.output_buffer[0][3] == 1.0
 
-    # --------------------------------------------------------------------------------
-    # Why is the output buffer of length 256 (SIGNALFLOW_DEFAULT_BLOCK_SIZE)
-    # rather than 2048 (SIGNALFLOW_NODE_BUFFER_SIZE)? Because the output buffer's
-    # length is reported by the Python bindings as `last_num_frames`.
-    # Whether this is a good idea is open to debate.
-    #
-    # Better would be to have a precise and rigorous block size throughout, which
-    # would mean adding a block buffer between the audio I/O and the Graph.
-    # --------------------------------------------------------------------------------
-    assert a.output_buffer.shape == (SIGNALFLOW_MAX_CHANNELS, 256)
-    a.output_buffer[SIGNALFLOW_MAX_CHANNELS - 1][255] = 1.0
-    assert a.output_buffer[SIGNALFLOW_MAX_CHANNELS - 1][255] == 1.0
+    assert a.output_buffer.shape == (SIGNALFLOW_MAX_CHANNELS, graph.output_buffer_size)
+    a.output_buffer[SIGNALFLOW_MAX_CHANNELS - 1][-1] = 1.0
+    assert a.output_buffer[SIGNALFLOW_MAX_CHANNELS - 1][-1] == 1.0
     with pytest.raises(IndexError):
-        a.output_buffer[SIGNALFLOW_MAX_CHANNELS][255] == 1.0
+        a.output_buffer[SIGNALFLOW_MAX_CHANNELS][graph.output_buffer_size - 1] == 1.0
     with pytest.raises(IndexError):
-        a.output_buffer[SIGNALFLOW_MAX_CHANNELS][256] == 1.0
+        a.output_buffer[SIGNALFLOW_MAX_CHANNELS][graph.output_buffer_size] == 1.0
 
 
 def test_node_trigger(graph):
     env = sf.ASREnvelope(0, 0, 0.01)
     graph.play(env)
 
-    graph.render(1024)
+    graph.render()
     assert env.output_buffer[0][0] == 1.0
     assert np.all(env.output_buffer[0][1:] < 1.0)
 
-    graph.render(1024)
+    graph.render()
     assert np.all(env.output_buffer[0] < 1.0)
 
     # --------------------------------------------------------------------------------
     # trigger via function
     # --------------------------------------------------------------------------------
     env.trigger()
-    graph.render(1024)
+    graph.render()
     assert env.output_buffer[0][0] == 1.0
     assert np.all(env.output_buffer[0][1:] < 1.0)
 
@@ -118,14 +109,14 @@ def test_node_trigger(graph):
     # --------------------------------------------------------------------------------
     node = sf.Node()
     env.set_input("clock", node)
-    graph.render(1024)
+    graph.render()
     assert np.all(env.output_buffer[0] < 1.0)
 
     # --------------------------------------------------------------------------------
     # audio-rate trigger
     # --------------------------------------------------------------------------------
     node.output_buffer[0][0] = 1
-    graph.render(1024)
+    graph.render()
     assert env.output_buffer[0][0] == 1.0
     assert np.all(env.output_buffer[0][1:] < 1.0)
 
@@ -133,16 +124,16 @@ def test_node_trigger(graph):
     # set last_sample to 1
     # --------------------------------------------------------------------------------
     node.output_buffer[0][0] = 0
-    node.output_buffer[0][1023] = 1
-    graph.render(1024)
-    assert np.all(env.output_buffer[0][:1023] < 1.0)
-    assert env.output_buffer[0][1023] == 1.0
+    node.output_buffer[0][-1] = 1
+    graph.render()
+    assert np.all(env.output_buffer[0][:-1] < 1.0)
+    assert env.output_buffer[0][-1] == 1.0
 
     # --------------------------------------------------------------------------------
     # ensure that clock does not re-trigger when first_sample == 1 and
     # last_sample == 1
     # --------------------------------------------------------------------------------
     node.output_buffer[0][1] = 0
-    node.output_buffer[0][1023] = 0
-    graph.render(1024)
+    node.output_buffer[0][-1] = 0
+    graph.render()
     assert np.all(env.output_buffer[0] < 1.0)
