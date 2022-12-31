@@ -57,6 +57,8 @@ pip3 install .
 
 ### Linux, Raspberry Pi
 
+SignalFlow supports Linux (verified on Ubuntu 20.04 and Raspberry Pi OS buster).
+
 To install the Python library on Linux, install dependencies with apt:
 ```
 apt-get install git cmake g++ python3-pip libasound2-dev libsndfile1-dev libsoundio-dev fftw3-dev
