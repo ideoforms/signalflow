@@ -1,5 +1,5 @@
 from signalflow import AudioGraph, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add
-from . import process_tree, count_zero_crossings, graph
+from . import count_zero_crossings, graph
 import pytest
 import numpy as np
 
@@ -14,7 +14,8 @@ def test_graph_sample_rate(graph):
 
     buf = Buffer(1, 1000)
     sine = SineOscillator(10)
-    process_tree(sine, buf)
+    graph.play(sine)
+    graph.render_to_buffer(buf)
     assert count_zero_crossings(buf.data[0]) == 10
 
     del graph
