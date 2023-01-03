@@ -44,13 +44,13 @@ Querying `graph.structure` returns a multi-line string describing every Node in 
 
 ### Other graph properties
 
-- `graph.node_count` (int): Returns the current number of [Nodes](/node) in the graph (including within patches)
-- `graph.patch_count` (int): Returns the current number of [Patches](/patch) in the graph
+- `graph.node_count` (int): Returns the current number of [Nodes](../node/index.md) in the graph (including within patches)
+- `graph.patch_count` (int): Returns the current number of [Patches](../patch/index.md) in the graph
 - `cpu_usage` (float): Returns the current CPU usage, between 0.0 (0%) and 1.0 (100%). CPU usage can be lowered by increasing the output buffer size.
-- `memory_usage` (int): Returns the current RAM usage, in bytes. This is typically mostly used by waveform data in [Buffers](/buffer).
+- `memory_usage` (int): Returns the current RAM usage, in bytes. This is typically mostly used by waveform data in [Buffers](../buffer/index.md).
 - `num_output_channels` (int): Returns the graph's current output channel count, which is typically identical to the number of channels supported by the audio output device.
 - `output_buffer_size` (int): Returns the current hardware output buffer size, in bytes.
 
 ---
 
-[→ Next: Recording graph output](recording)
+[→ Next: Recording graph output](recording.md)

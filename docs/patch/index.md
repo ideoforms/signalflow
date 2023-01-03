@@ -17,4 +17,4 @@ Behind the scenes, the structure of a `Patch` is encapsulated by a `PatchSpec`, 
 
 ---
 
-[→ Next: Defining a Patch](defining)
+[→ Next: Defining a Patch](defining.md)

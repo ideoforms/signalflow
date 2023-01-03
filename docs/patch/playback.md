@@ -43,13 +43,13 @@ patch.play()
 
 ### Connecting a Patch to another Patch's input
 
-A `Patch` can be connected to the input of another `Patch` (or Node), in exactly the same way described in [Connecting a Node to another Node's input](../node/playback#connecting-a-node-to-another-nodes-input).
+A `Patch` can be connected to the input of another `Patch` (or Node), in exactly the same way described in [Connecting a Node to another Node's input](../node/playback.md#connecting-a-node-to-another-nodes-input).
 
 Once you have got to grips with this paradigm, it becomes simple to build up sophisticated processing graphs by abstracting complex functionality within individual `Patch` objects, and connecting them to one another. 
 
 ## Stopping a Patch
 
-As in [Node playback](../node/playback), stopping a Patch disconnects it from the AudioGraph. Patches with [auto-free](auto-free) are automatically stopped when their lifetimes ends. Patches with an unlimited lifespan must be stopped manually, with:
+As in [Node playback](../node/playback.md), stopping a Patch disconnects it from the AudioGraph. Patches with [auto-free](auto-free.md) are automatically stopped when their lifetimes ends. Patches with an unlimited lifespan must be stopped manually, with:
 
 ```python
 patch.stop()
@@ -59,4 +59,4 @@ This disconnects the Patch from its output.
 
 ---
 
-[→ Next: Patch inputs](inputs)
+[→ Next: Patch inputs](inputs.md)

@@ -48,4 +48,4 @@ This disconnects the node from the output device that it is connected to.
 
 ---
 
-[→ Next: Inputs](inputs)
+[→ Next: Inputs](inputs.md)

@@ -11,4 +11,4 @@
 
 ---
 
-[→ Next: Exporting and importing patches](exporting)
+[→ Next: Exporting and importing patches](exporting.md)

@@ -2,7 +2,7 @@
 
 ## Patch inputs
 
-Just like a [Node](../node/inputs), a Patch supports three different classes of input:
+Just like a [Node](../node/inputs.md), a Patch supports three different classes of input:
 
 - **Audio-rate inputs**: Takes the output of another Node or Patch as an input, for continuous modulation of synthesis parameters
 - **Trigger inputs**: Used to trigger discrete control events — for example, restarting buffer playback
@@ -15,7 +15,7 @@ A Patch supports any number of user-defined named inputs, which can be used to m
 Each input must be defined by calling `add_input()` when the Patch is first defined, with an optional default value.
 
 !!! info
-    Note that Patches do not yet support [variable inputs](../node/inputs/#variable-input-nodes).
+    Note that Patches do not yet support [variable inputs](../node/inputs.md#variable-input-nodes).
 
 When a Patch is playing, the value of its inputs can be set using `patch.set_input()`:
 
@@ -35,7 +35,7 @@ bloop.set_input("frequency", 100)
 ```
 
 !!! info
-    Note that Patches do not yet support setting inputs with Python properties (e.g. `patch.prop_name = 123`), as is possible with [node inputs](../node/inputs/#audio-rate-inputs).
+    Note that Patches do not yet support setting inputs with Python properties (e.g. `patch.prop_name = 123`), as is possible with [node inputs](../node/inputs.md#audio-rate-inputs).
 
 ### Triggers
 
@@ -89,4 +89,4 @@ player.set_input("buffer", another_buffer)
 
 ---
 
-[→ Next: Operators](operators)
+[→ Next: Operators](operators.md)

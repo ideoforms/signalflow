@@ -11,8 +11,8 @@ By default, a new `AudioGraph` immediately connects to the system's default audi
 
 To prevent the graph from starting instantly (for example, if you want to use the graph in offline mode), pass `start=False` to the constructor.
 
-To configure graph playback or recording parameters, see [AudioGraph: Configuration](config).
+To configure graph playback or recording parameters, see [AudioGraph: Configuration](config.md).
 
 ---
 
-[→ Next: Graph configuration](config)
+[→ Next: Graph configuration](config.md)
