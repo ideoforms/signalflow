@@ -140,6 +140,7 @@ void init_python_node(py::module &m)
                 node.out[0],
                 dummy_data_owner);
         })
+        .def_property_readonly("output_buffer_length", &Node::get_output_buffer_length)
 
         /*--------------------------------------------------------------------------------
          * Methods
