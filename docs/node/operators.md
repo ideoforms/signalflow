@@ -84,4 +84,4 @@ Below is a full list of operators supported by SignalFlow.
 
 ---
 
-[→ Next: Multichannel](/node/multichannel)
+[→ Next: Multichannel](multichannel)

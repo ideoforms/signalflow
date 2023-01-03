@@ -11,4 +11,4 @@
 
 ---
 
-[→ Next: Exporting and importing patches](/patch/exporting)
+[→ Next: Exporting and importing patches](exporting)

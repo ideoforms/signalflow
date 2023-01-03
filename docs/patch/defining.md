@@ -31,7 +31,7 @@ In the above example:
 - At the very start of the `__init__` function, `super().__init__()` must be called to initialise the Patch and its storage. **This is vital! Without it, your program will crash.** 
 - Two audio-rate input parameters are defined. The `add_input()` method is used to define them as inputs of the `Patch`, which can then be subsequently modulated. Note that the `add_input()` method returns a reference to the frequency node, which then acts as a pointer to the input node.
 - `self.set_output()` is used to define the Patch's output. A Patch can only have one single output.
-- Finally, `self.set_auto_free()` is used to automatically stop and free the Patch after playback of the envelope is completed. [More about auto-free...](/patch/auto-free) 
+- Finally, `self.set_auto_free()` is used to automatically stop and free the Patch after playback of the envelope is completed. [More about auto-free...](auto-free) 
 
 You can now instantiate a `Bleep` object in just the same way as you would instantiate and play a Node:
 
@@ -46,8 +46,8 @@ If you query `graph.status` after playback has finished, you should see that the
 
 The structure of a `Patch` is described by a `PatchSpec`, which can in turn be imported/exported in the [JSON](https://www.json.org/json-en.html) text-based data interchange format. 
 
-For information on loading or saving PatchSpecs as JSON, see [Exporting and importing patches](/patch/exporting).
+For information on loading or saving PatchSpecs as JSON, see [Exporting and importing patches](exporting).
 
 ---
 
-[→ Next: Playing and stopping a Patch](/patch/playback)
+[→ Next: Playing and stopping a Patch](playback)

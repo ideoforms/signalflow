@@ -75,4 +75,4 @@ output = square[0:2]
 
 ---
 
-[→ Next: Status and properties](/node/properties)
+[→ Next: Status and properties](properties)

@@ -15,11 +15,11 @@ This documentation currently focuses specifically on Python interfaces and examp
 
 At its core, SignalFlow has a handful of key concepts.
 
-- At the top level is the **[AudioGraph](/graph)**, which connects to the system's audio input/output hardware.
-- The graph comprises of a network of **[Nodes](/node)**, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.
-- Nodes may have multiple **[inputs](/node/inputs)**, which determine which synthesis properties can be modulated at runtime.
+- At the top level is the **[AudioGraph](graph)**, which connects to the system's audio input/output hardware.
+- The graph comprises of a network of **[Nodes](node)**, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.
+- Nodes may have multiple **[inputs](node/inputs)**, which determine which synthesis properties can be modulated at runtime.
 - A node can also have **[Buffer](/buffer)** properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. 
-- Nodes can be grouped in a **[Patch](/patch)**, which is a user-defined configuration of nodes. A patch may have one or more named [inputs](patch/inputs) that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to [automatically remove itself](patch/auto-free) from the graph when a specified node's playback is complete, which is important for automatic memory management.
+- Nodes can be grouped in a **[Patch](patch)**, which is a user-defined configuration of nodes. A patch may have one or more named [inputs](patch/inputs) that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to [automatically remove itself](patch/auto-free) from the graph when a specified node's playback is complete, which is important for automatic memory management.
 
 ## Example
 
