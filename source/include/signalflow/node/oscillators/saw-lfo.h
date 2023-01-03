@@ -7,7 +7,7 @@ namespace signalflow
 class SawLFO : public LFO
 {
 public:
-    SawLFO(NodeRef frequency = 1.0, NodeRef min = 0.0, NodeRef max = 1.0);
+    SawLFO(NodeRef frequency = 1.0, NodeRef min = 0.0, NodeRef max = 1.0, NodeRef phase = 0.0);
     virtual void process(Buffer &out, int num_frames) override;
 };
 

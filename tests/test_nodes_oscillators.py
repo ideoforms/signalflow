@@ -1,5 +1,3 @@
-from signalflow import SineOscillator
-from signalflow import Buffer
 import signalflow as sf
 from . import graph
 
@@ -11,7 +9,7 @@ N = 1024
 
 
 def test_nodes_oscillators_sine(graph):
-    a = SineOscillator([10, 20])
+    a = sf.SineOscillator([10, 20])
     graph.render_subgraph(a)
 
     # --------------------------------------------------------------------------------
@@ -20,10 +18,10 @@ def test_nodes_oscillators_sine(graph):
     # precision.
     # --------------------------------------------------------------------------------
     expected = np.sin(np.arange(graph.output_buffer_size) * np.pi * 2 * 10 / graph.sample_rate)
-    assert list(a.output_buffer[0]) == pytest.approx(expected, abs=0.0001)
+    assert a.output_buffer[0] == pytest.approx(expected, abs=0.0001)
 
     expected = np.sin(np.arange(graph.output_buffer_size) * np.pi * 2 * 20 / graph.sample_rate)
-    assert list(a.output_buffer[1]) == pytest.approx(expected, abs=0.0001)
+    assert a.output_buffer[1] == pytest.approx(expected, abs=0.0001)
 
 
 def test_nodes_oscillators_saw(graph):
@@ -32,10 +30,10 @@ def test_nodes_oscillators_saw(graph):
     graph.render_subgraph(a, graph.sample_rate)
 
     expected0 = np.arange(-1, 1, 2 / graph.sample_rate)
-    assert list(a.output_buffer[0]) == pytest.approx(expected0)
+    assert a.output_buffer[0] == pytest.approx(expected0)
 
     expected1 = np.concatenate((np.arange(-1, 1, 4 / graph.sample_rate), np.arange(-1, 1, 4 / graph.sample_rate)))
-    assert list(a.output_buffer[1]) == pytest.approx(expected1)
+    assert a.output_buffer[1] == pytest.approx(expected1)
 
 
 def test_nodes_oscillators_triangle(graph):
@@ -44,7 +42,7 @@ def test_nodes_oscillators_triangle(graph):
     graph.render_subgraph(a, graph.sample_rate)
 
     expected0 = np.concatenate((np.arange(-1, 1, 4 / graph.sample_rate), np.arange(1, -1, -4 / graph.sample_rate)))
-    assert list(a.output_buffer[0][:graph.sample_rate]) == pytest.approx(expected0, rel=0.00001)
+    assert a.output_buffer[0][:graph.sample_rate] == pytest.approx(expected0, rel=0.00001)
 
     expected1 = np.concatenate((
         np.arange(-1, 1, 8 / graph.sample_rate),
@@ -52,7 +50,7 @@ def test_nodes_oscillators_triangle(graph):
         np.arange(-1, 1, 8 / graph.sample_rate),
         np.arange(1, -1, -8 / graph.sample_rate)
     ))
-    assert list(a.output_buffer[1][:graph.sample_rate]) == pytest.approx(expected1, rel=0.00001)
+    assert a.output_buffer[1][:graph.sample_rate] == pytest.approx(expected1, rel=0.00001)
 
 
 def test_nodes_oscillators_square(graph):
@@ -64,7 +62,7 @@ def test_nodes_oscillators_square(graph):
         np.full(graph.sample_rate // 2, 1),
         np.full(graph.sample_rate // 2, -1)
     ))
-    assert list(a.output_buffer[0][:graph.sample_rate]) == pytest.approx(expected0)
+    assert a.output_buffer[0][:graph.sample_rate] == pytest.approx(expected0)
 
     expected0 = np.concatenate((
         np.full(graph.sample_rate // 4, 1),
@@ -72,7 +70,7 @@ def test_nodes_oscillators_square(graph):
         np.full(graph.sample_rate // 4, 1),
         np.full(graph.sample_rate // 4, -1)
     ))
-    assert list(a.output_buffer[1][:graph.sample_rate]) == pytest.approx(expected0)
+    assert a.output_buffer[1][:graph.sample_rate] == pytest.approx(expected0)
 
 
 def test_nodes_oscillators_impulse(graph):
@@ -107,7 +105,6 @@ def test_nodes_oscillators_impulse_fractional_sample(graph):
     graph.play(a)
     graph.render_to_buffer(buffer)
     one_positions = np.where(buffer.data[0] == 1)[0]
-    print(one_positions)
     assert 0 in one_positions
     assert 44100 in one_positions
 
@@ -122,7 +119,7 @@ def test_nodes_oscillators_line(graph):
     assert a.num_output_channels == 2
 
     expected0 = list((1.0 / (graph.sample_rate - 1)) * np.arange(0, graph.sample_rate))
-    assert list(a.output_buffer[0][:graph.sample_rate]) == pytest.approx(expected0)
+    assert a.output_buffer[0][:graph.sample_rate] == pytest.approx(expected0)
 
     expected1 = list((1.0 / (graph.sample_rate - 1)) * 2 * np.arange(0, graph.sample_rate))
-    assert list(a.output_buffer[1][:graph.sample_rate]) == pytest.approx(expected1)
+    assert a.output_buffer[1][:graph.sample_rate] == pytest.approx(expected1)

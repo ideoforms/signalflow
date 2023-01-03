@@ -218,28 +218,28 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "frequency"_a = 1.0);
 
     py::class_<LFO, Node, NodeRefTemplate<LFO>>(m, "LFO")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<SawLFO, Node, NodeRefTemplate<SawLFO>>(m, "SawLFO")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<SawOscillator, Node, NodeRefTemplate<SawOscillator>>(m, "SawOscillator")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "phase"_a = nullptr);
 
     py::class_<SineLFO, Node, NodeRefTemplate<SineLFO>>(m, "SineLFO")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<SineOscillator, Node, NodeRefTemplate<SineOscillator>>(m, "SineOscillator")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
 
     py::class_<SquareLFO, Node, NodeRefTemplate<SquareLFO>>(m, "SquareLFO")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "width"_a = 0.5);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "width"_a = 0.5, "phase"_a = 0.0);
 
     py::class_<SquareOscillator, Node, NodeRefTemplate<SquareOscillator>>(m, "SquareOscillator")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "width"_a = 0.5);
 
     py::class_<TriangleLFO, Node, NodeRefTemplate<TriangleLFO>>(m, "TriangleLFO")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<TriangleOscillator, Node, NodeRefTemplate<TriangleOscillator>>(m, "TriangleOscillator")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
