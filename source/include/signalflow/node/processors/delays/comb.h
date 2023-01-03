@@ -20,6 +20,7 @@ public:
 private:
     NodeRef delay_time;
     NodeRef feedback;
+    float max_delay_time;
 
     std::vector<SampleRingBuffer *> buffers;
 };
