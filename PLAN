@@ -30,7 +30,11 @@ https://numpy.org/numpy-tutorials/content/tutorial-style-guide.html
    - Saving buffers
    - Reading buffer data
  - Patches
- - Howtos
+ - Tutorials
+ - Topics
+   - Control
    - MIDI control
-   - Creating a new Node class
    - Offline processing
+   - Panning
+   - FFTNode and spectral processing
+   - Live coding

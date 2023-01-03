@@ -700,7 +700,7 @@
   
     <li class="md-nav__item">
       <a href="properties/" class="md-nav__link">
-        Patch properties
+        Properties
       </a>
     </li>
   
@@ -822,14 +822,11 @@
 <ul>
 <li><a href="/patch/defining">A Patch structure is defined</a> either by declaring a Patch subclass or with a JSON specification file</li>
 <li><a href="/patch/playback">Play and stop a Patch</a> by connecting it to the AudioGraph or the input of another Patch or Node </li>
-<li>Patch inputs</li>
-<li>Audio-rate inputs</li>
-<li>Buffer inputs</li>
-<li>Trigger node</li>
-<li>Operators </li>
-<li>Exporting and importing patches</li>
-<li>Patch properties</li>
-<li>Auto-free</li>
+<li>Similar to nodes, a Patch can be <a href="/patch/inputs#audio-rate-inputs">modulated by audio-rate inputs</a>, <a href="/patch/inputs#triggers">triggered by trigger inputs</a>, and <a href="/patch/inputs#buffer-inputs">access sample data via buffer inputs</a> </li>
+<li>The outputs of Patches can be altered or combined by <a href="/patch/operators">normal Python operators</a></li>
+<li>The status of a Patch can be queried via its <a href="/patch/properties">properties</a> </li>
+<li>Patches can be <a href="/patch/exporting">exported and imported to JSON</a></li>
+<li>The <a href="/patch/auto-free">auto-free mechanism</a> allows Patches to automatically stop and free their memory after playback is complete </li>
 </ul>
 <hr />
 <p><a href="/patch/defining">→ Next: Defining a Patch</a></p>

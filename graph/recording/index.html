@@ -476,6 +476,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#offline-non-real-time-rendering" class="md-nav__link">
+    Offline (non-real-time) rendering
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -730,7 +737,7 @@
   
     <li class="md-nav__item">
       <a href="../../patch/properties/" class="md-nav__link">
-        Patch properties
+        Properties
       </a>
     </li>
   
@@ -840,6 +847,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#offline-non-real-time-rendering" class="md-nav__link">
+    Offline (non-real-time) rendering
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -859,7 +873,7 @@
                 
                 <h1 id="the-audiograph">The AudioGraph</h1>
 <h2 id="recording-the-audio-output-of-the-graph">Recording the audio output of the graph</h2>
-<p>Convenience methods are provided to make it easy to record the global audio output:</p>
+<p>Convenience methods are provided to make it easy to record the global audio output when rendering audio in real-time:</p>
 <div class="highlight"><pre><span></span><code><span class="n">graph</span><span class="o">.</span><span class="n">start_recording</span><span class="p">(</span><span class="s2">&quot;filename.wav&quot;</span><span class="p">)</span>
 <span class="o">...</span>
 <span class="n">graph</span><span class="o">.</span><span class="n">stop_recording</span><span class="p">()</span>
@@ -869,6 +883,28 @@
 <p class="admonition-title">Note</p>
 <p>At present, only .wav is supported as an output format for global audio recordings. </p>
 </div>
+<h2 id="offline-non-real-time-rendering">Offline (non-real-time) rendering</h2>
+<p>It is also possible to perform non-real-time rendering of a synthesis graph,  by synthesizing audio output to a <code>Buffer</code> which can then be saved to disk:   </p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Create an AudioGraph with a dummy output device</span>
+<span class="n">graph</span> <span class="o">=</span> <span class="n">AudioGraph</span><span class="p">(</span><span class="n">output_device</span><span class="o">=</span><span class="n">AudioOut_Dummy</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># Create a buffer that will be used to store the audio output</span>
+<span class="n">buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">graph</span><span class="o">.</span><span class="n">sample_rate</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Create a synthesis graph to render</span>
+<span class="n">freq</span> <span class="o">=</span> <span class="n">SawLFO</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
+<span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">([</span><span class="n">freq</span><span class="p">,</span> <span class="n">freq</span><span class="o">+</span><span class="mi">10</span><span class="p">])</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">play</span><span class="p">(</span><span class="n">sine</span><span class="p">)</span>
+
+<span class="c1"># Render to the buffer. Non-real-time, so happens instantaneously.</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">render_to_buffer</span><span class="p">(</span><span class="n">buffer</span><span class="p">)</span>
+
+<span class="c1"># Write the buffer contents to a file</span>
+<span class="n">buffer</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;output.wav&quot;</span><span class="p">)</span>
+
+<span class="c1"># Finally, tear down the buffer</span>
+<span class="n">graph</span><span class="o">.</span><span class="n">destroy</span><span class="p">()</span>
+</code></pre></div>
 <hr />
 <p><a href="/graph/stopping">→ Next: Clearing and stopping the graph</a></p>
                 
