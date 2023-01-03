@@ -43,4 +43,4 @@ graph.destroy()
 
 ---
 
-[→ Next: Clearing and stopping the graph](/graph/stopping)
+[→ Next: Clearing and stopping the graph](stopping)

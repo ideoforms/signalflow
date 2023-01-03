@@ -43,4 +43,4 @@ All fields are optional.
 
 ---
 
-[→ Next: Graph status and properties](/graph/properties)
+[→ Next: Graph status and properties](properties)

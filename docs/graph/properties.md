@@ -53,4 +53,4 @@ Querying `graph.structure` returns a multi-line string describing every Node in 
 
 ---
 
-[→ Next: Recording graph output](/graph/recording)
+[→ Next: Recording graph output](recording)
