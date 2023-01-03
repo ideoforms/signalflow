@@ -70,4 +70,10 @@ def graph():
     graph = signalflow.AudioGraph(config=config,
                                   output_device=signalflow.AudioOut_Dummy(2, SIGNALFLOW_UNIT_TEST_BUFFER_SIZE),
                                   start=False)
-    return graph
+    yield graph
+    #--------------------------------------------------------------------------------
+    # Ensure that graph is forcibly destroyed and cleared from memory even if the
+    # test fails (which can lead dangling references). Not doing this means that
+    # all subsequent tests will fail with "AudioGraph has already been created".
+    #--------------------------------------------------------------------------------
+    graph.destroy()
