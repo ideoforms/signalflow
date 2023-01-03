@@ -956,15 +956,15 @@
 <span class="n">patch</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 </code></pre></div>
 <h3 id="connecting-a-patch-to-another-patchs-input">Connecting a Patch to another Patch's input</h3>
-<p>A <code>Patch</code> can be connected to the input of another <code>Patch</code> (or Node), in exactly the same way described in <a href="../node/playback#connecting-a-node-to-another-nodes-input">Connecting a Node to another Node's input</a>.</p>
+<p>A <code>Patch</code> can be connected to the input of another <code>Patch</code> (or Node), in exactly the same way described in <a href="../../node/playback/#connecting-a-node-to-another-nodes-input">Connecting a Node to another Node's input</a>.</p>
 <p>Once you have got to grips with this paradigm, it becomes simple to build up sophisticated processing graphs by abstracting complex functionality within individual <code>Patch</code> objects, and connecting them to one another. </p>
 <h2 id="stopping-a-patch">Stopping a Patch</h2>
-<p>As in <a href="../node/playback">Node playback</a>, stopping a Patch disconnects it from the AudioGraph. Patches with <a href="auto-free">auto-free</a> are automatically stopped when their lifetimes ends. Patches with an unlimited lifespan must be stopped manually, with:</p>
+<p>As in <a href="../../node/playback/">Node playback</a>, stopping a Patch disconnects it from the AudioGraph. Patches with <a href="../auto-free/">auto-free</a> are automatically stopped when their lifetimes ends. Patches with an unlimited lifespan must be stopped manually, with:</p>
 <div class="highlight"><pre><span></span><code><span class="n">patch</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </code></pre></div>
 <p>This disconnects the Patch from its output.</p>
 <hr />
-<p><a href="inputs">→ Next: Patch inputs</a></p>
+<p><a href="../inputs/">→ Next: Patch inputs</a></p>
                 
               
               
