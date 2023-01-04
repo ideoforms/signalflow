@@ -247,6 +247,6 @@ Wrap
 
 Thanks to the following contributors:
 
-- Arthur Carabott (@acarabott), Tim Murray-Browne (@timmb): Windows support
-- Dan Stowell (@danstowell): Build improvements
-- Marc Fargas (@telenieko): Generous donation of the `signalflow` pypi namespace
+- Arthur Carabott ([@acarabott](https://github.com/acarabott)), Tim Murray-Browne ([@timmb](https://github.com/timmb)): Windows support
+- Dan Stowell ([@danstowell](https://github.com/danstowell)): Build improvements
+- Marc Fargas ([@telenieko](https://github.com/telenieko)): Generous donation of the `signalflow` pypi namespace
