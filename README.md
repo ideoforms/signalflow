@@ -42,6 +42,9 @@ graph.wait()
 
 ## Installation
 
+<details>
+<summary>Installation: <b>macOS</b></summary>
+
 ### macOS
 
 To install the Python library on macOS, install dependencies with homebrew:
@@ -53,7 +56,10 @@ Clone this repository, then build and install with `pip`:
 ```
 pip3 install .
 ```
+</details>
 
+<details>
+<summary>Installation: <b>Linux, Raspberry Pi</b></summary>
 
 ### Linux, Raspberry Pi
 
@@ -75,7 +81,12 @@ Clone this repository, then build and install with `pip`:
 pip3 install .
 ```
 
-#### Windows
+</details>
+
+<details>
+<summary>Installation: <b>Windows</b></summary>
+
+### Windows
 
 This is work in progress.
 
@@ -91,7 +102,10 @@ To build SignalFlow, use the CMake GUI. Press configure and you will see three e
 
 As of 2021-03-03, only the signalflow project has been ported to build correctly on Windows. Only tested in x64 and for Debug builds. Tested using Visual Studio 2019.
 
-## Build (C++)
+</details>
+
+<details>
+<summary>Installation: <b>C++ only</b> (no Python layer)</summary>
 
 To build and install the C++ core without the Python binding layer:
 ```
@@ -100,6 +114,8 @@ cd build
 cmake ..
 make -j8
 ```
+
+</details>
 
 ## Examples
 
@@ -113,7 +129,7 @@ cd build
 
 ## Documentation
 
-Documentation is in the works.
+Work-in-progress documentation can be found at [ideoforms.github.io/signalflow/](https://ideoforms.github.io/signalflow/). 
 
 ## Node classes
 
@@ -227,3 +243,10 @@ WetDry
 Wrap
 ```
 
+## Contributors
+
+Thanks to the following contributors:
+
+- Arthur Carabott (@acarabott), Tim Murray-Browne (@timmb): Windows support
+- Dan Stowell (@danstowell): Build improvements
+- Marc Fargas (@telenieko): Generous donation of the `signalflow` pypi namespace
