@@ -404,10 +404,9 @@ void AudioGraph::render_to_buffer(BufferRef buffer)
     }
 }
 
-BufferRef AudioGraph::render_to_buffer(float duration)
+BufferRef AudioGraph::render_to_new_buffer(int num_frames)
 {
-    BufferRef buf = new Buffer(this->get_num_output_channels(),
-                               (int) (duration * this->sample_rate));
+    BufferRef buf = new Buffer(this->get_num_output_channels(), num_frames);
     this->render_to_buffer(buf);
     return buf;
 }

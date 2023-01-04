@@ -142,7 +142,7 @@ public:
      * @param duration The duration of the render, in seconds.
      *
      *--------------------------------------------------------------------------------*/
-    BufferRef render_to_buffer(float duration);
+    BufferRef render_to_new_buffer(int num_frames);
 
     /**--------------------------------------------------------------------------------
      * Reset the audio graph:

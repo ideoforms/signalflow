@@ -86,7 +86,7 @@ def test_graph_num_output_channels():
 def test_graph_render_to_buffer(graph):
     c = Constant(3)
     graph.play(c)
-    b = graph.render_to_buffer(1.0)
+    b = graph.render_to_new_buffer(num_frames=graph.sample_rate)
     assert b.num_channels == 2
     assert b.num_frames == graph.sample_rate
     assert np.all(b.data[0] == 3)
