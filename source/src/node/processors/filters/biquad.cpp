@@ -27,6 +27,15 @@ BiquadFilter::BiquadFilter(NodeRef input,
     this->alloc();
 }
 
+BiquadFilter::BiquadFilter(NodeRef input,
+                           std::string filter_type,
+                           NodeRef cutoff,
+                           NodeRef resonance,
+                           NodeRef peak_gain)
+    : BiquadFilter(input, SIGNALFLOW_FILTER_TYPE_MAP[filter_type], cutoff, resonance, peak_gain)
+{
+}
+
 void BiquadFilter::alloc()
 {
     this->a0.resize(this->num_output_channels_allocated, 1.0);
