@@ -119,13 +119,7 @@ make -j8
 
 ## Examples
 
-See [examples](examples) for a number of example programs.
-
-To run an example:
-```
-cd build
-./hello-world
-```
+See [examples/python](examples/python) for a number of example scripts.
 
 ## Documentation
 
@@ -136,22 +130,22 @@ Work-in-progress documentation can be found at [ideoforms.github.io/signalflow/]
 The following Node classes are currently included with the base distribution:
 
 | Category | Classes  |
-|----------|----------|
-| Analysis | CrossCorrelate, OnsetDetector, VampAnalysis |
-| Buffer | BeatCutter, BufferLooper, BufferPlayer, BufferRecorder, FeedbackBufferReader, FeedbackBufferWriter, GrainSegments, Granulator, SegmentPlayer |
-| Control | MouseX, MouseY, MouseDown |
-| Envelope | ADSREnvelope, ASREnvelope, DetectSilence, Envelope, Line, EnvelopeRect |
-| Fft | FFTContinuousPhaseVocoder, FFTConvolve, FFT, FFTNode, FFTOpNode, FFTFindPeaks, IFFT, FFTLPF, FFTNoiseGate, FFTPhaseVocoder, FFTTonality, FFTZeroPhase |
-| Operators | Add, AmplitudeToDecibels, DecibelsToAmplitude, ChannelArray, ChannelMixer, ChannelSelect, Equal, NotEqual, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, Modulo, Abs, If, Divide, FrequencyToMidiNote, MidiNoteToFrequency, Multiply, Pow, RoundToScale, Round, ScaleLinExp, ScaleLinLin, Subtract, Sum, Sin, Cos, Tan, Tanh |
-| Oscillators | Constant, Impulse, LFO, SawLFO, SawOscillator, SineLFO, SineOscillator, SquareLFO, SquareOscillator, TriangleLFO, TriangleOscillator, Wavetable, Wavetable2D |
-| Processors | Clip, Fold, Smooth, WetDry, Wrap |
-| Processors: Delays | AllpassDelay, CombDelay, OneTapDelay, Stutter |
-| Processors: Distortion | Resample, SampleAndHold, Squiz, WaveShaper |
-| Processors: Dynamics | Compressor, Gate, Maximiser, RMS |
-| Processors: Filters | BiquadFilter, EQ, MoogVCF, SVFilter |
-| Processors: Panning | AzimuthPanner, ChannelPanner, SpatialPanner, StereoBalance, StereoPanner, StereoWidth |
-| Sequencing | ClockDivider, Counter, Euclidean, FlipFlop, ImpulseSequence, Index, Latch, Sequence |
-| Stochastic | Logistic, PinkNoise, RandomBrownian, RandomChoice, RandomCoin, RandomExponentialDist, RandomExponential, RandomGaussian, RandomImpulseSequence, RandomImpulse, RandomUniform, StochasticNode, WhiteNoise |
+|:---------|:---------|
+| **Analysis** | CrossCorrelate, OnsetDetector, VampAnalysis |
+| **Buffer** | BeatCutter, BufferLooper, BufferPlayer, BufferRecorder, FeedbackBufferReader, FeedbackBufferWriter, GrainSegments, Granulator, SegmentPlayer |
+| **Control** | MouseX, MouseY, MouseDown |
+| **Envelope** | ADSREnvelope, ASREnvelope, DetectSilence, Envelope, Line, EnvelopeRect |
+| **Fft** | FFTContinuousPhaseVocoder, FFTConvolve, FFT, FFTNode, FFTOpNode, FFTFindPeaks, IFFT, FFTLPF, FFTNoiseGate, FFTPhaseVocoder, FFTTonality, FFTZeroPhase |
+| **Operators** | Add, AmplitudeToDecibels, DecibelsToAmplitude, ChannelArray, ChannelMixer, ChannelSelect, Equal, NotEqual, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, Modulo, Abs, If, Divide, FrequencyToMidiNote, MidiNoteToFrequency, Multiply, Pow, RoundToScale, Round, ScaleLinExp, ScaleLinLin, Subtract, Sum, Sin, Cos, Tan, Tanh |
+| **Oscillators** | Constant, Impulse, LFO, SawLFO, SawOscillator, SineLFO, SineOscillator, SquareLFO, SquareOscillator, TriangleLFO, TriangleOscillator, Wavetable, Wavetable2D |
+| **Processors** | Clip, Fold, Smooth, WetDry, Wrap |
+| **Processors: Delays** | AllpassDelay, CombDelay, OneTapDelay, Stutter |
+| **Processors: Distortion** | Resample, SampleAndHold, Squiz, WaveShaper |
+| **Processors: Dynamics** | Compressor, Gate, Maximiser, RMS |
+| **Processors: Filters** | BiquadFilter, EQ, MoogVCF, SVFilter |
+| **Processors: Panning** | AzimuthPanner, ChannelPanner, SpatialPanner, StereoBalance, StereoPanner, StereoWidth |
+| **Sequencing** | ClockDivider, Counter, Euclidean, FlipFlop, ImpulseSequence, Index, Latch, Sequence |
+| **Stochastic** | Logistic, PinkNoise, RandomBrownian, RandomChoice, RandomCoin, RandomExponentialDist, RandomExponential, RandomGaussian, RandomImpulseSequence, RandomImpulse, RandomUniform, StochasticNode, WhiteNoise |
 
 ## Contributors
 

@@ -166,10 +166,10 @@ if args.markdown:
     print(markdown)
 elif args.table:
     output_table =  "| Category | Classes  |\n"
-    output_table += "|----------|----------|\n"
+    output_table += "|:---------|:---------|\n"
     for category, classes in class_categories.items():
         category_text = ": ".join(text.title() for text in category.split("/"))
-        output_table += "| %s | %s |\n" % (category_text, ", ".join(classes))
+        output_table += "| **%s** | %s |\n" % (category_text, ", ".join(classes))
     print(output_table)
 else:
     print(output)
