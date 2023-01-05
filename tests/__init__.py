@@ -13,6 +13,14 @@ import numpy as np
 import scipy.signal
 
 #------------------------------------------------------------------------
+# Set a standard buffer size to use throughout most unit tests.
+# This is needed because some functionality (e.g. pitch detection)
+# relies on having a minimum buffer size to work reliably.
+#------------------------------------------------------------------------
+SIGNALFLOW_UNIT_TEST_BUFFER_SIZE = 2048
+SIGNALFLOW_UNIT_TEST_SAMPLE_RATE = 44100
+
+#------------------------------------------------------------------------
 # Add the build path of the .so to Python's path, so that it can be
 # found when running unit tests.
 # https://stackoverflow.com/questions/14320220/testing-python-c-libraries-get-build-path
@@ -28,9 +36,7 @@ build_dir = os.path.join("build", distutils_dir_name("lib"))
 sys.path.insert(0, build_dir)
 import signalflow
 
-DEFAULT_BUFFER_LENGTH = 1024
-
-def process_tree(node, buffer=None, num_frames=DEFAULT_BUFFER_LENGTH):
+def process_tree(node, buffer=None, num_frames=signalflow.SIGNALFLOW_DEFAULT_BLOCK_SIZE):
     if buffer is not None:
         num_frames = buffer.num_frames
     for _, input in node.inputs.items():
@@ -58,10 +64,16 @@ def get_peak_frequencies(samples, sample_rate):
 @pytest.fixture(scope="function")
 def graph():
     config = signalflow.AudioGraphConfig()
-    config.sample_rate = 44100
-    config.input_buffer_size = 2048
-    config.output_buffer_size = 2048
+    config.sample_rate = SIGNALFLOW_UNIT_TEST_SAMPLE_RATE
+    config.input_buffer_size = SIGNALFLOW_UNIT_TEST_BUFFER_SIZE
+    config.output_buffer_size = SIGNALFLOW_UNIT_TEST_BUFFER_SIZE
     graph = signalflow.AudioGraph(config=config,
-                                  output_device=signalflow.AudioOut_Dummy(2),
+                                  output_device=signalflow.AudioOut_Dummy(2, SIGNALFLOW_UNIT_TEST_BUFFER_SIZE),
                                   start=False)
-    return graph
+    yield graph
+    #--------------------------------------------------------------------------------
+    # Ensure that graph is forcibly destroyed and cleared from memory even if the
+    # test fails (which can lead dangling references). Not doing this means that
+    # all subsequent tests will fail with "AudioGraph has already been created".
+    #--------------------------------------------------------------------------------
+    graph.destroy()

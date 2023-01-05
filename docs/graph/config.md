@@ -28,7 +28,9 @@ graph = AudioGraph(config)
 
 ### Configuring the graph via ~/.signalflow/config
 
-To specify a configuration that is used by all future SignalFlow sessions, create a file `~/.signalflow/config` with the following format:
+To specify a configuration that is used by all future SignalFlow sessions, create a file `~/.signalflow/config`, containing one or more of the "Graph configuration" fields listed above.
+
+For example:
 
 ```
 [audio]
@@ -43,4 +45,4 @@ All fields are optional.
 
 ---
 
-[→ Next: Graph status and properties](/graph/properties)
+[→ Next: Graph status and properties](properties.md)

@@ -7,14 +7,15 @@ namespace signalflow
 class LFO : public Node
 {
 public:
-    LFO(NodeRef frequency = 1.0, NodeRef min = 0.0, NodeRef max = 1.0);
+    LFO(NodeRef frequency = 1.0, NodeRef min = 0.0, NodeRef max = 1.0, NodeRef phase = 0.0);
     virtual void alloc() override;
 
 protected:
-    std::vector<float> phase;
+    std::vector<float> current_phase;
     NodeRef frequency;
     NodeRef min;
     NodeRef max;
+    NodeRef phase;
 };
 
 }

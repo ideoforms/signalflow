@@ -1,9 +1,12 @@
 # The AudioGraph
 
-`AudioGraph` is the global audio processing graph that schedules and performs the audio processing.
+`AudioGraph` is the global audio processing system that schedules and performs audio processing. It is comprised of an interconnected network of [Node](../node) and [Patch](../patch) objects, which audio flows through.
 
-It contains references to all of the [Node](/node) and [Patch](/patch) objects that are currently active, and, when a new block of audio is requested by the system audio I/O layer, traverses the tree of nodes and generates new samples.
+Each time a new block of audio is requested by the system audio I/O layer, the `AudioGraph` object is responsible for traversing the tree of nodes and generating new samples by calling each `Node`'s `process` method.
+
+!!! info "Why 'Graph'?"
+    You may be more familiar with "graph" being used to mean a data visualisation. In signal processing and discrete mathematics, the term "graph" is also used to denote a system of nodes ("vertices") related by connections ("edges"). Read more: [Graph Theory Basics](https://courses.lumenlearning.com/wmopen-mathforliberalarts/chapter/introduction-graph-theory/) (Lumen Learning). 
 
 ---
 
-[→ Next: Creating the graph](/graph/creating)
+[→ Next: Creating the graph](creating)

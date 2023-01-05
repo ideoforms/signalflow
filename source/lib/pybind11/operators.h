@@ -11,13 +11,6 @@
 
 #include "pybind11.h"
 
-#if defined(__clang__) && !defined(__INTEL_COMPILER)
-#pragma clang diagnostic ignored "-Wunsequenced" // multiple unsequenced modifications to 'self' (when using def(py::self OP Type()))
-#elif defined(_MSC_VER)
-#pragma warning(push)
-#pragma warning(disable : 4127) // warning C4127: Conditional expression is constant
-#endif
-
 PYBIND11_NAMESPACE_BEGIN(PYBIND11_NAMESPACE)
 PYBIND11_NAMESPACE_BEGIN(detail)
 
@@ -100,6 +93,7 @@ struct op_impl
 template <op_id id, op_type ot, typename L, typename R>
 struct op_
 {
+    static constexpr bool op_enable_if_hook = true;
     template <typename Class, typename... Extra>
     void execute(Class &cl, const Extra &... extra) const
     {
@@ -108,11 +102,6 @@ struct op_
         using R_type = conditional_t<std::is_same<R, self_t>::value, Base, R>;
         using op = op_impl<id, ot, Base, L_type, R_type>;
         cl.def(op::name(), &op::execute, is_operator(), extra...);
-#if PY_MAJOR_VERSION < 3
-        if (id == op_truediv || id == op_itruediv)
-            cl.def(id == op_itruediv ? "__idiv__" : ot == op_l ? "__div__" : "__rdiv__",
-                   &op::execute, is_operator(), extra...);
-#endif
     }
     template <typename Class, typename... Extra>
     void execute_cast(Class &cl, const Extra &... extra) const
@@ -122,11 +111,6 @@ struct op_
         using R_type = conditional_t<std::is_same<R, self_t>::value, Base, R>;
         using op = op_impl<id, ot, Base, L_type, R_type>;
         cl.def(op::name(), &op::execute_cast, is_operator(), extra...);
-#if PY_MAJOR_VERSION < 3
-        if (id == op_truediv || id == op_itruediv)
-            cl.def(id == op_itruediv ? "__idiv__" : ot == op_l ? "__div__" : "__rdiv__",
-                   &op::execute, is_operator(), extra...);
-#endif
     }
 };
 
@@ -203,7 +187,7 @@ PYBIND11_BINARY_OPERATOR(gt, lt, operator>, l> r)
 PYBIND11_BINARY_OPERATOR(ge, le, operator>=, l >= r)
 PYBIND11_BINARY_OPERATOR(lt, gt, operator<, l<r)
 PYBIND11_BINARY_OPERATOR(le, ge, operator<=, l <= r)
-//PYBIND11_BINARY_OPERATOR(pow,       rpow,         pow,          std::pow(l,  r))
+// PYBIND11_BINARY_OPERATOR(pow,       rpow,         pow,          std::pow(l,  r))
 PYBIND11_INPLACE_OPERATOR(iadd, operator+=, l += r)
 PYBIND11_INPLACE_OPERATOR(isub, operator-=, l -= r)
 PYBIND11_INPLACE_OPERATOR(imul, operator*=, l *= r)
@@ -236,7 +220,3 @@ using detail::self;
 using detail::hash;
 
 PYBIND11_NAMESPACE_END(PYBIND11_NAMESPACE)
-
-#if defined(_MSC_VER)
-#pragma warning(pop)
-#endif

@@ -10,6 +10,7 @@
 #pragma once
 
 #include "pybind11.h"
+
 #include <complex>
 
 /// glibc defines I as a macro which breaks things, e.g., boost template names
@@ -30,8 +31,9 @@ struct format_descriptor<std::complex<T>, detail::enable_if_t<std::is_floating_p
 #ifndef PYBIND11_CPP17
 
 template <typename T>
-constexpr const char format_descriptor<
-    std::complex<T>, detail::enable_if_t<std::is_floating_point<T>::value>>::value[3];
+constexpr const char
+    format_descriptor<std::complex<T>,
+                      detail::enable_if_t<std::is_floating_point<T>::value>>::value[3];
 
 #endif
 
@@ -51,9 +53,13 @@ public:
     bool load(handle src, bool convert)
     {
         if (!src)
+        {
             return false;
+        }
         if (!convert && !PyComplex_Check(src.ptr()))
+        {
             return false;
+        }
         Py_complex result = PyComplex_AsCComplex(src.ptr());
         if (result.real == -1.0 && PyErr_Occurred())
         {
@@ -64,12 +70,13 @@ public:
         return true;
     }
 
-    static handle cast(const std::complex<T> &src, return_value_policy /* policy */, handle /* parent */)
+    static handle
+    cast(const std::complex<T> &src, return_value_policy /* policy */, handle /* parent */)
     {
         return PyComplex_FromDoubles((double) src.real(), (double) src.imag());
     }
 
-    PYBIND11_TYPE_CASTER(std::complex<T>, _("complex"));
+    PYBIND11_TYPE_CASTER(std::complex<T>, const_name("complex"));
 };
 PYBIND11_NAMESPACE_END(detail)
 PYBIND11_NAMESPACE_END(PYBIND11_NAMESPACE)

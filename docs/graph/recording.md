@@ -32,6 +32,7 @@ sine = SineOscillator([freq, freq+10])
 graph.play(sine)
 
 # Render to the buffer. Non-real-time, so happens instantaneously.
+# Note that the graph renders as many samples as needed to fill the buffer.
 graph.render_to_buffer(buffer)
 
 # Write the buffer contents to a file
@@ -43,4 +44,4 @@ graph.destroy()
 
 ---
 
-[→ Next: Clearing and stopping the graph](/graph/stopping)
+[→ Next: Clearing and stopping the graph](stopping.md)

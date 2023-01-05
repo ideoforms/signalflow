@@ -27,6 +27,15 @@ BiquadFilter::BiquadFilter(NodeRef input,
     this->alloc();
 }
 
+BiquadFilter::BiquadFilter(NodeRef input,
+                           std::string filter_type,
+                           NodeRef cutoff,
+                           NodeRef resonance,
+                           NodeRef peak_gain)
+    : BiquadFilter(input, SIGNALFLOW_FILTER_TYPE_MAP[filter_type], cutoff, resonance, peak_gain)
+{
+}
+
 void BiquadFilter::alloc()
 {
     this->a0.resize(this->num_output_channels_allocated, 1.0);
@@ -61,7 +70,11 @@ void BiquadFilter::_recalculate()
         float norm;
         float V = powf(10.0, fabs(this->peak_gain->out[channel][0]) / 20.0);
         float K = tan(M_PI * this->cutoff->out[channel][0] / this->graph->get_sample_rate());
+        /*--------------------------------------------------------------------------------
+         * Ensure Q does not go to 0.0 to avoid divide-by-zero errors.
+         *--------------------------------------------------------------------------------*/
         float Q = this->resonance->out[channel][0];
+        Q = MAX(Q, 1e-9);
         float peak_gain = this->peak_gain->out[channel][0];
 
         switch (this->filter_type)
@@ -164,6 +177,9 @@ void BiquadFilter::_recalculate()
                     b2[channel] = (V - sqrt(2 * V) * K + K * K) * norm;
                 }
                 break;
+
+            default:
+                throw std::runtime_error("Invalid filter type");
         }
     }
 }

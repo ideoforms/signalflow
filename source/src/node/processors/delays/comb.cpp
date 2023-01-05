@@ -7,7 +7,7 @@ namespace signalflow
 {
 
 CombDelay::CombDelay(NodeRef input, NodeRef delay_time, NodeRef feedback, float max_delay_time)
-    : UnaryOpNode(input), delay_time(delay_time), feedback(feedback)
+    : UnaryOpNode(input), delay_time(delay_time), feedback(feedback), max_delay_time(max_delay_time)
 {
     this->name = "comb-delay";
     this->create_input("delay_time", this->delay_time);
@@ -36,9 +36,14 @@ void CombDelay::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            sample delay = this->delay_time->out[channel][frame];
+            sample delay_time = this->delay_time->out[channel][frame];
             sample feedback = this->feedback->out[channel][frame];
-            float offset = delay * this->graph->get_sample_rate();
+            float offset = delay_time * this->graph->get_sample_rate();
+
+            if (delay_time >= this->max_delay_time)
+            {
+                throw std::runtime_error("CombDelay: Delay time exceeds maximum");
+            }
 
             sample rv = input->out[channel][frame] + (feedback * buffers[channel]->get(-offset));
             out[channel][frame] = rv;

@@ -1,8 +1,6 @@
 import signalflow
 import pytest
 import math
-import numpy as np
-from . import DEFAULT_BUFFER_LENGTH
 
 def test_clip():
     assert signalflow.clip(-0.5, 0, 1) == 0.0

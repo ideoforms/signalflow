@@ -21,19 +21,22 @@ num_bins = fft_size // 2 + 1
 def test_fft(graph):
     #--------------------------------------------------------------------------------
     # Verify that single-hop FFT output matches numpy's fft
-    # 1026 = 512 bins plus Nyquist
+    # 1026 = 512 bins plus DC and Nyquist
     #--------------------------------------------------------------------------------
     buffer_a = Buffer(1, fft_size)
     buffer_b = Buffer(1, num_bins * 2)
 
-    process_tree(SineOscillator(440), buffer_a)
+    sine = SineOscillator(440)
+    graph.play(sine)
+    graph.render_to_buffer(buffer_a)
+    graph.stop(sine)
 
     spectrum = np.fft.rfft(buffer_a.data[0])
     mags_py = np.abs(spectrum)[:num_bins]
     angles_py = np.angle(spectrum)[:num_bins]
 
     fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
-    process_tree(fft, buffer_b)
+    process_tree(fft, buffer_b, len(buffer_b))
 
     # Apple vDSP applies a scaling factor of 2x after forward FFT
     # TODO: Fix this (and remove scaling factor in fftw forward fft)

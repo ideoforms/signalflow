@@ -1,6 +1,6 @@
 # SignalFlow
 
-![ci](https://github.com/ideoforms/signal/workflows/ci/badge.svg)
+![ci](https://github.com/ideoforms/signal/workflows/ci/badge.svg) [![stability-beta](https://img.shields.io/badge/stability-beta-33bbff.svg)](https://github.com/mkenney/software-guides/blob/master/STABILITY-BADGES.md#beta)
 
 SignalFlow is a sound synthesis framework designed for clear and concise expression of complex musical ideas. It has an extensive Python API, for fluid audio experimentation in iPython/Jupyter. Its core is written in C++11, so it can also be embedded into other cross-platform applications.
 
@@ -42,6 +42,9 @@ graph.wait()
 
 ## Installation
 
+<details>
+<summary>Installation: <b>macOS</b></summary>
+
 ### macOS
 
 To install the Python library on macOS, install dependencies with homebrew:
@@ -53,9 +56,14 @@ Clone this repository, then build and install with `pip`:
 ```
 pip3 install .
 ```
+</details>
 
+<details>
+<summary>Installation: <b>Linux, Raspberry Pi</b></summary>
 
 ### Linux, Raspberry Pi
+
+SignalFlow supports Linux (verified on Ubuntu 20.04 and Raspberry Pi OS buster).
 
 To install the Python library on Linux, install dependencies with apt:
 ```
@@ -73,7 +81,12 @@ Clone this repository, then build and install with `pip`:
 pip3 install .
 ```
 
-#### Windows
+</details>
+
+<details>
+<summary>Installation: <b>Windows</b></summary>
+
+### Windows
 
 This is work in progress.
 
@@ -89,7 +102,10 @@ To build SignalFlow, use the CMake GUI. Press configure and you will see three e
 
 As of 2021-03-03, only the signalflow project has been ported to build correctly on Windows. Only tested in x64 and for Debug builds. Tested using Visual Studio 2019.
 
-## Build (C++)
+</details>
+
+<details>
+<summary>Installation: <b>C++ only</b> (no Python layer)</summary>
 
 To build and install the C++ core without the Python binding layer:
 ```
@@ -99,129 +115,42 @@ cmake ..
 make -j8
 ```
 
+</details>
+
 ## Examples
 
-See [examples](examples) for a number of example programs.
-
-To run an example:
-```
-cd build
-./hello-world
-```
+See [examples/python](examples/python) for a number of example scripts.
 
 ## Documentation
 
-Documentation is in the works.
+Work-in-progress documentation can be found at [ideoforms.github.io/signalflow/](https://ideoforms.github.io/signalflow/). 
 
 ## Node classes
 
-The following Node classes are currently available:
+The following Node classes are currently included with the base distribution:
 
-```
-Abs
-Add
-AllpassDelay
-AmplitudeToDecibels
-AudioIn
-AudioOut_Abstract
-    AudioOut
-    AudioOut_Dummy
-BiquadFilter
-BufferPlayer
-BufferRecorder
-ChannelArray
-ChannelMixer
-ChannelSelect
-Clip
-ClockDivider
-CombDelay
-Compressor
-Constant
-Counter
-CrossCorrelate
-DecibelsToAmplitude
-Divide
-EQ
-Envelope
-ADSREnvelope
-ASREnvelope
-Equal
-Euclidean
-FFT
-FFTContinuousPhaseVocoder
-FFTConvolve
-FFTFindPeaks
-FFTLPF
-FFTPhaseVocoder
-FFTTonality
-FlipFlop
-Fold
-Gate
-Granulator
-GreaterThan
-GreaterThanOrEqual
-IFFT
-If
-Impulse
-ImpulseSequence
-Index
-LFO
-Latch
-LessThan
-LessThanOrEqual
-Line
-LinearPanner
-Logistic
-Maximiser
-MidiNoteToFrequency
-Modulo
-MoogVCF
-MouseDown
-MouseX
-MouseY
-Multiply
-NotEqual
-OneTapDelay
-OnsetDetector
-Pow
-RMS
-Resample
-RoundToScale
-SVFilter
-SampleAndHold
-Saw
-SawLFO
-ScaleLinExp
-ScaleLinLin
-Sine
-SineLFO
-Smooth
-Square
-SquareLFO
-Squiz
-StereoBalance
-StereoWidth
-StochasticNode
-    PinkNoise
-    RandomBrownian
-    RandomCoin
-    RandomExponential
-    RandomExponentialDist
-    RandomGaussian
-    RandomImpulse
-    RandomImpulseSequence
-    RandomUniform
-    WhiteNoise
-Stutter
-Subtract
-Sum
-Tanh
-Triangle
-TriangleLFO
-WaveShaper
-Wavetable
-Wavetable2D
-WetDry
-Wrap
-```
+| Category | Classes  |
+|:---------|:---------|
+| **Analysis** | CrossCorrelate, OnsetDetector, VampAnalysis |
+| **Buffer** | BeatCutter, BufferLooper, BufferPlayer, BufferRecorder, FeedbackBufferReader, FeedbackBufferWriter, GrainSegments, Granulator, SegmentPlayer |
+| **Control** | MouseX, MouseY, MouseDown |
+| **Envelope** | ADSREnvelope, ASREnvelope, DetectSilence, Envelope, Line, EnvelopeRect |
+| **Fft** | FFTContinuousPhaseVocoder, FFTConvolve, FFT, FFTNode, FFTOpNode, FFTFindPeaks, IFFT, FFTLPF, FFTNoiseGate, FFTPhaseVocoder, FFTTonality, FFTZeroPhase |
+| **Operators** | Add, AmplitudeToDecibels, DecibelsToAmplitude, ChannelArray, ChannelMixer, ChannelSelect, Equal, NotEqual, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, Modulo, Abs, If, Divide, FrequencyToMidiNote, MidiNoteToFrequency, Multiply, Pow, RoundToScale, Round, ScaleLinExp, ScaleLinLin, Subtract, Sum, Sin, Cos, Tan, Tanh |
+| **Oscillators** | Constant, Impulse, LFO, SawLFO, SawOscillator, SineLFO, SineOscillator, SquareLFO, SquareOscillator, TriangleLFO, TriangleOscillator, Wavetable, Wavetable2D |
+| **Processors** | Clip, Fold, Smooth, WetDry, Wrap |
+| **Processors: Delays** | AllpassDelay, CombDelay, OneTapDelay, Stutter |
+| **Processors: Distortion** | Resample, SampleAndHold, Squiz, WaveShaper |
+| **Processors: Dynamics** | Compressor, Gate, Maximiser, RMS |
+| **Processors: Filters** | BiquadFilter, EQ, MoogVCF, SVFilter |
+| **Processors: Panning** | AzimuthPanner, ChannelPanner, SpatialPanner, StereoBalance, StereoPanner, StereoWidth |
+| **Sequencing** | ClockDivider, Counter, Euclidean, FlipFlop, ImpulseSequence, Index, Latch, Sequence |
+| **Stochastic** | Logistic, PinkNoise, RandomBrownian, RandomChoice, RandomCoin, RandomExponentialDist, RandomExponential, RandomGaussian, RandomImpulseSequence, RandomImpulse, RandomUniform, StochasticNode, WhiteNoise |
 
+## Contributors
+
+Thanks to the following contributors:
+
+- Arthur Carabott ([@acarabott](https://github.com/acarabott)), Tim Murray-Browne ([@timmb](https://github.com/timmb)): Windows support
+- Dan Stowell ([@danstowell](https://github.com/danstowell)): Build improvements
+- Marc Fargas ([@telenieko](https://github.com/telenieko)): Generous donation of the `signalflow` pypi namespace

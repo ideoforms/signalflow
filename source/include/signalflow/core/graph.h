@@ -103,12 +103,13 @@ public:
      *  - Calculate timing and CPU usage
      *
      * Typically this is called from the audio I/O thread and does not need to be
-     * called manually. To render to a buffer, use render_to_buffer
+     * called manually. To render to a buffer, use render_to_buffer.
      *
      * @param num_frames The number of frames to render.
      *
      *--------------------------------------------------------------------------------*/
     void render(int num_frames);
+    void render();
 
     /**--------------------------------------------------------------------------------
      * Perform a recursive render from the specified node.
@@ -122,7 +123,8 @@ public:
      * @param num_frames The number of frames to render.
      *
      *--------------------------------------------------------------------------------*/
-    void render_subgraph(const NodeRef &node, int num_frames = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
+    void render_subgraph(const NodeRef &node, int num_frames);
+    void render_subgraph(const NodeRef &node);
 
     /**--------------------------------------------------------------------------------
      * Render the entire graph to an output buffer, dividing the processing into
@@ -140,7 +142,7 @@ public:
      * @param duration The duration of the render, in seconds.
      *
      *--------------------------------------------------------------------------------*/
-    BufferRef render_to_buffer(float duration);
+    BufferRef render_to_new_buffer(int num_frames);
 
     /**--------------------------------------------------------------------------------
      * Reset the audio graph:

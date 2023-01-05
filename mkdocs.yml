@@ -1,8 +1,8 @@
 site_name: SignalFlow
 theme:
   name: material
-  features:
-   - navigation.tabs
+  palette:
+   - primary: pink
 
 repo_name: ideoforms/signalflow
 repo_url: https://github.com/ideoforms/signalflow

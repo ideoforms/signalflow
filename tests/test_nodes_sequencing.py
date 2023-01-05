@@ -1,6 +1,5 @@
 from signalflow import *
 from . import graph
-from . import process_tree
 
 import numpy as np
 

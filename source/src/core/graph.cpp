@@ -137,6 +137,11 @@ void AudioGraph::wait(float time)
     }
 }
 
+void AudioGraph::render_subgraph(const NodeRef &node)
+{
+    this->render_subgraph(node, this->get_output_buffer_size());
+}
+
 void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 {
     /*------------------------------------------------------------------------
@@ -318,6 +323,11 @@ void AudioGraph::reset_subgraph(NodeRef node)
     }
 }
 
+void AudioGraph::render()
+{
+    this->render(this->get_output_buffer_size());
+}
+
 void AudioGraph::render(int num_frames)
 {
     /*------------------------------------------------------------------------
@@ -394,10 +404,9 @@ void AudioGraph::render_to_buffer(BufferRef buffer)
     }
 }
 
-BufferRef AudioGraph::render_to_buffer(float duration)
+BufferRef AudioGraph::render_to_new_buffer(int num_frames)
 {
-    BufferRef buf = new Buffer(this->get_num_output_channels(),
-                               (int) (duration * this->sample_rate));
+    BufferRef buf = new Buffer(this->get_num_output_channels(), num_frames);
     this->render_to_buffer(buf);
     return buf;
 }
