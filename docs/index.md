@@ -3,7 +3,7 @@
 !!! warning
     This documentation is a work-in-progress and may have sections that are missing or incomplete.
 
-SignalFlow is an audio DSP framework whose goal is to make it quick and intuitive to explore complex sonic ideas. It has a simple and consistent Python API, allowing for rapid prototyping in Jupyter, PyCharm, or on the command-line. It comes with over 100 of built-in node classes for creative exploration.
+SignalFlow is an audio synthesis framework whose goal is to make it quick and intuitive to explore complex sonic ideas. It has a simple and consistent Python API, allowing for rapid prototyping in Jupyter, PyCharm, or on the command-line. It comes with over 100 of built-in node classes for creative exploration.
 
 Its core is implemented in C++11, with cross-platform hardware acceleration.  
 
