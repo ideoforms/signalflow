@@ -24,6 +24,7 @@ import CppHeaderParser
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-m", "--markdown", action="store_true")
+parser.add_argument("-t", "--table", action="store_true")
 args = parser.parse_args()
 
 node_superclasses = [ "Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO" ]
@@ -34,7 +35,7 @@ top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).d
 header_root = os.path.join(top_level, "source", "include")
 source_files = glob.glob("%s/signalflow/node/*/*.h" % header_root) + glob.glob("%s/signalflow/node/*/*/*.h" % header_root)
 source_files = list(filter(lambda path: not "/io/" in path, source_files))
-source_files = list(sorted(source_files))
+source_files = list(sorted(source_files, key=lambda path: (os.path.dirname(path), path)))
 
 def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
     """
@@ -84,12 +85,17 @@ def generate_all_bindings():
         { "name": "buffer_size", "type": "int", "default": 0 }
     ]], "AudioOut_Abstract") + "\n"
 
+    class_categories = {}
+    class_category = None
+
     for source_file in source_files:
         folder = re.sub(".*node/", "", source_file)
         folder = os.path.dirname(folder)
         if folder != folder_last:
-            output_markdown += "\n## " + folder + "\n\n"
+            output_markdown += " |\n## " + folder + "\n\n"
             folder_last = folder
+            class_category = folder
+            class_categories[class_category] = []
 
         try:
             header = CppHeaderParser.CppHeader(source_file)
@@ -140,9 +146,10 @@ def generate_all_bindings():
 
                 output_markdown_params = ", ".join(("%s=%s" % (param["name"], param["default"])) for param in constructor_parameter_sets[0])
                 output_markdown += "- **%s** `(%s)`\n" % (class_name, output_markdown_params)
-    return output, output_markdown
+                class_categories[class_category].append(class_name)
+    return output, output_markdown, class_categories
 
-bindings, markdown = generate_all_bindings()
+bindings, markdown, class_categories = generate_all_bindings()
 bindings = re.sub("\n", "\n    ", bindings)
 output = '''#include "signalflow/python/python.h"
 
@@ -157,5 +164,12 @@ void init_python_nodes(py::module &m)
 
 if args.markdown:
     print(markdown)
+elif args.table:
+    output_table =  "| Category | Classes  |\n"
+    output_table += "|----------|----------|\n"
+    for category, classes in class_categories.items():
+        category_text = ": ".join(text.title() for text in category.split("/"))
+        output_table += "| %s | %s |\n" % (category_text, ", ".join(classes))
+    print(output_table)
 else:
     print(output)

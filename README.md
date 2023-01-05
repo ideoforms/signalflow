@@ -133,115 +133,25 @@ Work-in-progress documentation can be found at [ideoforms.github.io/signalflow/]
 
 ## Node classes
 
-The following Node classes are currently available:
+The following Node classes are currently included with the base distribution:
 
-```
-Abs
-Add
-AllpassDelay
-AmplitudeToDecibels
-AudioIn
-AudioOut_Abstract
-    AudioOut
-    AudioOut_Dummy
-BiquadFilter
-BufferPlayer
-BufferRecorder
-ChannelArray
-ChannelMixer
-ChannelSelect
-Clip
-ClockDivider
-CombDelay
-Compressor
-Constant
-Counter
-CrossCorrelate
-DecibelsToAmplitude
-Divide
-EQ
-Envelope
-ADSREnvelope
-ASREnvelope
-Equal
-Euclidean
-FFT
-FFTContinuousPhaseVocoder
-FFTConvolve
-FFTFindPeaks
-FFTLPF
-FFTPhaseVocoder
-FFTTonality
-FlipFlop
-Fold
-Gate
-Granulator
-GreaterThan
-GreaterThanOrEqual
-IFFT
-If
-Impulse
-ImpulseSequence
-Index
-LFO
-Latch
-LessThan
-LessThanOrEqual
-Line
-LinearPanner
-Logistic
-Maximiser
-MidiNoteToFrequency
-Modulo
-MoogVCF
-MouseDown
-MouseX
-MouseY
-Multiply
-NotEqual
-OneTapDelay
-OnsetDetector
-Pow
-RMS
-Resample
-RoundToScale
-SVFilter
-SampleAndHold
-Saw
-SawLFO
-ScaleLinExp
-ScaleLinLin
-Sine
-SineLFO
-Smooth
-Square
-SquareLFO
-Squiz
-StereoBalance
-StereoWidth
-StochasticNode
-    PinkNoise
-    RandomBrownian
-    RandomCoin
-    RandomExponential
-    RandomExponentialDist
-    RandomGaussian
-    RandomImpulse
-    RandomImpulseSequence
-    RandomUniform
-    WhiteNoise
-Stutter
-Subtract
-Sum
-Tanh
-Triangle
-TriangleLFO
-WaveShaper
-Wavetable
-Wavetable2D
-WetDry
-Wrap
-```
+| Category | Classes  |
+|----------|----------|
+| Analysis | CrossCorrelate, OnsetDetector, VampAnalysis |
+| Buffer | BeatCutter, BufferLooper, BufferPlayer, BufferRecorder, FeedbackBufferReader, FeedbackBufferWriter, GrainSegments, Granulator, SegmentPlayer |
+| Control | MouseX, MouseY, MouseDown |
+| Envelope | ADSREnvelope, ASREnvelope, DetectSilence, Envelope, Line, EnvelopeRect |
+| Fft | FFTContinuousPhaseVocoder, FFTConvolve, FFT, FFTNode, FFTOpNode, FFTFindPeaks, IFFT, FFTLPF, FFTNoiseGate, FFTPhaseVocoder, FFTTonality, FFTZeroPhase |
+| Operators | Add, AmplitudeToDecibels, DecibelsToAmplitude, ChannelArray, ChannelMixer, ChannelSelect, Equal, NotEqual, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, Modulo, Abs, If, Divide, FrequencyToMidiNote, MidiNoteToFrequency, Multiply, Pow, RoundToScale, Round, ScaleLinExp, ScaleLinLin, Subtract, Sum, Sin, Cos, Tan, Tanh |
+| Oscillators | Constant, Impulse, LFO, SawLFO, SawOscillator, SineLFO, SineOscillator, SquareLFO, SquareOscillator, TriangleLFO, TriangleOscillator, Wavetable, Wavetable2D |
+| Processors | Clip, Fold, Smooth, WetDry, Wrap |
+| Processors: Delays | AllpassDelay, CombDelay, OneTapDelay, Stutter |
+| Processors: Distortion | Resample, SampleAndHold, Squiz, WaveShaper |
+| Processors: Dynamics | Compressor, Gate, Maximiser, RMS |
+| Processors: Filters | BiquadFilter, EQ, MoogVCF, SVFilter |
+| Processors: Panning | AzimuthPanner, ChannelPanner, SpatialPanner, StereoBalance, StereoPanner, StereoWidth |
+| Sequencing | ClockDivider, Counter, Euclidean, FlipFlop, ImpulseSequence, Index, Latch, Sequence |
+| Stochastic | Logistic, PinkNoise, RandomBrownian, RandomChoice, RandomCoin, RandomExponentialDist, RandomExponential, RandomGaussian, RandomImpulseSequence, RandomImpulse, RandomUniform, StochasticNode, WhiteNoise |
 
 ## Contributors
 
