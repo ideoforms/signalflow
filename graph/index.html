@@ -23,6 +23,10 @@
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
         
+          
+          
+          <meta name="theme-color" content="#e92063">
+        
       
     
     
@@ -48,7 +52,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="pink" data-md-color-accent="">
   
     
     <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
@@ -149,97 +153,6 @@
       
       
         
-          
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-tabs__inner md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
-        Home
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-    
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="./" class="md-tabs__link md-tabs__link--active">
-        The AudioGraph
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../node/" class="md-tabs__link">
-        Nodes
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../patch/" class="md-tabs__link">
-        Patches
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../buffer/" class="md-tabs__link">
-        Buffers
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -251,10 +164,8 @@
                   <div class="md-sidebar__inner">
                     
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="SignalFlow" class="md-nav__button md-logo" aria-label="SignalFlow" data-md-component="logo">
       
@@ -813,8 +724,12 @@
                 
                 
                 <h1 id="the-audiograph">The AudioGraph</h1>
-<p><code>AudioGraph</code> is the global audio processing graph that schedules and performs the audio processing.</p>
-<p>It contains references to all of the <a href="../node">Node</a> and <a href="../patch">Patch</a> objects that are currently active, and, when a new block of audio is requested by the system audio I/O layer, traverses the tree of nodes and generates new samples.</p>
+<p><code>AudioGraph</code> is the global audio processing system that schedules and performs audio processing. It is comprised of an interconnected network of <a href="../node">Node</a> and <a href="../patch">Patch</a> objects, which audio flows through.</p>
+<p>Each time a new block of audio is requested by the system audio I/O layer, the <code>AudioGraph</code> object is responsible for traversing the tree of nodes and generating new samples by calling each <code>Node</code>'s <code>process</code> method.</p>
+<div class="admonition info">
+<p class="admonition-title">Why 'Graph'?</p>
+<p>You may be more familiar with "graph" being used to mean a data visualisation. In signal processing and discrete mathematics, the term "graph" is also used to denote a system of nodes ("vertices") related by connections ("edges"). Read more: <a href="https://courses.lumenlearning.com/wmopen-mathforliberalarts/chapter/introduction-graph-theory/">Graph Theory Basics</a> (Lumen Learning). </p>
+</div>
 <hr />
 <p><a href="creating">→ Next: Creating the graph</a></p>
                 
@@ -909,7 +824,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.76f349be.min.js"></script>

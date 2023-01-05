@@ -23,6 +23,10 @@
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.f1a3b89f.min.css">
         
+          
+          
+          <meta name="theme-color" content="#e92063">
+        
       
     
     
@@ -48,7 +52,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="pink" data-md-color-accent="">
   
     
     <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
@@ -149,97 +153,6 @@
       
       
         
-          
-<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
-  <div class="md-tabs__inner md-grid">
-    <ul class="md-tabs__list">
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
-        Home
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../graph/" class="md-tabs__link">
-        The AudioGraph
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-    
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../" class="md-tabs__link md-tabs__link--active">
-        Nodes
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../patch/" class="md-tabs__link">
-        Patches
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-
-
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="../../buffer/" class="md-tabs__link">
-        Buffers
-      </a>
-    </li>
-  
-
-      
-    </ul>
-  </div>
-</nav>
-        
       
       <main class="md-main" data-md-component="main">
         <div class="md-main__inner md-grid">
@@ -251,10 +164,8 @@
                   <div class="md-sidebar__inner">
                     
 
-  
 
-
-<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../.." title="SignalFlow" class="md-nav__button md-logo" aria-label="SignalFlow" data-md-component="logo">
       
@@ -704,22 +615,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#processors_1" class="md-nav__link">
-    processors
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#processorspanning" class="md-nav__link">
     processors/panning
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processors_2" class="md-nav__link">
-    processors
   </a>
   
 </li>
@@ -1030,22 +927,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#processors_1" class="md-nav__link">
-    processors
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#processorspanning" class="md-nav__link">
     processors/panning
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processors_2" class="md-nav__link">
-    processors
   </a>
   
 </li>
@@ -1091,6 +974,7 @@
 <h2 id="buffer">buffer</h2>
 <ul>
 <li><strong>BeatCutter</strong> <code>(buffer=nullptr, segment_count=8, stutter_probability=0.0, stutter_count=1, jump_probability=0.0, duty_cycle=1.0, rate=1.0, segment_rate=1.0)</code></li>
+<li><strong>BufferLooper</strong> <code>(buffer=nullptr, input=0.0, feedback=0.0, loop_playback=false, loop_record=false)</code></li>
 <li><strong>BufferPlayer</strong> <code>(buffer=nullptr, rate=1.0, loop=0, start_time=nullptr, end_time=nullptr, clock=nullptr)</code></li>
 <li><strong>BufferRecorder</strong> <code>(buffer=nullptr, input=0.0, feedback=0.0, loop=false)</code></li>
 <li><strong>FeedbackBufferReader</strong> <code>(buffer=nullptr)</code></li>
@@ -1109,6 +993,7 @@
 <ul>
 <li><strong>ADSREnvelope</strong> <code>(attack=0.1, decay=0.1, sustain=0.5, release=0.1, gate=0)</code></li>
 <li><strong>ASREnvelope</strong> <code>(attack=0.1, sustain=0.5, release=0.1, curve=1.0, clock=nullptr)</code></li>
+<li><strong>DetectSilence</strong> <code>(input=nullptr, threshold=0.00001)</code></li>
 <li><strong>Envelope</strong> <code>(levels=std::vector&lt;NodeRef&gt; ( ), times=std::vector&lt;NodeRef&gt; ( ), curves=std::vector&lt;NodeRef&gt; ( ), clock=nullptr, loop=false)</code></li>
 <li><strong>Line</strong> <code>(from=0.0, to=1.0, time=1.0, loop=0, clock=nullptr)</code></li>
 <li><strong>EnvelopeRect</strong> <code>(sustain=1.0, clock=nullptr)</code></li>
@@ -1134,7 +1019,7 @@
 <li><strong>AmplitudeToDecibels</strong> <code>(a=0)</code></li>
 <li><strong>DecibelsToAmplitude</strong> <code>(a=0)</code></li>
 <li><strong>ChannelArray</strong> <code>()</code></li>
-<li><strong>ChannelMixer</strong> <code>(channels=1, input=0, amplitude_compensation=true)</code></li>
+<li><strong>ChannelMixer</strong> <code>(num_channels=1, input=0, amplitude_compensation=true)</code></li>
 <li><strong>ChannelSelect</strong> <code>(input=nullptr, offset=0, maximum=0, step=1)</code></li>
 <li><strong>Equal</strong> <code>(a=0, b=0)</code></li>
 <li><strong>NotEqual</strong> <code>(a=0, b=0)</code></li>
@@ -1156,33 +1041,40 @@
 <li><strong>ScaleLinLin</strong> <code>(input=0, a=0, b=1, c=1, d=10)</code></li>
 <li><strong>Subtract</strong> <code>(a=0, b=0)</code></li>
 <li><strong>Sum</strong> <code>()</code></li>
+<li><strong>Sin</strong> <code>(a=0)</code></li>
+<li><strong>Cos</strong> <code>(a=0)</code></li>
+<li><strong>Tan</strong> <code>(a=0)</code></li>
 <li><strong>Tanh</strong> <code>(a=0)</code></li>
 </ul>
 <h2 id="oscillators">oscillators</h2>
 <ul>
 <li><strong>Constant</strong> <code>(value=0)</code></li>
 <li><strong>Impulse</strong> <code>(frequency=1.0)</code></li>
-<li><strong>LFO</strong> <code>(frequency=1.0, min=0.0, max=1.0)</code></li>
-<li><strong>SawLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0)</code></li>
-<li><strong>SawOscillator</strong> <code>(frequency=440)</code></li>
-<li><strong>SineLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0)</code></li>
+<li><strong>LFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
+<li><strong>SawLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
+<li><strong>SawOscillator</strong> <code>(frequency=440, phase=nullptr)</code></li>
+<li><strong>SineLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
 <li><strong>SineOscillator</strong> <code>(frequency=440)</code></li>
-<li><strong>SquareLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, width=0.5)</code></li>
+<li><strong>SquareLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, width=0.5, phase=0.0)</code></li>
 <li><strong>SquareOscillator</strong> <code>(frequency=440, width=0.5)</code></li>
-<li><strong>TriangleLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0)</code></li>
+<li><strong>TriangleLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
 <li><strong>TriangleOscillator</strong> <code>(frequency=440)</code></li>
 <li><strong>Wavetable</strong> <code>(buffer=nullptr, frequency=440, phase=0, sync=0, phase_map=nullptr)</code></li>
-<li><strong>Wavetable2D</strong> <code>(buffer=nullptr, frequency=440, crossfade=0.0, sync=0)</code></li>
+<li><strong>Wavetable2D</strong> <code>(buffer=nullptr, frequency=440, crossfade=0.0, phase=0.0, sync=0)</code></li>
 </ul>
 <h2 id="processors">processors</h2>
 <ul>
 <li><strong>Clip</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
+<li><strong>Fold</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
+<li><strong>Smooth</strong> <code>(input=nullptr, smooth=0.99)</code></li>
+<li><strong>WetDry</strong> <code>(dry_input=nullptr, wet_input=nullptr, wetness=0.0)</code></li>
+<li><strong>Wrap</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
 </ul>
 <h2 id="processorsdelays">processors/delays</h2>
 <ul>
-<li><strong>AllpassDelay</strong> <code>(input=0.0, delaytime=0.1, feedback=0.5, maxdelaytime=0.5)</code></li>
-<li><strong>CombDelay</strong> <code>(input=0.0, delaytime=0.1, feedback=0.5, maxdelaytime=0.5)</code></li>
-<li><strong>OneTapDelay</strong> <code>(input=0.0, delaytime=0.1, maxdelaytime=0.5)</code></li>
+<li><strong>AllpassDelay</strong> <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
+<li><strong>CombDelay</strong> <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
+<li><strong>OneTapDelay</strong> <code>(input=0.0, delay_time=0.1, max_delay_time=0.5)</code></li>
 <li><strong>Stutter</strong> <code>(input=0.0, stutter_time=0.1, stutter_count=1, clock=nullptr, max_stutter_time=1.0)</code></li>
 </ul>
 <h2 id="processorsdistortion">processors/distortion</h2>
@@ -1206,21 +1098,14 @@
 <li><strong>MoogVCF</strong> <code>(input=0.0, cutoff=200.0, resonance=0.0)</code></li>
 <li><strong>SVFilter</strong> <code>(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0)</code></li>
 </ul>
-<h2 id="processors_1">processors</h2>
-<ul>
-<li><strong>Fold</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
-</ul>
 <h2 id="processorspanning">processors/panning</h2>
 <ul>
-<li><strong>LinearPanner</strong> <code>(channels=2, input=0, pan=0.0)</code></li>
+<li><strong>AzimuthPanner</strong> <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
+<li><strong>ChannelPanner</strong> <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
+<li><strong>SpatialPanner</strong> <code>(env=nullptr, input=0.0, x=0.0, y=0.0, z=0.0, radius=1.0, algorithm="dbap")</code></li>
 <li><strong>StereoBalance</strong> <code>(input=0, balance=0)</code></li>
+<li><strong>StereoPanner</strong> <code>(input=0, pan=0.0)</code></li>
 <li><strong>StereoWidth</strong> <code>(input=0, width=1)</code></li>
-</ul>
-<h2 id="processors_2">processors</h2>
-<ul>
-<li><strong>Smooth</strong> <code>(input=nullptr, smooth=0.99)</code></li>
-<li><strong>WetDry</strong> <code>(dry_input=nullptr, wet_input=nullptr, wetness=0.0)</code></li>
-<li><strong>Wrap</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
 </ul>
 <h2 id="sequencing">sequencing</h2>
 <ul>
@@ -1341,7 +1226,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.b0710199.min.js", "version": null}</script>
     
     
       <script src="../../assets/javascripts/bundle.76f349be.min.js"></script>
