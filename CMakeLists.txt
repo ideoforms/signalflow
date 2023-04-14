@@ -43,6 +43,7 @@ endif()
 
 include_directories(
     /usr/local/include
+    /opt/homebrew/include
     source/include
     source/lib
     source/lib/pybind11/include
