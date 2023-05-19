@@ -24,7 +24,7 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BEFORE_BUILD_LINUX: yum update && yum install -y libsoundio libsndfile-devel gsl-devel fftw-devel
-          CIBW_BEFORE_BUILD_MACOS: cmake python libsndfile libsoundio
+          CIBW_BEFORE_BUILD_MACOS: brew install cmake python libsndfile libsoundio
 
       - uses: actions/upload-artifact@v3
         with:
