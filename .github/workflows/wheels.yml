@@ -21,7 +21,6 @@ jobs:
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
-        to supply options, put them in 'env', like:
         env:
           CIBW_BEFORE_BUILD_LINUX: yum install -y libasound2-dev libsoundio-dev libsndfile1-dev libgsl0-dev fftw3-dev
 
