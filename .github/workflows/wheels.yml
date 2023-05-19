@@ -8,7 +8,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        # os: [ubuntu-20.04]
+        os: [macos-11]
 
     steps:
       - uses: actions/checkout@v3
@@ -23,6 +24,7 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           CIBW_BEFORE_BUILD_LINUX: yum update && yum install -y libsoundio libsndfile-devel gsl-devel fftw-devel
+          CIBW_BEFORE_BUILD_MACOS: cmake python libsndfile libsoundio
 
       - uses: actions/upload-artifact@v3
         with:
