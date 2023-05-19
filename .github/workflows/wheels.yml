@@ -22,7 +22,7 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_BEFORE_BUILD_LINUX: yum install -y libsoundio-devel libsndfile-devel gsl-devel fftw-devel
+          CIBW_BEFORE_BUILD_LINUX: yum install -y libsoundio libsndfile-devel gsl-devel fftw-devel
 
       - uses: actions/upload-artifact@v3
         with:
