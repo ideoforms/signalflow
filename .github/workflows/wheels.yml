@@ -13,8 +13,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-
-      # Used to host cibuildwheel
       - uses: actions/setup-python@v3
 
       - name: Install cibuildwheel
@@ -23,6 +21,8 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
+          CIBW_BUILD: cp39-*
+          CIBW_ARCHS_MACOS: universal2
           CIBW_BEFORE_BUILD_LINUX: yum update && yum install -y libsoundio libsndfile-devel gsl-devel fftw-devel
           CIBW_BEFORE_BUILD_MACOS: brew install cmake python libsndfile libsoundio
 
