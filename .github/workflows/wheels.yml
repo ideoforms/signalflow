@@ -5,7 +5,8 @@ on: workflow_dispatch
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    # runs-on: ${{ matrix.os }}
+    runs-on: self-hosted
     strategy:
       matrix:
         # os: [ubuntu-20.04]
@@ -21,10 +22,10 @@ jobs:
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_BUILD: cp39-*
+          CIBW_BUILD: cp38-* # cp39-* cp310-* cp311-*
           CIBW_ARCHS_MACOS: universal2
-          CIBW_BEFORE_BUILD_LINUX: yum update && yum install -y libsoundio libsndfile-devel gsl-devel fftw-devel
-          CIBW_BEFORE_BUILD_MACOS: brew install cmake python libsndfile libsoundio
+          CIBW_BEFORE_ALL_LINUX: yum update && yum install -y libsoundio libsndfile-devel gsl-devel fftw-devel
+          CIBW_BEFORE_ALL_MACOS: brew install cmake python libsndfile libsoundio
 
       - uses: actions/upload-artifact@v3
         with:
