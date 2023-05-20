@@ -25,7 +25,7 @@ jobs:
           CIBW_BUILD: cp39-* # cp39-* cp310-* cp311-*
           CIBW_ARCHS_MACOS: arm64 x86_64
           CIBW_BEFORE_ALL_LINUX: yum update && yum install -y libsoundio libsndfile-devel gsl-devel fftw-devel
-          CIBW_BEFORE_ALL_MACOS: brew install cmake python libsndfile libsoundio
+          # CIBW_BEFORE_ALL_MACOS: brew install cmake python libsndfile libsoundio
 
       - uses: actions/upload-artifact@v3
         with:
