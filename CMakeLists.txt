@@ -24,6 +24,15 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     else()
         set(CMAKE_PREFIX_PATH /usr/local)
     endif()
+
+    #--------------------------------------------------------------------------------
+    # Allow deployment on older versions of macOS,
+    # and default to the include/lib paths of the current Python virtualenv
+    # (important for cross-compiling wheels)
+    #--------------------------------------------------------------------------------
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
+    set(Python_FIND_VIRTUALENV STANDARD)
+    set(Python_FIND_FRAMEWORKS LAST)
 endif()
 
 #--------------------------------------------------------------------------------
@@ -33,15 +42,6 @@ include(CMakePrintHelpers)
 cmake_print_variables(CMAKE_SYSTEM_NAME)
 cmake_print_variables(CMAKE_OSX_ARCHITECTURES)
 cmake_print_variables(CMAKE_PREFIX_PATH)
-
-#--------------------------------------------------------------------------------
-# Allow deployment on older versions of macOS,
-# and default to the include/lib paths of the current Python virtualenv
-# (important for cross-compiling wheels)
-#--------------------------------------------------------------------------------
-set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
-set(Python_FIND_VIRTUALENV STANDARD)
-set(Python_FIND_FRAMEWORKS LAST)
 
 #-------------------------------------------------------------------------------
 # Use C++11
@@ -108,7 +108,7 @@ set(SRC ${SRC} source/lib/json11/json11.cpp)
 # For builds of the Python bindings, add Python dependencies and flags
 #-------------------------------------------------------------------------------
 if (CMAKE_BUILD_PYTHON)
-    find_package (Python3 COMPONENTS Interpreter Development REQUIRED)
+    find_package (Python3 COMPONENTS Interpreter Development)
     include_directories(${Python3_INCLUDE_DIRS})
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
     if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
