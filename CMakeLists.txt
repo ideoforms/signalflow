@@ -1,4 +1,13 @@
-cmake_minimum_required(VERSION 3.12.0)
+#-------------------------------------------------------------------------------
+# Require VERSION 3.15.0 is needed to correctly handle virtualenvs with
+# FindPython3
+#-------------------------------------------------------------------------------
+cmake_minimum_required(VERSION 3.15.0)
+
+project(SignalFlow C CXX)
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Develop)
+endif()
 
 #-------------------------------------------------------------------------------
 # By default, build a universal library on Apple.
@@ -9,10 +18,30 @@ if (NOT CMAKE_OSX_ARCHITECTURES)
     set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 endif()
 
-project(SignalFlow C CXX)
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Develop)
+if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    if (CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
+        set(CMAKE_PREFIX_PATH /opt/homebrew)
+    else()
+        set(CMAKE_PREFIX_PATH /usr/local)
+    endif()
 endif()
+
+#--------------------------------------------------------------------------------
+# Print config setup to help with debugging
+#--------------------------------------------------------------------------------
+include(CMakePrintHelpers)
+cmake_print_variables(CMAKE_SYSTEM_NAME)
+cmake_print_variables(CMAKE_OSX_ARCHITECTURES)
+cmake_print_variables(CMAKE_PREFIX_PATH)
+
+#--------------------------------------------------------------------------------
+# Allow deployment on older versions of macOS,
+# and default to the include/lib paths of the current Python virtualenv
+# (important for cross-compiling wheels)
+#--------------------------------------------------------------------------------
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
+set(Python_FIND_VIRTUALENV STANDARD)
+set(Python_FIND_FRAMEWORKS LAST)
 
 #-------------------------------------------------------------------------------
 # Use C++11
@@ -26,7 +55,11 @@ set(CMAKE_MACOSX_RPATH 1)
 add_compile_options(
     -pedantic
     -fPIC
-    )
+    -fno-pie
+    ) 
+add_link_options(
+    -fno-pie
+)
 
 if (NOT MSVC)
     add_compile_options(
@@ -34,6 +67,9 @@ if (NOT MSVC)
     )
 endif()
 
+#-------------------------------------------------------------------------------
+# Hide superfluous compiler warnings on macOS
+#-------------------------------------------------------------------------------
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     add_compile_options(
         -Wno-gnu-zero-variadic-macro-arguments
@@ -72,7 +108,7 @@ set(SRC ${SRC} source/lib/json11/json11.cpp)
 # For builds of the Python bindings, add Python dependencies and flags
 #-------------------------------------------------------------------------------
 if (CMAKE_BUILD_PYTHON)
-    find_package (Python3 COMPONENTS Interpreter Development)
+    find_package (Python3 COMPONENTS Interpreter Development REQUIRED)
     include_directories(${Python3_INCLUDE_DIRS})
     set(CMAKE_SHARED_LIBRARY_PREFIX "")
     if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
