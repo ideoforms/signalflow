@@ -54,11 +54,12 @@ set(CMAKE_MACOSX_RPATH 1)
 #-------------------------------------------------------------------------------
 add_compile_options(
     -pedantic
-    -fPIC
-    -fno-pie
+    -fpic
+    -fpie
     ) 
 add_link_options(
-    -fno-pie
+    -fpic
+    -fpie
 )
 
 if (NOT MSVC)
