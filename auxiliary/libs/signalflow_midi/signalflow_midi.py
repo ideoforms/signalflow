@@ -114,7 +114,7 @@ class MIDIControl (Patch):
         self.range_min = range_min
         self.range_max = range_max
         self.curve = curve
-        if initial:
+        if initial is not None:
             if self.curve == "exponential":
                 self._value_norm = scale_exp_lin(initial, range_min, range_max, 0, 1)
             elif self.curve == "linear":
