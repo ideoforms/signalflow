@@ -19,6 +19,13 @@ PYBIND11_MODULE(signalflow, m)
     A framework for audio DSP.
     )pbdoc";
 
+/*--------------------------------------------------------------------------------
+ * SIGNALFLOW_VERSION should be defined by setup.py and passed into the build.
+ *-------------------------------------------------------------------------------*/
+#ifdef SIGNALFLOW_VERSION
+    m.attr("__version__") = SIGNALFLOW_VERSION;
+#endif
+
     init_python_constants(m);
     init_python_node(m);
     init_python_nodes(m);

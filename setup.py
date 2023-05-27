@@ -1,6 +1,4 @@
 import os
-import sys
-import glob
 import subprocess
 
 from setuptools import setup, Extension
@@ -24,9 +22,11 @@ class CMakeBuild(build_ext):
         cpu_count = os.cpu_count()
         build_args = ['--config', cfg, '-j', str(cpu_count)]
 
+        print("Building signalflow version " + self.distribution.get_version())
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
                       '-DCMAKE_BUILD_PYTHON=1',
-                      '-DCMAKE_BUILD_TYPE=' + cfg]
+                      '-DCMAKE_BUILD_TYPE=' + cfg,
+                      '-DSIGNALFLOW_VERSION=' + self.distribution.get_version()]
         if 'CMAKE_OSX_ARCHITECTURES' in os.environ:
             cmake_args += ['-DCMAKE_OSX_ARCHITECTURES=%s' % os.environ['CMAKE_OSX_ARCHITECTURES']]
 
@@ -38,7 +38,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='signalflow',
-    version='0.0.4',
+    version='0.4.0',
     author='Daniel Jones',
     author_email='dan@erase.net',
     description='signalflow',
