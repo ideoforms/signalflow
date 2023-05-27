@@ -17,9 +17,7 @@ namespace signalflow
 
 extern AudioGraph *shared_graph;
 
-void write_callback(struct SoundIoOutStream *outstream,
-                    int frame_count_min,
-                    int frame_count_max)
+void write_callback(struct SoundIoOutStream *outstream, int frame_count_min, int frame_count_max)
 {
     is_processing = true;
 
@@ -121,9 +119,7 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
     return -1;
 }
 
-AudioOut_SoundIO::AudioOut_SoundIO(const std::string &device_name,
-                                   unsigned int sample_rate,
-                                   unsigned int buffer_size)
+AudioOut_SoundIO::AudioOut_SoundIO(const std::string &device_name, unsigned int sample_rate, unsigned int buffer_size)
     : AudioOut_Abstract()
 {
     this->device_name = device_name;
@@ -203,7 +199,8 @@ int AudioOut_SoundIO::init()
          * Should just generate a warning instead.
          * Experienced on Raspberry Pi 4 with raspi-audio interface.
          *-------------------------------------------------------------------------------*/
-        std::cerr << "libsoundio warning: unable to set channel layout: " << std::string(soundio_strerror(this->outstream->layout_error)) << std::endl;
+        std::cerr << "libsoundio warning: unable to set channel layout: "
+                  << std::string(soundio_strerror(this->outstream->layout_error)) << std::endl;
     }
 
     this->num_output_channels = this->outstream->layout.channel_count;
@@ -214,7 +211,8 @@ int AudioOut_SoundIO::init()
     std::string s = num_output_channels == 1 ? "" : "s";
 
     std::cerr << "Output device: " << device->name << " (" << sample_rate << "Hz, "
-              << "buffer size " << buffer_size << " samples, " << num_output_channels << " channel" << s << ")" << std::endl;
+              << "buffer size " << buffer_size << " samples, " << num_output_channels << " channel" << s << ")"
+              << std::endl;
 
     // do we need to set num_output channels to allocate the right number of output buffers?
     this->set_channels(num_output_channels, 0);
@@ -249,6 +247,27 @@ int AudioOut_SoundIO::destroy()
     soundio_destroy(this->soundio);
 
     return 0;
+}
+
+std::list<std::string> AudioOut_SoundIO::get_output_device_names()
+{
+    int output_count = soundio_output_device_count(this->soundio);
+
+    std::list<std::string> device_names;
+
+    for (int i = 0; i < output_count; i++)
+    {
+        struct SoundIoDevice *device = soundio_get_output_device(soundio, i);
+        device_names.push_back(std::string(device->name));
+    }
+
+    return device_names;
+}
+
+int AudioOut_SoundIO::get_default_output_device_index()
+{
+    unsigned int default_output = soundio_default_output_device_index(this->soundio);
+    return default_output;
 }
 
 } // namespace signalflow

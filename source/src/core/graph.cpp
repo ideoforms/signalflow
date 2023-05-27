@@ -20,9 +20,7 @@ namespace signalflow
 
 AudioGraph *shared_graph = nullptr;
 
-AudioGraph::AudioGraph(AudioGraphConfig *config,
-                       NodeRef output_device,
-                       bool start)
+AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool start)
 {
     signalflow_init();
 
@@ -43,8 +41,7 @@ AudioGraph::AudioGraph(AudioGraphConfig *config,
     }
     else
     {
-        this->output = new AudioOut(this->config.get_output_device_name(),
-                                    this->config.get_sample_rate(),
+        this->output = new AudioOut(this->config.get_output_device_name(), this->config.get_sample_rate(),
                                     this->config.get_output_buffer_size());
         if (!this->output)
         {
@@ -102,8 +99,11 @@ void AudioGraph::clear()
     auto inputs = audioout->get_inputs();
     for (auto input : inputs)
     {
-        audioout->remove_input(input);
+        this->nodes_to_remove.insert(input);
     }
+
+    patches.clear();
+
     this->node_count = 0;
 }
 
@@ -120,10 +120,7 @@ void AudioGraph::destroy()
     }
 }
 
-AudioGraph::~AudioGraph()
-{
-    this->destroy();
-}
+AudioGraph::~AudioGraph() { this->destroy(); }
 
 void AudioGraph::wait(float time)
 {
@@ -137,13 +134,16 @@ void AudioGraph::wait(float time)
     }
 }
 
-void AudioGraph::render_subgraph(const NodeRef &node)
-{
-    this->render_subgraph(node, this->get_output_buffer_size());
-}
+void AudioGraph::render_subgraph(const NodeRef &node) { this->render_subgraph(node, this->get_output_buffer_size()); }
 
 void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 {
+    /*------------------------------------------------------------------------
+     * TODO: Should be able to render subgraph to a buffer of indefinite
+     *       length. Need to add block-by-block processing
+     *       (as per render_to_buffer)
+     *-----------------------------------------------------------------------*/
+
     /*------------------------------------------------------------------------
      * If this node has already been processed this timestep, return.
      *-----------------------------------------------------------------------*/
@@ -152,7 +152,8 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
         return;
     }
 
-    if (!(node->get_inputs().size() > 0 || node->get_name() == "constant" || node->get_name() == "audioout" || node->get_name() == "audioin"))
+    if (!(node->get_inputs().size() > 0 || node->get_name() == "constant" || node->get_name() == "audioout"
+          || node->get_name() == "audioin"))
     {
         signalflow_debug("Node %s has no registered inputs", node->get_name().c_str());
     }
@@ -183,10 +184,13 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
              * populated Buffer) will have num_output_channels == 0. Don't try to
              * upmix a void output.
              *-----------------------------------------------------------------------*/
-            if (input_node->get_num_output_channels() < node->get_num_input_channels() && !node->no_input_upmix && input_node->get_num_output_channels() > 0)
+            if (input_node->get_num_output_channels() < node->get_num_input_channels() && !node->no_input_upmix
+                && input_node->get_num_output_channels() > 0)
             {
-                signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)", input_node->get_name().c_str(),
-                                 node->get_name().c_str(), node->get_num_input_channels(), input_node->get_name().c_str(), input_node->get_num_output_channels());
+                signalflow_debug("Upmixing %s (%s wants %d channels, %s only produces %d)",
+                                 input_node->get_name().c_str(), node->get_name().c_str(),
+                                 node->get_num_input_channels(), input_node->get_name().c_str(),
+                                 input_node->get_num_output_channels());
 
                 /*------------------------------------------------------------------------
                  * Ensure the input node's output buffer re-allocation has been done.
@@ -194,7 +198,9 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
                  *-----------------------------------------------------------------------*/
                 if (input_node->get_num_output_channels_allocated() < node->get_num_input_channels())
                 {
-                    throw std::runtime_error("Input node does not have enough buffers allocated (need " + std::to_string(node->get_num_input_channels()) + ", got " + std::to_string(input_node->get_num_output_channels_allocated()));
+                    throw std::runtime_error("Input node does not have enough buffers allocated (need "
+                                             + std::to_string(node->get_num_input_channels()) + ", got "
+                                             + std::to_string(input_node->get_num_output_channels_allocated()));
                 }
 
                 /*------------------------------------------------------------------------
@@ -202,12 +208,10 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
                  * them: [ 0, 1, 0, 1, 0, 1 ]
                  *-----------------------------------------------------------------------*/
                 for (int out_channel_index = input_node->get_num_output_channels();
-                     out_channel_index < node->get_num_input_channels();
-                     out_channel_index++)
+                     out_channel_index < node->get_num_input_channels(); out_channel_index++)
                 {
                     int in_channel_index = out_channel_index % input_node->get_num_output_channels();
-                    memcpy(input_node->out[out_channel_index],
-                           input_node->out[in_channel_index],
+                    memcpy(input_node->out[out_channel_index], input_node->out[in_channel_index],
                            num_frames * sizeof(sample));
                 }
             }
@@ -323,10 +327,7 @@ void AudioGraph::reset_subgraph(NodeRef node)
     }
 }
 
-void AudioGraph::render()
-{
-    this->render(this->get_output_buffer_size());
-}
+void AudioGraph::render() { this->render(this->get_output_buffer_size()); }
 
 void AudioGraph::render(int num_frames)
 {
@@ -355,7 +356,8 @@ void AudioGraph::render(int num_frames)
         {
             for (int frame_index = 0; frame_index < num_frames; frame_index++)
             {
-                this->recording_buffer[frame_index * this->recording_num_channels + channel_index] = this->output->out[channel_index][frame_index];
+                this->recording_buffer[frame_index * this->recording_num_channels + channel_index]
+                    = this->output->out[channel_index][frame_index];
             }
         }
         sf_writef_float(this->recording_fd, this->recording_buffer, num_frames);
@@ -383,7 +385,9 @@ void AudioGraph::render_to_buffer(BufferRef buffer)
     int block_size = this->get_output_buffer_size();
     if (channel_count > this->output->num_input_channels)
     {
-        throw std::runtime_error("Buffer cannot have more channels than the audio graph (" + std::to_string(channel_count) + " != " + std::to_string(this->output->num_input_channels) + ")");
+        throw std::runtime_error("Buffer cannot have more channels than the audio graph ("
+                                 + std::to_string(channel_count)
+                                 + " != " + std::to_string(this->output->num_input_channels) + ")");
     }
     int block_count = ceilf((float) buffer->get_num_frames() / block_size);
 
@@ -397,8 +401,7 @@ void AudioGraph::render_to_buffer(BufferRef buffer)
         this->render(block_frames);
         for (int channel_index = 0; channel_index < channel_count; channel_index++)
         {
-            memcpy(buffer->data[channel_index] + (block_index * block_size),
-                   this->output->out[channel_index],
+            memcpy(buffer->data[channel_index] + (block_index * block_size), this->output->out[channel_index],
                    block_frames * sizeof(sample));
         }
     }
@@ -411,20 +414,20 @@ BufferRef AudioGraph::render_to_new_buffer(int num_frames)
     return buf;
 }
 
-NodeRef AudioGraph::get_output()
-{
-    return this->output;
-}
+NodeRef AudioGraph::get_output() { return this->output; }
 
-void AudioGraph::set_output(NodeRef output_device)
-{
-    this->output = output_device;
-}
+void AudioGraph::set_output(NodeRef output_device) { this->output = output_device; }
 
 std::list<NodeRef> AudioGraph::get_outputs()
 {
     AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
     return output->get_inputs();
+}
+
+std::list<std::string> AudioGraph::get_output_device_names()
+{
+    AudioOut_SoundIO *output = (AudioOut_SoundIO *) (this->output.get());
+    return output->get_output_device_names();
 }
 
 NodeRef AudioGraph::add_node(NodeRef node)
@@ -439,10 +442,7 @@ NodeRef AudioGraph::add_node(NodeRef node)
     return node;
 }
 
-void AudioGraph::remove_node(NodeRef node)
-{
-    this->scheduled_nodes.erase(node);
-}
+void AudioGraph::remove_node(NodeRef node) { this->scheduled_nodes.erase(node); }
 
 bool AudioGraph::add_patch(PatchRef patch)
 {
@@ -505,10 +505,7 @@ bool AudioGraph::play(NodeRef node)
     return true;
 }
 
-void AudioGraph::stop(PatchRef patch)
-{
-    this->stop(patch.get());
-}
+void AudioGraph::stop(PatchRef patch) { this->stop(patch.get()); }
 
 void AudioGraph::stop(Patch *patch)
 {
@@ -516,15 +513,9 @@ void AudioGraph::stop(Patch *patch)
     nodes_to_remove.insert(patch->get_output());
 }
 
-void AudioGraph::stop(NodeRef node)
-{
-    nodes_to_remove.insert(node);
-}
+void AudioGraph::stop(NodeRef node) { nodes_to_remove.insert(node); }
 
-void AudioGraph::replace(NodeRef node, NodeRef other)
-{
-    nodes_to_replace.insert(std::make_pair(node, other));
-}
+void AudioGraph::replace(NodeRef node, NodeRef other) { nodes_to_replace.insert(std::make_pair(node, other)); }
 
 void AudioGraph::start_recording(const std::string &filename, int num_channels)
 {
@@ -549,10 +540,7 @@ void AudioGraph::start_recording(const std::string &filename, int num_channels)
     }
 }
 
-void AudioGraph::stop_recording()
-{
-    sf_close(this->recording_fd);
-}
+void AudioGraph::stop_recording() { sf_close(this->recording_fd); }
 
 void AudioGraph::show_structure()
 {
@@ -589,10 +577,7 @@ std::string AudioGraph::get_structure(NodeRef &root, int depth)
     return structure;
 }
 
-std::string AudioGraph::get_structure()
-{
-    return this->get_structure(this->output, 0);
-}
+std::string AudioGraph::get_structure() { return this->get_structure(this->output, 0); }
 
 void AudioGraph::poll(float frequency)
 {
@@ -643,15 +628,14 @@ std::string AudioGraph::get_status()
     ss << std::fixed << std::setprecision(1) << memory_usage_mb;
     std::string memory_usage_str = ss.str();
 
-    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", " + std::to_string(patch_count) + " " + patches + ", " + cpu_usage_str + "% CPU usage, " + memory_usage_str + "MB memory usage";
+    std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", "
+        + std::to_string(patch_count) + " " + patches + ", " + cpu_usage_str + "% CPU usage, " + memory_usage_str
+        + "MB memory usage";
 
     return status;
 }
 
-int AudioGraph::get_sample_rate()
-{
-    return this->sample_rate;
-}
+int AudioGraph::get_sample_rate() { return this->sample_rate; }
 
 void AudioGraph::set_sample_rate(int sample_rate)
 {
@@ -688,39 +672,18 @@ int AudioGraph::get_num_output_channels()
     }
 }
 
-int AudioGraph::get_node_count()
-{
-    return this->node_count;
-}
+int AudioGraph::get_node_count() { return this->node_count; }
 
-int AudioGraph::get_patch_count()
-{
-    return (int) this->patches.size();
-}
+int AudioGraph::get_patch_count() { return (int) this->patches.size(); }
 
-float AudioGraph::get_cpu_usage()
-{
-    return this->cpu_usage;
-}
+float AudioGraph::get_cpu_usage() { return this->cpu_usage; }
 
-size_t AudioGraph::get_memory_usage()
-{
-    return this->memory_usage;
-}
+size_t AudioGraph::get_memory_usage() { return this->memory_usage; }
 
-AudioGraphConfig &AudioGraph::get_config()
-{
-    return this->config;
-}
+AudioGraphConfig &AudioGraph::get_config() { return this->config; }
 
-void AudioGraph::register_memory_alloc(size_t num_bytes)
-{
-    memory_usage += num_bytes;
-}
+void AudioGraph::register_memory_alloc(size_t num_bytes) { memory_usage += num_bytes; }
 
-void AudioGraph::register_memory_dealloc(size_t num_bytes)
-{
-    memory_usage -= num_bytes;
-}
+void AudioGraph::register_memory_dealloc(size_t num_bytes) { memory_usage -= num_bytes; }
 
 }

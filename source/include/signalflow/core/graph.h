@@ -22,9 +22,7 @@ class AudioGraphMonitor;
 class AudioGraph
 {
 public:
-    AudioGraph(AudioGraphConfig *config = nullptr,
-               NodeRef output_device = nullptr,
-               bool start = true);
+    AudioGraph(AudioGraphConfig *config = nullptr, NodeRef output_device = nullptr, bool start = true);
 
     virtual ~AudioGraph();
 
@@ -175,11 +173,11 @@ public:
     NodeRef get_output();
 
     /**--------------------------------------------------------------------------------
-      * Set the current audio output device.
-      *
-      * @param output_device The new audio output device.
-      *
-      *--------------------------------------------------------------------------------*/
+     * Set the current audio output device.
+     *
+     * @param output_device The new audio output device.
+     *
+     *--------------------------------------------------------------------------------*/
     void set_output(NodeRef output_device);
 
     /**--------------------------------------------------------------------------------
@@ -189,6 +187,14 @@ public:
      *
      *--------------------------------------------------------------------------------*/
     std::list<NodeRef> get_outputs();
+
+    /**--------------------------------------------------------------------------------
+     * Returns a list of available audio I/O output devices.
+     *
+     * @return The list of device names.
+     *
+     *--------------------------------------------------------------------------------*/
+    std::list<std::string> get_output_device_names();
 
     /**--------------------------------------------------------------------------------
      * Schedule a node for rendering without connecting the node to the graph's output.
@@ -321,12 +327,12 @@ public:
     int get_output_buffer_size();
 
     /**--------------------------------------------------------------------------------
-      * Query the number of output channels, which in turn queries the
-      * AudioOut_Abstract subclass that the AudioGraph is connected to.
-      *
-      * @return The number of channels.
-      *
-      *--------------------------------------------------------------------------------*/
+     * Query the number of output channels, which in turn queries the
+     * AudioOut_Abstract subclass that the AudioGraph is connected to.
+     *
+     * @return The number of channels.
+     *
+     *--------------------------------------------------------------------------------*/
     int get_num_output_channels();
 
     /**--------------------------------------------------------------------------------
@@ -339,36 +345,36 @@ public:
     int get_node_count();
 
     /**--------------------------------------------------------------------------------
-      * Query the number of patches in the audio graph.
-      *
-      * @return The number of patches.
-      *
-      *--------------------------------------------------------------------------------*/
+     * Query the number of patches in the audio graph.
+     *
+     * @return The number of patches.
+     *
+     *--------------------------------------------------------------------------------*/
     int get_patch_count();
 
     /**--------------------------------------------------------------------------------
-      * Query the CPU usage.
-      *
-      * @return The proportion of clock cycles available vs the clock
-      *         cycles consumed in the last audio I/O callback, between 0..1.
-      *
-      *--------------------------------------------------------------------------------*/
+     * Query the CPU usage.
+     *
+     * @return The proportion of clock cycles available vs the clock
+     *         cycles consumed in the last audio I/O callback, between 0..1.
+     *
+     *--------------------------------------------------------------------------------*/
     float get_cpu_usage();
 
     /**--------------------------------------------------------------------------------
-      * Query the amount of RAM used by Buffer storage.
-      *
-      * @return The number of bytes stored in RAM.
-      *
-      *--------------------------------------------------------------------------------*/
+     * Query the amount of RAM used by Buffer storage.
+     *
+     * @return The number of bytes stored in RAM.
+     *
+     *--------------------------------------------------------------------------------*/
     size_t get_memory_usage();
 
     /**--------------------------------------------------------------------------------
-      * Get the current graph config.
-      *
-      * @return The config.
-      *
-      *--------------------------------------------------------------------------------*/
+     * Get the current graph config.
+     *
+     * @return The config.
+     *
+     *--------------------------------------------------------------------------------*/
     AudioGraphConfig &get_config();
 
 protected:
@@ -406,10 +412,8 @@ class AudioGraphRef : public std::shared_ptr<AudioGraph>
 public:
     using std::shared_ptr<AudioGraph>::shared_ptr;
 
-    AudioGraphRef()
-        : std::shared_ptr<AudioGraph>(nullptr) {}
-    AudioGraphRef(AudioGraph *ptr)
-        : std::shared_ptr<AudioGraph>(ptr) {}
+    AudioGraphRef() : std::shared_ptr<AudioGraph>(nullptr) {}
+    AudioGraphRef(AudioGraph *ptr) : std::shared_ptr<AudioGraph>(ptr) {}
 };
 
 }
