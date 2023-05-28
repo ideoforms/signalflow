@@ -179,12 +179,17 @@ int AudioOut_SoundIO::init()
     }
     this->outstream->write_callback = write_callback;
     // Use the user-specified sample rate.
+    //    printf("User-specified fs: %d\n", this->sample_rate);
+    //    printf("Device current fs: %d\n", this->device->sample_rate_current);
     if (!this->sample_rate)
     {
         this->sample_rate = this->device->sample_rate_current;
     }
     this->outstream->sample_rate = this->sample_rate;
+    //    printf("Setting outstream fs: %d\n", this->outstream->sample_rate);
+    //    printf("Buffer size: %d\n", this->buffer_size);
     this->outstream->software_latency = (double) this->buffer_size / this->outstream->sample_rate;
+    //    printf("Software latency: %.23f\n", this->outstream->software_latency);
     this->outstream->userdata = (void *) this;
     // With a device with multiple layouts, use the first.
     // To check: is this always the layout with the most channels?
@@ -271,6 +276,28 @@ int AudioOut_SoundIO::get_default_output_device_index()
 {
     unsigned int default_output = soundio_default_output_device_index(this->soundio);
     return default_output;
+}
+
+std::list<std::string> AudioOut_SoundIO::get_output_backend_names()
+{
+    std::list<std::string> backend_names;
+    std::vector<std::string> possible_backend_names = {
+        "none",
+        "jack",
+        "pulseaudio",
+        "alsa",
+        "coreaudio",
+        "wasapi",
+        "dummy"
+    };
+    for (int i = 0; i < soundio_backend_count(this->soundio); i++)
+    {
+        int backend_index = soundio_get_backend(this->soundio, i);
+        std::string backend_name = possible_backend_names[backend_index];
+        backend_names.push_back(backend_name);
+    }
+
+    return backend_names;
 }
 
 } // namespace signalflow

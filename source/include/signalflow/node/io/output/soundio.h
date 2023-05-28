@@ -26,6 +26,7 @@ public:
     virtual int destroy() override;
 
     std::list<std::string> get_output_device_names();
+    std::list<std::string> get_output_backend_names();
     int get_default_output_device_index();
 
     struct SoundIo *soundio;

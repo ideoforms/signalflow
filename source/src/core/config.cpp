@@ -134,6 +134,11 @@ AudioGraphConfig::AudioGraphConfig()
             }
         }
     }
+
+    if (getenv("SIGNALFLOW_OUTPUT_DEVICE_NAME"))
+    {
+        this->output_device_name = std::string(getenv("SIGNALFLOW_OUTPUT_DEVICE_NAME"));
+    }
 }
 
 unsigned int AudioGraphConfig::get_sample_rate() const { return this->sample_rate; }

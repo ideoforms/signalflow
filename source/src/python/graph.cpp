@@ -31,6 +31,8 @@ void init_python_graph(py::module &m)
             R"pbdoc(int: Get the list of Node objects currently connected to the graph's output.)pbdoc")
         .def_property_readonly("output_device_names", &AudioGraph::get_output_device_names,
                                R"pbdoc(list[str]: List the available output device names.)pbdoc")
+        .def_property_readonly("output_backend_names", &AudioGraph::get_output_backend_names,
+                               R"pbdoc(list[str]: List the available output backend names.)pbdoc")
         .def_property_readonly(
             "status", &AudioGraph::get_status,
             R"pbdoc(int: Get a text representation of the AudioGraph's status (node count, patch count, CPU usage).)pbdoc")

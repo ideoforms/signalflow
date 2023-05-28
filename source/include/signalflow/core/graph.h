@@ -197,6 +197,14 @@ public:
     std::list<std::string> get_output_device_names();
 
     /**--------------------------------------------------------------------------------
+     * Returns a list of available audio I/O output backends.
+     *
+     * @return The list of backend names.
+     *
+     *--------------------------------------------------------------------------------*/
+    std::list<std::string> get_output_backend_names();
+
+    /**--------------------------------------------------------------------------------
      * Schedule a node for rendering without connecting the node to the graph's output.
      * This is needed for nodes such as LFOs, whose values need to be calculated
      * independently of the existence of synthesis nodes, regardless of whether
@@ -412,8 +420,10 @@ class AudioGraphRef : public std::shared_ptr<AudioGraph>
 public:
     using std::shared_ptr<AudioGraph>::shared_ptr;
 
-    AudioGraphRef() : std::shared_ptr<AudioGraph>(nullptr) {}
-    AudioGraphRef(AudioGraph *ptr) : std::shared_ptr<AudioGraph>(ptr) {}
+    AudioGraphRef()
+        : std::shared_ptr<AudioGraph>(nullptr) {}
+    AudioGraphRef(AudioGraph *ptr)
+        : std::shared_ptr<AudioGraph>(ptr) {}
 };
 
 }

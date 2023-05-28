@@ -41,7 +41,8 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool sta
     }
     else
     {
-        this->output = new AudioOut(this->config.get_output_device_name(), this->config.get_sample_rate(),
+        this->output = new AudioOut(this->config.get_output_device_name(),
+                                    this->config.get_sample_rate(),
                                     this->config.get_output_buffer_size());
         if (!this->output)
         {
@@ -428,6 +429,12 @@ std::list<std::string> AudioGraph::get_output_device_names()
 {
     AudioOut_SoundIO *output = (AudioOut_SoundIO *) (this->output.get());
     return output->get_output_device_names();
+}
+
+std::list<std::string> AudioGraph::get_output_backend_names()
+{
+    AudioOut_SoundIO *output = (AudioOut_SoundIO *) (this->output.get());
+    return output->get_output_backend_names();
 }
 
 NodeRef AudioGraph::add_node(NodeRef node)
