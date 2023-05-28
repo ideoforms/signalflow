@@ -276,6 +276,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -761,6 +768,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    Requirements
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -792,12 +806,17 @@
                 
                 
                 <h1 id="getting-started">Getting started</h1>
+<h2 id="requirements">Requirements</h2>
+<p>SignalFlow supports macOS, Linux (including Raspberry Pi), and has alpha support for Windows. </p>
+<p>Python 3.8 or above is required. On macOS, we recommend installing an up-to-date version of Python3 <a href="https://docs.python-guide.org/starting/install3/osx/">using Homebrew</a>: <code>brew install python3</code>.</p>
 <h2 id="installation">Installation</h2>
-<p>SignalFlow is not yet available for installation via pip. You will currently need to clone the GitHub repo and build and run from the command line, which is hopefully a quick and easy process.</p>
-<p>For details, see the README in the repo:</p>
-<ul>
-<li><a href="https://github.com/ideoforms/signalflow">https://github.com/ideoforms/signalflow</a></li>
-</ul>
+<p>On macOS and Linux x86_64, SignalFlow can be installed using <code>pip</code>:</p>
+<div class="highlight"><pre><span></span><code>pip3 install signalflow 
+</code></pre></div>
+<p>Verify that the installation has worked correctly by using the <code>signalflow</code> command-line tool to play a test tone through your default system audio output:</p>
+<div class="highlight"><pre><span></span><code>signalflow test
+</code></pre></div>
+<p>For more detailed installation information, including Windows install and compilation from source, see the <a href="https://github.com/ideoforms/signalflow">README</a>.</p>
 <h2 id="examples">Examples</h2>
 <p><a href="https://github.com/ideoforms/signalflow/tree/master/examples">Several example scripts</a> are included within the repo, covering simple control and modulation, FM synthesis, sample granulation, MIDI control, chaotic functions, etc.</p>
                 

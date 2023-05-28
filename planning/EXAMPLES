@@ -1,0 +1,22 @@
+# Examples
+
+[ ] Add signalflow-audio repo
+
+[x] Hello world
+[x] Granular
+[ ] Additive synthesis
+[ ] FM synthesis
+[ ] Multichannel expansion (supersaw)
+[ ] Stochastic 
+[ ] Filter
+[ ] Audio input
+[ ] Waveshaper / Clip / Fold
+[ ] Wavetable
+[x] 2D wavetable
+[ ] Buffer: Play
+[ ] Buffer: Record
+[ ] FFT: Tonality
+[ ] FFT: Convolution reverb
+[ ] Patch: Simple
+
+[ ] Control: Mouse control

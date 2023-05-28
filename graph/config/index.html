@@ -819,7 +819,7 @@
                 
                 <h1 id="the-audiograph">The AudioGraph</h1>
 <h2 id="graph-configuration">Graph configuration</h2>
-<p>There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. </p>
+<p>There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. This can be done <a href="#configuring-the-graph-programmatically">programmatically</a> or <a href="#configuring-the-graph-via-signalflowconfig">via a config file</a>.</p>
 <table>
 <thead>
 <tr>
@@ -874,6 +874,10 @@ output_device_name = &quot;MacBook Pro Speakers&quot;
 input_device_name = &quot;MacBook Pro Microphone&quot;
 </code></pre></div>
 <p>All fields are optional.</p>
+<p>A quick and easy way to edit your config, or create a new config file, is by using the <code>signalflow</code> command-line utility:</p>
+<div class="highlight"><pre><span></span><code>signalflow configure
+</code></pre></div>
+<p>This will use your default <code>$EDITOR</code> to open the configuration, or <code>pico</code> if no editor is specified.</p>
 <hr />
 <p><a href="../properties/">→ Next: Graph status and properties</a></p>
                 
