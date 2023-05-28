@@ -43,6 +43,14 @@ input_device_name = "MacBook Pro Microphone"
 
 All fields are optional.
 
+A quick and easy way to edit your config, or create a new config file, is by using the `signalflow` command-line utility:
+
+```
+signalflow configure
+```
+
+This will use your default `$EDITOR` to open the configuration, or `pico` if no editor is specified.
+
 ---
 
 [→ Next: Graph status and properties](properties.md)

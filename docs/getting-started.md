@@ -1,12 +1,26 @@
 # Getting started
 
+## Requirements
+
+SignalFlow supports macOS, Linux (including Raspberry Pi), and has alpha support for Windows. 
+
+Python 3.8 or above is required. On macOS, we recommend installing an up-to-date version of Python3 [using Homebrew](https://docs.python-guide.org/starting/install3/osx/): `brew install python3`.
+
 ## Installation
 
-SignalFlow is not yet available for installation via pip. You will currently need to clone the GitHub repo and build and run from the command line, which is hopefully a quick and easy process.
+On macOS and Linux x86_64, SignalFlow can be installed using `pip`:
 
-For details, see the README in the repo:
+```
+pip3 install signalflow 
+```
 
-* [https://github.com/ideoforms/signalflow](https://github.com/ideoforms/signalflow)
+Verify that the installation has worked correctly by using the `signalflow` command-line tool to play a test tone through your default system audio output:
+
+```
+signalflow test
+```
+
+For more detailed installation information, including Windows install and compilation from source, see the [README](https://github.com/ideoforms/signalflow).
 
 ## Examples
 
