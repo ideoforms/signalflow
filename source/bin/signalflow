@@ -92,7 +92,9 @@ def main():
     # Command: list-output-devices
     # --------------------------------------------------------------------------------
     list_output_device_names = subparsers.add_parser('list-output-device-names', help='list available output devices')
-    list_output_backend_names = subparsers.add_parser('list-output-backend-names', help='list available output backends')
+    list_output_backend_names = subparsers.add_parser('list-output-backend-names',
+                                                      help='list available output backends')
+    help = subparsers.add_parser('help', help='show help')
 
     args = parser.parse_args()
     if args.command == 'configure':
@@ -105,6 +107,8 @@ def main():
         run_list_output_device_names()
     elif args.command == 'list-output-backend-names':
         run_list_output_backend_names()
+    elif args.command == 'help':
+        parser.print_help()
 
 
 if __name__ == '__main__':
