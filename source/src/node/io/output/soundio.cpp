@@ -172,7 +172,10 @@ int AudioOut_SoundIO::init()
     }
     else
     {
-        throw audio_io_exception("libsoundio error: sample format not supported");
+        /*-----------------------------------------------------------------------*
+         * SignalFlow currently only supports float32 sample output
+         *-----------------------------------------------------------------------*/
+        throw audio_io_exception("libsoundio error: Output device does not support float32 samples");
     }
     this->outstream->write_callback = write_callback;
     // Use the user-specified sample rate.
