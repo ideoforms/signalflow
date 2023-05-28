@@ -23,7 +23,7 @@ markdown_extensions:
 nav:
  - Home:
    - Home: index.md
-   - Getting started: getting-started.md
+   - Installation: installation.md
    - Examples: examples.md
    - License: license.md
  - The AudioGraph:

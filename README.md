@@ -42,12 +42,14 @@ graph.wait()
 
 ## Installation
 
+SignalFlow requires Python 3.8 or above.
+
 <details>
 <summary>Installation: <b>macOS</b></summary>
 
 ### macOS
 
-SignalFlow requires Python 3.8 or above. Install an up-to-date version of Python 3 using Homebrew ([guide](https://docs.python-guide.org/starting/install3/osx/)): `brew install python3`
+Install an up-to-date version of Python 3 using Homebrew ([guide](https://docs.python-guide.org/starting/install3/osx/)): `brew install python3`
 
 Install SignalFlow using `pip`:
 

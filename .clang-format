@@ -21,7 +21,6 @@ BreakConstructorInitializersBeforeComma: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 IndentCaseLabels: true
 SpaceAfterCStyleCast: true
-ColumnLimit: 120
 
 # Not supported by CLion clang-format
 # AllowAllConstructorInitializersOnNextLine: true
