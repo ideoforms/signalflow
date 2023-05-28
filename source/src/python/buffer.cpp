@@ -28,7 +28,7 @@ void init_python_buffer(py::module &m)
          * Operators
          *-------------------------------------------------------------------------------*/
         .def("__getitem__",
-             [](BufferRef a, int b) {
+             [](BufferRef a, unsigned int b) {
                  if (b < 0 || b >= a->get_num_channels())
                  {
                      throw std::runtime_error("Invalid channel index: " + std::to_string(b));
