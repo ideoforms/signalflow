@@ -30,14 +30,20 @@ def run_configure():
     subprocess.call([editor, config_path])
 
 
-def run_test(frequency: float = 440, gain: float = 0.0, output_device_name: str = None):
+def run_test(frequency: float = 440,
+             gain: float = 0.0,
+             output_backend_name: str = None,
+             output_device_name: str = None):
     config = AudioGraphConfig()
+    if output_backend_name:
+        config.output_backend_name = output_backend_name
     if output_device_name:
         config.output_device_name = output_device_name
     graph = AudioGraph(config=config)
     tone = SineOscillator(frequency)
     amplitude = db_to_amplitude(gain)
     output = tone * amplitude
+    output.play()
     print("Generating test tone at %dHz. Press Ctrl-C to stop." % frequency)
     try:
         graph.wait()
@@ -51,8 +57,11 @@ def run_version():
     print(signalflow.__version__)
 
 
-def run_list_output_device_names():
-    graph = AudioGraph(start=False)
+def run_list_output_device_names(output_backend_name: str = None):
+    config = AudioGraphConfig()
+    if output_backend_name:
+        config.output_backend_name = output_backend_name
+    graph = AudioGraph(config=config, start=False)
     print("Available output device names:")
     for name in graph.output_device_names:
         print(" - %s" % name)
@@ -85,6 +94,8 @@ def main():
     test = subparsers.add_parser('test', help='play a test tone')
     test.add_argument('--gain', type=float, help='tone level, in dB (default: -12)', default=-12)
     test.add_argument('--frequency', type=float, help='tone frequency, in Hz (default: 440)', default=440)
+    test.add_argument('--output-backend-name', type=str,
+                      help='name of output backend to use (default: system default backend)', default=None)
     test.add_argument('--output-device-name', type=str,
                       help='name of output device to use (default: system default output)', default=None)
 
@@ -92,6 +103,11 @@ def main():
     # Command: list-output-devices
     # --------------------------------------------------------------------------------
     list_output_device_names = subparsers.add_parser('list-output-device-names', help='list available output devices')
+    list_output_device_names.add_argument('--output-backend-name', type=str,
+                                          help='name of output backend to use (default: system default backend)',
+                                          default=None)
+
+
     list_output_backend_names = subparsers.add_parser('list-output-backend-names',
                                                       help='list available output backends')
     help = subparsers.add_parser('help', help='show help')
@@ -102,14 +118,13 @@ def main():
     elif args.command == 'version':
         run_version()
     elif args.command == 'test':
-        run_test(args.frequency, args.gain, args.output_device_name)
+        run_test(args.frequency, args.gain, args.output_backend_name, args.output_device_name)
     elif args.command == 'list-output-device-names':
-        run_list_output_device_names()
+        run_list_output_device_names(args.output_backend_name)
     elif args.command == 'list-output-backend-names':
         run_list_output_backend_names()
     elif args.command == 'help':
         parser.print_help()
-
 
 if __name__ == '__main__':
     main()
