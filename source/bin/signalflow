@@ -30,8 +30,11 @@ def run_configure():
     subprocess.call([editor, config_path])
 
 
-def run_test(frequency=440, gain=0.0):
-    graph = AudioGraph()
+def run_test(frequency: float = 440, gain: float = 0.0, output_device_name: str = None):
+    config = AudioGraphConfig()
+    if output_device_name:
+        config.output_device_name = output_device_name
+    graph = AudioGraph(config=config)
     tone = SineOscillator(frequency)
     stereo = StereoPanner(tone)
     amplitude = db_to_amplitude(gain)
@@ -67,6 +70,8 @@ def main():
     test = subparsers.add_parser('test', help='play a test tone')
     test.add_argument('--gain', type=float, help='tone level, in dB (default: -12)', default=-12)
     test.add_argument('--frequency', type=float, help='tone frequency, in Hz (default: 440)', default=440)
+    test.add_argument('--output-device-name', type=str,
+                      help='name of output device to use (default: system default output)', default=None)
 
     # --------------------------------------------------------------------------------
     # Command: list-output-devices
@@ -77,7 +82,7 @@ def main():
     if args.command == 'configure':
         run_configure()
     elif args.command == 'test':
-        run_test(args.frequency, args.gain)
+        run_test(args.frequency, args.gain, args.output_device_name)
     elif args.command == 'list-output-device-names':
         run_list_output_device_names()
 

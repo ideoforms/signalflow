@@ -114,7 +114,7 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
             return i;
         }
     }
-    std::cerr << "Couldn't find output device" << std::string(name) << std::endl;
+    std::cerr << "Couldn't find output device " << std::string(name) << std::endl;
 
     return -1;
 }
