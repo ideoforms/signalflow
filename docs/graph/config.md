@@ -2,7 +2,7 @@
 
 ## Graph configuration
 
-There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. 
+There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. This can be done [programmatically](#configuring-the-graph-programmatically) or [via a config file](#configuring-the-graph-via-signalflowconfig).
 
 | Parameter   | Description                                                                                                                                                                                                                                                                                                                                                                                                            |
 |--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
