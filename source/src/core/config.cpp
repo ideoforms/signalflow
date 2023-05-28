@@ -32,7 +32,8 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::string>> pa
             const std::string &section_name = match[1];
             if (sections.find(section_name) != sections.end())
             {
-                throw std::runtime_error("Found repeated section name on line " + std::to_string(line_number) + ": " + section_name);
+                throw std::runtime_error("Found repeated section name on line " + std::to_string(line_number) + ": "
+                                         + section_name);
             }
             current_section = section_name;
         }
@@ -43,7 +44,8 @@ std::unordered_map<std::string, std::unordered_map<std::string, std::string>> pa
 
             if (current_section.empty())
             {
-                throw std::runtime_error("Found invalid config item without a parent section on line " + std::to_string(line_number) + ": " + item_name);
+                throw std::runtime_error("Found invalid config item without a parent section on line "
+                                         + std::to_string(line_number) + ": " + item_name);
             }
             if (item_value == "null")
             {
@@ -115,7 +117,8 @@ AudioGraphConfig::AudioGraphConfig()
                 }
                 else
                 {
-                    throw std::runtime_error("Invalid section parameter name: " + section_name + " > " + parameter_name);
+                    throw std::runtime_error("Invalid section parameter name: " + section_name + " > "
+                                             + parameter_name);
                 }
             }
             else if (section_name == "midi")
@@ -133,65 +136,29 @@ AudioGraphConfig::AudioGraphConfig()
     }
 }
 
-unsigned int AudioGraphConfig::get_sample_rate() const
-{
-    return this->sample_rate;
-}
+unsigned int AudioGraphConfig::get_sample_rate() const { return this->sample_rate; }
 
-void AudioGraphConfig::set_sample_rate(unsigned int sample_rate)
-{
-    this->sample_rate = sample_rate;
-}
+void AudioGraphConfig::set_sample_rate(unsigned int sample_rate) { this->sample_rate = sample_rate; }
 
-unsigned int AudioGraphConfig::get_input_buffer_size() const
-{
-    return this->input_buffer_size;
-}
+unsigned int AudioGraphConfig::get_input_buffer_size() const { return this->input_buffer_size; }
 
-void AudioGraphConfig::set_input_buffer_size(unsigned int buffer_size)
-{
-    this->input_buffer_size = buffer_size;
-}
+void AudioGraphConfig::set_input_buffer_size(unsigned int buffer_size) { this->input_buffer_size = buffer_size; }
 
-unsigned int AudioGraphConfig::get_output_buffer_size() const
-{
-    return this->output_buffer_size;
-}
+unsigned int AudioGraphConfig::get_output_buffer_size() const { return this->output_buffer_size; }
 
-void AudioGraphConfig::set_output_buffer_size(unsigned int buffer_size)
-{
-    this->output_buffer_size = buffer_size;
-}
+void AudioGraphConfig::set_output_buffer_size(unsigned int buffer_size) { this->output_buffer_size = buffer_size; }
 
-const std::string &AudioGraphConfig::get_input_device_name() const
-{
-    return this->input_device_name;
-}
+const std::string &AudioGraphConfig::get_input_device_name() const { return this->input_device_name; }
 
-void AudioGraphConfig::set_input_device_name(const std::string &name)
-{
-    this->input_device_name = name;
-}
+void AudioGraphConfig::set_input_device_name(const std::string &name) { this->input_device_name = name; }
 
-const std::string &AudioGraphConfig::get_output_device_name() const
-{
-    return this->output_device_name;
-}
+const std::string &AudioGraphConfig::get_output_device_name() const { return this->output_device_name; }
 
-void AudioGraphConfig::set_output_device_name(const std::string &name)
-{
-    this->output_device_name = name;
-}
+void AudioGraphConfig::set_output_device_name(const std::string &name) { this->output_device_name = name; }
 
-float AudioGraphConfig::get_cpu_usage_limit() const
-{
-    return this->cpu_usage_limit;
-}
+float AudioGraphConfig::get_cpu_usage_limit() const { return this->cpu_usage_limit; }
 
-void AudioGraphConfig::set_cpu_usage_limit(float limit)
-{
-    this->cpu_usage_limit = limit;
-}
+void AudioGraphConfig::set_cpu_usage_limit(float limit) { this->cpu_usage_limit = limit; }
 
 void AudioGraphConfig::print() const
 {
