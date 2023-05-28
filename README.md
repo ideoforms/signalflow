@@ -151,7 +151,7 @@ See [examples/python](examples/python) for a number of example scripts.
 
 ## Documentation
 
-Work-in-progress documentation can be found at [ideoforms.github.io/signalflow/](https://ideoforms.github.io/signalflow/). 
+More detailed documentation can be found at [signalflow.dev](https://signalflow.dev/). 
 
 ## Node classes
 
