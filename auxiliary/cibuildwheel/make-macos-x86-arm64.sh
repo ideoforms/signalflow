@@ -6,13 +6,15 @@
 # Should be retired when GitHub Actions support arm64 build
 #--------------------------------------------------------------------------------
 
+ROOT=auxiliary/cibuildwheel
+
 for VERSION in 38 39 310 311
 do
     rm -r build
     export CIBW_BUILD="cp${VERSION}-*"
     export CIBW_BUILD_VERBOSITY=2
 
-    . venv-$VERSION/bin/activate
+    . $ROOT/venv-$VERSION/bin/activate
     pip3 install cibuildwheel
 
     #--------------------------------------------------------------------------------

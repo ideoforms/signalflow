@@ -1,4 +1,4 @@
-name: Build
+name: Build wheels
 
 on: workflow_dispatch
 
@@ -23,7 +23,7 @@ jobs:
         env:
           CIBW_BUILD: cp38-manylinux* cp39-manylinux* cp310-manylinux* cp311-manylinux*
           CIBW_ARCHS_MACOS: arm64 x86_64
-          CIBW_ARCHS_LINUX: x86_64 aarch64
+          CIBW_ARCHS_LINUX: x86_64
           CIBW_BEFORE_ALL_LINUX: >
              yum install -y gsl-devel fftw-devel &&
              git clone https://github.com/libsndfile/libsndfile.git && cd libsndfile && cmake -DBUILD_SHARED_LIBS=1 . && make && make install &&
