@@ -48,6 +48,10 @@ def run_test(frequency: float = 440, gain: float = 0.0, output_device_name: str 
         print("Exiting...")
 
 
+def run_version():
+    import signalflow
+    print(signalflow.__version__)
+
 def run_list_output_device_names():
     graph = AudioGraph(start=False)
     print("Available output device names:")
@@ -63,6 +67,11 @@ def main():
     # Command: configure
     # --------------------------------------------------------------------------------
     configure = subparsers.add_parser('configure', help='edit signalflow configuration')
+
+    # --------------------------------------------------------------------------------
+    # Command: version
+    # --------------------------------------------------------------------------------
+    version = subparsers.add_parser('version', help='show signalflow version')
 
     # --------------------------------------------------------------------------------
     # Command: test
@@ -81,6 +90,8 @@ def main():
     args = parser.parse_args()
     if args.command == 'configure':
         run_configure()
+    elif args.command == 'version':
+        run_version()
     elif args.command == 'test':
         run_test(args.frequency, args.gain, args.output_device_name)
     elif args.command == 'list-output-device-names':
