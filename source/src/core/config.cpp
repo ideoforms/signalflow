@@ -111,6 +111,10 @@ AudioGraphConfig::AudioGraphConfig()
                 {
                     this->output_device_name = parameter_value;
                 }
+                else if (parameter_name == "output_backend_name")
+                {
+                    this->output_backend_name = parameter_value;
+                }
                 else if (parameter_name == "cpu_usage_limit")
                 {
                     this->cpu_usage_limit = std::stof(parameter_value);
@@ -160,6 +164,10 @@ void AudioGraphConfig::set_input_device_name(const std::string &name) { this->in
 const std::string &AudioGraphConfig::get_output_device_name() const { return this->output_device_name; }
 
 void AudioGraphConfig::set_output_device_name(const std::string &name) { this->output_device_name = name; }
+
+const std::string &AudioGraphConfig::get_output_backend_name() const { return this->output_backend_name; }
+
+void AudioGraphConfig::set_output_backend_name(const std::string &name) { this->output_backend_name = name; }
 
 float AudioGraphConfig::get_cpu_usage_limit() const { return this->cpu_usage_limit; }
 

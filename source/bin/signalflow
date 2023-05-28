@@ -52,10 +52,18 @@ def run_version():
     import signalflow
     print(signalflow.__version__)
 
+
 def run_list_output_device_names():
     graph = AudioGraph(start=False)
     print("Available output device names:")
     for name in graph.output_device_names:
+        print(" - %s" % name)
+
+
+def run_list_output_backend_names():
+    graph = AudioGraph(start=False)
+    print("Available output backend names:")
+    for name in graph.output_backend_names:
         print(" - %s" % name)
 
 
@@ -86,6 +94,7 @@ def main():
     # Command: list-output-devices
     # --------------------------------------------------------------------------------
     list_output_device_names = subparsers.add_parser('list-output-device-names', help='list available output devices')
+    list_output_backend_names = subparsers.add_parser('list-output-backend-names', help='list available output backends')
 
     args = parser.parse_args()
     if args.command == 'configure':
@@ -96,6 +105,8 @@ def main():
         run_test(args.frequency, args.gain, args.output_device_name)
     elif args.command == 'list-output-device-names':
         run_list_output_device_names()
+    elif args.command == 'list-output-backend-names':
+        run_list_output_backend_names()
 
 
 if __name__ == '__main__':
