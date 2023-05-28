@@ -47,7 +47,17 @@ graph.wait()
 
 ### macOS
 
-To install the Python library on macOS, install dependencies with homebrew:
+The quickest and easiest way to install SignalFlow on macOS is by using `pip`:
+
+```
+pip3 install signalflow
+```
+
+That's it! To test that it is installed successfully, play a test tone by running: `signalflow test` 
+
+#### From source
+
+To build on macOS from source, install dependencies with Homebrew: 
 ```
 brew install cmake python libsndfile libsoundio
 ```
@@ -63,9 +73,23 @@ pip3 install .
 
 ### Linux, Raspberry Pi
 
-SignalFlow supports Linux (verified on Ubuntu 20.04 and Raspberry Pi OS buster).
+SignalFlow supports Linux (verified on Ubuntu 20.04 and Raspberry Pi OS buster) with alsa and pulseaudio backends.
 
-To install the Python library on Linux, install dependencies with apt:
+#### Via pip
+
+Installation via pip is supported for Linux x86_64. To install:
+
+```
+pip3 install signalflow
+```
+
+That's it! To test that it is installed successfully, play a test tone by running: `signalflow test`.
+
+If installation does not succeed, follow the instructions for building from source below. 
+
+#### From source
+
+To build the Python library from source on Linux, install dependencies with apt:
 ```
 apt-get install -y git cmake g++ python3-pip libasound2-dev libsndfile1-dev libsoundio-dev fftw3-dev
 ```
