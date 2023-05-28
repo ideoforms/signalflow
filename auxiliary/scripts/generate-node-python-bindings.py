@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 # Automatically generate pybind11 headers to provide Python bindings
 # for all Node subclasses.
 #
@@ -12,7 +12,7 @@
 #
 #   pip3 install robotpy-cppheaderparser
 #
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 
 import os
 import re
@@ -27,15 +27,18 @@ parser.add_argument("-m", "--markdown", action="store_true")
 parser.add_argument("-t", "--table", action="store_true")
 args = parser.parse_args()
 
-node_superclasses = [ "Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO" ]
-omitted_classes = [ "VampAnalysis", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode", "StochasticNode" ]
-macos_only_classes = [ "MouseX", "MouseY", "MouseDown", "FFTConvolve" ]
+node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
+omitted_classes = ["VampAnalysis", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode",
+                   "StochasticNode"]
+macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
 
-top_level = subprocess.check_output([ "git", "rev-parse", "--show-toplevel" ]).decode().strip()
+top_level = subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
 header_root = os.path.join(top_level, "source", "include")
-source_files = glob.glob("%s/signalflow/node/*/*.h" % header_root) + glob.glob("%s/signalflow/node/*/*/*.h" % header_root)
+source_files = glob.glob("%s/signalflow/node/*/*.h" % header_root) + glob.glob(
+    "%s/signalflow/node/*/*/*.h" % header_root)
 source_files = list(filter(lambda path: not "/io/" in path, source_files))
 source_files = list(sorted(source_files, key=lambda path: (os.path.dirname(path), path)))
+
 
 def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
     """
@@ -48,9 +51,10 @@ def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
     if class_name in omitted_classes:
         return ""
 
-    output = 'py::class_<{class_name}, {superclass}, NodeRefTemplate<{class_name}>>(m, "{class_name}")\n'.format(class_name=class_name, superclass=superclass)
+    output = 'py::class_<{class_name}, {superclass}, NodeRefTemplate<{class_name}>>(m, "{class_name}")\n'.format(
+        class_name=class_name, superclass=superclass)
     for parameter_set in parameter_sets:
-        parameter_type_list = ", ".join([ parameter["type"] for parameter in parameter_set ])
+        parameter_type_list = ", ".join([parameter["type"] for parameter in parameter_set])
         output += '    .def(py::init<{parameter_type_list}>()'.format(parameter_type_list=parameter_type_list);
         for parameter in parameter_set:
             if parameter["default"] is not None:
@@ -68,6 +72,7 @@ def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
     output = output[:-1] + ";\n"
     return output
 
+
 def generate_all_bindings():
     output_markdown = ""
     folder_last = ""
@@ -75,14 +80,15 @@ def generate_all_bindings():
     output += generate_class_bindings("AudioIn", [[]]) + "\n"
     output += generate_class_bindings("AudioOut_Abstract", []) + "\n"
     output += generate_class_bindings("AudioOut_Dummy", [[
-        { "name": "num_channels", "type": "int", "default": 2 },
-        { "name": "buffer_size", "type": "int", "default": "SIGNALFLOW_DEFAULT_BLOCK_SIZE" },
+        {"name": "num_channels", "type": "int", "default": 2},
+        {"name": "buffer_size", "type": "int", "default": "SIGNALFLOW_DEFAULT_BLOCK_SIZE"},
     ]], "AudioOut_Abstract") + "\n"
 
     output += generate_class_bindings("AudioOut", [[
-        { "name": "device_name", "type": "std::string", "default": "" },
-        { "name": "sample_rate", "type": "int", "default": 0 },
-        { "name": "buffer_size", "type": "int", "default": 0 }
+        {"name": "backend_name", "type": "std::string", "default": ""},
+        {"name": "device_name", "type": "std::string", "default": ""},
+        {"name": "sample_rate", "type": "int", "default": 0},
+        {"name": "buffer_size", "type": "int", "default": 0}
     ]], "AudioOut_Abstract") + "\n"
 
     class_categories = {}
@@ -122,20 +128,20 @@ def generate_all_bindings():
                         p_default = None
                         if "defaultValue" in parameter:
                             p_default = parameter["defaultValue"]
-                        if p_type in [ "sample", "double" ]:
+                        if p_type in ["sample", "double"]:
                             p_type = "float"
-                        if p_type in [ "string" ]:
+                        if p_type in ["string"]:
                             p_type = "std::string"
                         parameters.append({
-                                "type" : p_type,
-                                "name" : p_name,
-                                "default" : p_default
-                                })
+                            "type": p_type,
+                            "name": p_name,
+                            "default": p_default
+                        })
                     constructor_parameter_sets.append(parameters)
             if constructor_parameter_sets:
                 if class_name in macos_only_classes:
                     output += "#ifdef __APPLE__\n\n"
-                known_parent_classes = [ "Node", "StochasticNode"]
+                known_parent_classes = ["Node", "StochasticNode"]
                 if parent_class not in known_parent_classes:
                     parent_class = "Node"
                 output += generate_class_bindings(class_name, constructor_parameter_sets, parent_class)
@@ -144,10 +150,12 @@ def generate_all_bindings():
                 if class_name in macos_only_classes:
                     output += "#endif\n\n"
 
-                output_markdown_params = ", ".join(("%s=%s" % (param["name"], param["default"])) for param in constructor_parameter_sets[0])
+                output_markdown_params = ", ".join(
+                    ("%s=%s" % (param["name"], param["default"])) for param in constructor_parameter_sets[0])
                 output_markdown += "- **%s** `(%s)`\n" % (class_name, output_markdown_params)
                 class_categories[class_category].append(class_name)
     return output, output_markdown, class_categories
+
 
 bindings, markdown, class_categories = generate_all_bindings()
 bindings = re.sub("\n", "\n    ", bindings)
@@ -165,7 +173,7 @@ void init_python_nodes(py::module &m)
 if args.markdown:
     print(markdown)
 elif args.table:
-    output_table =  "| Category | Classes  |\n"
+    output_table = "| Category | Classes  |\n"
     output_table += "|:---------|:---------|\n"
     for category, classes in class_categories.items():
         category_text = ": ".join(text.title() for text in category.split("/"))
