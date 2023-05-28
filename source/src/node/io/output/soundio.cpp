@@ -119,9 +119,13 @@ int soundio_get_device_by_name(struct SoundIo *soundio, const char *name)
     return -1;
 }
 
-AudioOut_SoundIO::AudioOut_SoundIO(const std::string &device_name, unsigned int sample_rate, unsigned int buffer_size)
+AudioOut_SoundIO::AudioOut_SoundIO(const std::string &backend_name,
+                                   const std::string &device_name,
+                                   unsigned int sample_rate,
+                                   unsigned int buffer_size)
     : AudioOut_Abstract()
 {
+    this->backend_name = backend_name;
     this->device_name = device_name;
     this->sample_rate = sample_rate;
     this->buffer_size = buffer_size;
@@ -139,8 +143,36 @@ int AudioOut_SoundIO::init()
     if (!this->soundio)
         throw audio_io_exception("libsoundio error: out of memory");
 
-    if ((err = soundio_connect(this->soundio)))
-        throw audio_io_exception("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
+    if (!this->backend_name.empty())
+    {
+        // Backend name is specified; connect to the given backend
+        std::vector<std::string> possible_backend_names = {
+            "none",
+            "jack",
+            "pulseaudio",
+            "alsa",
+            "coreaudio",
+            "wasapi",
+            "dummy"
+        };
+
+        auto location = std::find(possible_backend_names.begin(),
+                                  possible_backend_names.end(),
+                                  this->backend_name);
+
+        if (location == possible_backend_names.end())
+        {
+            throw audio_io_exception("libsoundio error: could not find backend name " + this->backend_name);
+        }
+        enum SoundIoBackend backend_index = (enum SoundIoBackend)(location - possible_backend_names.begin());
+        printf("using backend_index %d\n", backend_index);
+        if ((err = soundio_connect_backend(this->soundio, backend_index)))
+            throw audio_io_exception("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
+    }
+    {
+        if ((err = soundio_connect(this->soundio)))
+            throw audio_io_exception("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
+    }
 
     soundio_flush_events(this->soundio);
 

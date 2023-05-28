@@ -14,7 +14,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<int, int>(), "num_channels"_a = 2, "buffer_size"_a = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
 
     py::class_<AudioOut, AudioOut_Abstract, NodeRefTemplate<AudioOut>>(m, "AudioOut")
-        .def(py::init<std::string, int, int>(), "device_name"_a = "", "sample_rate"_a = 0, "buffer_size"_a = 0);
+        .def(py::init<std::string, std::string, int, int>(), "backend_name"_a = "", "device_name"_a = "", "sample_rate"_a = 0, "buffer_size"_a = 0);
 
     py::class_<CrossCorrelate, Node, NodeRefTemplate<CrossCorrelate>>(m, "CrossCorrelate")
         .def(py::init<NodeRef, BufferRef, int>(), "input"_a = nullptr, "buffer"_a = nullptr, "hop_size"_a = 0);
@@ -42,9 +42,6 @@ void init_python_nodes(py::module &m)
 
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048);
-
-    py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer")
-        .def(py::init<BufferRef, std::vector<float>>(), "buffer"_a = nullptr, "onsets"_a = 0);
 
 #ifdef __APPLE__
 
@@ -77,7 +74,8 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "threshold"_a = 0.00001);
 
     py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope")
-        .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(), "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
+        .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(),
+             "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
 
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0, "clock"_a = nullptr);
@@ -253,6 +251,18 @@ void init_python_nodes(py::module &m)
     py::class_<Clip, Node, NodeRefTemplate<Clip>>(m, "Clip")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
+    py::class_<Fold, Node, NodeRefTemplate<Fold>>(m, "Fold")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
+
+    py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);
+
+    py::class_<WetDry, Node, NodeRefTemplate<WetDry>>(m, "WetDry")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "dry_input"_a = nullptr, "wet_input"_a = nullptr, "wetness"_a = 0.0);
+
+    py::class_<Wrap, Node, NodeRefTemplate<Wrap>>(m, "Wrap")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
+
     py::class_<AllpassDelay, Node, NodeRefTemplate<AllpassDelay>>(m, "AllpassDelay")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delay_time"_a = 0.1, "feedback"_a = 0.5, "max_delay_time"_a = 0.5);
 
@@ -303,9 +313,6 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.0)
         .def(py::init<NodeRef, std::string, NodeRef, NodeRef>(), "input"_a, "filter_type"_a, "cutoff"_a = 440, "resonance"_a = 0.0);
 
-    py::class_<Fold, Node, NodeRefTemplate<Fold>>(m, "Fold")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
-
     py::class_<AzimuthPanner, Node, NodeRefTemplate<AzimuthPanner>>(m, "AzimuthPanner")
         .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "num_channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
@@ -324,15 +331,6 @@ void init_python_nodes(py::module &m)
     py::class_<StereoWidth, Node, NodeRefTemplate<StereoWidth>>(m, "StereoWidth")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
 
-    py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);
-
-    py::class_<WetDry, Node, NodeRefTemplate<WetDry>>(m, "WetDry")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "dry_input"_a = nullptr, "wet_input"_a = nullptr, "wetness"_a = 0.0);
-
-    py::class_<Wrap, Node, NodeRefTemplate<Wrap>>(m, "Wrap")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
-
     py::class_<ClockDivider, Node, NodeRefTemplate<ClockDivider>>(m, "ClockDivider")
         .def(py::init<NodeRef, NodeRef>(), "clock"_a = 0, "factor"_a = 1);
 
@@ -348,9 +346,6 @@ void init_python_nodes(py::module &m)
     py::class_<ImpulseSequence, Node, NodeRefTemplate<ImpulseSequence>>(m, "ImpulseSequence")
         .def(py::init<std::vector<int>, NodeRef>(), "sequence"_a = std::vector<int>(), "clock"_a = nullptr)
         .def(py::init<std::string, NodeRef>(), "sequence"_a, "clock"_a = nullptr);
-
-    py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
-        .def(py::init<std::vector<float>, NodeRef>(), "list"_a = 0, "index"_a = 0);
 
     py::class_<Latch, Node, NodeRefTemplate<Latch>>(m, "Latch")
         .def(py::init<NodeRef, NodeRef>(), "set"_a = 0, "reset"_a = 0);

@@ -139,6 +139,10 @@ AudioGraphConfig::AudioGraphConfig()
         }
     }
 
+    if (getenv("SIGNALFLOW_OUTPUT_BACKEND_NAME"))
+    {
+        this->output_backend_name = std::string(getenv("SIGNALFLOW_OUTPUT_BACKEND_NAME"));
+    }
     if (getenv("SIGNALFLOW_OUTPUT_DEVICE_NAME"))
     {
         this->output_device_name = std::string(getenv("SIGNALFLOW_OUTPUT_DEVICE_NAME"));
