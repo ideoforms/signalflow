@@ -36,10 +36,8 @@ def run_test(frequency: float = 440, gain: float = 0.0, output_device_name: str 
         config.output_device_name = output_device_name
     graph = AudioGraph(config=config)
     tone = SineOscillator(frequency)
-    stereo = StereoPanner(tone)
     amplitude = db_to_amplitude(gain)
-    stereo = stereo * amplitude
-    stereo.play()
+    output = tone * amplitude
     print("Generating test tone at %dHz. Press Ctrl-C to stop." % frequency)
     try:
         graph.wait()
