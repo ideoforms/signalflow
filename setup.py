@@ -49,5 +49,6 @@ setup(
     install_requires=['numpy'],
     tests_require=['pytest', 'numpy', 'scipy'],
     package_dir={ '': 'auxiliary/libs' },
-    packages=['signalflow_midi']
+    packages=['signalflow_midi'],
+    scripts=['source/bin/signalflow']
 )

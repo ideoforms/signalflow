@@ -1,0 +1,86 @@
+#!/usr/bin/env python
+
+# --------------------------------------------------------------------------------
+# SignalFlow command-line utility
+# --------------------------------------------------------------------------------
+
+from signalflow import *
+import subprocess
+import argparse
+import os
+
+
+def run_configure():
+    config_directory = os.path.expanduser("~/.signalflow")
+    config_path = os.path.join(config_directory, "config")
+    os.makedirs(config_directory, exist_ok=True)
+    if not os.path.exists(config_path):
+        with open(config_path, "w") as fd:
+            fd.write("# This file contains configuration for SignalFlow synthesis engine.\n")
+            fd.write("# Uncomment any configuration options you wish to use.\n")
+            fd.write("# String values can be quoted in double-quotes.\n")
+            fd.write("\n")
+            fd.write("[audio]\n")
+            fd.write("# output_device_name =\n")
+            fd.write("# output_buffer_size =\n")
+            fd.write("# cpu_usage_limit =\n")
+    editor = os.getenv("EDITOR")
+    if not editor:
+        editor = "pico"
+    subprocess.call([editor, config_path])
+
+
+def run_test(frequency=440, gain=0.0):
+    graph = AudioGraph()
+    tone = SineOscillator(frequency)
+    stereo = StereoPanner(tone)
+    amplitude = db_to_amplitude(gain)
+    stereo = stereo * amplitude
+    stereo.play()
+    print("Generating test tone at %dHz. Press Ctrl-C to stop." % frequency)
+    try:
+        graph.wait()
+    except KeyboardInterrupt:
+        print()
+        print("Exiting...")
+
+
+def run_list_output_device_names():
+    graph = AudioGraph(start=False)
+    print("Available output device names:")
+    for name in graph.output_device_names:
+        print(" - %s" % name)
+
+
+def main():
+    parser = argparse.ArgumentParser(description='SignalFlow command-line utility')
+    subparsers = parser.add_subparsers(dest='command', required=True)
+
+    # --------------------------------------------------------------------------------
+    # Command: configure
+    # --------------------------------------------------------------------------------
+    configure = subparsers.add_parser('configure', help='edit signalflow configuration')
+
+    # --------------------------------------------------------------------------------
+    # Command: test
+    # --------------------------------------------------------------------------------
+    test = subparsers.add_parser('test', help='play a test tone')
+    test.add_argument('--gain', type=float, help='tone level, in dB (default: -12)', default=-12)
+    test.add_argument('--frequency', type=float, help='tone frequency, in Hz (default: 440)', default=440)
+
+    # --------------------------------------------------------------------------------
+    # Command: list-output-devices
+    # --------------------------------------------------------------------------------
+    list_output_device_names = subparsers.add_parser('list-output-device-names', help='list available output devices')
+
+    args = parser.parse_args()
+    if args.command == 'configure':
+        run_configure()
+    elif args.command == 'test':
+        run_test(args.frequency, args.gain)
+    elif args.command == 'list-output-device-names':
+        run_list_output_device_names()
+
+
+if __name__ == '__main__':
+    main()
