@@ -4,6 +4,7 @@
 
 #include "signalflow/core/graph.h"
 
+#include <algorithm>
 #include <iostream>
 #include <math.h>
 #include <stdio.h>
@@ -165,10 +166,10 @@ int AudioOut_SoundIO::init()
             throw audio_io_exception("libsoundio error: could not find backend name " + this->backend_name);
         }
         enum SoundIoBackend backend_index = (enum SoundIoBackend)(location - possible_backend_names.begin());
-        printf("using backend_index %d\n", backend_index);
         if ((err = soundio_connect_backend(this->soundio, backend_index)))
             throw audio_io_exception("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
     }
+    else
     {
         if ((err = soundio_connect(this->soundio)))
             throw audio_io_exception("libsoundio error: could not connect (" + std::string(soundio_strerror(err)) + ")");
