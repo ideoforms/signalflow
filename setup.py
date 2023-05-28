@@ -38,10 +38,12 @@ class CMakeBuild(build_ext):
 
 setup(
     name='signalflow',
-    version='0.0.6',
+    version='0.0.7',
     author='Daniel Jones',
     author_email='dan@erase.net',
     description='signalflow',
+    long_description = open("README.md", "r").read(),
+    long_description_content_type = "text/markdown",
     ext_modules=[CMakeExtension('signalflow')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False,
