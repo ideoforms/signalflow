@@ -37,8 +37,12 @@ void OneTapDelay::process(Buffer &out, int num_frames)
             sample delay = this->delay_time->out[channel][frame];
             float offset = delay * this->graph->get_sample_rate();
 
-            out[channel][frame] = buffers[channel]->get(-offset);
+            /*--------------------------------------------------------------------------------
+             * Append before pulling from buffer so that a delay of 0 will always pass
+             * through the current frame immediately
+             *-------------------------------------------------------------------------------*/
             buffers[channel]->append(this->input->out[channel][frame]);
+            out[channel][frame] = buffers[channel]->get(-offset - 1);
         }
     }
 }
