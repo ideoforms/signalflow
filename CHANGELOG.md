@@ -1,7 +1,18 @@
-CHANGELOG
+# CHANGELOG
+
+## v0.4.0 (2023-05-28)
+
+- Implemented complete Python API
+- Migrated to CMake for build
+- Migrated to GitHub Actions for CI
+- Introduced initial Windows support
+- Naming overhaul and standardisation
+- Added `AudioGraphConfig`, and support for loading config from file and environmental variables
+- Added multiple `Node` subclasses for spatial panning
+- Added `signalflow` command-line utility
+- Added `signalflow_midi` helper package
 
 ## [v0.3.1](https://github.com/ideoforms/signal/tree/v0.3.1) (2018-12-31)
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.3.0...v0.3.1)
 
 **New features:**
 
@@ -14,7 +25,6 @@ CHANGELOG
 - Monitor: Add support for multichannel monitoring [\#74](https://github.com/ideoforms/signal/issues/74)
 
 ## [v0.3.0](https://github.com/ideoforms/signal/tree/v0.3.0) (2018-07-15)
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.2.0...v0.3.0)
 
 **New features:**
 
@@ -37,7 +47,6 @@ CHANGELOG
 - Naming review [\#44](https://github.com/ideoforms/signal/issues/44)
 
 ## [v0.2.0](https://github.com/ideoforms/signal/tree/v0.2.0) (2016-04-17)
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.1...v0.2.0)
 
 **New features:**
 
@@ -69,7 +78,6 @@ CHANGELOG
 - Node: EQ [\#19](https://github.com/ideoforms/signal/issues/19)
 
 ## [v0.1.1](https://github.com/ideoforms/signal/tree/v0.1.1) (2016-03-23)
-[Full Changelog](https://github.com/ideoforms/signal/compare/v0.1.0...v0.1.1)
 
 **New features:**
 

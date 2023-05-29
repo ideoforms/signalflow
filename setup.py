@@ -38,7 +38,7 @@ class CMakeBuild(build_ext):
 
 setup(
     name='signalflow',
-    version='0.0.8',
+    version='0.4.0',
     author='Daniel Jones',
     author_email='dan@erase.net',
     description='signalflow',
