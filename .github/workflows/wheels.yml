@@ -25,7 +25,7 @@ jobs:
           CIBW_ARCHS_MACOS: arm64 x86_64
           CIBW_ARCHS_LINUX: x86_64
           CIBW_BEFORE_ALL_LINUX: >
-             yum install -y gsl-devel fftw-devel wget python3 sudo gcc &&
+             yum install -y fftw-devel wget python3 sudo gcc &&
              wget https://github.com/jackaudio/jack2/archive/v1.9.22.tar.gz && tar xzf v1.9.22.tar.gz && cd jack2-1.9.22 && python3 ./waf configure && /usr/bin/sudo python3 ./waf install && cd .. && 
              wget https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.9.tar.bz2 && tar xjf alsa-lib-1.2.9.tar.bz2 && cd alsa-lib-1.2.9 && ./configure && make && /usr/bin/sudo make install && cd .. && 
              git clone https://github.com/libsndfile/libsndfile.git && cd libsndfile && cmake -DBUILD_SHARED_LIBS=1 . && make && make install && cd .. &&  
