@@ -211,18 +211,12 @@ int AudioOut_SoundIO::init()
         throw audio_io_exception("libsoundio error: Output device does not support float32 samples");
     }
     this->outstream->write_callback = write_callback;
-    // Use the user-specified sample rate.
-    //    printf("User-specified fs: %d\n", this->sample_rate);
-    //    printf("Device current fs: %d\n", this->device->sample_rate_current);
     if (!this->sample_rate)
     {
         this->sample_rate = this->device->sample_rate_current;
     }
     this->outstream->sample_rate = this->sample_rate;
-    //    printf("Setting outstream fs: %d\n", this->outstream->sample_rate);
-    //    printf("Buffer size: %d\n", this->buffer_size);
     this->outstream->software_latency = (double) this->buffer_size / this->outstream->sample_rate;
-    //    printf("Software latency: %.23f\n", this->outstream->software_latency);
     this->outstream->userdata = (void *) this;
     // With a device with multiple layouts, use the first.
     // To check: is this always the layout with the most channels?
