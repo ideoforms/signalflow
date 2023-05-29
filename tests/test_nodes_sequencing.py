@@ -6,9 +6,10 @@ import numpy as np
 Fs = 120
 
 def test_nodes_sequencing_sequence(graph):
+    Fs = 12
     graph.sample_rate = Fs
     ar = [1, 2, 3]
-    a = Sequence(ar, OneTapDelay(Impulse(4), [1/4, 2/4]))
+    a = Sequence(ar, OneTapDelay(Impulse(4), [1/4, 2/4], max_delay_time=1.0))
     graph.render_subgraph(a)
     expected_l = np.repeat([0] + ar, Fs / 4)
     expected_r = np.repeat([0, 0] + ar, Fs / 4)[:Fs]
