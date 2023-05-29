@@ -23,7 +23,7 @@ void DetectSilence::process(Buffer &out, int num_frames)
         bool silent = true;
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (this->input->out[channel][frame] > this->threshold->out[channel][frame])
+            if (fabs(this->input->out[channel][frame]) > this->threshold->out[channel][frame])
             {
                 silent = false;
             }
