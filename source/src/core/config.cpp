@@ -139,6 +139,22 @@ AudioGraphConfig::AudioGraphConfig()
         }
     }
 
+    if (getenv("SIGNALFLOW_SAMPLE_RATE"))
+    {
+        this->sample_rate = atoi(getenv("SIGNALFLOW_SAMPLE_RATE"));
+    }
+    if (getenv("SIGNALFLOW_INPUT_BUFFER_SIZE"))
+    {
+        this->output_buffer_size = atoi(getenv("SIGNALFLOW_INPUT_BUFFER_SIZE"));
+    }
+    if (getenv("SIGNALFLOW_OUTPUT_BUFFER_SIZE"))
+    {
+        this->output_buffer_size = atoi(getenv("SIGNALFLOW_OUTPUT_BUFFER_SIZE"));
+    }
+    if (getenv("SIGNALFLOW_INPUT_DEVICE_NAME"))
+    {
+        this->output_device_name = std::string(getenv("SIGNALFLOW_INPUT_DEVICE_NAME"));
+    }
     if (getenv("SIGNALFLOW_OUTPUT_BACKEND_NAME"))
     {
         this->output_backend_name = std::string(getenv("SIGNALFLOW_OUTPUT_BACKEND_NAME"));
@@ -146,6 +162,10 @@ AudioGraphConfig::AudioGraphConfig()
     if (getenv("SIGNALFLOW_OUTPUT_DEVICE_NAME"))
     {
         this->output_device_name = std::string(getenv("SIGNALFLOW_OUTPUT_DEVICE_NAME"));
+    }
+    if (getenv("SIGNALFLOW_CPU_USAGE_LIMIT"))
+    {
+        this->cpu_usage_limit = atof(getenv("SIGNALFLOW_CPU_USAGE_LIMIT"));
     }
 }
 
