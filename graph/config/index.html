@@ -387,6 +387,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#configuring-the-graph-via-environmental-variables" class="md-nav__link">
+    Configuring the graph via environmental variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#printing-the-current-config" class="md-nav__link">
+    Printing the current config
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -795,6 +809,20 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#configuring-the-graph-via-environmental-variables" class="md-nav__link">
+    Configuring the graph via environmental variables
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#printing-the-current-config" class="md-nav__link">
+    Printing the current config
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -819,7 +847,7 @@
                 
                 <h1 id="the-audiograph">The AudioGraph</h1>
 <h2 id="graph-configuration">Graph configuration</h2>
-<p>There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. This can be done <a href="#configuring-the-graph-programmatically">programmatically</a> or <a href="#configuring-the-graph-via-signalflowconfig">via a config file</a>.</p>
+<p>There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. This can be done <a href="#configuring-the-graph-programmatically">programmatically</a>, <a href="#configuring-the-graph-via-signalflowconfig">via a config file</a>, or <a href="#configuring-the-graph-via-environmental-variables">via environmental variables</a>.</p>
 <table>
 <thead>
 <tr>
@@ -829,24 +857,28 @@
 </thead>
 <tbody>
 <tr>
+<td>output_backend_name</td>
+<td>The name of the audio output backend to use, which can be one of: <code>jack</code>, <code>alsa</code>, <code>pulseaudio</code>, <code>coreaudio</code>, <code>wasapi</code>, <code>dummy</code>. Defaults to the first of these found on the system. Typically only required for Linux.</td>
+</tr>
+<tr>
 <td>output_device_name</td>
 <td>The name of the audio output device to use. This must precisely match the device's name in your system. If not found, <code>DeviceNotFoundException</code> is thrown when instantiating the graph.</td>
-</tr>
-<tr>
-<td>input_device_name</td>
-<td>The name of the input device to use.</td>
-</tr>
-<tr>
-<td>sample_rate</td>
-<td>The audio sample rate to use.</td>
 </tr>
 <tr>
 <td>output_buffer_size</td>
 <td>The size of the hardware output audio buffer, in samples. A larger buffer reduces the chance of buffer overflows and glitches, but at the cost of higher latency. Note that this config option merely specifies the <strong>preferred</strong> output buffer size, which may not be available in the system hardware. To check the actual buffer size used by the AudioGraph, query <code>graph.output_buffer_size</code> after instantiation.</td>
 </tr>
 <tr>
+<td>input_device_name</td>
+<td>The name of the input device to use.</td>
+</tr>
+<tr>
 <td>input_buffer_size</td>
 <td>The size of the hardware input audio buffer.</td>
+</tr>
+<tr>
+<td>sample_rate</td>
+<td>The audio sample rate to use.</td>
 </tr>
 <tr>
 <td>cpu_usage_limit</td>
@@ -878,6 +910,15 @@ input_device_name = &quot;MacBook Pro Microphone&quot;
 <div class="highlight"><pre><span></span><code>signalflow configure
 </code></pre></div>
 <p>This will use your default <code>$EDITOR</code> to open the configuration, or <code>pico</code> if no editor is specified.</p>
+<h3 id="configuring-the-graph-via-environmental-variables">Configuring the graph via environmental variables</h3>
+<p>SignalFlow config can also be set by setting an environmental variable in your shell. Variable names are identical to the upper-case version of the config string, prefixed with <code>SIGNALFLOW_</code>. For example:</p>
+<div class="highlight"><pre><span></span><code>export SIGNALFLOW_OUTPUT_DEVICE_NAME=&quot;MacBook Pro Speakers&quot;
+export SIGNALFLOW_OUTPUT_BUFFER_SIZE=1024
+</code></pre></div>
+<h3 id="printing-the-current-config">Printing the current config</h3>
+<p>To print the current configuration to stdout:</p>
+<div class="highlight"><pre><span></span><code>graph.config.print()
+</code></pre></div>
 <hr />
 <p><a href="../properties/">→ Next: Graph status and properties</a></p>
                 
