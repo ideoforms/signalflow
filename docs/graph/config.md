@@ -2,16 +2,17 @@
 
 ## Graph configuration
 
-There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. This can be done [programmatically](#configuring-the-graph-programmatically) or [via a config file](#configuring-the-graph-via-signalflowconfig).
+There are a number of graph configuration parameters that can be used to change the global behaviour of the audio system. This can be done [programmatically](#configuring-the-graph-programmatically), [via a config file](#configuring-the-graph-via-signalflowconfig), or [via environmental variables](#configuring-the-graph-via-environmental-variables).
 
-| Parameter   | Description                                                                                                                                                                                                                                                                                                                                                                                                            |
-|--------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| output_device_name             | The name of the audio output device to use. This must precisely match the device's name in your system. If not found, `DeviceNotFoundException` is thrown when instantiating the graph.                                                                                                                                                                                                                                |
-| input_device_name              | The name of the input device to use.                                                                                                                                                                                                                                                                                                                                                                                   |
-| sample_rate                    | The audio sample rate to use.                                                                                                                                                                                                                                                                                                                                                                                          |
-| output_buffer_size             | The size of the hardware output audio buffer, in samples. A larger buffer reduces the chance of buffer overflows and glitches, but at the cost of higher latency. Note that this config option merely specifies the **preferred** output buffer size, which may not be available in the system hardware. To check the actual buffer size used by the AudioGraph, query `graph.output_buffer_size` after instantiation. |
-| input_buffer_size              | The size of the hardware input audio buffer.                                                                                                                                                                                                                                                                                                                                                                           |
-| cpu_usage_limit                | Imposes a hard limit on the CPU usage permitted by SignalFlow. If the estimated (single-core) CPU usage exceeds this value, no more nodes or patches can be created until it returns to below the limit. Floating-point value between 0..1, where 0.5 means 50% CPU.                                                                                                                                                   |
+| Parameter           | Description                                                                                                                                                                                                                                                                                                                                                                                                           |
+|---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| output_backend_name | The name of the audio output backend to use, which can be one of: `jack`, `alsa`, `pulseaudio`, `coreaudio`, `wasapi`, `dummy`. Defaults to the first of these found on the system. Typically only required for Linux.                                                                                                                                                                                                |
+| output_device_name  | The name of the audio output device to use. This must precisely match the device's name in your system. If not found, `DeviceNotFoundException` is thrown when instantiating the graph.                                                                                                                                                                                                                               |
+| output_buffer_size  | The size of the hardware output audio buffer, in samples. A larger buffer reduces the chance of buffer overflows and glitches, but at the cost of higher latency. Note that this config option merely specifies the **preferred** output buffer size, which may not be available in the system hardware. To check the actual buffer size used by the AudioGraph, query `graph.output_buffer_size` after instantiation. |
+| input_device_name   | The name of the input device to use.                                                                                                                                                                                                                                                                                                                                                                                  |
+| input_buffer_size   | The size of the hardware input audio buffer.                                                                                                                                                                                                                                                                                                                                                                          |
+| sample_rate         | The audio sample rate to use.                                                                                                                                                                                                                                                                                                                                                                                         |
+| cpu_usage_limit     | Imposes a hard limit on the CPU usage permitted by SignalFlow. If the estimated (single-core) CPU usage exceeds this value, no more nodes or patches can be created until it returns to below the limit. Floating-point value between 0..1, where 0.5 means 50% CPU.                                                                                                                                                  |
 
 ### Configuring the graph programmatically
 
@@ -50,6 +51,24 @@ signalflow configure
 ```
 
 This will use your default `$EDITOR` to open the configuration, or `pico` if no editor is specified.
+
+### Configuring the graph via environmental variables
+
+SignalFlow config can also be set by setting an environmental variable in your shell. Variable names are identical to the upper-case version of the config string, prefixed with `SIGNALFLOW_`. For example:
+
+```
+export SIGNALFLOW_OUTPUT_DEVICE_NAME="MacBook Pro Speakers"
+export SIGNALFLOW_OUTPUT_BUFFER_SIZE=1024
+```
+
+### Printing the current config
+
+To print the current configuration to stdout:
+
+```
+graph.config.print()
+```
+
 
 ---
 

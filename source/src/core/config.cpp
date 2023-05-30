@@ -199,15 +199,13 @@ void AudioGraphConfig::set_cpu_usage_limit(float limit) { this->cpu_usage_limit 
 
 void AudioGraphConfig::print() const
 {
-    std::cout << "SignalFlow config" << std::endl;
-    std::cout << "-----------------" << std::endl;
-    std::cout << " - sample_rate = " << this->sample_rate << std::endl;
-    std::cout << " - input_buffer_size = " << this->input_buffer_size << std::endl;
-    std::cout << " - output_buffer_size = " << this->output_buffer_size << std::endl;
-    std::cout << " - input_device_name = " << this->input_device_name << std::endl;
-    std::cout << " - output_backend_name = " << this->output_backend_name << std::endl;
-    std::cout << " - output_device_name = " << this->output_device_name << std::endl;
-    std::cout << " - cpu_usage_limit = " << this->cpu_usage_limit << std::endl;
+    std::cout << "output_backend_name = " << this->output_backend_name << std::endl;
+    std::cout << "output_device_name = " << this->output_device_name << std::endl;
+    std::cout << "output_buffer_size = " << this->output_buffer_size << std::endl;
+    std::cout << "input_device_name = " << this->input_device_name << std::endl;
+    std::cout << "input_buffer_size = " << this->input_buffer_size << std::endl;
+    std::cout << "sample_rate = " << this->sample_rate << std::endl;
+    std::cout << "cpu_usage_limit = " << this->cpu_usage_limit << std::endl;
 }
 
 }
