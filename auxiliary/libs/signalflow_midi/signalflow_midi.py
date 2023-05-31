@@ -37,7 +37,7 @@ class MIDIManager:
         self.voice_class = None
         self.voice_class_kwargs = None
         self.notes = [None] * 128
-        self.note_handler = None
+        self.note_handlers = [[] for _ in range(128)]
         self.control_handlers = [[] for _ in range(128)]
         self.control_values = [0] * 128
         self.channel_handlers = [[] for _ in range(16)]
@@ -59,6 +59,8 @@ class MIDIManager:
                 voice.play()
                 voice.auto_free = True
                 self.notes[message.note] = voice
+            if self.note_handlers[message.note]:
+                self.note_handlers[message.note]()
         elif message.type == 'note_off':
             logger.debug("Received MIDI note off: note %d" % (message.note))
             if self.notes[message.note]:
@@ -81,8 +83,8 @@ class MIDIManager:
         self.voice_class = cls
         self.voice_class_kwargs = kwargs
 
-    def add_note_handler(self, handler):
-        self.note_handler = handler
+    def add_note_handler(self, note, handler):
+        self.note_handlers[note] = handler
 
     def add_control_handler(self, control, handler):
         self.control_handlers[control].append(handler)
