@@ -162,7 +162,7 @@ The following Node classes are currently included with the base distribution:
 | **Analysis** | CrossCorrelate, OnsetDetector, VampAnalysis |
 | **Buffer** | BeatCutter, BufferLooper, BufferPlayer, BufferRecorder, FeedbackBufferReader, FeedbackBufferWriter, GrainSegments, Granulator, SegmentPlayer |
 | **Control** | MouseX, MouseY, MouseDown |
-| **Envelope** | ADSREnvelope, ASREnvelope, DetectSilence, Envelope, Line, EnvelopeRect |
+| **Envelope** | ADSREnvelope, ASREnvelope, DetectSilence, Envelope, Line, RectangularEnvelope |
 | **Fft** | FFTContinuousPhaseVocoder, FFTConvolve, FFT, FFTNode, FFTOpNode, FFTFindPeaks, IFFT, FFTLPF, FFTNoiseGate, FFTPhaseVocoder, FFTTonality, FFTZeroPhase |
 | **Operators** | Add, AmplitudeToDecibels, DecibelsToAmplitude, ChannelArray, ChannelMixer, ChannelSelect, Equal, NotEqual, GreaterThan, GreaterThanOrEqual, LessThan, LessThanOrEqual, Modulo, Abs, If, Divide, FrequencyToMidiNote, MidiNoteToFrequency, Multiply, Pow, RoundToScale, Round, ScaleLinExp, ScaleLinLin, Subtract, Sum, Sin, Cos, Tan, Tanh |
 | **Oscillators** | Constant, Impulse, LFO, SawLFO, SawOscillator, SineLFO, SineOscillator, SquareLFO, SquareOscillator, TriangleLFO, TriangleOscillator, Wavetable, Wavetable2D |

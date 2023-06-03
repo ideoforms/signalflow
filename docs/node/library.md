@@ -31,7 +31,7 @@
 - **DetectSilence** `(input=nullptr, threshold=0.00001)`
 - **Envelope** `(levels=std::vector<NodeRef> ( ), times=std::vector<NodeRef> ( ), curves=std::vector<NodeRef> ( ), clock=nullptr, loop=false)`
 - **Line** `(from=0.0, to=1.0, time=1.0, loop=0, clock=nullptr)`
-- **EnvelopeRect** `(sustain=1.0, clock=nullptr)`
+- **RectangularEnvelope** `(sustain=1.0, clock=nullptr)`
 
 ## fft
 

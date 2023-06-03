@@ -6,14 +6,14 @@
 namespace signalflow
 {
 
-EnvelopeRect::EnvelopeRect(NodeRef sustain, NodeRef clock)
-    : sustain(sustain), clock(clock)
+RectangularEnvelope::RectangularEnvelope(NodeRef sustain_duration, NodeRef clock)
+    : sustain_duration(sustain_duration), clock(clock)
 {
     SIGNALFLOW_CHECK_GRAPH();
 
-    this->name = "envelope-rect";
+    this->name = "rectangular-envelope";
 
-    this->create_input("sustain", this->sustain);
+    this->create_input("sustain_duration", this->sustain_duration);
     this->create_input("clock", this->clock);
     this->phase = std::vector<float>(this->num_output_channels, std::numeric_limits<float>::max());
 
@@ -23,7 +23,7 @@ EnvelopeRect::EnvelopeRect(NodeRef sustain, NodeRef clock)
     }
 }
 
-void EnvelopeRect::trigger(std::string name, float value)
+void RectangularEnvelope::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
@@ -35,7 +35,7 @@ void EnvelopeRect::trigger(std::string name, float value)
     }
 }
 
-void EnvelopeRect::process(Buffer &out, int num_frames)
+void RectangularEnvelope::process(Buffer &out, int num_frames)
 {
     sample rv;
     float phase_change = 1.0 / this->graph->get_sample_rate();
@@ -50,7 +50,7 @@ void EnvelopeRect::process(Buffer &out, int num_frames)
                 this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
             }
 
-            float sustain = this->sustain->out[0][frame];
+            float sustain = this->sustain_duration->out[0][frame];
 
             if (this->phase[channel] < sustain)
             {

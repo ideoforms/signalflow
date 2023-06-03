@@ -6,21 +6,21 @@
 namespace signalflow
 {
 
-class EnvelopeRect : public Node
+class RectangularEnvelope : public Node
 {
 public:
-    EnvelopeRect(NodeRef sustain = 1.0, NodeRef clock = nullptr);
+    RectangularEnvelope(NodeRef sustain_duration = 1.0, NodeRef clock = nullptr);
 
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
     virtual void process(Buffer &out, int num_frames) override;
 
 private:
-    NodeRef sustain;
+    NodeRef sustain_duration;
     NodeRef clock;
 
     std::vector<float> phase;
 };
 
-REGISTER(EnvelopeRect, "envelope-rect")
+REGISTER(RectangularEnvelope, "rectangular-envelope")
 
 }

@@ -43,6 +43,9 @@ void init_python_nodes(py::module &m)
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048);
 
+    py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer")
+        .def(py::init<BufferRef, std::vector<float>>(), "buffer"_a = nullptr, "onsets"_a = 0);
+
 #ifdef __APPLE__
 
     py::class_<MouseX, Node, NodeRefTemplate<MouseX>>(m, "MouseX")
@@ -74,14 +77,13 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "threshold"_a = 0.00001);
 
     py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope")
-        .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(),
-             "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
+        .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(), "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
 
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0, "clock"_a = nullptr);
 
-    py::class_<EnvelopeRect, Node, NodeRefTemplate<EnvelopeRect>>(m, "EnvelopeRect")
-        .def(py::init<NodeRef, NodeRef>(), "sustain"_a = 1.0, "clock"_a = nullptr);
+    py::class_<RectangularEnvelope, Node, NodeRefTemplate<RectangularEnvelope>>(m, "RectangularEnvelope")
+        .def(py::init<NodeRef, NodeRef>(), "sustain_duration"_a = 1.0, "clock"_a = nullptr);
 
     py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder")
         .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
@@ -346,6 +348,9 @@ void init_python_nodes(py::module &m)
     py::class_<ImpulseSequence, Node, NodeRefTemplate<ImpulseSequence>>(m, "ImpulseSequence")
         .def(py::init<std::vector<int>, NodeRef>(), "sequence"_a = std::vector<int>(), "clock"_a = nullptr)
         .def(py::init<std::string, NodeRef>(), "sequence"_a, "clock"_a = nullptr);
+
+    py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index")
+        .def(py::init<std::vector<float>, NodeRef>(), "list"_a = 0, "index"_a = 0);
 
     py::class_<Latch, Node, NodeRefTemplate<Latch>>(m, "Latch")
         .def(py::init<NodeRef, NodeRef>(), "set"_a = 0, "reset"_a = 0);
