@@ -5,7 +5,7 @@
 # for all Node subclasses.
 #
 # Usage:
-
+#
 #   auxiliary/scripts/generate-node-python-bindings.py > source/src/python/nodes.cpp
 #
 # Requirements:
@@ -110,7 +110,6 @@ def generate_all_bindings():
             sys.exit(1)
 
         for class_name, value in header.classes.items():
-            parent_class = None
             if "inherits" in value and len(value["inherits"]):
                 parent_class = value["inherits"][0]["class"]
                 if parent_class not in node_superclasses:
