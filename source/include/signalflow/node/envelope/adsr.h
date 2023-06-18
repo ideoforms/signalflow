@@ -9,9 +9,11 @@ namespace signalflow
 class ADSREnvelope : public Node
 {
 public:
-    ADSREnvelope(NodeRef attack = 0.1, NodeRef decay = 0.1, NodeRef sustain = 0.5, NodeRef release = 0.1, NodeRef gate = 0);
+    ADSREnvelope(NodeRef attack = 0.1, NodeRef decay = 0.1, NodeRef sustain = 0.5,
+                 NodeRef release = 0.1, NodeRef gate = 0);
 
-    virtual void process(Buffer &out, int num_frames);
+    virtual void process(Buffer &out, int num_frames) override;
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
 
 private:
     NodeRef attack;

@@ -21,6 +21,16 @@ ADSREnvelope::ADSREnvelope(NodeRef attack, NodeRef decay, NodeRef sustain, NodeR
     this->level = 0.0;
 }
 
+void ADSREnvelope::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
+    {
+        this->phase = 0.0;
+        this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
+        this->released = false;
+    }
+}
+
 void ADSREnvelope::process(Buffer &out, int num_frames)
 {
     float phase_step = 1.0f / this->graph->get_sample_rate();
@@ -29,9 +39,7 @@ void ADSREnvelope::process(Buffer &out, int num_frames)
     {
         if (SIGNALFLOW_CHECK_TRIGGER(gate, frame))
         {
-            this->phase = 0.0;
-            this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
-            this->released = false;
+            this->trigger();
         }
         float attack = this->attack->out[0][frame];
         float decay = this->decay->out[0][frame];
