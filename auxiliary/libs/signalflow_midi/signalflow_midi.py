@@ -1,35 +1,38 @@
 #!/usr/bin/env python3
 
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 # MIDI Control for SignalFlow
-#------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 from signalflow import *
 import configparser
-import threading
 import logging
 import mido
 import os
 
 logger = logging.getLogger(__name__)
 
+
 class MIDIManager:
     shared_manager = None
 
-    def __init__(self, device_name=None):
+    def __init__(self, device_name: str = None):
         if device_name is None:
-            config_path = os.path.expanduser("~/.signalflow/config")
-            parser = configparser.ConfigParser()
-            parser.read(config_path)
-            try:
-                #--------------------------------------------------------------------------------
-                # configparser includes quote marks in its values, so strip these out.
-                #--------------------------------------------------------------------------------
-                device_name = parser.get(section="midi", option="input_device_name")
-                device_name = device_name.strip('"')
-            except configparser.NoOptionError:
-                pass
-            except configparser.NoSectionError:
-                pass
+            if os.getenv("SIGNALFLOW_MIDI_OUTPUT_DEVICE_NAME") is not None:
+                device_name = os.getenv("SIGNALFLOW_MIDI_OUTPUT_DEVICE_NAME")
+            else:
+                config_path = os.path.expanduser("~/.signalflow/config")
+                parser = configparser.ConfigParser()
+                parser.read(config_path)
+                try:
+                    # --------------------------------------------------------------------------------
+                    # configparser includes quote marks in its values, so strip these out.
+                    # --------------------------------------------------------------------------------
+                    device_name = parser.get(section="midi", option="input_device_name")
+                    device_name = device_name.strip('"')
+                except configparser.NoOptionError:
+                    pass
+                except configparser.NoSectionError:
+                    pass
 
         self.input = mido.open_input(device_name)
         self.input.callback = self.handle_message
@@ -104,7 +107,7 @@ class MIDIManager:
         self.channel_handlers[channel].remove(handler)
 
 
-class MIDIControl (Patch):
+class MIDIControl(Patch):
     def __init__(self, control, range_min, range_max, initial=None, mode="absolute", manager=None, curve="linear"):
         super().__init__()
         if manager is None:
@@ -146,4 +149,3 @@ class MIDIControl (Patch):
         elif self.curve == "linear":
             value_scaled = scale_lin_lin(self._value_norm, 0, 1, self.range_min, self.range_max)
         self.set_input("value", value_scaled)
-
