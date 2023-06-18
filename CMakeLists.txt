@@ -10,12 +10,10 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 #-------------------------------------------------------------------------------
-# By default, build a universal library on Apple.
-# For a faster build, select a single architecture by defining the
-# environmental variable CMAKE_OSX_ARCHITECTURES.
+# By default, build arm64 on Apple.
 #-------------------------------------------------------------------------------
 if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+    set(CMAKE_OSX_ARCHITECTURES "arm64")
 endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
@@ -30,7 +28,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     # and default to the include/lib paths of the current Python virtualenv
     # (important for cross-compiling wheels)
     #--------------------------------------------------------------------------------
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
+    # set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
     set(Python_FIND_VIRTUALENV STANDARD)
     set(Python_FIND_FRAMEWORKS LAST)
 endif()
