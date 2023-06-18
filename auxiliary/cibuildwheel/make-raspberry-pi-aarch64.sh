@@ -1,6 +1,14 @@
 #!/bin/bash
 
-# fail on any bad exits
+#--------------------------------------------------------------------------------
+# Build script for Raspberry Pi, which creates Linux/arm builds.
+# Requires pyenv, which requires libffi-dev to build Python with ctypes support.
+#
+# May be ultimately better to switch to this arm runner action:
+# https://github.com/pguyot/arm-runner-action
+#--------------------------------------------------------------------------------
+
+# Fail if any subcommands fail
 set -e 
 
 pyenv install 3.8.17 3.9.17 3.10.12 3.11.4
@@ -24,4 +32,3 @@ do
     mv $FILE $OUTPUT_FILE
     echo "Created product: dist/$OUTPUT_FILE"
 done
-
