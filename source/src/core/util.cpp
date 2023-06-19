@@ -22,17 +22,10 @@ namespace signalflow
  *--------------------------------------------------------------------*/
 double signalflow_timestamp()
 {
-
-    auto now = std::chrono::system_clock::now();
-
-    time_t tnow = std::chrono::system_clock::to_time_t(now);
-    tm *date = std::localtime(&tnow);
-    date->tm_hour = 0;
-    date->tm_min = 0;
-    date->tm_sec = 0;
-    auto midnight = std::chrono::system_clock::from_time_t(std::mktime(date));
-
-    return std::chrono::duration<double>(now - midnight).count();
+    return std::chrono::duration_cast<std::chrono::microseconds>(
+               std::chrono::high_resolution_clock::now().time_since_epoch())
+               .count()
+        / 1000000.0;
 }
 
 long signalflow_create_random_seed()
