@@ -143,4 +143,21 @@ void BufferPlayer::process(Buffer &out, int num_frames)
     }
 }
 
+PropertyRef BufferPlayer::get_property(std::string name)
+{
+    if (name == "position")
+    {
+        /*--------------------------------------------------------------------------------
+         * Return the current playback position, in samples.
+         * Important to account for rate_scale_factor, if buffer is being played back
+         * on an AudioGraph with a different sample rate to that of its own.
+         *--------------------------------------------------------------------------------*/
+        return this->phase / (this->graph->get_sample_rate() * this->rate_scale_factor);
+    }
+    else
+    {
+        return Node::get_property(name);
+    }
+}
+
 }
