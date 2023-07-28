@@ -7,6 +7,8 @@
 namespace signalflow
 {
 
+#define SIGNALFLOW_BUFFER_PLAYER_NULL_PHASE std::numeric_limits<int>::max()
+
 BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop,
                            NodeRef start_time, NodeRef end_time, NodeRef clock)
     : rate(rate), loop(loop), start_time(start_time), end_time(end_time), clock(clock)
@@ -40,7 +42,7 @@ BufferPlayer::BufferPlayer(BufferRef buffer, NodeRef rate, NodeRef loop,
      * Although phase needs to support fractional values, it is rounded as an int
      * offset so int range should be used.
      *--------------------------------------------------------------------------------*/
-    this->phase = std::numeric_limits<int>::max();
+    this->phase = SIGNALFLOW_BUFFER_PLAYER_NULL_PHASE;
     this->state = SIGNALFLOW_NODE_STATE_STOPPED;
 
     if (!clock)
@@ -119,7 +121,7 @@ void BufferPlayer::process(Buffer &out, int num_frames)
                 }
                 else
                 {
-                    if (loop->out[channel][frame] || this->phase == std::numeric_limits<int>::max())
+                    if (loop->out[channel][frame] || this->phase == SIGNALFLOW_BUFFER_PLAYER_NULL_PHASE)
                     {
                         this->phase = start_frame;
                         s = this->buffer->get_frame(channel, phase);
@@ -152,7 +154,14 @@ PropertyRef BufferPlayer::get_property(std::string name)
          * Important to account for rate_scale_factor, if buffer is being played back
          * on an AudioGraph with a different sample rate to that of its own.
          *--------------------------------------------------------------------------------*/
-        return this->phase / (this->graph->get_sample_rate() * this->rate_scale_factor);
+        if (this->phase == SIGNALFLOW_BUFFER_PLAYER_NULL_PHASE)
+        {
+            return 0.0;
+        }
+        else
+        {
+            return this->phase / (this->graph->get_sample_rate() * this->rate_scale_factor);
+        }
     }
     else
     {
