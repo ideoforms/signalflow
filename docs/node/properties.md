@@ -31,6 +31,21 @@ counter: 2.00000
 
 To stop polling a node, call `node.poll(0)`.
 
+### Node-specific properties
+
+Some `Node` classes have additional properties, containing information on implementation-specific states. These can be accessed via the `get_property` method.
+
+For example, the `BufferPlayer` node exposes a `position` property, which returns the playhead's current position, in seconds.
+
+```
+>>> buffer = Buffer("audio.wav")
+>>> player = BufferPlayer(buffer)
+>>> player.play()
+...
+>>> player.get_property("position")
+5.984000205993652
+```
+
 ---
 
 [→ Next: Stochastic nodes](stochastic.md)
