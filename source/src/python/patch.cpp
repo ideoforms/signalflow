@@ -24,10 +24,11 @@ void init_python_patch(py::module &m)
         .def("__radd__", [](PatchRef a, float b) { return a + NodeRef(b); })
         .def("__sub__", [](PatchRef a, NodeRef b) { return a - b; })
         .def("__sub__", [](PatchRef a, float b) { return a - NodeRef(b); })
-        .def("__rsub__", [](PatchRef a, float b) { return a - NodeRef(b); })
+        // TODO: Implement this properly
+        .def("__rsub__", [](PatchRef a, float b) { return new Subtract(NodeRef(b), a->get_output()); })
         .def("__truediv__", [](PatchRef a, NodeRef b) { return a / b; })
         .def("__truediv__", [](PatchRef a, float b) { return a / NodeRef(b); })
-        .def("__rtruediv__", [](PatchRef a, float b) { return a / NodeRef(b); })
+        .def("__rtruediv__", [](PatchRef a, float b) { return new Divide(NodeRef(b), a->get_output()); })
 
         // Breaks other properties (auto_free, inputs, etc).
         // Need a policy on this: either *only* inputs should be accessible through properties,
