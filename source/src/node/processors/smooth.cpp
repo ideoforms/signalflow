@@ -13,11 +13,22 @@ Smooth::Smooth(NodeRef input, NodeRef smooth)
 
 void Smooth::alloc()
 {
-    this->values.resize(this->num_output_channels_allocated);
+    this->values.resize(this->num_output_channels_allocated, std::numeric_limits<float>::max());
 }
 
 void Smooth::process(Buffer &out, int num_frames)
 {
+    /*--------------------------------------------------------------------------------
+     * On first step, jump immediately to value.
+     *-------------------------------------------------------------------------------*/
+    if (values[0] == std::numeric_limits<float>::max())
+    {
+        for (int channel = 0; channel < this->num_output_channels; channel++)
+        {
+            values[channel] = input->out[channel][0];
+        }
+    }
+
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
         for (int frame = 0; frame < num_frames; frame++)
