@@ -82,7 +82,6 @@ void Granulator::process(Buffer &out, int num_frames)
                 double buffer_index = grain->sample_start + grain->samples_done;
                 while (buffer_index > this->buffer->get_num_frames())
                     buffer_index -= this->buffer->get_num_frames();
-                sample s = this->buffer->get(0, buffer_index);
 
                 /*------------------------------------------------------------------------
                  * Apply grain envelope.
@@ -94,12 +93,24 @@ void Granulator::process(Buffer &out, int num_frames)
 
                 /*------------------------------------------------------------------------
                  * Calculate pan.
+                 * If input buffer is mono, pan to L/R.
+                 * If input buffer is stereo, apply stereo balance.
                  * TODO: Handle >2 channels
                  * TODO: Handle <2 channels
                  *-----------------------------------------------------------------------*/
-                float rv = s * amp;
-                out[0][frame] += rv * (1.0 - 0.5 * (grain->pan + 1));
-                out[1][frame] += rv * (0.5 * (grain->pan + 1));
+                if (this->buffer->get_num_channels() == 1)
+                {
+                    sample s = this->buffer->get(0, buffer_index);
+
+                    float rv = s * amp;
+                    out[0][frame] += rv * (1.0 - 0.5 * (grain->pan + 1));
+                    out[1][frame] += rv * (0.5 * (grain->pan + 1));
+                }
+                else if (this->buffer->get_num_channels() == 2)
+                {
+                    out[0][frame] += this->buffer->get(0, buffer_index) * amp * (1.0 - 0.5 * (grain->pan + 1));
+                    out[1][frame] += this->buffer->get(1, buffer_index) * amp * (0.5 * (grain->pan + 1));
+                }
 
                 it++;
             }
