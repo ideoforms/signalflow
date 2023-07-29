@@ -78,10 +78,14 @@ void Granulator::process(Buffer &out, int num_frames)
             {
                 /*------------------------------------------------------------------------
                  * Obtain the correct sample from the buffer.
+                 * If playback is reversed, seek from the end backwards.
                  *-----------------------------------------------------------------------*/
-                double buffer_index = grain->sample_start + grain->samples_done;
+                double buffer_index = (grain->rate > 0) ? (grain->sample_start + grain->samples_done) : (grain->sample_start - grain->samples_done);
+
                 while (buffer_index > this->buffer->get_num_frames())
                     buffer_index -= this->buffer->get_num_frames();
+                while (buffer_index < 0)
+                    buffer_index += this->buffer->get_num_frames();
 
                 /*------------------------------------------------------------------------
                  * Apply grain envelope.
@@ -89,7 +93,7 @@ void Granulator::process(Buffer &out, int num_frames)
                 float env_phase = (float) grain->samples_done / grain->sample_length;
                 float amp = this->envelope->get(0, env_phase);
 
-                grain->samples_done += grain->rate * this->rate_scale_factor;
+                grain->samples_done += fabsf(grain->rate) * this->rate_scale_factor;
 
                 /*------------------------------------------------------------------------
                  * Calculate pan.
@@ -127,6 +131,13 @@ Grain::Grain(BufferRef buffer, int start, int length, float rate, float pan)
     : buffer(buffer), sample_start(start), sample_length(length), rate(rate), pan(pan)
 {
     this->samples_done = 0;
+    if (rate < 0)
+    {
+        /*------------------------------------------------------------------------
+         * If playback is reversed, begin at the end of the grain.
+         *-----------------------------------------------------------------------*/
+        this->sample_start += sample_length;
+    }
 }
 
 bool Grain::finished()
