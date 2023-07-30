@@ -77,6 +77,7 @@ typedef RingBuffer<sample> SampleRingBuffer;
 
 #define SIGNALFLOW_TRIGGER_RESET "reset"
 #define SIGNALFLOW_TRIGGER_PLAY "play"
+#define SIGNALFLOW_TRIGGER_STOP "stop"
 #define SIGNALFLOW_TRIGGER_RECORD "record"
 #define SIGNALFLOW_TRIGGER_SET_POSITION "set_position"
 #define SIGNALFLOW_TRIGGER_SET_LOOP_START "loop_start"
@@ -168,6 +169,13 @@ typedef enum : unsigned int
     SIGNALFLOW_CURVE_LINEAR,
     SIGNALFLOW_CURVE_EXPONENTIAL
 } signalflow_curve_t;
+
+typedef enum : unsigned int
+{
+    SIGNALFLOW_SEGMENT_SHAPE_LINEAR,
+    SIGNALFLOW_SEGMENT_SHAPE_EXPONENTIAL,
+    SIGNALFLOW_SEGMENT_SHAPE_SINE,
+} signalflow_segment_shape_t;
 
 typedef enum : unsigned int
 {
