@@ -77,6 +77,16 @@ double signalflow_fold(double value, double min, double max)
     }
 }
 
+double signalflow_interpolate_linear(double a, double b, double xfade)
+{
+    return ((1 - xfade) * a) + (xfade * b);
+}
+
+double signalflow_interpolate_equal_power(double a, double b, double xfade)
+{
+    return (sqrtf(1 - xfade) * a) + (sqrtf(xfade) * b);
+}
+
 /*--------------------------------------------------------------------*
  * signalflow_scale_lin_lin(): Map a value onto a linear range.
  *--------------------------------------------------------------------*/

@@ -23,6 +23,8 @@ long signalflow_create_random_seed();
 double signalflow_clip(double value, double min, double max);
 double signalflow_wrap(double value, double min, double max);
 double signalflow_fold(double value, double min, double max);
+double signalflow_interpolate_linear(double a, double b, double xfade);
+double signalflow_interpolate_equal_power(double a, double b, double xfade);
 
 double signalflow_scale_lin_lin(double value, double fromA, double fromB, double toA, double toB);
 double signalflow_scale_lin_exp(double value, double a, double b, double c, double d);
