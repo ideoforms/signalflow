@@ -110,6 +110,7 @@ class MIDIManager:
 class MIDIControl(Patch):
     def __init__(self, control, range_min, range_max, initial=None, mode="absolute", manager=None, curve="linear"):
         super().__init__()
+        assert mode in ["absolute", "relative"]
         if manager is None:
             manager = MIDIManager.get_shared_manager()
         self.value = self.add_input("value")
@@ -134,8 +135,10 @@ class MIDIControl(Patch):
     def on_change(self, value):
         if self.mode == "absolute":
             self._value_norm = value / 127.0
-        else:
-            change = (value - 64) / 127.0
+        elif self.mode == "relative":
+            if value > 64:
+                value = value - 128
+            change = value / 127.0
             self._value_norm += change
             if self._value_norm < 0:
                 self._value_norm = 0
