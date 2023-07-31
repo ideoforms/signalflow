@@ -28,6 +28,7 @@
 #include <signalflow/node/operators/add.h>
 #include <signalflow/node/operators/amplitude-to-decibels.h>
 #include <signalflow/node/operators/channel-array.h>
+#include <signalflow/node/operators/channel-crossfade.h>
 #include <signalflow/node/operators/channel-mixer.h>
 #include <signalflow/node/operators/channel-select.h>
 #include <signalflow/node/operators/comparison.h>

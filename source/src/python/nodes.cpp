@@ -129,6 +129,9 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<int>>(), "inputs"_a)
         .def(py::init<std::vector<float>>(), "inputs"_a);
 
+    py::class_<ChannelCrossfade, Node, NodeRefTemplate<ChannelCrossfade>>(m, "ChannelCrossfade")
+        .def(py::init<NodeRef, NodeRef, int>(), "input"_a = nullptr, "index"_a = nullptr, "num_output_channels"_a = 1);
+
     py::class_<ChannelMixer, Node, NodeRefTemplate<ChannelMixer>>(m, "ChannelMixer")
         .def(py::init<int, NodeRef, bool>(), "num_channels"_a = 1, "input"_a = 0, "amplitude_compensation"_a = true);
 
