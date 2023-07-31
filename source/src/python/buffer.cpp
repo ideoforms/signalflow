@@ -73,6 +73,8 @@ void init_python_buffer(py::module &m)
                                R"pbdoc(Returns the buffer's sample rate.)pbdoc")
         .def_property_readonly("duration", &Buffer::get_duration,
                                R"pbdoc(Returns the buffer's duration, in seconds.)pbdoc")
+        .def_property_readonly("filename", &Buffer::get_filename,
+                               R"pbdoc(Returns the buffer's filename, if the buffer has been loaded from/saved to file.)pbdoc")
         .def_property("interpolate", &Buffer::get_interpolation_mode, &Buffer::set_interpolation_mode,
                       R"pbdoc(Get/set the buffer's interpolation mode.)pbdoc")
 
