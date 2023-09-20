@@ -2,6 +2,7 @@
 
 #include "signalflow/core/constants.h"
 #include "signalflow/node/node.h"
+#include <limits>
 
 namespace signalflow
 {
