@@ -507,6 +507,15 @@ void AudioGraph::play(NodeRef node)
     output->add_input(node);
 }
 
+bool AudioGraph::is_playing(NodeRef node)
+{
+    // TODO: This currently only works if the node is wired directly to the
+    //       graph's output. To support nested nodes, should recursively
+    //       traverse the outputs of the node.
+    AudioOut_Abstract *audioout = (AudioOut_Abstract *) (this->output.get());
+    return audioout->has_input(node);
+}
+
 void AudioGraph::stop(PatchRef patch) { this->stop(patch.get()); }
 
 void AudioGraph::stop(Patch *patch)
@@ -515,7 +524,19 @@ void AudioGraph::stop(Patch *patch)
     nodes_to_remove.insert(patch->get_output());
 }
 
-void AudioGraph::stop(NodeRef node) { nodes_to_remove.insert(node); }
+void AudioGraph::stop(NodeRef node)
+{
+    // TODO: Should ideally do node->is_playing() here, but this won't catch cases in
+    //       which the node is embedded somewhere within the graph.
+    if (!node->outputs.empty())
+    {
+        nodes_to_remove.insert(node);
+    }
+    else
+    {
+        throw node_not_playing_exception();
+    }
+}
 
 void AudioGraph::replace(NodeRef node, NodeRef other) { nodes_to_replace.insert(std::make_pair(node, other)); }
 

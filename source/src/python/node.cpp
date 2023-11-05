@@ -182,6 +182,17 @@ void init_python_node(py::module &m)
             },
             R"pbdoc(Returns a dict of the node's input names and values)pbdoc")
         .def_property_readonly(
+            "outputs", [](Node &node) {
+                std::vector<Node *> outputs(node.get_outputs().size());
+                int index = 0;
+                for (auto output : node.get_outputs())
+                {
+                    outputs[index++] = output.first;
+                }
+                return outputs;
+            },
+            R"pbdoc(Returns a list of the node's output connections)pbdoc")
+        .def_property_readonly(
             "output_buffer", [](Node &node) {
                 /*--------------------------------------------------------------------------------
              * Assigning a data owner to the array ensures that it is returned as a
@@ -271,6 +282,8 @@ void init_python_node(py::module &m)
          *-------------------------------------------------------------------------------*/
         .def(
             "play", [](NodeRef node) { node->get_graph()->play(node); }, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
+        .def_property_readonly(
+            "is_playing", [](NodeRef node) { return node->get_graph()->is_playing(node); }, R"pbdoc(Query whether the node is currently playing)pbdoc")
         .def(
             "stop", [](NodeRef node) { node->get_graph()->stop(node); }, R"pbdoc(Stop playing the node by disconnecting it from the graph's output)pbdoc");
 

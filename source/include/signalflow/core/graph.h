@@ -237,6 +237,16 @@ public:
     void play(NodeRef node);
 
     /**--------------------------------------------------------------------------------
+     * Query whether the specified node is currently playing (i.e., connected to
+     * the graph's output).
+     *
+     * @param node The node to query
+     * @returns true if playing, false otherwise
+     *
+     *--------------------------------------------------------------------------------*/
+    bool is_playing(NodeRef node);
+
+    /**--------------------------------------------------------------------------------
      * Similar to add_node, but for patches.
      * Is a bit of a hacky workaround for the situation in which a Patch is connected
      * to a node for playback - this does not register the Patch as playing or parse it,

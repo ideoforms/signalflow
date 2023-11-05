@@ -85,4 +85,14 @@ struct node_already_playing_exception : public std::runtime_error
         : std::runtime_error(message) {}
 };
 
+struct node_not_playing_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    node_not_playing_exception()
+        : std::runtime_error("Node cannot be stopped as it is not playing") {}
+    node_not_playing_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
 }

@@ -12,5 +12,6 @@ void init_python_exceptions(py::module &m)
     py::register_exception<signalflow::device_not_found_exception>(m, "DeviceNotFoundException");
     py::register_exception<signalflow::audio_io_exception>(m, "AudioIOException");
     py::register_exception<signalflow::node_already_playing_exception>(m, "NodeAlreadyPlayingException");
+    py::register_exception<signalflow::node_not_playing_exception>(m, "NodeNotPlayingException");
     py::register_exception<signalflow::cpu_usage_above_limit_exception>(m, "CPUUsageAboveLimitException");
 }
