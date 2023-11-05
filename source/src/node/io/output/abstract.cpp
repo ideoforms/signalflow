@@ -46,7 +46,7 @@ void AudioOut_Abstract::add_input(NodeRef node)
 {
     if (this->has_input(node))
     {
-        throw std::runtime_error("Node is already playing");
+        throw node_already_playing_exception();
     }
 
     audio_inputs.push_back(node);
