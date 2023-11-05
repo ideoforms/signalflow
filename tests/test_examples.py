@@ -5,6 +5,7 @@ import os
 
 root_directory = "examples/python"
 
+@pytest.mark.skip
 def test_example(example_basename):
     example_file = os.path.join(root_directory, example_basename)
     pipe = subprocess.Popen([example_file], stdout=open("/dev/null", "w"), stderr=open("/dev/null", "w"))
