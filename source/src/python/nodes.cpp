@@ -227,7 +227,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<SawOscillator, Node, NodeRefTemplate<SawOscillator>>(m, "SawOscillator")
-        .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "phase"_a = nullptr);
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 440, "phase"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<SineLFO, Node, NodeRefTemplate<SineLFO>>(m, "SineLFO")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);

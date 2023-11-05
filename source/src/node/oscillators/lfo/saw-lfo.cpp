@@ -10,6 +10,17 @@ SawLFO::SawLFO(NodeRef frequency, NodeRef min, NodeRef max, NodeRef phase)
     this->name = "saw-lfo";
 }
 
+void SawLFO::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
+    {
+        for (int channel = 0; channel < this->num_output_channels; channel++)
+        {
+            this->current_phase[channel] = 0;
+        }
+    }
+}
+
 void SawLFO::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
