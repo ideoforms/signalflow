@@ -21,6 +21,7 @@ public:
     virtual void add_input(NodeRef node);
     virtual void remove_input(NodeRef node);
     virtual void replace_input(NodeRef node, NodeRef other);
+    virtual bool has_input(NodeRef node);
     std::list<NodeRef> get_inputs();
 
     unsigned int get_sample_rate();

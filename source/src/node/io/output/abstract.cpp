@@ -44,10 +44,11 @@ void AudioOut_Abstract::process(Buffer &out, int num_frames)
 
 void AudioOut_Abstract::add_input(NodeRef node)
 {
-    if (std::find(std::begin(audio_inputs), std::end(audio_inputs), node) != std::end(audio_inputs))
+    if (this->has_input(node))
     {
         throw std::runtime_error("Node is already playing");
     }
+
     audio_inputs.push_back(node);
     std::string input_name = "input" + std::to_string(input_index);
     this->input_index++;
@@ -99,6 +100,11 @@ void AudioOut_Abstract::replace_input(NodeRef node, NodeRef other)
         std::cerr << "Couldn't find node to replace" << std::endl;
         // throw std::runtime_error("Couldn't find node to replace");
     }
+}
+
+bool AudioOut_Abstract::has_input(NodeRef node)
+{
+    return std::find(std::begin(audio_inputs), std::end(audio_inputs), node) != std::end(audio_inputs);
 }
 
 std::list<NodeRef> AudioOut_Abstract::get_inputs()
