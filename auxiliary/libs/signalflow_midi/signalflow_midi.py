@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 class MIDIManager:
     shared_manager = None
 
-    def __init__(self, device_name: str = None):
+    def __init__(self, device_name: str = None, channel: int = None):
         if device_name is None:
             if os.getenv("SIGNALFLOW_MIDI_OUTPUT_DEVICE_NAME") is not None:
                 device_name = os.getenv("SIGNALFLOW_MIDI_OUTPUT_DEVICE_NAME")
@@ -35,6 +35,7 @@ class MIDIManager:
                     pass
 
         self.input = mido.open_input(device_name)
+        self.channel = channel
         self.input.callback = self.handle_message
 
         self.voice_class = None
@@ -50,6 +51,9 @@ class MIDIManager:
         logger.info("Opened MIDI input device: %s" % self.input.name)
 
     def handle_message(self, message):
+        if self.channel is not None and message.channel != self.channel:
+            return
+
         if message.type == 'control_change':
             logger.debug("Received MIDI control change: control %d, value %d" % (message.control, message.value))
             self.on_control_change(message.control, message.value)
@@ -63,7 +67,7 @@ class MIDIManager:
                 voice.auto_free = True
                 self.notes[message.note] = voice
             if self.note_handlers[message.note]:
-                self.note_handlers[message.note]()
+                self.note_handlers[message.note](message.note, message.velocity)
         elif message.type == 'note_off':
             logger.debug("Received MIDI note off: note %d" % (message.note))
             if self.notes[message.note]:
