@@ -29,3 +29,5 @@ dist
 .cmake-*
 .coverage
 .ipynb_checkpoints
+notebooks/
+wheelhouse/
