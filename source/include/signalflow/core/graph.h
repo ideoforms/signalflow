@@ -229,10 +229,12 @@ public:
      * This can also be written as node->connect(graph->get_output()).
      *
      * @param node The node to begin playing.
-     * @return true if the add succeeded, false otherwise
+     *
+     * @throws node_already_playing_exception if the node is already playing
+     * @throws cpu_usage_above_limit_exception if CPU usage is above the acceptable limit.
      *
      *--------------------------------------------------------------------------------*/
-    bool play(NodeRef node);
+    void play(NodeRef node);
 
     /**--------------------------------------------------------------------------------
      * Similar to add_node, but for patches.
@@ -240,20 +242,21 @@ public:
      * to a node for playback - this does not register the Patch as playing or parse it,
      * so auto_free breaks and the patch hangs around forever. Needs fixing at some point.
      *
-     *
      * @param patch The patch to add.
-     * @return true if the add succeeded, false otherwise
+     * @throws cpu_usage_above_limit_exception if CPU usage is above the acceptable limit.
      *--------------------------------------------------------------------------------*/
-    bool add_patch(PatchRef patch);
+    void add_patch(PatchRef patch);
 
     /**--------------------------------------------------------------------------------
      * Begin playing the specified patch, by connecting it to the graph's output.
      * This can also be written as patch->connect(graph->get_output()).
      *
      * @param patch The patch to begin playing.
-     * @return true if the add succeeded, false otherwise
+     * @throws node_already_playing_exception if the node is already playing
+     * @throws cpu_usage_above_limit_exception if CPU usage is above the acceptable limit.
+     *
      *--------------------------------------------------------------------------------*/
-    bool play(PatchRef patch);
+    void play(PatchRef patch);
 
     /**--------------------------------------------------------------------------------
      * Disconnect a node from the graph's output.

@@ -65,4 +65,24 @@ struct patch_finished_playback_exception : public std::runtime_error
         : std::runtime_error(message) {}
 };
 
+struct cpu_usage_above_limit_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    cpu_usage_above_limit_exception()
+        : std::runtime_error("Cannot play nodes as CPU usage is above specified limit") {}
+    cpu_usage_above_limit_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
+struct node_already_playing_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    node_already_playing_exception()
+        : std::runtime_error("Node cannot be played as it is already playing") {}
+    node_already_playing_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
 }
