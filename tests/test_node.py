@@ -1,4 +1,5 @@
 from signalflow import SineOscillator, AudioGraph, Line, SIGNALFLOW_MAX_CHANNELS
+from signalflow import NodeAlreadyPlayingException, NodeNotPlayingException
 import signalflow as sf
 import numpy as np
 from . import graph
@@ -137,3 +138,36 @@ def test_node_trigger(graph):
     node.output_buffer[0][-1] = 0
     graph.render()
     assert np.all(env.output_buffer[0] < 1.0)
+
+def test_node_play_stop_exceptions(graph):
+    node = SineOscillator(440)
+    node.play()
+    graph.render()
+    with pytest.raises(NodeAlreadyPlayingException):
+        node.play()
+    node.stop()
+    graph.render()
+    with pytest.raises(NodeNotPlayingException):
+        node.stop()
+
+def test_node_is_playing(graph):
+    node = SineOscillator(440)
+    assert node.is_playing is False
+    node.play()
+    graph.render()
+    assert node.is_playing is True
+    node.stop()
+    # graph.render() is needed because node disconnection only happens
+    # during the render process
+    graph.render()
+    assert node.is_playing is False
+
+def test_node_outputs(graph):
+    node = SineOscillator(440)
+    assert len(node.outputs) == 0
+    node.play()
+    graph.render()
+    assert len(node.outputs) == 1
+    node.stop()
+    graph.render()
+    assert len(node.outputs) == 0
