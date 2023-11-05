@@ -8,7 +8,7 @@
 
 ROOT=auxiliary/cibuildwheel
 
-for VERSION in 38 39 310 311
+for VERSION in 38 39 310 311 312
 do
     rm -r build
     export CIBW_BUILD="cp${VERSION}-*"

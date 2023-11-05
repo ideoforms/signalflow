@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## v0.4.1 (2023-11-05)
+
+- New node: `ChannelCrossfade`
+- `RectangularEnvelope`: Rename from `EnvelopeRect` for consistency with other `Envelope` classes
+- `Node`: Add `is_playing` property
+- `Node`: Refactor `play`/`stop` error handling to use `NodeAlreadyPlayingException`, `NodeNotPlayingException`, `CPUUsageAboveLimitException`
+- `BufferPlayer`: Add `position` property
+- `Buffer`: Add `filename` read-only property
+- `SawLFO`, `SawOscillator`: Implement phase reset with `trigger`
+- `Granulator`: Add support for negative playback rates, stereo input
+- `signalflow_midi`: Add support for `MIDIManager` per-channel binding
+- Add wheel for Python 3.12
+
 ## v0.4.0 (2023-05-28)
 
 - Implemented complete Python API
