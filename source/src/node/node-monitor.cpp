@@ -29,10 +29,10 @@ void NodeMonitor::run_thread()
             strcpy(buffer, "{ ");
             for (uint8_t i = 0; i < this->node->get_num_output_channels(); i++)
             {
-                sprintf(buffer + strlen(buffer), "%.5f", this->node->out[i][0]);
+                snprintf(buffer + strlen(buffer), 32, "%.5f", this->node->out[i][0]);
                 if (i < this->node->get_num_output_channels() - 1)
                 {
-                    sprintf(buffer + strlen(buffer), ", ");
+                    strcat(buffer, ", ");
                 }
             }
             strcat(buffer, " }");
