@@ -23,7 +23,10 @@ markdown_extensions:
 nav:
  - Home:
    - Home: index.md
-   - Installation: installation.md
+   - Installation:
+     - Installing on macOS: installation/macos.md
+     - Installing on Linux: installation/linux.md
+     - Working with SignalFlow: installation/working.md
    - Examples: examples.md
    - License: license.md
  - The AudioGraph:
