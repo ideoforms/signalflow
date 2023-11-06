@@ -2,6 +2,8 @@
 
 The simplest way to start exploring SignalFlow is with the free [Visual Studio Code](https://code.visualstudio.com/) editor. Visual Studio Code can edit interactive "Jupyter" notebooks, which allow you to run and modify blocks of Python code in real-time, which is a great way to experiment live with audio synthesis.
 
+You'll only need to do this installation process once. Once setup, experimenting with SignalFlow is as simple as opening Visual Studio Code.  
+
 ## 1. Install Python
 
 Download and install the latest version of Python (currently 3.12).
@@ -14,15 +16,23 @@ Download and install the latest version of Visual Studio Code.
 
 [Download Visual Studio Code](https://code.visualstudio.com/Download){ .md-button }
 
+Once installed, open `Applications` and run `Visual Studio Code`.
+
 ## 3. Create a new Visual Studio Code workspace
 
-Open Visual Studio Code, select `File → Open Folder...`, select `New Folder`, and create a new folder that will contain all your new SignalFlow project.
+In Visual Studio code, create a new folder to contain your new SignalFlow project:
+
+ - Select `File → Open Folder...`
+ - Select `New Folder`, and pick a name for your new project folder
+
+!!! info
+    You can store your project workspace anywhere on your drive. The workspace can hold multiple notebooks, audio files, etc.
 
 ## 4. Install the Python and Jupyter extensions
 
-Visual Studio Code requires some extensions to be installed to handle Python and Jupyter files.
+Visual Studio Code requires extensions to be installed to handle Python and Jupyter files.
 
-In Visual Studio Code, select the `Extensions` icon from in the far-left column (or press `⇧⌘X`), and install the `Python` and `Jupyter` extensions by searching their names. These are needed to modify Jupyter notebooks in real-time.
+In Visual Studio Code, select the `Extensions` icon from in the far-left column (or press `⇧⌘X`), and install the `Python` and `Jupyter` extensions by searching for their names and clicking "Install" on each.
 
 Once installation has finished, close the `Extensions` tab.
 
