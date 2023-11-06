@@ -82,7 +82,7 @@ while True:
 ```
 
 !!! note
-    Because the `trigger` method happens outside the audio thread, it will take effect at the start of the next audio block. This means that, if you are running at 44.1kHz with an audio buffer size of 1024 samples, this could introduce a latency of up to `1024/44100 = 0.023s`.   For time-critical events like drum triggers, this can be minimised by reducing the [hardware output buffer size](/graph/config).
+    Because the `trigger` method happens outside the audio thread, it will take effect at the start of the next audio block. This means that, if you are running at 44.1kHz with an audio buffer size of 1024 samples, this could introduce a latency of up to `1024/44100 = 0.023s`.   For time-critical events like drum triggers, this can be minimised by reducing the [hardware output buffer size](../graph/config.md).
     
     This constraint also means that only one event can be triggered per audio block. To trigger events at a faster rate than the hardware buffer size allows, see **Audio-rate triggers** below.  
 
@@ -113,7 +113,7 @@ output.play()
 
 ### Buffer inputs
 
-The third type of input supported by nodes is the [buffer](/buffer/). Nodes often take buffer inputs as sources of audio samples. They are also useful as sources of envelope shape data (for example, to shape the grains of a Granulator), or general control data (for example, recording motion patterns from a `MouseX` input).
+The third type of input supported by nodes is the [buffer](../buffer/index.md). Nodes often take buffer inputs as sources of audio samples. They are also useful as sources of envelope shape data (for example, to shape the grains of a Granulator), or general control data (for example, recording motion patterns from a `MouseX` input).
 
 ```python
 buffer = Buffer("../audio/stereo-count.wav")

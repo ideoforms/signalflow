@@ -36,7 +36,7 @@ source signalflow-env/bin/activate
 
 Installing SignalFlow is done using the `pip` Python package manager. The below line will install the `signalflow` library, plus support for `jupyter` interactive Python notebooks, and register your virtual environment system-wide so that notebooks can access it.
 
-```
+```shell
 pip3 install signalflow jupyter
 python3 -m ipykernel install --name signalflow-env
 ```
@@ -51,7 +51,7 @@ signalflow test
 
 ## 4. Work with SignalFlow
 
-Now, let's set up an editor to [work with SignalFlow](/installation/working/). 
+Now, let's set up an editor to [work with SignalFlow](working.md). 
     
 ## Examples
 

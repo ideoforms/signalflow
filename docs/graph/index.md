@@ -1,6 +1,6 @@
 # The AudioGraph
 
-`AudioGraph` is the global audio processing system that schedules and performs audio processing. It is comprised of an interconnected network of [Node](../node) and [Patch](../patch) objects, which audio flows through.
+`AudioGraph` is the global audio processing system that schedules and performs audio processing. It is comprised of an interconnected network of [Node](../node/index.md) and [Patch](../patch/index.md) objects, which audio flows through.
 
 Each time a new block of audio is requested by the system audio I/O layer, the `AudioGraph` object is responsible for traversing the tree of nodes and generating new samples by calling each `Node`'s `process` method.
 
@@ -9,4 +9,4 @@ Each time a new block of audio is requested by the system audio I/O layer, the `
 
 ---
 
-[→ Next: Creating the graph](creating)
+[→ Next: Creating the graph](creating.md)

@@ -3,6 +3,8 @@ theme:
   name: material
   palette:
    - primary: pink
+  features:
+   - content.code.copy
 
 repo_name: ideoforms/signalflow
 repo_url: https://github.com/ideoforms/signalflow
