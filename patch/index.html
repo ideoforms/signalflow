@@ -291,6 +291,26 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
     
     
     
@@ -301,10 +321,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
         
           
-          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -315,8 +335,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
             <span class="md-nav__icon md-icon"></span>
             Installation
           </label>
@@ -327,16 +347,80 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../installation/macos/" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3_1" id="__nav_1_3_1_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Installing on macOS
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Installing on macOS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/macos/easy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Easy install
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/macos/command-line/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command-line installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -368,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/working/" class="md-nav__link">
+      <a href="../installation/working.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1145,13 +1229,13 @@
 <p>A <code>Patch</code> represents a connected group of <code>Nodes</code>, analogous to a synthesizer. Defining patches makes it easy to create higher-level structures, which can then be reused and instantiated with a single line of code, in much the same way as a Node.</p>
 <p>Behind the scenes, the structure of a <code>Patch</code> is encapsulated by a <code>PatchSpec</code>, a template which can be instantiated or serialised to a JSON file for later use.  </p>
 <ul>
-<li><a href="defining">A Patch structure is defined</a> either by declaring a Patch subclass or with a JSON specification file</li>
-<li><a href="playback">Play and stop a Patch</a> by connecting it to the AudioGraph or the input of another Patch or Node </li>
-<li>Similar to nodes, a Patch can be <a href="inputs#audio-rate-inputs">modulated by audio-rate inputs</a>, <a href="inputs#triggers">triggered by trigger inputs</a>, and <a href="inputs#buffer-inputs">access sample data via buffer inputs</a> </li>
-<li>The outputs of Patches can be altered or combined by <a href="operators">normal Python operators</a></li>
-<li>The status of a Patch can be queried via its <a href="properties">properties</a> </li>
-<li>Patches can be <a href="exporting">exported and imported to JSON</a></li>
-<li>The <a href="auto-free">auto-free mechanism</a> allows Patches to automatically stop and free their memory after playback is complete </li>
+<li><a href="defining/">A Patch structure is defined</a> either by declaring a Patch subclass or with a JSON specification file</li>
+<li><a href="playback/">Play and stop a Patch</a> by connecting it to the AudioGraph or the input of another Patch or Node </li>
+<li>Similar to nodes, a Patch can be <a href="inputs/#audio-rate-inputs">modulated by audio-rate inputs</a>, <a href="inputs/#triggers">triggered by trigger inputs</a>, and <a href="inputs/#buffer-inputs">access sample data via buffer inputs</a> </li>
+<li>The outputs of Patches can be altered or combined by <a href="operators/">normal Python operators</a></li>
+<li>The status of a Patch can be queried via its <a href="properties/">properties</a> </li>
+<li>Patches can be <a href="exporting/">exported and imported to JSON</a></li>
+<li>The <a href="auto-free/">auto-free mechanism</a> allows Patches to automatically stop and free their memory after playback is complete </li>
 </ul>
 <hr />
 <p><a href="defining/">→ Next: Defining a Patch</a></p>
@@ -1219,7 +1303,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>

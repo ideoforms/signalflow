@@ -291,6 +291,26 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
     
     
     
@@ -301,10 +321,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
         
           
-          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -315,8 +335,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
             <span class="md-nav__icon md-icon"></span>
             Installation
           </label>
@@ -327,16 +347,80 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../installation/macos/" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3_1" id="__nav_1_3_1_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Installing on macOS
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Installing on macOS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/macos/easy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Easy install
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/macos/command-line/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command-line installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -368,7 +452,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../installation/working/" class="md-nav__link">
+      <a href="../installation/working.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1140,16 +1224,16 @@
 <h1 id="nodes">Nodes</h1>
 <p>A <code>Node</code> object is an audio processing unit that performs one single function. For example, a Node's role may be to synthesize a waveform, read from a buffer, or take two input Nodes and sum their values.</p>
 <ul>
-<li>Nodes are <a href="playback">played and stopped</a> by connecting them to the AudioGraph </li>
-<li>A node has one or more <a href="inputs#audio-rate-inputs">audio-rate inputs</a>, which can be modulated by other nodes</li>
-<li>Some nodes can be triggered with <a href="inputs#triggers">trigger inputs</a> — for example, to restart playback, or set the position of an envelope</li>
-<li>Some nodes can be used to play back the contents of <a href="inputs#buffer-inputs">buffer inputs</a>, or can use buffer data as a source of modulation</li>
-<li>The output of multiple nodes can be combined and modulated with use of the standard Python <a href="operators">operators</a> (<code>+</code>, <code>-</code>, <code>*</code>, <code>%</code>, etc)</li>
-<li>The output of a node can be mono (single-channel) or <a href="multichannel">multichannel</a></li>
-<li>A Node's status and output can be examined by querying its <a href="properties">properties</a></li>
-<li>Some Nodes generate unpredictable <a href="stochastic">stochastic output</a>, which can be controlled via its internal random number generator </li>
-<li>Details of how to create a new Node type are detailed in <a href="developing">Developing a new Node class</a></li>
-<li>For an overview of every type of Node available in SignalFlow, see the <a href="library">Node Reference Library</a></li>
+<li>Nodes are <a href="playback/">played and stopped</a> by connecting them to the AudioGraph </li>
+<li>A node has one or more <a href="inputs/#audio-rate-inputs">audio-rate inputs</a>, which can be modulated by other nodes</li>
+<li>Some nodes can be triggered with <a href="inputs/#triggers">trigger inputs</a> — for example, to restart playback, or set the position of an envelope</li>
+<li>Some nodes can be used to play back the contents of <a href="inputs/#buffer-inputs">buffer inputs</a>, or can use buffer data as a source of modulation</li>
+<li>The output of multiple nodes can be combined and modulated with use of the standard Python <a href="operators/">operators</a> (<code>+</code>, <code>-</code>, <code>*</code>, <code>%</code>, etc)</li>
+<li>The output of a node can be mono (single-channel) or <a href="multichannel/">multichannel</a></li>
+<li>A Node's status and output can be examined by querying its <a href="properties/">properties</a></li>
+<li>Some Nodes generate unpredictable <a href="stochastic/">stochastic output</a>, which can be controlled via its internal random number generator </li>
+<li>Details of how to create a new Node type are detailed in <a href="developing/">Developing a new Node class</a></li>
+<li>For an overview of every type of Node available in SignalFlow, see the <a href="library/">Node Reference Library</a></li>
 </ul>
 <hr />
 <p><a href="playback/">→ Next: Node playback</a></p>
@@ -1217,7 +1301,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>

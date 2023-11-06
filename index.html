@@ -10,7 +10,7 @@
       
       
       
-        <link rel="next" href="installation/macos/">
+        <link rel="next" href="getting-started/">
       
       
       <link rel="icon" href="assets/images/favicon.png">
@@ -352,6 +352,26 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="getting-started/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Getting started
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
     
     
     
@@ -362,10 +382,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
         
           
-          <label class="md-nav__link" for="__nav_1_2" id="__nav_1_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -376,8 +396,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3">
             <span class="md-nav__icon md-icon"></span>
             Installation
           </label>
@@ -388,16 +408,80 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="installation/macos/" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_1_3_1" id="__nav_1_3_1_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Installing on macOS
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_1_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            Installing on macOS
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/macos/easy/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Easy install
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="installation/macos/command-line/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command-line installation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -429,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="installation/working/" class="md-nav__link">
+      <a href="installation/working.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1227,11 +1311,11 @@
 <h2 id="overview">Overview</h2>
 <p>At its core, SignalFlow has a handful of key concepts.</p>
 <ul>
-<li>At the top level is the <strong><a href="graph">AudioGraph</a></strong>, which connects to the system's audio input/output hardware.</li>
-<li>The graph comprises of a network of <strong><a href="node">Nodes</a></strong>, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.</li>
-<li>Nodes may have multiple <strong><a href="node/inputs">inputs</a></strong>, which determine which synthesis properties can be modulated at runtime.</li>
-<li>A node can also have <strong><a href="buffer">Buffer</a></strong> properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. </li>
-<li>Nodes can be grouped in a <strong><a href="patch">Patch</a></strong>, which is a user-defined configuration of nodes. A patch may have one or more named <a href="patch/inputs">inputs</a> that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to <a href="patch/auto-free">automatically remove itself</a> from the graph when a specified node's playback is complete, which is important for automatic memory management.</li>
+<li>At the top level is the <strong><a href="graph/">AudioGraph</a></strong>, which connects to the system's audio input/output hardware.</li>
+<li>The graph comprises of a network of <strong><a href="node/">Nodes</a></strong>, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.</li>
+<li>Nodes may have multiple <strong><a href="node/inputs/">inputs</a></strong>, which determine which synthesis properties can be modulated at runtime.</li>
+<li>A node can also have <strong><a href="buffer/">Buffer</a></strong> properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. </li>
+<li>Nodes can be grouped in a <strong><a href="patch/">Patch</a></strong>, which is a user-defined configuration of nodes. A patch may have one or more named <a href="patch/inputs/">inputs</a> that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to <a href="patch/auto-free/">automatically remove itself</a> from the graph when a specified node's playback is complete, which is important for automatic memory management.</li>
 </ul>
 <h2 id="example">Example</h2>
 <p>Let's take a look at a minimal SignalFlow example. Here, we create and immediately start the <code>AudioGraph</code>, construct a stereo sine oscillator, connect the oscillator to the graph's output, and run the graph indefinitely.</p>
@@ -1246,9 +1330,9 @@
 </code></pre></div>
 <p>This demo shows a few syntactical benefits that SignalFlow provides to make it easy to work with audio:</p>
 <ul>
-<li>The 2-item array of frequency values passed to <code>SineOscillator</code> is expanded to create a stereo, 2-channel output. If you passed a 10-item array, the output would have 10 channels. (<a href="node/multichannel">Read more: Multichannel nodes</a>)</li>
-<li>Mathematical operators like <code>*</code> can be used to multiply, add, subtract or divide the output of nodes, and creates a new output Node that corresponds to the output of the operation. This example uses an envelope to modulate the amplitude of an oscillator. (<a href="node/operators">Read more: Node operators</a>)</li>
-<li>Even through the envelope is mono and the oscillator is stereo, SignalFlow does the right thing and upmixes the envelope's values to create a stereo output, so that the same envelope shape is applied to the L and R channels of the oscillator, before creating a stereo output. This is called "automatic upmixing", and is handy when working with multichannel graphs. (<a href="node/multichannel#automatic-upmixing">Read more: Automatic upmixing</a>)</li>
+<li>The 2-item array of frequency values passed to <code>SineOscillator</code> is expanded to create a stereo, 2-channel output. If you passed a 10-item array, the output would have 10 channels. (<a href="node/multichannel/">Read more: Multichannel nodes</a>)</li>
+<li>Mathematical operators like <code>*</code> can be used to multiply, add, subtract or divide the output of nodes, and creates a new output Node that corresponds to the output of the operation. This example uses an envelope to modulate the amplitude of an oscillator. (<a href="node/operators/">Read more: Node operators</a>)</li>
+<li>Even through the envelope is mono and the oscillator is stereo, SignalFlow does the right thing and upmixes the envelope's values to create a stereo output, so that the same envelope shape is applied to the L and R channels of the oscillator, before creating a stereo output. This is called "automatic upmixing", and is handy when working with multichannel graphs. (<a href="node/multichannel/#automatic-upmixing">Read more: Automatic upmixing</a>)</li>
 </ul>
 <p>In subsequent examples, we will skip the <code>import</code> line and assume you have already imported everything from the <code>signalflow</code> namespace.</p>
 <div class="admonition info">
@@ -1330,7 +1414,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.copy"], "search": "assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="assets/javascripts/bundle.81fa17fe.min.js"></script>
