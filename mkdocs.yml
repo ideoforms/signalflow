@@ -18,6 +18,7 @@ extra:
 
 markdown_extensions:
  - admonition
+ - attr_list
  - pymdownx.tabbed
  - pymdownx.highlight
  - pymdownx.superfences
@@ -25,8 +26,11 @@ markdown_extensions:
 nav:
  - Home:
    - Home: index.md
+   - Getting started: getting-started.md
    - Installation:
-     - Installing on macOS: installation/macos.md
+     - Installing on macOS:
+        - Easy install: installation/macos/easy.md
+        - Command-line installation: installation/macos/command-line.md
      - Installing on Linux: installation/linux.md
      - Working with SignalFlow: installation/working.md
    - Examples: examples.md
