@@ -57,19 +57,30 @@ Visual Studio Code will launch into some activity, in which it is installing nec
 When the setup is complete, the button in the top right should change to say `.venv (Python 3.12.x)`.
 
 !!! info
-    New notebooks created within this workspace can share the same Python virtual environment, and will find it automatically.  
+    New notebooks created within this workspace will share the same Python virtual environment.  
+
+## 7. Install SignalFlow
+
+In the first block, copy and paste the below:
+
+```python
+%pip install signalflow
+```
+
+To run the cell, press `^↵` (control-enter). After a minute, you should see some output saying `Successfully installed signalflow`.
 
 You're now all set to start writing code!
 
-## 7. Start writing code
+## 8. Start writing code
 
-In the first block, type:
+In a Jupyter interactive notebook, you can write and run multi-line blocks of Python code. Press `enter` to edit the cell, delete its contents, and paste the below.    
 
 ```python
-print("Hello, world")
+print("Hello")
+print("world!")
 ```
 
-To run the cell, press `^↵` (control-enter). You should see "Hello, world" appear below the cell. You're now able to edit, change and run Python code in real-time!
+Press `^↵` (control-enter) to run the cell. You should see "Hello world!" appear below the cell. 
 
 !!! info "Keyboard shortcuts"
     - Navigate between cells with the arrow keys
@@ -77,7 +88,7 @@ To run the cell, press `^↵` (control-enter). You should see "Hello, world" app
     - In select mode, use `b` to add a cell after the current cell, and `a` to add a cell before it 
     - To evaluate a cell and move on to the next cell, use `⇧↵` (shift-enter)
 
-## 8. Start a SignalFlow session
+## 9. SignalFlow: Import the library and start audio processing 
 
 Clear the first cell, and replace it with:
 
@@ -85,7 +96,7 @@ Clear the first cell, and replace it with:
 from signalflow import *
 ```
 
-Run the cell with `^↵`. This imports all of the SignalFlow commands and classes.
+Run the cell with `^↵`. This command imports all of the SignalFlow commands and classes, and only needs to be run once per session.
 
 Create a new cell by pressing `b`, and in the new cell, run:
 
@@ -93,19 +104,41 @@ Create a new cell by pressing `b`, and in the new cell, run:
 graph = AudioGraph()
 ```
 
-This will create and start a new global audio processing system, using the system's default audio output. You should see the name of the audio device printed to the notebook.
+This will create and start a new global audio [processing graph](../../graph/index.md), using the system's default audio output. You should see the name of the audio device printed to the notebook.
 
-In a new cell, run:
+This also needs to be run once per session. In fact, only one global `AudioGraph` object can be created.  
+
+## 10. SignalFlow: Make some sound
+
+We're finally ready to make some noise!
+
+In a new cell, copy and paste the below:
 
 ```python
-sine = SineOscillator(440) * 0.1
-sine.play()
+sine = SineOscillator(440)
+panner = StereoPanner(sine, 0.0)
+output = panner * 0.1
+output.play()
 ```
 
-This will create a sine oscillator, attenuate it, and play it from the system. Hopefully you should now hear a tone playing from your speaker or headphones.
+This will create a simple sine wave oscillator, pan it over a stereo pair, attenuate it, and play it from the system's audio output. Hopefully you should now hear a tone playing from your speaker or headphones.
 
-To stop the playback, create a new cell and run:
+One of the benefits of coding interactively is that you can modify the parameters of a synthesis network while it is running. In a new cell, try modifying the `frequency` property of the oscillator:
 
 ```python
-sine.stop()
+sine.frequency = 880
+```
+
+You should hear it increase in pitch. Try changing the value to something different and re-running the cell.
+
+The `pan` property of `StereoPanner` controls its position in the stereo field from left to right, and can range from `-1` to `1`:
+
+```python
+panner.pan = -1
+```
+
+Finally, to stop the playback:
+
+```python
+output.stop()
 ```
