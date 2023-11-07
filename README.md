@@ -147,7 +147,7 @@ make -j8
 
 ## Examples
 
-See [examples/python](examples/python) for a number of example scripts.
+See [examples](examples) for a number of example scripts.
 
 ## Documentation
 

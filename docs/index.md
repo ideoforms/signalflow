@@ -57,4 +57,4 @@ In subsequent examples, we will skip the `import` line and assume you have alrea
 ## Documentation
 
 - [Installation](getting-started.md)
-- [Example code](http://github.com/ideoforms/signalflow/tree/master/examples/python)
+- [Example code](http://github.com/ideoforms/signalflow/tree/master/examples)

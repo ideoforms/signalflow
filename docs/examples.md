@@ -1,5 +1,5 @@
 # Examples
 
-For various code examples using SignalFlow, see `examples/python` in GitHub:
+For various code examples using SignalFlow, see `examples` in GitHub:
 
-[https://github.com/ideoforms/signalflow/tree/master/examples/python](https://github.com/ideoforms/signalflow/tree/master/examples/python)
+[https://github.com/ideoforms/signalflow/tree/master/examples](https://github.com/ideoforms/signalflow/tree/master/examples)

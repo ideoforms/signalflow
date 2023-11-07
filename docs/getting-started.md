@@ -18,4 +18,4 @@ If you're new to Python or getting started from scratch:
 
 ## Examples
 
-[Several example scripts](https://github.com/ideoforms/signalflow/tree/master/examples/python) are included within the repo, covering simple control and modulation, FM synthesis, sample granulation, MIDI control, chaotic functions, etc.
+[Several example scripts](https://github.com/ideoforms/signalflow/tree/master/examples) are included within the repo, covering simple control and modulation, FM synthesis, sample granulation, MIDI control, chaotic functions, etc.
