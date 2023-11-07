@@ -6,6 +6,8 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
+        <meta name="description" content="SignalFlow is a sound synthesis framework designed for exploring complex sonic ideas.">
+      
       
       
       
@@ -20,7 +22,7 @@
     
     
       
-        <title>Easy install - SignalFlow</title>
+        <title>Easy install - SignalFlow: Python sound synthesis and DSP</title>
       
     
     
@@ -91,7 +93,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="SignalFlow" class="md-header__button md-logo" aria-label="SignalFlow" data-md-component="logo">
+    <a href="../../.." title="SignalFlow: Python sound synthesis and DSP" class="md-header__button md-logo" aria-label="SignalFlow: Python sound synthesis and DSP" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -105,7 +107,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            SignalFlow
+            SignalFlow: Python sound synthesis and DSP
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -207,13 +209,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="SignalFlow" class="md-nav__button md-logo" aria-label="SignalFlow" data-md-component="logo">
+    <a href="../../.." title="SignalFlow: Python sound synthesis and DSP" class="md-nav__button md-logo" aria-label="SignalFlow: Python sound synthesis and DSP" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
-    SignalFlow
+    SignalFlow: Python sound synthesis and DSP
   </label>
   
     <div class="md-nav__source">
@@ -539,26 +541,6 @@
   
   <span class="md-ellipsis">
     Installing on Linux
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../working.md" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Working with SignalFlow
   </span>
   
 
@@ -1415,6 +1397,10 @@
 </ul>
 <p>Visual Studio Code will launch into some activity, in which it is installing necessary libraries and creating a Python "virtual environment", which is an isolated area of the filesystem containing all of the packages needed for this working space. Working in different virtual environments for different projects is good practice to minimise the likelihood of conflicts and disruptions.</p>
 <p>When the setup is complete, the button in the top right should change to say <code>.venv (Python 3.12.x)</code>.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>New notebooks created within this workspace can share the same Python virtual environment, and will find it automatically.  </p>
+</div>
 <p>You're now all set to start writing code!</p>
 <h2 id="7-start-writing-code">7. Start writing code</h2>
 <p>In the first block, type:</p>
@@ -1425,7 +1411,7 @@
 <p class="admonition-title">Keyboard shortcuts</p>
 <ul>
 <li>Navigate between cells with the arrow keys</li>
-<li>Use <code>enter</code> to begin editing a cell, and <code>escape</code> to end editing and move to select mode</li>
+<li>Press <code>enter</code> to begin editing a cell, and <code>escape</code> to end editing and move to select mode</li>
 <li>In select mode, use <code>b</code> to add a cell after the current cell, and <code>a</code> to add a cell before it </li>
 <li>To evaluate a cell and move on to the next cell, use <code>⇧↵</code> (shift-enter)</li>
 </ul>
@@ -1435,7 +1421,7 @@
 <div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">signalflow</span> <span class="kn">import</span> <span class="o">*</span>
 </code></pre></div>
 <p>Run the cell with <code>^↵</code>. This imports all of the SignalFlow commands and classes.</p>
-<p>Create a new cell (<code>b</code>), and in the new cell, run:</p>
+<p>Create a new cell by pressing <code>b</code>, and in the new cell, run:</p>
 <div class="highlight"><pre><span></span><code><span class="n">graph</span> <span class="o">=</span> <span class="n">AudioGraph</span><span class="p">()</span>
 </code></pre></div>
 <p>This will create and start a new global audio processing system, using the system's default audio output. You should see the name of the audio device printed to the notebook.</p>
