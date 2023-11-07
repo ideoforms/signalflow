@@ -15,7 +15,7 @@ graph.poll(2)
 #------------------------------------------------------------------------
 # Load an audio buffer.
 #------------------------------------------------------------------------
-audio_path = os.path.join(os.path.dirname(__file__), "../audio/gliss.aif")
+audio_path = os.path.join(os.path.dirname(__file__), "audio", "gliss.aif")
 buf = Buffer(audio_path)
 clock = RandomImpulse(50)
 pos = WhiteNoise(1, min=0, max=buf.duration, interpolate=False)

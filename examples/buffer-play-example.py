@@ -5,16 +5,22 @@
 # Reads a stereo buffer from an audio file, and plays it through system output.
 #--------------------------------------------------------------------------------
 
-import signalflow as sf
+from signalflow import *
 import os
 
-graph = sf.AudioGraph()
+graph = AudioGraph()
 
-audio_path = os.path.join(os.path.dirname(__file__), "../audio/stereo-count.wav")
-buf = sf.Buffer(audio_path)
-player = sf.BufferPlayer(buf, loop=True)
+#--------------------------------------------------------------------------------
+# Read samples into a Buffer by passing the filename
+#--------------------------------------------------------------------------------
+audio_path = os.path.join(os.path.dirname(__file__), "audio", "stereo-count.wav")
+buf = Buffer(audio_path)
+print("Loaded buffer with %d channel(s), duration: %.1fs" % (buf.num_channels, buf.duration))
 
-print("Loaded buffer: %s" % buf)
+#--------------------------------------------------------------------------------
+# Begin looping playback
+#--------------------------------------------------------------------------------
+player = BufferPlayer(buf, loop=True)
 
 graph.play(player)
 graph.wait()
