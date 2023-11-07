@@ -19,7 +19,6 @@ def test_example(example_basename):
         pipe.kill()
 
 def pytest_generate_tests(metafunc):
-    root_directory = "examples/python"
     example_files = glob.glob(os.path.join(root_directory, "*.py"))
     if len(example_files) == 0:
         raise RuntimeError("Couldn't find any examples in directory: %s" % root_directory)
