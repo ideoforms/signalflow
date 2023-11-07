@@ -1,4 +1,8 @@
-site_name: SignalFlow
+site_name: SignalFlow: Python sound synthesis and DSP
+site_description: SignalFlow is a sound synthesis framework designed for exploring complex sonic ideas.
+repo_name: ideoforms/signalflow
+repo_url: https://github.com/ideoforms/signalflow
+
 theme:
   name: material
   palette:
@@ -6,8 +10,6 @@ theme:
   features:
    - content.code.copy
 
-repo_name: ideoforms/signalflow
-repo_url: https://github.com/ideoforms/signalflow
 
 extra:
   social:

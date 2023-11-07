@@ -56,6 +56,9 @@ Visual Studio Code will launch into some activity, in which it is installing nec
 
 When the setup is complete, the button in the top right should change to say `.venv (Python 3.12.x)`.
 
+!!! info
+    New notebooks created within this workspace can share the same Python virtual environment, and will find it automatically.  
+
 You're now all set to start writing code!
 
 ## 7. Start writing code
@@ -70,7 +73,7 @@ To run the cell, press `^↵` (control-enter). You should see "Hello, world" app
 
 !!! info "Keyboard shortcuts"
     - Navigate between cells with the arrow keys
-    - Use `enter` to begin editing a cell, and `escape` to end editing and move to select mode
+    - Press `enter` to begin editing a cell, and `escape` to end editing and move to select mode
     - In select mode, use `b` to add a cell after the current cell, and `a` to add a cell before it 
     - To evaluate a cell and move on to the next cell, use `⇧↵` (shift-enter)
 
@@ -84,7 +87,7 @@ from signalflow import *
 
 Run the cell with `^↵`. This imports all of the SignalFlow commands and classes.
 
-Create a new cell (`b`), and in the new cell, run:
+Create a new cell by pressing `b`, and in the new cell, run:
 
 ```python
 graph = AudioGraph()
