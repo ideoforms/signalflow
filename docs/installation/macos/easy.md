@@ -25,8 +25,11 @@ In Visual Studio code, create a new folder to contain your new SignalFlow projec
  - Select `File → Open Folder...`
  - Select `New Folder`, and pick a name for your new project folder
 
-!!! info
+!!! info "Where to put your workspace"
     You can store your project workspace anywhere on your drive. The workspace can hold multiple notebooks, audio files, etc.
+
+!!! warning "Trusted workspaces"
+    If Visual Studio asks "Do you trust the authors of the files in this folder?", select "Yes, I trust the authors". This is a security mechanism to protect you against untrusted third-party code.
 
 ## 4. Install the Python and Jupyter extensions
 
@@ -97,3 +100,9 @@ sine.play()
 ```
 
 This will create a sine oscillator, attenuate it, and play it from the system. Hopefully you should now hear a tone playing from your speaker or headphones.
+
+To stop the playback, create a new cell and run:
+
+```python
+sine.stop()
+```
