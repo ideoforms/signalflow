@@ -46,11 +46,14 @@ setup(
     long_description_content_type = "text/markdown",
     ext_modules=[CMakeExtension('signalflow')],
     cmdclass=dict(build_ext=CMakeBuild),
-    zip_safe=False,
-    setup_requires=['pytest-runner'],
+    setup_requires=['pytest-runner', 'pybind11-stubgen'],
     install_requires=['numpy'],
     tests_require=['pytest', 'numpy', 'scipy'],
     package_dir={ '': 'auxiliary/libs' },
-    packages=['signalflow_midi'],
+    packages=['signalflow_midi', 'signalflow-stubs'],
+    include_package_data=True,
+    # signalflow-stubs contains type hint data in a .pyi file, per PEP 561
+    package_data={"signalflow-stubs": ["*.pyi"]},
     scripts=['source/bin/signalflow']
 )
+

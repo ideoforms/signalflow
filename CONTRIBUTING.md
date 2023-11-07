@@ -45,3 +45,13 @@ To deploy docs to GitHub:
 ```
 mkdocs gh-deploy
 ```
+
+### Generating stubs
+
+To generate [stubs](https://peps.python.org/pep-0561/) for IDE type hinting and inline documentation, the [pybind11-stubgen](https://github.com/sizmailov/pybind11-stubgen) package is required. Once installed, run:
+
+```
+pybind11-stubgen -o auxiliary/libs/signalflow-stubs signalflow
+```
+
+The `signalflow-stubs` package is bundled with the standard SignalFlow wheel, and as per [PEP 561's convention for stub-only packages](https://peps.python.org/pep-0561/#stub-only-packages), should be used by IDEs to display type hints and docs. This has been verified in Visual Studio Code 1.84.1.
