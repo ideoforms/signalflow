@@ -3,7 +3,7 @@ import subprocess
 import glob
 import os
 
-root_directory = "examples/python"
+root_directory = "examples"
 
 @pytest.mark.skip
 def test_example(example_basename):
