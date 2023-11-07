@@ -1377,17 +1377,31 @@
 
 <h1 id="signalflow-easy-install-for-macos">SignalFlow: Easy install for macOS</h1>
 <p>The simplest way to start exploring SignalFlow is with the free <a href="https://code.visualstudio.com/">Visual Studio Code</a> editor. Visual Studio Code can edit interactive "Jupyter" notebooks, which allow you to run and modify blocks of Python code in real-time, which is a great way to experiment live with audio synthesis.</p>
+<p>You'll only need to do this installation process once. Once setup, experimenting with SignalFlow is as simple as opening Visual Studio Code.  </p>
 <h2 id="1-install-python">1. Install Python</h2>
 <p>Download and install the latest version of Python (currently 3.12).</p>
 <p><a class="md-button" href="https://www.python.org/downloads/">Download Python</a></p>
 <h2 id="2-download-and-install-visual-studio-code">2. Download and install Visual Studio Code</h2>
 <p>Download and install the latest version of Visual Studio Code.</p>
 <p><a class="md-button" href="https://code.visualstudio.com/Download">Download Visual Studio Code</a></p>
+<p>Once installed, open <code>Applications</code> and run <code>Visual Studio Code</code>.</p>
 <h2 id="3-create-a-new-visual-studio-code-workspace">3. Create a new Visual Studio Code workspace</h2>
-<p>Open Visual Studio Code, select <code>File → Open Folder...</code>, select <code>New Folder</code>, and create a new folder that will contain all your new SignalFlow project.</p>
+<p>In Visual Studio code, create a new folder to contain your new SignalFlow project:</p>
+<ul>
+<li>Select <code>File → Open Folder...</code></li>
+<li>Select <code>New Folder</code>, and pick a name for your new project folder</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">Where to put your workspace</p>
+<p>You can store your project workspace anywhere on your drive. The workspace can hold multiple notebooks, audio files, etc.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Trusted workspaces</p>
+<p>If Visual Studio asks "Do you trust the authors of the files in this folder?", select "Yes, I trust the authors". This is a security mechanism to protect you against untrusted third-party code.</p>
+</div>
 <h2 id="4-install-the-python-and-jupyter-extensions">4. Install the Python and Jupyter extensions</h2>
-<p>Visual Studio Code requires some extensions to be installed to handle Python and Jupyter files.</p>
-<p>In Visual Studio Code, select the <code>Extensions</code> icon from in the far-left column (or press <code>⇧⌘X</code>), and install the <code>Python</code> and <code>Jupyter</code> extensions by searching their names. These are needed to modify Jupyter notebooks in real-time.</p>
+<p>Visual Studio Code requires extensions to be installed to handle Python and Jupyter files.</p>
+<p>In Visual Studio Code, select the <code>Extensions</code> icon from in the far-left column (or press <code>⇧⌘X</code>), and install the <code>Python</code> and <code>Jupyter</code> extensions by searching for their names and clicking "Install" on each.</p>
 <p>Once installation has finished, close the <code>Extensions</code> tab.</p>
 <h2 id="5-create-a-notebook-in-visual-studio-code">5. Create a notebook in Visual Studio Code</h2>
 <p>Select <code>File → New File...</code> (<code>^⌥⌘N</code>), and select <code>Jupyter Notebook</code>. You should see the screen layout change to display an empty black text block (in Jupyter parlance, a "cell"). </p>
@@ -1430,6 +1444,9 @@
 <span class="n">sine</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 </code></pre></div>
 <p>This will create a sine oscillator, attenuate it, and play it from the system. Hopefully you should now hear a tone playing from your speaker or headphones.</p>
+<p>To stop the playback, create a new cell and run:</p>
+<div class="highlight"><pre><span></span><code><span class="n">sine</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre></div>
 
 
 
