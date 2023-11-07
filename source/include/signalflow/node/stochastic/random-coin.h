@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Flip a coin with the given probability.
+ * If a clock is passed, only picks a new value on a clock tick.
+ *---------------------------------------------------------------------------------*/
 class RandomCoin : public StochasticNode
 {
 public:

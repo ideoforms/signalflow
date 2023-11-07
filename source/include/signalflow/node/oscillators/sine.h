@@ -4,6 +4,9 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Produces a sine wave at the given frequency.
+ *---------------------------------------------------------------------------------*/
 class SineOscillator : public Node
 {
 public:

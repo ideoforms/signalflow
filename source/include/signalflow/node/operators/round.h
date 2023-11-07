@@ -6,6 +6,9 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Round the input to the nearest integer value.
+ *---------------------------------------------------------------------------------*/
 class Round : public UnaryOpNode
 {
 

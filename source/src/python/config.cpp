@@ -5,7 +5,7 @@ void init_python_config(py::module &m)
     /*--------------------------------------------------------------------------------
      * Config
      *-------------------------------------------------------------------------------*/
-    py::class_<AudioGraphConfig>(m, "AudioGraphConfig")
+    py::class_<AudioGraphConfig>(m, "AudioGraphConfig", "Configuration options for the AudioGraph")
         .def(py::init<>())
         .def("print", &AudioGraphConfig::print, R"pbdoc(Print the AudioGraphConfig to stdout)pbdoc")
         .def_property("sample_rate", &AudioGraphConfig::get_sample_rate, &AudioGraphConfig::set_sample_rate)

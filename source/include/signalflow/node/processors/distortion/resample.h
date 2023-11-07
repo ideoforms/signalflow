@@ -5,6 +5,10 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Resampler and bit crusher. sample_rate is in Hz, bit_rate is an integer
+ * between 0 and 16.
+ *---------------------------------------------------------------------------------*/
 class Resample : public UnaryOpNode
 {
 public:

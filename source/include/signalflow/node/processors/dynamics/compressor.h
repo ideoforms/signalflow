@@ -5,6 +5,9 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Dynamic range compression, with optional sidechain input.
+ *---------------------------------------------------------------------------------*/
 class Compressor : public UnaryOpNode
 {
 public:

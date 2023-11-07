@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Generates a uniformly random value between min/max.
+ * If a clock is passed, only picks a new value on a clock tick.
+ *---------------------------------------------------------------------------------*/
 class RandomUniform : public StochasticNode
 {
 public:

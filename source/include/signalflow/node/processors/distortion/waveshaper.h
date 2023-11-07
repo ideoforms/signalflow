@@ -5,6 +5,9 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Applies wave-shaping as described in buffer.
+ *---------------------------------------------------------------------------------*/
 class WaveShaper : public UnaryOpNode
 {
 public:

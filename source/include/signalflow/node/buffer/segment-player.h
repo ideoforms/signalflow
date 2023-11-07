@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Trigger segments of a buffer at the given onset positions.
+ *---------------------------------------------------------------------------------*/
 class SegmentPlayer : public Node
 {
 public:

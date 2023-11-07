@@ -4,6 +4,12 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Generates a random sequence of 0/1 bits with the given length, and the given
+ * probability each each bit = 1. The position of the sequence is incremented
+ * on each clock signal. explore and generate are trigger inputs which cause
+ * the sequence to mutate and re-generate respectively.
+ *---------------------------------------------------------------------------------*/
 class RandomImpulseSequence : public StochasticNode
 {
 

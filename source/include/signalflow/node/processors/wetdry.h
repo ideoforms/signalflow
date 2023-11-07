@@ -5,6 +5,9 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Takes wet and dry inputs, and outputs a mix determined by wetness.
+ *---------------------------------------------------------------------------------*/
 class WetDry : public Node
 {
 public:

@@ -5,7 +5,7 @@ void init_python_patch(py::module &m)
     /*--------------------------------------------------------------------------------
      * Patch
      *-------------------------------------------------------------------------------*/
-    py::class_<Patch, PatchRefTemplate<Patch>>(m, "Patch")
+    py::class_<Patch, PatchRefTemplate<Patch>>(m, "Patch", "A Patch encapsulates a connected network of nodes, analogous to a synthesizer")
         /*--------------------------------------------------------------------------------
          * Constructors
          *-------------------------------------------------------------------------------*/

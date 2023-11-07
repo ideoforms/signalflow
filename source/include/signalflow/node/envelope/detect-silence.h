@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Detects blocks of silence below the threshold value. Used as an auto-free
+ * node to terminate a Patch after processing is complete.
+ *---------------------------------------------------------------------------------*/
 class DetectSilence : public UnaryOpNode
 {
 public:

@@ -4,6 +4,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Each time a clock or trigger is received, outputs the next value in the sequence.
+ * At all other times, outputs zero.
+ *---------------------------------------------------------------------------------*/
 class ImpulseSequence : public Node
 {
 

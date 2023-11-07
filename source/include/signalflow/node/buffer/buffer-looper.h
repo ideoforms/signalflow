@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Read and write from a buffer concurrently, with controllable overdub.
+ *---------------------------------------------------------------------------------*/
 class BufferLooper : public Node
 {
 public:

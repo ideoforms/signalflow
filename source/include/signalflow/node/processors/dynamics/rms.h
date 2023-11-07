@@ -5,6 +5,10 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Outputs the root-mean-squared value of the input, in buffers equal to the
+ * graph's current buffer size.
+ *---------------------------------------------------------------------------------*/
 class RMS : public UnaryOpNode
 {
 public:

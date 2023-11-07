@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Attack-decay-sustain-release envelope.
+ * Sustain portion is held until gate is zero.
+ *---------------------------------------------------------------------------------*/
 class ADSREnvelope : public Node
 {
 public:

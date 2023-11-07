@@ -8,6 +8,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Given a multichannel input, crossfades between channels based on the given
+ * position within the virtual array, producing a single-channel output.
+ *---------------------------------------------------------------------------------*/
 class ChannelCrossfade : public UnaryOpNode
 {
 

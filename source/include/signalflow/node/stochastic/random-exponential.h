@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Generate an random exponential value between min/max.
+ * If a clock is passed, only picks a new value on a clock tick.
+ *---------------------------------------------------------------------------------*/
 class RandomExponential : public StochasticNode
 {
 public:

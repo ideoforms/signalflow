@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Pick a random value from the given array.
+ * If a clock is passed, only picks a new value on a clock tick.
+ *---------------------------------------------------------------------------------*/
 class RandomChoice : public StochasticNode
 {
 public:

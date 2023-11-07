@@ -8,6 +8,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Select a subset of channels from a multichannel input, starting at offset,
+ * up to a maximum of maximum, with the given step.
+ *---------------------------------------------------------------------------------*/
 class ChannelSelect : public UnaryOpNode
 {
 

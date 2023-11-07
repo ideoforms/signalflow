@@ -8,6 +8,10 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Stutters the input whenever a signal is received on clock.
+ * Generates stutter_count repeats, with duration stutter_time.
+ *---------------------------------------------------------------------------------*/
 class Stutter : public UnaryOpNode
 {
 public:

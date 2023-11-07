@@ -11,24 +11,45 @@ import numpy
 import typing
 __all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTContinuousPhaseVocoder', 'FFTConvolve', 'FFTFindPeaks', 'FFTLPF', 'FFTPhaseVocoder', 'FFTTonality', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InvalidChannelCountException', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_COSINE', 'SIGNALFLOW_INTERPOLATION_LINEAR', 'SIGNALFLOW_INTERPOLATION_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TriangleLFO', 'TriangleOscillator', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
 class ADSREnvelope(Node):
+    """
+    Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
+    """
     def __init__(self, attack: Node = 0.1, decay: Node = 0.1, sustain: Node = 0.5, release: Node = 0.1, gate: Node = 0) -> None:
         ...
 class ASREnvelope(Node):
+    """
+    Attack-sustain-release envelope.
+    """
     def __init__(self, attack: Node = 0.1, sustain: Node = 0.5, release: Node = 0.1, curve: Node = 1.0, clock: Node = None) -> None:
         ...
 class Abs(Node):
+    """
+    Abs
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class Add(Node):
+    """
+    Add
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class AllpassDelay(Node):
+    """
+    All-pass delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.
+    """
     def __init__(self, input: Node = 0.0, delay_time: Node = 0.1, feedback: Node = 0.5, max_delay_time: float = 0.5) -> None:
         ...
 class AmplitudeToDecibels(Node):
+    """
+    AmplitudeToDecibels
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class AudioGraph:
+    """
+    The global audio signal processing graph
+    """
     output: Node
     def __init__(self, config: AudioGraphConfig = None, output_device: Node = None, start: bool = True) -> None:
         ...
@@ -204,6 +225,9 @@ class AudioGraph:
         int: Get a text representation of the AudioGraph's node connectivity structure.
         """
 class AudioGraphConfig:
+    """
+    Configuration options for the AudioGraph
+    """
     cpu_usage_limit: float
     input_buffer_size: int
     input_device_name: str
@@ -220,23 +244,43 @@ class AudioGraphConfig:
 class AudioIOException(Exception):
     pass
 class AudioIn(Node):
+    """
+    AudioIn
+    """
     def __init__(self) -> None:
         ...
 class AudioOut(AudioOut_Abstract):
+    """
+    AudioOut
+    """
     def __init__(self, backend_name: str = '', device_name: str = '', sample_rate: int = 0, buffer_size: int = 0) -> None:
         ...
 class AudioOut_Abstract(Node):
-    pass
+    """
+    AudioOut_Abstract
+    """
 class AudioOut_Dummy(AudioOut_Abstract):
+    """
+    AudioOut_Dummy
+    """
     def __init__(self, num_channels: int = 2, buffer_size: int = 256) -> None:
         ...
 class AzimuthPanner(Node):
+    """
+    Pan input around an equally-spaced ring of num_channels speakers. pan is the pan position from -1..+1, where 0 = centre front. width is the source's width, where 1.0 spans exactly between an adjacent pair of channels.
+    """
     def __init__(self, num_channels: int = 2, input: Node = 0, pan: Node = 0.0, width: Node = 1.0) -> None:
         ...
 class BeatCutter(Node):
+    """
+    Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.
+    """
     def __init__(self, buffer: ... = None, segment_count: int = 8, stutter_probability: Node = 0.0, stutter_count: Node = 1, jump_probability: Node = 0.0, duty_cycle: Node = 1.0, rate: Node = 1.0, segment_rate: Node = 1.0) -> None:
         ...
 class BiquadFilter(Node):
+    """
+    Biquad filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. Not recommended for real-time modulation; for this, use SVFilter.
+    """
     @typing.overload
     def __init__(self, input: Node = 0.0, filter_type: signalflow_filter_type_t = ..., cutoff: Node = 440, resonance: Node = 0.0, peak_gain: Node = 0.0) -> None:
         ...
@@ -245,7 +289,7 @@ class BiquadFilter(Node):
         ...
 class Buffer:
     """
-    A buffer of audio samples
+    A buffer of audio samples, containing one or more channels.
     """
     @staticmethod
     @typing.overload
@@ -345,22 +389,37 @@ class Buffer:
         Returns the buffer's sample rate.
         """
 class Buffer2D(Buffer):
+    """
+    Two-dimensional buffer of audio samples
+    """
     def __init__(self, arg0: list[typing_extensions.Buffer]) -> None:
         ...
     def get2D(self, arg0: float, arg1: float) -> float:
         ...
 class BufferLooper(Node):
+    """
+    Read and write from a buffer concurrently, with controllable overdub.
+    """
     def __init__(self, buffer: ... = None, input: Node = 0.0, feedback: Node = 0.0, loop_playback: bool = False, loop_record: bool = False) -> None:
         ...
 class BufferPlayer(Node):
+    """
+    Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.
+    """
     def __init__(self, buffer: ... = None, rate: Node = 1.0, loop: Node = 0, start_time: Node = None, end_time: Node = None, clock: Node = None) -> None:
         ...
 class BufferRecorder(Node):
+    """
+    Records the input to a buffer. feedback controls overdub.
+    """
     def __init__(self, buffer: ... = None, input: Node = 0.0, feedback: Node = 0.0, loop: bool = False) -> None:
         ...
 class CPUUsageAboveLimitException(Exception):
     pass
 class ChannelArray(Node):
+    """
+    Takes an array of inputs and spreads them across multiple channels of output.
+    """
     @typing.overload
     def __init__(self) -> None:
         ...
@@ -377,59 +436,113 @@ class ChannelArray(Node):
     def __init__(self, inputs: list[float]) -> None:
         ...
 class ChannelCrossfade(Node):
+    """
+    Given a multichannel input, crossfades between channels based on the given position within the virtual array, producing a single-channel output.
+    """
     def __init__(self, input: Node = None, index: Node = None, num_output_channels: int = 1) -> None:
         ...
 class ChannelMixer(Node):
+    """
+    Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels.
+    """
     def __init__(self, num_channels: int = 1, input: Node = 0, amplitude_compensation: bool = True) -> None:
         ...
 class ChannelPanner(Node):
+    """
+    Pan the input between a linear series of channels, where pan 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.
+    """
     def __init__(self, num_channels: int = 2, input: Node = 0, pan: Node = 0.0, width: Node = 1.0) -> None:
         ...
 class ChannelSelect(Node):
+    """
+    Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step.
+    """
     def __init__(self, input: Node = None, offset: int = 0, maximum: int = 0, step: int = 1) -> None:
         ...
 class Clip(Node):
+    """
+    Clip the input to min/max.
+    """
     def __init__(self, input: Node = None, min: Node = -1.0, max: Node = 1.0) -> None:
         ...
 class ClockDivider(Node):
+    """
+    When given a clock input (e.g., an Impulse), divides the clock by the given factor. factor must be an integer greater than or equal to 1.
+    """
     def __init__(self, clock: Node = 0, factor: Node = 1) -> None:
         ...
 class CombDelay(Node):
+    """
+    Comb delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.
+    """
     def __init__(self, input: Node = 0.0, delay_time: Node = 0.1, feedback: Node = 0.5, max_delay_time: float = 0.5) -> None:
         ...
 class Compressor(Node):
+    """
+    Dynamic range compression, with optional sidechain input.
+    """
     def __init__(self, input: Node = 0.0, threshold: Node = 0.1, ratio: Node = 2, attack_time: Node = 0.01, release_time: Node = 0.1, sidechain: Node = None) -> None:
         ...
 class Constant(Node):
+    """
+    Produces a constant value.
+    """
     def __init__(self, value: float = 0) -> None:
         ...
 class Cos(Node):
+    """
+    Cos
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class Counter(Node):
+    """
+    Count upwards from min, driven by clock.
+    """
     def __init__(self, clock: Node = 0, min: Node = 0, max: Node = 2147483647) -> None:
         ...
 class CrossCorrelate(Node):
+    """
+    CrossCorrelate
+    """
     def __init__(self, input: Node = None, buffer: ... = None, hop_size: int = 0) -> None:
         ...
 class DecibelsToAmplitude(Node):
+    """
+    DecibelsToAmplitude
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class DetectSilence(Node):
+    """
+    Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.
+    """
     def __init__(self, input: Node = None, threshold: Node = 1e-05) -> None:
         ...
 class DeviceNotFoundException(Exception):
     pass
 class Divide(Node):
+    """
+    Divide
+    """
     def __init__(self, a: Node = 1, b: Node = 1) -> None:
         ...
 class EQ(Node):
+    """
+    Three-band EQ.
+    """
     def __init__(self, input: Node = 0.0, low_gain: Node = 1.0, mid_gain: Node = 1.0, high_gain: Node = 1.0, low_freq: Node = 500, high_freq: Node = 5000) -> None:
         ...
 class Envelope(Node):
+    """
+    Generic envelope constructor, given an array of levels, times and curves.
+    """
     def __init__(self, levels: list[Node] = [], times: list[Node] = [], curves: list[Node] = [], clock: Node = None, loop: bool = False) -> None:
         ...
 class EnvelopeBuffer(Buffer):
+    """
+    Buffer encapsulating an audio envelope
+    """
     @typing.overload
     def __init__(self, arg0: int) -> None:
         ...
@@ -440,51 +553,99 @@ class EnvelopeBuffer(Buffer):
     def __init__(self, arg0: str, arg1: int) -> None:
         ...
 class Equal(Node):
+    """
+    Equal
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class Euclidean(Node):
+    """
+    Euclidean rhythm as described by Toussaint, with sequence_length (n) and num_events (k), driven by clock.
+    """
     def __init__(self, clock: Node = 0, sequence_length: Node = 0, num_events: Node = 0) -> None:
         ...
 class FFT(Node):
+    """
+    FFT
+    """
     def __init__(self, input: Node = 0.0, fft_size: int = 1024, hop_size: int = 128, window_size: int = 0, do_window: bool = True) -> None:
         ...
 class FFTContinuousPhaseVocoder(Node):
+    """
+    FFTContinuousPhaseVocoder
+    """
     def __init__(self, input: Node = None, rate: float = 1.0) -> None:
         ...
 class FFTConvolve(Node):
+    """
+    FFTConvolve
+    """
     def __init__(self, input: Node = None, buffer: ... = None) -> None:
         ...
 class FFTFindPeaks(Node):
+    """
+    FFTFindPeaks
+    """
     def __init__(self, input: Node = 0, prominence: Node = 1, threshold: Node = 1e-06, count: int = 64, interpolate: bool = True) -> None:
         ...
 class FFTLPF(Node):
+    """
+    FFTLPF
+    """
     def __init__(self, input: Node = 0, frequency: Node = 2000) -> None:
         ...
 class FFTPhaseVocoder(Node):
+    """
+    FFTPhaseVocoder
+    """
     def __init__(self, input: Node = None) -> None:
         ...
 class FFTTonality(Node):
+    """
+    FFTTonality
+    """
     def __init__(self, input: Node = 0, level: Node = 0.5, smoothing: Node = 0.9) -> None:
         ...
 class FeedbackBufferReader(Node):
+    """
+    Counterpart to FeedbackBufferWriter.
+    """
     def __init__(self, buffer: ... = None) -> None:
         ...
 class FeedbackBufferWriter(Node):
+    """
+    Counterpart to FeedbackBufferReader.
+    """
     def __init__(self, buffer: ... = None, input: Node = 0.0, delay_time: Node = 0.1) -> None:
         ...
 class FlipFlop(Node):
+    """
+    Flips from 0/1 on each clock.
+    """
     def __init__(self, clock: Node = 0) -> None:
         ...
 class Fold(Node):
+    """
+    Fold the input beyond min/max, reflecting the excess back.
+    """
     def __init__(self, input: Node = None, min: Node = -1.0, max: Node = 1.0) -> None:
         ...
 class FrequencyToMidiNote(Node):
+    """
+    Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output.
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class Gate(Node):
+    """
+    Outputs the input value when it is above the given threshold, otherwise zero.
+    """
     def __init__(self, input: Node = 0.0, threshold: Node = 0.1) -> None:
         ...
 class Granulator(Node):
+    """
+    Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.
+    """
     def __init__(self, buffer: ... = None, clock: Node = 0, pos: Node = 0, duration: Node = 0.1, pan: Node = 0.0, rate: Node = 1.0, max_grains: Node = 2048) -> None:
         ...
 class GraphAlreadyCreatedException(Exception):
@@ -492,21 +653,39 @@ class GraphAlreadyCreatedException(Exception):
 class GraphNotCreatedException(Exception):
     pass
 class GreaterThan(Node):
+    """
+    GreaterThan
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class GreaterThanOrEqual(Node):
+    """
+    GreaterThanOrEqual
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class IFFT(Node):
+    """
+    IFFT
+    """
     def __init__(self, input: Node = None, do_window: bool = False) -> None:
         ...
 class If(Node):
+    """
+    If
+    """
     def __init__(self, a: Node = 0, value_if_true: Node = 0, value_if_false: Node = 0) -> None:
         ...
 class Impulse(Node):
+    """
+    Produces a value of 1 at the given frequency, with output of 0 at all other times. If frequency is 0, produces a single impulse.
+    """
     def __init__(self, frequency: Node = 1.0) -> None:
         ...
 class ImpulseSequence(Node):
+    """
+    Each time a clock or trigger is received, outputs the next value in the sequence. At all other times, outputs zero.
+    """
     @typing.overload
     def __init__(self, sequence: list[int] = [], clock: Node = None) -> None:
         ...
@@ -514,53 +693,101 @@ class ImpulseSequence(Node):
     def __init__(self, sequence: str, clock: Node = None) -> None:
         ...
 class Index(Node):
+    """
+    Outputs the value in list corresponding to index.
+    """
     def __init__(self, list: list[float] = 0, index: Node = 0) -> None:
         ...
 class InvalidChannelCountException(Exception):
     pass
 class LFO(Node):
+    """
+    LFO
+    """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
 class Latch(Node):
+    """
+    Initially outputs 0. When a trigger is received at set, outputs 1. When a trigger is subsequently received at reset, outputs 0, until the next set.
+    """
     def __init__(self, set: Node = 0, reset: Node = 0) -> None:
         ...
 class LessThan(Node):
+    """
+    LessThan
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class LessThanOrEqual(Node):
+    """
+    LessThanOrEqual
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class Line(Node):
+    """
+    Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal.
+    """
     def __init__(self, from: Node = 0.0, to: Node = 1.0, time: Node = 1.0, loop: Node = 0, clock: Node = None) -> None:
         ...
 class Logistic(Node):
+    """
+    Logistic noise.
+    """
     def __init__(self, chaos: Node = 3.7, frequency: Node = 0.0) -> None:
         ...
 class Maximiser(Node):
+    """
+    Gain maximiser.
+    """
     def __init__(self, input: Node = 0.0, ceiling: Node = 0.5, attack_time: Node = 1.0, release_time: Node = 1.0) -> None:
         ...
 class MidiNoteToFrequency(Node):
+    """
+    Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point input.
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class Modulo(Node):
+    """
+    Modulo
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class MoogVCF(Node):
+    """
+    Moog ladder low-pass filter.
+    """
     def __init__(self, input: Node = 0.0, cutoff: Node = 200.0, resonance: Node = 0.0) -> None:
         ...
 class MouseDown(Node):
+    """
+    Outputs 1 if the left mouse button is down, 0 otherwise.
+    """
     def __init__(self, button_index: Node = 0) -> None:
         ...
 class MouseX(Node):
+    """
+    Outputs the normalised cursor X position, from 0 to 1.
+    """
     def __init__(self) -> None:
         ...
 class MouseY(Node):
+    """
+    Outputs the normalised cursor Y position, from 0 to 1.
+    """
     def __init__(self) -> None:
         ...
 class Multiply(Node):
+    """
+    Multiply
+    """
     def __init__(self, a: Node = 1.0, b: Node = 1.0) -> None:
         ...
 class Node:
+    """
+    A single signal-processing unit in the DSP graph, a node generates audio samples, optionally acting on zero or more input nodes.
+    """
     @typing.overload
     def __add__(self, other: Node) -> Node:
         """
@@ -868,15 +1095,27 @@ class NodeRegistry:
     def create(self, arg0: str) -> Node:
         ...
 class NotEqual(Node):
+    """
+    NotEqual
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class OneTapDelay(Node):
+    """
+    Single-tap delay line. delay_time must be less than or equal to max_delay_time.
+    """
     def __init__(self, input: Node = 0.0, delay_time: Node = 0.1, max_delay_time: float = 0.5) -> None:
         ...
 class OnsetDetector(Node):
+    """
+    OnsetDetector
+    """
     def __init__(self, input: Node = 0.0, threshold: Node = 2.0, min_interval: Node = 0.1) -> None:
         ...
 class Patch:
+    """
+    A Patch encapsulates a connected network of nodes, analogous to a synthesizer
+    """
     auto_free: bool
     auto_free_node: Node
     output: Node
@@ -1019,33 +1258,63 @@ class PatchSpec:
     def name(self) -> str:
         ...
 class PinkNoise(StochasticNode):
+    """
+    Pink noise, with specified low/high cutoffs.
+    """
     def __init__(self, low_cutoff: float = 20.0, high_cutoff: float = 20000.0, reset: Node = None) -> None:
         ...
 class Pow(Node):
+    """
+    Pow
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class RMS(Node):
+    """
+    Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size.
+    """
     def __init__(self, input: Node = 0.0) -> None:
         ...
 class RandomBrownian(StochasticNode):
+    """
+    Outputs Brownian noise between min/max, with a mean change of delta between samples. If a clock is passed, only generates a new value on a clock tick.
+    """
     def __init__(self, min: Node = -1.0, max: Node = 1.0, delta: Node = 0.01, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomChoice(StochasticNode):
+    """
+    Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick.
+    """
     def __init__(self, values: list[float] = [], clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomCoin(StochasticNode):
+    """
+    Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick.
+    """
     def __init__(self, probability: Node = 0.5, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomExponential(StochasticNode):
+    """
+    Generate an random exponential value between min/max. If a clock is passed, only picks a new value on a clock tick.
+    """
     def __init__(self, min: Node = 0.001, max: Node = 1.0, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomExponentialDist(StochasticNode):
+    """
+    Generate an random value following the exponential distribution. If a clock is passed, only picks a new value on a clock tick.
+    """
     def __init__(self, scale: Node = 0.0, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomGaussian(StochasticNode):
+    """
+    Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick.
+    """
     def __init__(self, mean: Node = 0.0, sigma: Node = 0.0, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomImpulse(StochasticNode):
+    """
+    Generate random impulses at the given frequency, with either uniform or poisson distribution.
+    """
     @typing.overload
     def __init__(self, frequency: Node = 1.0, distribution: signalflow_event_distribution_t = ..., reset: Node = None) -> None:
         ...
@@ -1053,24 +1322,45 @@ class RandomImpulse(StochasticNode):
     def __init__(self, frequency: Node, distribution: str, reset: Node = None) -> None:
         ...
 class RandomImpulseSequence(StochasticNode):
+    """
+    Generates a random sequence of 0/1 bits with the given length, and the given probability each each bit = 1. The position of the sequence is incremented on each clock signal. explore and generate are trigger inputs which cause the sequence to mutate and re-generate respectively.
+    """
     def __init__(self, probability: Node = 0.5, length: Node = 8, clock: Node = None, explore: Node = None, generate: Node = None, reset: Node = None) -> None:
         ...
 class RandomUniform(StochasticNode):
+    """
+    Generates a uniformly random value between min/max. If a clock is passed, only picks a new value on a clock tick.
+    """
     def __init__(self, min: Node = 0.0, max: Node = 1.0, clock: Node = None, reset: Node = None) -> None:
         ...
 class RectangularEnvelope(Node):
+    """
+    Rectangular envelope with the given sustain duration.
+    """
     def __init__(self, sustain_duration: Node = 1.0, clock: Node = None) -> None:
         ...
 class Resample(Node):
+    """
+    Resampler and bit crusher. sample_rate is in Hz, bit_rate is an integer between 0 and 16.
+    """
     def __init__(self, input: Node = 0, sample_rate: Node = 44100, bit_rate: Node = 16) -> None:
         ...
 class Round(Node):
+    """
+    Round the input to the nearest integer value.
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class RoundToScale(Node):
+    """
+    Given a frequency input, generates a frequency output that is rounded to the nearest MIDI note. (TODO: Not very well named)
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class SVFilter(Node):
+    """
+    State variable filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'.
+    """
     @typing.overload
     def __init__(self, input: Node = 0.0, filter_type: signalflow_filter_type_t = ..., cutoff: Node = 440, resonance: Node = 0.0) -> None:
         ...
@@ -1078,36 +1368,69 @@ class SVFilter(Node):
     def __init__(self, input: Node, filter_type: str, cutoff: Node = 440, resonance: Node = 0.0) -> None:
         ...
 class SampleAndHold(Node):
+    """
+    Samples and holds the input each time a clock signal is received.
+    """
     def __init__(self, input: Node = None, clock: Node = None) -> None:
         ...
 class SawLFO(Node):
+    """
+    Produces a sawtooth LFO, with output ranging from min to max.
+    """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
 class SawOscillator(Node):
+    """
+    Produces a (non-band-limited) sawtooth wave, with the given frequency and phase offset. When a reset or trigger is received, resets the phase to zero.
+    """
     def __init__(self, frequency: Node = 440, phase: Node = None, reset: Node = None) -> None:
         ...
 class ScaleLinExp(Node):
+    """
+    Scales the input from a linear range (between a and b) to an exponential range (between c and d).
+    """
     def __init__(self, input: Node = 0, a: Node = 0, b: Node = 1, c: Node = 1, d: Node = 10) -> None:
         ...
 class ScaleLinLin(Node):
+    """
+    Scales the input from a linear range (between a and b) to a linear range (between c and d).
+    """
     def __init__(self, input: Node = 0, a: Node = 0, b: Node = 1, c: Node = 1, d: Node = 10) -> None:
         ...
 class SegmentPlayer(Node):
+    """
+    Trigger segments of a buffer at the given onset positions.
+    """
     def __init__(self, buffer: ... = None, onsets: list[float] = 0) -> None:
         ...
 class Sequence(Node):
+    """
+    Outputs the elements in sequence, incrementing position on each clock.
+    """
     def __init__(self, sequence: list[float] = [], clock: Node = None) -> None:
         ...
 class Sin(Node):
+    """
+    Sin
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class SineLFO(Node):
+    """
+    Produces a sinusoidal LFO at the given frequency and phase offset, with output ranging from min to max.
+    """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
 class SineOscillator(Node):
+    """
+    Produces a sine wave at the given frequency.
+    """
     def __init__(self, frequency: Node = 440) -> None:
         ...
 class Smooth(Node):
+    """
+    Smooth the input with a given smoothing coefficient. When smooth = 0, applies no smoothing.
+    """
     def __init__(self, input: Node = None, smooth: Node = 0.99) -> None:
         ...
 class SpatialEnvironment:
@@ -1120,38 +1443,68 @@ class SpatialEnvironment:
     def add_speaker(self, arg0: int, arg1: float, arg2: float, arg3: float) -> None:
         ...
 class SpatialPanner(Node):
+    """
+    Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported.
+    """
     def __init__(self, env: SpatialEnvironment = None, input: Node = 0.0, x: Node = 0.0, y: Node = 0.0, z: Node = 0.0, radius: Node = 1.0, algorithm: str = 'dbap') -> None:
         ...
 class SpatialSpeaker:
     pass
 class SquareLFO(Node):
+    """
+    Produces a pulse wave LFO with the given frequency and pulse width, ranging from min to max, where width=0.5 is a square wave.
+    """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, width: Node = 0.5, phase: Node = 0.0) -> None:
         ...
 class SquareOscillator(Node):
+    """
+    Produces a pulse wave with the given frequency and pulse width, where width=0.5 is a square wave.
+    """
     def __init__(self, frequency: Node = 440, width: Node = 0.5) -> None:
         ...
 class Squiz(Node):
+    """
+    Implementation of Dan Stowell's Squiz algorithm, a kind of downsampler.
+    """
     def __init__(self, input: Node = 0.0, rate: Node = 2.0, chunk_size: Node = 1) -> None:
         ...
 class StereoBalance(Node):
+    """
+    Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left, and 1 is hard right.
+    """
     def __init__(self, input: Node = 0, balance: Node = 0) -> None:
         ...
 class StereoPanner(Node):
+    """
+    Pans a mono input to a stereo output. Pans from -1 (hard left) to +1 (hard right), with 0 = centre.
+    """
     def __init__(self, input: Node = 0, pan: Node = 0.0) -> None:
         ...
 class StereoWidth(Node):
+    """
+    Reduces the width of a stereo signal. When width = 1, input is unchanged. When width = 0, outputs a pair of identical channels both containing L+R.
+    """
     def __init__(self, input: Node = 0, width: Node = 1) -> None:
         ...
 class StochasticNode(Node):
     def set_seed(self, arg0: int) -> None:
         ...
 class Stutter(Node):
+    """
+    Stutters the input whenever a signal is received on clock. Generates stutter_count repeats, with duration stutter_time.
+    """
     def __init__(self, input: Node = 0.0, stutter_time: Node = 0.1, stutter_count: Node = 1, clock: Node = None, max_stutter_time: float = 1.0) -> None:
         ...
 class Subtract(Node):
+    """
+    Subtract
+    """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class Sum(Node):
+    """
+    Sum
+    """
     @typing.overload
     def __init__(self) -> None:
         ...
@@ -1168,36 +1521,69 @@ class Sum(Node):
     def __init__(self, inputs: list[float]) -> None:
         ...
 class Tan(Node):
+    """
+    Tan
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class Tanh(Node):
+    """
+    Tanh
+    """
     def __init__(self, a: Node = 0) -> None:
         ...
 class TriangleLFO(Node):
+    """
+    Produces a triangle LFO with the given frequency, ranging from min to max.
+    """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
 class TriangleOscillator(Node):
+    """
+    TriangleOscillator
+    """
     def __init__(self, frequency: Node = 440) -> None:
         ...
 class WaveShaper(Node):
+    """
+    Applies wave-shaping as described in buffer.
+    """
     def __init__(self, input: Node = 0.0, buffer: ... = None) -> None:
         ...
 class WaveShaperBuffer(Buffer):
+    """
+    Sample buffer for waveshaper nodes
+    """
     def __init__(self, arg0: int) -> None:
         ...
 class Wavetable(Node):
+    """
+    Plays the wavetable stored in buffer at the given frequency.
+    """
     def __init__(self, buffer: ... = None, frequency: Node = 440, phase: Node = 0, sync: Node = 0, phase_map: ... = None) -> None:
         ...
 class Wavetable2D(Node):
+    """
+    Wavetable2D
+    """
     def __init__(self, buffer: ... = None, frequency: Node = 440, crossfade: Node = 0.0, phase: Node = 0.0, sync: Node = 0) -> None:
         ...
 class WetDry(Node):
+    """
+    Takes wet and dry inputs, and outputs a mix determined by wetness.
+    """
     def __init__(self, dry_input: Node = None, wet_input: Node = None, wetness: Node = 0.0) -> None:
         ...
 class WhiteNoise(StochasticNode):
+    """
+    Generates whitenoise between min/max. If frequency is zero, generates at audio rate. For frequencies lower than audio rate, interpolate applies linear interpolation between values, and random_interval specifies whether new random values should be equally-spaced or randomly-spaced.
+    """
     def __init__(self, frequency: Node = 0.0, min: Node = -1.0, max: Node = 1.0, interpolate: bool = True, random_interval: bool = True, reset: Node = None) -> None:
         ...
 class Wrap(Node):
+    """
+    Wrap the input beyond min/max.
+    """
     def __init__(self, input: Node = None, min: Node = -1.0, max: Node = 1.0) -> None:
         ...
 class signalflow_event_distribution_t:

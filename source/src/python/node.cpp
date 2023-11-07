@@ -18,7 +18,7 @@ void init_python_node(py::module &m)
     /*--------------------------------------------------------------------------------
      * Node
      *-------------------------------------------------------------------------------*/
-    py::class_<Node, NodeRefTemplate<Node>>(m, "Node")
+    py::class_<Node, NodeRefTemplate<Node>>(m, "Node", "A single signal-processing unit in the DSP graph, a node generates audio samples, optionally acting on zero or more input nodes.")
         /*--------------------------------------------------------------------------------
          * Critical to enable pybind11 to automatically convert from floats
          * to Node objects.

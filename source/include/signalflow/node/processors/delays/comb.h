@@ -9,6 +9,10 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Comb delay, with feedback between 0 and 1.
+ * delay_time must be less than or equal to max_delay_time.
+ *---------------------------------------------------------------------------------*/
 class CombDelay : public UnaryOpNode
 {
 public:

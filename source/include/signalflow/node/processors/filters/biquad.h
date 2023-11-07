@@ -5,6 +5,12 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Biquad filter.
+ * filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak',
+ * 'low_shelf', 'high_shelf'.
+ * Not recommended for real-time modulation; for this, use SVFilter.
+ *---------------------------------------------------------------------------------*/
 class BiquadFilter : public UnaryOpNode
 {
 public:

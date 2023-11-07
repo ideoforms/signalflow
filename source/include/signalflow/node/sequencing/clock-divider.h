@@ -3,7 +3,10 @@
 
 namespace signalflow
 {
-
+/**--------------------------------------------------------------------------------*
+ * When given a clock input (e.g., an Impulse), divides the clock by the given
+ * factor. factor must be an integer greater than or equal to 1.
+ *---------------------------------------------------------------------------------*/
 class ClockDivider : public Node
 {
 

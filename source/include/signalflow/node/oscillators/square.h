@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Produces a pulse wave with the given frequency and pulse width, where width=0.5 is
+ * a square wave.
+ *---------------------------------------------------------------------------------*/
 class SquareOscillator : public Node
 {
 public:

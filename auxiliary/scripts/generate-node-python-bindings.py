@@ -40,7 +40,7 @@ source_files = list(filter(lambda path: not "/io/" in path, source_files))
 source_files = list(sorted(source_files, key=lambda path: (os.path.dirname(path), path)))
 
 
-def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
+def generate_class_bindings(class_name, parameter_sets, superclass="Node", class_docs=None):
     """
     py::class_<Sine, Node, NodeRefTemplate<Sine>>(m, "Sine")
     .def(py::init<NodeRef>(),               "frequency"_a = NodeRef(440.0))
@@ -50,9 +50,11 @@ def generate_class_bindings(class_name, parameter_sets, superclass="Node"):
     """
     if class_name in omitted_classes:
         return ""
+    if class_docs is None:
+        class_docs = class_name
 
-    output = 'py::class_<{class_name}, {superclass}, NodeRefTemplate<{class_name}>>(m, "{class_name}")\n'.format(
-        class_name=class_name, superclass=superclass)
+    output = 'py::class_<{class_name}, {superclass}, NodeRefTemplate<{class_name}>>(m, "{class_name}", "{class_docs}")\n'.format(
+        class_name=class_name, class_docs=class_docs, superclass=superclass)
     for parameter_set in parameter_sets:
         parameter_type_list = ", ".join([parameter["type"] for parameter in parameter_set])
         output += '    .def(py::init<{parameter_type_list}>()'.format(parameter_type_list=parameter_type_list);
@@ -117,6 +119,22 @@ def generate_all_bindings():
             else:
                 continue
 
+
+            def extract_docs(doxygen):
+                lines = doxygen.split("\n")
+                output = ""
+                for line in lines:
+                    # start or end of comment
+                    if re.search(r"^\s*/\*", line) or re.search("\*/\s*$", line):
+                        continue
+                    line = re.sub("^\s*\*\s*", "", line)
+                    output = output + line + " "
+                return output.strip()
+
+            class_docs = class_name
+            if "doxygen" in value:
+                class_docs = extract_docs(value["doxygen"])
+
             constructor_parameter_sets = []
             for method in value["methods"]["public"]:
                 if method["constructor"]:
@@ -143,7 +161,7 @@ def generate_all_bindings():
                 known_parent_classes = ["Node", "StochasticNode"]
                 if parent_class not in known_parent_classes:
                     parent_class = "Node"
-                output += generate_class_bindings(class_name, constructor_parameter_sets, parent_class)
+                output += generate_class_bindings(class_name, constructor_parameter_sets, parent_class, class_docs=class_docs)
                 output = output.strip()
                 output += "\n\n"
                 if class_name in macos_only_classes:

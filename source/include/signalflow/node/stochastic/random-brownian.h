@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Outputs Brownian noise between min/max, with a mean change of delta between samples.
+ * If a clock is passed, only generates a new value on a clock tick.
+ *---------------------------------------------------------------------------------*/
 class RandomBrownian : public StochasticNode
 {
 public:

@@ -6,6 +6,9 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Generic envelope constructor, given an array of levels, times and curves.
+ *---------------------------------------------------------------------------------*/
 class Envelope : public Node
 {
 public:

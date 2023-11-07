@@ -5,7 +5,7 @@ void init_python_buffer(py::module &m)
     /*--------------------------------------------------------------------------------
      * Buffer
      *-------------------------------------------------------------------------------*/
-    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer", "A buffer of audio samples")
+    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer", "A buffer of audio samples, containing one or more channels.")
         /*--------------------------------------------------------------------------------
          * Constructors
          *-------------------------------------------------------------------------------*/
@@ -109,14 +109,14 @@ void init_python_buffer(py::module &m)
         .def("load", &Buffer::load, "filename"_a)
         .def("save", &Buffer::save, "filename"_a);
 
-    py::class_<Buffer2D, Buffer, BufferRefTemplate<Buffer2D>>(m, "Buffer2D")
+    py::class_<Buffer2D, Buffer, BufferRefTemplate<Buffer2D>>(m, "Buffer2D", "Two-dimensional buffer of audio samples")
         .def(py::init<std::vector<BufferRef>>())
         .def("get2D", &Buffer2D::get2D);
 
-    py::class_<WaveShaperBuffer, Buffer, BufferRefTemplate<WaveShaperBuffer>>(m, "WaveShaperBuffer")
+    py::class_<WaveShaperBuffer, Buffer, BufferRefTemplate<WaveShaperBuffer>>(m, "WaveShaperBuffer", "Sample buffer for waveshaper nodes")
         .def(py::init<int>());
 
-    py::class_<EnvelopeBuffer, Buffer, BufferRefTemplate<EnvelopeBuffer>>(m, "EnvelopeBuffer")
+    py::class_<EnvelopeBuffer, Buffer, BufferRefTemplate<EnvelopeBuffer>>(m, "EnvelopeBuffer", "Buffer encapsulating an audio envelope")
         .def(py::init<int>())
         .def(py::init<std::string>())
         .def(py::init<std::string, int>());

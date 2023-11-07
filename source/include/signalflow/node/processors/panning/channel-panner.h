@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Pan the input between a linear series of channels, where pan 0 = channel 0,
+ * 1 = channel 1, etc. No wrapping is applied.
+ *---------------------------------------------------------------------------------*/
 class ChannelPanner : public Node
 {
 public:

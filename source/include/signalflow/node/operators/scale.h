@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Scales the input from a linear range (between a and b)
+ * to an exponential range (between c and d).
+ *---------------------------------------------------------------------------------*/
 class ScaleLinExp : public UnaryOpNode
 {
 
@@ -17,6 +21,10 @@ public:
     NodeRef a, b, c, d;
 };
 
+/**--------------------------------------------------------------------------------*
+ * Scales the input from a linear range (between a and b)
+ * to a linear range (between c and d).
+ *---------------------------------------------------------------------------------*/
 class ScaleLinLin : public UnaryOpNode
 {
 

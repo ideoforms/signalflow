@@ -6,6 +6,9 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Plays the wavetable stored in buffer at the given frequency.
+ *---------------------------------------------------------------------------------*/
 class Wavetable : public Node
 {
 public:

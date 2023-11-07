@@ -8,6 +8,9 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Takes an array of inputs and spreads them across multiple channels of output.
+ *---------------------------------------------------------------------------------*/
 class ChannelArray : public Node
 {
 

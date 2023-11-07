@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Counterpart to FeedbackBufferWriter.
+ *---------------------------------------------------------------------------------*/
 class FeedbackBufferReader : public Node
 {
 public:

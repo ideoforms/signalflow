@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point
+ * input.
+ *---------------------------------------------------------------------------------*/
 class MidiNoteToFrequency : public UnaryOpNode
 {
 

@@ -6,6 +6,9 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Rectangular envelope with the given sustain duration.
+ *---------------------------------------------------------------------------------*/
 class RectangularEnvelope : public Node
 {
 public:

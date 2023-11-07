@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Generate an random Gaussian value, with given mean and sigma.
+ * If a clock is passed, only picks a new value on a clock tick.
+ *---------------------------------------------------------------------------------*/
 class RandomGaussian : public StochasticNode
 {
 public:

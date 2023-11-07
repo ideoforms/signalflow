@@ -7,6 +7,9 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Implementation of Dan Stowell's Squiz algorithm, a kind of downsampler.
+ *---------------------------------------------------------------------------------*/
 class Squiz : public UnaryOpNode
 {
 public:

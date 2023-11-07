@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Cuts a buffer into segment_count segments, and stutters/jumps with
+ * the given probabilities.
+ *---------------------------------------------------------------------------------*/
 class BeatCutter : public Node
 {
 public:

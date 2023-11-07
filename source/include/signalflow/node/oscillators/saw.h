@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Produces a (non-band-limited) sawtooth wave, with the given frequency and
+ * phase offset. When a reset or trigger is received, resets the phase to zero.
+ *---------------------------------------------------------------------------------*/
 class SawOscillator : public Node
 {
 public:

@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Generate random impulses at the given frequency, with either uniform
+ * or poisson distribution.
+ *---------------------------------------------------------------------------------*/
 class RandomImpulse : public StochasticNode
 {
 public:

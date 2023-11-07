@@ -4,6 +4,12 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Line segment with the given start/end values and duration.
+ * If loop is true, repeats indefinitely.
+ * Retriggers on a clock signal.
+ *---------------------------------------------------------------------------------*/
 class Line : public Node
 {
 public:

@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Records the input to a buffer. feedback controls overdub.
+ *---------------------------------------------------------------------------------*/
 class BufferRecorder : public Node
 {
 public:

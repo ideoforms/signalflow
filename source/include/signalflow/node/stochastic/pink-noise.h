@@ -4,6 +4,10 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Pink noise, with specified low/high cutoffs.
+ *---------------------------------------------------------------------------------*/
 class PinkNoise : public StochasticNode
 {
 public:

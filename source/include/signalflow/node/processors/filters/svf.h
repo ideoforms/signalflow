@@ -5,6 +5,11 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * State variable filter.
+ * filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak',
+ * 'low_shelf', 'high_shelf'.
+ *---------------------------------------------------------------------------------*/
 class SVFilter : public UnaryOpNode
 {
 public:

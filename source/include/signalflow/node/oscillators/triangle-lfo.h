@@ -4,6 +4,9 @@
 
 namespace signalflow
 {
+/**--------------------------------------------------------------------------------*
+ * Produces a triangle LFO with the given frequency, ranging from min to max.
+ *---------------------------------------------------------------------------------*/
 class TriangleLFO : public LFO
 {
 public:

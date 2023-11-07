@@ -6,6 +6,10 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Outputs the normalised cursor X position, from 0 to 1.
+ *---------------------------------------------------------------------------------*/
 class MouseX : public Node
 {
 public:
@@ -13,6 +17,9 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Outputs the normalised cursor Y position, from 0 to 1.
+ *---------------------------------------------------------------------------------*/
 class MouseY : public Node
 {
 public:
@@ -20,6 +27,9 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Outputs 1 if the left mouse button is down, 0 otherwise.
+ *---------------------------------------------------------------------------------*/
 class MouseDown : public Node
 {
 public:
