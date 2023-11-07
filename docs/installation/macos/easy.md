@@ -18,7 +18,15 @@ Download and install the latest version of Visual Studio Code.
 
 Once installed, open `Applications` and run `Visual Studio Code`.
 
-## 3. Create a new Visual Studio Code workspace
+## 3. Install the Python and Jupyter extensions
+
+Visual Studio Code requires extensions to be installed to handle Python and Jupyter files.
+
+In Visual Studio Code, select the `Extensions` icon from in the far-left column (or press `⇧⌘X`), and install the `Python` and `Jupyter` extensions by searching for their names and clicking "Install" on each.
+
+Once installation has finished, close the `Extensions` tab.
+
+## 4. Create a new workspace
 
 In Visual Studio code, create a new folder to contain your new SignalFlow project:
 
@@ -31,15 +39,7 @@ In Visual Studio code, create a new folder to contain your new SignalFlow projec
 !!! warning "Trusted workspaces"
     If Visual Studio asks "Do you trust the authors of the files in this folder?", select "Yes, I trust the authors". This is a security mechanism to protect you against untrusted third-party code.
 
-## 4. Install the Python and Jupyter extensions
-
-Visual Studio Code requires extensions to be installed to handle Python and Jupyter files.
-
-In Visual Studio Code, select the `Extensions` icon from in the far-left column (or press `⇧⌘X`), and install the `Python` and `Jupyter` extensions by searching for their names and clicking "Install" on each.
-
-Once installation has finished, close the `Extensions` tab.
-
-## 5. Create a notebook in Visual Studio Code
+## 5. Create a notebook
 
 Select `File → New File...` (`^⌥⌘N`), and select `Jupyter Notebook`. You should see the screen layout change to display an empty black text block (in Jupyter parlance, a "cell"). 
 
