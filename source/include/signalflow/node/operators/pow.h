@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Outputs a to the power of b, per sample.
+ * Can also be written as a ** b
+ *---------------------------------------------------------------------------------*/
 class Pow : public BinaryOpNode
 {
 

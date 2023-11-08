@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Subtract each sample of b from each sample of a.
+ * Can also be written as a - b
+ *---------------------------------------------------------------------------------*/
 class Subtract : public BinaryOpNode
 {
 

@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Continuous phase vocoder.
+ * Requires an FFT* input.
+ *---------------------------------------------------------------------------------*/
 class FFTContinuousPhaseVocoder : public FFTNode
 {
 public:

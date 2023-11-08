@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Compares the output of a to the output of b. Outputs 1 when equal, 0 otherwise.
+ * Can also be written as a == b
+ *---------------------------------------------------------------------------------*/
 class Equal : public BinaryOpNode
 {
 public:
@@ -13,6 +17,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Compares the output of a to the output of b. Outputs 0 when equal, 1 otherwise.
+ * Can also be written as a != b
+ *---------------------------------------------------------------------------------*/
 class NotEqual : public BinaryOpNode
 {
 public:
@@ -20,6 +28,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Compares the output of a to the output of b. Outputs 1 when a > b, 0 otherwise.
+ * Can also be written as a > b
+ *---------------------------------------------------------------------------------*/
 class GreaterThan : public BinaryOpNode
 {
 public:
@@ -27,6 +39,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Compares the output of a to the output of b. Outputs 1 when a >= b, 0 otherwise.
+ * Can also be written as a >= b
+ *---------------------------------------------------------------------------------*/
 class GreaterThanOrEqual : public BinaryOpNode
 {
 public:
@@ -34,6 +50,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Compares the output of a to the output of b. Outputs 1 when a < b, 0 otherwise.
+ * Can also be written as a < b
+ *---------------------------------------------------------------------------------*/
 class LessThan : public BinaryOpNode
 {
 public:
@@ -41,6 +61,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Compares the output of a to the output of b. Outputs 1 when a <= b, 0 otherwise.
+ * Can also be written as a <= b
+ *---------------------------------------------------------------------------------*/
 class LessThanOrEqual : public BinaryOpNode
 {
 public:
@@ -48,6 +72,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Outputs the value of a modulo b, per sample. Supports fractional values.
+ * Can also be written as a % b
+ *---------------------------------------------------------------------------------*/
 class Modulo : public BinaryOpNode
 {
 public:
@@ -55,6 +83,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Outputs the absolute value of a, per sample.
+ * Can also be written as abs(a)
+ *---------------------------------------------------------------------------------*/
 class Abs : public UnaryOpNode
 {
 public:
@@ -62,6 +94,10 @@ public:
     virtual void process(Buffer &out, int num_frames);
 };
 
+/**--------------------------------------------------------------------------------*
+ * Outputs value_if_true for each non-zero value of a, value_if_false for all
+ * other values.
+ *---------------------------------------------------------------------------------*/
 class If : public UnaryOpNode
 {
 public:

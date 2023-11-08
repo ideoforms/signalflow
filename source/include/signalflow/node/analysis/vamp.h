@@ -13,6 +13,9 @@ using Vamp::Plugin;
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Feature extraction using the Vamp plugin toolkit.
+ *---------------------------------------------------------------------------------*/
 class VampAnalysis : public UnaryOpNode
 {
 public:

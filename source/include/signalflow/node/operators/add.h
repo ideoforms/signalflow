@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Add each sample of a to each sample of b.
+ * Can also be written as a + b
+ *---------------------------------------------------------------------------------*/
 class Add : public BinaryOpNode
 {
 

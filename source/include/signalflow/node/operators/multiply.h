@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Multiply each sample of a by each sample of b.
+ * Can also be written as a * b
+ *---------------------------------------------------------------------------------*/
 class Multiply : public BinaryOpNode
 {
 

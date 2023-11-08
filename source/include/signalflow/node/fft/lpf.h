@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * FFT-based brick wall low pass filter.
+ * Requires an FFT* input.
+ *---------------------------------------------------------------------------------*/
 class FFTLPF : public FFTOpNode
 {
 public:

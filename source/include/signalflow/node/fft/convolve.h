@@ -5,6 +5,12 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Frequency-domain convolution, using overlap-add.
+ * Useful for convolution reverb, with the input buffer containing an impulse response.
+ * Requires an FFT* input.
+ *---------------------------------------------------------------------------------*/
 class FFTConvolve : public FFTOpNode
 {
 public:

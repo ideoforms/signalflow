@@ -1,8 +1,8 @@
 #pragma once
 
+#include <signalflow/core/property.h>
 #include <string>
 #include <unordered_map>
-#include <signalflow/core/property.h>
 
 namespace signalflow
 {

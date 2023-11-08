@@ -5,6 +5,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * FFT-based noise gate.
+ * Requires an FFT* input.
+ *---------------------------------------------------------------------------------*/
 class FFTNoiseGate : public FFTOpNode
 {
 public:

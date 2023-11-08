@@ -9,6 +9,7 @@ namespace signalflow
 
 /**--------------------------------------------------------------------------------*
  * Outputs the normalised cursor X position, from 0 to 1.
+ * Currently only supported on macOS.
  *---------------------------------------------------------------------------------*/
 class MouseX : public Node
 {
@@ -19,6 +20,7 @@ public:
 
 /**--------------------------------------------------------------------------------*
  * Outputs the normalised cursor Y position, from 0 to 1.
+ * Currently only supported on macOS.
  *---------------------------------------------------------------------------------*/
 class MouseY : public Node
 {
@@ -29,6 +31,7 @@ public:
 
 /**--------------------------------------------------------------------------------*
  * Outputs 1 if the left mouse button is down, 0 otherwise.
+ * Currently only supported on macOS.
  *---------------------------------------------------------------------------------*/
 class MouseDown : public Node
 {

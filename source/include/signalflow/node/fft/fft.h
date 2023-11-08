@@ -10,6 +10,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Fast Fourier Transform.
+ * Takes a time-domain input, and generates a frequency-domain (FFT) output.
+ *---------------------------------------------------------------------------------*/
 class FFT : public FFTNode
 {
 public:

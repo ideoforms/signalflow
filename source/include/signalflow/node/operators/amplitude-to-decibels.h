@@ -6,6 +6,9 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Map a linear amplitude value to decibels.
+ *---------------------------------------------------------------------------------*/
 class AmplitudeToDecibels : public UnaryOpNode
 {
 public:

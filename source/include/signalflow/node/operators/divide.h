@@ -6,6 +6,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Divide each sample of a by each sample of b.
+ * Can also be written as a / b
+ *---------------------------------------------------------------------------------*/
 class Divide : public BinaryOpNode
 {
 

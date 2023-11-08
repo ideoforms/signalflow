@@ -5,6 +5,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Tonality filter.
+ * Requires an FFT* input.
+ *---------------------------------------------------------------------------------*/
 class FFTTonality : public FFTOpNode
 {
 public:

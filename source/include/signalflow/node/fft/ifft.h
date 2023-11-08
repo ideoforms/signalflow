@@ -10,6 +10,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Inverse Fast Fourier Transform.
+ * Requires an FFT* input, generates a time-domain output.
+ *---------------------------------------------------------------------------------*/
 class IFFT : public FFTOpNode
 {
 public:

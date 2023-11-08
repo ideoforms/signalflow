@@ -5,6 +5,10 @@
 namespace signalflow
 {
 
+/**--------------------------------------------------------------------------------*
+ * Find peaks in the FFT magnitude spectrum.
+ * Requires an FFT* input.
+ *---------------------------------------------------------------------------------*/
 class FFTFindPeaks : public FFTOpNode
 {
 public:

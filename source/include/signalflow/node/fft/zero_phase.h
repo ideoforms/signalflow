@@ -4,6 +4,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Remove phase information from a frequency-domain input.
+ * Requires an FFT* input.
+ *---------------------------------------------------------------------------------*/
 class FFTZeroPhase : public UnaryOpNode
 {
 public:

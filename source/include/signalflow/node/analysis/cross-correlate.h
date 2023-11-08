@@ -2,6 +2,11 @@
 
 namespace signalflow
 {
+
+/**--------------------------------------------------------------------------------*
+ * Outputs the cross-correlation of the input signal with the given buffer.
+ * If hop_size is zero, calculates the cross-correlation every sample.
+ *---------------------------------------------------------------------------------*/
 class CrossCorrelate : public UnaryOpNode
 {
 public:
