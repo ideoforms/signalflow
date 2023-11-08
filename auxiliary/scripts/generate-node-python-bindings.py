@@ -100,7 +100,7 @@ def generate_all_bindings():
         folder = re.sub(".*node/", "", source_file)
         folder = os.path.dirname(folder)
         if folder != folder_last:
-            output_markdown += " |\n## " + folder + "\n\n"
+            output_markdown += "\n## " + folder + "\n\n"
             folder_last = folder
             class_category = folder
             class_categories[class_category] = []
@@ -169,7 +169,7 @@ def generate_all_bindings():
 
                 output_markdown_params = ", ".join(
                     ("%s=%s" % (param["name"], param["default"])) for param in constructor_parameter_sets[0])
-                output_markdown += "- **%s** `(%s)`\n" % (class_name, output_markdown_params)
+                output_markdown += "- **%s**: %s `(%s)`\n" % (class_name, class_docs, output_markdown_params)
                 class_categories[class_category].append(class_name)
     return output, output_markdown, class_categories
 
@@ -188,6 +188,8 @@ void init_python_nodes(py::module &m)
 '''.format(bindings=bindings)
 
 if args.markdown:
+    print("# Node reference library")
+    print()
     print(markdown)
 elif args.table:
     output_table = "| Category | Classes  |\n"
