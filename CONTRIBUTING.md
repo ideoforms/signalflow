@@ -37,7 +37,7 @@ python3 setup.py test
 To generate and serve the docs:
 
 ```
-pip3 install mkdocs mkdocs-material
+pip3 install mkdocs mkdocs-material mkdocs-include-markdown-plugin
 mkdocs serve
 ```
 

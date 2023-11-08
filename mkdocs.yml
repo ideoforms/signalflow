@@ -1,4 +1,5 @@
-site_name: "SignalFlow: Python sound synthesis and DSP"
+site_name: SignalFlow
+
 site_description: "SignalFlow is a sound synthesis framework designed for exploring complex sonic ideas."
 repo_name: ideoforms/signalflow
 repo_url: https://github.com/ideoforms/signalflow
@@ -6,10 +7,22 @@ repo_url: https://github.com/ideoforms/signalflow
 theme:
   name: material
   palette:
-   - primary: pink
+   - primary: red
   features:
+   # enable button to copy code block
    - content.code.copy
-
+   # expand all navigation sections on large screens
+   - navigation.sections
+   # breadcrumbs (not yet available, to arrive in a future version)
+   - navigation.path
+   # allow each section's title to be a hyperlinked index page
+   - navigation.indexes
+   # "back to top" button
+   - navigation.top
+   # footer with next/previous links
+   - navigation.footer
+  font:
+    text: "IBM Plex Sans"
 
 extra:
   social:
@@ -25,17 +38,26 @@ markdown_extensions:
  - pymdownx.highlight
  - pymdownx.superfences
 
+plugins:
+ - include-markdown
+ - search
+
 nav:
  - Home:
    - Home: index.md
-   - Getting started: getting-started.md
+ - Getting started:
+   - Getting started: installation/index.md
    - Installation:
+     - Installation: installation/index.md
      - Installing on macOS:
         - Easy install: installation/macos/easy.md
         - Command-line installation: installation/macos/command-line.md
-     - Installing on Linux: installation/linux.md
+     - Installing on Linux:
+        - Command-line installation: installation/linux/command-line.md
    - Examples: examples.md
    - License: license.md
+ - Reference library:
+     - Reference library: library/index.md
  - The AudioGraph:
     - The AudioGraph: graph/index.md
     - Creating the graph: graph/creating.md
@@ -52,7 +74,6 @@ nav:
     - Status and properties: node/properties.md
     - Stochastic nodes: node/stochastic.md
     - Developing a new Node class: node/developing.md
-    - Reference library: node/library.md
  - Patches:
     - Patches: patch/index.md
     - Defining a Patch: patch/defining.md

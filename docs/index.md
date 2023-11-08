@@ -1,29 +1,16 @@
-# SignalFlow
+# SignalFlow: Explore sound synthesis and DSP with Python
 
-!!! warning
-    This documentation is a work-in-progress and may have sections that are missing or incomplete.
+SignalFlow is a sound synthesis framework whose goal is to make it quick and intuitive to explore complex sonic ideas. It has a simple Python API, allowing for rapid prototyping in Jupyter notebooks or on the command-line. It comes with over 100 signal processing classes for creative exploration, from filters and delays to FFT-based spectral processing and Euclidean rhythm generators.
 
-SignalFlow is an audio synthesis framework whose goal is to make it quick and intuitive to explore complex sonic ideas. It has a simple and consistent Python API, allowing for rapid prototyping in Jupyter, PyCharm, or on the command-line. It comes with over 100 of built-in node classes for creative exploration.
-
-Its core is implemented in C++11, with cross-platform hardware acceleration.  
+Its core is implemented in efficient C++11, with cross-platform hardware acceleration.  
 
 SignalFlow has robust support for macOS and Linux (including Raspberry Pi), and has work-in-progress support for Windows. The overall project is currently in alpha status, and interfaces may change without warning.
 
-This documentation currently focuses specifically on Python interfaces and examples.
-
-## Overview
-
-At its core, SignalFlow has a handful of key concepts.
-
-- At the top level is the **[AudioGraph](graph/index.md)**, which connects to the system's audio input/output hardware.
-- The graph comprises of a network of **[Nodes](node/index.md)**, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.
-- Nodes may have multiple **[inputs](node/inputs.md)**, which determine which synthesis properties can be modulated at runtime.
-- A node can also have **[Buffer](buffer/index.md)** properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. 
-- Nodes can be grouped in a **[Patch](patch/index.md)**, which is a user-defined configuration of nodes. A patch may have one or more named [inputs](patch/inputs.md) that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to [automatically remove itself](patch/auto-free.md) from the graph when a specified node's playback is complete, which is important for automatic memory management.
+---
 
 ## Example
 
-Let's take a look at a minimal SignalFlow example. Here, we create and immediately start the `AudioGraph`, construct a stereo sine oscillator, connect the oscillator to the graph's output, and run the graph indefinitely.
+Let's take a look at a minimal SignalFlow example. Here, we create and immediately start the `AudioGraph`, construct a stereo sine oscillator with a short envelope, connect the oscillator to the graph's output, and run the graph indefinitely.
 
 ```python
 from signalflow import *
@@ -45,7 +32,7 @@ This demo shows a few syntactical benefits that SignalFlow provides to make it e
 In subsequent examples, we will skip the `import` line and assume you have already imported everything from the `signalflow` namespace.
 
 !!! info
-    If you want to keep your namespaces better separated, you might want to do something like the below.
+    If you want to enforce separation of namespaces, you might want to do something like the below.
     ```python
     import signalflow as sf
 
@@ -53,6 +40,20 @@ In subsequent examples, we will skip the `import` line and assume you have alrea
     sine = sf.SineOscillator(440)
     ...
     ```
+
+---
+
+## Overview
+
+At its core, SignalFlow has a handful of key concepts.
+
+- At the top level is the **[AudioGraph](graph/index.md)**, which connects to the system's audio input/output hardware.
+- The graph comprises of a network of **[Nodes](node/index.md)**, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.
+- Nodes may have multiple **[inputs](node/inputs.md)**, which determine which synthesis properties can be modulated at runtime.
+- A node can also have **[Buffer](buffer/index.md)** properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. 
+- Nodes can be grouped in a **[Patch](patch/index.md)**, which is a user-defined configuration of nodes. A patch may have one or more named [inputs](patch/inputs.md) that are defined by the user when creating the patch. Patches can be thought of like voices of a synthesizer. A patch can also be set to [automatically remove itself](patch/auto-free.md) from the graph when a specified node's playback is complete, which is important for automatic memory management.
+
+---
 
 ## Documentation
 

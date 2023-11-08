@@ -4,11 +4,15 @@ The simplest way to start exploring SignalFlow is with the free [Visual Studio C
 
 You'll only need to do this installation process once. Once setup, experimenting with SignalFlow is as simple as opening Visual Studio Code.  
 
+---
+
 ## 1. Install Python
 
 Download and install the latest version of Python (currently 3.12).
 
 [Download Python](https://www.python.org/downloads/){ .md-button }
+
+---
 
 ## 2. Download and install Visual Studio Code
 
@@ -18,6 +22,8 @@ Download and install the latest version of Visual Studio Code.
 
 Once installed, open `Applications` and run `Visual Studio Code`.
 
+---
+
 ## 3. Install the Python and Jupyter extensions
 
 Visual Studio Code requires extensions to be installed to handle Python and Jupyter files.
@@ -25,6 +31,8 @@ Visual Studio Code requires extensions to be installed to handle Python and Jupy
 In Visual Studio Code, select the `Extensions` icon from in the far-left column (or press `⇧⌘X`), and install the `Python` and `Jupyter` extensions by searching for their names and clicking "Install" on each.
 
 Once installation has finished, close the `Extensions` tab.
+
+---
 
 ## 4. Create a new workspace
 
@@ -39,9 +47,13 @@ In Visual Studio code, create a new folder to contain your new SignalFlow projec
 !!! warning "Trusted workspaces"
     If Visual Studio asks "Do you trust the authors of the files in this folder?", select "Yes, I trust the authors". This is a security mechanism to protect you against untrusted third-party code.
 
+---
+
 ## 5. Create a notebook
 
 Select `File → New File...` (`^⌥⌘N`), and select `Jupyter Notebook`. You should see the screen layout change to display an empty black text block (in Jupyter parlance, a "cell"). 
+
+---
 
 ## 6. Create a Python virtual environment to use
 
@@ -59,6 +71,8 @@ When the setup is complete, the button in the top right should change to say `.v
 !!! info
     New notebooks created within this workspace will share the same Python virtual environment.  
 
+---
+
 ## 7. Install SignalFlow
 
 In the first block, copy and paste the below:
@@ -70,6 +84,8 @@ In the first block, copy and paste the below:
 To run the cell, press `^↵` (control-enter). After a minute, you should see some output saying `Successfully installed signalflow`.
 
 You're now all set to start writing code!
+
+---
 
 ## 8. Start writing code
 
@@ -87,6 +103,8 @@ Press `^↵` (control-enter) to run the cell. You should see "Hello world!" appe
     - Press `enter` to begin editing a cell, and `escape` to end editing and move to select mode
     - In select mode, use `b` to add a cell after the current cell, and `a` to add a cell before it 
     - To evaluate a cell and move on to the next cell, use `⇧↵` (shift-enter)
+
+---
 
 ## 9. SignalFlow: Import the library and start audio processing 
 
@@ -107,6 +125,8 @@ graph = AudioGraph()
 This will create and start a new global audio [processing graph](../../graph/index.md), using the system's default audio output. You should see the name of the audio device printed to the notebook.
 
 This also needs to be run once per session. In fact, only one global `AudioGraph` object can be created.  
+
+---
 
 ## 10. SignalFlow: Make some sound
 
@@ -142,3 +162,11 @@ Finally, to stop the playback:
 ```python
 output.stop()
 ```
+
+---
+
+{%
+   include-markdown "installation/next-steps.md"
+%}
+ 
+---
