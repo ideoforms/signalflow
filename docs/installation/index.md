@@ -10,19 +10,15 @@ SignalFlow supports macOS, Linux (including Raspberry Pi), and has alpha support
 
 ### macOS
 
-If you are an existing Python user and confident with the command line:
-
-[macOS: Install from the command line](macos/command-line.md){ .md-button }
-
-If you're new to Python or getting started from scratch: 
-
-[macOS: Easy install with Visual Studio Code](macos/easy.md){ .md-button } 
+{%
+    include-markdown "installation/macos/buttons.md"
+%}
 
 ---
 
 ### Linux
 
-[Linux: Install from the command line](linux/command-line.md){ .md-button }
+{%  include-markdown "installation/linux/buttons.md" %}
 
 ---
 

@@ -74,7 +74,6 @@ def generate_class_bindings(class_name, parameter_sets, superclass="Node", class
     output = output[:-1] + ";\n"
     return output
 
-
 def generate_all_bindings():
     output_markdown = ""
     folder_last = ""
@@ -96,11 +95,17 @@ def generate_all_bindings():
     class_categories = {}
     class_category = None
 
+    def folder_name_to_title(folder_name):
+        folder_parts = [part.title() for part in folder_name.split("/")]
+        folder_title = ": ".join(folder_parts)
+        return folder_title
+
     for source_file in source_files:
         folder = re.sub(".*node/", "", source_file)
         folder = os.path.dirname(folder)
         if folder != folder_last:
-            output_markdown += "\n## " + folder + "\n\n"
+            folder_title = folder_name_to_title(folder)
+            output_markdown += "\n## " + folder_title + "\n\n"
             folder_last = folder
             class_category = folder
             class_categories[class_category] = []
@@ -127,7 +132,7 @@ def generate_all_bindings():
                     # start or end of comment
                     if re.search(r"^\s*/\*", line) or re.search("\*/\s*$", line):
                         continue
-                    line = re.sub("^\s*\*\s*", "", line)
+                    line = re.sub(r"^\s*\*\s*", "", line)
                     output = output + line + " "
                 return output.strip()
 
