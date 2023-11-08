@@ -28,4 +28,4 @@ Note the identical sequences generated after repeatedly setting the seed to a kn
 
 ---
 
-[→ Next: Node reference library](library.md)
+[→ Next: Node reference library](../library/index.md)

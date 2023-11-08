@@ -11,7 +11,8 @@ A `Node` object is an audio processing unit that performs one single function. F
 - A Node's status and output can be examined by querying its [properties](properties.md)
 - Some Nodes generate unpredictable [stochastic output](stochastic.md), which can be controlled via its internal random number generator 
 - Details of how to create a new Node type are detailed in [Developing a new Node class](developing.md)
-- For an overview of every type of Node available in SignalFlow, see the [Node Reference Library](library.md)
+
+For an overview of every type of Node available in SignalFlow, see the [Node Reference Library](../library/index.md)
 
 ---
 
