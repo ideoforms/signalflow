@@ -11,10 +11,6 @@
       
       
       
-        <link rel="prev" href="../developing/">
-      
-      
-        <link rel="next" href="../../patch/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -22,7 +18,7 @@
     
     
       
-        <title>Reference library - SignalFlow: Python sound synthesis and DSP</title>
+        <title>Node reference library - SignalFlow</title>
       
     
     
@@ -43,8 +39,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"Roboto Mono"}</style>
       
     
     
@@ -65,7 +61,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="indigo">
   
     
     
@@ -93,7 +89,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="SignalFlow: Python sound synthesis and DSP" class="md-header__button md-logo" aria-label="SignalFlow: Python sound synthesis and DSP" data-md-component="logo">
+    <a href="../.." title="SignalFlow" class="md-header__button md-logo" aria-label="SignalFlow" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,13 +103,13 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            SignalFlow: Python sound synthesis and DSP
+            SignalFlow
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Reference library
+              Node reference library
             
           </span>
         </div>
@@ -126,7 +122,7 @@
     
     
     
-    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="pink" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
     
   
 </form>
@@ -209,13 +205,13 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="SignalFlow: Python sound synthesis and DSP" class="md-nav__button md-logo" aria-label="SignalFlow: Python sound synthesis and DSP" data-md-component="logo">
+    <a href="../.." title="SignalFlow" class="md-nav__button md-logo" aria-label="SignalFlow" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
 
     </a>
-    SignalFlow: Python sound synthesis and DSP
+    SignalFlow
   </label>
   
     <div class="md-nav__source">
@@ -239,10 +235,19 @@
   
     
     
+      
+        
+          
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -250,16 +255,19 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1" >
         
           
-          <label class="md-nav__link" for="__nav_1" id="__nav_1_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../.." class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Home
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_1_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_1">
@@ -269,43 +277,73 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Home
-  </span>
-  
-
-      </a>
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
   
   
   
-    <li class="md-nav__item">
-      <a href="../../getting-started/" class="md-nav__link">
+    
+    
+      
         
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../installation/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Getting started
   </span>
   
 
-      </a>
-    </li>
-  
-
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Getting started
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
               
@@ -315,6 +353,16 @@
   
     
     
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
     
     
     
@@ -323,26 +371,36 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
         
           
-          <label class="md-nav__link" for="__nav_1_3" id="__nav_1_3_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../installation/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Installation
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_1_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             Installation
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -350,6 +408,12 @@
   
   
     
+    
+      
+        
+      
+        
+      
     
     
     
@@ -359,10 +423,10 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_1_3_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
         
           
-          <label class="md-nav__link" for="__nav_1_3_1" id="__nav_1_3_1_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
             
   
   <span class="md-ellipsis">
@@ -373,8 +437,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_1_3_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_1_3_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
             <span class="md-nav__icon md-icon"></span>
             Installing on macOS
           </label>
@@ -433,16 +497,64 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../../installation/linux/" class="md-nav__link">
+    
+    
+      
         
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_3" id="__nav_2_2_3_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     Installing on Linux
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            Installing on Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/linux/command-line/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Command-line installation
+  </span>
+  
+
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -510,32 +622,39 @@
   
     
     
+      
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   <span class="md-ellipsis">
-    The AudioGraph
+    Reference library
   </span>
   
 
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            The AudioGraph
+            Reference library
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -545,11 +664,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../graph/" class="md-nav__link">
+      <a href="../../library/index.md" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    The AudioGraph
+    Reference library
   </span>
   
 
@@ -557,6 +676,78 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../graph/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    The AudioGraph
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            The AudioGraph
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
               
@@ -670,58 +861,69 @@
       
   
   
-    
-  
   
     
     
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Nodes
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             Nodes
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Nodes
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -864,171 +1066,6 @@
 
               
             
-              
-                
-  
-  
-    
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Reference library
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    Reference library
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#analysis" class="md-nav__link">
-    analysis
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#buffer" class="md-nav__link">
-    buffer
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#control" class="md-nav__link">
-    control
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#envelope" class="md-nav__link">
-    envelope
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fft" class="md-nav__link">
-    fft
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#operators" class="md-nav__link">
-    operators
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#oscillators" class="md-nav__link">
-    oscillators
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processors" class="md-nav__link">
-    processors
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processorsdelays" class="md-nav__link">
-    processors/delays
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processorsdistortion" class="md-nav__link">
-    processors/distortion
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processorsdynamics" class="md-nav__link">
-    processors/dynamics
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processorsfilters" class="md-nav__link">
-    processors/filters
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#processorspanning" class="md-nav__link">
-    processors/panning
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sequencing" class="md-nav__link">
-    sequencing
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stochastic" class="md-nav__link">
-    stochastic
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1043,53 +1080,66 @@
   
     
     
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../patch/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Patches
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             Patches
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../patch/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Patches
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -1246,53 +1296,47 @@
   
     
     
+      
+        
+          
+        
+      
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
         
           
-          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../buffer/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Buffers
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+          </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Buffers
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-                
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../buffer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Buffers
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
           </ul>
@@ -1454,172 +1498,173 @@
 <h1 id="node-reference-library">Node reference library</h1>
 <h2 id="analysis">analysis</h2>
 <ul>
-<li><strong>CrossCorrelate</strong> <code>(input=nullptr, buffer=nullptr, hop_size=0)</code></li>
-<li><strong>OnsetDetector</strong> <code>(input=0.0, threshold=2.0, min_interval=0.1)</code></li>
-<li><strong>VampAnalysis</strong> <code>(input=0.0, plugin_id="vamp-example-plugins:spectralcentroid:linearcentroid")</code></li>
+<li><strong>CrossCorrelate</strong>: CrossCorrelate <code>(input=nullptr, buffer=nullptr, hop_size=0)</code></li>
+<li><strong>OnsetDetector</strong>: OnsetDetector <code>(input=0.0, threshold=2.0, min_interval=0.1)</code></li>
+<li><strong>VampAnalysis</strong>: VampAnalysis <code>(input=0.0, plugin_id="vamp-example-plugins:spectralcentroid:linearcentroid")</code></li>
 </ul>
 <h2 id="buffer">buffer</h2>
 <ul>
-<li><strong>BeatCutter</strong> <code>(buffer=nullptr, segment_count=8, stutter_probability=0.0, stutter_count=1, jump_probability=0.0, duty_cycle=1.0, rate=1.0, segment_rate=1.0)</code></li>
-<li><strong>BufferLooper</strong> <code>(buffer=nullptr, input=0.0, feedback=0.0, loop_playback=false, loop_record=false)</code></li>
-<li><strong>BufferPlayer</strong> <code>(buffer=nullptr, rate=1.0, loop=0, start_time=nullptr, end_time=nullptr, clock=nullptr)</code></li>
-<li><strong>BufferRecorder</strong> <code>(buffer=nullptr, input=0.0, feedback=0.0, loop=false)</code></li>
-<li><strong>FeedbackBufferReader</strong> <code>(buffer=nullptr)</code></li>
-<li><strong>FeedbackBufferWriter</strong> <code>(buffer=nullptr, input=0.0, delay_time=0.1)</code></li>
-<li><strong>GrainSegments</strong> <code>(buffer=nullptr, clock=0, target=0, offsets={}, values={}, durations={})</code></li>
-<li><strong>Granulator</strong> <code>(buffer=nullptr, clock=0, pos=0, duration=0.1, pan=0.0, rate=1.0, max_grains=2048)</code></li>
-<li><strong>SegmentPlayer</strong> <code>(buffer=nullptr, onsets={})</code></li>
+<li><strong>BeatCutter</strong>: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities. <code>(buffer=nullptr, segment_count=8, stutter_probability=0.0, stutter_count=1, jump_probability=0.0, duty_cycle=1.0, rate=1.0, segment_rate=1.0)</code></li>
+<li><strong>BufferLooper</strong>: Read and write from a buffer concurrently, with controllable overdub. <code>(buffer=nullptr, input=0.0, feedback=0.0, loop_playback=false, loop_record=false)</code></li>
+<li><strong>BufferPlayer</strong>: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time. <code>(buffer=nullptr, rate=1.0, loop=0, start_time=nullptr, end_time=nullptr, clock=nullptr)</code></li>
+<li><strong>BufferRecorder</strong>: Records the input to a buffer. feedback controls overdub. <code>(buffer=nullptr, input=0.0, feedback=0.0, loop=false)</code></li>
+<li><strong>FeedbackBufferReader</strong>: Counterpart to FeedbackBufferWriter. <code>(buffer=nullptr)</code></li>
+<li><strong>FeedbackBufferWriter</strong>: Counterpart to FeedbackBufferReader. <code>(buffer=nullptr, input=0.0, delay_time=0.1)</code></li>
+<li><strong>GrainSegments</strong>: GrainSegments <code>(buffer=nullptr, clock=0, target=0, offsets={}, values={}, durations={})</code></li>
+<li><strong>Granulator</strong>: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo. <code>(buffer=nullptr, clock=0, pos=0, duration=0.1, pan=0.0, rate=1.0, max_grains=2048)</code></li>
+<li><strong>SegmentPlayer</strong>: Trigger segments of a buffer at the given onset positions. <code>(buffer=nullptr, onsets={})</code></li>
 </ul>
 <h2 id="control">control</h2>
 <ul>
-<li><strong>MouseX</strong> <code>()</code></li>
-<li><strong>MouseY</strong> <code>()</code></li>
-<li><strong>MouseDown</strong> <code>(button_index=0)</code></li>
+<li><strong>MouseX</strong>: Outputs the normalised cursor X position, from 0 to 1. <code>()</code></li>
+<li><strong>MouseY</strong>: Outputs the normalised cursor Y position, from 0 to 1. <code>()</code></li>
+<li><strong>MouseDown</strong>: Outputs 1 if the left mouse button is down, 0 otherwise. <code>(button_index=0)</code></li>
 </ul>
 <h2 id="envelope">envelope</h2>
 <ul>
-<li><strong>ADSREnvelope</strong> <code>(attack=0.1, decay=0.1, sustain=0.5, release=0.1, gate=0)</code></li>
-<li><strong>ASREnvelope</strong> <code>(attack=0.1, sustain=0.5, release=0.1, curve=1.0, clock=nullptr)</code></li>
-<li><strong>DetectSilence</strong> <code>(input=nullptr, threshold=0.00001)</code></li>
-<li><strong>Envelope</strong> <code>(levels=std::vector&lt;NodeRef&gt; ( ), times=std::vector&lt;NodeRef&gt; ( ), curves=std::vector&lt;NodeRef&gt; ( ), clock=nullptr, loop=false)</code></li>
-<li><strong>Line</strong> <code>(from=0.0, to=1.0, time=1.0, loop=0, clock=nullptr)</code></li>
-<li><strong>RectangularEnvelope</strong> <code>(sustain=1.0, clock=nullptr)</code></li>
+<li><strong>ADSREnvelope</strong>: Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero. <code>(attack=0.1, decay=0.1, sustain=0.5, release=0.1, gate=0)</code></li>
+<li><strong>ASREnvelope</strong>: Attack-sustain-release envelope. <code>(attack=0.1, sustain=0.5, release=0.1, curve=1.0, clock=nullptr)</code></li>
+<li><strong>DetectSilence</strong>: Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete. <code>(input=nullptr, threshold=0.00001)</code></li>
+<li><strong>Envelope</strong>: Generic envelope constructor, given an array of levels, times and curves. <code>(levels=std::vector&lt;NodeRef&gt; ( ), times=std::vector&lt;NodeRef&gt; ( ), curves=std::vector&lt;NodeRef&gt; ( ), clock=nullptr, loop=false)</code></li>
+<li><strong>Line</strong>: Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal. <code>(from=0.0, to=1.0, time=1.0, loop=0, clock=nullptr)</code></li>
+<li><strong>RectangularEnvelope</strong>: Rectangular envelope with the given sustain duration. <code>(sustain_duration=1.0, clock=nullptr)</code></li>
 </ul>
 <h2 id="fft">fft</h2>
 <ul>
-<li><strong>FFTContinuousPhaseVocoder</strong> <code>(input=nullptr, rate=1.0)</code></li>
-<li><strong>FFTConvolve</strong> <code>(input=nullptr, buffer=nullptr)</code></li>
-<li><strong>FFT</strong> <code>(input=0.0, fft_size=SIGNALFLOW_DEFAULT_FFT_SIZE, hop_size=SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, window_size=0, do_window=true)</code></li>
-<li><strong>FFTNode</strong> <code>(fft_size=None, hop_size=None, window_size=None, do_window=None)</code></li>
-<li><strong>FFTOpNode</strong> <code>(input=nullptr)</code></li>
-<li><strong>FFTFindPeaks</strong> <code>(input=0, prominence=1, threshold=0.000001, count=SIGNALFLOW_MAX_CHANNELS, interpolate=true)</code></li>
-<li><strong>IFFT</strong> <code>(input=nullptr, do_window=false)</code></li>
-<li><strong>FFTLPF</strong> <code>(input=0, frequency=2000)</code></li>
-<li><strong>FFTNoiseGate</strong> <code>(input=0, threshold=0.5)</code></li>
-<li><strong>FFTPhaseVocoder</strong> <code>(input=nullptr)</code></li>
-<li><strong>FFTTonality</strong> <code>(input=0, level=0.5, smoothing=0.9)</code></li>
-<li><strong>FFTZeroPhase</strong> <code>(input=0)</code></li>
+<li><strong>FFTContinuousPhaseVocoder</strong>: FFTContinuousPhaseVocoder <code>(input=nullptr, rate=1.0)</code></li>
+<li><strong>FFTConvolve</strong>: FFTConvolve <code>(input=nullptr, buffer=nullptr)</code></li>
+<li><strong>FFT</strong>: FFT <code>(input=0.0, fft_size=SIGNALFLOW_DEFAULT_FFT_SIZE, hop_size=SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, window_size=0, do_window=true)</code></li>
+<li><strong>FFTNode</strong>: FFTNode <code>(fft_size=None, hop_size=None, window_size=None, do_window=None)</code></li>
+<li><strong>FFTOpNode</strong>: FFTOpNode <code>(input=nullptr)</code></li>
+<li><strong>FFTFindPeaks</strong>: FFTFindPeaks <code>(input=0, prominence=1, threshold=0.000001, count=SIGNALFLOW_MAX_CHANNELS, interpolate=true)</code></li>
+<li><strong>IFFT</strong>: IFFT <code>(input=nullptr, do_window=false)</code></li>
+<li><strong>FFTLPF</strong>: FFTLPF <code>(input=0, frequency=2000)</code></li>
+<li><strong>FFTNoiseGate</strong>: FFTNoiseGate <code>(input=0, threshold=0.5)</code></li>
+<li><strong>FFTPhaseVocoder</strong>: FFTPhaseVocoder <code>(input=nullptr)</code></li>
+<li><strong>FFTTonality</strong>: FFTTonality <code>(input=0, level=0.5, smoothing=0.9)</code></li>
+<li><strong>FFTZeroPhase</strong>: FFTZeroPhase <code>(input=0)</code></li>
 </ul>
 <h2 id="operators">operators</h2>
 <ul>
-<li><strong>Add</strong> <code>(a=0, b=0)</code></li>
-<li><strong>AmplitudeToDecibels</strong> <code>(a=0)</code></li>
-<li><strong>DecibelsToAmplitude</strong> <code>(a=0)</code></li>
-<li><strong>ChannelArray</strong> <code>()</code></li>
-<li><strong>ChannelMixer</strong> <code>(num_channels=1, input=0, amplitude_compensation=true)</code></li>
-<li><strong>ChannelSelect</strong> <code>(input=nullptr, offset=0, maximum=0, step=1)</code></li>
-<li><strong>Equal</strong> <code>(a=0, b=0)</code></li>
-<li><strong>NotEqual</strong> <code>(a=0, b=0)</code></li>
-<li><strong>GreaterThan</strong> <code>(a=0, b=0)</code></li>
-<li><strong>GreaterThanOrEqual</strong> <code>(a=0, b=0)</code></li>
-<li><strong>LessThan</strong> <code>(a=0, b=0)</code></li>
-<li><strong>LessThanOrEqual</strong> <code>(a=0, b=0)</code></li>
-<li><strong>Modulo</strong> <code>(a=0, b=0)</code></li>
-<li><strong>Abs</strong> <code>(a=0)</code></li>
-<li><strong>If</strong> <code>(a=0, value_if_true=0, value_if_false=0)</code></li>
-<li><strong>Divide</strong> <code>(a=1, b=1)</code></li>
-<li><strong>FrequencyToMidiNote</strong> <code>(a=0)</code></li>
-<li><strong>MidiNoteToFrequency</strong> <code>(a=0)</code></li>
-<li><strong>Multiply</strong> <code>(a=1.0, b=1.0)</code></li>
-<li><strong>Pow</strong> <code>(a=0, b=0)</code></li>
-<li><strong>RoundToScale</strong> <code>(a=0)</code></li>
-<li><strong>Round</strong> <code>(a=0)</code></li>
-<li><strong>ScaleLinExp</strong> <code>(input=0, a=0, b=1, c=1, d=10)</code></li>
-<li><strong>ScaleLinLin</strong> <code>(input=0, a=0, b=1, c=1, d=10)</code></li>
-<li><strong>Subtract</strong> <code>(a=0, b=0)</code></li>
-<li><strong>Sum</strong> <code>()</code></li>
-<li><strong>Sin</strong> <code>(a=0)</code></li>
-<li><strong>Cos</strong> <code>(a=0)</code></li>
-<li><strong>Tan</strong> <code>(a=0)</code></li>
-<li><strong>Tanh</strong> <code>(a=0)</code></li>
+<li><strong>Add</strong>: Add <code>(a=0, b=0)</code></li>
+<li><strong>AmplitudeToDecibels</strong>: AmplitudeToDecibels <code>(a=0)</code></li>
+<li><strong>DecibelsToAmplitude</strong>: DecibelsToAmplitude <code>(a=0)</code></li>
+<li><strong>ChannelArray</strong>: Takes an array of inputs and spreads them across multiple channels of output. <code>()</code></li>
+<li><strong>ChannelCrossfade</strong>: Given a multichannel input, crossfades between channels based on the given position within the virtual array, producing a single-channel output. <code>(input=nullptr, index=nullptr, num_output_channels=1)</code></li>
+<li><strong>ChannelMixer</strong>: Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels. <code>(num_channels=1, input=0, amplitude_compensation=true)</code></li>
+<li><strong>ChannelSelect</strong>: Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step. <code>(input=nullptr, offset=0, maximum=0, step=1)</code></li>
+<li><strong>Equal</strong>: Equal <code>(a=0, b=0)</code></li>
+<li><strong>NotEqual</strong>: NotEqual <code>(a=0, b=0)</code></li>
+<li><strong>GreaterThan</strong>: GreaterThan <code>(a=0, b=0)</code></li>
+<li><strong>GreaterThanOrEqual</strong>: GreaterThanOrEqual <code>(a=0, b=0)</code></li>
+<li><strong>LessThan</strong>: LessThan <code>(a=0, b=0)</code></li>
+<li><strong>LessThanOrEqual</strong>: LessThanOrEqual <code>(a=0, b=0)</code></li>
+<li><strong>Modulo</strong>: Modulo <code>(a=0, b=0)</code></li>
+<li><strong>Abs</strong>: Abs <code>(a=0)</code></li>
+<li><strong>If</strong>: If <code>(a=0, value_if_true=0, value_if_false=0)</code></li>
+<li><strong>Divide</strong>: Divide <code>(a=1, b=1)</code></li>
+<li><strong>FrequencyToMidiNote</strong>: Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output. <code>(a=0)</code></li>
+<li><strong>MidiNoteToFrequency</strong>: Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point input. <code>(a=0)</code></li>
+<li><strong>Multiply</strong>: Multiply <code>(a=1.0, b=1.0)</code></li>
+<li><strong>Pow</strong>: Pow <code>(a=0, b=0)</code></li>
+<li><strong>RoundToScale</strong>: Given a frequency input, generates a frequency output that is rounded to the nearest MIDI note. (TODO: Not very well named) <code>(a=0)</code></li>
+<li><strong>Round</strong>: Round the input to the nearest integer value. <code>(a=0)</code></li>
+<li><strong>ScaleLinExp</strong>: Scales the input from a linear range (between a and b) to an exponential range (between c and d). <code>(input=0, a=0, b=1, c=1, d=10)</code></li>
+<li><strong>ScaleLinLin</strong>: Scales the input from a linear range (between a and b) to a linear range (between c and d). <code>(input=0, a=0, b=1, c=1, d=10)</code></li>
+<li><strong>Subtract</strong>: Subtract <code>(a=0, b=0)</code></li>
+<li><strong>Sum</strong>: Sum <code>()</code></li>
+<li><strong>Sin</strong>: Sin <code>(a=0)</code></li>
+<li><strong>Cos</strong>: Cos <code>(a=0)</code></li>
+<li><strong>Tan</strong>: Tan <code>(a=0)</code></li>
+<li><strong>Tanh</strong>: Tanh <code>(a=0)</code></li>
 </ul>
 <h2 id="oscillators">oscillators</h2>
 <ul>
-<li><strong>Constant</strong> <code>(value=0)</code></li>
-<li><strong>Impulse</strong> <code>(frequency=1.0)</code></li>
-<li><strong>LFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>SawLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>SawOscillator</strong> <code>(frequency=440, phase=nullptr)</code></li>
-<li><strong>SineLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>SineOscillator</strong> <code>(frequency=440)</code></li>
-<li><strong>SquareLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, width=0.5, phase=0.0)</code></li>
-<li><strong>SquareOscillator</strong> <code>(frequency=440, width=0.5)</code></li>
-<li><strong>TriangleLFO</strong> <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>TriangleOscillator</strong> <code>(frequency=440)</code></li>
-<li><strong>Wavetable</strong> <code>(buffer=nullptr, frequency=440, phase=0, sync=0, phase_map=nullptr)</code></li>
-<li><strong>Wavetable2D</strong> <code>(buffer=nullptr, frequency=440, crossfade=0.0, phase=0.0, sync=0)</code></li>
+<li><strong>Constant</strong>: Produces a constant value. <code>(value=0)</code></li>
+<li><strong>Impulse</strong>: Produces a value of 1 at the given frequency, with output of 0 at all other times. If frequency is 0, produces a single impulse. <code>(frequency=1.0)</code></li>
+<li><strong>LFO</strong>: LFO <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
+<li><strong>SawLFO</strong>: Produces a sawtooth LFO, with output ranging from min to max. <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
+<li><strong>SawOscillator</strong>: Produces a (non-band-limited) sawtooth wave, with the given frequency and phase offset. When a reset or trigger is received, resets the phase to zero. <code>(frequency=440, phase=nullptr, reset=nullptr)</code></li>
+<li><strong>SineLFO</strong>: Produces a sinusoidal LFO at the given frequency and phase offset, with output ranging from min to max. <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
+<li><strong>SineOscillator</strong>: Produces a sine wave at the given frequency. <code>(frequency=440)</code></li>
+<li><strong>SquareLFO</strong>: Produces a pulse wave LFO with the given frequency and pulse width, ranging from min to max, where width=0.5 is a square wave. <code>(frequency=1.0, min=0.0, max=1.0, width=0.5, phase=0.0)</code></li>
+<li><strong>SquareOscillator</strong>: Produces a pulse wave with the given frequency and pulse width, where width=0.5 is a square wave. <code>(frequency=440, width=0.5)</code></li>
+<li><strong>TriangleLFO</strong>: Produces a triangle LFO with the given frequency, ranging from min to max. <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
+<li><strong>TriangleOscillator</strong>: TriangleOscillator <code>(frequency=440)</code></li>
+<li><strong>Wavetable</strong>: Plays the wavetable stored in buffer at the given frequency. <code>(buffer=nullptr, frequency=440, phase=0, sync=0, phase_map=nullptr)</code></li>
+<li><strong>Wavetable2D</strong>: Wavetable2D <code>(buffer=nullptr, frequency=440, crossfade=0.0, phase=0.0, sync=0)</code></li>
 </ul>
 <h2 id="processors">processors</h2>
 <ul>
-<li><strong>Clip</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
-<li><strong>Fold</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
-<li><strong>Smooth</strong> <code>(input=nullptr, smooth=0.99)</code></li>
-<li><strong>WetDry</strong> <code>(dry_input=nullptr, wet_input=nullptr, wetness=0.0)</code></li>
-<li><strong>Wrap</strong> <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
+<li><strong>Clip</strong>: Clip the input to min/max. <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
+<li><strong>Fold</strong>: Fold the input beyond min/max, reflecting the excess back. <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
+<li><strong>Smooth</strong>: Smooth the input with a given smoothing coefficient. When smooth = 0, applies no smoothing. <code>(input=nullptr, smooth=0.99)</code></li>
+<li><strong>WetDry</strong>: Takes wet and dry inputs, and outputs a mix determined by wetness. <code>(dry_input=nullptr, wet_input=nullptr, wetness=0.0)</code></li>
+<li><strong>Wrap</strong>: Wrap the input beyond min/max. <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
 </ul>
 <h2 id="processorsdelays">processors/delays</h2>
 <ul>
-<li><strong>AllpassDelay</strong> <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
-<li><strong>CombDelay</strong> <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
-<li><strong>OneTapDelay</strong> <code>(input=0.0, delay_time=0.1, max_delay_time=0.5)</code></li>
-<li><strong>Stutter</strong> <code>(input=0.0, stutter_time=0.1, stutter_count=1, clock=nullptr, max_stutter_time=1.0)</code></li>
+<li><strong>AllpassDelay</strong>: All-pass delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time. <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
+<li><strong>CombDelay</strong>: Comb delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time. <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
+<li><strong>OneTapDelay</strong>: Single-tap delay line. delay_time must be less than or equal to max_delay_time. <code>(input=0.0, delay_time=0.1, max_delay_time=0.5)</code></li>
+<li><strong>Stutter</strong>: Stutters the input whenever a signal is received on clock. Generates stutter_count repeats, with duration stutter_time. <code>(input=0.0, stutter_time=0.1, stutter_count=1, clock=nullptr, max_stutter_time=1.0)</code></li>
 </ul>
 <h2 id="processorsdistortion">processors/distortion</h2>
 <ul>
-<li><strong>Resample</strong> <code>(input=0, sample_rate=44100, bit_rate=16)</code></li>
-<li><strong>SampleAndHold</strong> <code>(input=nullptr, clock=nullptr)</code></li>
-<li><strong>Squiz</strong> <code>(input=0.0, rate=2.0, chunk_size=1)</code></li>
-<li><strong>WaveShaper</strong> <code>(input=0.0, buffer=nullptr)</code></li>
+<li><strong>Resample</strong>: Resampler and bit crusher. sample_rate is in Hz, bit_rate is an integer between 0 and 16. <code>(input=0, sample_rate=44100, bit_rate=16)</code></li>
+<li><strong>SampleAndHold</strong>: Samples and holds the input each time a clock signal is received. <code>(input=nullptr, clock=nullptr)</code></li>
+<li><strong>Squiz</strong>: Implementation of Dan Stowell's Squiz algorithm, a kind of downsampler. <code>(input=0.0, rate=2.0, chunk_size=1)</code></li>
+<li><strong>WaveShaper</strong>: Applies wave-shaping as described in buffer. <code>(input=0.0, buffer=nullptr)</code></li>
 </ul>
 <h2 id="processorsdynamics">processors/dynamics</h2>
 <ul>
-<li><strong>Compressor</strong> <code>(input=0.0, threshold=0.1, ratio=2, attack_time=0.01, release_time=0.1, sidechain=nullptr)</code></li>
-<li><strong>Gate</strong> <code>(input=0.0, threshold=0.1)</code></li>
-<li><strong>Maximiser</strong> <code>(input=0.0, ceiling=0.5, attack_time=1.0, release_time=1.0)</code></li>
-<li><strong>RMS</strong> <code>(input=0.0)</code></li>
+<li><strong>Compressor</strong>: Dynamic range compression, with optional sidechain input. <code>(input=0.0, threshold=0.1, ratio=2, attack_time=0.01, release_time=0.1, sidechain=nullptr)</code></li>
+<li><strong>Gate</strong>: Outputs the input value when it is above the given threshold, otherwise zero. <code>(input=0.0, threshold=0.1)</code></li>
+<li><strong>Maximiser</strong>: Gain maximiser. <code>(input=0.0, ceiling=0.5, attack_time=1.0, release_time=1.0)</code></li>
+<li><strong>RMS</strong>: Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size. <code>(input=0.0)</code></li>
 </ul>
 <h2 id="processorsfilters">processors/filters</h2>
 <ul>
-<li><strong>BiquadFilter</strong> <code>(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0, peak_gain=0.0)</code></li>
-<li><strong>EQ</strong> <code>(input=0.0, low_gain=1.0, mid_gain=1.0, high_gain=1.0, low_freq=500, high_freq=5000)</code></li>
-<li><strong>MoogVCF</strong> <code>(input=0.0, cutoff=200.0, resonance=0.0)</code></li>
-<li><strong>SVFilter</strong> <code>(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0)</code></li>
+<li><strong>BiquadFilter</strong>: Biquad filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. Not recommended for real-time modulation; for this, use SVFilter. <code>(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0, peak_gain=0.0)</code></li>
+<li><strong>EQ</strong>: Three-band EQ. <code>(input=0.0, low_gain=1.0, mid_gain=1.0, high_gain=1.0, low_freq=500, high_freq=5000)</code></li>
+<li><strong>MoogVCF</strong>: Moog ladder low-pass filter. <code>(input=0.0, cutoff=200.0, resonance=0.0)</code></li>
+<li><strong>SVFilter</strong>: State variable filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. <code>(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0)</code></li>
 </ul>
 <h2 id="processorspanning">processors/panning</h2>
 <ul>
-<li><strong>AzimuthPanner</strong> <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
-<li><strong>ChannelPanner</strong> <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
-<li><strong>SpatialPanner</strong> <code>(env=nullptr, input=0.0, x=0.0, y=0.0, z=0.0, radius=1.0, algorithm="dbap")</code></li>
-<li><strong>StereoBalance</strong> <code>(input=0, balance=0)</code></li>
-<li><strong>StereoPanner</strong> <code>(input=0, pan=0.0)</code></li>
-<li><strong>StereoWidth</strong> <code>(input=0, width=1)</code></li>
+<li><strong>AzimuthPanner</strong>: Pan input around an equally-spaced ring of num_channels speakers. pan is the pan position from -1..+1, where 0 = centre front. width is the source's width, where 1.0 spans exactly between an adjacent pair of channels. <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
+<li><strong>ChannelPanner</strong>: Pan the input between a linear series of channels, where pan 0 = channel 0, 1 = channel 1, etc. No wrapping is applied. <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
+<li><strong>SpatialPanner</strong>: Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported. <code>(env=nullptr, input=0.0, x=0.0, y=0.0, z=0.0, radius=1.0, algorithm="dbap")</code></li>
+<li><strong>StereoBalance</strong>: Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left, and 1 is hard right. <code>(input=0, balance=0)</code></li>
+<li><strong>StereoPanner</strong>: Pans a mono input to a stereo output. Pans from -1 (hard left) to +1 (hard right), with 0 = centre. <code>(input=0, pan=0.0)</code></li>
+<li><strong>StereoWidth</strong>: Reduces the width of a stereo signal. When width = 1, input is unchanged. When width = 0, outputs a pair of identical channels both containing L+R. <code>(input=0, width=1)</code></li>
 </ul>
 <h2 id="sequencing">sequencing</h2>
 <ul>
-<li><strong>ClockDivider</strong> <code>(clock=0, factor=1)</code></li>
-<li><strong>Counter</strong> <code>(clock=0, min=0, max=2147483647)</code></li>
-<li><strong>Euclidean</strong> <code>(clock=0, sequence_length=0, num_events=0)</code></li>
-<li><strong>FlipFlop</strong> <code>(clock=0)</code></li>
-<li><strong>ImpulseSequence</strong> <code>(sequence=std::vector&lt;int&gt; ( ), clock=nullptr)</code></li>
-<li><strong>Index</strong> <code>(list={}, index=0)</code></li>
-<li><strong>Latch</strong> <code>(set=0, reset=0)</code></li>
-<li><strong>Sequence</strong> <code>(sequence=std::vector&lt;float&gt; ( ), clock=nullptr)</code></li>
+<li><strong>ClockDivider</strong>: When given a clock input (e.g., an Impulse), divides the clock by the given factor. factor must be an integer greater than or equal to 1. <code>(clock=0, factor=1)</code></li>
+<li><strong>Counter</strong>: Count upwards from min, driven by clock. <code>(clock=0, min=0, max=2147483647)</code></li>
+<li><strong>Euclidean</strong>: Euclidean rhythm as described by Toussaint, with sequence_length (n) and num_events (k), driven by clock. <code>(clock=0, sequence_length=0, num_events=0)</code></li>
+<li><strong>FlipFlop</strong>: Flips from 0/1 on each clock. <code>(clock=0)</code></li>
+<li><strong>ImpulseSequence</strong>: Each time a clock or trigger is received, outputs the next value in the sequence. At all other times, outputs zero. <code>(sequence=std::vector&lt;int&gt; ( ), clock=nullptr)</code></li>
+<li><strong>Index</strong>: Outputs the value in list corresponding to index. <code>(list={}, index=0)</code></li>
+<li><strong>Latch</strong>: Initially outputs 0. When a trigger is received at set, outputs 1. When a trigger is subsequently received at reset, outputs 0, until the next set. <code>(set=0, reset=0)</code></li>
+<li><strong>Sequence</strong>: Outputs the elements in sequence, incrementing position on each clock. <code>(sequence=std::vector&lt;float&gt; ( ), clock=nullptr)</code></li>
 </ul>
 <h2 id="stochastic">stochastic</h2>
 <ul>
-<li><strong>Logistic</strong> <code>(chaos=3.7, frequency=0.0)</code></li>
-<li><strong>PinkNoise</strong> <code>(low_cutoff=20.0, high_cutoff=20000.0, reset=nullptr)</code></li>
-<li><strong>RandomBrownian</strong> <code>(min=-1.0, max=1.0, delta=0.01, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomChoice</strong> <code>(values=std::vector&lt;float&gt; ( ), clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomCoin</strong> <code>(probability=0.5, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomExponentialDist</strong> <code>(scale=0.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomExponential</strong> <code>(min=0.001, max=1.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomGaussian</strong> <code>(mean=0.0, sigma=0.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomImpulseSequence</strong> <code>(probability=0.5, length=8, clock=nullptr, explore=nullptr, generate=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomImpulse</strong> <code>(frequency=1.0, distribution=SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, reset=nullptr)</code></li>
-<li><strong>RandomUniform</strong> <code>(min=0.0, max=1.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>StochasticNode</strong> <code>(reset=nullptr)</code></li>
-<li><strong>WhiteNoise</strong> <code>(frequency=0.0, min=-1.0, max=1.0, interpolate=true, random_interval=true, reset=nullptr)</code></li>
+<li><strong>Logistic</strong>: Logistic noise. <code>(chaos=3.7, frequency=0.0)</code></li>
+<li><strong>PinkNoise</strong>: Pink noise, with specified low/high cutoffs. <code>(low_cutoff=20.0, high_cutoff=20000.0, reset=nullptr)</code></li>
+<li><strong>RandomBrownian</strong>: Outputs Brownian noise between min/max, with a mean change of delta between samples. If a clock is passed, only generates a new value on a clock tick. <code>(min=-1.0, max=1.0, delta=0.01, clock=nullptr, reset=nullptr)</code></li>
+<li><strong>RandomChoice</strong>: Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick. <code>(values=std::vector&lt;float&gt; ( ), clock=nullptr, reset=nullptr)</code></li>
+<li><strong>RandomCoin</strong>: Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick. <code>(probability=0.5, clock=nullptr, reset=nullptr)</code></li>
+<li><strong>RandomExponentialDist</strong>: Generate an random value following the exponential distribution. If a clock is passed, only picks a new value on a clock tick. <code>(scale=0.0, clock=nullptr, reset=nullptr)</code></li>
+<li><strong>RandomExponential</strong>: Generate an random exponential value between min/max. If a clock is passed, only picks a new value on a clock tick. <code>(min=0.001, max=1.0, clock=nullptr, reset=nullptr)</code></li>
+<li><strong>RandomGaussian</strong>: Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick. <code>(mean=0.0, sigma=0.0, clock=nullptr, reset=nullptr)</code></li>
+<li><strong>RandomImpulseSequence</strong>: Generates a random sequence of 0/1 bits with the given length, and the given probability each each bit = 1. The position of the sequence is incremented on each clock signal. explore and generate are trigger inputs which cause the sequence to mutate and re-generate respectively. <code>(probability=0.5, length=8, clock=nullptr, explore=nullptr, generate=nullptr, reset=nullptr)</code></li>
+<li><strong>RandomImpulse</strong>: Generate random impulses at the given frequency, with either uniform or poisson distribution. <code>(frequency=1.0, distribution=SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, reset=nullptr)</code></li>
+<li><strong>RandomUniform</strong>: Generates a uniformly random value between min/max. If a clock is passed, only picks a new value on a clock tick. <code>(min=0.0, max=1.0, clock=nullptr, reset=nullptr)</code></li>
+<li><strong>StochasticNode</strong>: StochasticNode <code>(reset=nullptr)</code></li>
+<li><strong>WhiteNoise</strong>: Generates whitenoise between min/max. If frequency is zero, generates at audio rate. For frequencies lower than audio rate, interpolate applies linear interpolation between values, and random_interval specifies whether new random values should be equally-spaced or randomly-spaced. <code>(frequency=0.0, min=-1.0, max=1.0, interpolate=true, random_interval=true, reset=nullptr)</code></li>
 </ul>
 
 
@@ -1633,9 +1678,17 @@
           
         </div>
         
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
       </main>
       
         <footer class="md-footer">
+  
+    
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
@@ -1685,7 +1738,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../assets/javascripts/bundle.81fa17fe.min.js"></script>
