@@ -3,17 +3,17 @@
 void init_python_nodes(py::module &m)
 {
     /*--------------------------------------------------------------------------------
-     * Node subclasses
-     *-------------------------------------------------------------------------------*/
-    py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn", "AudioIn")
+         * Node subclasses
+         *-------------------------------------------------------------------------------*/
+    py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn", "Audio input")
         .def(py::init<>());
 
-    py::class_<AudioOut_Abstract, Node, NodeRefTemplate<AudioOut_Abstract>>(m, "AudioOut_Abstract", "AudioOut_Abstract");
+    py::class_<AudioOut_Abstract, Node, NodeRefTemplate<AudioOut_Abstract>>(m, "AudioOut_Abstract", "Abstract audio output");
 
-    py::class_<AudioOut_Dummy, AudioOut_Abstract, NodeRefTemplate<AudioOut_Dummy>>(m, "AudioOut_Dummy", "AudioOut_Dummy")
+    py::class_<AudioOut_Dummy, Node, NodeRefTemplate<AudioOut_Dummy>>(m, "AudioOut_Dummy", "Dummy audio output for offline processing")
         .def(py::init<int, int>(), "num_channels"_a = 2, "buffer_size"_a = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
 
-    py::class_<AudioOut, AudioOut_Abstract, NodeRefTemplate<AudioOut>>(m, "AudioOut", "AudioOut")
+    py::class_<AudioOut, Node, NodeRefTemplate<AudioOut>>(m, "AudioOut", "Audio output")
         .def(py::init<std::string, std::string, int, int>(), "backend_name"_a = "", "device_name"_a = "", "sample_rate"_a = 0, "buffer_size"_a = 0);
 
     py::class_<CrossCorrelate, Node, NodeRefTemplate<CrossCorrelate>>(m, "CrossCorrelate", "Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.")

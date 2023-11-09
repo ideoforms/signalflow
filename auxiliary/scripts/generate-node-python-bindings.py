@@ -16,7 +16,6 @@
 
 import os
 import re
-import sys
 import glob
 import argparse
 import subprocess
@@ -35,9 +34,9 @@ class Parameter:
 @dataclass
 class NodeClass:
     name: str
-    parent: str
-    docs: str
+    parent: Optional[str]
     constructors: list[list[Parameter]]
+    docs: str
 
 
 node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
@@ -45,6 +44,7 @@ omitted_classes = ["VampAnalysis", "GrainSegments", "FFTNoiseGate", "FFTZeroPhas
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
 known_parent_classes = ["Node", "StochasticNode"]
+documentation_omit_folders = ["io"]
 
 
 def get_all_source_files() -> list[str]:
@@ -63,10 +63,7 @@ def get_all_source_files() -> list[str]:
     return source_files
 
 
-def generate_class_bindings(class_name: str,
-                            parameter_sets: list[list[Parameter]],
-                            superclass: str = "Node",
-                            class_docs: Optional[str] = None) -> str:
+def generate_class_bindings(cls: NodeClass):
     """
     Args:
         class_name: The full name of the C++ class
@@ -84,14 +81,15 @@ def generate_class_bindings(class_name: str,
           .def(py::init<std::vector<NodeRef>>(),  "frequency"_a = NodeRef(440.0))
           .def(py::init<std::vector<float>>(),    "frequency"_a = NodeRef(440.0));
     """
-    if class_name in omitted_classes:
+    if cls.name in omitted_classes:
         return ""
-    if class_docs is None:
-        class_docs = class_name
+    if cls.docs is None:
+        raise ValueError("No docs for class: %s" % cls.name)
+    parent_class = cls.parent if cls.parent in known_parent_classes else "Node"
 
     output = 'py::class_<{class_name}, {superclass}, NodeRefTemplate<{class_name}>>(m, "{class_name}", "{class_docs}")\n'.format(
-        class_name=class_name, class_docs=class_docs, superclass=superclass)
-    for parameter_set in parameter_sets:
+        class_name=cls.name, class_docs=cls.docs, superclass=parent_class)
+    for parameter_set in cls.constructors:
         parameter_type_list = ", ".join([parameter.type for parameter in parameter_set])
         output += '    .def(py::init<{parameter_type_list}>()'.format(parameter_type_list=parameter_type_list);
         for parameter in parameter_set:
@@ -157,39 +155,39 @@ def folder_name_to_title(folder_name: str) -> str:
     """
     folder_parts = [part.title() for part in folder_name.split("/")]
     folder_title = ": ".join(folder_parts)
+    # capitalise all-vowel or all-consonant folder names (io, fft)
+    if re.search(r"^[aeiou]+$", folder_title) or re.search(r"^[^aeiou]+$", folder_title):
+        folder_title = folder_title.upper()
     return folder_title
 
 
-def generate_all_bindings(source_files):
-    output_markdown = ""
-    folder_last = ""
-    output = ""
-    output += generate_class_bindings("AudioIn", [[]]) + "\n"
-    output += generate_class_bindings("AudioOut_Abstract", []) + "\n"
-    output += generate_class_bindings("AudioOut_Dummy", [[
-        Parameter("num_channels", "int", 2),
-        Parameter("buffer_size", "int", "SIGNALFLOW_DEFAULT_BLOCK_SIZE"),
-    ]], "AudioOut_Abstract") + "\n"
+def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
+    classes = {}
+    classes["io"] = [
+        NodeClass("AudioIn", None, [[]], "Audio input"),
+        NodeClass("AudioOut_Abstract", None, [], "Abstract audio output"),
+        NodeClass("AudioOut_Dummy", "AudioOut_Abstract", [[
+            Parameter("num_channels", "int", 2),
+            Parameter("buffer_size", "int", "SIGNALFLOW_DEFAULT_BLOCK_SIZE"),
+        ]], "Dummy audio output for offline processing"),
+        NodeClass("AudioOut", "AudioOut_Abstract", [[
+            Parameter("backend_name", "std::string", ""),
+            Parameter("device_name", "std::string", ""),
+            Parameter("sample_rate", "int", 0),
+            Parameter("buffer_size", "int", 0),
+        ]], "Audio output")
+    ]
 
-    output += generate_class_bindings("AudioOut", [[
-        Parameter("backend_name", "std::string", ""),
-        Parameter("device_name", "std::string", ""),
-        Parameter("sample_rate", "int", 0),
-        Parameter("buffer_size", "int", 0),
-    ]], "AudioOut_Abstract") + "\n"
-
-    class_categories = {}
     class_category = None
+    folder_last = None
 
     for source_file in source_files:
         folder = re.sub(".*node/", "", source_file)
         folder = os.path.dirname(folder)
         if folder != folder_last:
-            folder_title = folder_name_to_title(folder)
-            output_markdown += "\n## " + folder_title + "\n\n"
             folder_last = folder
             class_category = folder
-            class_categories[class_category] = []
+            classes[class_category] = []
 
         header = CppHeaderParser.CppHeader(source_file)
 
@@ -222,34 +220,38 @@ def generate_all_bindings(source_files):
             # If the class has at least one valid constructor, generate output.
             # --------------------------------------------------------------------------------
             if constructor_parameter_sets:
-                if class_name in macos_only_classes:
-                    output += "#ifdef __APPLE__\n\n"
+                cls = NodeClass(class_name,
+                                parent_class,
+                                constructor_parameter_sets,
+                                class_docs)
+                classes[class_category].append(cls)
 
-                if parent_class not in known_parent_classes:
-                    parent_class = "Node"
-                output += generate_class_bindings(class_name=class_name,
-                                                  parameter_sets=constructor_parameter_sets,
-                                                  superclass=parent_class,
-                                                  class_docs=class_docs)
-                output = output.strip()
-                output += "\n\n"
-                if class_name in macos_only_classes:
-                    output += "#endif\n\n"
-
-                output_markdown_params = ", ".join(
-                    ("%s=%s" % (param.name, param.default)) for param in constructor_parameter_sets[0])
-                output_markdown += "- **%s**: %s `(%s)`\n" % (class_name, class_docs, output_markdown_params)
-                class_categories[class_category].append(class_name)
-    return output, output_markdown, class_categories
+    return classes
 
 
-def main(args):
-    source_files = get_all_source_files()
-    # node_classes = parse_node_classes(source_files)
-    # bindings = generate_bindings(node_classes)
-    # markdown = generate_markdown(node_classes)
-    bindings, markdown, class_categories = generate_all_bindings(source_files)
-    bindings = re.sub("\n", "\n    ", bindings)
+def generate_bindings(node_classes) -> str:
+    """
+    Generate the complete set of Python bindings from a dict of all Node classes.
+
+    Args:
+        node_classes: dict of all Node classes
+
+    Returns:
+        The complete bindings .cpp file, to output to source/src/python/nodes.cpp
+    """
+    output = ""
+    for folder, classes in node_classes.items():
+        for cls in classes:
+            if cls.name in macos_only_classes:
+                output += "#ifdef __APPLE__\n\n"
+
+            output += generate_class_bindings(cls)
+            output = output.strip()
+            output += "\n\n"
+            if cls.name in macos_only_classes:
+                output += "#endif\n\n"
+
+    output = re.sub("\n", "\n    ", output)
     output = '''#include "signalflow/python/python.h"
     
     void init_python_nodes(py::module &m)
@@ -257,23 +259,72 @@ def main(args):
         /*--------------------------------------------------------------------------------
          * Node subclasses
          *-------------------------------------------------------------------------------*/
-        {bindings}
+        {output}
     }}
-    '''.format(bindings=bindings)
+    '''.format(output=output)
+
+    return output
+
+
+def generate_markdown(node_classes) -> str:
+    """
+    Generate Markdown documentation for the Node reference library
+
+    Args:
+        node_classes: dict of all Node classes
+
+    Returns:
+        The complete docs/library.md markdown file
+    """
+    output_markdown = ""
+
+    for folder, classes in node_classes.items():
+        if folder in documentation_omit_folders:
+            continue
+        folder_title = folder_name_to_title(folder)
+        output_markdown += "\n## " + folder_title + "\n\n"
+        for cls in classes:
+            if cls.constructors:
+                output_markdown_params = ", ".join(
+                    ("%s=%s" % (param.name, param.default)) for param in cls.constructors[0])
+                output_markdown += "- **%s**: %s `(%s)`\n" % (cls.name, cls.docs, output_markdown_params)
+    header = "# Node reference library\n"
+    output_markdown = header + output_markdown
+    return output_markdown
+
+
+def generate_node_table(node_classes) -> str:
+    """
+    Generate a tabular list of all Node classes, in Markdown format.
+    Used for README.md.
+
+    Args:
+        node_classes: dict of all Node classes
+
+    Returns:
+        The table of node classes, grouped by category
+    """
+    output = "| Category | Classes  |\n"
+    output += "|:---------|:---------|\n"
+    for folder, classes in node_classes.items():
+        if folder in documentation_omit_folders:
+            continue
+
+        category_text = folder_name_to_title(folder)
+        output += "| **%s** | %s |\n" % (category_text, ", ".join([cls.name for cls in classes]))
+    return output
+
+
+def main(args):
+    source_files = get_all_source_files()
+    node_classes = parse_node_classes(source_files)
 
     if args.markdown:
-        print("# Node reference library")
-        print()
-        print(markdown)
+        print(generate_markdown(node_classes))
     elif args.table:
-        output_table = "| Category | Classes  |\n"
-        output_table += "|:---------|:---------|\n"
-        for category, classes in class_categories.items():
-            category_text = ": ".join(text.title() for text in category.split("/"))
-            output_table += "| **%s** | %s |\n" % (category_text, ", ".join(classes))
-        print(output_table)
+        print(generate_node_table(node_classes))
     else:
-        print(output)
+        print(generate_bindings(node_classes))
 
 
 if __name__ == "__main__":

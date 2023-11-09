@@ -1,6 +1,5 @@
 # Node reference library
 
-
 ## Analysis
 
 - **CrossCorrelate**: Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample. `(input=nullptr, buffer=nullptr, hop_size=0)`
@@ -34,7 +33,7 @@
 - **Line**: Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal. `(from=0.0, to=1.0, time=1.0, loop=0, clock=nullptr)`
 - **RectangularEnvelope**: Rectangular envelope with the given sustain duration. `(sustain_duration=1.0, clock=nullptr)`
 
-## Fft
+## FFT
 
 - **FFTContinuousPhaseVocoder**: Continuous phase vocoder. Requires an FFT* input. `(input=nullptr, rate=1.0)`
 - **FFTConvolve**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input. `(input=nullptr, buffer=nullptr)`
