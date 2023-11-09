@@ -16,10 +16,10 @@ void init_python_nodes(py::module &m)
     py::class_<AudioOut, AudioOut_Abstract, NodeRefTemplate<AudioOut>>(m, "AudioOut", "AudioOut")
         .def(py::init<std::string, std::string, int, int>(), "backend_name"_a = "", "device_name"_a = "", "sample_rate"_a = 0, "buffer_size"_a = 0);
 
-    py::class_<CrossCorrelate, Node, NodeRefTemplate<CrossCorrelate>>(m, "CrossCorrelate", "CrossCorrelate")
+    py::class_<CrossCorrelate, Node, NodeRefTemplate<CrossCorrelate>>(m, "CrossCorrelate", "Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.")
         .def(py::init<NodeRef, BufferRef, int>(), "input"_a = nullptr, "buffer"_a = nullptr, "hop_size"_a = 0);
 
-    py::class_<OnsetDetector, Node, NodeRefTemplate<OnsetDetector>>(m, "OnsetDetector", "OnsetDetector")
+    py::class_<OnsetDetector, Node, NodeRefTemplate<OnsetDetector>>(m, "OnsetDetector", "Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 2.0, "min_interval"_a = 0.1);
 
     py::class_<BeatCutter, Node, NodeRefTemplate<BeatCutter>>(m, "BeatCutter", "Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.")
@@ -48,21 +48,21 @@ void init_python_nodes(py::module &m)
 
 #ifdef __APPLE__
 
-    py::class_<MouseX, Node, NodeRefTemplate<MouseX>>(m, "MouseX", "Outputs the normalised cursor X position, from 0 to 1.")
+    py::class_<MouseX, Node, NodeRefTemplate<MouseX>>(m, "MouseX", "Outputs the normalised cursor X position, from 0 to 1. Currently only supported on macOS.")
         .def(py::init<>());
 
 #endif
 
 #ifdef __APPLE__
 
-    py::class_<MouseY, Node, NodeRefTemplate<MouseY>>(m, "MouseY", "Outputs the normalised cursor Y position, from 0 to 1.")
+    py::class_<MouseY, Node, NodeRefTemplate<MouseY>>(m, "MouseY", "Outputs the normalised cursor Y position, from 0 to 1. Currently only supported on macOS.")
         .def(py::init<>());
 
 #endif
 
 #ifdef __APPLE__
 
-    py::class_<MouseDown, Node, NodeRefTemplate<MouseDown>>(m, "MouseDown", "Outputs 1 if the left mouse button is down, 0 otherwise.")
+    py::class_<MouseDown, Node, NodeRefTemplate<MouseDown>>(m, "MouseDown", "Outputs 1 if the left mouse button is down, 0 otherwise. Currently only supported on macOS.")
         .def(py::init<NodeRef>(), "button_index"_a = 0);
 
 #endif
@@ -85,38 +85,38 @@ void init_python_nodes(py::module &m)
     py::class_<RectangularEnvelope, Node, NodeRefTemplate<RectangularEnvelope>>(m, "RectangularEnvelope", "Rectangular envelope with the given sustain duration.")
         .def(py::init<NodeRef, NodeRef>(), "sustain_duration"_a = 1.0, "clock"_a = nullptr);
 
-    py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder", "FFTContinuousPhaseVocoder")
+    py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder", "Continuous phase vocoder. Requires an FFT* input.")
         .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
 
 #ifdef __APPLE__
 
-    py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve", "FFTConvolve")
+    py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve", "Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = nullptr, "buffer"_a = nullptr);
 
 #endif
 
-    py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT", "FFT")
+    py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT", "Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNALFLOW_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
 
-    py::class_<FFTFindPeaks, Node, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks", "FFTFindPeaks")
+    py::class_<FFTFindPeaks, Node, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks", "Find peaks in the FFT magnitude spectrum. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef, int, bool>(), "input"_a = 0, "prominence"_a = 1, "threshold"_a = 0.000001, "count"_a = SIGNALFLOW_MAX_CHANNELS, "interpolate"_a = true);
 
-    py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT", "IFFT")
+    py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT", "Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.")
         .def(py::init<NodeRef, bool>(), "input"_a = nullptr, "do_window"_a = false);
 
-    py::class_<FFTLPF, Node, NodeRefTemplate<FFTLPF>>(m, "FFTLPF", "FFTLPF")
+    py::class_<FFTLPF, Node, NodeRefTemplate<FFTLPF>>(m, "FFTLPF", "FFT-based brick wall low pass filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 2000);
 
-    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder", "FFTPhaseVocoder")
+    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder", "Phase vocoder. Requires an FFT* input.")
         .def(py::init<NodeRef>(), "input"_a = nullptr);
 
-    py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality", "FFTTonality")
+    py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality", "Tonality filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
 
-    py::class_<Add, Node, NodeRefTemplate<Add>>(m, "Add", "Add")
+    py::class_<Add, Node, NodeRefTemplate<Add>>(m, "Add", "Add each sample of a to each sample of b. Can also be written as a + b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<AmplitudeToDecibels, Node, NodeRefTemplate<AmplitudeToDecibels>>(m, "AmplitudeToDecibels", "AmplitudeToDecibels")
+    py::class_<AmplitudeToDecibels, Node, NodeRefTemplate<AmplitudeToDecibels>>(m, "AmplitudeToDecibels", "Map a linear amplitude value to decibels.")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
     py::class_<DecibelsToAmplitude, Node, NodeRefTemplate<DecibelsToAmplitude>>(m, "DecibelsToAmplitude", "DecibelsToAmplitude")
@@ -138,34 +138,34 @@ void init_python_nodes(py::module &m)
     py::class_<ChannelSelect, Node, NodeRefTemplate<ChannelSelect>>(m, "ChannelSelect", "Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step.")
         .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 0, "step"_a = 1);
 
-    py::class_<Equal, Node, NodeRefTemplate<Equal>>(m, "Equal", "Equal")
+    py::class_<Equal, Node, NodeRefTemplate<Equal>>(m, "Equal", "Compares the output of a to the output of b. Outputs 1 when equal, 0 otherwise. Can also be written as a == b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<NotEqual, Node, NodeRefTemplate<NotEqual>>(m, "NotEqual", "NotEqual")
+    py::class_<NotEqual, Node, NodeRefTemplate<NotEqual>>(m, "NotEqual", "Compares the output of a to the output of b. Outputs 0 when equal, 1 otherwise. Can also be written as a != b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<GreaterThan, Node, NodeRefTemplate<GreaterThan>>(m, "GreaterThan", "GreaterThan")
+    py::class_<GreaterThan, Node, NodeRefTemplate<GreaterThan>>(m, "GreaterThan", "Compares the output of a to the output of b. Outputs 1 when a > b, 0 otherwise. Can also be written as a > b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<GreaterThanOrEqual, Node, NodeRefTemplate<GreaterThanOrEqual>>(m, "GreaterThanOrEqual", "GreaterThanOrEqual")
+    py::class_<GreaterThanOrEqual, Node, NodeRefTemplate<GreaterThanOrEqual>>(m, "GreaterThanOrEqual", "Compares the output of a to the output of b. Outputs 1 when a >= b, 0 otherwise. Can also be written as a >= b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<LessThan, Node, NodeRefTemplate<LessThan>>(m, "LessThan", "LessThan")
+    py::class_<LessThan, Node, NodeRefTemplate<LessThan>>(m, "LessThan", "Compares the output of a to the output of b. Outputs 1 when a < b, 0 otherwise. Can also be written as a < b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<LessThanOrEqual, Node, NodeRefTemplate<LessThanOrEqual>>(m, "LessThanOrEqual", "LessThanOrEqual")
+    py::class_<LessThanOrEqual, Node, NodeRefTemplate<LessThanOrEqual>>(m, "LessThanOrEqual", "Compares the output of a to the output of b. Outputs 1 when a <= b, 0 otherwise. Can also be written as a <= b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<Modulo, Node, NodeRefTemplate<Modulo>>(m, "Modulo", "Modulo")
+    py::class_<Modulo, Node, NodeRefTemplate<Modulo>>(m, "Modulo", "Outputs the value of a modulo b, per sample. Supports fractional values. Can also be written as a % b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<Abs, Node, NodeRefTemplate<Abs>>(m, "Abs", "Abs")
+    py::class_<Abs, Node, NodeRefTemplate<Abs>>(m, "Abs", "Outputs the absolute value of a, per sample. Can also be written as abs(a)")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
-    py::class_<If, Node, NodeRefTemplate<If>>(m, "If", "If")
+    py::class_<If, Node, NodeRefTemplate<If>>(m, "If", "Outputs value_if_true for each non-zero value of a, value_if_false for all other values.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "a"_a = 0, "value_if_true"_a = 0, "value_if_false"_a = 0);
 
-    py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide", "Divide")
+    py::class_<Divide, Node, NodeRefTemplate<Divide>>(m, "Divide", "Divide each sample of a by each sample of b. Can also be written as a / b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1, "b"_a = 1);
 
     py::class_<FrequencyToMidiNote, Node, NodeRefTemplate<FrequencyToMidiNote>>(m, "FrequencyToMidiNote", "Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output.")
@@ -174,10 +174,10 @@ void init_python_nodes(py::module &m)
     py::class_<MidiNoteToFrequency, Node, NodeRefTemplate<MidiNoteToFrequency>>(m, "MidiNoteToFrequency", "Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point input.")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
-    py::class_<Multiply, Node, NodeRefTemplate<Multiply>>(m, "Multiply", "Multiply")
+    py::class_<Multiply, Node, NodeRefTemplate<Multiply>>(m, "Multiply", "Multiply each sample of a by each sample of b. Can also be written as a * b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 1.0, "b"_a = 1.0);
 
-    py::class_<Pow, Node, NodeRefTemplate<Pow>>(m, "Pow", "Pow")
+    py::class_<Pow, Node, NodeRefTemplate<Pow>>(m, "Pow", "Outputs a to the power of b, per sample. Can also be written as a ** b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
     py::class_<RoundToScale, Node, NodeRefTemplate<RoundToScale>>(m, "RoundToScale", "Given a frequency input, generates a frequency output that is rounded to the nearest MIDI note. (TODO: Not very well named)")
@@ -192,26 +192,26 @@ void init_python_nodes(py::module &m)
     py::class_<ScaleLinLin, Node, NodeRefTemplate<ScaleLinLin>>(m, "ScaleLinLin", "Scales the input from a linear range (between a and b) to a linear range (between c and d).")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "a"_a = 0, "b"_a = 1, "c"_a = 1, "d"_a = 10);
 
-    py::class_<Subtract, Node, NodeRefTemplate<Subtract>>(m, "Subtract", "Subtract")
+    py::class_<Subtract, Node, NodeRefTemplate<Subtract>>(m, "Subtract", "Subtract each sample of b from each sample of a. Can also be written as a - b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
-    py::class_<Sum, Node, NodeRefTemplate<Sum>>(m, "Sum", "Sum")
+    py::class_<Sum, Node, NodeRefTemplate<Sum>>(m, "Sum", "Sums the output of all of the input nodes, by sample.")
         .def(py::init<>())
         .def(py::init<std::initializer_list<NodeRef>>(), "inputs"_a)
         .def(py::init<std::vector<NodeRef>>(), "inputs"_a)
         .def(py::init<std::vector<int>>(), "inputs"_a)
         .def(py::init<std::vector<float>>(), "inputs"_a);
 
-    py::class_<Sin, Node, NodeRefTemplate<Sin>>(m, "Sin", "Sin")
+    py::class_<Sin, Node, NodeRefTemplate<Sin>>(m, "Sin", "Outputs sin(a), per sample.")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
-    py::class_<Cos, Node, NodeRefTemplate<Cos>>(m, "Cos", "Cos")
+    py::class_<Cos, Node, NodeRefTemplate<Cos>>(m, "Cos", "Outputs cos(a), per sample.")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
-    py::class_<Tan, Node, NodeRefTemplate<Tan>>(m, "Tan", "Tan")
+    py::class_<Tan, Node, NodeRefTemplate<Tan>>(m, "Tan", "Outputs tan(a), per sample.")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
-    py::class_<Tanh, Node, NodeRefTemplate<Tanh>>(m, "Tanh", "Tanh")
+    py::class_<Tanh, Node, NodeRefTemplate<Tanh>>(m, "Tanh", "Outputs tanh(a), per sample. Can be used as a soft clipper.")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant", "Produces a constant value.")
