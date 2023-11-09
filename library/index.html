@@ -11,10 +11,10 @@
       
       
       
-        <link rel="prev" href="../license/">
+        <link rel="prev" href="../buffer/">
       
       
-        <link rel="next" href="../graph/">
+        <link rel="next" href="analysis/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -47,6 +47,8 @@
         <style>:root{--md-text-font:"IBM Plex Sans";--md-code-font:"Roboto Mono"}</style>
       
     
+    
+      <link rel="stylesheet" href="../css/timeago.css">
     
     <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -89,9 +91,7 @@
     
       
 
-  
-
-<header class="md-header md-header--shadow" data-md-component="header">
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="SignalFlow" class="md-header__button md-logo" aria-label="SignalFlow" data-md-component="logo">
       
@@ -127,6 +127,12 @@
     
     
     <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="red" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber"  aria-hidden="true"  type="radio" name="__palette" id="__palette_2">
     
   
 </form>
@@ -176,7 +182,7 @@
         <a href="https://github.com/ideoforms/signalflow" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     ideoforms/signalflow
@@ -193,6 +199,106 @@
       
         
           
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href=".." class="md-tabs__link">
+          
+  
+    
+  
+  Home
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../installation/" class="md-tabs__link">
+          
+  
+    
+  
+  Getting started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../graph/" class="md-tabs__link">
+          
+  
+    
+  
+  Elements
+
+        </a>
+      </li>
+    
+  
+
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="./" class="md-tabs__link">
+          
+  
+    
+  
+  Reference library
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -206,8 +312,10 @@
                     
 
 
+  
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="SignalFlow" class="md-nav__button md-logo" aria-label="SignalFlow" data-md-component="logo">
       
@@ -222,7 +330,7 @@
       <a href="https://github.com/ideoforms/signalflow" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
   </div>
   <div class="md-source__repository">
     ideoforms/signalflow
@@ -370,7 +478,10 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
@@ -391,7 +502,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -651,63 +762,53 @@
       
   
   
-    
-  
   
     
     
       
         
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
           
-        
-      
-    
-    
-    
-    
-      
-      
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
-              
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
   
   <span class="md-ellipsis">
-    Reference library
+    Elements
   </span>
   
 
-            </a>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
-            Reference library
+            Elements
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
               
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
+                
   
   
   
@@ -740,7 +841,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_1" >
         
           
           
@@ -756,14 +857,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3_1" id="__nav_3_1_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_1">
             <span class="md-nav__icon md-icon"></span>
             The AudioGraph
           </label>
@@ -877,9 +978,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -916,7 +1018,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
         
           
           
@@ -932,14 +1034,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3_2" id="__nav_3_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             Nodes
           </label>
@@ -1093,9 +1195,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -1132,7 +1235,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
         
           
           
@@ -1148,14 +1251,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3_3" id="__nav_3_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
             <span class="md-nav__icon md-icon"></span>
             Patches
           </label>
@@ -1309,9 +1412,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -1334,7 +1438,7 @@
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
         
           
           
@@ -1351,13 +1455,445 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
             <span class="md-nav__icon md-icon"></span>
             Buffers
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    
+    
+    
+    
+      
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="./" class="md-nav__link md-nav__link--active">
+              
+  
+  <span class="md-ellipsis">
+    Reference library
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_4" id="__nav_4_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Reference library
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="analysis/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="buffer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Buffer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="control/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Control
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="envelope/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Envelope
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="fft/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    FFT
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="operators/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Operators
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="oscillators/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Oscillators
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="processors/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Processors
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="processors/delays/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Processors: Delays
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="processors/distortion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Processors: Distortion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="processors/dynamics/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Processors: Dynamics
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="processors/filters/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Processors: Filters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="processors/panning/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Processors: Panning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="sequencing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Sequencing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="stochastic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Stochastic
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -1423,7 +1959,7 @@
       
         <li class="md-nav__item">
   <a href="#fft" class="md-nav__link">
-    Fft
+    FFT
   </a>
   
 </li>
@@ -1519,174 +2055,204 @@
 <h1 id="node-reference-library">Node reference library</h1>
 <h2 id="analysis">Analysis</h2>
 <ul>
-<li><strong>CrossCorrelate</strong>: Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample. <code>(input=nullptr, buffer=nullptr, hop_size=0)</code></li>
-<li><strong>OnsetDetector</strong>: Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds. <code>(input=0.0, threshold=2.0, min_interval=0.1)</code></li>
-<li><strong>VampAnalysis</strong>: Feature extraction using the Vamp plugin toolkit. <code>(input=0.0, plugin_id="vamp-example-plugins:spectralcentroid:linearcentroid")</code></li>
+<li><strong><a href="analysis/crosscorrelate/">CrossCorrelate</a></strong>: Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.</li>
+<li><strong><a href="analysis/onsetdetector/">OnsetDetector</a></strong>: Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.</li>
+<li><strong><a href="analysis/vampanalysis/">VampAnalysis</a></strong>: Feature extraction using the Vamp plugin toolkit.</li>
 </ul>
+<hr />
 <h2 id="buffer">Buffer</h2>
 <ul>
-<li><strong>BeatCutter</strong>: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities. <code>(buffer=nullptr, segment_count=8, stutter_probability=0.0, stutter_count=1, jump_probability=0.0, duty_cycle=1.0, rate=1.0, segment_rate=1.0)</code></li>
-<li><strong>BufferLooper</strong>: Read and write from a buffer concurrently, with controllable overdub. <code>(buffer=nullptr, input=0.0, feedback=0.0, loop_playback=false, loop_record=false)</code></li>
-<li><strong>BufferPlayer</strong>: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time. <code>(buffer=nullptr, rate=1.0, loop=0, start_time=nullptr, end_time=nullptr, clock=nullptr)</code></li>
-<li><strong>BufferRecorder</strong>: Records the input to a buffer. feedback controls overdub. <code>(buffer=nullptr, input=0.0, feedback=0.0, loop=false)</code></li>
-<li><strong>FeedbackBufferReader</strong>: Counterpart to FeedbackBufferWriter. <code>(buffer=nullptr)</code></li>
-<li><strong>FeedbackBufferWriter</strong>: Counterpart to FeedbackBufferReader. <code>(buffer=nullptr, input=0.0, delay_time=0.1)</code></li>
-<li><strong>GrainSegments</strong>: GrainSegments <code>(buffer=nullptr, clock=0, target=0, offsets={}, values={}, durations={})</code></li>
-<li><strong>Granulator</strong>: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo. <code>(buffer=nullptr, clock=0, pos=0, duration=0.1, pan=0.0, rate=1.0, max_grains=2048)</code></li>
-<li><strong>SegmentPlayer</strong>: Trigger segments of a buffer at the given onset positions. <code>(buffer=nullptr, onsets={})</code></li>
+<li><strong><a href="buffer/beatcutter/">BeatCutter</a></strong>: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.</li>
+<li><strong><a href="buffer/bufferlooper/">BufferLooper</a></strong>: Read and write from a buffer concurrently, with controllable overdub.</li>
+<li><strong><a href="buffer/bufferplayer/">BufferPlayer</a></strong>: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.</li>
+<li><strong><a href="buffer/bufferrecorder/">BufferRecorder</a></strong>: Records the input to a buffer. feedback controls overdub.</li>
+<li><strong><a href="buffer/feedbackbufferreader/">FeedbackBufferReader</a></strong>: Counterpart to FeedbackBufferWriter.</li>
+<li><strong><a href="buffer/feedbackbufferwriter/">FeedbackBufferWriter</a></strong>: Counterpart to FeedbackBufferReader.</li>
+<li><strong><a href="buffer/grainsegments/">GrainSegments</a></strong>: GrainSegments</li>
+<li><strong><a href="buffer/granulator/">Granulator</a></strong>: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.</li>
+<li><strong><a href="buffer/segmentplayer/">SegmentPlayer</a></strong>: Trigger segments of a buffer at the given onset positions.</li>
 </ul>
+<hr />
 <h2 id="control">Control</h2>
 <ul>
-<li><strong>MouseX</strong>: Outputs the normalised cursor X position, from 0 to 1. Currently only supported on macOS. <code>()</code></li>
-<li><strong>MouseY</strong>: Outputs the normalised cursor Y position, from 0 to 1. Currently only supported on macOS. <code>()</code></li>
-<li><strong>MouseDown</strong>: Outputs 1 if the left mouse button is down, 0 otherwise. Currently only supported on macOS. <code>(button_index=0)</code></li>
+<li><strong><a href="control/mousex/">MouseX</a></strong>: Outputs the normalised cursor X position, from 0 to 1. Currently only supported on macOS.</li>
+<li><strong><a href="control/mousey/">MouseY</a></strong>: Outputs the normalised cursor Y position, from 0 to 1. Currently only supported on macOS.</li>
+<li><strong><a href="control/mousedown/">MouseDown</a></strong>: Outputs 1 if the left mouse button is down, 0 otherwise. Currently only supported on macOS.</li>
 </ul>
+<hr />
 <h2 id="envelope">Envelope</h2>
 <ul>
-<li><strong>ADSREnvelope</strong>: Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero. <code>(attack=0.1, decay=0.1, sustain=0.5, release=0.1, gate=0)</code></li>
-<li><strong>ASREnvelope</strong>: Attack-sustain-release envelope. <code>(attack=0.1, sustain=0.5, release=0.1, curve=1.0, clock=nullptr)</code></li>
-<li><strong>DetectSilence</strong>: Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete. <code>(input=nullptr, threshold=0.00001)</code></li>
-<li><strong>Envelope</strong>: Generic envelope constructor, given an array of levels, times and curves. <code>(levels=std::vector&lt;NodeRef&gt; ( ), times=std::vector&lt;NodeRef&gt; ( ), curves=std::vector&lt;NodeRef&gt; ( ), clock=nullptr, loop=false)</code></li>
-<li><strong>Line</strong>: Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal. <code>(from=0.0, to=1.0, time=1.0, loop=0, clock=nullptr)</code></li>
-<li><strong>RectangularEnvelope</strong>: Rectangular envelope with the given sustain duration. <code>(sustain_duration=1.0, clock=nullptr)</code></li>
+<li><strong><a href="envelope/adsrenvelope/">ADSREnvelope</a></strong>: Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.</li>
+<li><strong><a href="envelope/asrenvelope/">ASREnvelope</a></strong>: Attack-sustain-release envelope.</li>
+<li><strong><a href="envelope/detectsilence/">DetectSilence</a></strong>: Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.</li>
+<li><strong><a href="envelope/envelope/">Envelope</a></strong>: Generic envelope constructor, given an array of levels, times and curves.</li>
+<li><strong><a href="envelope/line/">Line</a></strong>: Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal.</li>
+<li><strong><a href="envelope/rectangularenvelope/">RectangularEnvelope</a></strong>: Rectangular envelope with the given sustain duration.</li>
 </ul>
-<h2 id="fft">Fft</h2>
+<hr />
+<h2 id="fft">FFT</h2>
 <ul>
-<li><strong>FFTContinuousPhaseVocoder</strong>: Continuous phase vocoder. Requires an FFT* input. <code>(input=nullptr, rate=1.0)</code></li>
-<li><strong>FFTConvolve</strong>: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input. <code>(input=nullptr, buffer=nullptr)</code></li>
-<li><strong>FFT</strong>: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output. <code>(input=0.0, fft_size=SIGNALFLOW_DEFAULT_FFT_SIZE, hop_size=SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, window_size=0, do_window=true)</code></li>
-<li><strong>FFTNode</strong>: FFTNode <code>(fft_size=None, hop_size=None, window_size=None, do_window=None)</code></li>
-<li><strong>FFTOpNode</strong>: FFTOpNode <code>(input=nullptr)</code></li>
-<li><strong>FFTFindPeaks</strong>: Find peaks in the FFT magnitude spectrum. Requires an FFT* input. <code>(input=0, prominence=1, threshold=0.000001, count=SIGNALFLOW_MAX_CHANNELS, interpolate=true)</code></li>
-<li><strong>IFFT</strong>: Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output. <code>(input=nullptr, do_window=false)</code></li>
-<li><strong>FFTLPF</strong>: FFT-based brick wall low pass filter. Requires an FFT* input. <code>(input=0, frequency=2000)</code></li>
-<li><strong>FFTNoiseGate</strong>: FFT-based noise gate. Requires an FFT* input. <code>(input=0, threshold=0.5)</code></li>
-<li><strong>FFTPhaseVocoder</strong>: Phase vocoder. Requires an FFT* input. <code>(input=nullptr)</code></li>
-<li><strong>FFTTonality</strong>: Tonality filter. Requires an FFT* input. <code>(input=0, level=0.5, smoothing=0.9)</code></li>
-<li><strong>FFTZeroPhase</strong>: Remove phase information from a frequency-domain input. Requires an FFT* input. <code>(input=0)</code></li>
+<li><strong><a href="fft/fftcontinuousphasevocoder/">FFTContinuousPhaseVocoder</a></strong>: Continuous phase vocoder. Requires an FFT* input.</li>
+<li><strong><a href="fft/fftconvolve/">FFTConvolve</a></strong>: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.</li>
+<li><strong><a href="fft/fft/">FFT</a></strong>: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.</li>
+<li><strong><a href="fft/fftnode/">FFTNode</a></strong>: FFTNode</li>
+<li><strong><a href="fft/fftopnode/">FFTOpNode</a></strong>: FFTOpNode</li>
+<li><strong><a href="fft/fftfindpeaks/">FFTFindPeaks</a></strong>: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.</li>
+<li><strong><a href="fft/ifft/">IFFT</a></strong>: Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.</li>
+<li><strong><a href="fft/fftlpf/">FFTLPF</a></strong>: FFT-based brick wall low pass filter. Requires an FFT* input.</li>
+<li><strong><a href="fft/fftnoisegate/">FFTNoiseGate</a></strong>: FFT-based noise gate. Requires an FFT* input.</li>
+<li><strong><a href="fft/fftphasevocoder/">FFTPhaseVocoder</a></strong>: Phase vocoder. Requires an FFT* input.</li>
+<li><strong><a href="fft/ffttonality/">FFTTonality</a></strong>: Tonality filter. Requires an FFT* input.</li>
+<li><strong><a href="fft/fftzerophase/">FFTZeroPhase</a></strong>: Remove phase information from a frequency-domain input. Requires an FFT* input.</li>
 </ul>
+<hr />
 <h2 id="operators">Operators</h2>
 <ul>
-<li><strong>Add</strong>: Add each sample of a to each sample of b. Can also be written as a + b <code>(a=0, b=0)</code></li>
-<li><strong>AmplitudeToDecibels</strong>: Map a linear amplitude value to decibels. <code>(a=0)</code></li>
-<li><strong>DecibelsToAmplitude</strong>: DecibelsToAmplitude <code>(a=0)</code></li>
-<li><strong>ChannelArray</strong>: Takes an array of inputs and spreads them across multiple channels of output. <code>()</code></li>
-<li><strong>ChannelCrossfade</strong>: Given a multichannel input, crossfades between channels based on the given position within the virtual array, producing a single-channel output. <code>(input=nullptr, index=nullptr, num_output_channels=1)</code></li>
-<li><strong>ChannelMixer</strong>: Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels. <code>(num_channels=1, input=0, amplitude_compensation=true)</code></li>
-<li><strong>ChannelSelect</strong>: Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step. <code>(input=nullptr, offset=0, maximum=0, step=1)</code></li>
-<li><strong>Equal</strong>: Compares the output of a to the output of b. Outputs 1 when equal, 0 otherwise. Can also be written as a == b <code>(a=0, b=0)</code></li>
-<li><strong>NotEqual</strong>: Compares the output of a to the output of b. Outputs 0 when equal, 1 otherwise. Can also be written as a != b <code>(a=0, b=0)</code></li>
-<li><strong>GreaterThan</strong>: Compares the output of a to the output of b. Outputs 1 when a &gt; b, 0 otherwise. Can also be written as a &gt; b <code>(a=0, b=0)</code></li>
-<li><strong>GreaterThanOrEqual</strong>: Compares the output of a to the output of b. Outputs 1 when a &gt;= b, 0 otherwise. Can also be written as a &gt;= b <code>(a=0, b=0)</code></li>
-<li><strong>LessThan</strong>: Compares the output of a to the output of b. Outputs 1 when a &lt; b, 0 otherwise. Can also be written as a &lt; b <code>(a=0, b=0)</code></li>
-<li><strong>LessThanOrEqual</strong>: Compares the output of a to the output of b. Outputs 1 when a &lt;= b, 0 otherwise. Can also be written as a &lt;= b <code>(a=0, b=0)</code></li>
-<li><strong>Modulo</strong>: Outputs the value of a modulo b, per sample. Supports fractional values. Can also be written as a % b <code>(a=0, b=0)</code></li>
-<li><strong>Abs</strong>: Outputs the absolute value of a, per sample. Can also be written as abs(a) <code>(a=0)</code></li>
-<li><strong>If</strong>: Outputs value_if_true for each non-zero value of a, value_if_false for all other values. <code>(a=0, value_if_true=0, value_if_false=0)</code></li>
-<li><strong>Divide</strong>: Divide each sample of a by each sample of b. Can also be written as a / b <code>(a=1, b=1)</code></li>
-<li><strong>FrequencyToMidiNote</strong>: Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output. <code>(a=0)</code></li>
-<li><strong>MidiNoteToFrequency</strong>: Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point input. <code>(a=0)</code></li>
-<li><strong>Multiply</strong>: Multiply each sample of a by each sample of b. Can also be written as a * b <code>(a=1.0, b=1.0)</code></li>
-<li><strong>Pow</strong>: Outputs a to the power of b, per sample. Can also be written as a ** b <code>(a=0, b=0)</code></li>
-<li><strong>RoundToScale</strong>: Given a frequency input, generates a frequency output that is rounded to the nearest MIDI note. (TODO: Not very well named) <code>(a=0)</code></li>
-<li><strong>Round</strong>: Round the input to the nearest integer value. <code>(a=0)</code></li>
-<li><strong>ScaleLinExp</strong>: Scales the input from a linear range (between a and b) to an exponential range (between c and d). <code>(input=0, a=0, b=1, c=1, d=10)</code></li>
-<li><strong>ScaleLinLin</strong>: Scales the input from a linear range (between a and b) to a linear range (between c and d). <code>(input=0, a=0, b=1, c=1, d=10)</code></li>
-<li><strong>Subtract</strong>: Subtract each sample of b from each sample of a. Can also be written as a - b <code>(a=0, b=0)</code></li>
-<li><strong>Sum</strong>: Sums the output of all of the input nodes, by sample. <code>()</code></li>
-<li><strong>Sin</strong>: Outputs sin(a), per sample. <code>(a=0)</code></li>
-<li><strong>Cos</strong>: Outputs cos(a), per sample. <code>(a=0)</code></li>
-<li><strong>Tan</strong>: Outputs tan(a), per sample. <code>(a=0)</code></li>
-<li><strong>Tanh</strong>: Outputs tanh(a), per sample. Can be used as a soft clipper. <code>(a=0)</code></li>
+<li><strong><a href="operators/add/">Add</a></strong>: Add each sample of a to each sample of b. Can also be written as a + b</li>
+<li><strong><a href="operators/amplitudetodecibels/">AmplitudeToDecibels</a></strong>: Map a linear amplitude value to decibels.</li>
+<li><strong><a href="operators/decibelstoamplitude/">DecibelsToAmplitude</a></strong>: DecibelsToAmplitude</li>
+<li><strong><a href="operators/channelarray/">ChannelArray</a></strong>: Takes an array of inputs and spreads them across multiple channels of output.</li>
+<li><strong><a href="operators/channelcrossfade/">ChannelCrossfade</a></strong>: Given a multichannel input, crossfades between channels based on the given position within the virtual array, producing a single-channel output.</li>
+<li><strong><a href="operators/channelmixer/">ChannelMixer</a></strong>: Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels.</li>
+<li><strong><a href="operators/channelselect/">ChannelSelect</a></strong>: Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step.</li>
+<li><strong><a href="operators/equal/">Equal</a></strong>: Compares the output of a to the output of b. Outputs 1 when equal, 0 otherwise. Can also be written as a == b</li>
+<li><strong><a href="operators/notequal/">NotEqual</a></strong>: Compares the output of a to the output of b. Outputs 0 when equal, 1 otherwise. Can also be written as a != b</li>
+<li><strong><a href="operators/greaterthan/">GreaterThan</a></strong>: Compares the output of a to the output of b. Outputs 1 when a &gt; b, 0 otherwise. Can also be written as a &gt; b</li>
+<li><strong><a href="operators/greaterthanorequal/">GreaterThanOrEqual</a></strong>: Compares the output of a to the output of b. Outputs 1 when a &gt;= b, 0 otherwise. Can also be written as a &gt;= b</li>
+<li><strong><a href="operators/lessthan/">LessThan</a></strong>: Compares the output of a to the output of b. Outputs 1 when a &lt; b, 0 otherwise. Can also be written as a &lt; b</li>
+<li><strong><a href="operators/lessthanorequal/">LessThanOrEqual</a></strong>: Compares the output of a to the output of b. Outputs 1 when a &lt;= b, 0 otherwise. Can also be written as a &lt;= b</li>
+<li><strong><a href="operators/modulo/">Modulo</a></strong>: Outputs the value of a modulo b, per sample. Supports fractional values. Can also be written as a % b</li>
+<li><strong><a href="operators/abs/">Abs</a></strong>: Outputs the absolute value of a, per sample. Can also be written as abs(a)</li>
+<li><strong><a href="operators/if/">If</a></strong>: Outputs value_if_true for each non-zero value of a, value_if_false for all other values.</li>
+<li><strong><a href="operators/divide/">Divide</a></strong>: Divide each sample of a by each sample of b. Can also be written as a / b</li>
+<li><strong><a href="operators/frequencytomidinote/">FrequencyToMidiNote</a></strong>: Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output.</li>
+<li><strong><a href="operators/midinotetofrequency/">MidiNoteToFrequency</a></strong>: Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point input.</li>
+<li><strong><a href="operators/multiply/">Multiply</a></strong>: Multiply each sample of a by each sample of b. Can also be written as a * b</li>
+<li><strong><a href="operators/pow/">Pow</a></strong>: Outputs a to the power of b, per sample. Can also be written as a ** b</li>
+<li><strong><a href="operators/roundtoscale/">RoundToScale</a></strong>: Given a frequency input, generates a frequency output that is rounded to the nearest MIDI note. (TODO: Not very well named)</li>
+<li><strong><a href="operators/round/">Round</a></strong>: Round the input to the nearest integer value.</li>
+<li><strong><a href="operators/scalelinexp/">ScaleLinExp</a></strong>: Scales the input from a linear range (between a and b) to an exponential range (between c and d).</li>
+<li><strong><a href="operators/scalelinlin/">ScaleLinLin</a></strong>: Scales the input from a linear range (between a and b) to a linear range (between c and d).</li>
+<li><strong><a href="operators/subtract/">Subtract</a></strong>: Subtract each sample of b from each sample of a. Can also be written as a - b</li>
+<li><strong><a href="operators/sum/">Sum</a></strong>: Sums the output of all of the input nodes, by sample.</li>
+<li><strong><a href="operators/sin/">Sin</a></strong>: Outputs sin(a), per sample.</li>
+<li><strong><a href="operators/cos/">Cos</a></strong>: Outputs cos(a), per sample.</li>
+<li><strong><a href="operators/tan/">Tan</a></strong>: Outputs tan(a), per sample.</li>
+<li><strong><a href="operators/tanh/">Tanh</a></strong>: Outputs tanh(a), per sample. Can be used as a soft clipper.</li>
 </ul>
+<hr />
 <h2 id="oscillators">Oscillators</h2>
 <ul>
-<li><strong>Constant</strong>: Produces a constant value. <code>(value=0)</code></li>
-<li><strong>Impulse</strong>: Produces a value of 1 at the given frequency, with output of 0 at all other times. If frequency is 0, produces a single impulse. <code>(frequency=1.0)</code></li>
-<li><strong>LFO</strong>: LFO <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>SawLFO</strong>: Produces a sawtooth LFO, with output ranging from min to max. <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>SawOscillator</strong>: Produces a (non-band-limited) sawtooth wave, with the given frequency and phase offset. When a reset or trigger is received, resets the phase to zero. <code>(frequency=440, phase=nullptr, reset=nullptr)</code></li>
-<li><strong>SineLFO</strong>: Produces a sinusoidal LFO at the given frequency and phase offset, with output ranging from min to max. <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>SineOscillator</strong>: Produces a sine wave at the given frequency. <code>(frequency=440)</code></li>
-<li><strong>SquareLFO</strong>: Produces a pulse wave LFO with the given frequency and pulse width, ranging from min to max, where width=0.5 is a square wave. <code>(frequency=1.0, min=0.0, max=1.0, width=0.5, phase=0.0)</code></li>
-<li><strong>SquareOscillator</strong>: Produces a pulse wave with the given frequency and pulse width, where width=0.5 is a square wave. <code>(frequency=440, width=0.5)</code></li>
-<li><strong>TriangleLFO</strong>: Produces a triangle LFO with the given frequency, ranging from min to max. <code>(frequency=1.0, min=0.0, max=1.0, phase=0.0)</code></li>
-<li><strong>TriangleOscillator</strong>: TriangleOscillator <code>(frequency=440)</code></li>
-<li><strong>Wavetable</strong>: Plays the wavetable stored in buffer at the given frequency. <code>(buffer=nullptr, frequency=440, phase=0, sync=0, phase_map=nullptr)</code></li>
-<li><strong>Wavetable2D</strong>: Wavetable2D <code>(buffer=nullptr, frequency=440, crossfade=0.0, phase=0.0, sync=0)</code></li>
+<li><strong><a href="oscillators/constant/">Constant</a></strong>: Produces a constant value.</li>
+<li><strong><a href="oscillators/impulse/">Impulse</a></strong>: Produces a value of 1 at the given frequency, with output of 0 at all other times. If frequency is 0, produces a single impulse.</li>
+<li><strong><a href="oscillators/lfo/">LFO</a></strong>: LFO</li>
+<li><strong><a href="oscillators/sawlfo/">SawLFO</a></strong>: Produces a sawtooth LFO, with output ranging from min to max.</li>
+<li><strong><a href="oscillators/sawoscillator/">SawOscillator</a></strong>: Produces a (non-band-limited) sawtooth wave, with the given frequency and phase offset. When a reset or trigger is received, resets the phase to zero.</li>
+<li><strong><a href="oscillators/sinelfo/">SineLFO</a></strong>: Produces a sinusoidal LFO at the given frequency and phase offset, with output ranging from min to max.</li>
+<li><strong><a href="oscillators/sineoscillator/">SineOscillator</a></strong>: Produces a sine wave at the given frequency.</li>
+<li><strong><a href="oscillators/squarelfo/">SquareLFO</a></strong>: Produces a pulse wave LFO with the given frequency and pulse width, ranging from min to max, where width=0.5 is a square wave.</li>
+<li><strong><a href="oscillators/squareoscillator/">SquareOscillator</a></strong>: Produces a pulse wave with the given frequency and pulse width, where width=0.5 is a square wave.</li>
+<li><strong><a href="oscillators/trianglelfo/">TriangleLFO</a></strong>: Produces a triangle LFO with the given frequency, ranging from min to max.</li>
+<li><strong><a href="oscillators/triangleoscillator/">TriangleOscillator</a></strong>: TriangleOscillator</li>
+<li><strong><a href="oscillators/wavetable/">Wavetable</a></strong>: Plays the wavetable stored in buffer at the given frequency.</li>
+<li><strong><a href="oscillators/wavetable2d/">Wavetable2D</a></strong>: Wavetable2D</li>
 </ul>
+<hr />
 <h2 id="processors">Processors</h2>
 <ul>
-<li><strong>Clip</strong>: Clip the input to min/max. <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
-<li><strong>Fold</strong>: Fold the input beyond min/max, reflecting the excess back. <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
-<li><strong>Smooth</strong>: Smooth the input with a given smoothing coefficient. When smooth = 0, applies no smoothing. <code>(input=nullptr, smooth=0.99)</code></li>
-<li><strong>WetDry</strong>: Takes wet and dry inputs, and outputs a mix determined by wetness. <code>(dry_input=nullptr, wet_input=nullptr, wetness=0.0)</code></li>
-<li><strong>Wrap</strong>: Wrap the input beyond min/max. <code>(input=nullptr, min=-1.0, max=1.0)</code></li>
+<li><strong><a href="processors/clip/">Clip</a></strong>: Clip the input to min/max.</li>
+<li><strong><a href="processors/fold/">Fold</a></strong>: Fold the input beyond min/max, reflecting the excess back.</li>
+<li><strong><a href="processors/smooth/">Smooth</a></strong>: Smooth the input with a given smoothing coefficient. When smooth = 0, applies no smoothing.</li>
+<li><strong><a href="processors/wetdry/">WetDry</a></strong>: Takes wet and dry inputs, and outputs a mix determined by wetness.</li>
+<li><strong><a href="processors/wrap/">Wrap</a></strong>: Wrap the input beyond min/max.</li>
 </ul>
+<hr />
 <h2 id="processors-delays">Processors: Delays</h2>
 <ul>
-<li><strong>AllpassDelay</strong>: All-pass delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time. <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
-<li><strong>CombDelay</strong>: Comb delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time. <code>(input=0.0, delay_time=0.1, feedback=0.5, max_delay_time=0.5)</code></li>
-<li><strong>OneTapDelay</strong>: Single-tap delay line. delay_time must be less than or equal to max_delay_time. <code>(input=0.0, delay_time=0.1, max_delay_time=0.5)</code></li>
-<li><strong>Stutter</strong>: Stutters the input whenever a signal is received on clock. Generates stutter_count repeats, with duration stutter_time. <code>(input=0.0, stutter_time=0.1, stutter_count=1, clock=nullptr, max_stutter_time=1.0)</code></li>
+<li><strong><a href="processors/delays/allpassdelay/">AllpassDelay</a></strong>: All-pass delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.</li>
+<li><strong><a href="processors/delays/combdelay/">CombDelay</a></strong>: Comb delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.</li>
+<li><strong><a href="processors/delays/onetapdelay/">OneTapDelay</a></strong>: Single-tap delay line. delay_time must be less than or equal to max_delay_time.</li>
+<li><strong><a href="processors/delays/stutter/">Stutter</a></strong>: Stutters the input whenever a signal is received on clock. Generates stutter_count repeats, with duration stutter_time.</li>
 </ul>
+<hr />
 <h2 id="processors-distortion">Processors: Distortion</h2>
 <ul>
-<li><strong>Resample</strong>: Resampler and bit crusher. sample_rate is in Hz, bit_rate is an integer between 0 and 16. <code>(input=0, sample_rate=44100, bit_rate=16)</code></li>
-<li><strong>SampleAndHold</strong>: Samples and holds the input each time a clock signal is received. <code>(input=nullptr, clock=nullptr)</code></li>
-<li><strong>Squiz</strong>: Implementation of Dan Stowell's Squiz algorithm, a kind of downsampler. <code>(input=0.0, rate=2.0, chunk_size=1)</code></li>
-<li><strong>WaveShaper</strong>: Applies wave-shaping as described in buffer. <code>(input=0.0, buffer=nullptr)</code></li>
+<li><strong><a href="processors/distortion/resample/">Resample</a></strong>: Resampler and bit crusher. sample_rate is in Hz, bit_rate is an integer between 0 and 16.</li>
+<li><strong><a href="processors/distortion/sampleandhold/">SampleAndHold</a></strong>: Samples and holds the input each time a clock signal is received.</li>
+<li><strong><a href="processors/distortion/squiz/">Squiz</a></strong>: Implementation of Dan Stowell's Squiz algorithm, a kind of downsampler.</li>
+<li><strong><a href="processors/distortion/waveshaper/">WaveShaper</a></strong>: Applies wave-shaping as described in buffer.</li>
 </ul>
+<hr />
 <h2 id="processors-dynamics">Processors: Dynamics</h2>
 <ul>
-<li><strong>Compressor</strong>: Dynamic range compression, with optional sidechain input. <code>(input=0.0, threshold=0.1, ratio=2, attack_time=0.01, release_time=0.1, sidechain=nullptr)</code></li>
-<li><strong>Gate</strong>: Outputs the input value when it is above the given threshold, otherwise zero. <code>(input=0.0, threshold=0.1)</code></li>
-<li><strong>Maximiser</strong>: Gain maximiser. <code>(input=0.0, ceiling=0.5, attack_time=1.0, release_time=1.0)</code></li>
-<li><strong>RMS</strong>: Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size. <code>(input=0.0)</code></li>
+<li><strong><a href="processors/dynamics/compressor/">Compressor</a></strong>: Dynamic range compression, with optional sidechain input.</li>
+<li><strong><a href="processors/dynamics/gate/">Gate</a></strong>: Outputs the input value when it is above the given threshold, otherwise zero.</li>
+<li><strong><a href="processors/dynamics/maximiser/">Maximiser</a></strong>: Gain maximiser.</li>
+<li><strong><a href="processors/dynamics/rms/">RMS</a></strong>: Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size.</li>
 </ul>
+<hr />
 <h2 id="processors-filters">Processors: Filters</h2>
 <ul>
-<li><strong>BiquadFilter</strong>: Biquad filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. Not recommended for real-time modulation; for this, use SVFilter. <code>(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0, peak_gain=0.0)</code></li>
-<li><strong>EQ</strong>: Three-band EQ. <code>(input=0.0, low_gain=1.0, mid_gain=1.0, high_gain=1.0, low_freq=500, high_freq=5000)</code></li>
-<li><strong>MoogVCF</strong>: Moog ladder low-pass filter. <code>(input=0.0, cutoff=200.0, resonance=0.0)</code></li>
-<li><strong>SVFilter</strong>: State variable filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. <code>(input=0.0, filter_type=SIGNALFLOW_FILTER_TYPE_LOW_PASS, cutoff=440, resonance=0.0)</code></li>
+<li><strong><a href="processors/filters/biquadfilter/">BiquadFilter</a></strong>: Biquad filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. Not recommended for real-time modulation; for this, use SVFilter.</li>
+<li><strong><a href="processors/filters/eq/">EQ</a></strong>: Three-band EQ.</li>
+<li><strong><a href="processors/filters/moogvcf/">MoogVCF</a></strong>: Moog ladder low-pass filter.</li>
+<li><strong><a href="processors/filters/svfilter/">SVFilter</a></strong>: State variable filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'.</li>
 </ul>
+<hr />
 <h2 id="processors-panning">Processors: Panning</h2>
 <ul>
-<li><strong>AzimuthPanner</strong>: Pan input around an equally-spaced ring of num_channels speakers. pan is the pan position from -1..+1, where 0 = centre front. width is the source's width, where 1.0 spans exactly between an adjacent pair of channels. <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
-<li><strong>ChannelPanner</strong>: Pan the input between a linear series of channels, where pan 0 = channel 0, 1 = channel 1, etc. No wrapping is applied. <code>(num_channels=2, input=0, pan=0.0, width=1.0)</code></li>
-<li><strong>SpatialPanner</strong>: Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported. <code>(env=nullptr, input=0.0, x=0.0, y=0.0, z=0.0, radius=1.0, algorithm="dbap")</code></li>
-<li><strong>StereoBalance</strong>: Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left, and 1 is hard right. <code>(input=0, balance=0)</code></li>
-<li><strong>StereoPanner</strong>: Pans a mono input to a stereo output. Pans from -1 (hard left) to +1 (hard right), with 0 = centre. <code>(input=0, pan=0.0)</code></li>
-<li><strong>StereoWidth</strong>: Reduces the width of a stereo signal. When width = 1, input is unchanged. When width = 0, outputs a pair of identical channels both containing L+R. <code>(input=0, width=1)</code></li>
+<li><strong><a href="processors/panning/azimuthpanner/">AzimuthPanner</a></strong>: Pan input around an equally-spaced ring of num_channels speakers. pan is the pan position from -1..+1, where 0 = centre front. width is the source's width, where 1.0 spans exactly between an adjacent pair of channels.</li>
+<li><strong><a href="processors/panning/channelpanner/">ChannelPanner</a></strong>: Pan the input between a linear series of channels, where pan 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.</li>
+<li><strong><a href="processors/panning/spatialpanner/">SpatialPanner</a></strong>: Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported.</li>
+<li><strong><a href="processors/panning/stereobalance/">StereoBalance</a></strong>: Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left, and 1 is hard right.</li>
+<li><strong><a href="processors/panning/stereopanner/">StereoPanner</a></strong>: Pans a mono input to a stereo output. Pans from -1 (hard left) to +1 (hard right), with 0 = centre.</li>
+<li><strong><a href="processors/panning/stereowidth/">StereoWidth</a></strong>: Reduces the width of a stereo signal. When width = 1, input is unchanged. When width = 0, outputs a pair of identical channels both containing L+R.</li>
 </ul>
+<hr />
 <h2 id="sequencing">Sequencing</h2>
 <ul>
-<li><strong>ClockDivider</strong>: When given a clock input (e.g., an Impulse), divides the clock by the given factor. factor must be an integer greater than or equal to 1. <code>(clock=0, factor=1)</code></li>
-<li><strong>Counter</strong>: Count upwards from min, driven by clock. <code>(clock=0, min=0, max=2147483647)</code></li>
-<li><strong>Euclidean</strong>: Euclidean rhythm as described by Toussaint, with sequence_length (n) and num_events (k), driven by clock. <code>(clock=0, sequence_length=0, num_events=0)</code></li>
-<li><strong>FlipFlop</strong>: Flips from 0/1 on each clock. <code>(clock=0)</code></li>
-<li><strong>ImpulseSequence</strong>: Each time a clock or trigger is received, outputs the next value in the sequence. At all other times, outputs zero. <code>(sequence=std::vector&lt;int&gt; ( ), clock=nullptr)</code></li>
-<li><strong>Index</strong>: Outputs the value in list corresponding to index. <code>(list={}, index=0)</code></li>
-<li><strong>Latch</strong>: Initially outputs 0. When a trigger is received at set, outputs 1. When a trigger is subsequently received at reset, outputs 0, until the next set. <code>(set=0, reset=0)</code></li>
-<li><strong>Sequence</strong>: Outputs the elements in sequence, incrementing position on each clock. <code>(sequence=std::vector&lt;float&gt; ( ), clock=nullptr)</code></li>
+<li><strong><a href="sequencing/clockdivider/">ClockDivider</a></strong>: When given a clock input (e.g., an Impulse), divides the clock by the given factor. factor must be an integer greater than or equal to 1.</li>
+<li><strong><a href="sequencing/counter/">Counter</a></strong>: Count upwards from min, driven by clock.</li>
+<li><strong><a href="sequencing/euclidean/">Euclidean</a></strong>: Euclidean rhythm as described by Toussaint, with sequence_length (n) and num_events (k), driven by clock.</li>
+<li><strong><a href="sequencing/flipflop/">FlipFlop</a></strong>: Flips from 0/1 on each clock.</li>
+<li><strong><a href="sequencing/impulsesequence/">ImpulseSequence</a></strong>: Each time a clock or trigger is received, outputs the next value in the sequence. At all other times, outputs zero.</li>
+<li><strong><a href="sequencing/">Index</a></strong>: Outputs the value in list corresponding to index.</li>
+<li><strong><a href="sequencing/latch/">Latch</a></strong>: Initially outputs 0. When a trigger is received at set, outputs 1. When a trigger is subsequently received at reset, outputs 0, until the next set.</li>
+<li><strong><a href="sequencing/sequence/">Sequence</a></strong>: Outputs the elements in sequence, incrementing position on each clock.</li>
 </ul>
+<hr />
 <h2 id="stochastic">Stochastic</h2>
 <ul>
-<li><strong>Logistic</strong>: Logistic noise. <code>(chaos=3.7, frequency=0.0)</code></li>
-<li><strong>PinkNoise</strong>: Pink noise, with specified low/high cutoffs. <code>(low_cutoff=20.0, high_cutoff=20000.0, reset=nullptr)</code></li>
-<li><strong>RandomBrownian</strong>: Outputs Brownian noise between min/max, with a mean change of delta between samples. If a clock is passed, only generates a new value on a clock tick. <code>(min=-1.0, max=1.0, delta=0.01, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomChoice</strong>: Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick. <code>(values=std::vector&lt;float&gt; ( ), clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomCoin</strong>: Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick. <code>(probability=0.5, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomExponentialDist</strong>: Generate an random value following the exponential distribution. If a clock is passed, only picks a new value on a clock tick. <code>(scale=0.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomExponential</strong>: Generate an random exponential value between min/max. If a clock is passed, only picks a new value on a clock tick. <code>(min=0.001, max=1.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomGaussian</strong>: Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick. <code>(mean=0.0, sigma=0.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomImpulseSequence</strong>: Generates a random sequence of 0/1 bits with the given length, and the given probability each each bit = 1. The position of the sequence is incremented on each clock signal. explore and generate are trigger inputs which cause the sequence to mutate and re-generate respectively. <code>(probability=0.5, length=8, clock=nullptr, explore=nullptr, generate=nullptr, reset=nullptr)</code></li>
-<li><strong>RandomImpulse</strong>: Generate random impulses at the given frequency, with either uniform or poisson distribution. <code>(frequency=1.0, distribution=SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM, reset=nullptr)</code></li>
-<li><strong>RandomUniform</strong>: Generates a uniformly random value between min/max. If a clock is passed, only picks a new value on a clock tick. <code>(min=0.0, max=1.0, clock=nullptr, reset=nullptr)</code></li>
-<li><strong>StochasticNode</strong>: StochasticNode <code>(reset=nullptr)</code></li>
-<li><strong>WhiteNoise</strong>: Generates whitenoise between min/max. If frequency is zero, generates at audio rate. For frequencies lower than audio rate, interpolate applies linear interpolation between values, and random_interval specifies whether new random values should be equally-spaced or randomly-spaced. <code>(frequency=0.0, min=-1.0, max=1.0, interpolate=true, random_interval=true, reset=nullptr)</code></li>
+<li><strong><a href="stochastic/logistic/">Logistic</a></strong>: Logistic noise.</li>
+<li><strong><a href="stochastic/pinknoise/">PinkNoise</a></strong>: Pink noise, with specified low/high cutoffs.</li>
+<li><strong><a href="stochastic/randombrownian/">RandomBrownian</a></strong>: Outputs Brownian noise between min/max, with a mean change of delta between samples. If a clock is passed, only generates a new value on a clock tick.</li>
+<li><strong><a href="stochastic/randomchoice/">RandomChoice</a></strong>: Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick.</li>
+<li><strong><a href="stochastic/randomcoin/">RandomCoin</a></strong>: Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick.</li>
+<li><strong><a href="stochastic/randomexponentialdist/">RandomExponentialDist</a></strong>: Generate an random value following the exponential distribution. If a clock is passed, only picks a new value on a clock tick.</li>
+<li><strong><a href="stochastic/randomexponential/">RandomExponential</a></strong>: Generate an random exponential value between min/max. If a clock is passed, only picks a new value on a clock tick.</li>
+<li><strong><a href="stochastic/randomgaussian/">RandomGaussian</a></strong>: Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick.</li>
+<li><strong><a href="stochastic/randomimpulsesequence/">RandomImpulseSequence</a></strong>: Generates a random sequence of 0/1 bits with the given length, and the given probability each each bit = 1. The position of the sequence is incremented on each clock signal. explore and generate are trigger inputs which cause the sequence to mutate and re-generate respectively.</li>
+<li><strong><a href="stochastic/randomimpulse/">RandomImpulse</a></strong>: Generate random impulses at the given frequency, with either uniform or poisson distribution.</li>
+<li><strong><a href="stochastic/randomuniform/">RandomUniform</a></strong>: Generates a uniformly random value between min/max. If a clock is passed, only picks a new value on a clock tick.</li>
+<li><strong><a href="stochastic/stochasticnode/">StochasticNode</a></strong>: StochasticNode</li>
+<li><strong><a href="stochastic/whitenoise/">WhiteNoise</a></strong>: Generates whitenoise between min/max. If frequency is zero, generates at audio rate. For frequencies lower than audio rate, interpolate applies linear interpolation between values, and random_interval specifies whether new random values should be equally-spaced or randomly-spaced.</li>
 </ul>
+<hr />
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+      
+        <br>
+        Created:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2021-06-08T22:19:37+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2021-06-08</span>
+      
+    
+  </small>
+</div>
 
 
 
@@ -1714,7 +2280,7 @@
       <nav class="md-footer__inner md-grid" aria-label="Footer" >
         
           
-          <a href="../license/" class="md-footer__link md-footer__link--prev" aria-label="Previous: License">
+          <a href="../buffer/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Buffers">
             <div class="md-footer__button md-icon">
               
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
@@ -1724,20 +2290,20 @@
                 Previous
               </span>
               <div class="md-ellipsis">
-                License
+                Buffers
               </div>
             </div>
           </a>
         
         
           
-          <a href="../graph/" class="md-footer__link md-footer__link--next" aria-label="Next: The AudioGraph">
+          <a href="analysis/" class="md-footer__link md-footer__link--next" aria-label="Next: Analysis">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                The AudioGraph
+                Analysis
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1797,10 +2363,14 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.copy", "navigation.sections", "navigation.path", "navigation.indexes", "navigation.top", "navigation.footer", "navigation.tabs"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../assets/javascripts/bundle.81fa17fe.min.js"></script>
+      
+        <script src="../js/timeago.min.js"></script>
+      
+        <script src="../js/timeago_mkdocs_material.js"></script>
       
     
   </body>
