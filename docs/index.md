@@ -55,7 +55,9 @@ At its core, SignalFlow has a handful of key concepts.
 
 ---
 
-## Documentation
+## Next steps
 
-- [Installation](getting-started.md)
+- [Installing SignalFlow](installation/index.md)
 - [Example code](http://github.com/ideoforms/signalflow/tree/master/examples)
+
+---
