@@ -276,7 +276,7 @@ def generate_markdown(node_classes) -> str:
     Returns:
         The complete docs/library.md markdown file
     """
-    output_markdown = ""
+    output_markdown = "# Node reference library\n"
 
     for folder, classes in node_classes.items():
         if folder in documentation_omit_folders:
@@ -285,13 +285,69 @@ def generate_markdown(node_classes) -> str:
         output_markdown += "\n## " + folder_title + "\n\n"
         for cls in classes:
             if cls.constructors:
-                output_markdown_params = ", ".join(
-                    ("%s=%s" % (param.name, param.default)) for param in cls.constructors[0])
-                output_markdown += "- **%s**: %s `(%s)`\n" % (cls.name, cls.docs, output_markdown_params)
-    header = "# Node reference library\n"
-    output_markdown = header + output_markdown
+                cls_doc_path = "%s/%s.md" % (folder, cls.name.lower())
+                output_markdown += "- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs)
+        output_markdown += "\n---\n"
+
     return output_markdown
 
+
+def write_markdown_by_category(node_classes) -> str:
+    """
+    Generate Markdown documentation for the Node reference library
+
+    Args:
+        node_classes: dict of all Node classes
+
+    Returns:
+        The complete docs/library.md markdown file
+    """
+
+    # Also outputs mkdocs index with following format:
+    #   - Analysis:
+    #      - Analysis: library/analysis/index.md
+    #      - CrossCorrelate: library/analysis/crosscorrelate.md
+
+    root_directory = "docs/library"
+    for folder, classes in node_classes.items():
+        if folder in documentation_omit_folders:
+            continue
+        folder_title = folder_name_to_title(folder)
+        folder_path = os.path.join(root_directory, folder)
+        os.makedirs(folder_path, exist_ok=True)
+        folder_index_path_rel = os.path.join(folder, "index.md")
+        folder_index_path_abs = os.path.join(root_directory, folder_index_path_rel)
+        # print(" - \"%s\":" % (folder_title))
+        print(" - \"%s\": library/%s" % (folder_title, folder_index_path_rel))
+        with open(folder_index_path_abs, "w") as fd:
+            fd.write(f"[Reference library](../index.md) > [{folder_title}](index.md)\n\n")
+            fd.write(f"# {folder_title}\n\n")
+
+            for cls in classes:
+                if cls.constructors:
+                    cls_doc_path = "%s.md" % (cls.name.lower())
+                    fd.write("- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs))
+
+                    # output_markdown_params = ", ".join(
+                    #     ("%s=%s" % (param.name, param.default)) for param in cls.constructors[0])
+                    # output = "- **%s**: %s `(%s)`\n" % (cls.name, cls.docs, output_markdown_params)
+
+        for cls in classes:
+            if cls.constructors:
+                cls_doc_path = "%s.md" % (cls.name.lower())
+                cls_doc_abs_path = os.path.join(root_directory, folder, cls_doc_path)
+                with open(cls_doc_abs_path, "w") as fd:
+                    fd.write(f"[Reference library](../index.md) > [{folder_title}](index.md) > [{cls.name}]({cls_doc_path})\n\n")
+                    fd.write(f"# {cls.name}\n\n")
+                    fd.write(f"{cls.docs}\n\n")
+
+                    output_markdown_params = ", ".join(
+                        ("%s=%s" % (param.name, param.default)) for param in cls.constructors[0])
+                    output_markdown_params = output_markdown_params.replace("nullptr", "None")
+                    fd.write(f"Signature:\n")
+                    fd.write(f"```python\n")
+                    fd.write(f"{cls.name}({output_markdown_params})\n")
+                    fd.write(f"```\n")
 
 def generate_node_table(node_classes) -> str:
     """
@@ -323,6 +379,8 @@ def main(args):
         print(generate_markdown(node_classes))
     elif args.table:
         print(generate_node_table(node_classes))
+    elif args.categories:
+        write_markdown_by_category(node_classes)
     else:
         print(generate_bindings(node_classes))
 
@@ -331,6 +389,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--markdown", action="store_true")
     parser.add_argument("-t", "--table", action="store_true")
+    parser.add_argument("-c", "--categories", action="store_true")
     args = parser.parse_args()
 
     main(args)

@@ -8,6 +8,8 @@ A node has three different classes of input:
 - **Trigger inputs**: Used to trigger discrete control events — for example, restarting buffer playback
 - **Buffer inputs**: Used to pass the contents of an audio buffer to a node — for example, as a source of audio samples, or an envelope shape
 
+---
+
 ### Audio-rate inputs
 
 Virtually every node has one or more audio-rate inputs. Put simply, an audio-rate input is **the output of another node**. Let's look at a short example:
@@ -27,6 +29,8 @@ All audio-rate inputs can be modified just like a normal Python property. For ex
 signal.frequency = TriangleOscillator(0.5, 100, 1000)
 ```
 
+---
+
 #### Variable input nodes
 
 Some nodes have a variable number of inputs, which can change over the Node's lifetime. For example, `Sum()` takes an arbitrary number of input Nodes, and generates an output which is the sum of all of its inputs.
@@ -45,6 +49,8 @@ sum.add_input(c)
 ```
 
 It is possible to check whether a Node object takes variable inputs by querying `node.has_variable_inputs`.
+
+---
 
 ### Triggers
 
@@ -94,7 +100,7 @@ Triggers happen at zero-crossings — that is, when the output of the node passe
 
 ```python
 clock = Impulse(SineLFO(0.2, 1, 10))
-buffer = Buffer("../audio/stereo-count.wav")
+buffer = Buffer("examples/audio/stereo-count.wav")
 player = BufferPlayer(buffer, loop=True, clock=clock)
 player.play()
 ```
@@ -110,6 +116,8 @@ output.play()
 ```
 
 *TODO: Should the name of the trigger() event always be identical to the trigger input name? So `clock` for envelopes, buffer player, etc...?*
+
+---
 
 ### Buffer inputs
 

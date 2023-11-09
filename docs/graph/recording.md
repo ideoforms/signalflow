@@ -15,6 +15,8 @@ To record output in formats other than the default stereo, `start_recording` tak
 !!! note
     At present, only .wav is supported as an output format for global audio recordings. 
 
+---
+
 ## Offline (non-real-time) rendering
 
 It is also possible to perform non-real-time rendering of a synthesis graph,  by synthesizing audio output to a `Buffer` which can then be saved to disk:   

@@ -8,6 +8,7 @@ theme:
   name: material
   palette:
    - primary: red
+   - accent: amber
   features:
    # enable button to copy code block
    - content.code.copy
@@ -21,8 +22,11 @@ theme:
    - navigation.top
    # footer with next/previous links
    - navigation.footer
+   - navigation.tabs
   font:
     text: "IBM Plex Sans"
+  icon:
+    repo: fontawesome/brands/github
 
 extra:
   social:
@@ -37,10 +41,14 @@ markdown_extensions:
  - pymdownx.tabbed
  - pymdownx.highlight
  - pymdownx.superfences
+ - meta
 
 plugins:
  - include-markdown
  - search
+ - git-revision-date-localized:
+     enable_creation_date: true
+     type: timeago
 
 nav:
  - Home:
@@ -50,41 +58,64 @@ nav:
    - Installation:
      - Installation: installation/index.md
      - Installing on macOS:
-        - Installing on macOS: installation/macos/index.md
-        - Easy install: installation/macos/easy.md
-        - Command-line installation: installation/macos/command-line.md
+       - Installing on macOS: installation/macos/index.md
+       - Easy install: installation/macos/easy.md
+       - Command-line installation: installation/macos/command-line.md
      - Installing on Linux:
-        - Installing on Linux: installation/linux/index.md
-        - Command-line installation: installation/linux/command-line.md
+       - Installing on Linux: installation/linux/index.md
+       - Command-line installation: installation/linux/command-line.md
    - Examples: examples.md
    - License: license.md
+ - Elements:
+   - The AudioGraph:
+     - The AudioGraph: graph/index.md
+     - Creating the graph: graph/creating.md
+     - Configuration: graph/config.md
+     - Status and properties: graph/properties.md
+     - Recording the audio output: graph/recording.md
+     - Stopping the graph: graph/stopping.md
+   - Nodes:
+     - Nodes: node/index.md
+     - Playback: node/playback.md
+     - Inputs: node/inputs.md
+     - Operators: node/operators.md
+     - Multichannel: node/multichannel.md
+     - Status and properties: node/properties.md
+     - Stochastic nodes: node/stochastic.md
+     - Developing a new Node class: node/developing.md
+   - Patches:
+     - Patches: patch/index.md
+     - Defining a Patch: patch/defining.md
+     - Playback: patch/playback.md
+     - Inputs: patch/inputs.md
+     - Operators: patch/operators.md
+     - Properties: patch/properties.md
+     - Exporting and importing patches: patch/exporting.md
+     - Auto-free and memory management: patch/auto-free.md
+   - Buffers:
+     - Buffers: buffer/index.md
  - Reference library:
-     - Reference library: library/index.md
- - The AudioGraph:
-    - The AudioGraph: graph/index.md
-    - Creating the graph: graph/creating.md
-    - Configuration: graph/config.md
-    - Status and properties: graph/properties.md
-    - Recording the audio output: graph/recording.md
-    - Stopping the graph: graph/stopping.md
- - Nodes:
-    - Nodes: node/index.md
-    - Playback: node/playback.md
-    - Inputs: node/inputs.md
-    - Operators: node/operators.md
-    - Multichannel: node/multichannel.md
-    - Status and properties: node/properties.md
-    - Stochastic nodes: node/stochastic.md
-    - Developing a new Node class: node/developing.md
- - Patches:
-    - Patches: patch/index.md
-    - Defining a Patch: patch/defining.md
-    - Playback: patch/playback.md
-    - Inputs: patch/inputs.md
-    - Operators: patch/operators.md
-    - Properties: patch/properties.md
-    - Exporting and importing patches: patch/exporting.md
-    - Auto-free and memory management: patch/auto-free.md
- - Buffers:
-    - Buffers: buffer/index.md
+   - "Reference library": library/index.md
+   - "Analysis": library/analysis/index.md
+   - "Buffer": library/buffer/index.md
+   - "Control": library/control/index.md
+   - "Envelope": library/envelope/index.md
+   - "FFT": library/fft/index.md
+   - "Operators": library/operators/index.md
+   - "Oscillators": library/oscillators/index.md
+   - "Processors": library/processors/index.md
+   - "Processors: Delays": library/processors/delays/index.md
+   - "Processors: Distortion": library/processors/distortion/index.md
+   - "Processors: Dynamics": library/processors/dynamics/index.md
+   - "Processors: Filters": library/processors/filters/index.md
+   - "Processors: Panning": library/processors/panning/index.md
+   - "Sequencing": library/sequencing/index.md
+   - "Stochastic": library/stochastic/index.md
 
+not_in_nav: |
+  library/*/*.md
+  library/*/*/*.md
+  installation/*/buttons.md
+  installation/command-line-generic.md
+  installation/next-steps.md
+  planning/*

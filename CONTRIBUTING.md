@@ -9,6 +9,7 @@
 - Regenerate the auto-generated Python bindings: `auxiliary/scripts/generate-node-python-bindings.py > source/src/python/nodes.cpp`
 - Add unit tests to the appropriate test script in `tests`
 - Re-run the tests: `python3 setup.py test`
+- Update the stubs (see below)
 
 ## Build: C++
 
@@ -43,7 +44,7 @@ auxiliary/scripts/generate-node-python-bindings.py --markdown > docs/library/ind
 To generate and serve the docs:
 
 ```
-pip3 install mkdocs mkdocs-material mkdocs-include-markdown-plugin
+pip3 install mkdocs mkdocs-material mkdocs-include-markdown-plugin mkdocs-git-revision-date-localized-plugin
 mkdocs serve
 ```
 

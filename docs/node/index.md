@@ -3,9 +3,9 @@
 A `Node` object is an audio processing unit that performs one single function. For example, a Node's role may be to synthesize a waveform, read from a buffer, or take two input Nodes and sum their values.
 
 - Nodes are [played and stopped](playback.md) by connecting them to the AudioGraph 
-- A node has one or more [audio-rate inputs](inputs.md#audio-rate-inputs), which can be modulated by other nodes
+- A node has one or more [audio-rate inputs](inputs.md#audio-rate-inputs), which can be modulated by other nodes — for example, a filter node has inputs for `cutoff` and `resonance` 
 - Some nodes can be triggered with [trigger inputs](inputs.md#triggers) — for example, to restart playback, or set the position of an envelope
-- Some nodes can be used to play back the contents of [buffer inputs](inputs.md#buffer-inputs), or can use buffer data as a source of modulation
+- Some nodes can be used to play back the contents of [buffer inputs](inputs.md#buffer-inputs), or can use buffer data as a source of modulation — for example, the `Granulator` node plays grains of audio from one buffer, and takes another buffer to shape the envelope of each grain
 - The output of multiple nodes can be combined and modulated with use of the standard Python [operators](operators.md) (`+`, `-`, `*`, `%`, etc)
 - The output of a node can be mono (single-channel) or [multichannel](multichannel.md)
 - A Node's status and output can be examined by querying its [properties](properties.md)

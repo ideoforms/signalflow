@@ -1,3 +1,5 @@
+title: Explore sound synthesis and DSP with Python
+
 # SignalFlow: Explore sound synthesis and DSP with Python
 
 SignalFlow is a sound synthesis framework whose goal is to make it quick and intuitive to explore complex sonic ideas. It has a simple Python API, allowing for rapid prototyping in Jupyter notebooks or on the command-line. It comes with over 100 signal processing classes for creative exploration, from filters and delays to FFT-based spectral processing and Euclidean rhythm generators.
@@ -59,5 +61,3 @@ At its core, SignalFlow has a handful of key concepts.
 
 - [Installing SignalFlow](installation/index.md)
 - [Example code](http://github.com/ideoforms/signalflow/tree/master/examples)
-
----
