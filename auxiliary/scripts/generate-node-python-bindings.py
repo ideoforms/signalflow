@@ -32,6 +32,14 @@ class Parameter:
     default: Any
 
 
+@dataclass
+class NodeClass:
+    name: str
+    parent: str
+    docs: str
+    constructors: list[list[Parameter]]
+
+
 node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
 omitted_classes = ["VampAnalysis", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
@@ -56,7 +64,7 @@ def get_all_source_files() -> list[str]:
 
 
 def generate_class_bindings(class_name: str,
-                            parameter_sets: list[list[dict]],
+                            parameter_sets: list[list[Parameter]],
                             superclass: str = "Node",
                             class_docs: Optional[str] = None) -> str:
     """
@@ -84,20 +92,20 @@ def generate_class_bindings(class_name: str,
     output = 'py::class_<{class_name}, {superclass}, NodeRefTemplate<{class_name}>>(m, "{class_name}", "{class_docs}")\n'.format(
         class_name=class_name, class_docs=class_docs, superclass=superclass)
     for parameter_set in parameter_sets:
-        parameter_type_list = ", ".join([parameter["type"] for parameter in parameter_set])
+        parameter_type_list = ", ".join([parameter.type for parameter in parameter_set])
         output += '    .def(py::init<{parameter_type_list}>()'.format(parameter_type_list=parameter_type_list);
         for parameter in parameter_set:
-            if parameter["default"] is not None:
-                default = parameter["default"]
+            if parameter.default is not None:
+                default = parameter.default
                 # property defaults
                 if default == "{}":
                     default = 0
                 elif default == "":
                     default = '""'
                 default = "%s" % default
-                output += ', "{name}"_a = {default}'.format(name=parameter["name"], default=default)
+                output += ', "{name}"_a = {default}'.format(name=parameter.name, default=default)
             else:
-                output += ', "{name}"_a'.format(name=parameter["name"])
+                output += ', "{name}"_a'.format(name=parameter.name)
         output += ')\n'
     output = output[:-1] + ";\n"
     return output
@@ -141,6 +149,7 @@ def sanitize_type(p_type: str) -> str:
         p_type = "std::string"
     return p_type
 
+
 def folder_name_to_title(folder_name: str) -> str:
     """
     Translate a folder name into a title.
@@ -158,15 +167,15 @@ def generate_all_bindings(source_files):
     output += generate_class_bindings("AudioIn", [[]]) + "\n"
     output += generate_class_bindings("AudioOut_Abstract", []) + "\n"
     output += generate_class_bindings("AudioOut_Dummy", [[
-        {"name": "num_channels", "type": "int", "default": 2},
-        {"name": "buffer_size", "type": "int", "default": "SIGNALFLOW_DEFAULT_BLOCK_SIZE"},
+        Parameter("num_channels", "int", 2),
+        Parameter("buffer_size", "int", "SIGNALFLOW_DEFAULT_BLOCK_SIZE"),
     ]], "AudioOut_Abstract") + "\n"
 
     output += generate_class_bindings("AudioOut", [[
-        {"name": "backend_name", "type": "std::string", "default": ""},
-        {"name": "device_name", "type": "std::string", "default": ""},
-        {"name": "sample_rate", "type": "int", "default": 0},
-        {"name": "buffer_size", "type": "int", "default": 0}
+        Parameter("backend_name", "std::string", ""),
+        Parameter("device_name", "std::string", ""),
+        Parameter("sample_rate", "int", 0),
+        Parameter("buffer_size", "int", 0),
     ]], "AudioOut_Abstract") + "\n"
 
     class_categories = {}
@@ -185,9 +194,9 @@ def generate_all_bindings(source_files):
         header = CppHeaderParser.CppHeader(source_file)
 
         for class_name, value in header.classes.items():
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             # Check whether class is a subclass of a valid Node class
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             if "inherits" in value and len(value["inherits"]):
                 parent_class = value["inherits"][0]["class"]
                 if parent_class not in node_superclasses:
@@ -195,23 +204,23 @@ def generate_all_bindings(source_files):
             else:
                 continue
 
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             # Parse class documentation and constructors
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             class_docs = extract_docs(value["doxygen"]) if "doxygen" in value else class_name
             constructor_parameter_sets = []
             for method in value["methods"]["public"]:
                 if method["constructor"]:
-                    parameters = [{
-                        "type": sanitize_type(parameter["type"]),
-                        "name": parameter["name"],
-                        "default": parameter["defaultValue"] if "defaultValue" in parameter else None
-                    } for parameter in method["parameters"]]
+                    parameters = [
+                        Parameter(name=parameter["name"],
+                                  type=sanitize_type(parameter["type"]),
+                                  default=parameter["defaultValue"] if "defaultValue" in parameter else None)
+                        for parameter in method["parameters"]]
                     constructor_parameter_sets.append(parameters)
 
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             # If the class has at least one valid constructor, generate output.
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             if constructor_parameter_sets:
                 if class_name in macos_only_classes:
                     output += "#ifdef __APPLE__\n\n"
@@ -228,7 +237,7 @@ def generate_all_bindings(source_files):
                     output += "#endif\n\n"
 
                 output_markdown_params = ", ".join(
-                    ("%s=%s" % (param["name"], param["default"])) for param in constructor_parameter_sets[0])
+                    ("%s=%s" % (param.name, param.default)) for param in constructor_parameter_sets[0])
                 output_markdown += "- **%s**: %s `(%s)`\n" % (class_name, class_docs, output_markdown_params)
                 class_categories[class_category].append(class_name)
     return output, output_markdown, class_categories
@@ -236,6 +245,9 @@ def generate_all_bindings(source_files):
 
 def main(args):
     source_files = get_all_source_files()
+    # node_classes = parse_node_classes(source_files)
+    # bindings = generate_bindings(node_classes)
+    # markdown = generate_markdown(node_classes)
     bindings, markdown, class_categories = generate_all_bindings(source_files)
     bindings = re.sub("\n", "\n    ", bindings)
     output = '''#include "signalflow/python/python.h"
