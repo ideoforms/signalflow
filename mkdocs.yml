@@ -51,10 +51,8 @@ plugins:
      type: timeago
 
 nav:
- - Home:
-   - Home: index.md
  - Getting started:
-   - Getting started: installation/index.md
+   - Getting started: index.md
    - Installation:
      - Installation: installation/index.md
      - Installing on macOS:
