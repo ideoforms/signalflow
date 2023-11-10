@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## v0.4.2 (2023-11-10)
+
+- Add initial inline documentation for each Node class
+- Add auto-generated method stubs for IDE inline docs and type hints
+- Add initial example notebooks
+- Add `signalflow_examples` downloader
+
 ## v0.4.1 (2023-11-05)
 
 - New node: `ChannelCrossfade`
