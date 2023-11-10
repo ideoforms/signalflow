@@ -130,7 +130,11 @@ typedef RingBuffer<sample> SampleRingBuffer;
         throw std::runtime_error("Error in call to Node::process: Attempted to write too many frames"); \
     }
 
+#ifdef _WIN32
+#define SIGNALFLOW_USER_DIR std::string(getenv("HOMEPATH")) + "/.signalflow"
+#else
 #define SIGNALFLOW_USER_DIR std::string(getenv("HOME")) + "/.signalflow"
+#endif
 
 /**------------------------------------------------------------------------
  * Algorithm to use when interpolating between samples.
