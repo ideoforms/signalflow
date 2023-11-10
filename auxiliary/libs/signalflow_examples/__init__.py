@@ -1,1 +1,1 @@
-from .signalflow_examples import download_examples
+from .signalflow_examples import download_examples, download_notebooks

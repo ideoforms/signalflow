@@ -1,4 +1,5 @@
 import urllib.request
+import urllib.parse
 import logging
 import ssl
 import os
@@ -14,7 +15,7 @@ def download_examples() -> None:
     """
     Download all example scripts from GitHub to the current directory.
     """
-    url_prefix = "https://raw.githubusercontent.com/ideoforms/signalflow/master/examples/"
+    url_prefix = "https://raw.githubusercontent.com/ideoforms/signalflow/master/examples"
     examples = [
         "audio-through-example.py",
         "buffer-play-example.py",
@@ -32,8 +33,27 @@ def download_examples() -> None:
     ]
     local_dir = "examples"
     os.makedirs(local_dir, exist_ok=True)
+    print("Downloading examples to: %s" % local_dir)
     for filename in examples:
-        url = "%s%s" % (url_prefix, filename)
+        url = "%s/%s" % (url_prefix, urllib.parse.quote(filename))
+        output_path = os.path.join(local_dir, filename)
+        urllib.request.urlretrieve(url, output_path)
+        print(" - Downloaded: %s" % filename)
+
+def download_notebooks() -> None:
+    """
+    Download all example scripts from GitHub to the current directory.
+    """
+    url_prefix = "https://raw.githubusercontent.com/ideoforms/signalflow/master/examples/notebooks"
+    notebooks = [
+        "01. Hello World.ipynb",
+        "02. Patch Example.ipynb",
+    ]
+    local_dir = "notebooks"
+    os.makedirs(local_dir, exist_ok=True)
+    print("Downloading examples to: %s" % local_dir)
+    for filename in notebooks:
+        url = "%s/%s" % (url_prefix, urllib.parse.quote(filename))
         output_path = os.path.join(local_dir, filename)
         urllib.request.urlretrieve(url, output_path)
         print(" - Downloaded: %s" % filename)
