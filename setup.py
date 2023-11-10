@@ -50,7 +50,7 @@ setup(
     install_requires=['numpy'],
     tests_require=['pytest', 'numpy', 'scipy'],
     package_dir={ '': 'auxiliary/libs' },
-    packages=['signalflow_midi', 'signalflow-stubs'],
+    packages=['signalflow_midi', 'signalflow-stubs', 'signalflow_examples'],
     include_package_data=True,
     # signalflow-stubs contains type hint data in a .pyi file, per PEP 561
     package_data={"signalflow-stubs": ["*.pyi"]},
