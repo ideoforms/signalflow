@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/Users/daniel/Projects/SignalFlow/Code/signalflow/venv64/bin/python3.11
 
 # --------------------------------------------------------------------------------
 # SignalFlow command-line utility
@@ -82,13 +82,20 @@ def run_list_midi_output_device_names():
     except ModuleNotFoundError:
         raise ModuleNotFoundError("The mido module is required for MIDI support. To install, run: pip3 install mido")
 
-    #--------------------------------------------------------------------------------
-    # TODO: On my MacBook Pro running Monterey, each output name is listed twice.
-    #       Not sure why -- bug somewhere down the stack? [djj]
-    #--------------------------------------------------------------------------------
     output_names = mido.get_output_names()
     print("Available MIDI output device names:")
     for name in output_names:
+        print(" - %s" % name)
+
+def run_list_midi_input_device_names():
+    try:
+        import mido
+    except ModuleNotFoundError:
+        raise ModuleNotFoundError("The mido module is required for MIDI support. To install, run: pip3 install mido")
+
+    input_names = mido.get_input_names()
+    print("Available MIDI input device names:")
+    for name in input_names:
         print(" - %s" % name)
 
 def main():
@@ -130,6 +137,7 @@ def main():
     help = subparsers.add_parser('help', help='show help')
 
     list_midi_output_device_names = subparsers.add_parser('list-midi-output-device-names', help='list available MIDI output devices')
+    list_midi_input_device_names = subparsers.add_parser('list-midi-input-device-names', help='list available MIDI input devices')
 
     args = parser.parse_args()
     if args.command == 'configure':
@@ -144,6 +152,8 @@ def main():
         run_list_output_backend_names()
     elif args.command == 'list-midi-output-device-names':
         run_list_midi_output_device_names()
+    elif args.command == 'list-midi-input-device-names':
+        run_list_midi_input_device_names()
     elif args.command == 'help':
         parser.print_help()
 
