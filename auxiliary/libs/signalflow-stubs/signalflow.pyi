@@ -24,13 +24,13 @@ class ASREnvelope(Node):
         ...
 class Abs(Node):
     """
-    Abs
+    Outputs the absolute value of a, per sample. Can also be written as abs(a)
     """
     def __init__(self, a: Node = 0) -> None:
         ...
 class Add(Node):
     """
-    Add
+    Add each sample of a to each sample of b. Can also be written as a + b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
@@ -42,7 +42,7 @@ class AllpassDelay(Node):
         ...
 class AmplitudeToDecibels(Node):
     """
-    AmplitudeToDecibels
+    Map a linear amplitude value to decibels.
     """
     def __init__(self, a: Node = 0) -> None:
         ...
@@ -245,23 +245,23 @@ class AudioIOException(Exception):
     pass
 class AudioIn(Node):
     """
-    AudioIn
+    Audio input
     """
     def __init__(self) -> None:
         ...
-class AudioOut(AudioOut_Abstract):
+class AudioOut(Node):
     """
-    AudioOut
+    Audio output
     """
     def __init__(self, backend_name: str = '', device_name: str = '', sample_rate: int = 0, buffer_size: int = 0) -> None:
         ...
 class AudioOut_Abstract(Node):
     """
-    AudioOut_Abstract
+    Abstract audio output
     """
-class AudioOut_Dummy(AudioOut_Abstract):
+class AudioOut_Dummy(Node):
     """
-    AudioOut_Dummy
+    Dummy audio output for offline processing
     """
     def __init__(self, num_channels: int = 2, buffer_size: int = 256) -> None:
         ...
@@ -491,7 +491,7 @@ class Constant(Node):
         ...
 class Cos(Node):
     """
-    Cos
+    Outputs cos(a), per sample.
     """
     def __init__(self, a: Node = 0) -> None:
         ...
@@ -503,7 +503,7 @@ class Counter(Node):
         ...
 class CrossCorrelate(Node):
     """
-    CrossCorrelate
+    Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.
     """
     def __init__(self, input: Node = None, buffer: ... = None, hop_size: int = 0) -> None:
         ...
@@ -523,7 +523,7 @@ class DeviceNotFoundException(Exception):
     pass
 class Divide(Node):
     """
-    Divide
+    Divide each sample of a by each sample of b. Can also be written as a / b
     """
     def __init__(self, a: Node = 1, b: Node = 1) -> None:
         ...
@@ -554,7 +554,7 @@ class EnvelopeBuffer(Buffer):
         ...
 class Equal(Node):
     """
-    Equal
+    Compares the output of a to the output of b. Outputs 1 when equal, 0 otherwise. Can also be written as a == b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
@@ -566,43 +566,43 @@ class Euclidean(Node):
         ...
 class FFT(Node):
     """
-    FFT
+    Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
     """
     def __init__(self, input: Node = 0.0, fft_size: int = 1024, hop_size: int = 128, window_size: int = 0, do_window: bool = True) -> None:
         ...
 class FFTContinuousPhaseVocoder(Node):
     """
-    FFTContinuousPhaseVocoder
+    Continuous phase vocoder. Requires an FFT* input.
     """
     def __init__(self, input: Node = None, rate: float = 1.0) -> None:
         ...
 class FFTConvolve(Node):
     """
-    FFTConvolve
+    Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
     """
     def __init__(self, input: Node = None, buffer: ... = None) -> None:
         ...
 class FFTFindPeaks(Node):
     """
-    FFTFindPeaks
+    Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
     """
     def __init__(self, input: Node = 0, prominence: Node = 1, threshold: Node = 1e-06, count: int = 64, interpolate: bool = True) -> None:
         ...
 class FFTLPF(Node):
     """
-    FFTLPF
+    FFT-based brick wall low pass filter. Requires an FFT* input.
     """
     def __init__(self, input: Node = 0, frequency: Node = 2000) -> None:
         ...
 class FFTPhaseVocoder(Node):
     """
-    FFTPhaseVocoder
+    Phase vocoder. Requires an FFT* input.
     """
     def __init__(self, input: Node = None) -> None:
         ...
 class FFTTonality(Node):
     """
-    FFTTonality
+    Tonality filter. Requires an FFT* input.
     """
     def __init__(self, input: Node = 0, level: Node = 0.5, smoothing: Node = 0.9) -> None:
         ...
@@ -654,25 +654,25 @@ class GraphNotCreatedException(Exception):
     pass
 class GreaterThan(Node):
     """
-    GreaterThan
+    Compares the output of a to the output of b. Outputs 1 when a > b, 0 otherwise. Can also be written as a > b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class GreaterThanOrEqual(Node):
     """
-    GreaterThanOrEqual
+    Compares the output of a to the output of b. Outputs 1 when a >= b, 0 otherwise. Can also be written as a >= b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class IFFT(Node):
     """
-    IFFT
+    Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
     """
     def __init__(self, input: Node = None, do_window: bool = False) -> None:
         ...
 class If(Node):
     """
-    If
+    Outputs value_if_true for each non-zero value of a, value_if_false for all other values.
     """
     def __init__(self, a: Node = 0, value_if_true: Node = 0, value_if_false: Node = 0) -> None:
         ...
@@ -714,13 +714,13 @@ class Latch(Node):
         ...
 class LessThan(Node):
     """
-    LessThan
+    Compares the output of a to the output of b. Outputs 1 when a < b, 0 otherwise. Can also be written as a < b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class LessThanOrEqual(Node):
     """
-    LessThanOrEqual
+    Compares the output of a to the output of b. Outputs 1 when a <= b, 0 otherwise. Can also be written as a <= b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
@@ -728,7 +728,7 @@ class Line(Node):
     """
     Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal.
     """
-    def __init__(self, from: Node = 0.0, to: Node = 1.0, time: Node = 1.0, loop: Node = 0, clock: Node = None) -> None:
+    def __init__(self, start: Node = 0.0, end: Node = 1.0, time: Node = 1.0, loop: Node = 0, clock: Node = None) -> None:
         ...
 class Logistic(Node):
     """
@@ -750,7 +750,7 @@ class MidiNoteToFrequency(Node):
         ...
 class Modulo(Node):
     """
-    Modulo
+    Outputs the value of a modulo b, per sample. Supports fractional values. Can also be written as a % b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
@@ -762,25 +762,25 @@ class MoogVCF(Node):
         ...
 class MouseDown(Node):
     """
-    Outputs 1 if the left mouse button is down, 0 otherwise.
+    Outputs 1 if the left mouse button is down, 0 otherwise. Currently only supported on macOS.
     """
     def __init__(self, button_index: Node = 0) -> None:
         ...
 class MouseX(Node):
     """
-    Outputs the normalised cursor X position, from 0 to 1.
+    Outputs the normalised cursor X position, from 0 to 1. Currently only supported on macOS.
     """
     def __init__(self) -> None:
         ...
 class MouseY(Node):
     """
-    Outputs the normalised cursor Y position, from 0 to 1.
+    Outputs the normalised cursor Y position, from 0 to 1. Currently only supported on macOS.
     """
     def __init__(self) -> None:
         ...
 class Multiply(Node):
     """
-    Multiply
+    Multiply each sample of a by each sample of b. Can also be written as a * b
     """
     def __init__(self, a: Node = 1.0, b: Node = 1.0) -> None:
         ...
@@ -1096,7 +1096,7 @@ class NodeRegistry:
         ...
 class NotEqual(Node):
     """
-    NotEqual
+    Compares the output of a to the output of b. Outputs 0 when equal, 1 otherwise. Can also be written as a != b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
@@ -1108,7 +1108,7 @@ class OneTapDelay(Node):
         ...
 class OnsetDetector(Node):
     """
-    OnsetDetector
+    Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.
     """
     def __init__(self, input: Node = 0.0, threshold: Node = 2.0, min_interval: Node = 0.1) -> None:
         ...
@@ -1265,7 +1265,7 @@ class PinkNoise(StochasticNode):
         ...
 class Pow(Node):
     """
-    Pow
+    Outputs a to the power of b, per sample. Can also be written as a ** b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
@@ -1411,7 +1411,7 @@ class Sequence(Node):
         ...
 class Sin(Node):
     """
-    Sin
+    Outputs sin(a), per sample.
     """
     def __init__(self, a: Node = 0) -> None:
         ...
@@ -1497,13 +1497,13 @@ class Stutter(Node):
         ...
 class Subtract(Node):
     """
-    Subtract
+    Subtract each sample of b from each sample of a. Can also be written as a - b
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
 class Sum(Node):
     """
-    Sum
+    Sums the output of all of the input nodes, by sample.
     """
     @typing.overload
     def __init__(self) -> None:
@@ -1522,13 +1522,13 @@ class Sum(Node):
         ...
 class Tan(Node):
     """
-    Tan
+    Outputs tan(a), per sample.
     """
     def __init__(self, a: Node = 0) -> None:
         ...
 class Tanh(Node):
     """
-    Tanh
+    Outputs tanh(a), per sample. Can be used as a soft clipper.
     """
     def __init__(self, a: Node = 0) -> None:
         ...

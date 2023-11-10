@@ -80,7 +80,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<NodeRef>, std::vector<NodeRef>, std::vector<NodeRef>, NodeRef, bool>(), "levels"_a = std::vector<NodeRef>(), "times"_a = std::vector<NodeRef>(), "curves"_a = std::vector<NodeRef>(), "clock"_a = nullptr, "loop"_a = false);
 
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line", "Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal.")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "from"_a = 0.0, "to"_a = 1.0, "time"_a = 1.0, "loop"_a = 0, "clock"_a = nullptr);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "start"_a = 0.0, "end"_a = 1.0, "time"_a = 1.0, "loop"_a = 0, "clock"_a = nullptr);
 
     py::class_<RectangularEnvelope, Node, NodeRefTemplate<RectangularEnvelope>>(m, "RectangularEnvelope", "Rectangular envelope with the given sustain duration.")
         .def(py::init<NodeRef, NodeRef>(), "sustain_duration"_a = 1.0, "clock"_a = nullptr);
