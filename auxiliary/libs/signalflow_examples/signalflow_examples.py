@@ -1,6 +1,7 @@
 import urllib.request
 import logging
 import ssl
+import os
 
 #--------------------------------------------------------------------------------
 # ignore local expired SSL certificates
@@ -29,9 +30,12 @@ def download_examples() -> None:
         "sequencing-example.py",
         "wavetable-2d-example.py",
     ]
+    local_dir = "examples"
+    os.makedirs(local_dir, exist_ok=True)
     for filename in examples:
         url = "%s%s" % (url_prefix, filename)
-        urllib.request.urlretrieve(url, filename)
+        output_path = os.path.join(local_dir, filename)
+        urllib.request.urlretrieve(url, output_path)
         print(" - Downloaded: %s" % filename)
 
 if __name__ == "__main__":
