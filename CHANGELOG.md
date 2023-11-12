@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## v0.4.3 (2023-11-12)
+
+- Add Windows build support for Python
+- Add `DCFilter` node
+
 ## v0.4.2 (2023-11-10)
 
 - Add initial inline documentation for each Node class

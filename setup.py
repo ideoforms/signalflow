@@ -62,7 +62,7 @@ if sys.platform == 'win32':
 
 setup(
     name='signalflow',
-    version='0.4.2',
+    version='0.4.3',
     author='Daniel Jones',
     author_email='dan@erase.net',
     description='SignalFlow is a sound synthesis library designed to make it quick and intuitive to explore complex sonic ideas',
