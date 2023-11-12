@@ -126,6 +126,7 @@
 #include <signalflow/node/processors/dynamics/maximiser.h>
 #include <signalflow/node/processors/dynamics/rms.h>
 #include <signalflow/node/processors/filters/biquad.h>
+#include <signalflow/node/processors/filters/dc.h>
 #include <signalflow/node/processors/filters/eq.h>
 #include <signalflow/node/processors/filters/moog.h>
 #include <signalflow/node/processors/filters/svf.h>
