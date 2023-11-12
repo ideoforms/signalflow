@@ -1,4 +1,4 @@
-#!/Users/daniel/Projects/SignalFlow/Code/signalflow/venv64/bin/python3.11
+#!/usr/bin/env python3
 
 # --------------------------------------------------------------------------------
 # SignalFlow command-line utility
