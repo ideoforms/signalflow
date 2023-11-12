@@ -93,7 +93,7 @@ void init_python_node(py::module &m)
             R"pbdoc(Returns a new Node whose output is equal to the `index`'th channel of `self`)pbdoc")
         .def(
             "__getitem__", [](NodeRef a, py::slice slice) {
-                ssize_t start, stop, step, slicelength;
+                py::ssize_t start, stop, step, slicelength;
                 if (!slice.compute(a->get_num_output_channels(), &start, &stop, &step, &slicelength))
                 {
                     throw py::error_already_set();
