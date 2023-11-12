@@ -18,7 +18,7 @@ DCFilter::DCFilter(NodeRef input)
     // (-3dB @ 20Hz): R = 1-(126/samplerate)
     // this->R = 1.0 - (30.0 / this->get_graph()->get_sample_rate());
 
-    //    this->alloc();
+    this->alloc();
 }
 
 void DCFilter::alloc()
