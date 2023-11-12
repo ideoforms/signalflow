@@ -8,8 +8,9 @@
 
 #include <signalflow/signalflow.h>
 
+#include <chrono>
 #include <stdlib.h>
-#include <unistd.h>
+#include <thread>
 
 using namespace signalflow;
 
@@ -36,7 +37,7 @@ int main()
         /*------------------------------------------------------------------------
          * Periodically, retrigger the envelope, panned to a random location.
          *-----------------------------------------------------------------------*/
-        usleep(random_integer(1e4, 1e6));
+        std::this_thread::sleep_for(std::chrono::milliseconds(random_integer(10, 1000)));
         panned->set_input("pan", random_uniform(-1, 1));
         envelope->trigger();
     }

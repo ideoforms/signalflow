@@ -7,7 +7,6 @@
 
 #include <iostream>
 #include <signalflow/signalflow.h>
-#include <unistd.h>
 
 using namespace signalflow;
 

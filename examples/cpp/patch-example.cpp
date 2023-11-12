@@ -7,7 +7,8 @@
 
 #include <signalflow/signalflow.h>
 
-#include <unistd.h>
+#include <chrono>
+#include <thread>
 
 using namespace signalflow;
 
@@ -56,7 +57,7 @@ int main()
         synths.insert(patch);
         patch->set_auto_free(true);
         graph->play(patch);
-        usleep(1000000);
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
 
     return 0;

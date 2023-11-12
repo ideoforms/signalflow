@@ -9,7 +9,6 @@
 #include <signalflow/signalflow.h>
 
 #include <stdlib.h>
-#include <unistd.h>
 
 using namespace signalflow;
 
