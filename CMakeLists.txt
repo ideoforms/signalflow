@@ -50,14 +50,12 @@ set(CMAKE_MACOSX_RPATH 1)
 #-------------------------------------------------------------------------------
 # Shared compiler flags.
 #-------------------------------------------------------------------------------
-add_compile_options(
-    -pedantic
-    -fPIC
-    ) 
 
 if (NOT MSVC)
     add_compile_options(
-        -Wall
+            -pedantic
+            -fPIC
+            -Wall
     )
 endif()
 
@@ -108,6 +106,8 @@ if (CMAKE_BUILD_PYTHON)
     if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
         set(CMAKE_SHARED_LIBRARY_SUFFIX ".so")
         add_link_options(-w -undefined dynamic_lookup)
+    elseif (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+        set(CMAKE_SHARED_LIBRARY_SUFFIX ".pyd")
     endif()
 endif()
 
@@ -127,10 +127,11 @@ add_compile_definitions(SIGNALFLOW_VERSION="${SIGNALFLOW_VERSION}")
 #-------------------------------------------------------------------------------
 
 set(SOUNDIO_BUILD_DIR "" CACHE PATH "Path to built SoundIO library (will use find_library if blank)")
+
 if (SOUNDIO_BUILD_DIR)
     set(SOUNDIO_INCLUDE_DIR "${SOUNDIO_BUILD_DIR}/.." CACHE PATH "Path to SoundIO include directory (ignored if SOUNDIO_BUILD_DIR is blank")
     add_definitions(-DHAVE_SOUNDIO)
-    target_link_libraries(signalflow "${SOUNDIO_BUILD_DIR}/$<CONFIG>/soundio.lib")
+    target_link_libraries(signalflow "${SOUNDIO_BUILD_DIR}/x64-Debug/soundio.lib")
     include_directories(signalflow "${SOUNDIO_BUILD_DIR}/$<CONFIG>/")
     include_directories(signalflow "${SOUNDIO_INCLUDE_DIR}/")
 else()
@@ -146,10 +147,11 @@ endif()
 
 
 set(SNDFILE_BUILD_DIR "" CACHE PATH "Path to build sndfile library (will use find_library if blank)")
+
 if (SNDFILE_BUILD_DIR)
     set(SNDFILE_INCLUDE_DIR "${SNDFILE_BUILD_DIR}/../include" CACHE PATH "Path to sndfile include directory (ignored if SNDFILE_BUILD_DIR is blank")
     add_definitions(-DHAVE_SNDFILE)
-    target_link_libraries(signalflow "${SNDFILE_BUILD_DIR}/$<CONFIG>/sndfile.lib")
+    target_link_libraries(signalflow "${SNDFILE_BUILD_DIR}/sndfile")
     include_directories(signalflow "${SNDFILE_BUILD_DIR}/include/")
     include_directories(signalflow "${SNDFILE_INCLUDE_DIR}/")
 else()
@@ -168,10 +170,10 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     if (FFTW_BUILD_DIR)
         include_directories("${FFTW_BUILD_DIR}")
         add_definitions(-DFFT_FFTW)
-        target_link_libraries(signalflow 
-            "${FFTW_BUILD_DIR}/libfftw3-3.lib" 
-            "${FFTW_BUILD_DIR}/libfftw3f-3.lib" 
-            "${FFTW_BUILD_DIR}/libfftw3l-3.lib"
+        target_link_libraries(signalflow
+            "${FFTW_BUILD_DIR}/libfftw3-3"
+            "${FFTW_BUILD_DIR}/libfftw3f-3"
+            "${FFTW_BUILD_DIR}/libfftw3l-3"
         )
     else()
         find_library(FFTW3F fftw3f)
@@ -179,10 +181,8 @@ if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
             message("Found fftw3f")
             target_link_libraries(signalflow ${FFTW3F})
             add_definitions(-DFFT_FFTW)
-            else()
-            # if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
-                message(FATAL_ERROR "Couldn't find fftw3f")
-            # endif()
+        else()
+            message(FATAL_ERROR "Couldn't find fftw3f")
         endif()
     endif()
 endif(NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")

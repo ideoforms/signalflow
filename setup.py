@@ -1,4 +1,6 @@
 import os
+import sys
+import shutil
 import subprocess
 
 from setuptools import setup, Extension
@@ -9,6 +11,7 @@ class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
         Extension.__init__(self, name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
+
 
 class CMakeBuild(build_ext):
     def run(self):
@@ -23,6 +26,7 @@ class CMakeBuild(build_ext):
         build_args = ['--config', cfg, '-j', str(cpu_count)]
 
         print("Building signalflow version " + self.distribution.get_version())
+        print("Detected %d CPUs" % os.cpu_count())
         cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
                       '-DCMAKE_BUILD_PYTHON=1',
                       '-DCMAKE_BUILD_TYPE=' + cfg,
@@ -36,24 +40,46 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
         subprocess.check_call(['cmake', '--build', '.'] + build_args, cwd=self.build_temp)
 
+        # --------------------------------------------------------------------------------
+        # On Windows, bundle the .pyd into a package.
+        # This will also contain the .dlls after repairing the wheel with delvewheel.
+        # --------------------------------------------------------------------------------
+        if os.name == "nt":
+            libname = "signalflow.pyd"
+            shutil.copy(os.path.join(self.build_temp, cfg, libname), "auxiliary/libs/signalflow")
+
+
+signalflow_packages = ['signalflow_midi', 'signalflow-stubs', 'signalflow_examples']
+signalflow_package_data = []
+if sys.platform == 'win32':
+    # --------------------------------------------------------------------------------
+    # On Linux and macOS, the bare .so file is packaged directly via ext_modules.
+    # On Windows, a separate package is created, into which the .pyd file and DLLs
+    # are copied.
+    # --------------------------------------------------------------------------------
+    signalflow_packages = ['signalflow'] + signalflow_packages
+    signalflow_package_data = ['*.pyd']
+
 setup(
     name='signalflow',
     version='0.4.2',
     author='Daniel Jones',
     author_email='dan@erase.net',
     description='signalflow',
-    long_description = open("README.md", "r").read(),
-    long_description_content_type = "text/markdown",
+    long_description=open("README.md", "r").read(),
+    long_description_content_type="text/markdown",
     ext_modules=[CMakeExtension('signalflow')],
     cmdclass=dict(build_ext=CMakeBuild),
     setup_requires=['pytest-runner', 'pybind11-stubgen'],
     install_requires=['numpy'],
     tests_require=['pytest', 'numpy', 'scipy'],
-    package_dir={ '': 'auxiliary/libs' },
-    packages=['signalflow_midi', 'signalflow-stubs', 'signalflow_examples'],
+    package_dir={'': 'auxiliary/libs'},
+    packages=signalflow_packages,
     include_package_data=True,
     # signalflow-stubs contains type hint data in a .pyi file, per PEP 561
-    package_data={"signalflow-stubs": ["*.pyi"]},
+    package_data={
+        "signalflow-stubs": ["*.pyi"],
+        "signalflow": signalflow_package_data
+    },
     scripts=['source/bin/signalflow']
 )
-
