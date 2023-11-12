@@ -4,7 +4,7 @@
 
 SignalFlow is a sound synthesis framework designed for clear and concise expression of complex musical ideas. It has an extensive Python API, for fluid audio experimentation in iPython/Jupyter. Its core is written in C++11, so it can also be embedded into other cross-platform applications.
 
-SignalFlow is in alpha status. All interfaces may be subject to change.
+SignalFlow is in beta status. Interfaces may be subject to change.
 
 ## Example
 
