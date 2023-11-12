@@ -64,7 +64,10 @@ Click the button marked `Select Kernel` in the top right.
  - Select `Venv`
  - Finally, select the version of Python you just installed (`3.12.x`).
 
-Visual Studio Code will launch into some activity, in which it is installing necessary libraries and creating a Python "virtual environment", which is an isolated area of the filesystem containing all of the packages needed for this working space. Working in different virtual environments for different projects is good practice to minimise the likelihood of conflicts and disruptions.
+!!! info "Multiple versions of Python?"
+    If you already have one or more versions of Python installed, any version from Python 3.8 upwards is fine.
+
+Visual Studio Code will launch into some activity, in which it is installing necessary libraries and creating a Python "virtual environment", which is an isolated area of the filesystem containing all the packages needed for this working space. Working in different virtual environments for different projects is good practice to minimise the likelihood of conflicts and disruptions.
 
 When the setup is complete, the button in the top right should change to say `.venv (Python 3.12.x)`.
 
@@ -82,6 +85,9 @@ In the first block, copy and paste the below:
 ```
 
 To run the cell, press `^↵` (control-enter). After a minute, you should see some output saying `Successfully installed signalflow`.
+
+!!! info "Running cells with '.venv' requires the ipykernel package."
+    If you are given a prompt that the `ipykernel` package is required, press "Install" to install the package.
 
 You're now all set to start writing code!
 
