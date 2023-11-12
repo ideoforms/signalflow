@@ -5,8 +5,10 @@
  * to a buffer, and saving the output to disk as a .wav file.
  *-----------------------------------------------------------------------*/
 
+#include <chrono>
 #include <iostream>
 #include <signalflow/signalflow.h>
+#include <thread>
 
 using namespace signalflow;
 
@@ -44,7 +46,7 @@ int main()
      * thread), then save to disk.
      *-----------------------------------------------------------------------*/
     std::cout << "Starting recording..." << std::endl;
-    usleep(5e6);
+    std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     std::cout << "Finished recording." << std::endl;
 
     buffer->save("out.wav");
