@@ -6,5 +6,5 @@ Line segment with the given start/end values and duration. If loop is true, repe
 
 Signature:
 ```python
-Line(from=0.0, to=1.0, time=1.0, loop=0, clock=None)
+Line(start=0.0, end=1.0, time=1.0, loop=0, clock=None)
 ```

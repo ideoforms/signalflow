@@ -1,10 +1,3 @@
----
-hide:
-  - navigation
-  - toc
-  - feedback
----
-
 [Reference library](../index.md) > [Operators](index.md) > [Add](add.md)
 
 # Add
