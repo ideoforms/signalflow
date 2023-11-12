@@ -208,7 +208,7 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
 endif()
 
 if (CMAKE_BUILD_PYTHON)
-    target_link_libraries(signalflow ${PYTHON_LIBRARY})
+    target_link_libraries(signalflow ${Python3_LIBRARIES})
 else()
     #-------------------------------------------------------------------------------
     # Build examples
