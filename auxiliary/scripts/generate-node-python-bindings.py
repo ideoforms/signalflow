@@ -161,6 +161,16 @@ def folder_name_to_title(folder_name: str) -> str:
     return folder_title
 
 
+def class_name_to_filename(class_name: str) -> str:
+    class_filename = "%s.md" % class_name.lower()
+    #--------------------------------------------------------------------------------
+    # make a special example of the Index class, which will otherwise overwrite
+    # the directory index.md
+    #--------------------------------------------------------------------------------
+    if class_filename == "index.md":
+        class_filename = "index_.md"
+    return class_filename
+
 def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
     classes = {}
     classes["io"] = [
@@ -285,7 +295,7 @@ def generate_markdown(node_classes) -> str:
         output_markdown += "\n## " + folder_title + "\n\n"
         for cls in classes:
             if cls.constructors:
-                cls_doc_path = "%s/%s.md" % (folder, cls.name.lower())
+                cls_doc_path = "%s/%s" % (folder, class_name_to_filename(cls.name))
                 output_markdown += "- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs)
         output_markdown += "\n---\n"
 
@@ -325,7 +335,7 @@ def write_markdown_by_category(node_classes) -> str:
 
             for cls in classes:
                 if cls.constructors:
-                    cls_doc_path = "%s.md" % (cls.name.lower())
+                    cls_doc_path = class_name_to_filename(cls.name)
                     fd.write("- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs))
 
                     # output_markdown_params = ", ".join(
@@ -334,7 +344,8 @@ def write_markdown_by_category(node_classes) -> str:
 
         for cls in classes:
             if cls.constructors:
-                cls_doc_path = "%s.md" % (cls.name.lower())
+                cls_doc_path = class_name_to_filename(cls.name)
+
                 cls_doc_abs_path = os.path.join(root_directory, folder, cls_doc_path)
                 with open(cls_doc_abs_path, "w") as fd:
                     fd.write(f"[Reference library](../index.md) > [{folder_title}](index.md) > [{cls.name}]({cls_doc_path})\n\n")
