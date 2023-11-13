@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#index" class="md-skip">
+        <a href="#sequencing" class="md-skip">
           Skip to content
         </a>
       
@@ -1489,19 +1489,25 @@
   
 
 
-<p><a href="../">Reference library</a> &gt; <a href="./">Sequencing</a> &gt; <a href="./">Index</a></p>
-<h1 id="index">Index</h1>
-<p>Outputs the value in list corresponding to index.</p>
-<p>Signature:
-<div class="highlight"><pre><span></span><code><span class="n">Index</span><span class="p">(</span><span class="nb">list</span><span class="o">=</span><span class="p">{},</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</code></pre></div></p>
+<p><a href="../">Reference library</a> &gt; <a href="./">Sequencing</a></p>
+<h1 id="sequencing">Sequencing</h1>
+<ul>
+<li><strong><a href="clockdivider/">ClockDivider</a></strong>: When given a clock input (e.g., an Impulse), divides the clock by the given factor. factor must be an integer greater than or equal to 1.</li>
+<li><strong><a href="counter/">Counter</a></strong>: Count upwards from min, driven by clock.</li>
+<li><strong><a href="euclidean/">Euclidean</a></strong>: Euclidean rhythm as described by Toussaint, with sequence_length (n) and num_events (k), driven by clock.</li>
+<li><strong><a href="flipflop/">FlipFlop</a></strong>: Flips from 0/1 on each clock.</li>
+<li><strong><a href="impulsesequence/">ImpulseSequence</a></strong>: Each time a clock or trigger is received, outputs the next value in the sequence. At all other times, outputs zero.</li>
+<li><strong><a href="index_/">Index</a></strong>: Outputs the value in list corresponding to index.</li>
+<li><strong><a href="latch/">Latch</a></strong>: Initially outputs 0. When a trigger is received at set, outputs 1. When a trigger is subsequently received at reset, outputs 0, until the next set.</li>
+<li><strong><a href="sequence/">Sequence</a></strong>: Outputs the elements in sequence, incrementing position on each clock.</li>
+</ul>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-13T22:26:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-13</span>
       
         <br>
         Created:
