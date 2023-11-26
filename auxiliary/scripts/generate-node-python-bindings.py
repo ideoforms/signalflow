@@ -124,7 +124,7 @@ def extract_docs(doxygen: str) -> str:
     output = ""
     for line in lines:
         # start or end of comment
-        if re.search(r"^\s*/\*", line) or re.search("\*/\s*$", line):
+        if re.search(r"^\s*/\*", line) or re.search(r"\*/\s*$", line):
             continue
         line = re.sub(r"^\s*\*\s*", "", line)
         output = output + line + " "
