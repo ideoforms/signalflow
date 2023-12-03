@@ -73,7 +73,7 @@ The following Node classes are currently included with the base distribution:
 | **Processors: Delays** | AllpassDelay, CombDelay, OneTapDelay, Stutter |
 | **Processors: Distortion** | Resample, SampleAndHold, Squiz, WaveShaper |
 | **Processors: Dynamics** | Compressor, Gate, Maximiser, RMS |
-| **Processors: Filters** | BiquadFilter, EQ, MoogVCF, SVFilter |
+| **Processors: Filters** | BiquadFilter, DCFilter, EQ, MoogVCF, SVFilter |
 | **Processors: Panning** | AzimuthPanner, ChannelPanner, SpatialPanner, StereoBalance, StereoPanner, StereoWidth |
 | **Sequencing** | ClockDivider, Counter, Euclidean, FlipFlop, ImpulseSequence, Index, Latch, Sequence |
 | **Stochastic** | Logistic, PinkNoise, RandomBrownian, RandomChoice, RandomCoin, RandomExponentialDist, RandomExponential, RandomGaussian, RandomImpulseSequence, RandomImpulse, RandomUniform, StochasticNode, WhiteNoise |
