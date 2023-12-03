@@ -14,6 +14,10 @@ Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with outp
 ### Examples
 
 ```python
-{% include-markdown "./example-0.py" comments=false %}
+
+# Siren effect, using a sinewave LFO to modulate a sawtooth's frequency
+lfo = SineLFO(1, 200, 1000)
+saw = SawOscillator(lfo)
+saw.play()
 ```
 
