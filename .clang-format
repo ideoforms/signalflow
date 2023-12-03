@@ -1,12 +1,5 @@
 #------------------------------------------------------------------------
-#
-#  clang-format.yml
-#
-#  Chirp house style for C code.
-#
-#  Copyright © 2011-2016, Asio Ltd.
-#  All rights reserved.
-#
+# Code formatting rules for SignalFlow
 #------------------------------------------------------------------------
 ---
 BasedOnStyle: WebKit
