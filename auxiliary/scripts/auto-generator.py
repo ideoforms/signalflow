@@ -413,21 +413,23 @@ def main(args):
     if not (args.readme or args.library or args.bindings):
         raise ValueError("One of --readme, --bindings or --library must be specified")
 
+    if args.bindings:
+        generate_bindings(node_classes)
     if args.readme:
         generate_readme(node_classes)
-
     if args.library:
         generate_node_library(node_classes)
 
-    if args.bindings:
-        generate_bindings(node_classes)
-
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("-b", "--bindings", action="store_true")
-    parser.add_argument("-t", "--readme", action="store_true")
-    parser.add_argument("-l", "--library", action="store_true")
+    parser.add_argument("-b", "--bindings", help="Generate Python bindings", action="store_true")
+    parser.add_argument("-l", "--library", help="Generate node library", action="store_true")
+    parser.add_argument("-t", "--readme", help="Generate README", action="store_true")
+    parser.add_argument("-a", "--all", help="Generate all", action="store_true")
     args = parser.parse_args()
+    if args.all:
+        args.bindings = True
+        args.library = True
+        args.readme = True
 
     main(args)
