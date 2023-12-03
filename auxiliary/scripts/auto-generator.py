@@ -1,17 +1,15 @@
 #!/usr/bin/env python3
 
 # ------------------------------------------------------------------------
-# Automatically generate pybind11 headers to provide Python bindings
-# for all Node subclasses.
+# Automatically parses the SignalFlow source tree and generates:
 #
-# Usage:
-#
-#   auxiliary/scripts/generate-node-python-bindings.py > source/src/python/nodes.cpp
+#  - Python bindings
+#  - Documentation: Node class library
+#  - Documentation: Node table for README
 #
 # Requirements:
 #
 #   pip3 install robotpy-cppheaderparser
-#
 # ------------------------------------------------------------------------
 
 import os
@@ -279,6 +277,7 @@ def generate_bindings(node_classes) -> None:
         fd.write(output)
         print("Written Python bindings to %s" % bindings_output_path)
 
+
 def generate_node_library_index(node_classes) -> str:
     """
     Generate Markdown documentation for the Node reference library
@@ -324,9 +323,9 @@ def generate_node_library(node_classes):
 
     root_directory = "docs/library"
 
-    #--------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
     # Generate index
-    #--------------------------------------------------------------------------------
+    # --------------------------------------------------------------------------------
     index_file = os.path.join(root_directory, 'index.md')
     index_markdown = generate_node_library_index(node_classes)
     with open(index_file, "w") as fd:
@@ -403,7 +402,6 @@ def generate_readme(node_classes) -> None:
     print("Written table to %s" % readme_path)
 
 
-
 def main(args):
     top_level = subprocess.check_output(["git", "rev-parse", "--show-toplevel"]).decode().strip()
     os.chdir(top_level)
@@ -419,6 +417,7 @@ def main(args):
         generate_readme(node_classes)
     if args.library:
         generate_node_library(node_classes)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
