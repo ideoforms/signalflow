@@ -26,12 +26,14 @@ SIGNALFLOW_UNIT_TEST_SAMPLE_RATE = 44100
 # https://stackoverflow.com/questions/14320220/testing-python-c-libraries-get-build-path
 #------------------------------------------------------------------------
 def distutils_dir_name(dir_name):
-    """Returns the name of a distutils build directory"""
-    # f = "{dirname}.{platform}-cpython-{version[0]}{version[1]}"
-    f = "{dirname}.{platform}-{version[0]}.{version[1]}"
+    """
+    Returns the name of a distutils build directory
+    https://stackoverflow.com/a/14369968/1819404
+    """
+    f = "{dirname}.{platform}-{cache_tag}"
     return f.format(dirname=dir_name,
                     platform=sysconfig.get_platform(),
-                    version=sys.version_info)
+                    cache_tag=sys.implementation.cache_tag)
 
 #------------------------------------------------------------------------
 # Ensure that build dir exists and prioritise this library in sys.path
