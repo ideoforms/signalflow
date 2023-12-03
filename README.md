@@ -50,11 +50,18 @@ For complete per-platform instructions and setup guides, see [Installing SignalF
 
 ## Examples
 
-See [examples](examples) for a number of example scripts.
+Several example scripts are provided in [examples](examples).
+
+To download the `examples` folder:
+
+```python
+import signalflow_examples
+signalflow_examples.download_examples()
+```
 
 ## Documentation
 
-More detailed documentation can be found at [signalflow.dev](https://signalflow.dev/). 
+In-depth documentation, including a reference guide to each of the Node classes, can be found at [signalflow.dev](https://signalflow.dev/). 
 
 ## Node classes
 
