@@ -12,11 +12,8 @@ jobs:
         sudo rm -rf /home/linuxbrew
         sudo apt-get update -y
         sudo apt-get install libasound2-dev libsoundio-dev libsndfile1-dev fftw3-dev -y
-        sudo apt-get install python3 python3-setuptools python3-pip python3-numpy 
-        # annoyingly seems like GitHub Actions as of 30 May 2023 will attempt to install
-        # numpy 1.25.0rc1 on Python 3.8, even though it requires Python 3.9+.
-        # specify particular version here as a workaround.
-        sudo pip3 install pytest numpy==1.22.0 scipy==1.10.0 setuptools>=62.1.0
+        sudo apt-get install python3 python3-setuptools python3-pip 
+        sudo pip3 install -U pytest numpy scipy setuptools>=62.1.0
     - name: Configure
       run: mkdir build && cd build && cmake ..
     - name: Make
