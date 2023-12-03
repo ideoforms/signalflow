@@ -5,9 +5,9 @@ description: FlipFlop: Flips from 0/1 on each `clock`.
 
 # FlipFlop
 
-Flips from 0/1 on each `clock`.
-
-Signature:
 ```python
 FlipFlop(clock=0)
 ```
+
+Flips from 0/1 on each `clock`.
+

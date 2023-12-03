@@ -5,9 +5,9 @@ description: PinkNoise: Pink noise, with specified low/high cutoffs.
 
 # PinkNoise
 
-Pink noise, with specified low/high cutoffs.
-
-Signature:
 ```python
 PinkNoise(low_cutoff=20.0, high_cutoff=20000.0, reset=None)
 ```
+
+Pink noise, with specified low/high cutoffs.
+

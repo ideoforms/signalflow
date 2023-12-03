@@ -5,9 +5,9 @@ description: FrequencyToMidiNote: Map a frequency to a MIDI note (where 440Hz = 
 
 # FrequencyToMidiNote
 
-Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output.
-
-Signature:
 ```python
 FrequencyToMidiNote(a=0)
 ```
+
+Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output.
+

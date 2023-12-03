@@ -5,9 +5,9 @@ description: FFTContinuousPhaseVocoder: Continuous phase vocoder. Requires an FF
 
 # FFTContinuousPhaseVocoder
 
-Continuous phase vocoder. Requires an FFT* input.
-
-Signature:
 ```python
 FFTContinuousPhaseVocoder(input=None, rate=1.0)
 ```
+
+Continuous phase vocoder. Requires an FFT* input.
+

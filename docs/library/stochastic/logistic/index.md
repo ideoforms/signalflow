@@ -5,9 +5,9 @@ description: Logistic: Logistic noise.
 
 # Logistic
 
-Logistic noise.
-
-Signature:
 ```python
 Logistic(chaos=3.7, frequency=0.0)
 ```
+
+Logistic noise.
+

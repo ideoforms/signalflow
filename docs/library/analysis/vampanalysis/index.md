@@ -5,9 +5,9 @@ description: VampAnalysis: Feature extraction using the Vamp plugin toolkit.
 
 # VampAnalysis
 
-Feature extraction using the Vamp plugin toolkit.
-
-Signature:
 ```python
 VampAnalysis(input=0.0, plugin_id="vamp-example-plugins:spectralcentroid:linearcentroid")
 ```
+
+Feature extraction using the Vamp plugin toolkit.
+

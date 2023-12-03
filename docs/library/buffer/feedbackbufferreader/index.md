@@ -5,9 +5,9 @@ description: FeedbackBufferReader: Counterpart to FeedbackBufferWriter.
 
 # FeedbackBufferReader
 
-Counterpart to FeedbackBufferWriter.
-
-Signature:
 ```python
 FeedbackBufferReader(buffer=None)
 ```
+
+Counterpart to FeedbackBufferWriter.
+

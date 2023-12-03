@@ -5,9 +5,9 @@ description: Subtract: Subtract each sample of b from each sample of a. Can also
 
 # Subtract
 
-Subtract each sample of b from each sample of a. Can also be written as a - b
-
-Signature:
 ```python
 Subtract(a=0, b=0)
 ```
+
+Subtract each sample of b from each sample of a. Can also be written as a - b
+

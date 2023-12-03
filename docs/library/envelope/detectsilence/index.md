@@ -5,9 +5,9 @@ description: DetectSilence: Detects blocks of silence below the threshold value.
 
 # DetectSilence
 
-Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.
-
-Signature:
 ```python
 DetectSilence(input=None, threshold=0.00001)
 ```
+
+Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.
+

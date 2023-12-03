@@ -5,9 +5,9 @@ description: MouseY: Outputs the normalised cursor Y position, from 0 to 1. Curr
 
 # MouseY
 
-Outputs the normalised cursor Y position, from 0 to 1. Currently only supported on macOS.
-
-Signature:
 ```python
 MouseY()
 ```
+
+Outputs the normalised cursor Y position, from 0 to 1. Currently only supported on macOS.
+

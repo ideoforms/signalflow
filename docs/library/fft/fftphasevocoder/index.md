@@ -5,9 +5,9 @@ description: FFTPhaseVocoder: Phase vocoder. Requires an FFT* input.
 
 # FFTPhaseVocoder
 
-Phase vocoder. Requires an FFT* input.
-
-Signature:
 ```python
 FFTPhaseVocoder(input=None)
 ```
+
+Phase vocoder. Requires an FFT* input.
+

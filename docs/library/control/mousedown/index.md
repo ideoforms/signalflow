@@ -5,9 +5,9 @@ description: MouseDown: Outputs 1 if the left mouse button is down, 0 otherwise.
 
 # MouseDown
 
-Outputs 1 if the left mouse button is down, 0 otherwise. Currently only supported on macOS.
-
-Signature:
 ```python
 MouseDown(button_index=0)
 ```
+
+Outputs 1 if the left mouse button is down, 0 otherwise. Currently only supported on macOS.
+

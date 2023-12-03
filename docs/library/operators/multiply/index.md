@@ -5,9 +5,9 @@ description: Multiply: Multiply each sample of a by each sample of b. Can also b
 
 # Multiply
 
-Multiply each sample of a by each sample of b. Can also be written as a * b
-
-Signature:
 ```python
 Multiply(a=1.0, b=1.0)
 ```
+
+Multiply each sample of a by each sample of b. Can also be written as a * b
+

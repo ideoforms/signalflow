@@ -5,9 +5,9 @@ description: IFFT: Inverse Fast Fourier Transform. Requires an FFT* input, gener
 
 # IFFT
 
-Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
-
-Signature:
 ```python
 IFFT(input=None, do_window=false)
 ```
+
+Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
+

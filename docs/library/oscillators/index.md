@@ -11,6 +11,6 @@
 - **[SquareLFO](squarelfo/index.md)**: Produces a pulse wave LFO with the given `frequency` and pulsewidth of `width`, ranging from `min` to `max`, where `width` of `0.5` is a square wave.
 - **[SquareOscillator](squareoscillator/index.md)**: Produces a pulse wave with the given `frequency` and pulse `width`, where `width` of `0.5` is a square wave and other `width` values produce a rectangular wave.
 - **[TriangleLFO](trianglelfo/index.md)**: Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.
-- **[TriangleOscillator](triangleoscillator/index.md)**: TriangleOscillator
+- **[TriangleOscillator](triangleoscillator/index.md)**: Produces a triangle wave with the given `frequency`.
 - **[Wavetable](wavetable/index.md)**: Plays the wavetable stored in buffer at the given `frequency` and `phase` offset. `sync` can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.
 - **[Wavetable2D](wavetable2d/index.md)**: Wavetable2D

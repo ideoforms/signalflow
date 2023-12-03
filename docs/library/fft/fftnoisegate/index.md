@@ -5,9 +5,9 @@ description: FFTNoiseGate: FFT-based noise gate. Requires an FFT* input.
 
 # FFTNoiseGate
 
-FFT-based noise gate. Requires an FFT* input.
-
-Signature:
 ```python
 FFTNoiseGate(input=0, threshold=0.5)
 ```
+
+FFT-based noise gate. Requires an FFT* input.
+

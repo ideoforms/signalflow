@@ -5,9 +5,15 @@ description: SineLFO: Produces a sinusoidal LFO at the given `frequency` and `ph
 
 # SineLFO
 
-Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
-
-Signature:
 ```python
 SineLFO(frequency=1.0, min=0.0, max=1.0, phase=0.0)
 ```
+
+Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
+
+### Examples
+
+```python
+{% include-markdown "./example-0.py" comments=false %}
+```
+

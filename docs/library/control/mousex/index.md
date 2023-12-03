@@ -5,9 +5,9 @@ description: MouseX: Outputs the normalised cursor X position, from 0 to 1. Curr
 
 # MouseX
 
-Outputs the normalised cursor X position, from 0 to 1. Currently only supported on macOS.
-
-Signature:
 ```python
 MouseX()
 ```
+
+Outputs the normalised cursor X position, from 0 to 1. Currently only supported on macOS.
+

@@ -5,9 +5,9 @@ description: DecibelsToAmplitude: DecibelsToAmplitude
 
 # DecibelsToAmplitude
 
-DecibelsToAmplitude
-
-Signature:
 ```python
 DecibelsToAmplitude(a=0)
 ```
+
+DecibelsToAmplitude
+

@@ -5,9 +5,9 @@ description: Sum: Sums the output of all of the input nodes, by sample.
 
 # Sum
 
-Sums the output of all of the input nodes, by sample.
-
-Signature:
 ```python
 Sum()
 ```
+
+Sums the output of all of the input nodes, by sample.
+

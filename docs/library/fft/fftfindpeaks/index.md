@@ -5,9 +5,9 @@ description: FFTFindPeaks: Find peaks in the FFT magnitude spectrum. Requires an
 
 # FFTFindPeaks
 
-Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
-
-Signature:
 ```python
 FFTFindPeaks(input=0, prominence=1, threshold=0.000001, count=SIGNALFLOW_MAX_CHANNELS, interpolate=true)
 ```
+
+Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
+

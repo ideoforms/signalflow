@@ -5,9 +5,9 @@ description: Sin: Outputs sin(a), per sample.
 
 # Sin
 
-Outputs sin(a), per sample.
-
-Signature:
 ```python
 Sin(a=0)
 ```
+
+Outputs sin(a), per sample.
+

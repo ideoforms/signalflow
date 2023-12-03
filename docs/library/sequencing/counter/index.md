@@ -5,9 +5,9 @@ description: Counter: Count upwards from `min` to `max`, driven by `clock`.
 
 # Counter
 
-Count upwards from `min` to `max`, driven by `clock`.
-
-Signature:
 ```python
 Counter(clock=0, min=0, max=2147483647)
 ```
+
+Count upwards from `min` to `max`, driven by `clock`.
+

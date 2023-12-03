@@ -5,9 +5,9 @@ description: Abs: Outputs the absolute value of a, per sample. Can also be writt
 
 # Abs
 
-Outputs the absolute value of a, per sample. Can also be written as abs(a)
-
-Signature:
 ```python
 Abs(a=0)
 ```
+
+Outputs the absolute value of a, per sample. Can also be written as abs(a)
+

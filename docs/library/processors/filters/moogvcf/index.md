@@ -5,9 +5,9 @@ description: MoogVCF: Moog ladder low-pass filter.
 
 # MoogVCF
 
-Moog ladder low-pass filter.
-
-Signature:
 ```python
 MoogVCF(input=0.0, cutoff=200.0, resonance=0.0)
 ```
+
+Moog ladder low-pass filter.
+

@@ -5,9 +5,9 @@ description: Constant: Produces a constant value.
 
 # Constant
 
-Produces a constant value.
-
-Signature:
 ```python
 Constant(value=0)
 ```
+
+Produces a constant value.
+

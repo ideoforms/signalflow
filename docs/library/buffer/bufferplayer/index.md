@@ -5,9 +5,9 @@ description: BufferPlayer: Plays the contents of the given buffer. start_time/en
 
 # BufferPlayer
 
-Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.
-
-Signature:
 ```python
 BufferPlayer(buffer=None, rate=1.0, loop=0, start_time=None, end_time=None, clock=None)
 ```
+
+Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.
+

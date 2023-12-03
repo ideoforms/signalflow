@@ -5,9 +5,9 @@ description: CrossCorrelate: Outputs the cross-correlation of the input signal w
 
 # CrossCorrelate
 
-Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.
-
-Signature:
 ```python
 CrossCorrelate(input=None, buffer=None, hop_size=0)
 ```
+
+Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.
+

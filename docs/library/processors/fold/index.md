@@ -5,9 +5,9 @@ description: Fold: Fold the input beyond `min`/`max`, reflecting the excess back
 
 # Fold
 
-Fold the input beyond `min`/`max`, reflecting the excess back.
-
-Signature:
 ```python
 Fold(input=None, min=-1.0, max=1.0)
 ```
+
+Fold the input beyond `min`/`max`, reflecting the excess back.
+

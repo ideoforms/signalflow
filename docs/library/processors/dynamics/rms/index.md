@@ -5,9 +5,9 @@ description: RMS: Outputs the root-mean-squared value of the input, in buffers e
 
 # RMS
 
-Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size.
-
-Signature:
 ```python
 RMS(input=0.0)
 ```
+
+Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size.
+

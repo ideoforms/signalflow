@@ -5,9 +5,9 @@ description: FFTConvolve: Frequency-domain convolution, using overlap-add. Usefu
 
 # FFTConvolve
 
-Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
-
-Signature:
 ```python
 FFTConvolve(input=None, buffer=None)
 ```
+
+Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
+

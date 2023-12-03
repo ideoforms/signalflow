@@ -5,9 +5,9 @@ description: FFTZeroPhase: Remove phase information from a frequency-domain inpu
 
 # FFTZeroPhase
 
-Remove phase information from a frequency-domain input. Requires an FFT* input.
-
-Signature:
 ```python
 FFTZeroPhase(input=0)
 ```
+
+Remove phase information from a frequency-domain input. Requires an FFT* input.
+

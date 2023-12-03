@@ -5,9 +5,9 @@ description: SineOscillator: Produces a sine wave at the given `frequency`.
 
 # SineOscillator
 
-Produces a sine wave at the given `frequency`.
-
-Signature:
 ```python
 SineOscillator(frequency=440)
 ```
+
+Produces a sine wave at the given `frequency`.
+

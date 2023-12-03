@@ -5,9 +5,9 @@ description: ChannelSelect: Select a subset of channels from a multichannel inpu
 
 # ChannelSelect
 
-Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step.
-
-Signature:
 ```python
 ChannelSelect(input=None, offset=0, maximum=0, step=1)
 ```
+
+Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step.
+

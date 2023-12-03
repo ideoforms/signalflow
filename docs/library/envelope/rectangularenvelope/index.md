@@ -5,9 +5,9 @@ description: RectangularEnvelope: Rectangular envelope with the given sustain du
 
 # RectangularEnvelope
 
-Rectangular envelope with the given sustain duration.
-
-Signature:
 ```python
 RectangularEnvelope(sustain_duration=1.0, clock=None)
 ```
+
+Rectangular envelope with the given sustain duration.
+

@@ -5,9 +5,9 @@ description: Divide: Divide each sample of a by each sample of b. Can also be wr
 
 # Divide
 
-Divide each sample of a by each sample of b. Can also be written as a / b
-
-Signature:
 ```python
 Divide(a=1, b=1)
 ```
+
+Divide each sample of a by each sample of b. Can also be written as a / b
+

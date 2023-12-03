@@ -5,9 +5,9 @@ description: Sequence: Outputs the elements in `sequence`, incrementing position
 
 # Sequence
 
-Outputs the elements in `sequence`, incrementing position on each `clock`.
-
-Signature:
 ```python
 Sequence(sequence=std::vector<float> ( ), clock=None)
 ```
+
+Outputs the elements in `sequence`, incrementing position on each `clock`.
+

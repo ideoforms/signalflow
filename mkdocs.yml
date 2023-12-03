@@ -113,6 +113,7 @@ nav:
 not_in_nav: |
   library/*/*.md
   library/*/*/*.md
+  library/*/*/*/*.md
   installation/*/buttons.md
   installation/command-line-generic.md
   installation/next-steps.md

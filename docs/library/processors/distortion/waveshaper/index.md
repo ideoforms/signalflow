@@ -5,9 +5,9 @@ description: WaveShaper: Applies wave-shaping as described in `buffer`.
 
 # WaveShaper
 
-Applies wave-shaping as described in `buffer`.
-
-Signature:
 ```python
 WaveShaper(input=0.0, buffer=None)
 ```
+
+Applies wave-shaping as described in `buffer`.
+

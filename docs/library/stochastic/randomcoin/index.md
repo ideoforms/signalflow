@@ -5,9 +5,9 @@ description: RandomCoin: Flip a coin with the given probability. If a clock is p
 
 # RandomCoin
 
-Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick.
-
-Signature:
 ```python
 RandomCoin(probability=0.5, clock=None, reset=None)
 ```
+
+Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick.
+

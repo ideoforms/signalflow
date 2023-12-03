@@ -5,9 +5,9 @@ description: GrainSegments: GrainSegments
 
 # GrainSegments
 
-GrainSegments
-
-Signature:
 ```python
 GrainSegments(buffer=None, clock=0, target=0, offsets={}, values={}, durations={})
 ```
+
+GrainSegments
+

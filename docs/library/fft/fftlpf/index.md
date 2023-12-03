@@ -5,9 +5,9 @@ description: FFTLPF: FFT-based brick wall low pass filter. Requires an FFT* inpu
 
 # FFTLPF
 
-FFT-based brick wall low pass filter. Requires an FFT* input.
-
-Signature:
 ```python
 FFTLPF(input=0, frequency=2000)
 ```
+
+FFT-based brick wall low pass filter. Requires an FFT* input.
+

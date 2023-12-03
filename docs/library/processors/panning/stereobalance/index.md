@@ -5,9 +5,9 @@ description: StereoBalance: Takes a stereo input and rebalances it, where `balan
 
 # StereoBalance
 
-Takes a stereo input and rebalances it, where `balance` of `0` is unchanged, `-1` is hard left, and `1` is hard right.
-
-Signature:
 ```python
 StereoBalance(input=0, balance=0)
 ```
+
+Takes a stereo input and rebalances it, where `balance` of `0` is unchanged, `-1` is hard left, and `1` is hard right.
+

@@ -5,9 +5,9 @@ description: FFTTonality: Tonality filter. Requires an FFT* input.
 
 # FFTTonality
 
-Tonality filter. Requires an FFT* input.
-
-Signature:
 ```python
 FFTTonality(input=0, level=0.5, smoothing=0.9)
 ```
+
+Tonality filter. Requires an FFT* input.
+

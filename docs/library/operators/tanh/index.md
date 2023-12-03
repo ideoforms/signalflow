@@ -5,9 +5,9 @@ description: Tanh: Outputs tanh(a), per sample. Can be used as a soft clipper.
 
 # Tanh
 
-Outputs tanh(a), per sample. Can be used as a soft clipper.
-
-Signature:
 ```python
 Tanh(a=0)
 ```
+
+Outputs tanh(a), per sample. Can be used as a soft clipper.
+

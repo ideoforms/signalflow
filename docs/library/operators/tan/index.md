@@ -5,9 +5,9 @@ description: Tan: Outputs tan(a), per sample.
 
 # Tan
 
-Outputs tan(a), per sample.
-
-Signature:
 ```python
 Tan(a=0)
 ```
+
+Outputs tan(a), per sample.
+

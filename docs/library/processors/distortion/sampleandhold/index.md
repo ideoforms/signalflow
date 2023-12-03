@@ -5,9 +5,9 @@ description: SampleAndHold: Samples and holds the input each time a trigger is r
 
 # SampleAndHold
 
-Samples and holds the input each time a trigger is received on `clock`.
-
-Signature:
 ```python
 SampleAndHold(input=None, clock=None)
 ```
+
+Samples and holds the input each time a trigger is received on `clock`.
+

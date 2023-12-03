@@ -5,9 +5,9 @@ description: Cos: Outputs cos(a), per sample.
 
 # Cos
 
-Outputs cos(a), per sample.
-
-Signature:
 ```python
 Cos(a=0)
 ```
+
+Outputs cos(a), per sample.
+

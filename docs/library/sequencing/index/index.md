@@ -5,9 +5,9 @@ description: Index: Outputs the value in `list` corresponding to `index`.
 
 # Index
 
-Outputs the value in `list` corresponding to `index`.
-
-Signature:
 ```python
 Index(list={}, index=0)
 ```
+
+Outputs the value in `list` corresponding to `index`.
+

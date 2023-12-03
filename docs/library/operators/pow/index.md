@@ -5,9 +5,9 @@ description: Pow: Outputs a to the power of b, per sample. Can also be written a
 
 # Pow
 
-Outputs a to the power of b, per sample. Can also be written as a ** b
-
-Signature:
 ```python
 Pow(a=0, b=0)
 ```
+
+Outputs a to the power of b, per sample. Can also be written as a ** b
+

@@ -5,9 +5,9 @@ description: AmplitudeToDecibels: Map a linear amplitude value to decibels.
 
 # AmplitudeToDecibels
 
-Map a linear amplitude value to decibels.
-
-Signature:
 ```python
 AmplitudeToDecibels(a=0)
 ```
+
+Map a linear amplitude value to decibels.
+

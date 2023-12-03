@@ -357,22 +357,30 @@ def generate_node_library(node_classes):
                 cls_doc_abs_path = os.path.join(root_directory, folder, cls_doc_path)
                 cls_doc_abs_folder = os.path.dirname(cls_doc_abs_path)
                 os.makedirs(cls_doc_abs_folder, exist_ok=True)
+                example_scripts = glob.glob(os.path.join(cls_doc_abs_folder, "*.py"))
+                example_scripts = [os.path.basename(s) for s in example_scripts]
                 with open(cls_doc_abs_path, "w") as fd:
+                    output_markdown_params = ", ".join(("%s=%s" % (param.name, param.default)) \
+                            for param in cls.constructors[0])
+                    output_markdown_params = output_markdown_params.replace("nullptr", "None")
+
                     fd.write(f"title: {cls.name} node documentation\n")
                     fd.write(f"description: {cls.name}: {cls.docs}\n\n")
                     fd.write(
                         f"[Reference library](../../index.md) > [{folder_title}](../index.md) > [{cls.name}](index.md)\n\n")
-                    fd.write(f"# {cls.name}\n\n")
-                    fd.write(f"{cls.docs}\n\n")
 
-                    output_markdown_params = ", ".join(
-                        ("%s=%s" % (param.name, param.default)) for param in cls.constructors[0])
-                    output_markdown_params = output_markdown_params.replace("nullptr", "None")
-                    fd.write(f"Signature:\n")
+                    fd.write(f"# {cls.name}\n\n")
                     fd.write(f"```python\n")
                     fd.write(f"{cls.name}({output_markdown_params})\n")
-                    fd.write(f"```\n")
+                    fd.write(f"```\n\n")
+                    fd.write(f"{cls.docs}\n\n")
 
+                    if len(example_scripts):
+                        fd.write(f"### Examples\n\n")
+                        for example_script in example_scripts:
+                            fd.write(f"```python\n")
+                            fd.write('{%% include-markdown "./%s" comments=false %%}\n' % example_script)
+                            fd.write(f"```\n\n")
 
 def generate_readme(node_classes) -> None:
     """
