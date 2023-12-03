@@ -1,6 +1,0 @@
-enhancement-labels=feature, node, infrastructure
-enhancement-prefix=**New features:**
-unreleased-label=HEAD
-header-label=CHANGELOG
-base=aux/docs/HISTORY.md
-since-tag=v0.1.0
