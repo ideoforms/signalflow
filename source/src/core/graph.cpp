@@ -7,6 +7,7 @@
 #include "signalflow/patch/patch.h"
 
 #include "signalflow/node/io/output/abstract.h"
+#include "signalflow/node/io/output/dummy.h"
 #include "signalflow/node/io/output/ios.h"
 #include "signalflow/node/io/output/soundio.h"
 
@@ -21,10 +22,38 @@ namespace signalflow
 
 AudioGraph *shared_graph = nullptr;
 
+AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool start)
+{
+    if (shared_graph)
+    {
+        throw graph_already_created_exception();
+    }
+    shared_graph = this;
+
+    if (config)
+    {
+        this->config = *config;
+    }
+
+    if (output_device == "dummy")
+    {
+        this->output = new AudioOut_Dummy();
+    }
+    else
+    {
+        throw std::runtime_error("AudioGraph: Invalid output device name: " + output_device);
+    }
+
+    this->init();
+
+    if (start)
+    {
+        this->start();
+    }
+}
+
 AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool start)
 {
-    signalflow_init();
-
     if (shared_graph)
     {
         throw graph_already_created_exception();
@@ -52,6 +81,18 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool sta
         }
     }
 
+    this->init();
+
+    if (start)
+    {
+        this->start();
+    }
+}
+
+void AudioGraph::init()
+{
+    signalflow_init();
+
     AudioOut_Abstract *audio_out = (AudioOut_Abstract *) this->output.get();
 
     if (audio_out->get_sample_rate() == 0)
@@ -77,11 +118,6 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool sta
     this->recording_fd = NULL;
     this->recording_num_channels = 0;
     this->recording_buffer = (float *) calloc(SIGNALFLOW_DEFAULT_BLOCK_SIZE * SIGNALFLOW_MAX_CHANNELS, sizeof(float));
-
-    if (start)
-    {
-        this->start();
-    }
 }
 
 void AudioGraph::start()

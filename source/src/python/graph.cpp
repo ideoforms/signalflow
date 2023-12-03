@@ -8,6 +8,8 @@ void init_python_graph(py::module &m)
     py::class_<AudioGraph>(m, "AudioGraph", "The global audio signal processing graph")
         .def(py::init<AudioGraphConfig *, NodeRef, bool>(), "config"_a = nullptr, "output_device"_a = nullptr,
              "start"_a = true)
+        .def(py::init<AudioGraphConfig *, std::string, bool>(), "config"_a = nullptr, "output_device"_a = "",
+             "start"_a = true)
 
         /*--------------------------------------------------------------------------------
          * Properties
