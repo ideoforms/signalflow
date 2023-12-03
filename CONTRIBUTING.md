@@ -1,5 +1,11 @@
 # Contributing
 
+- [Building from source](#building-from-source)
+- [Creating a new Node](#creating-a-new-node)
+- [Test](#test)
+- [Release](#release)
+- [Documentation](#documentation)
+
 ## Building from source
 
 Building from source assumes that you have a working installation of Python 3, ideally within a virtual environment.
@@ -60,7 +66,7 @@ pip3 install .
 </details>
 
 <details>
-<summary>Installation: <b>Windows</b></summary>
+<summary>Building from source: <b>Windows</b></summary>
 
 ### Windows
 
@@ -81,7 +87,17 @@ As of 2021-03-03, only the signalflow project has been ported to build correctly
 </details>
 
 <details>
-<summary>Installation: <b>C++ only</b> (no Python layer)</summary>
+<summary>Building from source: <b>Debug symbols</b></summary>
+## Debug symbols
+
+To build the Python libraries with debug symbols:
+```
+python3 setup.py build --debug install
+```
+</details>
+
+<details>
+<summary>Building from source: <b>C++ only</b> (no Python layer)</summary>
 
 To build and install the C++ core without the Python binding layer:
 ```
@@ -90,6 +106,8 @@ cd build
 cmake ..
 make -j8
 ```
+
+To build with debug symbols, include `-DCMAKE_BUILD_TYPE=Debug` when calling `cmake`.
 
 </details>
 
@@ -104,21 +122,6 @@ make -j8
 - Add unit tests to the appropriate test script in `tests`
 - Re-run the tests: `python3 setup.py test`
 - Update the stubs (see below)
-
-## Build: C++
-
-To build with debug symbols:
-```
-cmake -DCMAKE_BUILD_TYPE=Debug ..
-```
-
-## Build: Python
-
-To build the Python libraries with debug symbols:
-```
-python3 setup.py build --debug install
-# TODO: How to do this with pip?
-```
 
 ## Test
 
