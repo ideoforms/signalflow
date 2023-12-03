@@ -27,7 +27,8 @@ SIGNALFLOW_UNIT_TEST_SAMPLE_RATE = 44100
 #------------------------------------------------------------------------
 def distutils_dir_name(dir_name):
     """Returns the name of a distutils build directory"""
-    f = "{dirname}.{platform}-cpython-{version[0]}{version[1]}"
+    # f = "{dirname}.{platform}-cpython-{version[0]}{version[1]}"
+    f = "{dirname}.{platform}-{version[0]}.{version[1]}"
     return f.format(dirname=dir_name,
                     platform=sysconfig.get_platform(),
                     version=sys.version_info)
