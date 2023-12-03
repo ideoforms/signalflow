@@ -356,6 +356,8 @@ def generate_node_library(node_classes):
 
                 cls_doc_abs_path = os.path.join(root_directory, folder, cls_doc_path)
                 with open(cls_doc_abs_path, "w") as fd:
+                    fd.write(f"title: {cls.name} node documentation\n")
+                    fd.write(f"description: {cls.name}: {cls.docs}\n\n")
                     fd.write(
                         f"[Reference library](../index.md) > [{folder_title}](index.md) > [{cls.name}]({cls_doc_path})\n\n")
                     fd.write(f"# {cls.name}\n\n")
