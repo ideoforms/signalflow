@@ -8,7 +8,7 @@ namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
  * Smooth the input with a given smoothing coefficient.
- * When smooth = 0, applies no smoothing.
+ * When `smooth` = 0, applies no smoothing.
  *---------------------------------------------------------------------------------*/
 class Smooth : public UnaryOpNode
 {

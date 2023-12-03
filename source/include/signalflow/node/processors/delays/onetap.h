@@ -10,7 +10,7 @@ namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
  * Single-tap delay line.
- * delay_time must be less than or equal to max_delay_time.
+ * `delay_time` must be less than or equal to `max_delay_time`.
  *---------------------------------------------------------------------------------*/
 class OneTapDelay : public UnaryOpNode
 {

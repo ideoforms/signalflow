@@ -5,8 +5,8 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Produces a sinusoidal LFO at the given frequency and phase offset,
- * with output ranging from min to max.
+ * Produces a sinusoidal LFO at the given `frequency` and `phase` offset,
+ * with output ranging from `min` to `max`.
  *---------------------------------------------------------------------------------*/
 class SineLFO : public LFO
 {

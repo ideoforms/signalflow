@@ -7,7 +7,9 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Plays the wavetable stored in buffer at the given frequency.
+ * Plays the wavetable stored in buffer at the given `frequency` and `phase` offset.
+ * `sync` can be used to provide a hard sync input, which resets the wavetable's
+ * phase at each zero-crossing.
  *---------------------------------------------------------------------------------*/
 class Wavetable : public Node
 {

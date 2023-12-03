@@ -5,9 +5,9 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Pan input around an equally-spaced ring of num_channels speakers.
- * pan is the pan position from -1..+1, where 0 = centre front.
- * width is the source's width, where 1.0 spans exactly between an adjacent pair of channels.
+ * Pan input around an equally-spaced ring of `num_channels` speakers.
+ * `pan` is the pan position from -1..+1, where 0 = centre front.
+ * `width` is the source's width, where 1.0 spans exactly between an adjacent pair of channels.
  *---------------------------------------------------------------------------------*/
 class AzimuthPanner : public Node
 {

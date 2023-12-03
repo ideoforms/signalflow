@@ -36,6 +36,10 @@ class NodeClass:
     constructors: list[list[Parameter]]
     docs: str
 
+    @property
+    def identifier(self):
+        return self.name.lower()
+
 
 node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
 omitted_classes = ["VampAnalysis", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode",
@@ -158,17 +162,6 @@ def folder_name_to_title(folder_name: str) -> str:
     if re.search(r"^[aeiou]+$", folder_title) or re.search(r"^[^aeiou]+$", folder_title):
         folder_title = folder_title.upper()
     return folder_title
-
-
-def class_name_to_filename(class_name: str) -> str:
-    class_filename = "%s.md" % class_name.lower()
-    # --------------------------------------------------------------------------------
-    # make a special example of the Index class, which will otherwise overwrite
-    # the directory index.md
-    # --------------------------------------------------------------------------------
-    if class_filename == "index.md":
-        class_filename = "index_.md"
-    return class_filename
 
 
 def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
@@ -297,8 +290,11 @@ def generate_node_library_index(node_classes) -> str:
         folder_title = folder_name_to_title(folder)
         output_markdown += "\n## " + folder_title + "\n\n"
         for cls in classes:
+            if cls.name in node_superclasses:
+                continue
             if cls.constructors:
-                cls_doc_path = "%s/%s" % (folder, class_name_to_filename(cls.name))
+                cls_folder = os.path.join(folder, cls.identifier)
+                cls_doc_path = os.path.join(cls_folder, "index.md")
                 output_markdown += "- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs)
         output_markdown += "\n---\n"
 
@@ -346,20 +342,26 @@ def generate_node_library(node_classes):
             fd.write(f"# {folder_title}\n\n")
 
             for cls in classes:
+                if cls.name in node_superclasses:
+                    continue
+
                 if cls.constructors:
-                    cls_doc_path = class_name_to_filename(cls.name)
-                    fd.write("- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs))
+                    fd.write("- **[%s](%s/index.md)**: %s\n" % (cls.name, cls.identifier, cls.docs))
 
         for cls in classes:
-            if cls.constructors:
-                cls_doc_path = class_name_to_filename(cls.name)
+            if cls.name in node_superclasses:
+                continue
 
+            if cls.constructors:
+                cls_doc_path = os.path.join(cls.identifier, "index.md")
                 cls_doc_abs_path = os.path.join(root_directory, folder, cls_doc_path)
+                cls_doc_abs_folder = os.path.dirname(cls_doc_abs_path)
+                os.makedirs(cls_doc_abs_folder, exist_ok=True)
                 with open(cls_doc_abs_path, "w") as fd:
                     fd.write(f"title: {cls.name} node documentation\n")
                     fd.write(f"description: {cls.name}: {cls.docs}\n\n")
                     fd.write(
-                        f"[Reference library](../index.md) > [{folder_title}](index.md) > [{cls.name}]({cls_doc_path})\n\n")
+                        f"[Reference library](../../index.md) > [{folder_title}](../index.md) > [{cls.name}](index.md)\n\n")
                     fd.write(f"# {cls.name}\n\n")
                     fd.write(f"{cls.docs}\n\n")
 

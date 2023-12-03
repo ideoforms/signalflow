@@ -5,7 +5,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Produces a triangle wave with the given frequency.
+ * Produces a triangle wave with the given `frequency`.
  *---------------------------------------------------------------------------------*/
 
 class TriangleOscillator : public Node

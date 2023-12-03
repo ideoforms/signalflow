@@ -5,7 +5,7 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Count upwards from min, driven by clock.
+ * Count upwards from `min` to `max`, driven by `clock`.
  *---------------------------------------------------------------------------------*/
 class Counter : public Node
 {

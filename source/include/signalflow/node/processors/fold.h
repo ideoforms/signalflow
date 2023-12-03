@@ -6,7 +6,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Fold the input beyond min/max, reflecting the excess back.
+ * Fold the input beyond `min`/`max`, reflecting the excess back.
  *---------------------------------------------------------------------------------*/
 class Fold : public UnaryOpNode
 {

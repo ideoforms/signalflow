@@ -6,7 +6,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Remove DC offset.
+ * Remove low-frequency and DC content from a signal.
  *---------------------------------------------------------------------------------*/
 class DCFilter : public UnaryOpNode
 {

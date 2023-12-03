@@ -10,8 +10,8 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * All-pass delay, with feedback between 0 and 1.
- * delay_time must be less than or equal to max_delay_time.
+ * All-pass delay, with `feedback` between 0 and 1.
+ * `delay_time` must be less than or equal to `max_delay_time`.
  *---------------------------------------------------------------------------------*/
 class AllpassDelay : public UnaryOpNode
 {

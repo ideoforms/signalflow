@@ -5,8 +5,8 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Euclidean rhythm as described by Toussaint, with sequence_length (n)
- * and num_events (k), driven by clock.
+ * Euclidean rhythm as described by Toussaint, with `sequence_length` (n)
+ * and `num_events` (k), driven by `clock`.
  *---------------------------------------------------------------------------------*/
 class Euclidean : public Node
 {
