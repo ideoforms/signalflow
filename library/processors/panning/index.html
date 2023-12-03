@@ -1492,12 +1492,12 @@
 <p><a href="../">Reference library</a> &gt; <a href="./">Processors: Panning</a></p>
 <h1 id="processors-panning">Processors: Panning</h1>
 <ul>
-<li><strong><a href="azimuthpanner/">AzimuthPanner</a></strong>: Pan input around an equally-spaced ring of num_channels speakers. pan is the pan position from -1..+1, where 0 = centre front. width is the source's width, where 1.0 spans exactly between an adjacent pair of channels.</li>
-<li><strong><a href="channelpanner/">ChannelPanner</a></strong>: Pan the input between a linear series of channels, where pan 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.</li>
+<li><strong><a href="azimuthpanner/">AzimuthPanner</a></strong>: Pan input around an equally-spaced ring of <code>num_channels</code> speakers. <code>pan</code> is the pan position from -1..+1, where 0 = centre front. <code>width</code> is the source's width, where 1.0 spans exactly between an adjacent pair of channels.</li>
+<li><strong><a href="channelpanner/">ChannelPanner</a></strong>: Pan the input between a linear series of channels, where <code>pan</code> 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.</li>
 <li><strong><a href="spatialpanner/">SpatialPanner</a></strong>: Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported.</li>
-<li><strong><a href="stereobalance/">StereoBalance</a></strong>: Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left, and 1 is hard right.</li>
-<li><strong><a href="stereopanner/">StereoPanner</a></strong>: Pans a mono input to a stereo output. Pans from -1 (hard left) to +1 (hard right), with 0 = centre.</li>
-<li><strong><a href="stereowidth/">StereoWidth</a></strong>: Reduces the width of a stereo signal. When width = 1, input is unchanged. When width = 0, outputs a pair of identical channels both containing L+R.</li>
+<li><strong><a href="stereobalance/">StereoBalance</a></strong>: Takes a stereo input and rebalances it, where <code>balance</code> of <code>0</code> is unchanged, <code>-1</code> is hard left, and <code>1</code> is hard right.</li>
+<li><strong><a href="stereopanner/">StereoPanner</a></strong>: Pans a mono input to a stereo output. <code>pan</code> should be between -1 (hard left) to +1 (hard right), with 0 = centre.</li>
+<li><strong><a href="stereowidth/">StereoWidth</a></strong>: Reduces the width of a stereo signal. When <code>width</code> = 1, input is unchanged. When <code>width</code> = 0, outputs a pair of identical channels both containing L+R.</li>
 </ul>
 
   <hr>
@@ -1505,7 +1505,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:03:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
       
         <br>
         Created:

@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="SignalFlow is a sound synthesis framework designed for exploring complex sonic ideas.">
+        <meta name="description" content="Compressor: Dynamic range compression, with optional `sidechain` input. When the input amplitude is above `threshold`, compresses the amplitude with the given `ratio`, following the given `attack_time` and `release_time` in seconds.">
       
       
       
@@ -17,7 +17,7 @@
     
     
       
-        <title>Compressor - SignalFlow</title>
+        <title>Compressor node documentation - SignalFlow</title>
       
     
     
@@ -104,7 +104,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Compressor
+              Compressor node documentation
             
           </span>
         </div>
@@ -1473,21 +1473,20 @@
 
 <p><a href="../../">Reference library</a> &gt; <a href="../">Processors: Dynamics</a> &gt; <a href="./">Compressor</a></p>
 <h1 id="compressor">Compressor</h1>
-<p>Dynamic range compression, with optional sidechain input.</p>
-<p>Signature:
 <div class="highlight"><pre><span></span><code><span class="n">Compressor</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">attack_time</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">release_time</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">sidechain</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></div></p>
+</code></pre></div>
+<p>Dynamic range compression, with optional <code>sidechain</code> input. When the input amplitude is above <code>threshold</code>, compresses the amplitude with the given <code>ratio</code>, following the given <code>attack_time</code> and <code>release_time</code> in seconds.</p>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:03:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
       
     
   </small>

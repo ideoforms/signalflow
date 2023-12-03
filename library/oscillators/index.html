@@ -1493,17 +1493,16 @@
 <h1 id="oscillators">Oscillators</h1>
 <ul>
 <li><strong><a href="constant/">Constant</a></strong>: Produces a constant value.</li>
-<li><strong><a href="impulse/">Impulse</a></strong>: Produces a value of 1 at the given frequency, with output of 0 at all other times. If frequency is 0, produces a single impulse.</li>
-<li><strong><a href="lfo/">LFO</a></strong>: LFO</li>
-<li><strong><a href="sawlfo/">SawLFO</a></strong>: Produces a sawtooth LFO, with output ranging from min to max.</li>
-<li><strong><a href="sawoscillator/">SawOscillator</a></strong>: Produces a (non-band-limited) sawtooth wave, with the given frequency and phase offset. When a reset or trigger is received, resets the phase to zero.</li>
-<li><strong><a href="sinelfo/">SineLFO</a></strong>: Produces a sinusoidal LFO at the given frequency and phase offset, with output ranging from min to max.</li>
-<li><strong><a href="sineoscillator/">SineOscillator</a></strong>: Produces a sine wave at the given frequency.</li>
-<li><strong><a href="squarelfo/">SquareLFO</a></strong>: Produces a pulse wave LFO with the given frequency and pulse width, ranging from min to max, where width=0.5 is a square wave.</li>
-<li><strong><a href="squareoscillator/">SquareOscillator</a></strong>: Produces a pulse wave with the given frequency and pulse width, where width=0.5 is a square wave.</li>
-<li><strong><a href="trianglelfo/">TriangleLFO</a></strong>: Produces a triangle LFO with the given frequency, ranging from min to max.</li>
-<li><strong><a href="triangleoscillator/">TriangleOscillator</a></strong>: TriangleOscillator</li>
-<li><strong><a href="wavetable/">Wavetable</a></strong>: Plays the wavetable stored in buffer at the given frequency.</li>
+<li><strong><a href="impulse/">Impulse</a></strong>: Produces a value of 1 at the given <code>frequency</code>, with output of 0 at all other times. If frequency is 0, produces a single impulse.</li>
+<li><strong><a href="sawlfo/">SawLFO</a></strong>: Produces a sawtooth LFO, with output ranging from <code>min</code> to <code>max</code>.</li>
+<li><strong><a href="sawoscillator/">SawOscillator</a></strong>: Produces a (non-band-limited) sawtooth wave, with the given <code>frequency</code> and <code>phase</code> offset. When a <code>reset</code> or trigger is received, resets the phase to zero.</li>
+<li><strong><a href="sinelfo/">SineLFO</a></strong>: Produces a sinusoidal LFO at the given <code>frequency</code> and <code>phase</code> offset, with output ranging from <code>min</code> to <code>max</code>.</li>
+<li><strong><a href="sineoscillator/">SineOscillator</a></strong>: Produces a sine wave at the given <code>frequency</code>.</li>
+<li><strong><a href="squarelfo/">SquareLFO</a></strong>: Produces a pulse wave LFO with the given <code>frequency</code> and pulsewidth of <code>width</code>, ranging from <code>min</code> to <code>max</code>, where <code>width</code> of <code>0.5</code> is a square wave.</li>
+<li><strong><a href="squareoscillator/">SquareOscillator</a></strong>: Produces a pulse wave with the given <code>frequency</code> and pulse <code>width</code>, where <code>width</code> of <code>0.5</code> is a square wave and other <code>width</code> values produce a rectangular wave.</li>
+<li><strong><a href="trianglelfo/">TriangleLFO</a></strong>: Produces a triangle LFO with the given <code>frequency</code> and <code>phase</code> offset, ranging from <code>min</code> to <code>max</code>.</li>
+<li><strong><a href="triangleoscillator/">TriangleOscillator</a></strong>: Produces a triangle wave with the given <code>frequency</code>.</li>
+<li><strong><a href="wavetable/">Wavetable</a></strong>: Plays the wavetable stored in buffer at the given <code>frequency</code> and <code>phase</code> offset. <code>sync</code> can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.</li>
 <li><strong><a href="wavetable2d/">Wavetable2D</a></strong>: Wavetable2D</li>
 </ul>
 
@@ -1512,7 +1511,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
       
         <br>
         Created:

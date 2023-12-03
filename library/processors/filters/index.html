@@ -1493,10 +1493,10 @@
 <h1 id="processors-filters">Processors: Filters</h1>
 <ul>
 <li><strong><a href="biquadfilter/">BiquadFilter</a></strong>: Biquad filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. Not recommended for real-time modulation; for this, use SVFilter.</li>
-<li><strong><a href="dcfilter/">DCFilter</a></strong>: Remove DC offset.</li>
+<li><strong><a href="dcfilter/">DCFilter</a></strong>: Remove low-frequency and DC content from a signal.</li>
 <li><strong><a href="eq/">EQ</a></strong>: Three-band EQ.</li>
 <li><strong><a href="moogvcf/">MoogVCF</a></strong>: Moog ladder low-pass filter.</li>
-<li><strong><a href="svfilter/">SVFilter</a></strong>: State variable filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'.</li>
+<li><strong><a href="svfilter/">SVFilter</a></strong>: State variable filter. <code>filter_type</code> can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. <code>resonance</code> should be between <code>[0..1]</code>.</li>
 </ul>
 
   <hr>
@@ -1504,7 +1504,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-12T23:44:22+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-12</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:03:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
       
         <br>
         Created:

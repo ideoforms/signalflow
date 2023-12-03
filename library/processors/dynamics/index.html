@@ -1492,8 +1492,8 @@
 <p><a href="../">Reference library</a> &gt; <a href="./">Processors: Dynamics</a></p>
 <h1 id="processors-dynamics">Processors: Dynamics</h1>
 <ul>
-<li><strong><a href="compressor/">Compressor</a></strong>: Dynamic range compression, with optional sidechain input.</li>
-<li><strong><a href="gate/">Gate</a></strong>: Outputs the input value when it is above the given threshold, otherwise zero.</li>
+<li><strong><a href="compressor/">Compressor</a></strong>: Dynamic range compression, with optional <code>sidechain</code> input. When the input amplitude is above <code>threshold</code>, compresses the amplitude with the given <code>ratio</code>, following the given <code>attack_time</code> and <code>release_time</code> in seconds.</li>
+<li><strong><a href="gate/">Gate</a></strong>: Outputs the input value when it is above the given <code>threshold</code>, otherwise zero.</li>
 <li><strong><a href="maximiser/">Maximiser</a></strong>: Gain maximiser.</li>
 <li><strong><a href="rms/">RMS</a></strong>: Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size.</li>
 </ul>
@@ -1503,7 +1503,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:03:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
       
         <br>
         Created:
