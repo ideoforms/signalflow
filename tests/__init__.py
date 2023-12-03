@@ -27,13 +27,25 @@ SIGNALFLOW_UNIT_TEST_SAMPLE_RATE = 44100
 #------------------------------------------------------------------------
 def distutils_dir_name(dir_name):
     """Returns the name of a distutils build directory"""
-    f = "{dirname}.{platform}-{version[0]}.{version[1]}"
+    f = "{dirname}.{platform}-cpython-{version[0]}{version[1]}"
     return f.format(dirname=dir_name,
                     platform=sysconfig.get_platform(),
                     version=sys.version_info)
 
+#------------------------------------------------------------------------
+# Ensure that build dir exists and prioritise this library in sys.path
+#------------------------------------------------------------------------
 build_dir = os.path.join("build", distutils_dir_name("lib"))
-sys.path.insert(0, build_dir)
+if not os.path.exists(build_dir):
+    raise RuntimeError("Couldn't find .so build dir: %s" % build_dir)
+if build_dir not in sys.path:
+    sys.path.insert(0, build_dir)
+
+#------------------------------------------------------------------------
+# Ensure that placeholder package from auxiliary isn't imported
+#------------------------------------------------------------------------
+sys.path = list(filter(lambda path: "auxiliary/libs" not in path, sys.path))
+
 import signalflow
 
 def process_tree(node, buffer=None, num_frames=signalflow.SIGNALFLOW_DEFAULT_BLOCK_SIZE):
