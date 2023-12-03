@@ -1,5 +1,12 @@
-# To set up clang-format filter:
-# git config --global filter.clang-format.clean clang-format
-# git config --global filter.clang-format.smudge cat
+#--------------------------------------------------------------------------------
+# Configure clean and smudge filters to apply when checking code in and out
+# of git respectively.
+#
+# To use these rules, the clang-format filter must be first be set up adding 
+# to .gitconfig:
+#
+#   git config --global filter.clang-format.clean clang-format
+#   git config --global filter.clang-format.smudge cat
+#--------------------------------------------------------------------------------
 *.cpp filter=clang-format
 *.h filter=clang-format
