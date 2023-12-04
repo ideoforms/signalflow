@@ -28,6 +28,7 @@ SIGNALFLOW_UNIT_TEST_SAMPLE_RATE = 44100
 def distutils_dir_name(dir_name):
     """
     Returns the name of a distutils build directory
+    Requires setuptools >= 62.1.0
     https://stackoverflow.com/a/14369968/1819404
     """
     f = "{dirname}.{platform}-{cache_tag}"
