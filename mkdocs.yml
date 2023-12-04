@@ -1,5 +1,5 @@
 site_name: SignalFlow
-
+site_url: https://signalflow.dev/
 site_description: "SignalFlow is a sound synthesis framework designed for exploring complex sonic ideas."
 repo_name: ideoforms/signalflow
 repo_url: https://github.com/ideoforms/signalflow
