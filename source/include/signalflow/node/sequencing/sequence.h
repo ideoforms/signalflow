@@ -5,7 +5,7 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Outputs the elements in sequence, incrementing position on each clock.
+ * Outputs the elements in `sequence`, incrementing position on each `clock`.
  *---------------------------------------------------------------------------------*/
 class Sequence : public Node
 {

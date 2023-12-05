@@ -5,8 +5,8 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left,
- * and 1 is hard right.
+ * Takes a stereo input and rebalances it, where `balance` of `0` is unchanged,
+ * `-1` is hard left, and `1` is hard right.
  *---------------------------------------------------------------------------------*/
 class StereoBalance : public UnaryOpNode
 {

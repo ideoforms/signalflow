@@ -26,14 +26,30 @@ SIGNALFLOW_UNIT_TEST_SAMPLE_RATE = 44100
 # https://stackoverflow.com/questions/14320220/testing-python-c-libraries-get-build-path
 #------------------------------------------------------------------------
 def distutils_dir_name(dir_name):
-    """Returns the name of a distutils build directory"""
-    f = "{dirname}.{platform}-{version[0]}.{version[1]}"
+    """
+    Returns the name of a distutils build directory
+    Requires setuptools >= 62.1.0
+    https://stackoverflow.com/a/14369968/1819404
+    """
+    f = "{dirname}.{platform}-{cache_tag}"
     return f.format(dirname=dir_name,
                     platform=sysconfig.get_platform(),
-                    version=sys.version_info)
+                    cache_tag=sys.implementation.cache_tag)
 
+#------------------------------------------------------------------------
+# Ensure that build dir exists and prioritise this library in sys.path
+#------------------------------------------------------------------------
 build_dir = os.path.join("build", distutils_dir_name("lib"))
-sys.path.insert(0, build_dir)
+if not os.path.exists(build_dir):
+    raise RuntimeError("Couldn't find .so build dir: %s" % build_dir)
+if build_dir not in sys.path:
+    sys.path.insert(0, build_dir)
+
+#------------------------------------------------------------------------
+# Ensure that placeholder package from auxiliary isn't imported
+#------------------------------------------------------------------------
+sys.path = list(filter(lambda path: "auxiliary/libs" not in path, sys.path))
+
 import signalflow
 
 def process_tree(node, buffer=None, num_frames=signalflow.SIGNALFLOW_DEFAULT_BLOCK_SIZE):

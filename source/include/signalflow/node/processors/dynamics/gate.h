@@ -6,7 +6,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Outputs the input value when it is above the given threshold, otherwise zero.
+ * Outputs the input value when it is above the given `threshold`, otherwise zero.
  *---------------------------------------------------------------------------------*/
 class Gate : public UnaryOpNode
 {

@@ -5,7 +5,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Produces a sawtooth LFO, with output ranging from min to max.
+ * Produces a sawtooth LFO, with output ranging from `min` to `max`.
  *---------------------------------------------------------------------------------*/
 class SawLFO : public LFO
 {

@@ -1,5 +1,5 @@
 site_name: SignalFlow
-
+site_url: https://signalflow.dev/
 site_description: "SignalFlow is a sound synthesis framework designed for exploring complex sonic ideas."
 repo_name: ideoforms/signalflow
 repo_url: https://github.com/ideoforms/signalflow
@@ -7,8 +7,22 @@ repo_url: https://github.com/ideoforms/signalflow
 theme:
   name: material
   palette:
-   - primary: red
-   - accent: amber
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: red
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: red
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
   features:
    # enable button to copy code block
    - content.code.copy
@@ -113,6 +127,7 @@ nav:
 not_in_nav: |
   library/*/*.md
   library/*/*/*.md
+  library/*/*/*/*.md
   installation/*/buttons.md
   installation/command-line-generic.md
   installation/next-steps.md

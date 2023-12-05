@@ -6,7 +6,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Samples and holds the input each time a clock signal is received.
+ * Samples and holds the input each time a trigger is received on `clock`.
  *---------------------------------------------------------------------------------*/
 class SampleAndHold : public UnaryOpNode
 {

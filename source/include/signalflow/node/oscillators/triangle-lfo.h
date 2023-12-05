@@ -5,7 +5,8 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Produces a triangle LFO with the given frequency, ranging from min to max.
+ * Produces a triangle LFO with the given `frequency` and `phase` offset,
+ * ranging from `min` to `max`.
  *---------------------------------------------------------------------------------*/
 class TriangleLFO : public LFO
 {

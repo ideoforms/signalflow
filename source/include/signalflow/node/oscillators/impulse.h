@@ -6,7 +6,7 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Produces a value of 1 at the given frequency, with output of 0 at all other times.
+ * Produces a value of 1 at the given `frequency`, with output of 0 at all other times.
  * If frequency is 0, produces a single impulse.
  *---------------------------------------------------------------------------------*/
 class Impulse : public Node

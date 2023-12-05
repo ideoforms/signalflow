@@ -6,7 +6,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Wrap the input beyond min/max.
+ * Wrap the input beyond `min`/`max`.
  *---------------------------------------------------------------------------------*/
 class Wrap : public UnaryOpNode
 {

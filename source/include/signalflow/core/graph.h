@@ -22,7 +22,8 @@ class AudioGraphMonitor;
 class AudioGraph
 {
 public:
-    AudioGraph(AudioGraphConfig *config = nullptr, NodeRef output_device = nullptr, bool start = true);
+    AudioGraph(AudioGraphConfig *config = nullptr, std::string output_device = "", bool start = true);
+    AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool start = true);
 
     virtual ~AudioGraph();
 
@@ -399,6 +400,7 @@ public:
     AudioGraphConfig &get_config();
 
 protected:
+    void init();
     void register_memory_alloc(size_t num_bytes);
     void register_memory_dealloc(size_t num_bytes);
 

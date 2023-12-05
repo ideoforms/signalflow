@@ -31,14 +31,26 @@ def download_examples() -> None:
         "sequencing-example.py",
         "wavetable-2d-example.py",
     ]
+    audio_files = [
+        "stereo-count.wav"
+    ]
     local_dir = "examples"
+    local_audio_dir = os.path.join(local_dir, "audio")
     os.makedirs(local_dir, exist_ok=True)
+    os.makedirs(local_audio_dir, exist_ok=True)
     print("Downloading examples to: %s" % local_dir)
+
     for filename in examples:
         url = "%s/%s" % (url_prefix, urllib.parse.quote(filename))
         output_path = os.path.join(local_dir, filename)
         urllib.request.urlretrieve(url, output_path)
+        os.chmod(output_path, 755)
         print(" - Downloaded: %s" % filename)
+
+    for filename in audio_files:
+        url = "%s/audio/%s" % (url_prefix, urllib.parse.quote(filename))
+        output_path = os.path.join(local_audio_dir, filename)
+        urllib.request.urlretrieve(url, output_path)
 
 def download_notebooks() -> None:
     """

@@ -6,7 +6,7 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Clip the input to min/max.
+ * Clip the input to `min`/`max`.
  *---------------------------------------------------------------------------------*/
 class Clip : public UnaryOpNode
 {

@@ -5,7 +5,7 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Outputs the value in list corresponding to index.
+ * Outputs the value in `list` corresponding to `index`.
  *---------------------------------------------------------------------------------*/
 class Index : public Node
 {
