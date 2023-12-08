@@ -44,7 +44,7 @@ def download_examples() -> None:
         url = "%s/%s" % (url_prefix, urllib.parse.quote(filename))
         output_path = os.path.join(local_dir, filename)
         urllib.request.urlretrieve(url, output_path)
-        os.chmod(output_path, 755)
+        os.chmod(output_path, 0o755)
         print(" - Downloaded: %s" % filename)
 
     for filename in audio_files:
