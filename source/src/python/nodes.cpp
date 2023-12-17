@@ -44,7 +44,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048);
 
     py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer", "Trigger segments of a buffer at the given onset positions.")
-        .def(py::init<BufferRef, std::vector<float>>(), "buffer"_a = nullptr, "onsets"_a = 0);
+        .def(py::init<BufferRef, std::vector<float>, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onsets"_a = 0, "index"_a = nullptr, "rate"_a = 1.0);
 
 #ifdef __APPLE__
 
@@ -217,85 +217,85 @@ void init_python_nodes(py::module &m)
     py::class_<Constant, Node, NodeRefTemplate<Constant>>(m, "Constant", "Produces a constant value.")
         .def(py::init<float>(), "value"_a = 0);
 
-    py::class_<Impulse, Node, NodeRefTemplate<Impulse>>(m, "Impulse", "Produces a value of 1 at the given frequency, with output of 0 at all other times. If frequency is 0, produces a single impulse.")
+    py::class_<Impulse, Node, NodeRefTemplate<Impulse>>(m, "Impulse", "Produces a value of 1 at the given `frequency`, with output of 0 at all other times. If frequency is 0, produces a single impulse.")
         .def(py::init<NodeRef>(), "frequency"_a = 1.0);
 
     py::class_<LFO, Node, NodeRefTemplate<LFO>>(m, "LFO", "LFO")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
-    py::class_<SawLFO, Node, NodeRefTemplate<SawLFO>>(m, "SawLFO", "Produces a sawtooth LFO, with output ranging from min to max.")
+    py::class_<SawLFO, Node, NodeRefTemplate<SawLFO>>(m, "SawLFO", "Produces a sawtooth LFO, with output ranging from `min` to `max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
-    py::class_<SawOscillator, Node, NodeRefTemplate<SawOscillator>>(m, "SawOscillator", "Produces a (non-band-limited) sawtooth wave, with the given frequency and phase offset. When a reset or trigger is received, resets the phase to zero.")
+    py::class_<SawOscillator, Node, NodeRefTemplate<SawOscillator>>(m, "SawOscillator", "Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 440, "phase"_a = nullptr, "reset"_a = nullptr);
 
-    py::class_<SineLFO, Node, NodeRefTemplate<SineLFO>>(m, "SineLFO", "Produces a sinusoidal LFO at the given frequency and phase offset, with output ranging from min to max.")
+    py::class_<SineLFO, Node, NodeRefTemplate<SineLFO>>(m, "SineLFO", "Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
-    py::class_<SineOscillator, Node, NodeRefTemplate<SineOscillator>>(m, "SineOscillator", "Produces a sine wave at the given frequency.")
+    py::class_<SineOscillator, Node, NodeRefTemplate<SineOscillator>>(m, "SineOscillator", "Produces a sine wave at the given `frequency`.")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
 
-    py::class_<SquareLFO, Node, NodeRefTemplate<SquareLFO>>(m, "SquareLFO", "Produces a pulse wave LFO with the given frequency and pulse width, ranging from min to max, where width=0.5 is a square wave.")
+    py::class_<SquareLFO, Node, NodeRefTemplate<SquareLFO>>(m, "SquareLFO", "Produces a pulse wave LFO with the given `frequency` and pulsewidth of `width`, ranging from `min` to `max`, where `width` of `0.5` is a square wave.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "width"_a = 0.5, "phase"_a = 0.0);
 
-    py::class_<SquareOscillator, Node, NodeRefTemplate<SquareOscillator>>(m, "SquareOscillator", "Produces a pulse wave with the given frequency and pulse width, where width=0.5 is a square wave.")
+    py::class_<SquareOscillator, Node, NodeRefTemplate<SquareOscillator>>(m, "SquareOscillator", "Produces a pulse wave with the given `frequency` and pulse `width`, where `width` of `0.5` is a square wave and other `width` values produce a rectangular wave.")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "width"_a = 0.5);
 
-    py::class_<TriangleLFO, Node, NodeRefTemplate<TriangleLFO>>(m, "TriangleLFO", "Produces a triangle LFO with the given frequency, ranging from min to max.")
+    py::class_<TriangleLFO, Node, NodeRefTemplate<TriangleLFO>>(m, "TriangleLFO", "Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
-    py::class_<TriangleOscillator, Node, NodeRefTemplate<TriangleOscillator>>(m, "TriangleOscillator", "TriangleOscillator")
+    py::class_<TriangleOscillator, Node, NodeRefTemplate<TriangleOscillator>>(m, "TriangleOscillator", "Produces a triangle wave with the given `frequency`.")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
 
-    py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable", "Plays the wavetable stored in buffer at the given frequency.")
+    py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable", "Plays the wavetable stored in buffer at the given `frequency` and `phase` offset. `sync` can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, BufferRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "phase"_a = 0, "sync"_a = 0, "phase_map"_a = nullptr);
 
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D", "Wavetable2D")
         .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "phase"_a = 0.0, "sync"_a = 0);
 
-    py::class_<Clip, Node, NodeRefTemplate<Clip>>(m, "Clip", "Clip the input to min/max.")
+    py::class_<Clip, Node, NodeRefTemplate<Clip>>(m, "Clip", "Clip the input to `min`/`max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
-    py::class_<Fold, Node, NodeRefTemplate<Fold>>(m, "Fold", "Fold the input beyond min/max, reflecting the excess back.")
+    py::class_<Fold, Node, NodeRefTemplate<Fold>>(m, "Fold", "Fold the input beyond `min`/`max`, reflecting the excess back.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
-    py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth", "Smooth the input with a given smoothing coefficient. When smooth = 0, applies no smoothing.")
+    py::class_<Smooth, Node, NodeRefTemplate<Smooth>>(m, "Smooth", "Smooth the input with a given smoothing coefficient. When `smooth` = 0, applies no smoothing.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "smooth"_a = 0.99);
 
-    py::class_<WetDry, Node, NodeRefTemplate<WetDry>>(m, "WetDry", "Takes wet and dry inputs, and outputs a mix determined by wetness.")
+    py::class_<WetDry, Node, NodeRefTemplate<WetDry>>(m, "WetDry", "Takes `wet` and `dry` inputs, and outputs a mix determined by `wetness`.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "dry_input"_a = nullptr, "wet_input"_a = nullptr, "wetness"_a = 0.0);
 
-    py::class_<Wrap, Node, NodeRefTemplate<Wrap>>(m, "Wrap", "Wrap the input beyond min/max.")
+    py::class_<Wrap, Node, NodeRefTemplate<Wrap>>(m, "Wrap", "Wrap the input beyond `min`/`max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
-    py::class_<AllpassDelay, Node, NodeRefTemplate<AllpassDelay>>(m, "AllpassDelay", "All-pass delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.")
+    py::class_<AllpassDelay, Node, NodeRefTemplate<AllpassDelay>>(m, "AllpassDelay", "All-pass delay, with `feedback` between 0 and 1. `delay_time` must be less than or equal to `max_delay_time`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delay_time"_a = 0.1, "feedback"_a = 0.5, "max_delay_time"_a = 0.5);
 
-    py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay", "Comb delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.")
+    py::class_<CombDelay, Node, NodeRefTemplate<CombDelay>>(m, "CombDelay", "Comb delay, with `feedback` between 0 and 1. `delay_time` must be less than or equal to `max_delay_time`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "delay_time"_a = 0.1, "feedback"_a = 0.5, "max_delay_time"_a = 0.5);
 
-    py::class_<OneTapDelay, Node, NodeRefTemplate<OneTapDelay>>(m, "OneTapDelay", "Single-tap delay line. delay_time must be less than or equal to max_delay_time.")
+    py::class_<OneTapDelay, Node, NodeRefTemplate<OneTapDelay>>(m, "OneTapDelay", "Single-tap delay line. `delay_time` must be less than or equal to `max_delay_time`.")
         .def(py::init<NodeRef, NodeRef, float>(), "input"_a = 0.0, "delay_time"_a = 0.1, "max_delay_time"_a = 0.5);
 
-    py::class_<Stutter, Node, NodeRefTemplate<Stutter>>(m, "Stutter", "Stutters the input whenever a signal is received on clock. Generates stutter_count repeats, with duration stutter_time.")
+    py::class_<Stutter, Node, NodeRefTemplate<Stutter>>(m, "Stutter", "Stutters the input whenever a trigger is received on `clock`. Generates `stutter_count` repeats, with duration of `stutter_time`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "stutter_time"_a = 0.1, "stutter_count"_a = 1, "clock"_a = nullptr, "max_stutter_time"_a = 1.0);
 
-    py::class_<Resample, Node, NodeRefTemplate<Resample>>(m, "Resample", "Resampler and bit crusher. sample_rate is in Hz, bit_rate is an integer between 0 and 16.")
+    py::class_<Resample, Node, NodeRefTemplate<Resample>>(m, "Resample", "Resampler and bit crusher. `sample_rate` is in Hz, `bit_rate` is an integer between 0 and 16.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "sample_rate"_a = 44100, "bit_rate"_a = 16);
 
-    py::class_<SampleAndHold, Node, NodeRefTemplate<SampleAndHold>>(m, "SampleAndHold", "Samples and holds the input each time a clock signal is received.")
+    py::class_<SampleAndHold, Node, NodeRefTemplate<SampleAndHold>>(m, "SampleAndHold", "Samples and holds the input each time a trigger is received on `clock`.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "clock"_a = nullptr);
 
     py::class_<Squiz, Node, NodeRefTemplate<Squiz>>(m, "Squiz", "Implementation of Dan Stowell's Squiz algorithm, a kind of downsampler.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "rate"_a = 2.0, "chunk_size"_a = 1);
 
-    py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper", "Applies wave-shaping as described in buffer.")
+    py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper", "Applies wave-shaping as described in `buffer`.")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
 
-    py::class_<Compressor, Node, NodeRefTemplate<Compressor>>(m, "Compressor", "Dynamic range compression, with optional sidechain input.")
+    py::class_<Compressor, Node, NodeRefTemplate<Compressor>>(m, "Compressor", "Dynamic range compression, with optional `sidechain` input. When the input amplitude is above `threshold`, compresses the amplitude with the given `ratio`, following the given `attack_time` and `release_time` in seconds.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 0.1, "ratio"_a = 2, "attack_time"_a = 0.01, "release_time"_a = 0.1, "sidechain"_a = nullptr);
 
-    py::class_<Gate, Node, NodeRefTemplate<Gate>>(m, "Gate", "Outputs the input value when it is above the given threshold, otherwise zero.")
+    py::class_<Gate, Node, NodeRefTemplate<Gate>>(m, "Gate", "Outputs the input value when it is above the given `threshold`, otherwise zero.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 0.1);
 
     py::class_<Maximiser, Node, NodeRefTemplate<Maximiser>>(m, "Maximiser", "Gain maximiser.")
@@ -308,7 +308,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.0, "peak_gain"_a = 0.0)
         .def(py::init<NodeRef, std::string, NodeRef, NodeRef, NodeRef>(), "input"_a, "filter_type"_a, "cutoff"_a = 440, "resonance"_a = 0.0, "peak_gain"_a = 0.0);
 
-    py::class_<DCFilter, Node, NodeRefTemplate<DCFilter>>(m, "DCFilter", "Remove DC offset.")
+    py::class_<DCFilter, Node, NodeRefTemplate<DCFilter>>(m, "DCFilter", "Remove low-frequency and DC content from a signal.")
         .def(py::init<NodeRef>(), "input"_a = 0.0);
 
     py::class_<EQ, Node, NodeRefTemplate<EQ>>(m, "EQ", "Three-band EQ.")
@@ -317,51 +317,51 @@ void init_python_nodes(py::module &m)
     py::class_<MoogVCF, Node, NodeRefTemplate<MoogVCF>>(m, "MoogVCF", "Moog ladder low-pass filter.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "cutoff"_a = 200.0, "resonance"_a = 0.0);
 
-    py::class_<SVFilter, Node, NodeRefTemplate<SVFilter>>(m, "SVFilter", "State variable filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'.")
+    py::class_<SVFilter, Node, NodeRefTemplate<SVFilter>>(m, "SVFilter", "State variable filter. `filter_type` can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. `resonance` should be between `[0..1]`.")
         .def(py::init<NodeRef, signalflow_filter_type_t, NodeRef, NodeRef>(), "input"_a = 0.0, "filter_type"_a = SIGNALFLOW_FILTER_TYPE_LOW_PASS, "cutoff"_a = 440, "resonance"_a = 0.0)
         .def(py::init<NodeRef, std::string, NodeRef, NodeRef>(), "input"_a, "filter_type"_a, "cutoff"_a = 440, "resonance"_a = 0.0);
 
-    py::class_<AzimuthPanner, Node, NodeRefTemplate<AzimuthPanner>>(m, "AzimuthPanner", "Pan input around an equally-spaced ring of num_channels speakers. pan is the pan position from -1..+1, where 0 = centre front. width is the source's width, where 1.0 spans exactly between an adjacent pair of channels.")
+    py::class_<AzimuthPanner, Node, NodeRefTemplate<AzimuthPanner>>(m, "AzimuthPanner", "Pan input around an equally-spaced ring of `num_channels` speakers. `pan` is the pan position from -1..+1, where 0 = centre front. `width` is the source's width, where 1.0 spans exactly between an adjacent pair of channels.")
         .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "num_channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
-    py::class_<ChannelPanner, Node, NodeRefTemplate<ChannelPanner>>(m, "ChannelPanner", "Pan the input between a linear series of channels, where pan 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.")
+    py::class_<ChannelPanner, Node, NodeRefTemplate<ChannelPanner>>(m, "ChannelPanner", "Pan the input between a linear series of channels, where `pan` 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.")
         .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "num_channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
     py::class_<SpatialPanner, Node, NodeRefTemplate<SpatialPanner>>(m, "SpatialPanner", "Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported.")
         .def(py::init<std::shared_ptr<SpatialEnvironment>, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, std::string>(), "env"_a = nullptr, "input"_a = 0.0, "x"_a = 0.0, "y"_a = 0.0, "z"_a = 0.0, "radius"_a = 1.0, "algorithm"_a = "dbap");
 
-    py::class_<StereoBalance, Node, NodeRefTemplate<StereoBalance>>(m, "StereoBalance", "Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left, and 1 is hard right.")
+    py::class_<StereoBalance, Node, NodeRefTemplate<StereoBalance>>(m, "StereoBalance", "Takes a stereo input and rebalances it, where `balance` of `0` is unchanged, `-1` is hard left, and `1` is hard right.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "balance"_a = 0);
 
-    py::class_<StereoPanner, Node, NodeRefTemplate<StereoPanner>>(m, "StereoPanner", "Pans a mono input to a stereo output. Pans from -1 (hard left) to +1 (hard right), with 0 = centre.")
+    py::class_<StereoPanner, Node, NodeRefTemplate<StereoPanner>>(m, "StereoPanner", "Pans a mono input to a stereo output. `pan` should be between -1 (hard left) to +1 (hard right), with 0 = centre.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "pan"_a = 0.0);
 
-    py::class_<StereoWidth, Node, NodeRefTemplate<StereoWidth>>(m, "StereoWidth", "Reduces the width of a stereo signal. When width = 1, input is unchanged. When width = 0, outputs a pair of identical channels both containing L+R.")
+    py::class_<StereoWidth, Node, NodeRefTemplate<StereoWidth>>(m, "StereoWidth", "Reduces the width of a stereo signal. When `width` = 1, input is unchanged. When `width` = 0, outputs a pair of identical channels both containing L+R.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
 
-    py::class_<ClockDivider, Node, NodeRefTemplate<ClockDivider>>(m, "ClockDivider", "When given a clock input (e.g., an Impulse), divides the clock by the given factor. factor must be an integer greater than or equal to 1.")
+    py::class_<ClockDivider, Node, NodeRefTemplate<ClockDivider>>(m, "ClockDivider", "When given a `clock` input (e.g., an Impulse), divides the clock by the given `factor`. factor must be an integer greater than or equal to 1.")
         .def(py::init<NodeRef, NodeRef>(), "clock"_a = 0, "factor"_a = 1);
 
-    py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter", "Count upwards from min, driven by clock.")
+    py::class_<Counter, Node, NodeRefTemplate<Counter>>(m, "Counter", "Count upwards from `min` to `max`, driven by `clock`.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "min"_a = 0, "max"_a = 2147483647);
 
-    py::class_<Euclidean, Node, NodeRefTemplate<Euclidean>>(m, "Euclidean", "Euclidean rhythm as described by Toussaint, with sequence_length (n) and num_events (k), driven by clock.")
+    py::class_<Euclidean, Node, NodeRefTemplate<Euclidean>>(m, "Euclidean", "Euclidean rhythm as described by Toussaint, with `sequence_length` (n) and `num_events` (k), driven by `clock`.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "clock"_a = 0, "sequence_length"_a = 0, "num_events"_a = 0);
 
-    py::class_<FlipFlop, Node, NodeRefTemplate<FlipFlop>>(m, "FlipFlop", "Flips from 0/1 on each clock.")
+    py::class_<FlipFlop, Node, NodeRefTemplate<FlipFlop>>(m, "FlipFlop", "Flips from 0/1 on each `clock`.")
         .def(py::init<NodeRef>(), "clock"_a = 0);
 
-    py::class_<ImpulseSequence, Node, NodeRefTemplate<ImpulseSequence>>(m, "ImpulseSequence", "Each time a clock or trigger is received, outputs the next value in the sequence. At all other times, outputs zero.")
+    py::class_<ImpulseSequence, Node, NodeRefTemplate<ImpulseSequence>>(m, "ImpulseSequence", "Each time a `clock` or trigger is received, outputs the next value in `sequence`. At all other times, outputs zero.")
         .def(py::init<std::vector<int>, NodeRef>(), "sequence"_a = std::vector<int>(), "clock"_a = nullptr)
         .def(py::init<std::string, NodeRef>(), "sequence"_a, "clock"_a = nullptr);
 
-    py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index", "Outputs the value in list corresponding to index.")
+    py::class_<Index, Node, NodeRefTemplate<Index>>(m, "Index", "Outputs the value in `list` corresponding to `index`.")
         .def(py::init<std::vector<float>, NodeRef>(), "list"_a = 0, "index"_a = 0);
 
-    py::class_<Latch, Node, NodeRefTemplate<Latch>>(m, "Latch", "Initially outputs 0. When a trigger is received at set, outputs 1. When a trigger is subsequently received at reset, outputs 0, until the next set.")
+    py::class_<Latch, Node, NodeRefTemplate<Latch>>(m, "Latch", "Initially outputs 0. When a trigger is received at `set`, outputs 1. When a trigger is subsequently received at `reset`, outputs 0, until the next `set`.")
         .def(py::init<NodeRef, NodeRef>(), "set"_a = 0, "reset"_a = 0);
 
-    py::class_<Sequence, Node, NodeRefTemplate<Sequence>>(m, "Sequence", "Outputs the elements in sequence, incrementing position on each clock.")
+    py::class_<Sequence, Node, NodeRefTemplate<Sequence>>(m, "Sequence", "Outputs the elements in `sequence`, incrementing position on each `clock`.")
         .def(py::init<std::vector<float>, NodeRef>(), "sequence"_a = std::vector<float>(), "clock"_a = nullptr);
 
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic", "Logistic noise.")

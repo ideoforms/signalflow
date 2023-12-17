@@ -11,14 +11,27 @@ namespace signalflow
 class SegmentPlayer : public Node
 {
 public:
-    SegmentPlayer(BufferRef buffer = nullptr, std::vector<float> onsets = {});
+    SegmentPlayer(BufferRef buffer = nullptr,
+                  std::vector<float> onsets = {},
+                  NodeRef index = nullptr,
+                  NodeRef rate = 1.0);
 
     virtual void process(Buffer &out, int num_frames) override;
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
+    virtual void set_buffer(std::string, BufferRef buffer) override;
 
+protected:
     BufferRef buffer;
     PropertyRef onsets;
-    float phase;
+
+    /*
+     * If phase is stored as a float, rounding errors quickly accumulate for non-integer rates
+     * and cause detuning. Should investigate whether this also affects other oscillators...
+     */
+    double phase;
+    NodeRef index;
+    NodeRef rate;
+    float rate_scale_factor;
 };
 
 REGISTER(SegmentPlayer, "segment-player")
