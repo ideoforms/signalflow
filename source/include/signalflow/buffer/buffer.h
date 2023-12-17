@@ -281,7 +281,7 @@ protected:
     unsigned long num_frames;
     float duration;
 
-    signalflow_interpolation_mode_t interpolate;
+    signalflow_interpolation_mode_t interpolation_mode;
 };
 
 /**-------------------------------------------------------------------------

@@ -29,7 +29,7 @@ Buffer2D::Buffer2D(std::vector<BufferRef> buffers)
 
     this->num_buffers = buffers.size();
     this->duration = this->num_frames / this->sample_rate;
-    this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
+    this->interpolation_mode = SIGNALFLOW_INTERPOLATION_MODE_LINEAR;
 
     /*------------------------------------------------------------------------
      * Data is always a square matrix.
@@ -56,7 +56,7 @@ Buffer2D::~Buffer2D()
 sample Buffer2D::get2D(double offset_x, double offset_z)
 {
     offset_z *= (this->num_buffers - 1);
-    if (this->interpolate == SIGNALFLOW_INTERPOLATION_LINEAR)
+    if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_LINEAR)
     {
         int offset_x_int = int(offset_x);
         int offset_z_int = int(offset_z);
@@ -74,7 +74,7 @@ sample Buffer2D::get2D(double offset_x, double offset_z)
 
         return rv;
     }
-    else if (this->interpolate == SIGNALFLOW_INTERPOLATION_NONE)
+    else if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_NONE)
     {
         int offset_x_int = int(round(offset_x)) % this->num_frames;
         int offset_z_int = int(round(offset_z)) % this->num_buffers;
@@ -83,7 +83,7 @@ sample Buffer2D::get2D(double offset_x, double offset_z)
     }
     else
     {
-        throw std::runtime_error("Buffer2D: Unsupported interpolation mode: " + std::to_string(this->interpolate));
+        throw std::runtime_error("Buffer2D: Unsupported interpolation mode: " + std::to_string(this->interpolation_mode));
     }
 }
 

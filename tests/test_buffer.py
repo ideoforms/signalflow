@@ -1,5 +1,5 @@
 from signalflow import Buffer, Buffer2D
-from signalflow import SIGNALFLOW_INTERPOLATION_NONE, SIGNALFLOW_INTERPOLATION_LINEAR
+from signalflow import SIGNALFLOW_INTERPOLATION_MODE_NONE, SIGNALFLOW_INTERPOLATION_MODE_LINEAR
 from signalflow import GraphNotCreatedException
 import numpy as np
 import pytest
@@ -85,7 +85,7 @@ def test_buffer_interpolate(graph):
     assert b.get(0, -0.5) == 1
     assert b.get(0, 1.5) == 2
 
-    b.interpolate = SIGNALFLOW_INTERPOLATION_NONE
+    b.interpolation_mode = SIGNALFLOW_INTERPOLATION_MODE_NONE
     assert b.get(0, 0) == 1
     assert b.get(0, 1) == 2
     assert b.get(0, 0.5) == 1

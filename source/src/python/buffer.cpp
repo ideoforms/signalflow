@@ -15,8 +15,7 @@ void init_python_buffer(py::module &m)
              R"pbdoc(Allocate a buffer with `num_channels` channels and `num_frames` frames.)pbdoc")
         .def(
             py::init<int, int, std::vector<std::vector<float>>>(), "num_channels"_a, "num_frames"_a,
-            "data"_a
-            ","
+            "data"_a,
             R"pbdoc(Allocate a buffer with `num_channels` channels and `num_frames` frames, containing the floating-point samples in `data`.)pbdoc")
         .def(
             py::init<std::vector<std::vector<float>>>(),
@@ -53,10 +52,12 @@ void init_python_buffer(py::module &m)
                  }
              })
         .def(
-            "__mul__", [](BufferRef a, float b) { return a * b; }, "value"_a,
+            "__mul__", [](BufferRef a, float b) { return a * b; },
+            "value"_a,
             R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
         .def(
-            "__rmul__", [](BufferRef a, float b) { return a * b; }, "value_"_a,
+            "__rmul__", [](BufferRef a, float b) { return a * b; },
+            "value_"_a,
             R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
         .def(
             "__len__", [](Buffer &buf) { return buf.get_num_frames(); },
@@ -75,7 +76,7 @@ void init_python_buffer(py::module &m)
                                R"pbdoc(Returns the buffer's duration, in seconds.)pbdoc")
         .def_property_readonly("filename", &Buffer::get_filename,
                                R"pbdoc(Returns the buffer's filename, if the buffer has been loaded from/saved to file.)pbdoc")
-        .def_property("interpolate", &Buffer::get_interpolation_mode, &Buffer::set_interpolation_mode,
+        .def_property("interpolation_mode", &Buffer::get_interpolation_mode, &Buffer::set_interpolation_mode,
                       R"pbdoc(Get/set the buffer's interpolation mode.)pbdoc")
 
 #if !(defined(__linux__) && defined(__arm__))
@@ -102,9 +103,11 @@ void init_python_buffer(py::module &m)
         .def("get", &Buffer::get, "channel"_a, "frame"_a)
         .def("get_frame", &Buffer::get_frame, "channel"_a, "frame"_a)
         .def(
-            "fill", [](Buffer &buf, float sample) { buf.fill(sample); }, "sample"_a)
+            "fill", [](Buffer &buf, float sample) { buf.fill(sample); },
+            "sample"_a)
         .def(
-            "fill", [](Buffer &buf, const std::function<float(float)> f) { buf.fill(f); }, "function"_a)
+            "fill", [](Buffer &buf, const std::function<float(float)> f) { buf.fill(f); },
+            "function"_a)
         .def("split", &Buffer::split, "num_frames_per_part"_a)
         .def("load", &Buffer::load, "filename"_a)
         .def("save", &Buffer::save, "filename"_a);

@@ -31,7 +31,7 @@ Buffer::Buffer(int num_channels, int num_frames)
 {
     this->num_channels = num_channels;
     this->num_frames = num_frames;
-    this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
+    this->interpolation_mode = SIGNALFLOW_INTERPOLATION_MODE_LINEAR;
 
     /*--------------------------------------------------------------------------------
      * If the AudioGraph has been instantiated, populate the buffer's sample
@@ -81,7 +81,7 @@ Buffer::Buffer(std::vector<sample> data)
 
 Buffer::Buffer(std::string filename)
 {
-    this->interpolate = SIGNALFLOW_INTERPOLATION_LINEAR;
+    this->interpolation_mode = SIGNALFLOW_INTERPOLATION_MODE_LINEAR;
     this->load(filename);
 }
 
@@ -294,7 +294,7 @@ std::vector<BufferRef> Buffer::split(int num_frames_per_part)
         BufferRef buf = new Buffer(1, num_frames_per_part, &ptr);
 
         // Is there a better way to initialise all properties of the buffer?
-        buf->interpolate = this->interpolate;
+        buf->interpolation_mode = this->interpolation_mode;
 
         bufs[i] = buf;
     }
@@ -342,19 +342,19 @@ sample Buffer::get_frame(int channel, double frame)
         frame = 0;
     }
 
-    if (this->interpolate == SIGNALFLOW_INTERPOLATION_LINEAR)
+    if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_LINEAR)
     {
         double frame_frac = (frame - (int) frame);
         sample rv = ((1.0 - frame_frac) * this->data[channel][(int) frame]) + (frame_frac * this->data[channel][(int) ceil(frame)]);
         return rv;
     }
-    else if (this->interpolate == SIGNALFLOW_INTERPOLATION_NONE)
+    else if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_NONE)
     {
         return this->data[channel][(int) frame];
     }
     else
     {
-        throw std::runtime_error("Buffer: Unsupported interpolation mode: " + std::to_string(this->interpolate));
+        throw std::runtime_error("Buffer: Unsupported interpolation mode: " + std::to_string(this->interpolation_mode));
     }
 }
 
@@ -419,12 +419,12 @@ std::string Buffer::get_filename()
 
 void Buffer::set_interpolation_mode(signalflow_interpolation_mode_t mode)
 {
-    this->interpolate = mode;
+    this->interpolation_mode = mode;
 }
 
 signalflow_interpolation_mode_t Buffer::get_interpolation_mode()
 {
-    return this->interpolate;
+    return this->interpolation_mode;
 }
 
 sample **Buffer::get_data()
