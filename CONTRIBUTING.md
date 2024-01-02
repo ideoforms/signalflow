@@ -33,20 +33,6 @@ pip3 install .
 
 SignalFlow supports Linux (verified on Ubuntu 20.04 and Raspberry Pi OS buster) with alsa and pulseaudio backends.
 
-#### Via pip
-
-Installation via pip is supported for Linux x86_64. To install:
-
-```
-pip3 install signalflow
-```
-
-That's it! To test that it is installed successfully, play a test tone by running: `signalflow test`.
-
-If installation does not succeed, follow the instructions for building from source below.
-
-#### From source
-
 To build the Python library from source on Linux, install dependencies with apt:
 ```
 apt-get install -y git cmake g++ python3-pip libasound2-dev libsndfile1-dev libsoundio-dev fftw3-dev
@@ -88,7 +74,6 @@ As of 2021-03-03, only the signalflow project has been ported to build correctly
 
 <details>
 <summary>Building from source: <b>Debug symbols</b></summary>
-## Debug symbols
 
 To build the Python libraries with debug symbols:
 ```
