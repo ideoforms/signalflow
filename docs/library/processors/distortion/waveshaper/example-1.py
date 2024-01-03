@@ -1,31 +1,5 @@
-title: WaveShaper node documentation
-description: WaveShaper: Applies wave-shaping as described in the WaveShaperBuffer `buffer`.
-
-[Reference library](../../index.md) > [Processors: Distortion](../index.md) > [WaveShaper](index.md)
-
-# WaveShaper
-
-```python
-WaveShaper(input=0.0, buffer=None)
-```
-
-Applies wave-shaping as described in the WaveShaperBuffer `buffer`.
-
-### Examples
-
-```python
-
-#-------------------------------------------------------------------------------
-# Create a waveshaper buffer that silences any samples with amplitude < 0.5
-#-------------------------------------------------------------------------------
-buf = WaveShaperBuffer(lambda n: 0 if abs(n) < 0.5 else n)
-sine = SineOscillator(120)
-waveshaper = WaveShaper(sine, buf)
-attenuated = waveshaper * 0.1
-attenuated.play()
-```
-
-```python
+from signalflow import *
+graph = AudioGraph()
 
 #-------------------------------------------------------------------------------
 # Create a range of different waveshaper buffers, and iterate through them.
@@ -53,6 +27,3 @@ for buf in bufs:
     time.sleep(1.0)
 
 attenuated.stop()
-
-```
-
