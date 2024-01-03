@@ -23,9 +23,7 @@ namespace signalflow
 extern AudioGraph *shared_graph;
 
 Buffer::Buffer()
-    : Buffer(0, 0)
-{
-}
+    : Buffer(0, 0) {}
 
 Buffer::Buffer(int num_channels, int num_frames)
 {
@@ -70,20 +68,19 @@ Buffer::Buffer(int num_channels, int num_frames, std::vector<std::vector<sample>
 }
 
 Buffer::Buffer(std::vector<std::vector<sample>> data)
-    : Buffer(data.size(), data[0].size(), data)
-{
-}
+    : Buffer(data.size(), data[0].size(), data) {}
 
 Buffer::Buffer(std::vector<sample> data)
-    : Buffer(1, data.size(), std::vector<std::vector<sample>>({ data }))
-{
-}
+    : Buffer(1, data.size(), std::vector<std::vector<sample>>({ data })) {}
 
 Buffer::Buffer(std::string filename)
 {
     this->interpolation_mode = SIGNALFLOW_INTERPOLATION_MODE_LINEAR;
     this->load(filename);
 }
+
+Buffer::Buffer(const std::function<float(float)> f)
+    : Buffer(1, 1024) { this->fill(f); }
 
 Buffer::~Buffer()
 {
@@ -301,21 +298,14 @@ std::vector<BufferRef> Buffer::split(int num_frames_per_part)
     return bufs;
 }
 
-double Buffer::frame_to_offset(double frame)
-{
-    return (double) frame;
-}
+double Buffer::frame_to_offset(double frame) { return (double) frame; }
 
-double Buffer::offset_to_frame(double offset)
-{
-    return (double) offset;
-}
+double Buffer::offset_to_frame(double offset) { return (double) offset; }
 
-bool Buffer::set(int channel_index,
-                 int frame_index,
-                 sample value)
+bool Buffer::set(int channel_index, int frame_index, sample value)
 {
-    if (channel_index >= 0 && (unsigned) channel_index < this->num_channels && frame_index >= 0 && (unsigned) frame_index < this->num_frames)
+    if (channel_index >= 0 && (unsigned) channel_index < this->num_channels && frame_index >= 0
+        && (unsigned) frame_index < this->num_frames)
     {
         this->data[channel_index][frame_index] = value;
         return true;
@@ -345,7 +335,8 @@ sample Buffer::get_frame(int channel, double frame)
     if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_LINEAR)
     {
         double frame_frac = (frame - (int) frame);
-        sample rv = ((1.0 - frame_frac) * this->data[channel][(int) frame]) + (frame_frac * this->data[channel][(int) ceil(frame)]);
+        sample rv = ((1.0 - frame_frac) * this->data[channel][(int) frame])
+            + (frame_frac * this->data[channel][(int) ceil(frame)]);
         return rv;
     }
     else if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_NONE)
@@ -387,55 +378,25 @@ void Buffer::fill(const std::function<float(float)> f)
     }
 }
 
-float Buffer::get_sample_rate()
-{
-    return this->sample_rate;
-}
+float Buffer::get_sample_rate() { return this->sample_rate; }
 
-void Buffer::set_sample_rate(float sample_rate)
-{
-    this->sample_rate = sample_rate;
-}
+void Buffer::set_sample_rate(float sample_rate) { this->sample_rate = sample_rate; }
 
-unsigned int Buffer::get_num_channels()
-{
-    return this->num_channels;
-}
+unsigned int Buffer::get_num_channels() { return this->num_channels; }
 
-unsigned long Buffer::get_num_frames()
-{
-    return this->num_frames;
-}
+unsigned long Buffer::get_num_frames() { return this->num_frames; }
 
-float Buffer::get_duration()
-{
-    return this->duration;
-}
+float Buffer::get_duration() { return this->duration; }
 
-std::string Buffer::get_filename()
-{
-    return this->filename;
-}
+std::string Buffer::get_filename() { return this->filename; }
 
-void Buffer::set_interpolation_mode(signalflow_interpolation_mode_t mode)
-{
-    this->interpolation_mode = mode;
-}
+void Buffer::set_interpolation_mode(signalflow_interpolation_mode_t mode) { this->interpolation_mode = mode; }
 
-signalflow_interpolation_mode_t Buffer::get_interpolation_mode()
-{
-    return this->interpolation_mode;
-}
+signalflow_interpolation_mode_t Buffer::get_interpolation_mode() { return this->interpolation_mode; }
 
-sample **Buffer::get_data()
-{
-    return this->data;
-}
+sample **Buffer::get_data() { return this->data; }
 
-sample *&Buffer::operator[](int index)
-{
-    return this->data[index];
-}
+sample *&Buffer::operator[](int index) { return this->data[index]; }
 
 template <class T>
 BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
@@ -465,29 +426,29 @@ EnvelopeBuffer::EnvelopeBuffer(int length)
     this->fill(1.0);
 }
 
-EnvelopeBuffer::EnvelopeBuffer(std::string name, int num_frames)
+EnvelopeBuffer::EnvelopeBuffer(std::string shape, int num_frames)
     : EnvelopeBuffer(num_frames)
 {
-    if (name == "triangle")
+    if (shape == "triangle")
     {
         for (int x = 0; x < num_frames / 2; x++)
             this->data[0][x] = (float) x / (num_frames / 2);
         for (int x = 0; x < num_frames / 2; x++)
             this->data[0][(num_frames / 2) + x] = 1.0 - (float) x / (num_frames / 2);
     }
-    else if (name == "linear-decay")
+    else if (shape == "linear-decay")
     {
         for (int x = 0; x < num_frames; x++)
             this->data[0][x] = 1.0 - (float) x / num_frames;
     }
-    else if (name == "hanning")
+    else if (shape == "hanning")
     {
         for (int x = 0; x < num_frames; x++)
         {
             this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (num_frames - 1)));
         }
     }
-    else if (name == "rectangular")
+    else if (shape == "rectangular")
     {
         for (int x = 0; x < num_frames; x++)
         {
@@ -496,8 +457,14 @@ EnvelopeBuffer::EnvelopeBuffer(std::string name, int num_frames)
     }
     else
     {
-        throw std::runtime_error("Invalid buffer name: " + name);
+        throw std::runtime_error("Invalid buffer shape: " + shape);
     }
+}
+
+EnvelopeBuffer::EnvelopeBuffer(const std::function<float(float)> f)
+    : Buffer(1, 1024)
+{
+    this->fill(f);
 }
 
 double EnvelopeBuffer::offset_to_frame(double offset)
@@ -519,6 +486,12 @@ WaveShaperBuffer::WaveShaperBuffer(int length)
     this->fill([](float input) { return input; });
 }
 
+WaveShaperBuffer::WaveShaperBuffer(const std::function<float(float)> f)
+    : Buffer(1, 1024)
+{
+    this->fill(f);
+}
+
 double WaveShaperBuffer::offset_to_frame(double offset)
 {
     return signalflow_scale_lin_lin(offset, -1, 1, 0, this->num_frames - 1);
@@ -527,6 +500,16 @@ double WaveShaperBuffer::offset_to_frame(double offset)
 double WaveShaperBuffer::frame_to_offset(double frame)
 {
     return signalflow_scale_lin_lin(frame, 0, this->num_frames - 1, -1, 1);
+}
+
+std::vector<float> Buffer::get_frame_offsets()
+{
+    std::vector<float> offsets(this->num_frames);
+    for (auto i = 0; i < this->num_frames; i++)
+    {
+        offsets[i] = this->frame_to_offset(i);
+    }
+    return offsets;
 }
 
 }

@@ -5,7 +5,8 @@ void init_python_buffer(py::module &m)
     /*--------------------------------------------------------------------------------
      * Buffer
      *-------------------------------------------------------------------------------*/
-    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer", "A buffer of audio samples, containing one or more channels.")
+    py::class_<Buffer, BufferRefTemplate<Buffer>>(m, "Buffer",
+                                                  "A buffer of audio samples, containing one or more channels.")
         /*--------------------------------------------------------------------------------
          * Constructors
          *-------------------------------------------------------------------------------*/
@@ -14,14 +15,16 @@ void init_python_buffer(py::module &m)
         .def(py::init<int, int>(), "num_channels"_a, "num_frames"_a,
              R"pbdoc(Allocate a buffer with `num_channels` channels and `num_frames` frames.)pbdoc")
         .def(
-            py::init<int, int, std::vector<std::vector<float>>>(), "num_channels"_a, "num_frames"_a,
-            "data"_a,
+            py::init<int, int, std::vector<std::vector<float>>>(), "num_channels"_a, "num_frames"_a, "data"_a,
             R"pbdoc(Allocate a buffer with `num_channels` channels and `num_frames` frames, containing the floating-point samples in `data`.)pbdoc")
         .def(
             py::init<std::vector<std::vector<float>>>(),
             R"pbdoc(Allocate a buffer with `num_channels` channels and `num_frames` frames, containing the floating-point samples in `data`.)pbdoc")
         .def(py::init<std::vector<float>>(), "data"_a,
              R"pbdoc(Allocate a buffer containing the floating-point samples in `data`.)pbdoc")
+
+        .def(py::init<const std::function<float(float)>>(), "function"_a,
+             R"pbdoc(Allocate a buffer filled with the output of a given function.)pbdoc")
 
         /*--------------------------------------------------------------------------------
          * Operators
@@ -52,12 +55,10 @@ void init_python_buffer(py::module &m)
                  }
              })
         .def(
-            "__mul__", [](BufferRef a, float b) { return a * b; },
-            "value"_a,
+            "__mul__", [](BufferRef a, float b) { return a * b; }, "value"_a,
             R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
         .def(
-            "__rmul__", [](BufferRef a, float b) { return a * b; },
-            "value_"_a,
+            "__rmul__", [](BufferRef a, float b) { return a * b; }, "value_"_a,
             R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
         .def(
             "__len__", [](Buffer &buf) { return buf.get_num_frames(); },
@@ -74,10 +75,13 @@ void init_python_buffer(py::module &m)
                                R"pbdoc(Returns the buffer's sample rate.)pbdoc")
         .def_property_readonly("duration", &Buffer::get_duration,
                                R"pbdoc(Returns the buffer's duration, in seconds.)pbdoc")
-        .def_property_readonly("filename", &Buffer::get_filename,
-                               R"pbdoc(Returns the buffer's filename, if the buffer has been loaded from/saved to file.)pbdoc")
+        .def_property_readonly(
+            "filename", &Buffer::get_filename,
+            R"pbdoc(Returns the buffer's filename, if the buffer has been loaded from/saved to file.)pbdoc")
         .def_property("interpolation_mode", &Buffer::get_interpolation_mode, &Buffer::set_interpolation_mode,
                       R"pbdoc(Get/set the buffer's interpolation mode.)pbdoc")
+        .def_property_readonly("frame_offsets", &Buffer::get_frame_offsets,
+                               R"pbdoc(Returns a list containing all frame numbers")pbdoc")
 
 #if !(defined(__linux__) && defined(__arm__))
         // This does not compile on Raspberry Pi OS (2022-08) - to fix
@@ -103,11 +107,9 @@ void init_python_buffer(py::module &m)
         .def("get", &Buffer::get, "channel"_a, "frame"_a)
         .def("get_frame", &Buffer::get_frame, "channel"_a, "frame"_a)
         .def(
-            "fill", [](Buffer &buf, float sample) { buf.fill(sample); },
-            "sample"_a)
+            "fill", [](Buffer &buf, float sample) { buf.fill(sample); }, "sample"_a)
         .def(
-            "fill", [](Buffer &buf, const std::function<float(float)> f) { buf.fill(f); },
-            "function"_a)
+            "fill", [](Buffer &buf, const std::function<float(float)> f) { buf.fill(f); }, "function"_a)
         .def("split", &Buffer::split, "num_frames_per_part"_a)
         .def("load", &Buffer::load, "filename"_a)
         .def("save", &Buffer::save, "filename"_a);
@@ -116,11 +118,28 @@ void init_python_buffer(py::module &m)
         .def(py::init<std::vector<BufferRef>>())
         .def("get2D", &Buffer2D::get2D);
 
-    py::class_<WaveShaperBuffer, Buffer, BufferRefTemplate<WaveShaperBuffer>>(m, "WaveShaperBuffer", "Sample buffer for waveshaper nodes")
-        .def(py::init<int>());
+    py::class_<WaveShaperBuffer, Buffer, BufferRefTemplate<WaveShaperBuffer>>(m,
+                                                                              "WaveShaperBuffer",
+                                                                              "Sample buffer for waveshaper nodes")
+        .def(py::init<int>(), "num_frames"_a,
+             R"pbdoc(Create a waveshaper buffer containing the given number of samples.)pbdoc")
+        .def(py::init<const std::function<float(float)>>(), "function"_a,
+             R"pbdoc(Create a waveshaper buffer filled with the output of a given function.)pbdoc")
+        .def("get", [](WaveShaperBuffer &buf, float sample) { return buf.get(0, sample); })
+        .def_property_readonly("frame_offsets", &Buffer::get_frame_offsets,
+                               R"pbdoc(Returns a list containing the offset in the waveshaper buffer for each frame, ranging over -1..1.)pbdoc");
 
-    py::class_<EnvelopeBuffer, Buffer, BufferRefTemplate<EnvelopeBuffer>>(m, "EnvelopeBuffer", "Buffer encapsulating an audio envelope")
-        .def(py::init<int>())
-        .def(py::init<std::string>())
-        .def(py::init<std::string, int>());
+    py::class_<EnvelopeBuffer, Buffer, BufferRefTemplate<EnvelopeBuffer>>(m,
+                                                                          "EnvelopeBuffer",
+                                                                          "Buffer encapsulating an audio envelope")
+        .def(py::init<int>(), "num_frames"_a,
+             R"pbdoc(Create an envelope buffer containing the given number of samples.)pbdoc")
+        .def(py::init<std::string>(), "shape"_a,
+             R"pbdoc(Create an envelope buffer with the specified shape, one of: rectangular, triangle, hanning, linear-decay.)pbdoc")
+        .def(py::init<std::string, int>(), "shape"_a, "num_frames"_a,
+             R"pbdoc(Create an envelope buffer with the specified shape and number of frames.)pbdoc")
+        .def(py::init<const std::function<float(float)>>(), "function"_a,
+             R"pbdoc(Create an envelope buffer filled with the output of a given function.)pbdoc")
+        .def_property_readonly("frame_offsets", &Buffer::get_frame_offsets,
+                               R"pbdoc(Returns a list containing the offset in the envelope buffer for each frame, ranging over 0..1.)pbdoc");
 }

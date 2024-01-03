@@ -85,6 +85,12 @@ public:
     Buffer(std::string filename);
 
     /**------------------------------------------------------------------------
+     * Initialise and fill a buffer with a given function.
+     *
+     *------------------------------------------------------------------------*/
+    Buffer(const std::function<float(float)> f);
+
+    /**------------------------------------------------------------------------
       * Destroy the buffer.
       *
       *------------------------------------------------------------------------*/
@@ -272,6 +278,17 @@ public:
      *------------------------------------------------------------------------*/
     sample *&operator[](int index);
 
+    /**------------------------------------------------------------------------
+     * Returns the x values corresponding to each frame in the buffer.
+     * For a Buffer, each value is simply equal to the frame index (0..N).
+     * For an EnvelopeBuffer, this ranges over 0..1.
+     * For a WaveShaperBuffer, this ranges over -1..1.
+     *
+     * @returns A vector of float offsets.
+     *
+     *------------------------------------------------------------------------*/
+    std::vector<float> get_frame_offsets();
+
     sample **data = nullptr;
 
 protected:
@@ -295,19 +312,21 @@ public:
     EnvelopeBuffer(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
 
     /**------------------------------------------------------------------------
-      * Initialise a buffer with the envelope named `name`.
+      * Initialise a buffer with the envelope `shape`.
       *
       * The list of supported buffer identifiers:
       *
       *   hanning: Hanning envelope
       *   triangle: Symmetrical linear ramp from 0..1..0
       *   linear-decay: Linear decay from 1..0
+      *   rectangular: Flat "box car" envelope, with all samples == 1.0.
       *
-      * @param name One of the recognised names above
+      * @param name One of the recognised shapes above
       * @param num_frames Length of buffer
       *
       *------------------------------------------------------------------------*/
-    EnvelopeBuffer(std::string name, int num_frames = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBuffer(std::string shape, int num_frames = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    EnvelopeBuffer(const std::function<float(float)> f);
 
     /**------------------------------------------------------------------------
      * @param position An envelope position between [0, 1].
@@ -327,6 +346,7 @@ class WaveShaperBuffer : public Buffer
 {
 public:
     WaveShaperBuffer(int length = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
+    WaveShaperBuffer(const std::function<float(float)> f);
 
     /**------------------------------------------------------------------------
      * Perform a waveshaper x -> f(x) transform.
