@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="WaveShaper: Applies wave-shaping as described in `buffer`.">
+        <meta name="description" content="WaveShaper: Applies wave-shaping as described in the WaveShaperBuffer `buffer`.">
       
       
       
@@ -1463,6 +1463,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1483,14 +1498,51 @@
 <h1 id="waveshaper">WaveShaper</h1>
 <div class="highlight"><pre><span></span><code><span class="n">WaveShaper</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">buffer</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
-<p>Applies wave-shaping as described in <code>buffer</code>.</p>
+<p>Applies wave-shaping as described in the WaveShaperBuffer <code>buffer</code>.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Create a waveshaper buffer that silences any samples with amplitude &lt; 0.5</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="mi">0</span> <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.5</span> <span class="k">else</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">waveshaper</span> <span class="o">=</span> <span class="n">WaveShaper</span><span class="p">(</span><span class="n">sine</span><span class="p">,</span> <span class="n">buf</span><span class="p">)</span>
+<span class="n">attenuated</span> <span class="o">=</span> <span class="n">waveshaper</span> <span class="o">*</span> <span class="mf">0.1</span>
+<span class="n">attenuated</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Create a range of different waveshaper buffers, and iterate through them.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="n">sin_buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">cos_buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">tan_buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">tan</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">tanh_buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">tanh</span><span class="p">(</span><span class="n">n</span> <span class="o">*</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">sinx_buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">math</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">256</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">invert_buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span>
+<span class="n">noise_buf</span> <span class="o">=</span> <span class="n">WaveShaperBuffer</span><span class="p">(</span><span class="k">lambda</span> <span class="n">n</span><span class="p">:</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+<span class="n">bufs</span> <span class="o">=</span> <span class="p">[</span><span class="n">sin_buf</span><span class="p">,</span> <span class="n">cos_buf</span><span class="p">,</span> <span class="n">tan_buf</span><span class="p">,</span> <span class="n">tanh_buf</span><span class="p">,</span> <span class="n">sinx_buf</span><span class="p">,</span> <span class="n">invert_buf</span><span class="p">,</span> <span class="n">noise_buf</span><span class="p">]</span>
+
+<span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span>
+<span class="n">waveshaper</span> <span class="o">=</span> <span class="n">WaveShaper</span><span class="p">(</span><span class="n">sine</span><span class="p">,</span> <span class="n">sin_buf</span><span class="p">)</span>
+<span class="n">attenuated</span> <span class="o">=</span> <span class="n">waveshaper</span> <span class="o">*</span> <span class="mf">0.1</span>
+<span class="n">attenuated</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">buf</span> <span class="ow">in</span> <span class="n">bufs</span><span class="p">:</span>
+    <span class="n">waveshaper</span><span class="o">.</span><span class="n">set_buffer</span><span class="p">(</span><span class="s2">&quot;buffer&quot;</span><span class="p">,</span> <span class="n">buf</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">1.0</span><span class="p">)</span>
+
+<span class="n">attenuated</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-03T20:47:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-03</span>
       
         <br>
         Created:
