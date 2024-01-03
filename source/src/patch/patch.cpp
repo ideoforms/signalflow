@@ -290,8 +290,15 @@ BufferRef Patch::add_buffer_input(std::string name)
 
 BufferRef Patch::add_buffer_input(std::string name, BufferRef value)
 {
-    this->buffer_inputs[name] = value;
-    return value;
+    if (value != nullptr)
+    {
+        this->buffer_inputs[name] = value;
+        return value;
+    }
+    else
+    {
+        return this->add_buffer_input(name);
+    }
 }
 
 std::string Patch::get_input_name(const NodeRef &node)
