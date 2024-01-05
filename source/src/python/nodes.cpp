@@ -107,6 +107,9 @@ void init_python_nodes(py::module &m)
     py::class_<FFTLPF, Node, NodeRefTemplate<FFTLPF>>(m, "FFTLPF", "FFT-based brick wall low pass filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 2000);
 
+    py::class_<FFTNoiseGate, Node, NodeRefTemplate<FFTNoiseGate>>(m, "FFTNoiseGate", "FFT-based noise gate. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "threshold"_a = 0.5, "invert"_a = 0.0);
+
     py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder", "Phase vocoder. Requires an FFT* input.")
         .def(py::init<NodeRef>(), "input"_a = nullptr);
 
@@ -289,7 +292,7 @@ void init_python_nodes(py::module &m)
     py::class_<Squiz, Node, NodeRefTemplate<Squiz>>(m, "Squiz", "Implementation of Dan Stowell's Squiz algorithm, a kind of downsampler.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "rate"_a = 2.0, "chunk_size"_a = 1);
 
-    py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper", "Applies wave-shaping as described in `buffer`.")
+    py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper", "Applies wave-shaping as described in the WaveShaperBuffer `buffer`.")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
 
     py::class_<Compressor, Node, NodeRefTemplate<Compressor>>(m, "Compressor", "Dynamic range compression, with optional `sidechain` input. When the input amplitude is above `threshold`, compresses the amplitude with the given `ratio`, following the given `attack_time` and `release_time` in seconds.")

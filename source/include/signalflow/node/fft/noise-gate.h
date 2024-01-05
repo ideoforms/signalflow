@@ -12,10 +12,11 @@ namespace signalflow
 class FFTNoiseGate : public FFTOpNode
 {
 public:
-    FFTNoiseGate(NodeRef input = 0, NodeRef threshold = 0.5);
+    FFTNoiseGate(NodeRef input = 0, NodeRef threshold = 0.5, NodeRef invert = 0.0);
     virtual void process(Buffer &out, int num_frames);
 
     NodeRef threshold = nullptr;
+    NodeRef invert = nullptr;
 
 private:
     float mags[SIGNALFLOW_MAX_FFT_SIZE / 2];
