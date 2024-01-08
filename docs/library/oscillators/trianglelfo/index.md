@@ -1,5 +1,5 @@
 title: TriangleLFO node documentation
-description: TriangleLFO: Produces a triangle LFO with the given `frequency`, ranging from `min` Hz to `max` Hz, with the given `phase` offset.
+description: TriangleLFO: Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.
 
 [Reference library](../../index.md) > [Oscillators](../index.md) > [TriangleLFO](index.md)
 
@@ -9,7 +9,7 @@ description: TriangleLFO: Produces a triangle LFO with the given `frequency`, ra
 TriangleLFO(frequency=1.0, min=0.0, max=1.0, phase=0.0)
 ```
 
-Produces a triangle LFO with the given `frequency`, ranging from `min` Hz to `max` Hz, with the given `phase` offset.
+Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.
 
 ### Examples
 
@@ -22,3 +22,4 @@ lfo = TriangleLFO(3, 200, 900)
 sine = SineOscillator(lfo)
 sine.play()
 ```
+

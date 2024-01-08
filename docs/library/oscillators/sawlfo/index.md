@@ -1,5 +1,5 @@
 title: SawLFO node documentation
-description: SawLFO: Produces a sawtooth LFO at the given `frequency`, with output ranging from `min` Hz to `max` Hz, with the given `phase` offset.
+description: SawLFO: Produces a sawtooth LFO, with output ranging from `min` to `max`.
 
 [Reference library](../../index.md) > [Oscillators](../index.md) > [SawLFO](index.md)
 
@@ -9,7 +9,7 @@ description: SawLFO: Produces a sawtooth LFO at the given `frequency`, with outp
 SawLFO(frequency=1.0, min=0.0, max=1.0, phase=0.0)
 ```
 
-Produces a sawtooth LFO at the given `frequency`, with output ranging from `min` Hz to `max` Hz, with the given `phase` offset.
+Produces a sawtooth LFO, with output ranging from `min` to `max`.
 
 ### Examples
 
@@ -22,3 +22,4 @@ lfo = SawLFO(1, 200, 1000)
 sine = SineOscillator(lfo)
 sine.play()
 ```
+

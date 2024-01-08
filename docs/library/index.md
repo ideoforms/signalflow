@@ -19,9 +19,7 @@
 - **[BufferRecorder](buffer/bufferrecorder/index.md)**: Records the input to a buffer. feedback controls overdub.
 - **[FeedbackBufferReader](buffer/feedbackbufferreader/index.md)**: Counterpart to FeedbackBufferWriter.
 - **[FeedbackBufferWriter](buffer/feedbackbufferwriter/index.md)**: Counterpart to FeedbackBufferReader.
-- **[GrainSegments](buffer/grainsegments/index.md)**: GrainSegments
 - **[Granulator](buffer/granulator/index.md)**: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.
-- **[SegmentPlayer](buffer/segmentplayer/index.md)**: Trigger segments of a buffer at the given onset positions.
 
 ---
 
@@ -177,7 +175,6 @@
 - **[Euclidean](sequencing/euclidean/index.md)**: Euclidean rhythm as described by Toussaint, with `sequence_length` (n) and `num_events` (k), driven by `clock`.
 - **[FlipFlop](sequencing/flipflop/index.md)**: Flips from 0/1 on each `clock`.
 - **[ImpulseSequence](sequencing/impulsesequence/index.md)**: Each time a `clock` or trigger is received, outputs the next value in `sequence`. At all other times, outputs zero.
-- **[Index](sequencing/index/index.md)**: Outputs the value in `list` corresponding to `index`.
 - **[Latch](sequencing/latch/index.md)**: Initially outputs 0. When a trigger is received at `set`, outputs 1. When a trigger is subsequently received at `reset`, outputs 0, until the next `set`.
 - **[Sequence](sequencing/sequence/index.md)**: Outputs the elements in `sequence`, incrementing position on each `clock`.
 

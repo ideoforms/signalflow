@@ -70,7 +70,7 @@ The following Node classes are currently included with the base distribution:
 | Category | Classes  |
 |:---------|:---------|
 | **Analysis** | CrossCorrelate, OnsetDetector, VampAnalysis |
-| **Buffer** | BeatCutter, BufferLooper, BufferPlayer, BufferRecorder, FeedbackBufferReader, FeedbackBufferWriter, GrainSegments, Granulator, SegmentPlayer |
+| **Buffer** | BeatCutter, BufferLooper, BufferPlayer, BufferRecorder, FeedbackBufferReader, FeedbackBufferWriter, Granulator |
 | **Control** | MouseX, MouseY, MouseDown |
 | **Envelope** | ADSREnvelope, ASREnvelope, DetectSilence, Envelope, Line, RectangularEnvelope |
 | **FFT** | FFTContinuousPhaseVocoder, FFTConvolve, FFT, FFTNode, FFTOpNode, FFTFindPeaks, IFFT, FFTLPF, FFTNoiseGate, FFTPhaseVocoder, FFTTonality, FFTZeroPhase |
@@ -82,7 +82,7 @@ The following Node classes are currently included with the base distribution:
 | **Processors: Dynamics** | Compressor, Gate, Maximiser, RMS |
 | **Processors: Filters** | BiquadFilter, DCFilter, EQ, MoogVCF, SVFilter |
 | **Processors: Panning** | AzimuthPanner, ChannelPanner, SpatialPanner, StereoBalance, StereoPanner, StereoWidth |
-| **Sequencing** | ClockDivider, Counter, Euclidean, FlipFlop, ImpulseSequence, Index, Latch, Sequence |
+| **Sequencing** | ClockDivider, Counter, Euclidean, FlipFlop, ImpulseSequence, Latch, Sequence |
 | **Stochastic** | Logistic, PinkNoise, RandomBrownian, RandomChoice, RandomCoin, RandomExponentialDist, RandomExponential, RandomGaussian, RandomImpulseSequence, RandomImpulse, RandomUniform, StochasticNode, WhiteNoise |
 
 ## Contributors
