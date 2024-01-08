@@ -378,11 +378,16 @@ def generate_node_library(node_classes):
                     if len(example_scripts):
                         fd.write(f"### Examples\n\n")
                         for example_script in example_scripts:
+                            #--------------------------------------------------------------------------------
+                            # For each example script:
+                            #  - read the code
+                            #  - strip any leading boilerplate (up till the creation of the AudioGraph)
+                            #  - strip any trailing boilerplate (graph.wait())
+                            #--------------------------------------------------------------------------------
                             example_code = open(example_script, "r").read()
                             example_code = re.sub(r".*graph = AudioGraph\(\)\n", "", example_code, flags=re.DOTALL)
                             example_code = re.sub(r"graph.wait\(\).*", "", example_code, flags=re.DOTALL)
                             fd.write(f"```python\n")
-                            # fd.write('{%% include-markdown "./%s" comments=false %%}\n' % example_script)
                             fd.write(example_code)
                             fd.write(f"\n```\n\n")
 
