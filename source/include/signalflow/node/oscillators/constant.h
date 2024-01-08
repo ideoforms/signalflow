@@ -14,6 +14,7 @@ public:
 
     float value;
     virtual float get_value() override;
+    virtual void set_value(float value) override;
 
     virtual void process(Buffer &out, int num_frames) override;
 };

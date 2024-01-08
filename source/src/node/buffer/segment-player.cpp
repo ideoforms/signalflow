@@ -7,8 +7,8 @@
 namespace signalflow
 {
 
-SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets)
-    : buffer(buffer)
+SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRef index, NodeRef rate)
+    : buffer(buffer), index(index), rate(rate)
 {
     this->name = "segment-player";
 
@@ -16,10 +16,28 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets)
     this->create_buffer("buffer", buffer);
     this->create_property("onsets", this->onsets);
     this->set_property("onsets", onsets);
+    this->create_input("index", this->index);
+    this->create_input("rate", this->rate);
 
+    this->rate_scale_factor = 1.0;
     this->phase = 0.0;
 
+    if (buffer)
+    {
+        this->set_buffer("buffer", buffer);
+    }
+
     this->trigger();
+}
+
+void SegmentPlayer::set_buffer(std::string name, BufferRef buffer)
+{
+    if (name == "buffer")
+    {
+        this->Node::set_buffer(name, buffer);
+        this->num_output_channels = buffer->get_num_channels();
+        this->rate_scale_factor = buffer->get_sample_rate() / graph->get_sample_rate();
+    }
 }
 
 void SegmentPlayer::process(Buffer &out, int num_frames)
@@ -32,7 +50,7 @@ void SegmentPlayer::process(Buffer &out, int num_frames)
         {
             if ((unsigned int) this->phase < buffer->get_num_frames())
             {
-                s = this->buffer->data[channel][(int) this->phase];
+                s = this->buffer->get_frame(channel, this->phase);
             }
             else
             {
@@ -42,7 +60,7 @@ void SegmentPlayer::process(Buffer &out, int num_frames)
             out[channel][frame] = s;
         }
 
-        this->phase += 1.0;
+        this->phase += this->rate->out[0][frame] * this->rate_scale_factor;
     }
 }
 
@@ -56,8 +74,16 @@ void SegmentPlayer::trigger(std::string name, float value)
             std::vector<float> onsets = onsetsref->float_array_value();
             if (onsets.size() > 0)
             {
-                int index = random_integer(0, onsets.size());
-                this->phase = onsets[index] * this->get_graph()->get_sample_rate();
+                int segment_index;
+                if (this->index)
+                {
+                    segment_index = this->index->out[0][0];
+                }
+                else
+                {
+                    segment_index = random_integer(0, onsets.size());
+                }
+                this->phase = onsets[segment_index] * this->buffer->get_sample_rate();
             }
         }
     }

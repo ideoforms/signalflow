@@ -6,6 +6,7 @@ repo_url: https://github.com/ideoforms/signalflow
 
 theme:
   name: material
+  logo: images/sinewave.svg
   palette:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"

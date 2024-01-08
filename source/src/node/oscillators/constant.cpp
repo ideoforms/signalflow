@@ -39,4 +39,9 @@ float Constant::get_value()
     return this->value;
 }
 
+void Constant::set_value(float value)
+{
+    this->value = value;
+}
+
 }

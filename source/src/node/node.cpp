@@ -511,6 +511,11 @@ float Node::get_value()
     throw std::runtime_error("get_value() is only applicable to Constant nodes");
 }
 
+void Node::set_value(float value)
+{
+    throw std::runtime_error("set_value() is only applicable to Constant nodes");
+}
+
 ///////////////////////////////////////////////////////////////////////////////
 
 BinaryOpNode::BinaryOpNode(NodeRef a, NodeRef b)

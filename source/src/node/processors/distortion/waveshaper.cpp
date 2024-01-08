@@ -7,6 +7,7 @@ WaveShaper::WaveShaper(NodeRef input, BufferRef buffer)
     : UnaryOpNode(input), buffer(buffer)
 {
     this->name = "waveshaper";
+    this->create_buffer("buffer", this->buffer);
 }
 
 void WaveShaper::process(Buffer &out, int num_frames)

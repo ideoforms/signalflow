@@ -10,7 +10,7 @@ from __future__ import annotations
 import numpy
 import typing
 import typing_extensions
-__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTContinuousPhaseVocoder', 'FFTConvolve', 'FFTFindPeaks', 'FFTLPF', 'FFTPhaseVocoder', 'FFTTonality', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InvalidChannelCountException', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_COSINE', 'SIGNALFLOW_INTERPOLATION_LINEAR', 'SIGNALFLOW_INTERPOLATION_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TriangleLFO', 'TriangleOscillator', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
+__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTContinuousPhaseVocoder', 'FFTConvolve', 'FFTFindPeaks', 'FFTLPF', 'FFTPhaseVocoder', 'FFTTonality', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InvalidChannelCountException', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TriangleLFO', 'TriangleOscillator', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
 class ADSREnvelope(Node):
     """
     Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
@@ -37,7 +37,7 @@ class Add(Node):
         ...
 class AllpassDelay(Node):
     """
-    All-pass delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.
+    All-pass delay, with `feedback` between 0 and 1. `delay_time` must be less than or equal to `max_delay_time`.
     """
     def __init__(self, input: Node = 0.0, delay_time: Node = 0.1, feedback: Node = 0.5, max_delay_time: float = 0.5) -> None:
         ...
@@ -52,7 +52,11 @@ class AudioGraph:
     The global audio signal processing graph
     """
     output: Node
+    @typing.overload
     def __init__(self, config: AudioGraphConfig = None, output_device: Node = None, start: bool = True) -> None:
+        ...
+    @typing.overload
+    def __init__(self, config: AudioGraphConfig = None, output_device: str = '', start: bool = True) -> None:
         ...
     def add_node(self, node: Node) -> Node:
         """
@@ -268,7 +272,7 @@ class AudioOut_Dummy(Node):
         ...
 class AzimuthPanner(Node):
     """
-    Pan input around an equally-spaced ring of num_channels speakers. pan is the pan position from -1..+1, where 0 = centre front. width is the source's width, where 1.0 spans exactly between an adjacent pair of channels.
+    Pan input around an equally-spaced ring of `num_channels` speakers. `pan` is the pan position from -1..+1, where 0 = centre front. `width` is the source's width, where 1.0 spans exactly between an adjacent pair of channels.
     """
     def __init__(self, num_channels: int = 2, input: Node = 0, pan: Node = 0.0, width: Node = 1.0) -> None:
         ...
@@ -292,10 +296,6 @@ class Buffer:
     """
     A buffer of audio samples, containing one or more channels.
     """
-    @staticmethod
-    @typing.overload
-    def __init__(*args, **kwargs) -> None:
-        ...
     def __getitem__(self, arg0: int) -> typing_extensions.Buffer:
         ...
     @typing.overload
@@ -314,6 +314,11 @@ class Buffer:
         Allocate a buffer with `num_channels` channels and `num_frames` frames.
         """
     @typing.overload
+    def __init__(self, num_channels: int, num_frames: int, data: list[list[float]]) -> None:
+        """
+        Allocate a buffer with `num_channels` channels and `num_frames` frames, containing the floating-point samples in `data`.
+        """
+    @typing.overload
     def __init__(self, arg0: list[list[float]]) -> None:
         """
         Allocate a buffer with `num_channels` channels and `num_frames` frames, containing the floating-point samples in `data`.
@@ -322,6 +327,11 @@ class Buffer:
     def __init__(self, data: list[float]) -> None:
         """
         Allocate a buffer containing the floating-point samples in `data`.
+        """
+    @typing.overload
+    def __init__(self, function: typing.Callable[[float], float]) -> None:
+        """
+        Allocate a buffer filled with the output of a given function.
         """
     def __len__(self) -> int:
         """
@@ -367,12 +377,17 @@ class Buffer:
         Returns the buffer's filename, if the buffer has been loaded from/saved to file.
         """
     @property
-    def interpolate(self) -> signalflow_interpolation_mode_t:
+    def frame_offsets(self) -> list[float]:
+        """
+        Returns a list containing all frame numbers"
+        """
+    @property
+    def interpolation_mode(self) -> signalflow_interpolation_mode_t:
         """
         Get/set the buffer's interpolation mode.
         """
-    @interpolate.setter
-    def interpolate(self, arg1: signalflow_interpolation_mode_t) -> None:
+    @interpolation_mode.setter
+    def interpolation_mode(self, arg1: signalflow_interpolation_mode_t) -> None:
         ...
     @property
     def num_channels(self) -> int:
@@ -450,7 +465,7 @@ class ChannelMixer(Node):
         ...
 class ChannelPanner(Node):
     """
-    Pan the input between a linear series of channels, where pan 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.
+    Pan the input between a linear series of channels, where `pan` 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.
     """
     def __init__(self, num_channels: int = 2, input: Node = 0, pan: Node = 0.0, width: Node = 1.0) -> None:
         ...
@@ -462,25 +477,25 @@ class ChannelSelect(Node):
         ...
 class Clip(Node):
     """
-    Clip the input to min/max.
+    Clip the input to `min`/`max`.
     """
     def __init__(self, input: Node = None, min: Node = -1.0, max: Node = 1.0) -> None:
         ...
 class ClockDivider(Node):
     """
-    When given a clock input (e.g., an Impulse), divides the clock by the given factor. factor must be an integer greater than or equal to 1.
+    When given a `clock` input (e.g., an Impulse), divides the clock by the given `factor`. factor must be an integer greater than or equal to 1.
     """
     def __init__(self, clock: Node = 0, factor: Node = 1) -> None:
         ...
 class CombDelay(Node):
     """
-    Comb delay, with feedback between 0 and 1. delay_time must be less than or equal to max_delay_time.
+    Comb delay, with `feedback` between 0 and 1. `delay_time` must be less than or equal to `max_delay_time`.
     """
     def __init__(self, input: Node = 0.0, delay_time: Node = 0.1, feedback: Node = 0.5, max_delay_time: float = 0.5) -> None:
         ...
 class Compressor(Node):
     """
-    Dynamic range compression, with optional sidechain input.
+    Dynamic range compression, with optional `sidechain` input. When the input amplitude is above `threshold`, compresses the amplitude with the given `ratio`, following the given `attack_time` and `release_time` in seconds.
     """
     def __init__(self, input: Node = 0.0, threshold: Node = 0.1, ratio: Node = 2, attack_time: Node = 0.01, release_time: Node = 0.1, sidechain: Node = None) -> None:
         ...
@@ -498,7 +513,7 @@ class Cos(Node):
         ...
 class Counter(Node):
     """
-    Count upwards from min, driven by clock.
+    Count upwards from `min` to `max`, driven by `clock`.
     """
     def __init__(self, clock: Node = 0, min: Node = 0, max: Node = 2147483647) -> None:
         ...
@@ -510,7 +525,7 @@ class CrossCorrelate(Node):
         ...
 class DCFilter(Node):
     """
-    Remove DC offset.
+    Remove low-frequency and DC content from a signal.
     """
     def __init__(self, input: Node = 0.0) -> None:
         ...
@@ -551,14 +566,30 @@ class EnvelopeBuffer(Buffer):
     Buffer encapsulating an audio envelope
     """
     @typing.overload
-    def __init__(self, arg0: int) -> None:
-        ...
+    def __init__(self, num_frames: int) -> None:
+        """
+        Create an envelope buffer containing the given number of samples.
+        """
     @typing.overload
-    def __init__(self, arg0: str) -> None:
-        ...
+    def __init__(self, shape: str) -> None:
+        """
+        Create an envelope buffer with the specified shape, one of: rectangular, triangle, hanning, linear-decay.
+        """
     @typing.overload
-    def __init__(self, arg0: str, arg1: int) -> None:
-        ...
+    def __init__(self, shape: str, num_frames: int) -> None:
+        """
+        Create an envelope buffer with the specified shape and number of frames.
+        """
+    @typing.overload
+    def __init__(self, function: typing.Callable[[float], float]) -> None:
+        """
+        Create an envelope buffer filled with the output of a given function.
+        """
+    @property
+    def frame_offsets(self) -> list[float]:
+        """
+        Returns a list containing the offset in the envelope buffer for each frame, ranging over 0..1.
+        """
 class Equal(Node):
     """
     Compares the output of a to the output of b. Outputs 1 when equal, 0 otherwise. Can also be written as a == b
@@ -567,7 +598,7 @@ class Equal(Node):
         ...
 class Euclidean(Node):
     """
-    Euclidean rhythm as described by Toussaint, with sequence_length (n) and num_events (k), driven by clock.
+    Euclidean rhythm as described by Toussaint, with `sequence_length` (n) and `num_events` (k), driven by `clock`.
     """
     def __init__(self, clock: Node = 0, sequence_length: Node = 0, num_events: Node = 0) -> None:
         ...
@@ -627,13 +658,13 @@ class FeedbackBufferWriter(Node):
         ...
 class FlipFlop(Node):
     """
-    Flips from 0/1 on each clock.
+    Flips from 0/1 on each `clock`.
     """
     def __init__(self, clock: Node = 0) -> None:
         ...
 class Fold(Node):
     """
-    Fold the input beyond min/max, reflecting the excess back.
+    Fold the input beyond `min`/`max`, reflecting the excess back.
     """
     def __init__(self, input: Node = None, min: Node = -1.0, max: Node = 1.0) -> None:
         ...
@@ -645,7 +676,7 @@ class FrequencyToMidiNote(Node):
         ...
 class Gate(Node):
     """
-    Outputs the input value when it is above the given threshold, otherwise zero.
+    Outputs the input value when it is above the given `threshold`, otherwise zero.
     """
     def __init__(self, input: Node = 0.0, threshold: Node = 0.1) -> None:
         ...
@@ -685,13 +716,13 @@ class If(Node):
         ...
 class Impulse(Node):
     """
-    Produces a value of 1 at the given frequency, with output of 0 at all other times. If frequency is 0, produces a single impulse.
+    Produces a value of 1 at the given `frequency`, with output of 0 at all other times. If frequency is 0, produces a single impulse.
     """
     def __init__(self, frequency: Node = 1.0) -> None:
         ...
 class ImpulseSequence(Node):
     """
-    Each time a clock or trigger is received, outputs the next value in the sequence. At all other times, outputs zero.
+    Each time a `clock` or trigger is received, outputs the next value in `sequence`. At all other times, outputs zero.
     """
     @typing.overload
     def __init__(self, sequence: list[int] = [], clock: Node = None) -> None:
@@ -701,7 +732,7 @@ class ImpulseSequence(Node):
         ...
 class Index(Node):
     """
-    Outputs the value in list corresponding to index.
+    Outputs the value in `list` corresponding to `index`.
     """
     def __init__(self, list: list[float] = 0, index: Node = 0) -> None:
         ...
@@ -715,7 +746,7 @@ class LFO(Node):
         ...
 class Latch(Node):
     """
-    Initially outputs 0. When a trigger is received at set, outputs 1. When a trigger is subsequently received at reset, outputs 0, until the next set.
+    Initially outputs 0. When a trigger is received at `set`, outputs 1. When a trigger is subsequently received at `reset`, outputs 0, until the next `set`.
     """
     def __init__(self, set: Node = 0, reset: Node = 0) -> None:
         ...
@@ -946,6 +977,10 @@ class Node:
         """
     def get_property(self, arg0: str) -> typing.Any:
         ...
+    def get_value(self) -> float:
+        """
+        Get the node's current value. Only applicable to Constant nodes.
+        """
     def play(self) -> None:
         """
         Begin playing the node by connecting it to the graph's output
@@ -1002,6 +1037,10 @@ class Node:
     def set_input(self, name: str, node: Node) -> None:
         """
         Set the input named `name` to node `node`
+        """
+    def set_value(self, value: float) -> None:
+        """
+        Set the node's current value. Only applicable to Constant nodes.
         """
     def stop(self) -> None:
         """
@@ -1090,8 +1129,11 @@ class Node:
     @property
     def value(self) -> float:
         """
-        Returns the node's current value. Only applicable to Constant nodes.
+        Get/set the node's current value. Only applicable to Constant nodes.
         """
+    @value.setter
+    def value(self, arg1: float) -> None:
+        ...
 class NodeAlreadyPlayingException(Exception):
     pass
 class NodeNotPlayingException(Exception):
@@ -1109,7 +1151,7 @@ class NotEqual(Node):
         ...
 class OneTapDelay(Node):
     """
-    Single-tap delay line. delay_time must be less than or equal to max_delay_time.
+    Single-tap delay line. `delay_time` must be less than or equal to `max_delay_time`.
     """
     def __init__(self, input: Node = 0.0, delay_time: Node = 0.1, max_delay_time: float = 0.5) -> None:
         ...
@@ -1348,7 +1390,7 @@ class RectangularEnvelope(Node):
         ...
 class Resample(Node):
     """
-    Resampler and bit crusher. sample_rate is in Hz, bit_rate is an integer between 0 and 16.
+    Resampler and bit crusher. `sample_rate` is in Hz, `bit_rate` is an integer between 0 and 16.
     """
     def __init__(self, input: Node = 0, sample_rate: Node = 44100, bit_rate: Node = 16) -> None:
         ...
@@ -1366,7 +1408,7 @@ class RoundToScale(Node):
         ...
 class SVFilter(Node):
     """
-    State variable filter. filter_type can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'.
+    State variable filter. `filter_type` can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. `resonance` should be between `[0..1]`.
     """
     @typing.overload
     def __init__(self, input: Node = 0.0, filter_type: signalflow_filter_type_t = ..., cutoff: Node = 440, resonance: Node = 0.0) -> None:
@@ -1376,19 +1418,19 @@ class SVFilter(Node):
         ...
 class SampleAndHold(Node):
     """
-    Samples and holds the input each time a clock signal is received.
+    Samples and holds the input each time a trigger is received on `clock`.
     """
     def __init__(self, input: Node = None, clock: Node = None) -> None:
         ...
 class SawLFO(Node):
     """
-    Produces a sawtooth LFO, with output ranging from min to max.
+    Produces a sawtooth LFO, with output ranging from `min` to `max`.
     """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
 class SawOscillator(Node):
     """
-    Produces a (non-band-limited) sawtooth wave, with the given frequency and phase offset. When a reset or trigger is received, resets the phase to zero.
+    Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.
     """
     def __init__(self, frequency: Node = 440, phase: Node = None, reset: Node = None) -> None:
         ...
@@ -1408,11 +1450,11 @@ class SegmentPlayer(Node):
     """
     Trigger segments of a buffer at the given onset positions.
     """
-    def __init__(self, buffer: ... = None, onsets: list[float] = 0) -> None:
+    def __init__(self, buffer: ... = None, onsets: list[float] = 0, index: Node = None, rate: Node = 1.0) -> None:
         ...
 class Sequence(Node):
     """
-    Outputs the elements in sequence, incrementing position on each clock.
+    Outputs the elements in `sequence`, incrementing position on each `clock`.
     """
     def __init__(self, sequence: list[float] = [], clock: Node = None) -> None:
         ...
@@ -1424,19 +1466,19 @@ class Sin(Node):
         ...
 class SineLFO(Node):
     """
-    Produces a sinusoidal LFO at the given frequency and phase offset, with output ranging from min to max.
+    Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
     """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
 class SineOscillator(Node):
     """
-    Produces a sine wave at the given frequency.
+    Produces a sine wave at the given `frequency`.
     """
     def __init__(self, frequency: Node = 440) -> None:
         ...
 class Smooth(Node):
     """
-    Smooth the input with a given smoothing coefficient. When smooth = 0, applies no smoothing.
+    Smooth the input with a given smoothing coefficient. When `smooth` = 0, applies no smoothing.
     """
     def __init__(self, input: Node = None, smooth: Node = 0.99) -> None:
         ...
@@ -1459,13 +1501,13 @@ class SpatialSpeaker:
     pass
 class SquareLFO(Node):
     """
-    Produces a pulse wave LFO with the given frequency and pulse width, ranging from min to max, where width=0.5 is a square wave.
+    Produces a pulse wave LFO with the given `frequency` and pulsewidth of `width`, ranging from `min` to `max`, where `width` of `0.5` is a square wave.
     """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, width: Node = 0.5, phase: Node = 0.0) -> None:
         ...
 class SquareOscillator(Node):
     """
-    Produces a pulse wave with the given frequency and pulse width, where width=0.5 is a square wave.
+    Produces a pulse wave with the given `frequency` and pulse `width`, where `width` of `0.5` is a square wave and other `width` values produce a rectangular wave.
     """
     def __init__(self, frequency: Node = 440, width: Node = 0.5) -> None:
         ...
@@ -1477,19 +1519,19 @@ class Squiz(Node):
         ...
 class StereoBalance(Node):
     """
-    Takes a stereo input and rebalances it, where 0 is unchanged, -1 is hard left, and 1 is hard right.
+    Takes a stereo input and rebalances it, where `balance` of `0` is unchanged, `-1` is hard left, and `1` is hard right.
     """
     def __init__(self, input: Node = 0, balance: Node = 0) -> None:
         ...
 class StereoPanner(Node):
     """
-    Pans a mono input to a stereo output. Pans from -1 (hard left) to +1 (hard right), with 0 = centre.
+    Pans a mono input to a stereo output. `pan` should be between -1 (hard left) to +1 (hard right), with 0 = centre.
     """
     def __init__(self, input: Node = 0, pan: Node = 0.0) -> None:
         ...
 class StereoWidth(Node):
     """
-    Reduces the width of a stereo signal. When width = 1, input is unchanged. When width = 0, outputs a pair of identical channels both containing L+R.
+    Reduces the width of a stereo signal. When `width` = 1, input is unchanged. When `width` = 0, outputs a pair of identical channels both containing L+R.
     """
     def __init__(self, input: Node = 0, width: Node = 1) -> None:
         ...
@@ -1498,7 +1540,7 @@ class StochasticNode(Node):
         ...
 class Stutter(Node):
     """
-    Stutters the input whenever a signal is received on clock. Generates stutter_count repeats, with duration stutter_time.
+    Stutters the input whenever a trigger is received on `clock`. Generates `stutter_count` repeats, with duration of `stutter_time`.
     """
     def __init__(self, input: Node = 0.0, stutter_time: Node = 0.1, stutter_count: Node = 1, clock: Node = None, max_stutter_time: float = 1.0) -> None:
         ...
@@ -1541,19 +1583,19 @@ class Tanh(Node):
         ...
 class TriangleLFO(Node):
     """
-    Produces a triangle LFO with the given frequency, ranging from min to max.
+    Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.
     """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
 class TriangleOscillator(Node):
     """
-    TriangleOscillator
+    Produces a triangle wave with the given `frequency`.
     """
     def __init__(self, frequency: Node = 440) -> None:
         ...
 class WaveShaper(Node):
     """
-    Applies wave-shaping as described in buffer.
+    Applies wave-shaping as described in `buffer`.
     """
     def __init__(self, input: Node = 0.0, buffer: ... = None) -> None:
         ...
@@ -1561,11 +1603,26 @@ class WaveShaperBuffer(Buffer):
     """
     Sample buffer for waveshaper nodes
     """
-    def __init__(self, arg0: int) -> None:
+    @typing.overload
+    def __init__(self, num_frames: int) -> None:
+        """
+        Create a waveshaper buffer containing the given number of samples.
+        """
+    @typing.overload
+    def __init__(self, function: typing.Callable[[float], float]) -> None:
+        """
+        Create a waveshaper buffer filled with the output of a given function.
+        """
+    def get(self, arg0: float) -> float:
         ...
+    @property
+    def frame_offsets(self) -> list[float]:
+        """
+        Returns a list containing the offset in the waveshaper buffer for each frame, ranging over -1..1.
+        """
 class Wavetable(Node):
     """
-    Plays the wavetable stored in buffer at the given frequency.
+    Plays the wavetable stored in buffer at the given `frequency` and `phase` offset. `sync` can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.
     """
     def __init__(self, buffer: ... = None, frequency: Node = 440, phase: Node = 0, sync: Node = 0, phase_map: ... = None) -> None:
         ...
@@ -1577,7 +1634,7 @@ class Wavetable2D(Node):
         ...
 class WetDry(Node):
     """
-    Takes wet and dry inputs, and outputs a mix determined by wetness.
+    Takes `wet` and `dry` inputs, and outputs a mix determined by `wetness`.
     """
     def __init__(self, dry_input: Node = None, wet_input: Node = None, wetness: Node = 0.0) -> None:
         ...
@@ -1589,7 +1646,7 @@ class WhiteNoise(StochasticNode):
         ...
 class Wrap(Node):
     """
-    Wrap the input beyond min/max.
+    Wrap the input beyond `min`/`max`.
     """
     def __init__(self, input: Node = None, min: Node = -1.0, max: Node = 1.0) -> None:
         ...
@@ -1736,16 +1793,16 @@ class signalflow_interpolation_mode_t:
     
     Members:
     
-      SIGNALFLOW_INTERPOLATION_NONE : No interpolation
+      SIGNALFLOW_INTERPOLATION_MODE_NONE : No interpolation
     
-      SIGNALFLOW_INTERPOLATION_LINEAR : Linear interpolation
+      SIGNALFLOW_INTERPOLATION_MODE_LINEAR : Linear interpolation
     
-      SIGNALFLOW_INTERPOLATION_COSINE : Cosine interpolation
+      SIGNALFLOW_INTERPOLATION_MODE_COSINE : Cosine interpolation
     """
-    SIGNALFLOW_INTERPOLATION_COSINE: typing.ClassVar[signalflow_interpolation_mode_t]  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_COSINE: 2>
-    SIGNALFLOW_INTERPOLATION_LINEAR: typing.ClassVar[signalflow_interpolation_mode_t]  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_LINEAR: 1>
-    SIGNALFLOW_INTERPOLATION_NONE: typing.ClassVar[signalflow_interpolation_mode_t]  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_NONE: 0>
-    __members__: typing.ClassVar[dict[str, signalflow_interpolation_mode_t]]  # value = {'SIGNALFLOW_INTERPOLATION_NONE': <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_NONE: 0>, 'SIGNALFLOW_INTERPOLATION_LINEAR': <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_LINEAR: 1>, 'SIGNALFLOW_INTERPOLATION_COSINE': <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_COSINE: 2>}
+    SIGNALFLOW_INTERPOLATION_MODE_COSINE: typing.ClassVar[signalflow_interpolation_mode_t]  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_COSINE: 2>
+    SIGNALFLOW_INTERPOLATION_MODE_LINEAR: typing.ClassVar[signalflow_interpolation_mode_t]  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_LINEAR: 1>
+    SIGNALFLOW_INTERPOLATION_MODE_NONE: typing.ClassVar[signalflow_interpolation_mode_t]  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_NONE: 0>
+    __members__: typing.ClassVar[dict[str, signalflow_interpolation_mode_t]]  # value = {'SIGNALFLOW_INTERPOLATION_MODE_NONE': <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_NONE: 0>, 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR': <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_LINEAR: 1>, 'SIGNALFLOW_INTERPOLATION_MODE_COSINE': <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_COSINE: 2>}
     def __and__(self, other: typing.Any) -> typing.Any:
         ...
     def __eq__(self, other: typing.Any) -> bool:
@@ -1996,9 +2053,9 @@ SIGNALFLOW_FILTER_TYPE_LOW_PASS: signalflow_filter_type_t  # value = <signalflow
 SIGNALFLOW_FILTER_TYPE_LOW_SHELF: signalflow_filter_type_t  # value = <signalflow_filter_type_t.SIGNALFLOW_FILTER_TYPE_LOW_SHELF: 5>
 SIGNALFLOW_FILTER_TYPE_NOTCH: signalflow_filter_type_t  # value = <signalflow_filter_type_t.SIGNALFLOW_FILTER_TYPE_NOTCH: 3>
 SIGNALFLOW_FILTER_TYPE_PEAK: signalflow_filter_type_t  # value = <signalflow_filter_type_t.SIGNALFLOW_FILTER_TYPE_PEAK: 4>
-SIGNALFLOW_INTERPOLATION_COSINE: signalflow_interpolation_mode_t  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_COSINE: 2>
-SIGNALFLOW_INTERPOLATION_LINEAR: signalflow_interpolation_mode_t  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_LINEAR: 1>
-SIGNALFLOW_INTERPOLATION_NONE: signalflow_interpolation_mode_t  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_NONE: 0>
+SIGNALFLOW_INTERPOLATION_MODE_COSINE: signalflow_interpolation_mode_t  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_COSINE: 2>
+SIGNALFLOW_INTERPOLATION_MODE_LINEAR: signalflow_interpolation_mode_t  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_LINEAR: 1>
+SIGNALFLOW_INTERPOLATION_MODE_NONE: signalflow_interpolation_mode_t  # value = <signalflow_interpolation_mode_t.SIGNALFLOW_INTERPOLATION_MODE_NONE: 0>
 SIGNALFLOW_MAX_CHANNELS: int = 64
 SIGNALFLOW_MAX_FFT_SIZE: int = 131072
 SIGNALFLOW_NODE_BUFFER_SIZE: int = 2048
@@ -2006,4 +2063,4 @@ SIGNALFLOW_NODE_STATE_ACTIVE: signalflow_node_state_t  # value = <signalflow_nod
 SIGNALFLOW_NODE_STATE_STOPPED: signalflow_node_state_t  # value = <signalflow_node_state_t.SIGNALFLOW_NODE_STATE_STOPPED: 1>
 SIGNALFLOW_PATCH_STATE_ACTIVE: signalflow_patch_state_t  # value = <signalflow_patch_state_t.SIGNALFLOW_PATCH_STATE_ACTIVE: 0>
 SIGNALFLOW_PATCH_STATE_STOPPED: signalflow_patch_state_t  # value = <signalflow_patch_state_t.SIGNALFLOW_PATCH_STATE_STOPPED: 1>
-__version__: str = '0.4.2'
+__version__: str = '0.4.3'

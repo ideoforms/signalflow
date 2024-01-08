@@ -6,7 +6,7 @@ description: SegmentPlayer: Trigger segments of a buffer at the given onset posi
 # SegmentPlayer
 
 ```python
-SegmentPlayer(buffer=None, onsets={})
+SegmentPlayer(buffer=None, onsets={}, index=None, rate=1.0)
 ```
 
 Trigger segments of a buffer at the given onset positions.

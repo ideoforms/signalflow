@@ -42,7 +42,7 @@ class NodeClass:
 
 
 node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
-omitted_classes = ["VampAnalysis", "GrainSegments", "FFTNoiseGate", "FFTZeroPhase", "FFTOpNode", "FFTNode",
+omitted_classes = ["VampAnalysis", "GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
 known_parent_classes = ["Node", "StochasticNode"]
@@ -358,7 +358,7 @@ def generate_node_library(node_classes):
                 cls_doc_abs_folder = os.path.dirname(cls_doc_abs_path)
                 os.makedirs(cls_doc_abs_folder, exist_ok=True)
                 example_scripts = glob.glob(os.path.join(cls_doc_abs_folder, "*.py"))
-                # example_scripts = [os.path.basename(s) for s in example_scripts]
+                example_scripts = list(sorted(example_scripts))
                 with open(cls_doc_abs_path, "w") as fd:
                     output_markdown_params = ", ".join(("%s=%s" % (param.name, param.default)) \
                             for param in cls.constructors[0])
@@ -384,7 +384,7 @@ def generate_node_library(node_classes):
                             fd.write(f"```python\n")
                             # fd.write('{%% include-markdown "./%s" comments=false %%}\n' % example_script)
                             fd.write(example_code)
-                            fd.write(f"```\n\n")
+                            fd.write(f"\n```\n\n")
 
 def generate_readme(node_classes) -> None:
     """

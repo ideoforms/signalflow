@@ -144,9 +144,9 @@ typedef RingBuffer<sample> SampleRingBuffer;
  *------------------------------------------------------------------------*/
 enum signalflow_interpolation_mode_t : unsigned int
 {
-    SIGNALFLOW_INTERPOLATION_NONE,
-    SIGNALFLOW_INTERPOLATION_LINEAR,
-    SIGNALFLOW_INTERPOLATION_COSINE
+    SIGNALFLOW_INTERPOLATION_MODE_NONE,
+    SIGNALFLOW_INTERPOLATION_MODE_LINEAR,
+    SIGNALFLOW_INTERPOLATION_MODE_COSINE
 };
 
 enum signalflow_event_distribution_t : unsigned int

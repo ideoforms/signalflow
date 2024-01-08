@@ -6,15 +6,17 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Applies wave-shaping as described in `buffer`.
+ * Applies wave-shaping as described in the WaveShaperBuffer `buffer`.
  *---------------------------------------------------------------------------------*/
 class WaveShaper : public UnaryOpNode
 {
 public:
     WaveShaper(NodeRef input = 0.0, BufferRef buffer = nullptr);
 
-    BufferRef buffer;
     virtual void process(Buffer &out, int num_frames) override;
+
+private:
+    BufferRef buffer;
 };
 
 REGISTER(WaveShaper, "waveshaper")

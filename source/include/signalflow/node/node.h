@@ -243,6 +243,7 @@ public:
      * Primarily used for Constant nodes
      *-----------------------------------------------------------------------*/
     virtual float get_value();
+    virtual void set_value(float value);
 
     std::unordered_map<std::string, NodeRef *> get_inputs();
     std::set<std::pair<Node *, std::string>> get_outputs();
