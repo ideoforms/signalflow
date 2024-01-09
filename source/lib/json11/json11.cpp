@@ -62,7 +62,8 @@ static void dump(double value, string &out)
     if (std::isfinite(value))
     {
         char buf[32];
-        snprintf(buf, sizeof buf, "%.17g", value);
+        // DJJ: Modified to round doubles to 8 d.p. precision.
+        snprintf(buf, sizeof buf, "%.8g", value);
         out += buf;
     }
     else
