@@ -5,6 +5,7 @@
 # --------------------------------------------------------------------------------
 
 from signalflow import *
+import signalflow_examples
 import subprocess
 import argparse
 import os
@@ -87,6 +88,7 @@ def run_list_midi_output_device_names():
     for name in output_names:
         print(" - %s" % name)
 
+
 def run_list_midi_input_device_names():
     try:
         import mido
@@ -97,6 +99,11 @@ def run_list_midi_input_device_names():
     print("Available MIDI input device names:")
     for name in input_names:
         print(" - %s" % name)
+
+
+def run_download_examples(output_directory: str):
+    signalflow_examples.download_examples(output_directory)
+
 
 def main():
     parser = argparse.ArgumentParser(description='SignalFlow command-line utility')
@@ -124,20 +131,39 @@ def main():
                       help='name of output device to use (default: system default output)', default=None)
 
     # --------------------------------------------------------------------------------
-    # Command: list-output-devices
+    # Command: list-output-device-names
     # --------------------------------------------------------------------------------
     list_output_device_names = subparsers.add_parser('list-output-device-names', help='list available output devices')
     list_output_device_names.add_argument('--output-backend-name', type=str,
                                           help='name of output backend to use (default: system default backend)',
                                           default=None)
 
-
+    # --------------------------------------------------------------------------------
+    # Command: list-output-backend-names
+    # --------------------------------------------------------------------------------
     list_output_backend_names = subparsers.add_parser('list-output-backend-names',
                                                       help='list available output backends')
     help = subparsers.add_parser('help', help='show help')
 
-    list_midi_output_device_names = subparsers.add_parser('list-midi-output-device-names', help='list available MIDI output devices')
-    list_midi_input_device_names = subparsers.add_parser('list-midi-input-device-names', help='list available MIDI input devices')
+    # --------------------------------------------------------------------------------
+    # Command: list-midi-output-device-names
+    # --------------------------------------------------------------------------------
+    list_midi_output_device_names = subparsers.add_parser('list-midi-output-device-names',
+                                                          help='list available MIDI output devices')
+
+    # --------------------------------------------------------------------------------
+    # Command: list-midi-input-device-names
+    # --------------------------------------------------------------------------------
+    list_midi_input_device_names = subparsers.add_parser('list-midi-input-device-names',
+                                                         help='list available MIDI input devices')
+
+    # --------------------------------------------------------------------------------
+    # Command: download-examples
+    # --------------------------------------------------------------------------------
+    download_examples = subparsers.add_parser('download-examples', help='download example scripts')
+    download_examples.add_argument('--output-directory', '-o', type=str,
+                                   help='path to output directory (default: examples)',
+                                   default='examples')
 
     args = parser.parse_args()
     if args.command == 'configure':
@@ -154,8 +180,11 @@ def main():
         run_list_midi_output_device_names()
     elif args.command == 'list-midi-input-device-names':
         run_list_midi_input_device_names()
+    elif args.command == 'download-examples':
+        run_download_examples(args.output_directory)
     elif args.command == 'help':
         parser.print_help()
+
 
 if __name__ == '__main__':
     main()
