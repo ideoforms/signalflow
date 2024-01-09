@@ -409,7 +409,13 @@ def generate_readme(node_classes) -> None:
             continue
 
         category_text = folder_name_to_title(folder)
-        table += "| **%s** | %s |\n" % (category_text, ", ".join([cls.name for cls in classes]))
+        class_links = []
+        for cls in classes:
+            library_url_root = "https://signalflow.dev/library"
+            library_url = os.path.join(library_url_root, folder, cls.name.lower() + "/")
+            class_link = "[%s](%s)" % (cls.name, library_url)
+            class_links.append(class_link)
+        table += "| **%s** | %s |\n" % (category_text, ", ".join(class_links))
     table += "\n"
 
     readme_path = "README.md"
@@ -444,7 +450,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--bindings", help="Generate Python bindings", action="store_true")
     parser.add_argument("-l", "--library", help="Generate node library", action="store_true")
-    parser.add_argument("-t", "--readme", help="Generate README", action="store_true")
+    parser.add_argument("-r", "--readme", help="Generate README", action="store_true")
     parser.add_argument("-a", "--all", help="Generate all", action="store_true")
     args = parser.parse_args()
     if args.all:
