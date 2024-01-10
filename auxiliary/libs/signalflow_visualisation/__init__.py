@@ -1,9 +1,10 @@
+import os
 import json
 import networkx as nx
 from IPython.display import SVG
 from signalflow import Patch
 
-def visualise_patch_structure(patch: Patch):
+def visualise_patch_structure(patch: Patch, filename: str = None, dpi: int = None):
     """
     Renders the structure of a patch as a directed graph.
 
@@ -13,6 +14,8 @@ def visualise_patch_structure(patch: Patch):
 
     Args:
         patch (Patch): The patch to diagram.
+        filename (str): If specified, writes the output to a file (can be .svg, .pdf, .png)
+        dpi (int): If specified, overwrites the default DPI (which is 72 for screen, 300 for file)
 
     Returns:
         An IPython SVG object that can be rendered in a notebook.
@@ -76,5 +79,15 @@ def visualise_patch_structure(patch: Patch):
     ag.edge_attr["labeldistance"] = 0
     ag.node_attr["shape"] = "rectangle"
     ag.layout(prog='dot')
-    svg = ag.draw(format='svg')
-    return SVG(svg)
+
+    if filename is not None:
+        _, format = os.path.splitext(filename)
+        format = format[1:]
+        assert format in ["svg", "pdf", "png"]
+        ag.graph_attr["dpi"] = dpi if dpi is not None else 300
+        ag.draw(format=format,
+                path=filename)
+    else:
+        ag.graph_attr["dpi"] = dpi if dpi is not None else 72
+        svg = ag.draw(format='svg')
+        return SVG(svg)
