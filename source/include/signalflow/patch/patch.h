@@ -50,7 +50,7 @@ class Patch
 public:
     Patch();
     Patch(PatchSpecRef patchspec);
-    Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> params);
+    Patch(PatchSpecRef patchspec, std::map<std::string, NodeRef> params);
     Patch(std::string name);
     virtual ~Patch();
 
@@ -107,7 +107,7 @@ public:
      *
      * @returns The input map.
      *--------------------------------------------------------------------------------*/
-    std::unordered_map<std::string, NodeRef> get_inputs();
+    std::map<std::string, NodeRef> get_inputs();
 
     NodeRef add_input(std::string name, sample default_value = 0);
     NodeRef add_input(std::string name, NodeRef value);
@@ -157,8 +157,8 @@ protected:
 private:
     std::string name;
     NodeRef output = nullptr;
-    std::unordered_map<std::string, NodeRef> inputs;
-    std::unordered_map<std::string, BufferRef> buffer_inputs;
+    std::map<std::string, NodeRef> inputs;
+    std::map<std::string, BufferRef> buffer_inputs;
     std::set<NodeRef> nodes;
 
     bool auto_free;

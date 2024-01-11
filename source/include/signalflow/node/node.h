@@ -10,7 +10,6 @@
 #include <memory>
 #include <set>
 #include <string>
-#include <unordered_map>
 #include <vector>
 
 namespace signalflow
@@ -245,10 +244,10 @@ public:
     virtual float get_value();
     virtual void set_value(float value);
 
-    std::unordered_map<std::string, NodeRef *> get_inputs();
+    std::map<std::string, NodeRef *> get_inputs();
     std::set<std::pair<Node *, std::string>> get_outputs();
-    std::unordered_map<std::string, PropertyRef *> get_properties();
-    std::unordered_map<std::string, BufferRef *> get_buffers();
+    std::map<std::string, PropertyRef *> get_properties();
+    std::map<std::string, BufferRef *> get_buffers();
 
 protected:
     /*------------------------------------------------------------------------
@@ -335,7 +334,7 @@ protected:
      * they can be populated when the node is instantiated, such as from
      * a graph of NodeDefs.
      *-----------------------------------------------------------------------*/
-    std::unordered_map<std::string, NodeRef *> inputs;
+    std::map<std::string, NodeRef *> inputs;
 
     /*------------------------------------------------------------------------
      * Set of outputs.
@@ -358,13 +357,13 @@ protected:
      * Similar to `inputs`, each property actually points to a local
      * PropertyRef field which must be separately allocated on the object.
      *-----------------------------------------------------------------------*/
-    std::unordered_map<std::string, PropertyRef *> properties;
+    std::map<std::string, PropertyRef *> properties;
 
     /*------------------------------------------------------------------------
      * Buffers are distinct from parameters, pointing to a fixed
      * area of sample storage that must be non-null.
      *-----------------------------------------------------------------------*/
-    std::unordered_map<std::string, BufferRef *> buffers;
+    std::map<std::string, BufferRef *> buffers;
 
     /*------------------------------------------------------------------------
      * Pointer to the Graph that this node is a part of.

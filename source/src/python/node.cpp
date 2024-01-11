@@ -175,7 +175,7 @@ void init_python_node(py::module &m)
         .def("set_value", &Node::set_value, "value"_a, R"pbdoc(Set the node's current value. Only applicable to Constant nodes.)pbdoc")
         .def_property_readonly(
             "inputs", [](Node &node) {
-                std::unordered_map<std::string, NodeRef> inputs(node.get_inputs().size());
+                std::map<std::string, NodeRef> inputs;
                 for (auto input : node.get_inputs())
                 {
                     inputs[input.first] = *(input.second);

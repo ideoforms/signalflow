@@ -5,15 +5,14 @@
 #include <iostream>
 #include <regex>
 #include <stdlib.h>
-#include <unordered_map>
 
 namespace signalflow
 {
 
-std::unordered_map<std::string, std::unordered_map<std::string, std::string>> parse_config(std::istream &stream)
+std::map<std::string, std::map<std::string, std::string>> parse_config(std::istream &stream)
 {
     std::string line;
-    std::unordered_map<std::string, std::unordered_map<std::string, std::string>> sections;
+    std::map<std::string, std::map<std::string, std::string>> sections;
 
     std::string current_section;
 

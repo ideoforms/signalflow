@@ -71,12 +71,12 @@ void PatchNodeSpec::add_buffer_input(std::string patch_input_name, std::string n
     this->buffer_inputs[patch_input_name] = node_input_name;
 }
 
-std::unordered_map<std::string, PatchNodeSpec *> PatchNodeSpec::get_inputs()
+std::map<std::string, PatchNodeSpec *> PatchNodeSpec::get_inputs()
 {
     return this->inputs;
 }
 
-std::unordered_map<std::string, std::string> PatchNodeSpec::get_buffer_inputs()
+std::map<std::string, std::string> PatchNodeSpec::get_buffer_inputs()
 {
     return this->buffer_inputs;
 }
@@ -96,7 +96,7 @@ void PatchNodeSpec::add_property(std::string name, PropertyRef property)
     this->properties[name] = property;
 }
 
-std::unordered_map<std::string, PropertyRef> PatchNodeSpec::get_properties()
+std::map<std::string, PropertyRef> PatchNodeSpec::get_properties()
 {
     return this->properties;
 }

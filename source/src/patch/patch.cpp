@@ -35,7 +35,7 @@ Patch::Patch(PatchSpecRef patchspec)
     this->parsed = true;
 }
 
-Patch::Patch(PatchSpecRef patchspec, std::unordered_map<std::string, NodeRef> inputs)
+Patch::Patch(PatchSpecRef patchspec, std::map<std::string, NodeRef> inputs)
     : Patch(patchspec)
 {
     for (auto input : inputs)
@@ -339,7 +339,7 @@ std::set<NodeRef> Patch::get_nodes()
     return this->nodes;
 }
 
-std::unordered_map<std::string, NodeRef> Patch::get_inputs()
+std::map<std::string, NodeRef> Patch::get_inputs()
 {
     return this->inputs;
 }

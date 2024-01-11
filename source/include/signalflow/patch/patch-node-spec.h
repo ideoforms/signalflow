@@ -1,8 +1,8 @@
 #pragma once
 
+#include <map>
 #include <signalflow/core/property.h>
 #include <string>
-#include <unordered_map>
 
 namespace signalflow
 {
@@ -30,15 +30,15 @@ public:
     std::string get_input_name();
     void set_input_name(std::string name);
 
-    std::unordered_map<std::string, PatchNodeSpec *> get_inputs();
-    std::unordered_map<std::string, std::string> get_buffer_inputs();
+    std::map<std::string, PatchNodeSpec *> get_inputs();
+    std::map<std::string, std::string> get_buffer_inputs();
 
     void add_input(std::string name, PatchNodeSpec *def);
     void add_input(std::string name, float value);
     void add_buffer_input(std::string patch_input_name,
                           std::string node_input_name);
 
-    std::unordered_map<std::string, PropertyRef> get_properties();
+    std::map<std::string, PropertyRef> get_properties();
     void add_property(std::string name, PropertyRef property);
 
 private:
@@ -47,9 +47,9 @@ private:
     float value = 0.0;
     bool is_constant = false;
     std::string input_name;
-    std::unordered_map<std::string, PatchNodeSpec *> inputs;
-    std::unordered_map<std::string, std::string> buffer_inputs;
-    std::unordered_map<std::string, PropertyRef> properties;
+    std::map<std::string, PatchNodeSpec *> inputs;
+    std::map<std::string, std::string> buffer_inputs;
+    std::map<std::string, PropertyRef> properties;
 };
 
 }
