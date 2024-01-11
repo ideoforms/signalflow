@@ -100,5 +100,16 @@ def test_patch_to_json(graph):
 
     patch = TestPatch()
     spec = patch.to_spec()
-    json = spec.to_json()
-    assert json == '{"buffer_inputs": [], "inputs": [], "name": "", "nodes": [{"id": 4, "inputs": {"attack": 0.1, "curve": 1, "release": 0.1, "sustain": 0.5}, "node": "asr-envelope"}, {"id": 2, "inputs": {"frequency": 440}, "node": "sine"}, {"id": 1, "inputs": {"input0": {"id": 2}, "input1": {"id": 4}}, "node": "multiply"}, {"id": 0, "inputs": {"input": {"id": 1}, "pan": 0}, "is_output": true, "node": "stereo-panner"}]}'
+    spec_json = spec.to_json()
+    ref_json = '{"buffer_inputs": [], "inputs": [], "name": "", "nodes": [{"id": 4, "inputs": {"attack": 0.1, "curve": 1, "release": 0.1, "sustain": 0.5}, "node": "asr-envelope"}, {"id": 2, "inputs": {"frequency": 440}, "node": "sine"}, {"id": 1, "inputs": {"input0": {"id": 2}, "input1": {"id": 4}}, "node": "multiply"}, {"id": 0, "inputs": {"input": {"id": 1}, "pan": 0}, "is_output": true, "node": "stereo-panner"}]}'
+
+    #--------------------------------------------------------------------------------
+    # Can't simply compare the to_json output to the ref_json, as ordering of objects
+    # is not necessarily preserved (because json11 internally represents an object as
+    # a std::pair which can't guarantee order). At some point, it would be nice to
+    # switch to a json library that can preserve order, so that node IDs are
+    # sequenced correctly. For now, make the test permissive.
+    #--------------------------------------------------------------------------------
+    spec_json_deserialised = json.loads(spec_json)
+    ref_json_deserialised = json.loads(ref_json)
+    assert spec_json_deserialised == ref_json_deserialised
