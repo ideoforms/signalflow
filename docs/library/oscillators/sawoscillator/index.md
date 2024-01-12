@@ -11,3 +11,14 @@ SawOscillator(frequency=440, phase=None, reset=None)
 
 Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.
 
+### Examples
+
+```python
+#-------------------------------------------------------------------------------
+# Simple saw wave oscillator shaped by an envelope
+#-------------------------------------------------------------------------------
+saw = SawOscillator(440)
+envelope = ASREnvelope(0.05, 0.1, 0.5)
+output = saw * envelope
+output.play()
+```
