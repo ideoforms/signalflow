@@ -20,5 +20,6 @@ Produces a value of 1 at the given `frequency`, with output of 0 at all other ti
 #-------------------------------------------------------------------------------
 impulse = Impulse(frequency=1.0)
 output = impulse * 0.5
-output.play()```
+output.play()
+```
 

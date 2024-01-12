@@ -8,3 +8,4 @@ sine = SineOscillator(440)
 envelope = ASREnvelope(0.1, 0.1, 0.5)
 output = sine * envelope
 output.play()
+graph.wait()
