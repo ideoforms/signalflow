@@ -47,6 +47,7 @@ omitted_classes = ["VampAnalysis", "GrainSegments", "FFTZeroPhase", "FFTOpNode",
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
 known_parent_classes = ["Node", "StochasticNode"]
 documentation_omit_folders = ["io"]
+documentation_omit_classes = ["Constant"]
 
 bindings_output_path = "source/src/python/nodes.cpp"
 
@@ -292,6 +293,8 @@ def generate_node_library_index(node_classes) -> str:
         for cls in classes:
             if cls.name in node_superclasses:
                 continue
+            if cls.name in documentation_omit_classes:
+                continue
             if cls.constructors:
                 cls_folder = os.path.join(folder, cls.identifier)
                 cls_doc_path = os.path.join(cls_folder, "index.md")
@@ -344,12 +347,16 @@ def generate_node_library(node_classes):
             for cls in classes:
                 if cls.name in node_superclasses:
                     continue
+                if cls.name in documentation_omit_classes:
+                    continue
 
                 if cls.constructors:
                     fd.write("- **[%s](%s/index.md)**: %s\n" % (cls.name, cls.identifier, cls.docs))
 
         for cls in classes:
             if cls.name in node_superclasses:
+                continue
+            if cls.name in documentation_omit_classes:
                 continue
 
             if cls.constructors:
