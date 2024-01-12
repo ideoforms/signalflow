@@ -14,6 +14,7 @@ Produces a sine wave at the given `frequency`.
 ### Examples
 
 ```python
+
 #-------------------------------------------------------------------------------
 # Simple sine wave oscillator shaped by an envelope
 #-------------------------------------------------------------------------------

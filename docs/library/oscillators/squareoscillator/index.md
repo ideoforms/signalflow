@@ -14,6 +14,7 @@ Produces a pulse wave with the given `frequency` and pulse `width`, where `width
 ### Examples
 
 ```python
+
 #-------------------------------------------------------------------------------
 # Simple square wave oscillator shaped by an envelope
 #-------------------------------------------------------------------------------

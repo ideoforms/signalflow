@@ -14,6 +14,7 @@ Produces a triangle wave with the given `frequency`.
 ### Examples
 
 ```python
+
 #-------------------------------------------------------------------------------
 # Simple triangle wave oscillator shaped by an envelope
 #-------------------------------------------------------------------------------
