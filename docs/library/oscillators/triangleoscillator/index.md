@@ -23,3 +23,4 @@ envelope = ASREnvelope(0.1, 0.1, 0.5)
 output = tri * envelope
 output.play()
 ```
+

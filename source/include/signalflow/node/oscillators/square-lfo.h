@@ -6,7 +6,7 @@ namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
  * Produces a pulse wave LFO with the given `frequency` and pulse `width`, 
- * ranging from `min` to `max`, where `width` of `0.5` is a square wave and 
+ * ranging from `min` to `max`, where `width` of `0.5` is a square wave and
  * other values produce a rectangular wave.
  *---------------------------------------------------------------------------------*/
 class SquareLFO : public LFO
