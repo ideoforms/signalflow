@@ -56,10 +56,22 @@ void init_python_buffer(py::module &m)
              })
         .def(
             "__mul__", [](BufferRef a, float b) { return a * b; }, "value"_a,
-            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
+            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by `value`.)pbdoc")
         .def(
             "__rmul__", [](BufferRef a, float b) { return a * b; }, "value_"_a,
-            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
+            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by `value`.)pbdoc")
+        .def(
+            "__div__", [](BufferRef a, float b) { return a / b; }, "value"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` divided by `value`.)pbdoc")
+        .def(
+            "__add__", [](BufferRef a, float b) { return a + b; }, "value"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` added to `value`.)pbdoc")
+        .def(
+            "__radd__", [](BufferRef a, float b) { return a + b; }, "value_"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` added to `value`.)pbdoc")
+        .def(
+            "__sub__", [](BufferRef a, float b) { return a - b; }, "value"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` subtracted by `value`.)pbdoc")
         .def(
             "__len__", [](Buffer &buf) { return buf.get_num_frames(); },
             R"pbdoc(Returns the length of the buffer `self`, in frames.)pbdoc")
