@@ -39,6 +39,17 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool
     {
         this->output = new AudioOut_Dummy();
     }
+    else if (output_device == "")
+    {
+        this->output = new AudioOut(this->config.get_output_backend_name(),
+                                    this->config.get_output_device_name(),
+                                    this->config.get_sample_rate(),
+                                    this->config.get_output_buffer_size());
+        if (!this->output)
+        {
+            throw std::runtime_error("AudioGraph: Couldn't find audio output device");
+        }
+    }
     else
     {
         throw std::runtime_error("AudioGraph: Invalid output device name: " + output_device);
