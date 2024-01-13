@@ -238,7 +238,24 @@ void Buffer::save(std::string filename)
     info.frames = this->num_frames;
     info.channels = this->num_channels;
     info.samplerate = (int) this->sample_rate;
-    info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
+    info.format = SF_FORMAT_PCM_16;
+    if (filename.substr(filename.length() - 4, filename.length()) == ".wav")
+    {
+        info.format |= SF_FORMAT_WAV;
+    }
+    else if (filename.substr(filename.length() - 5, filename.length()) == ".flac")
+    {
+        info.format |= SF_FORMAT_FLAC;
+    }
+    else if (filename.substr(filename.length() - 4, filename.length()) == ".aif")
+    {
+        info.format |= SF_FORMAT_AIFF;
+    }
+    else
+    {
+        throw std::runtime_error(std::string("Cannot write output file format: " + filename));
+    }
+
     SNDFILE *sndfile = sf_open(filename.c_str(), SFM_WRITE, &info);
 
     if (!sndfile)
