@@ -12,5 +12,3 @@ A `Buffer` has a number of read-only properties which can be used to query its s
 | interpolation_mode | str   | The interpolation mode of the buffer. [LINK]                                       |
 
 ---
-
-[→ Next: Multichannel](multichannel.md)
