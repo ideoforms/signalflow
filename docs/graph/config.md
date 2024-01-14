@@ -77,7 +77,6 @@ To print the current configuration to stdout:
 graph.config.print()
 ```
 
-
 ---
 
 [→ Next: Graph status and properties](properties.md)
