@@ -16,7 +16,7 @@
         <link rel="prev" href="../patch/auto-free/">
       
       
-        <link rel="next" href="../library/">
+        <link rel="next" href="creating/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.1.15">
@@ -77,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#buffer" class="md-skip">
+        <a href="#buffers" class="md-skip">
           Skip to content
         </a>
       
@@ -1052,7 +1052,7 @@
   
     <li class="md-nav__item">
       <a href="../patch/exporting/" class="md-nav__link">
-        Exporting and importing patches
+        Exporting and importing
       </a>
     </li>
   
@@ -1103,12 +1103,28 @@
             
           
         
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
       
       
         
         
         <div class="md-nav__link md-nav__link--index md-nav__link--active">
           <a href="./">Buffers</a>
+          
+            <label for="__nav_2_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
           
         </div>
       
@@ -1119,6 +1135,90 @@
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="creating/" class="md-nav__link">
+        Creating and loading
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="exporting/" class="md-nav__link">
+        Saving and exporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="input/" class="md-nav__link">
+        Passing to a node or patch
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="access/" class="md-nav__link">
+        Accessing a buffer's contents
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="operators/" class="md-nav__link">
+        Operators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="properties/" class="md-nav__link">
+        Properties
+      </a>
+    </li>
+  
+
             
           
         </ul>
@@ -1489,23 +1589,18 @@
   
 
 
-<h1 id="buffer">Buffer</h1>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>This documentation is a work-in-progress and may have sections that are missing or incomplete.</p>
-</div>
-<p>A <code>Buffer</code> is an allocated area of memory that can be used to store single-channel or multi-channel data, which may represent an audio waveform or any other type of signal. </p>
+<h1 id="buffers">Buffers</h1>
+<p>A <code>Buffer</code> is an area of memory that stores single-channel or multi-channel data, which may represent an audio waveform or any other type of signal. </p>
 <ul>
-<li>A Buffer can be created from a sound file, an array of samples, or with an empty contents</li>
-<li>A Buffer can be passed to a Node or Patch as an input</li>
-<li>A Buffer can be exported to a sound file</li>
-<li>A Buffer's data can be directly accessed in memory as a numpy array, or by get/set methods</li>
-<li>The contents of a buffer can be combined with arithmetic operators</li>
-<li>Properties</li>
-<li>Buffer interpolation modes</li>
-<li>2D buffers</li>
-<li>Buffer applications: Sample recording and playback, control recording and playback, envelopes, waveshapers </li>
-<li>The total Buffer memory usage can be queried </li>
+<li>A Buffer can be <a href="creating/">created</a> from a sound file, an array of samples, a specified dimension, or the result of a function</li>
+<li>A Buffer can be <a href="exporting/">saved to a sound file</a></li>
+<li>A Buffer can be <a href="input/">passed to a Node or Patch</a> as an input</li>
+<li>Buffer <a href="access/">sample access</a> can be performed by get/set/fill methods, or directly as a numpy array </li>
+<li>Buffers can be modified, combined and queried with standard <a href="operators/">arithmetic operators</a></li>
+<li>Buffers can be queried for a number of <a href="properties/">properties</a>, including interpolation modes and total memory usage</li>
+<li><em>TODO</em>: Different Buffer subclasses exist for specific operations, including <code>Buffer2D</code>, <code>WaveshaperBuffer</code> and <code>EnvelopeBuffer</code></li>
+<li><em>TODO</em>: Playing a buffer, including sample rate conversion and interpolation</li>
+<li><em>TODO</em>: Recording and rendering audio into a Buffer</li>
 </ul>
 
   <hr>
@@ -1513,7 +1608,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-01-03T20:18:56+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-01-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-14T16:50:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-14</span>
       
         <br>
         Created:
@@ -1564,13 +1659,13 @@
         
         
           
-          <a href="../library/" class="md-footer__link md-footer__link--next" aria-label="Next: Reference library" rel="next">
+          <a href="creating/" class="md-footer__link md-footer__link--next" aria-label="Next: Creating and loading" rel="next">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Reference library
+                Creating and loading
               </div>
             </div>
             <div class="md-footer__button md-icon">

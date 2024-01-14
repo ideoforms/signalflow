@@ -935,6 +935,22 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#enumerating-a-nodes-inputs" class="md-nav__link">
+    Enumerating a node's inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#playerinputsratevalue-10" class="md-nav__link">
+    &gt;&gt;&gt; player.inputs[&quot;rate&quot;].value
+1.0
+
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1155,7 +1171,7 @@
   
     <li class="md-nav__item">
       <a href="../../patch/exporting/" class="md-nav__link">
-        Exporting and importing patches
+        Exporting and importing
       </a>
     </li>
   
@@ -1204,12 +1220,28 @@
             
           
         
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
       
       
         
         
         <div class="md-nav__link md-nav__link--index ">
           <a href="../../buffer/">Buffers</a>
+          
+            <label for="__nav_2_4">
+              <span class="md-nav__icon md-icon"></span>
+            </label>
           
         </div>
       
@@ -1220,6 +1252,90 @@
         </label>
         <ul class="md-nav__list" data-md-scrollfix>
           
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../buffer/creating/" class="md-nav__link">
+        Creating and loading
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../buffer/exporting/" class="md-nav__link">
+        Saving and exporting
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../buffer/input/" class="md-nav__link">
+        Passing to a node or patch
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../buffer/access/" class="md-nav__link">
+        Accessing a buffer's contents
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../buffer/operators/" class="md-nav__link">
+        Operators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../buffer/properties/" class="md-nav__link">
+        Properties
+      </a>
+    </li>
+  
+
             
           
         </ul>
@@ -1647,6 +1763,22 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#enumerating-a-nodes-inputs" class="md-nav__link">
+    Enumerating a node's inputs
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#playerinputsratevalue-10" class="md-nav__link">
+    &gt;&gt;&gt; player.inputs[&quot;rate&quot;].value
+1.0
+
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1748,10 +1880,29 @@
 <hr />
 <h3 id="buffer-inputs">Buffer inputs</h3>
 <p>The third type of input supported by nodes is the <a href="../../buffer/">buffer</a>. Nodes often take buffer inputs as sources of audio samples. They are also useful as sources of envelope shape data (for example, to shape the grains of a Granulator), or general control data (for example, recording motion patterns from a <code>MouseX</code> input).</p>
-<div class="highlight"><pre><span></span><code><span class="n">buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">&quot;../audio/stereo-count.wav&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><code><span class="n">buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">&quot;audio/stereo-count.wav&quot;</span><span class="p">)</span>
 <span class="n">player</span> <span class="o">=</span> <span class="n">BufferPlayer</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </code></pre></div>
-<hr />
+<p>A buffer input cannot be set using the <a href="#audio-rate-inputs">same property shorthand as audio-rate inputs</a>; instead, the <code>set_buffer</code> method should be used. </p>
+<div class="highlight"><pre><span></span><code><span class="n">new_buffer</span> <span class="o">=</span> <span class="n">Buffer</span><span class="p">(</span><span class="s2">&quot;audio/example.wav&quot;</span><span class="p">)</span>
+<span class="n">player</span><span class="o">.</span><span class="n">set_buffer</span><span class="p">(</span><span class="s2">&quot;buffer&quot;</span><span class="p">,</span> <span class="n">new_buffer</span><span class="p">)</span>
+</code></pre></div>
+<p><em>TODO: Should this be <code>set_input</code> for consistency with Patch?</em></p>
+<h2 id="enumerating-a-nodes-inputs">Enumerating a node's inputs</h2>
+<p>To list the potential and actual inputs of a node, the <code>.inputs</code> property returns a <code>dict</code> of key-value pairs:</p>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">player</span><span class="o">.</span><span class="n">inputs</span>
+<span class="p">{</span>
+    <span class="s1">&#39;clock&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">signalflow</span><span class="o">.</span><span class="n">Impulse</span> <span class="n">at</span> <span class="mh">0x107778eb0</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">&#39;end_time&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="s1">&#39;loop&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">signalflow</span><span class="o">.</span><span class="n">Constant</span> <span class="n">at</span> <span class="mh">0x12a4cd4b0</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">&#39;rate&#39;</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">signalflow</span><span class="o">.</span><span class="n">Constant</span> <span class="n">at</span> <span class="mh">0x12a4cd330</span><span class="o">&gt;</span><span class="p">,</span>
+    <span class="s1">&#39;start_time&#39;</span><span class="p">:</span> <span class="kc">None</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>Any constant-valued inputs are wrapped inside a special <code>Constant</code> node class. The value contained by a <code>Constant</code> can be accessed with its <code>.value</code> property.</p>
+<h2 id="playerinputsratevalue-10"><div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">player</span><span class="o">.</span><span class="n">inputs</span><span class="p">[</span><span class="s2">&quot;rate&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">value</span>
+<span class="mf">1.0</span>
+</code></pre></div></h2>
 <p><a href="../operators/">→ Next: Operators</a></p>
 
   <hr>
@@ -1759,7 +1910,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-11-09T22:32:34+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-11-09</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-14T16:50:15+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-14</span>
       
         <br>
         Created:
