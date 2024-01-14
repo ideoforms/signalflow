@@ -296,6 +296,14 @@ class Buffer:
     """
     A buffer of audio samples, containing one or more channels.
     """
+    def __add__(self, value: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` added to `value`.
+        """
+    def __div__(self, value: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` divided by `value`.
+        """
     def __getitem__(self, arg0: int) -> typing_extensions.Buffer:
         ...
     @typing.overload
@@ -331,7 +339,17 @@ class Buffer:
     @typing.overload
     def __init__(self, function: typing.Callable[[float], float]) -> None:
         """
-        Allocate a buffer filled with the output of a given function.
+        Allocate a buffer filled with the output of the function `function`.
+        """
+    @typing.overload
+    def __init__(self, num_frames: int, function: typing.Callable[[float], float]) -> None:
+        """
+        Allocate a mono buffer with `num_frames` frames, filled with the output of the function `function`.
+        """
+    @typing.overload
+    def __init__(self, num_channels: int, num_frames: int, function: typing.Callable[[float], float]) -> None:
+        """
+        Allocate a buffer with `num_channels` channels and `num_frames` frames, filled with the output of the function `function`.
         """
     def __len__(self) -> int:
         """
@@ -339,14 +357,22 @@ class Buffer:
         """
     def __mul__(self, value: float) -> typing_extensions.Buffer:
         """
-        Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.
+        Returns a new Buffer containing the samples in `self` multiplied by `value`.
+        """
+    def __radd__(self, value_: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` added to `value`.
         """
     def __rmul__(self, value_: float) -> typing_extensions.Buffer:
         """
-        Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.
+        Returns a new Buffer containing the samples in `self` multiplied by `value`.
         """
     def __str__(self) -> str:
         ...
+    def __sub__(self, value: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` subtracted by `value`.
+        """
     @typing.overload
     def fill(self, sample: float) -> None:
         ...
@@ -360,6 +386,8 @@ class Buffer:
     def load(self, filename: str) -> None:
         ...
     def save(self, filename: str) -> None:
+        ...
+    def set(self, channel: int, frame: int, value: float) -> bool:
         ...
     def split(self, num_frames_per_part: int) -> list[typing_extensions.Buffer]:
         ...

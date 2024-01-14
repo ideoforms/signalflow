@@ -89,6 +89,8 @@ public:
      *
      *------------------------------------------------------------------------*/
     Buffer(const std::function<float(float)> f);
+    Buffer(int num_frames, const std::function<float(float)> f);
+    Buffer(int num_channels, int num_frames, const std::function<float(float)> f);
 
     /**------------------------------------------------------------------------
       * Destroy the buffer.

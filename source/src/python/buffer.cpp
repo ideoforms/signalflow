@@ -24,7 +24,11 @@ void init_python_buffer(py::module &m)
              R"pbdoc(Allocate a buffer containing the floating-point samples in `data`.)pbdoc")
 
         .def(py::init<const std::function<float(float)>>(), "function"_a,
-             R"pbdoc(Allocate a buffer filled with the output of a given function.)pbdoc")
+             R"pbdoc(Allocate a buffer filled with the output of the function `function`.)pbdoc")
+        .def(py::init<int, const std::function<float(float)>>(), "num_frames"_a, "function"_a,
+             R"pbdoc(Allocate a mono buffer with `num_frames` frames, filled with the output of the function `function`.)pbdoc")
+        .def(py::init<int, int, const std::function<float(float)>>(), "num_channels"_a, "num_frames"_a, "function"_a,
+             R"pbdoc(Allocate a buffer with `num_channels` channels and `num_frames` frames, filled with the output of the function `function`.)pbdoc")
 
         /*--------------------------------------------------------------------------------
          * Operators
@@ -118,6 +122,7 @@ void init_python_buffer(py::module &m)
          *-------------------------------------------------------------------------------*/
         .def("get", &Buffer::get, "channel"_a, "frame"_a)
         .def("get_frame", &Buffer::get_frame, "channel"_a, "frame"_a)
+        .def("set", &Buffer::set, "channel"_a, "frame"_a, "value"_a)
         .def(
             "fill", [](Buffer &buf, float sample) { buf.fill(sample); }, "sample"_a)
         .def(

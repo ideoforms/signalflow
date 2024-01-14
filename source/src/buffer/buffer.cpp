@@ -79,8 +79,14 @@ Buffer::Buffer(std::string filename)
     this->load(filename);
 }
 
+Buffer::Buffer(int num_channels, int num_frames, const std::function<float(float)> f)
+    : Buffer(num_channels, num_frames) { this->fill(f); }
+
+Buffer::Buffer(int num_frames, const std::function<float(float)> f)
+    : Buffer(1, num_frames, f) {}
+
 Buffer::Buffer(const std::function<float(float)> f)
-    : Buffer(1, 1024) { this->fill(f); }
+    : Buffer(1, 1024, f) {}
 
 Buffer::~Buffer()
 {
