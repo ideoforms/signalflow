@@ -215,7 +215,7 @@ void init_python_node(py::module &m)
         /*--------------------------------------------------------------------------------
          * Methods
          *-------------------------------------------------------------------------------*/
-        .def("set_buffer", &Node::set_buffer, "string"_a, "buffer"_a, R"pbdoc(The length of the node's output buffer, in frames)pbdoc")
+        .def("set_buffer", &Node::set_buffer, "string"_a, "buffer"_a, R"pbdoc(Set the value of a node's buffer input)pbdoc")
         .def(
             "poll", [](Node &node) { node.poll(); }, R"pbdoc(Print the node's last output value, once per second)pbdoc")
         .def(
