@@ -6,6 +6,7 @@
 #include <signalflow/core/core.h>
 #include <signalflow/core/exceptions.h>
 #include <signalflow/core/graph.h>
+#include <signalflow/core/kdtree.h>
 #include <signalflow/core/property.h>
 #include <signalflow/core/random.h>
 #include <signalflow/core/util.h>

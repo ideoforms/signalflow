@@ -5,6 +5,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/core/config.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/core.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/graph-monitor.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/core/kdtree.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/random.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/renderer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/util.cpp
