@@ -58,11 +58,12 @@ float distance_from_point_to_bounding_box(const std::vector<float> &point,
     return distance;
 }
 
-KDTreeNode::KDTreeNode(const std::vector<float> &coordinates,
+KDTreeNode::KDTreeNode(int index,
+                       const std::vector<float> &coordinates,
                        KDTreeNode *left,
                        KDTreeNode *right,
                        const std::vector<std::vector<float>> &bounding_box)
-    : coordinates(coordinates), left(left), right(right), bounding_box(bounding_box)
+    : index(index), coordinates(coordinates), left(left), right(right), bounding_box(bounding_box)
 {
 }
 
@@ -115,6 +116,11 @@ std::pair<KDTreeNode *, float> KDTreeNode::get_nearest(const std::vector<float> 
     return { current_nearest, current_nearest_distance };
 }
 
+int KDTreeNode::get_index()
+{
+    return this->index;
+}
+
 std::vector<float> KDTreeNode::get_coordinates()
 {
     return this->coordinates;
@@ -127,6 +133,22 @@ KDTree::KDTree(std::vector<std::vector<float>> data)
         throw std::runtime_error("KDTree: Data array cannot be empty");
     }
     this->num_dimensions = data[0].size();
+
+    /*------------------------------------------------------------------------------
+     * For each datapoint, append an integer label.
+     *
+     * This is ignored in the tree construction algorithm, but is later popped
+     * off to coordinate and used so that each node in the tree can be labelled
+     * with its unique index.
+     *
+     * Needs to be appended to the same structure as the data array is repeatedly
+     * re-ordered through the process, and this is more efficient that
+     * sorting an array of coordinates and an array of labels.
+     *------------------------------------------------------------------------------*/
+    for (auto i = 0; i < data.size(); i++)
+    {
+        data[i].push_back(i);
+    }
     std::vector<std::vector<float>> bounding_box(num_dimensions);
     for (auto &bounds : bounding_box)
     {
@@ -173,12 +195,12 @@ KDTreeNode *KDTree::construct_subtree(std::vector<std::vector<float>> data,
     std::copy(data.begin() + left_length + 1,
               data.end(),
               dimension_partition_right.begin());
+
     std::vector<float> coordinate = data[mid_point];
+    int node_index = coordinate[coordinate.size() - 1];
+    coordinate.pop_back();
 
     size_t dimension_index_next = (dimension_index + 1) % this->num_dimensions;
-    //    printf("Node at dimension %d\n", dimension_index);
-    //    print_data(dimension_partition_left);
-    //    print_data(dimension_partition_right);
 
     KDTreeNode *left_tree = nullptr;
     if (dimension_partition_left.size() > 0)
@@ -204,7 +226,8 @@ KDTreeNode *KDTree::construct_subtree(std::vector<std::vector<float>> data,
                                              bounding_box_right);
     }
 
-    KDTreeNode *node = new KDTreeNode(coordinate,
+    KDTreeNode *node = new KDTreeNode(node_index,
+                                      coordinate,
                                       left_tree,
                                       right_tree,
                                       bounding_box);
