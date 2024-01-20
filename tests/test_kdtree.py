@@ -7,7 +7,17 @@ def test_kdtree():
     tree = KDTree(corpus)
     target = np.array([1, 5])
     nearest = tree.get_nearest(target)
-    assert np.all(np.isclose(target, nearest, atol=1.0))
+
+    # check that the nearest value found is sufficiently near to the target
+    assert np.all(np.isclose(target, nearest.coordinate, atol=1.0))
+
+    # check that nearest.index points to the item in the corpus identical to nearest.coordinate
+    # (subject to rounding error)
+    assert np.all(np.isclose(corpus[nearest.index], nearest.coordinate, atol=1e-6))
+
+    # check that nearest.distance calculates the correct distance
+    # (subject to rounding error)
+    assert nearest.distance == pytest.approx(np.linalg.norm(corpus[nearest.index] - target))
 
 def test_kdtree_validation():
     corpus = np.random.uniform(0, 10, [1024, 2])

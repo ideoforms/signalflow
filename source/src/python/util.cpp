@@ -32,4 +32,9 @@ void init_python_util(py::module &m)
     py::class_<KDTree>(m, "KDTree", "A KDTree structure")
         .def(py::init<std::vector<std::vector<float>>>(), "data"_a = nullptr)
         .def("get_nearest", &KDTree::get_nearest, "target"_a);
+
+    py::class_<KDTreeMatch>(m, "KDTreeMatch", "A KDTreeMatch result")
+        .def_property_readonly("index", &KDTreeMatch::get_index, R"pbdoc(The index)pbdoc")
+        .def_property_readonly("coordinate", &KDTreeMatch::get_coordinate, R"pbdoc(The coordinate)pbdoc")
+        .def_property_readonly("distance", &KDTreeMatch::get_distance, R"pbdoc(The distance)pbdoc");
 }

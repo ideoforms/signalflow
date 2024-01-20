@@ -60,12 +60,13 @@ void NearestNeighbour::process(Buffer &out, int num_frames)
 
     float target_value = this->target->out[0][0];
     std::vector<float> target_value_vector({ target_value });
-    std::vector<float> output_value_vector = this->kdtree->get_nearest(target_value_vector);
+    KDTreeMatch match = this->kdtree->get_nearest(target_value_vector);
+    int index = match.index;
     for (auto channel = 0; channel < this->get_num_output_channels(); channel++)
     {
         for (auto frame = 0; frame < num_frames; frame++)
         {
-            this->out[channel][frame] = output_value_vector[channel];
+            this->out[channel][frame] = index;
         }
     }
 }

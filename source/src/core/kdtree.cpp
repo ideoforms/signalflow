@@ -79,16 +79,16 @@ KDTreeNode::~KDTreeNode()
     }
 }
 
-std::pair<KDTreeNode *, float> KDTreeNode::get_nearest(const std::vector<float> &target,
-                                                       KDTreeNode *current_nearest,
-                                                       float current_nearest_distance)
+KDTreeMatch KDTreeNode::get_nearest(const std::vector<float> &target,
+                                    KDTreeMatch current_nearest)
 {
     float distance = distance_from_point_to_point(target, this->coordinates);
 
-    if (distance < current_nearest_distance)
+    if (distance < current_nearest.distance)
     {
-        current_nearest = this;
-        current_nearest_distance = distance;
+        current_nearest.coordinate = this->coordinates;
+        current_nearest.index = this->index;
+        current_nearest.distance = distance;
     }
 
     /*------------------------------------------------------------------------------
@@ -99,21 +99,17 @@ std::pair<KDTreeNode *, float> KDTreeNode::get_nearest(const std::vector<float> 
      *       pruning based on whether the target would be to the left or right
      *       of this node. Need to implement and benchmark.
      *------------------------------------------------------------------------------*/
-    if (this->left && distance_from_point_to_bounding_box(target, left->bounding_box) < current_nearest_distance)
+    if (this->left && distance_from_point_to_bounding_box(target, left->bounding_box) < current_nearest.distance)
     {
-        auto result = left->get_nearest(target, current_nearest, current_nearest_distance);
-        current_nearest = result.first;
-        current_nearest_distance = result.second;
+        current_nearest = left->get_nearest(target, current_nearest);
     }
 
-    if (this->right && distance_from_point_to_bounding_box(target, right->bounding_box) < current_nearest_distance)
+    if (this->right && distance_from_point_to_bounding_box(target, right->bounding_box) < current_nearest.distance)
     {
-        auto result = right->get_nearest(target, current_nearest, current_nearest_distance);
-        current_nearest = result.first;
-        current_nearest_distance = result.second;
+        current_nearest = right->get_nearest(target, current_nearest);
     }
 
-    return { current_nearest, current_nearest_distance };
+    return current_nearest;
 }
 
 int KDTreeNode::get_index()
@@ -235,12 +231,12 @@ KDTreeNode *KDTree::construct_subtree(std::vector<std::vector<float>> data,
     return node;
 }
 
-std::vector<float> KDTree::get_nearest(const std::vector<float> &target)
+KDTreeMatch KDTree::get_nearest(const std::vector<float> &target)
 {
     if (target.size() != this->num_dimensions)
     {
         throw std::runtime_error("Target has an invalid number of dimensions (expected = " + std::to_string(this->num_dimensions) + ", actual = " + std::to_string(target.size()) + ")");
     }
-    auto result = this->root->get_nearest(target);
-    return result.first->get_coordinates();
+    auto result = this->root->get_nearest(target, KDTreeMatch(0, {}, std::numeric_limits<float>::max()));
+    return result;
 }
