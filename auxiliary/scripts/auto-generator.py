@@ -42,7 +42,7 @@ class NodeClass:
 
 
 node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
-omitted_classes = ["VampAnalysis", "GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
+omitted_classes = ["GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
 known_parent_classes = ["Node", "StochasticNode"]

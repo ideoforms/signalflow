@@ -13,7 +13,7 @@ endif()
 # By default, build arm64 on Apple.
 #-------------------------------------------------------------------------------
 if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES "arm64")
+    set(CMAKE_OSX_ARCHITECTURES "x86_64")
 endif()
 
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")

@@ -123,6 +123,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/euclidean.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/vamp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/cross-correlate.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/nearest-neighbour.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/onset-detector.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
