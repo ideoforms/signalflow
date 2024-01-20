@@ -1,4 +1,8 @@
 #include "signalflow/core/kdtree.h"
+#include <algorithm>
+#include <cassert>
+#include <limits>
+#include <math.h>
 #include <string>
 
 void print_data(std::vector<std::vector<float>> data)

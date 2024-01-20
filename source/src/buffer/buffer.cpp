@@ -579,7 +579,7 @@ double WaveShaperBuffer::frame_to_offset(double frame)
 std::vector<float> Buffer::get_frame_offsets()
 {
     std::vector<float> offsets(this->num_frames);
-    for (auto i = 0; i < this->num_frames; i++)
+    for (unsigned long i = 0; i < this->num_frames; i++)
     {
         offsets[i] = this->frame_to_offset(i);
     }
