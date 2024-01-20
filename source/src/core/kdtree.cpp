@@ -1,7 +1,6 @@
 #include "signalflow/core/kdtree.h"
 #include <algorithm>
 #include <cassert>
-#include <limits>
 #include <math.h>
 #include <string>
 
@@ -19,7 +18,7 @@ float distance_from_point_to_point(const std::vector<float> &pointA,
 {
     assert(pointA.size() == pointB.size());
     float sum_squares = 0.0;
-    for (int i = 0; i < pointA.size(); i++)
+    for (size_t i = 0; i < pointA.size(); i++)
     {
         sum_squares += powf(pointA[i] - pointB[i], 2);
     }
@@ -54,7 +53,7 @@ float distance_from_point_to_bounding_box(const std::vector<float> &point,
     {
         distance += dist * dist;
     }
-    distance = std::sqrtf(distance);
+    distance = sqrtf(distance);
 
     return distance;
 }

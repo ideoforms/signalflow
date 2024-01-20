@@ -1,6 +1,7 @@
 #ifndef SIGNALFLOW_KDTREE_H
 #define SIGNALFLOW_KDTREE_H
 
+#include <limits>
 #include <memory>
 #include <vector>
 
