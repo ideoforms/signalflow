@@ -25,8 +25,12 @@ void init_python_nodes(py::module &m)
     py::class_<OnsetDetector, Node, NodeRefTemplate<OnsetDetector>>(m, "OnsetDetector", "Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 2.0, "min_interval"_a = 0.1);
 
+#ifdef HAVE_VAMP
+
     py::class_<VampAnalysis, Node, NodeRefTemplate<VampAnalysis>>(m, "VampAnalysis", "Feature extraction using the Vamp plugin toolkit.")
         .def(py::init<NodeRef, std::string>(), "input"_a = 0.0, "plugin_id"_a = "vamp-example-plugins:spectralcentroid:linearcentroid");
+
+#endif
 
     py::class_<BeatCutter, Node, NodeRefTemplate<BeatCutter>>(m, "BeatCutter", "Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.")
         .def(py::init<BufferRef, int, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "segment_count"_a = 8, "stutter_probability"_a = 0.0, "stutter_count"_a = 1, "jump_probability"_a = 0.0, "duty_cycle"_a = 1.0, "rate"_a = 1.0, "segment_rate"_a = 1.0);
