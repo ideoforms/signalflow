@@ -298,6 +298,11 @@ void AudioGraph::reset_graph()
      *--------------------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
+        /*--------------------------------------------------------------------------------
+         * Stop any monitoring running on the node.
+         *--------------------------------------------------------------------------------*/
+        node->poll(0);
+
         while (node->outputs.size() > 0)
         {
             auto output = *(node->outputs.begin());
