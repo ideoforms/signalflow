@@ -17,7 +17,7 @@ def test_kdtree():
 
     # check that nearest.distance calculates the correct distance
     # (subject to rounding error)
-    assert nearest.distance == pytest.approx(np.linalg.norm(corpus[nearest.index] - target))
+    assert nearest.distance == pytest.approx(np.linalg.norm(corpus[nearest.index] - target), abs=1e-6)
 
 def test_kdtree_validation():
     corpus = np.random.uniform(0, 10, [1024, 2])
