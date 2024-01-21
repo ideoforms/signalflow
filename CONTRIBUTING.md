@@ -97,16 +97,18 @@ To build with debug symbols, include `-DCMAKE_BUILD_TYPE=Debug` when calling `cm
 </details>
 
 
-## Creating a new Node
+## Authoring a new Node
 
-- Create the .h header file in the appropriate subdirectory of `source/include/signal/node`
+To author a new Node class:
+
+- Create the .h header file in the appropriate subdirectory of `source/include/signalflow/node`
 - Create the .cpp source file in the appropriate subdirectory of `source/src/node`
 - Add the header file to `source/include/signalflow/signalflow.h`
 - Add the source file to `source/src/CMakeLists.txt`
 - Regenerate the auto-generated bindings and docs: `auxiliary/scripts/auto-generator.py --library --readme --bindings`
 - Add unit tests to the appropriate test script in `tests`
 - Re-run the tests: `python3 setup.py test`
-- Update the stubs (see below)
+- Update the stubs (see [Generating stubs](#generating-stubs))
 
 ## Test
 
