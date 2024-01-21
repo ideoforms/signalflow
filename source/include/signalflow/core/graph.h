@@ -408,6 +408,7 @@ protected:
 private:
     std::set<NodeRef> scheduled_nodes;
     std::set<NodeRef> nodes_to_remove;
+    std::set<NodeRef> scheduled_nodes_to_remove;
     std::set<std::pair<NodeRef, NodeRef>> nodes_to_replace;
     std::set<PatchRef> patches;
     std::set<Patch *> patches_to_remove;

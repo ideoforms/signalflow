@@ -151,6 +151,10 @@ void AudioGraph::clear()
     {
         this->nodes_to_remove.insert(input);
     }
+    for (auto node : this->scheduled_nodes)
+    {
+        this->scheduled_nodes_to_remove.insert(node);
+    }
 
     patches.clear();
 
@@ -340,6 +344,12 @@ void AudioGraph::reset_graph()
     }
     nodes_to_remove.clear();
 
+    for (auto node : this->scheduled_nodes_to_remove)
+    {
+        node->poll(0);
+        this->scheduled_nodes.erase(node);
+    }
+
     /*------------------------------------------------------------------------
      * Avoid segfaults if another thread modifies patches_to_remove
      * (with patch.stop()) while the audio thread is iterating over it.
@@ -502,7 +512,10 @@ NodeRef AudioGraph::add_node(NodeRef node)
     return node;
 }
 
-void AudioGraph::remove_node(NodeRef node) { this->scheduled_nodes.erase(node); }
+void AudioGraph::remove_node(NodeRef node)
+{
+    this->scheduled_nodes.erase(node);
+}
 
 void AudioGraph::add_patch(PatchRef patch)
 {
