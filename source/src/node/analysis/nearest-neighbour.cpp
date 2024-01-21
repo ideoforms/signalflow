@@ -39,7 +39,7 @@ void NearestNeighbour::set_buffer(std::string name, BufferRef buffer)
             delete this->kdtree;
         }
         std::vector<std::vector<float>> data;
-        for (auto i = 0; i < buffer->get_num_frames(); i++)
+        for (size_t i = 0; i < buffer->get_num_frames(); i++)
         {
             // must be a more efficient way to express this
             data.push_back(std::vector<float>({ this->buffer->data[0][i] }));

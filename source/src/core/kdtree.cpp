@@ -141,7 +141,7 @@ KDTree::KDTree(std::vector<std::vector<float>> data)
      * re-ordered through the process, and this is more efficient that
      * sorting an array of coordinates and an array of labels.
      *------------------------------------------------------------------------------*/
-    for (auto i = 0; i < data.size(); i++)
+    for (size_t i = 0; i < data.size(); i++)
     {
         data[i].push_back(i);
     }
