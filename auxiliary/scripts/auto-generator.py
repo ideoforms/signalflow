@@ -45,6 +45,7 @@ node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "F
 omitted_classes = ["GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
+vamp_only_classes = ["VampAnalysis"]
 known_parent_classes = ["Node", "StochasticNode"]
 documentation_omit_folders = ["io"]
 documentation_omit_classes = ["Constant"]
@@ -248,11 +249,15 @@ def generate_bindings(node_classes) -> None:
         for cls in classes:
             if cls.name in macos_only_classes:
                 output += "#ifdef __APPLE__\n\n"
+            if cls.name in vamp_only_classes:
+                output += "#ifdef HAVE_VAMP\n\n"
 
             output += generate_class_bindings(cls)
             output = output.strip()
             output += "\n\n"
             if cls.name in macos_only_classes:
+                output += "#endif\n\n"
+            if cls.name in vamp_only_classes:
                 output += "#endif\n\n"
 
     output = re.sub("\n", "\n    ", output)
