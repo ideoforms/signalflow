@@ -14,7 +14,8 @@ public:
     SegmentPlayer(BufferRef buffer = nullptr,
                   std::vector<float> onsets = {},
                   NodeRef index = nullptr,
-                  NodeRef rate = 1.0);
+                  NodeRef rate = 1.0,
+                  NodeRef clock = nullptr);
 
     virtual void process(Buffer &out, int num_frames) override;
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
@@ -32,6 +33,7 @@ protected:
     NodeRef index;
     NodeRef rate;
     float rate_scale_factor;
+    NodeRef clock;
 };
 
 REGISTER(SegmentPlayer, "segment-player")

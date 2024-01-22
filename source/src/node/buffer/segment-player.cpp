@@ -7,8 +7,8 @@
 namespace signalflow
 {
 
-SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRef index, NodeRef rate)
-    : buffer(buffer), index(index), rate(rate)
+SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRef index, NodeRef rate, NodeRef clock)
+    : buffer(buffer), index(index), rate(rate), clock(clock)
 {
     this->name = "segment-player";
 
@@ -18,6 +18,7 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRe
     this->set_property("onsets", onsets);
     this->create_input("index", this->index);
     this->create_input("rate", this->rate);
+    this->create_input("clock", this->clock);
 
     this->rate_scale_factor = 1.0;
     this->phase = 0.0;
@@ -66,6 +67,11 @@ void SegmentPlayer::process(Buffer &out, int num_frames)
 
 void SegmentPlayer::trigger(std::string name, float value)
 {
+    /*--------------------------------------------------------------------------------
+     * TODO: How to honour `value` here, if specified?
+     *       Perhaps the default should be a null value, that gets ignored in favour
+     *       of `index` if not specified.
+     *--------------------------------------------------------------------------------*/
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
         PropertyRef onsetsref = this->get_property("onsets");
