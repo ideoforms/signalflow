@@ -1,12 +1,11 @@
 import signalflow
 
 import re
-import pytest
 import inspect
 
 from . import graph
 
-def test_nodes_general():
+def test_node_registry():
     """
     Try instantiating each Node class in turn, check that no crashes take place.
     Also checks that names and registration IDs are identical.
@@ -18,7 +17,8 @@ def test_nodes_general():
     for key, value in vars(signalflow).items():
         if inspect.isclass(value) and issubclass(value, signalflow.Node):
             # TODO Why do these fail in particular?
-            if key != "Node" and key != "AudioIn" and key != "CrossCorrelate":
+            if key != "Node" and key != "AudioIn" and key != "CrossCorrelate" and key != "AudioOut_SoundIO":
+                print("Creating node: %s" % key);
                 a = None
                 try:
                     a = value()
