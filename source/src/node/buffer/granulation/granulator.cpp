@@ -1,11 +1,18 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/buffer/granulator.h"
+#include "signalflow/node/buffer/granulation/granulator.h"
 
 namespace signalflow
 {
 
-Granulator::Granulator(BufferRef buffer, NodeRef clock, NodeRef pos, NodeRef duration, NodeRef pan, NodeRef rate, NodeRef max_grains)
-    : pos(pos), clock(clock), duration(duration), pan(pan), rate(rate), max_grains(max_grains)
+Granulator::Granulator(BufferRef buffer,
+                       NodeRef clock,
+                       NodeRef pos,
+                       NodeRef duration,
+                       NodeRef pan,
+                       NodeRef rate,
+                       NodeRef max_grains,
+                       bool wrap)
+    : pos(pos), clock(clock), duration(duration), pan(pan), rate(rate), max_grains(max_grains), wrap(wrap)
 {
     this->name = "granulator";
 
@@ -46,7 +53,9 @@ void Granulator::process(Buffer &out, int num_frames)
      * If buffer is null or empty, don't try to process.
      *--------------------------------------------------------------------------------*/
     if (!this->buffer || !this->buffer->get_num_frames())
+    {
         return;
+    }
 
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -61,7 +70,12 @@ void Granulator::process(Buffer &out, int num_frames)
         {
             if (this->grains.size() < max_grains)
             {
-                Grain *grain = new Grain(buffer, pos * buffer->get_sample_rate(), duration * buffer->get_sample_rate(), rate, pan);
+                Grain *grain = new Grain(buffer,
+                                         pos * buffer->get_sample_rate(),
+                                         duration * buffer->get_sample_rate(),
+                                         rate * this->rate_scale_factor,
+                                         pan,
+                                         this->wrap);
                 this->grains.push_back(grain);
             }
         }
@@ -74,26 +88,18 @@ void Granulator::process(Buffer &out, int num_frames)
         for (it = this->grains.begin(); it < this->grains.end();)
         {
             Grain *grain = *it;
-            if (!grain->finished())
+            if (!grain->is_finished())
             {
                 /*------------------------------------------------------------------------
                  * Obtain the correct sample from the buffer.
                  * If playback is reversed, seek from the end backwards.
                  *-----------------------------------------------------------------------*/
-                double buffer_index = (grain->rate > 0) ? (grain->sample_start + grain->samples_done) : (grain->sample_start - grain->samples_done);
-
-                while (buffer_index > this->buffer->get_num_frames())
-                    buffer_index -= this->buffer->get_num_frames();
-                while (buffer_index < 0)
-                    buffer_index += this->buffer->get_num_frames();
+                grain->step();
 
                 /*------------------------------------------------------------------------
                  * Apply grain envelope.
                  *-----------------------------------------------------------------------*/
-                float env_phase = (float) grain->samples_done / grain->sample_length;
-                float amp = this->envelope->get(0, env_phase);
-
-                grain->samples_done += fabsf(grain->rate) * this->rate_scale_factor;
+                float amp = this->envelope->get(0, grain->get_progress());
 
                 /*------------------------------------------------------------------------
                  * Calculate pan.
@@ -104,7 +110,7 @@ void Granulator::process(Buffer &out, int num_frames)
                  *-----------------------------------------------------------------------*/
                 if (this->buffer->get_num_channels() == 1)
                 {
-                    sample s = this->buffer->get(0, buffer_index);
+                    sample s = this->buffer->get(0, grain->phase);
 
                     float rv = s * amp;
                     out[0][frame] += rv * (1.0 - 0.5 * (grain->pan + 1));
@@ -112,8 +118,8 @@ void Granulator::process(Buffer &out, int num_frames)
                 }
                 else if (this->buffer->get_num_channels() == 2)
                 {
-                    out[0][frame] += this->buffer->get(0, buffer_index) * amp * (1.0 - 0.5 * (grain->pan + 1));
-                    out[1][frame] += this->buffer->get(1, buffer_index) * amp * (0.5 * (grain->pan + 1));
+                    out[0][frame] += this->buffer->get(0, grain->phase) * amp * (1.0 - 0.5 * (grain->pan + 1));
+                    out[1][frame] += this->buffer->get(1, grain->phase) * amp * (0.5 * (grain->pan + 1));
                 }
 
                 it++;
@@ -125,24 +131,6 @@ void Granulator::process(Buffer &out, int num_frames)
             }
         }
     }
-}
-
-Grain::Grain(BufferRef buffer, int start, int length, float rate, float pan)
-    : buffer(buffer), sample_start(start), sample_length(length), rate(rate), pan(pan)
-{
-    this->samples_done = 0;
-    if (rate < 0)
-    {
-        /*------------------------------------------------------------------------
-         * If playback is reversed, begin at the end of the grain.
-         *-----------------------------------------------------------------------*/
-        this->sample_start += sample_length;
-    }
-}
-
-bool Grain::finished()
-{
-    return this->samples_done >= this->sample_length;
 }
 
 }

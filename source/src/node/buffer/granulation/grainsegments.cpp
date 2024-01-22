@@ -1,6 +1,6 @@
 #include "signalflow/core/graph.h"
 #include "signalflow/core/random.h"
-#include "signalflow/node/buffer/grainsegments.h"
+#include "signalflow/node/buffer/granulation/grainsegments.h"
 
 namespace signalflow
 {
@@ -18,7 +18,7 @@ GrainSegments::GrainSegments(BufferRef buffer, NodeRef clock, NodeRef target, Pr
     this->set_property("values", this->values);
     this->set_property("durations", this->durations);
 
-    this->create_buffer(" buffer", buffer);
+    this->create_buffer("buffer", buffer);
 
     this->envelope = new EnvelopeBuffer();
     this->create_buffer("envelope", this->envelope);
@@ -69,7 +69,7 @@ void GrainSegments::process(Buffer &out, int num_frames)
                 int index = indices[indexindex];
                 float offset = offsets[index];     // * this->graph->get_sample_rate();
                 float duration = durations[index]; // * this->graph->get_sample_rate();
-                Grain *grain = new Grain(buffer, offset, duration, 1.0, pan);
+                Grain *grain = new Grain(buffer, offset, duration, 1.0, pan, true);
                 this->grains.push_back(grain);
             }
         }
@@ -82,23 +82,19 @@ void GrainSegments::process(Buffer &out, int num_frames)
         for (it = this->grains.begin(); it < this->grains.end();)
         {
             Grain *grain = *it;
-            if (!grain->finished())
+            if (!grain->is_finished())
             {
                 /*------------------------------------------------------------------------
                  * Obtain the correct sample from the buffer.
                  *-----------------------------------------------------------------------*/
-                int buffer_index = grain->sample_start + grain->samples_done;
-                while ((unsigned) buffer_index > this->buffer->get_num_frames())
-                    buffer_index -= this->buffer->get_num_frames();
-                sample s = this->buffer->data[0][(int) buffer_index];
+                sample s = this->buffer->data[0][(int) grain->phase];
 
                 /*------------------------------------------------------------------------
                  * Apply grain envelope.
                  *-----------------------------------------------------------------------*/
-                float env_phase = (float) (grain->samples_done) / grain->sample_length;
-                float amp = this->envelope->get(0, env_phase);
+                float amp = this->envelope->get(0, grain->get_progress());
 
-                grain->samples_done += grain->rate;
+                grain->step();
 
                 /*------------------------------------------------------------------------
                  * Calculate pan.

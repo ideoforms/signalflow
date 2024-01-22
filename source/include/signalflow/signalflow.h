@@ -80,8 +80,8 @@
 #include <signalflow/node/buffer/buffer-recorder.h>
 #include <signalflow/node/buffer/feedback-buffer-reader.h>
 #include <signalflow/node/buffer/feedback-buffer-writer.h>
-#include <signalflow/node/buffer/grainsegments.h>
-#include <signalflow/node/buffer/granulator.h>
+#include <signalflow/node/buffer/granulation/grainsegments.h>
+#include <signalflow/node/buffer/granulation/granulator.h>
 #include <signalflow/node/buffer/segment-player.h>
 
 /*------------------------------------------------------------------------
