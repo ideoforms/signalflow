@@ -34,8 +34,6 @@ Granulator::Granulator(BufferRef buffer,
 
     this->set_channels(1, 2);
     this->create_input("pan", this->pan);
-
-    this->clock_last = 0.0;
 }
 
 void Granulator::set_buffer(std::string name, BufferRef buffer)
@@ -60,13 +58,12 @@ void Granulator::process(Buffer &out, int num_frames)
     for (int frame = 0; frame < num_frames; frame++)
     {
         sample pos = this->pos->out[0][frame];
-        sample clock_value = this->clock->out[0][frame];
         sample duration = this->duration->out[0][frame];
         sample rate = this->rate->out[0][frame];
         sample pan = this->pan->out[0][frame];
         sample max_grains = this->max_grains->out[0][frame];
 
-        if (clock_value > clock_last)
+        if (SIGNALFLOW_CHECK_TRIGGER(clock, frame))
         {
             if (this->grains.size() < max_grains)
             {
@@ -79,7 +76,6 @@ void Granulator::process(Buffer &out, int num_frames)
                 this->grains.push_back(grain);
             }
         }
-        clock_last = clock_value;
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
             out[channel][frame] = 0.0;
@@ -91,14 +87,9 @@ void Granulator::process(Buffer &out, int num_frames)
             if (!grain->is_finished())
             {
                 /*------------------------------------------------------------------------
-                 * Obtain the correct sample from the buffer.
-                 * If playback is reversed, seek from the end backwards.
+                 * Step forward in the grain and apply envelope.
                  *-----------------------------------------------------------------------*/
                 grain->step();
-
-                /*------------------------------------------------------------------------
-                 * Apply grain envelope.
-                 *-----------------------------------------------------------------------*/
                 float amp = this->envelope->get(0, grain->get_progress());
 
                 /*------------------------------------------------------------------------

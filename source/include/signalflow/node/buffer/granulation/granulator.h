@@ -27,6 +27,10 @@ public:
                NodeRef max_grains = 2048,
                bool wrap = false);
 
+    virtual void process(Buffer &out, int num_frames) override;
+    virtual void set_buffer(std::string name, BufferRef buffer) override;
+
+private:
     BufferRef buffer;
     BufferRef envelope;
 
@@ -37,12 +41,7 @@ public:
     NodeRef rate;
     NodeRef max_grains;
 
-    virtual void process(Buffer &out, int num_frames) override;
-    virtual void set_buffer(std::string name, BufferRef buffer) override;
-
-private:
     bool wrap;
-    sample clock_last;
     double rate_scale_factor;
 
     std::vector<Grain *> grains;
