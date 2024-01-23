@@ -541,6 +541,9 @@ EnvelopeBuffer::EnvelopeBuffer(const std::function<float(float)> f)
     this->fill(f);
 }
 
+EnvelopeBuffer::EnvelopeBuffer(std::vector<float> samples)
+    : Buffer(samples) {}
+
 double EnvelopeBuffer::offset_to_frame(double offset)
 {
     return signalflow_scale_lin_lin(offset, 0, 1, 0, this->num_frames - 1);

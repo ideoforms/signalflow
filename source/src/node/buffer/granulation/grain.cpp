@@ -34,7 +34,10 @@ void Grain::step()
 
 double Grain::get_progress()
 {
-    return (double) this->samples_processed / this->length_samples;
+    /*------------------------------------------------------------------------
+     * Subtract 1 to ensure that the progress output is 0..1 inclusive
+     *-----------------------------------------------------------------------*/
+    return (double) this->samples_processed / (this->length_samples - 1);
 }
 
 bool Grain::is_finished()

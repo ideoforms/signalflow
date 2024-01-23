@@ -88,9 +88,12 @@ void Granulator::process(Buffer &out, int num_frames)
             {
                 /*------------------------------------------------------------------------
                  * Step forward in the grain and apply envelope.
+                 * Query the amplitude before stepping forward in the grain so that we
+                 * obtain the amplitude sample for the correct index (e.g, phase = 0
+                 * for the first sample).
                  *-----------------------------------------------------------------------*/
-                grain->step();
                 float amp = this->envelope->get(0, grain->get_progress());
+                grain->step();
 
                 /*------------------------------------------------------------------------
                  * Calculate pan.

@@ -329,6 +329,7 @@ public:
       *------------------------------------------------------------------------*/
     EnvelopeBuffer(std::string shape, int num_frames = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
     EnvelopeBuffer(const std::function<float(float)> f);
+    EnvelopeBuffer(std::vector<float> samples);
 
     /**------------------------------------------------------------------------
      * @param position An envelope position between [0, 1].

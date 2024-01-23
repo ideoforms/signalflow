@@ -98,8 +98,8 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
                 /*------------------------------------------------------------------------
                  * Step forward in the grain and apply envelope.
                  *-----------------------------------------------------------------------*/
-                grain->step();
                 float amp = this->envelope->get(0, grain->get_progress());
+                grain->step();
 
                 for (int channel = 0; channel < this->num_output_channels; channel++)
                 {
