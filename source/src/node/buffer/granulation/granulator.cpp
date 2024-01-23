@@ -32,7 +32,6 @@ Granulator::Granulator(BufferRef buffer,
     this->envelope = new EnvelopeBuffer("triangle");
     this->create_buffer("envelope", envelope);
 
-    this->set_channels(1, 2);
     this->create_input("pan", this->pan);
 }
 
@@ -40,6 +39,7 @@ void Granulator::set_buffer(std::string name, BufferRef buffer)
 {
     if (name == "buffer")
     {
+        this->set_channels(1, 2);
         this->rate_scale_factor = buffer->get_sample_rate() / graph->get_sample_rate();
     }
     this->Node::set_buffer(name, buffer);

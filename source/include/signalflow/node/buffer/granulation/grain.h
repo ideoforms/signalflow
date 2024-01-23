@@ -8,7 +8,7 @@ namespace signalflow
 class Grain
 {
 public:
-    Grain(BufferRef buffer, int phase, int length, float rate, float pan, bool wrap);
+    Grain(BufferRef buffer, int phase, int length, float rate, float pan = 0, bool wrap = false);
 
     /**--------------------------------------------------------------------------------*
      * Returns true if the grain has completed its requested duration,
