@@ -25,10 +25,11 @@ protected:
     BufferRef buffer;
     PropertyRef onsets;
 
-    /*
-     * If phase is stored as a float, rounding errors quickly accumulate for non-integer rates
-     * and cause detuning. Should investigate whether this also affects other oscillators...
-     */
+    /*--------------------------------------------------------------------------------
+     * If phase is stored as a float, rounding errors quickly accumulate for
+     * non-integer rates and cause detuning. Should investigate whether this also
+     * affects other oscillators...
+     *--------------------------------------------------------------------------------*/
     double phase;
     NodeRef index;
     NodeRef rate;
