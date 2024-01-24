@@ -11,6 +11,10 @@ def test_kdtree():
     # check that the nearest value found is sufficiently near to the target
     assert np.all(np.isclose(target, nearest.coordinate, atol=1.0))
 
+    # check that the nearest value found is the same as the brute force calculation
+    actual_nearest_index = np.argmin(np.linalg.norm(corpus - target, axis=1))
+    assert actual_nearest_index == nearest.index
+
     # check that nearest.index points to the item in the corpus identical to nearest.coordinate
     # (subject to rounding error)
     assert np.all(np.isclose(corpus[nearest.index], nearest.coordinate, atol=1e-6))
