@@ -151,6 +151,8 @@ void init_python_buffer(py::module &m)
                                                                           "Buffer encapsulating an audio envelope")
         .def(py::init<int>(), "num_frames"_a,
              R"pbdoc(Create an envelope buffer containing the given number of samples.)pbdoc")
+        .def(py::init<std::vector<float>>(), "samples"_a,
+             R"pbdoc(Create an envelope buffer containing the specified 1D array of samples.)pbdoc")
         .def(py::init<std::string>(), "shape"_a,
              R"pbdoc(Create an envelope buffer with the specified shape, one of: rectangular, triangle, hanning, linear-decay.)pbdoc")
         .def(py::init<std::string, int>(), "shape"_a, "num_frames"_a,
