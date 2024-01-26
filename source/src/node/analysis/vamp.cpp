@@ -50,10 +50,10 @@ VampAnalysis::VampAnalysis(NodeRef input, std::string plugin_id)
 
     this->plugin = loader->loadPlugin(key, this->graph->get_sample_rate(), PluginLoader::ADAPT_ALL);
 
-    if (this->plugin)
+    if (!this->plugin)
     {
         std::cerr << "WARNING: Couldn't find Vamp plugin: " << plugin_id << std::endl;
-        std::cerr << "Iinformation on finding and installing Vamp plugins: https://www.vamp-plugins.org/download.html" << std::endl;
+        std::cerr << "Information on finding and installing Vamp plugins: https://www.vamp-plugins.org/download.html" << std::endl;
     }
     else
     {
