@@ -110,6 +110,11 @@ def generate_class_bindings(cls: NodeClass):
             else:
                 output += ', "{name}"_a'.format(name=parameter.name)
         output += ')\n'
+
+    # TODO: This needs refactoring into something general-purpose!
+    if cls.name == "VampAnalysis":
+        output += '.def("list_plugins", &VampAnalysis::list_plugins, R"pbdoc(list[str]: List the available plugin names.)pbdoc")\n'
+
     output = output[:-1] + ";\n"
     return output
 

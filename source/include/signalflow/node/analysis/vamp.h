@@ -23,6 +23,7 @@ public:
     ~VampAnalysis();
 
     virtual void process(Buffer &out, int num_frames);
+    std::vector<std::string> list_plugins();
 
 protected:
     int current_frame;

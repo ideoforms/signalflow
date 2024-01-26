@@ -28,7 +28,8 @@ void init_python_nodes(py::module &m)
 #ifdef HAVE_VAMP
 
     py::class_<VampAnalysis, Node, NodeRefTemplate<VampAnalysis>>(m, "VampAnalysis", "Feature extraction using the Vamp plugin toolkit.")
-        .def(py::init<NodeRef, std::string>(), "input"_a = 0.0, "plugin_id"_a = "vamp-example-plugins:spectralcentroid:linearcentroid");
+        .def(py::init<NodeRef, std::string>(), "input"_a = 0.0, "plugin_id"_a = "vamp-example-plugins:spectralcentroid:linearcentroid")
+        .def("list_plugins", &VampAnalysis::list_plugins, R"pbdoc(list[str]: List the available plugin names.)pbdoc");
 
 #endif
 
