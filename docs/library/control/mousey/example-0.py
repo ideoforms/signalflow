@@ -2,11 +2,9 @@ from signalflow import *
 graph = AudioGraph()
 
 #-------------------------------------------------------------------------------
-# Using an Impulse node as a clock to trigger an envelope once per second.
+# Using the MouseY position to change the frequency of an oscillator.
 #-------------------------------------------------------------------------------
-clock = Impulse(1.0)
-osc = TriangleOscillator(250)
-envelope = ASREnvelope(0.01, 0.0, 0.5, 1.0, clock)
-output = osc * envelope
-output.play()
+frequency = MouseY() * 1000
+osc = TriangleOscillator(frequency)
+osc.play()
 graph.wait()
