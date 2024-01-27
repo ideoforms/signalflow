@@ -2,6 +2,7 @@
 #include "signalflow/buffer/buffer.h"
 #include "signalflow/core/constants.h"
 #include "signalflow/node/node.h"
+#include <mutex>
 
 namespace signalflow
 {
@@ -37,6 +38,7 @@ protected:
     std::vector<float> durations;
     float rate_scale_factor;
     std::vector<Grain *> grains;
+    std::mutex mutex;
 };
 
 REGISTER(SegmentedGranulator, "segmented-granulator")

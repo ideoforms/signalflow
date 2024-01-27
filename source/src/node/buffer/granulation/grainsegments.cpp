@@ -67,7 +67,7 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
         if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
         {
             int index = (int) this->index->out[0][frame];
-            if (index > this->onset_times.size())
+            if (index < 0 || index >= this->onset_times.size())
             {
                 throw std::runtime_error("Invalid segment index: " + std::to_string(index) + " (num_segments = " + std::to_string(this->onset_times.size()) + ")");
             }
@@ -78,7 +78,9 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
                                          this->onset_times[index] * buffer->get_sample_rate(),
                                          this->durations[index] * buffer->get_sample_rate(),
                                          this->rate->out[0][frame] * this->rate_scale_factor);
+                this->mutex.lock();
                 this->grains.push_back(grain);
+                this->mutex.unlock();
             }
         }
 
@@ -107,7 +109,9 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
             else
             {
                 delete grain;
+                this->mutex.lock();
                 grains.erase(it);
+                this->mutex.unlock();
             }
         }
     }
@@ -124,7 +128,7 @@ void SegmentedGranulator::trigger(std::string name, float value)
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
         int index = (int) value;
-        if (index > this->onset_times.size())
+        if (index < 0 || index >= this->onset_times.size())
         {
             throw std::runtime_error("Invalid segment index: " + std::to_string(index) + " (num_segments = " + std::to_string(this->onset_times.size()) + ")");
         }
@@ -135,7 +139,9 @@ void SegmentedGranulator::trigger(std::string name, float value)
                                      this->onset_times[index] * buffer->get_sample_rate(),
                                      this->durations[index] * buffer->get_sample_rate(),
                                      this->rate->out[0][0] * this->rate_scale_factor);
+            this->mutex.lock();
             this->grains.push_back(grain);
+            this->mutex.unlock();
         }
     }
 }
