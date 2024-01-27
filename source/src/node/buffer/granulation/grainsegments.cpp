@@ -64,24 +64,20 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
 
     for (int frame = 0; frame < num_frames; frame++)
     {
-        int index = (int) this->index->out[0][frame];
-        if (index > this->onset_times.size())
-        {
-            throw std::runtime_error("Invalid segment index: " + std::to_string(index) + " (num_segments = " + std::to_string(this->onset_times.size()) + ")");
-        }
-        sample onset_time = this->onset_times[index];
-        sample duration = this->durations[index];
-        sample rate = this->rate->out[0][frame];
-        sample max_grains = this->max_grains->out[0][frame];
-
         if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
         {
-            if (this->grains.size() < max_grains)
+            int index = (int) this->index->out[0][frame];
+            if (index > this->onset_times.size())
+            {
+                throw std::runtime_error("Invalid segment index: " + std::to_string(index) + " (num_segments = " + std::to_string(this->onset_times.size()) + ")");
+            }
+
+            if (this->grains.size() < this->max_grains->out[0][frame])
             {
                 Grain *grain = new Grain(buffer,
-                                         onset_time * buffer->get_sample_rate(),
-                                         duration * buffer->get_sample_rate(),
-                                         rate * this->rate_scale_factor);
+                                         this->onset_times[index] * buffer->get_sample_rate(),
+                                         this->durations[index] * buffer->get_sample_rate(),
+                                         this->rate->out[0][frame] * this->rate_scale_factor);
                 this->grains.push_back(grain);
             }
         }
@@ -120,20 +116,26 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
 void SegmentedGranulator::trigger(std::string name, float value)
 {
     /*--------------------------------------------------------------------------------
+     * TODO: Don't repeat this same block of code from the trigger block above
      * TODO: How to honour `value` here, if specified?
      *       Perhaps the default should be a null value, that gets ignored in favour
      *       of `index` if not specified.
      *--------------------------------------------------------------------------------*/
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        PropertyRef onsetsref = this->get_property("onsets");
-        if (onsetsref)
+        int index = (int) value;
+        if (index > this->onset_times.size())
         {
-            std::vector<float> onsets = onsetsref->float_array_value();
-            if (onsets.size() > 0)
-            {
-                // CREATE GRAIN
-            }
+            throw std::runtime_error("Invalid segment index: " + std::to_string(index) + " (num_segments = " + std::to_string(this->onset_times.size()) + ")");
+        }
+
+        if (this->grains.size() < this->max_grains->out[0][0])
+        {
+            Grain *grain = new Grain(buffer,
+                                     this->onset_times[index] * buffer->get_sample_rate(),
+                                     this->durations[index] * buffer->get_sample_rate(),
+                                     this->rate->out[0][0] * this->rate_scale_factor);
+            this->grains.push_back(grain);
         }
     }
 }
