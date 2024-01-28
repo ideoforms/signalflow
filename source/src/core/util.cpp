@@ -188,4 +188,20 @@ std::vector<int> signalflow_binary_sequence_to_vector(std::string binary)
     return binary_digits;
 }
 
+float signalflow_array_sum(float *array, size_t size)
+{
+    float sum = 0.0f;
+    for (size_t i = 0; i < size; i++)
+    {
+        sum += array[i];
+    }
+    return sum;
+}
+
+float signalflow_array_mean(float *array, size_t size)
+{
+    float sum = signalflow_array_sum(array, size);
+    return sum / size;
+}
+
 } /* namespace signalflow */
