@@ -171,6 +171,8 @@
  * FFT
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/fft/continuous-pv.h>
+#include <signalflow/node/fft/fft-contrast.h>
+#include <signalflow/node/fft/fft-flip-spectrum.h>
 #include <signalflow/node/fft/fft.h>
 #include <signalflow/node/fft/find-peaks.h>
 #include <signalflow/node/fft/ifft.h>

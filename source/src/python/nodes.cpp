@@ -109,6 +109,12 @@ void init_python_nodes(py::module &m)
 
 #endif
 
+    py::class_<FFTContrast, Node, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "contrast"_a = 1);
+
+    py::class_<FFTFlipSpectrum, Node, NodeRefTemplate<FFTFlipSpectrum>>(m, "FFTFlipSpectrum", "Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "flip"_a = 0, "rotate"_a = 0);
+
     py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT", "Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNALFLOW_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
 
