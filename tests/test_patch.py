@@ -1,5 +1,5 @@
 from signalflow import PatchSpec, Patch, Buffer, BufferPlayer
-from signalflow import Multiply, SineOscillator, ASREnvelope, SquareOscillator, Sum, Add, AzimuthPanner
+from signalflow import Multiply, SineOscillator, ASREnvelope, SquareOscillator, Sum, Add, AzimuthPanner, StereoPanner
 from . import graph
 import numpy as np
 import json
@@ -89,3 +89,27 @@ def test_patch_property_serialisation_json(graph):
     spec_new.from_json(spec_json)
     patch = Patch(spec_new)
     assert patch.output.num_output_channels == 3
+
+def test_patch_to_json(graph):
+    class TestPatch (Patch):
+        def __init__(self):
+            super().__init__()
+            sin = SineOscillator(440) * ASREnvelope()
+            stereo = StereoPanner(sin)
+            self.set_output(stereo)
+
+    patch = TestPatch()
+    spec = patch.to_spec()
+    spec_json = spec.to_json()
+    ref_json = '{"buffer_inputs": [], "inputs": [], "name": "", "nodes": [{"id": 0, "inputs": {"input": {"id": 1}, "pan": 0}, "is_output": true, "node": "stereo-panner"}, {"id": 1, "inputs": {"input0": {"id": 2}, "input1": {"id": 4}}, "node": "multiply"}, {"id": 2, "inputs": {"frequency": 440}, "node": "sine"}, {"id": 4, "inputs": {"attack": 0.1, "curve": 1, "release": 0.1, "sustain": 0.5}, "node": "asr-envelope"}]}'
+
+    #--------------------------------------------------------------------------------
+    # Can't simply compare the to_json output to the ref_json, as ordering of objects
+    # is not necessarily preserved (because json11 internally represents an object as
+    # a std::pair which can't guarantee order). At some point, it would be nice to
+    # switch to a json library that can preserve order, so that node IDs are
+    # sequenced correctly. For now, make the test permissive.
+    #--------------------------------------------------------------------------------
+    spec_json_deserialised = json.loads(spec_json)
+    ref_json_deserialised = json.loads(ref_json)
+    assert spec_json_deserialised == ref_json_deserialised

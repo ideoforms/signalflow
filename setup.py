@@ -49,7 +49,12 @@ class CMakeBuild(build_ext):
             shutil.copy(os.path.join(self.build_temp, cfg, libname), "auxiliary/libs/signalflow")
 
 
-signalflow_packages = ['signalflow_midi', 'signalflow-stubs', 'signalflow_examples']
+signalflow_packages = [
+    'signalflow-stubs',
+    'signalflow_midi',
+    'signalflow_examples',
+    'signalflow_visualisation'
+]
 signalflow_package_data = []
 if sys.platform == 'win32':
     # --------------------------------------------------------------------------------

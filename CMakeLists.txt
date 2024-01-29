@@ -9,14 +9,19 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Develop)
 endif()
 
-#-------------------------------------------------------------------------------
-# By default, build arm64 on Apple.
-#-------------------------------------------------------------------------------
-if (NOT CMAKE_OSX_ARCHITECTURES)
-    set(CMAKE_OSX_ARCHITECTURES "arm64")
-endif()
-
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+    #-------------------------------------------------------------------------------
+    # On Apple, build the current native system by default
+    #-------------------------------------------------------------------------------
+    if (NOT CMAKE_OSX_ARCHITECTURES)
+        execute_process(COMMAND uname -m
+        OUTPUT_VARIABLE CMAKE_OSX_ARCHITECTURES
+        OUTPUT_STRIP_TRAILING_WHITESPACE)
+    endif()
+
+    #-------------------------------------------------------------------------------
+    # Select the appropriate homebrew prefix by architecture
+    #-------------------------------------------------------------------------------
     if (CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
         set(CMAKE_PREFIX_PATH /opt/homebrew)
     else()

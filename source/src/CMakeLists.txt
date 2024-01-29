@@ -5,6 +5,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/core/config.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/core.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/graph-monitor.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/core/kdtree.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/random.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/renderer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/util.cpp
@@ -108,10 +109,11 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-looper.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/feedback-buffer-reader.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/feedback-buffer-writer.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/grainsegments.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/segment-player.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/beat-cutter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulation/grainsegments.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulation/granulator.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulation/grain.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/flipflop.cpp
@@ -122,6 +124,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/euclidean.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/vamp.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/cross-correlate.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/nearest-neighbour.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/onset-detector.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp

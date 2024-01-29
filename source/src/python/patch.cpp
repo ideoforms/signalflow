@@ -9,7 +9,7 @@ void init_python_patch(py::module &m)
         /*--------------------------------------------------------------------------------
          * Constructors
          *-------------------------------------------------------------------------------*/
-        .def(py::init<PatchSpecRef, std::unordered_map<std::string, NodeRef>>())
+        .def(py::init<PatchSpecRef, std::map<std::string, NodeRef>>())
         .def(py::init<PatchSpecRef>())
         .def(py::init<>())
 

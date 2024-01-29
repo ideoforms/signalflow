@@ -89,6 +89,8 @@ public:
      *
      *------------------------------------------------------------------------*/
     Buffer(const std::function<float(float)> f);
+    Buffer(int num_frames, const std::function<float(float)> f);
+    Buffer(int num_channels, int num_frames, const std::function<float(float)> f);
 
     /**------------------------------------------------------------------------
       * Destroy the buffer.
@@ -327,6 +329,7 @@ public:
       *------------------------------------------------------------------------*/
     EnvelopeBuffer(std::string shape, int num_frames = SIGNALFLOW_DEFAULT_ENVELOPE_BUFFER_LENGTH);
     EnvelopeBuffer(const std::function<float(float)> f);
+    EnvelopeBuffer(std::vector<float> samples);
 
     /**------------------------------------------------------------------------
      * @param position An envelope position between [0, 1].
@@ -369,6 +372,9 @@ public:
     BufferRefTemplate(T *ptr)
         : std::shared_ptr<T>(ptr) {}
     BufferRefTemplate operator*(double constant);
+    BufferRefTemplate operator/(double constant);
+    BufferRefTemplate operator+(double constant);
+    BufferRefTemplate operator-(double constant);
 };
 
 }

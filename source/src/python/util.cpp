@@ -28,4 +28,13 @@ void init_python_util(py::module &m)
         "random_uniform", [](float from, float to) { return random_uniform(from, to); }, R"pbdoc(Return a uniformly random number)pbdoc");
     m.def(
         "random_exponential", [](float from, float to) { return random_exponential(from, to); }, R"pbdoc(Return a random number, exponentially distributed across a fixed range)pbdoc");
+
+    py::class_<KDTree>(m, "KDTree", "A KDTree structure")
+        .def(py::init<std::vector<std::vector<float>>>(), "data"_a = nullptr)
+        .def("get_nearest", &KDTree::get_nearest, "target"_a);
+
+    py::class_<KDTreeMatch>(m, "KDTreeMatch", "A KDTreeMatch result")
+        .def_property_readonly("index", &KDTreeMatch::get_index, R"pbdoc(The index)pbdoc")
+        .def_property_readonly("coordinate", &KDTreeMatch::get_coordinate, R"pbdoc(The coordinate)pbdoc")
+        .def_property_readonly("distance", &KDTreeMatch::get_distance, R"pbdoc(The distance)pbdoc");
 }

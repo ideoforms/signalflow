@@ -124,10 +124,40 @@ output.play()
 The third type of input supported by nodes is the [buffer](../buffer/index.md). Nodes often take buffer inputs as sources of audio samples. They are also useful as sources of envelope shape data (for example, to shape the grains of a Granulator), or general control data (for example, recording motion patterns from a `MouseX` input).
 
 ```python
-buffer = Buffer("../audio/stereo-count.wav")
+buffer = Buffer("audio/stereo-count.wav")
 player = BufferPlayer(buffer, loop=True)
 ```
 
+A buffer input cannot be set using the [same property shorthand as audio-rate inputs](#audio-rate-inputs); instead, the `set_buffer` method should be used. 
+
+```python
+new_buffer = Buffer("audio/example.wav")
+player.set_buffer("buffer", new_buffer)
+```
+
+_TODO: Should this be `set_input` for consistency with Patch?_
+
+## Enumerating a node's inputs
+
+To list the potential and actual inputs of a node, the `.inputs` property returns a `dict` of key-value pairs:
+
+```python
+>>> player.inputs
+{
+    'clock': <signalflow.Impulse at 0x107778eb0>,
+    'end_time': None,
+    'loop': <signalflow.Constant at 0x12a4cd4b0>,
+    'rate': <signalflow.Constant at 0x12a4cd330>,
+    'start_time': None
+}
+```
+
+Any constant-valued inputs are wrapped inside a special `Constant` node class. The value contained by a `Constant` can be accessed with its `.value` property.
+
+```python
+>>> player.inputs["rate"].value
+1.0
+```
 ---
 
 [→ Next: Operators](operators.md)

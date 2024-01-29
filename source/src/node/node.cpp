@@ -66,6 +66,10 @@ Node::Node()
 
 Node::~Node()
 {
+    if (this->monitor)
+    {
+        this->monitor->stop();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -287,7 +291,7 @@ void Node::set_state(signalflow_node_state_t state)
 // Inputs and outputs
 ////////////////////////////////////////////////////////////////////////////////
 
-std::unordered_map<std::string, NodeRef *> Node::get_inputs()
+std::map<std::string, NodeRef *> Node::get_inputs()
 {
     return this->inputs;
 }
@@ -297,12 +301,12 @@ std::set<std::pair<Node *, std::string>> Node::get_outputs()
     return this->outputs;
 }
 
-std::unordered_map<std::string, PropertyRef *> Node::get_properties()
+std::map<std::string, PropertyRef *> Node::get_properties()
 {
     return this->properties;
 }
 
-std::unordered_map<std::string, BufferRef *> Node::get_buffers()
+std::map<std::string, BufferRef *> Node::get_buffers()
 {
     return this->buffers;
 }

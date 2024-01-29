@@ -21,7 +21,7 @@ public:
      * @param label The label to use when printing the output
      * @param frequency How often to print, in seconds
      *-----------------------------------------------------------------------*/
-    NodeMonitor(NodeRef node, std::string label, float frequency);
+    NodeMonitor(Node *node, std::string label, float frequency);
 
     /**------------------------------------------------------------------------
      * Start monitoring.
@@ -37,7 +37,7 @@ public:
 
 private:
     void run_thread();
-    NodeRef node;
+    Node *node;
     float frequency;
     bool running;
     std::string label;

@@ -175,7 +175,7 @@ void init_python_node(py::module &m)
         .def("set_value", &Node::set_value, "value"_a, R"pbdoc(Set the node's current value. Only applicable to Constant nodes.)pbdoc")
         .def_property_readonly(
             "inputs", [](Node &node) {
-                std::unordered_map<std::string, NodeRef> inputs(node.get_inputs().size());
+                std::map<std::string, NodeRef> inputs;
                 for (auto input : node.get_inputs())
                 {
                     inputs[input.first] = *(input.second);
@@ -215,7 +215,7 @@ void init_python_node(py::module &m)
         /*--------------------------------------------------------------------------------
          * Methods
          *-------------------------------------------------------------------------------*/
-        .def("set_buffer", &Node::set_buffer, "string"_a, "buffer"_a, R"pbdoc(The length of the node's output buffer, in frames)pbdoc")
+        .def("set_buffer", &Node::set_buffer, "string"_a, "buffer"_a, R"pbdoc(Set the value of a node's buffer input)pbdoc")
         .def(
             "poll", [](Node &node) { node.poll(); }, R"pbdoc(Print the node's last output value, once per second)pbdoc")
         .def(
@@ -263,7 +263,7 @@ void init_python_node(py::module &m)
             "process", [](Node &node, Buffer &buffer) {
                 if ((unsigned int) node.get_num_output_channels() != buffer.get_num_channels())
                 {
-                    throw std::runtime_error("Buffer and Node output channels don't match");
+                    throw std::runtime_error("Buffer and Node output channels don't match (buffer num_channels = " + std::to_string(buffer.get_num_channels()) + ", node num_output_channels = " + std::to_string(node.get_num_output_channels()) + ")");
                 }
                 node.process(buffer, buffer.get_num_frames());
                 node.last_num_frames = buffer.get_num_frames();

@@ -3,7 +3,7 @@
 namespace signalflow
 {
 
-NodeMonitor::NodeMonitor(NodeRef node, std::string label, float frequency)
+NodeMonitor::NodeMonitor(Node *node, std::string label, float frequency)
     : node(node), frequency(frequency), label(label)
 {
     if (label == "")

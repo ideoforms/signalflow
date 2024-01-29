@@ -42,11 +42,13 @@ class NodeClass:
 
 
 node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
-omitted_classes = ["VampAnalysis", "GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
+omitted_classes = ["GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
+vamp_only_classes = ["VampAnalysis"]
 known_parent_classes = ["Node", "StochasticNode"]
 documentation_omit_folders = ["io"]
+documentation_omit_classes = ["Constant"]
 
 bindings_output_path = "source/src/python/nodes.cpp"
 
@@ -108,6 +110,11 @@ def generate_class_bindings(cls: NodeClass):
             else:
                 output += ', "{name}"_a'.format(name=parameter.name)
         output += ')\n'
+
+    # TODO: This needs refactoring into something general-purpose!
+    if cls.name == "VampAnalysis":
+        output += '.def("list_plugins", &VampAnalysis::list_plugins, R"pbdoc(list[str]: List the available plugin names.)pbdoc")\n'
+
     output = output[:-1] + ";\n"
     return output
 
@@ -247,11 +254,15 @@ def generate_bindings(node_classes) -> None:
         for cls in classes:
             if cls.name in macos_only_classes:
                 output += "#ifdef __APPLE__\n\n"
+            if cls.name in vamp_only_classes:
+                output += "#ifdef HAVE_VAMP\n\n"
 
             output += generate_class_bindings(cls)
             output = output.strip()
             output += "\n\n"
             if cls.name in macos_only_classes:
+                output += "#endif\n\n"
+            if cls.name in vamp_only_classes:
                 output += "#endif\n\n"
 
     output = re.sub("\n", "\n    ", output)
@@ -291,6 +302,8 @@ def generate_node_library_index(node_classes) -> str:
         output_markdown += "\n## " + folder_title + "\n\n"
         for cls in classes:
             if cls.name in node_superclasses:
+                continue
+            if cls.name in documentation_omit_classes:
                 continue
             if cls.constructors:
                 cls_folder = os.path.join(folder, cls.identifier)
@@ -344,12 +357,16 @@ def generate_node_library(node_classes):
             for cls in classes:
                 if cls.name in node_superclasses:
                     continue
+                if cls.name in documentation_omit_classes:
+                    continue
 
                 if cls.constructors:
                     fd.write("- **[%s](%s/index.md)**: %s\n" % (cls.name, cls.identifier, cls.docs))
 
         for cls in classes:
             if cls.name in node_superclasses:
+                continue
+            if cls.name in documentation_omit_classes:
                 continue
 
             if cls.constructors:
@@ -378,11 +395,16 @@ def generate_node_library(node_classes):
                     if len(example_scripts):
                         fd.write(f"### Examples\n\n")
                         for example_script in example_scripts:
+                            #--------------------------------------------------------------------------------
+                            # For each example script:
+                            #  - read the code
+                            #  - strip any leading boilerplate (up till the creation of the AudioGraph)
+                            #  - strip any trailing boilerplate (graph.wait())
+                            #--------------------------------------------------------------------------------
                             example_code = open(example_script, "r").read()
                             example_code = re.sub(r".*graph = AudioGraph\(\)\n", "", example_code, flags=re.DOTALL)
                             example_code = re.sub(r"graph.wait\(\).*", "", example_code, flags=re.DOTALL)
                             fd.write(f"```python\n")
-                            # fd.write('{%% include-markdown "./%s" comments=false %%}\n' % example_script)
                             fd.write(example_code)
                             fd.write(f"\n```\n\n")
 
@@ -404,7 +426,13 @@ def generate_readme(node_classes) -> None:
             continue
 
         category_text = folder_name_to_title(folder)
-        table += "| **%s** | %s |\n" % (category_text, ", ".join([cls.name for cls in classes]))
+        class_links = []
+        for cls in classes:
+            library_url_root = "https://signalflow.dev/library"
+            library_url = os.path.join(library_url_root, folder, cls.name.lower() + "/")
+            class_link = "[%s](%s)" % (cls.name, library_url)
+            class_links.append(class_link)
+        table += "| **%s** | %s |\n" % (category_text, ", ".join(class_links))
     table += "\n"
 
     readme_path = "README.md"
@@ -439,7 +467,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("-b", "--bindings", help="Generate Python bindings", action="store_true")
     parser.add_argument("-l", "--library", help="Generate node library", action="store_true")
-    parser.add_argument("-t", "--readme", help="Generate README", action="store_true")
+    parser.add_argument("-r", "--readme", help="Generate README", action="store_true")
     parser.add_argument("-a", "--all", help="Generate all", action="store_true")
     args = parser.parse_args()
     if args.all:

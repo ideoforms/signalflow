@@ -39,6 +39,17 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool
     {
         this->output = new AudioOut_Dummy();
     }
+    else if (output_device == "")
+    {
+        this->output = new AudioOut(this->config.get_output_backend_name(),
+                                    this->config.get_output_device_name(),
+                                    this->config.get_sample_rate(),
+                                    this->config.get_output_buffer_size());
+        if (!this->output)
+        {
+            throw std::runtime_error("AudioGraph: Couldn't find audio output device");
+        }
+    }
     else
     {
         throw std::runtime_error("AudioGraph: Invalid output device name: " + output_device);
@@ -139,6 +150,10 @@ void AudioGraph::clear()
     for (auto input : inputs)
     {
         this->nodes_to_remove.insert(input);
+    }
+    for (auto node : this->scheduled_nodes)
+    {
+        this->scheduled_nodes_to_remove.insert(node);
     }
 
     patches.clear();
@@ -287,6 +302,11 @@ void AudioGraph::reset_graph()
      *--------------------------------------------------------------------------------*/
     for (auto node : nodes_to_remove)
     {
+        /*--------------------------------------------------------------------------------
+         * Stop any monitoring running on the node.
+         *--------------------------------------------------------------------------------*/
+        node->poll(0);
+
         while (node->outputs.size() > 0)
         {
             auto output = *(node->outputs.begin());
@@ -323,6 +343,12 @@ void AudioGraph::reset_graph()
         }
     }
     nodes_to_remove.clear();
+
+    for (auto node : this->scheduled_nodes_to_remove)
+    {
+        node->poll(0);
+        this->scheduled_nodes.erase(node);
+    }
 
     /*------------------------------------------------------------------------
      * Avoid segfaults if another thread modifies patches_to_remove
@@ -486,7 +512,10 @@ NodeRef AudioGraph::add_node(NodeRef node)
     return node;
 }
 
-void AudioGraph::remove_node(NodeRef node) { this->scheduled_nodes.erase(node); }
+void AudioGraph::remove_node(NodeRef node)
+{
+    this->scheduled_nodes.erase(node);
+}
 
 void AudioGraph::add_patch(PatchRef patch)
 {

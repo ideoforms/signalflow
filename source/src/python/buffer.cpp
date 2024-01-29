@@ -24,7 +24,11 @@ void init_python_buffer(py::module &m)
              R"pbdoc(Allocate a buffer containing the floating-point samples in `data`.)pbdoc")
 
         .def(py::init<const std::function<float(float)>>(), "function"_a,
-             R"pbdoc(Allocate a buffer filled with the output of a given function.)pbdoc")
+             R"pbdoc(Allocate a buffer filled with the output of the function `function`.)pbdoc")
+        .def(py::init<int, const std::function<float(float)>>(), "num_frames"_a, "function"_a,
+             R"pbdoc(Allocate a mono buffer with `num_frames` frames, filled with the output of the function `function`.)pbdoc")
+        .def(py::init<int, int, const std::function<float(float)>>(), "num_channels"_a, "num_frames"_a, "function"_a,
+             R"pbdoc(Allocate a buffer with `num_channels` channels and `num_frames` frames, filled with the output of the function `function`.)pbdoc")
 
         /*--------------------------------------------------------------------------------
          * Operators
@@ -56,10 +60,22 @@ void init_python_buffer(py::module &m)
              })
         .def(
             "__mul__", [](BufferRef a, float b) { return a * b; }, "value"_a,
-            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
+            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by `value`.)pbdoc")
         .def(
             "__rmul__", [](BufferRef a, float b) { return a * b; }, "value_"_a,
-            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.)pbdoc")
+            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by `value`.)pbdoc")
+        .def(
+            "__div__", [](BufferRef a, float b) { return a / b; }, "value"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` divided by `value`.)pbdoc")
+        .def(
+            "__add__", [](BufferRef a, float b) { return a + b; }, "value"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` added to `value`.)pbdoc")
+        .def(
+            "__radd__", [](BufferRef a, float b) { return a + b; }, "value_"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` added to `value`.)pbdoc")
+        .def(
+            "__sub__", [](BufferRef a, float b) { return a - b; }, "value"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` subtracted by `value`.)pbdoc")
         .def(
             "__len__", [](Buffer &buf) { return buf.get_num_frames(); },
             R"pbdoc(Returns the length of the buffer `self`, in frames.)pbdoc")
@@ -106,6 +122,7 @@ void init_python_buffer(py::module &m)
          *-------------------------------------------------------------------------------*/
         .def("get", &Buffer::get, "channel"_a, "frame"_a)
         .def("get_frame", &Buffer::get_frame, "channel"_a, "frame"_a)
+        .def("set", &Buffer::set, "channel"_a, "frame"_a, "value"_a)
         .def(
             "fill", [](Buffer &buf, float sample) { buf.fill(sample); }, "sample"_a)
         .def(
@@ -134,6 +151,8 @@ void init_python_buffer(py::module &m)
                                                                           "Buffer encapsulating an audio envelope")
         .def(py::init<int>(), "num_frames"_a,
              R"pbdoc(Create an envelope buffer containing the given number of samples.)pbdoc")
+        .def(py::init<std::vector<float>>(), "samples"_a,
+             R"pbdoc(Create an envelope buffer containing the specified 1D array of samples.)pbdoc")
         .def(py::init<std::string>(), "shape"_a,
              R"pbdoc(Create an envelope buffer with the specified shape, one of: rectangular, triangle, hanning, linear-decay.)pbdoc")
         .def(py::init<std::string, int>(), "shape"_a, "num_frames"_a,

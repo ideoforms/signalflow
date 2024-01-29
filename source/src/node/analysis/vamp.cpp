@@ -12,6 +12,13 @@ using Vamp::HostExt::PluginLoader;
 namespace signalflow
 {
 
+std::vector<std::string> VampAnalysis::list_plugins()
+{
+    PluginLoader *loader = PluginLoader::getInstance();
+    std::vector<std::string> plugins = loader->listPlugins();
+    return plugins;
+}
+
 VampAnalysis::VampAnalysis(NodeRef input, std::string plugin_id)
     : UnaryOpNode(input)
 {
@@ -43,26 +50,36 @@ VampAnalysis::VampAnalysis(NodeRef input, std::string plugin_id)
 
     this->plugin = loader->loadPlugin(key, this->graph->get_sample_rate(), PluginLoader::ADAPT_ALL);
 
-    if (!this->plugin)
-        throw std::runtime_error("Failed to load Vamp plugin: " + plugin_id);
-
-    /*------------------------------------------------------------------------
-     * Get required output index.
-     *-----------------------------------------------------------------------*/
-    Plugin::OutputList outputs = this->plugin->getOutputDescriptors();
-    this->output_index = -1;
-
-    for (unsigned int oi = 0; oi < outputs.size(); oi++)
+    if (this->plugin)
     {
-        if (outputs[oi].identifier == vamp_plugin_output)
+        std::cerr << "WARNING: Couldn't find Vamp plugin: " << plugin_id << std::endl;
+        std::cerr << "Iinformation on finding and installing Vamp plugins: https://www.vamp-plugins.org/download.html" << std::endl;
+    }
+    else
+    {
+        /*------------------------------------------------------------------------
+         * Get required output index.
+         *-----------------------------------------------------------------------*/
+        Plugin::OutputList outputs = this->plugin->getOutputDescriptors();
+        this->output_index = -1;
+
+        for (unsigned int oi = 0; oi < outputs.size(); oi++)
         {
-            this->output_index = oi;
-            break;
+            if (outputs[oi].identifier == vamp_plugin_output)
+            {
+                this->output_index = oi;
+                break;
+            }
+        }
+
+        signalflow_debug("Loaded plugin (output index %d)", this->output_index);
+        bool rv = this->plugin->initialise(1, graph->get_output_buffer_size(), graph->get_output_buffer_size());
+        // bool rv = this->plugin->initialise(1, 1024, 1024);
+        if (!rv)
+        {
+            printf("WARNING: Vamp initialisation reported failure\n");
         }
     }
-
-    signalflow_debug("Loaded plugin (output index %d)", this->output_index);
-    this->plugin->initialise(1, graph->get_output_buffer_size(), graph->get_output_buffer_size());
 }
 
 VampAnalysis::~VampAnalysis()
@@ -72,6 +89,11 @@ VampAnalysis::~VampAnalysis()
 
 void VampAnalysis::process(Buffer &out, int num_frames)
 {
+    if (!this->plugin)
+    {
+        return;
+    }
+
     RealTime rt = RealTime::frame2RealTime(this->current_frame, this->graph->get_sample_rate());
     Plugin::FeatureSet features = this->plugin->process(this->input->out.data, rt);
     if (features[this->output_index].size())
@@ -99,6 +121,10 @@ void VampAnalysis::process(Buffer &out, int num_frames)
                 memset(out[channel], 0, num_frames * sizeof(sample));
             }
         }
+    }
+    else
+    {
+        // no features extracted
     }
 }
 

@@ -19,8 +19,19 @@ void init_python_nodes(py::module &m)
     py::class_<CrossCorrelate, Node, NodeRefTemplate<CrossCorrelate>>(m, "CrossCorrelate", "Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.")
         .def(py::init<NodeRef, BufferRef, int>(), "input"_a = nullptr, "buffer"_a = nullptr, "hop_size"_a = 0);
 
+    py::class_<NearestNeighbour, Node, NodeRefTemplate<NearestNeighbour>>(m, "NearestNeighbour", "Nearest Neighbour.")
+        .def(py::init<BufferRef, NodeRef>(), "buffer"_a = nullptr, "target"_a = 0.0);
+
     py::class_<OnsetDetector, Node, NodeRefTemplate<OnsetDetector>>(m, "OnsetDetector", "Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 2.0, "min_interval"_a = 0.1);
+
+#ifdef HAVE_VAMP
+
+    py::class_<VampAnalysis, Node, NodeRefTemplate<VampAnalysis>>(m, "VampAnalysis", "Feature extraction using the Vamp plugin toolkit.")
+        .def(py::init<NodeRef, std::string>(), "input"_a = 0.0, "plugin_id"_a = "vamp-example-plugins:spectralcentroid:linearcentroid")
+        .def("list_plugins", &VampAnalysis::list_plugins, R"pbdoc(list[str]: List the available plugin names.)pbdoc");
+
+#endif
 
     py::class_<BeatCutter, Node, NodeRefTemplate<BeatCutter>>(m, "BeatCutter", "Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.")
         .def(py::init<BufferRef, int, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "segment_count"_a = 8, "stutter_probability"_a = 0.0, "stutter_count"_a = 1, "jump_probability"_a = 0.0, "duty_cycle"_a = 1.0, "rate"_a = 1.0, "segment_rate"_a = 1.0);
@@ -40,11 +51,14 @@ void init_python_nodes(py::module &m)
     py::class_<FeedbackBufferWriter, Node, NodeRefTemplate<FeedbackBufferWriter>>(m, "FeedbackBufferWriter", "Counterpart to FeedbackBufferReader.")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "input"_a = 0.0, "delay_time"_a = 0.1);
 
-    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator", "Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048);
-
     py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer", "Trigger segments of a buffer at the given onset positions.")
-        .def(py::init<BufferRef, std::vector<float>, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onsets"_a = 0, "index"_a = nullptr, "rate"_a = 1.0);
+        .def(py::init<BufferRef, std::vector<float>, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onsets"_a = 0, "index"_a = nullptr, "rate"_a = 1.0, "clock"_a = nullptr);
+
+    py::class_<SegmentedGranulator, Node, NodeRefTemplate<SegmentedGranulator>>(m, "SegmentedGranulator", "Segmented Granulator.")
+        .def(py::init<BufferRef, std::vector<float>, std::vector<float>, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onset_times"_a = 0, "durations"_a = 0, "index"_a = 0.0, "rate"_a = 1.0, "clock"_a = 0, "max_grains"_a = 2048);
+
+    py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator", "Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo. If `wrap` is true, grain playback can wrap around the end/start of the buffer.")
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, bool>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048, "wrap"_a = false);
 
 #ifdef __APPLE__
 

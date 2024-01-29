@@ -79,8 +79,14 @@ Buffer::Buffer(std::string filename)
     this->load(filename);
 }
 
+Buffer::Buffer(int num_channels, int num_frames, const std::function<float(float)> f)
+    : Buffer(num_channels, num_frames) { this->fill(f); }
+
+Buffer::Buffer(int num_frames, const std::function<float(float)> f)
+    : Buffer(1, num_frames, f) {}
+
 Buffer::Buffer(const std::function<float(float)> f)
-    : Buffer(1, 1024) { this->fill(f); }
+    : Buffer(1, 1024, f) {}
 
 Buffer::~Buffer()
 {
@@ -238,7 +244,24 @@ void Buffer::save(std::string filename)
     info.frames = this->num_frames;
     info.channels = this->num_channels;
     info.samplerate = (int) this->sample_rate;
-    info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
+    info.format = SF_FORMAT_PCM_16;
+    if (filename.substr(filename.length() - 4, filename.length()) == ".wav")
+    {
+        info.format |= SF_FORMAT_WAV;
+    }
+    else if (filename.substr(filename.length() - 5, filename.length()) == ".flac")
+    {
+        info.format |= SF_FORMAT_FLAC;
+    }
+    else if (filename.substr(filename.length() - 4, filename.length()) == ".aif")
+    {
+        info.format |= SF_FORMAT_AIFF;
+    }
+    else
+    {
+        throw std::runtime_error(std::string("Cannot write output file format: " + filename));
+    }
+
     SNDFILE *sndfile = sf_open(filename.c_str(), SFM_WRITE, &info);
 
     if (!sndfile)
@@ -398,11 +421,14 @@ sample **Buffer::get_data() { return this->data; }
 
 sample *&Buffer::operator[](int index) { return this->data[index]; }
 
+/*-------------------------------------------------------------------------
+ * Operators
+ *-----------------------------------------------------------------------*/
+
 template <class T>
 BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
 {
     Buffer *buffer = (Buffer *) this->get();
-
     std::vector<std::vector<sample>> output(buffer->get_num_channels());
     for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
     {
@@ -410,6 +436,54 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator*(double constant)
         for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
         {
             output[channel][frame] = buffer->data[channel][frame] * constant;
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator/(double constant)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] / constant;
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator+(double constant)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] + constant;
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator-(double constant)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] - constant;
         }
     }
     return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
@@ -467,6 +541,9 @@ EnvelopeBuffer::EnvelopeBuffer(const std::function<float(float)> f)
     this->fill(f);
 }
 
+EnvelopeBuffer::EnvelopeBuffer(std::vector<float> samples)
+    : Buffer(samples) {}
+
 double EnvelopeBuffer::offset_to_frame(double offset)
 {
     return signalflow_scale_lin_lin(offset, 0, 1, 0, this->num_frames - 1);
@@ -505,7 +582,7 @@ double WaveShaperBuffer::frame_to_offset(double frame)
 std::vector<float> Buffer::get_frame_offsets()
 {
     std::vector<float> offsets(this->num_frames);
-    for (auto i = 0; i < this->num_frames; i++)
+    for (unsigned long i = 0; i < this->num_frames; i++)
     {
         offsets[i] = this->frame_to_offset(i);
     }

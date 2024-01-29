@@ -6,6 +6,7 @@
 #include <signalflow/core/core.h>
 #include <signalflow/core/exceptions.h>
 #include <signalflow/core/graph.h>
+#include <signalflow/core/kdtree.h>
 #include <signalflow/core/property.h>
 #include <signalflow/core/random.h>
 #include <signalflow/core/util.h>
@@ -79,8 +80,8 @@
 #include <signalflow/node/buffer/buffer-recorder.h>
 #include <signalflow/node/buffer/feedback-buffer-reader.h>
 #include <signalflow/node/buffer/feedback-buffer-writer.h>
-#include <signalflow/node/buffer/grainsegments.h>
-#include <signalflow/node/buffer/granulator.h>
+#include <signalflow/node/buffer/granulation/grainsegments.h>
+#include <signalflow/node/buffer/granulation/granulator.h>
 #include <signalflow/node/buffer/segment-player.h>
 
 /*------------------------------------------------------------------------
@@ -157,6 +158,7 @@
  * Analysis and MIR
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/analysis/cross-correlate.h>
+#include <signalflow/node/analysis/nearest-neighbour.h>
 #include <signalflow/node/analysis/onset-detector.h>
 #include <signalflow/node/analysis/vamp.h>
 

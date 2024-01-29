@@ -192,9 +192,11 @@ std::string PatchSpec::to_json()
     std::vector<Json::object> patch_inputs;
     std::vector<Json::object> patch_buffer_inputs;
 
-    for (auto pair : nodespecs)
+    // Iterate over node pairs, ordered by node ID
+    int nodespec_count = nodespecs.size();
+    for (auto nodespec_index = 0; nodespec_index < nodespec_count; nodespec_index++)
     {
-        PatchNodeSpec *spec = pair.second;
+        PatchNodeSpec *spec = nodespecs[nodespec_index];
         Json::object inputs;
         Json::object properties;
 
@@ -281,8 +283,6 @@ std::string PatchSpec::to_json()
 
         nodes.push_back(object);
     }
-
-    std::reverse(nodes.begin(), nodes.end());
 
     Json::object root;
     root["name"] = this->name;

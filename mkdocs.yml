@@ -103,10 +103,16 @@ nav:
      - Inputs: patch/inputs.md
      - Operators: patch/operators.md
      - Properties: patch/properties.md
-     - Exporting and importing patches: patch/exporting.md
+     - Exporting and importing: patch/exporting.md
      - Auto-free and memory management: patch/auto-free.md
    - Buffers:
      - Buffers: buffer/index.md
+     - Creating and loading: buffer/creating.md
+     - Saving and exporting: buffer/exporting.md
+     - Passing to a node or patch: buffer/input.md
+     - Accessing a buffer's contents: buffer/access.md
+     - Operators: buffer/operators.md
+     - Properties: buffer/properties.md
  - Reference library:
    - "Reference library": library/index.md
    - "Analysis": library/analysis/index.md

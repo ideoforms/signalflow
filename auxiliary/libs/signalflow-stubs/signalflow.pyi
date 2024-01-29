@@ -9,8 +9,7 @@
 from __future__ import annotations
 import numpy
 import typing
-import typing_extensions
-__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTContinuousPhaseVocoder', 'FFTConvolve', 'FFTFindPeaks', 'FFTLPF', 'FFTPhaseVocoder', 'FFTTonality', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InvalidChannelCountException', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TriangleLFO', 'TriangleOscillator', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
+__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTContinuousPhaseVocoder', 'FFTConvolve', 'FFTFindPeaks', 'FFTLPF', 'FFTNoiseGate', 'FFTPhaseVocoder', 'FFTTonality', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InvalidChannelCountException', 'KDTree', 'KDTreeMatch', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'NearestNeighbour', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'SegmentedGranulator', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TriangleLFO', 'TriangleOscillator', 'VampAnalysis', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
 class ADSREnvelope(Node):
     """
     Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
@@ -296,72 +295,100 @@ class Buffer:
     """
     A buffer of audio samples, containing one or more channels.
     """
-    def __getitem__(self, arg0: int) -> typing_extensions.Buffer:
+    def __add__(self: typing_extensions.Buffer, value: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` added to `value`.
+        """
+    def __div__(self: typing_extensions.Buffer, value: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` divided by `value`.
+        """
+    def __getitem__(self: typing_extensions.Buffer, arg0: int) -> typing_extensions.Buffer:
         ...
     @typing.overload
-    def __init__(self) -> None:
+    def __init__(self: typing_extensions.Buffer) -> None:
         """
         Create a null Buffer with no memory allocated.
         """
     @typing.overload
-    def __init__(self, filename: str) -> None:
+    def __init__(self: typing_extensions.Buffer, filename: str) -> None:
         """
         Load a Buffer from an audio file.
         """
     @typing.overload
-    def __init__(self, num_channels: int, num_frames: int) -> None:
+    def __init__(self: typing_extensions.Buffer, num_channels: int, num_frames: int) -> None:
         """
         Allocate a buffer with `num_channels` channels and `num_frames` frames.
         """
     @typing.overload
-    def __init__(self, num_channels: int, num_frames: int, data: list[list[float]]) -> None:
+    def __init__(self: typing_extensions.Buffer, num_channels: int, num_frames: int, data: list[list[float]]) -> None:
         """
         Allocate a buffer with `num_channels` channels and `num_frames` frames, containing the floating-point samples in `data`.
         """
     @typing.overload
-    def __init__(self, arg0: list[list[float]]) -> None:
+    def __init__(self: typing_extensions.Buffer, arg0: list[list[float]]) -> None:
         """
         Allocate a buffer with `num_channels` channels and `num_frames` frames, containing the floating-point samples in `data`.
         """
     @typing.overload
-    def __init__(self, data: list[float]) -> None:
+    def __init__(self: typing_extensions.Buffer, data: list[float]) -> None:
         """
         Allocate a buffer containing the floating-point samples in `data`.
         """
     @typing.overload
-    def __init__(self, function: typing.Callable[[float], float]) -> None:
+    def __init__(self: typing_extensions.Buffer, function: typing.Callable[[float], float]) -> None:
         """
-        Allocate a buffer filled with the output of a given function.
+        Allocate a buffer filled with the output of the function `function`.
         """
-    def __len__(self) -> int:
+    @typing.overload
+    def __init__(self: typing_extensions.Buffer, num_frames: int, function: typing.Callable[[float], float]) -> None:
+        """
+        Allocate a mono buffer with `num_frames` frames, filled with the output of the function `function`.
+        """
+    @typing.overload
+    def __init__(self: typing_extensions.Buffer, num_channels: int, num_frames: int, function: typing.Callable[[float], float]) -> None:
+        """
+        Allocate a buffer with `num_channels` channels and `num_frames` frames, filled with the output of the function `function`.
+        """
+    def __len__(self: typing_extensions.Buffer) -> int:
         """
         Returns the length of the buffer `self`, in frames.
         """
-    def __mul__(self, value: float) -> typing_extensions.Buffer:
+    def __mul__(self: typing_extensions.Buffer, value: float) -> typing_extensions.Buffer:
         """
-        Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.
+        Returns a new Buffer containing the samples in `self` multiplied by `value`.
         """
-    def __rmul__(self, value_: float) -> typing_extensions.Buffer:
+    def __radd__(self: typing_extensions.Buffer, value_: float) -> typing_extensions.Buffer:
         """
-        Returns a new Buffer containing the samples in `self` multiplied by the scaling factor `value`.
+        Returns a new Buffer containing the samples in `self` added to `value`.
         """
-    def __str__(self) -> str:
+    def __rmul__(self: typing_extensions.Buffer, value_: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` multiplied by `value`.
+        """
+    def __str__(self: typing_extensions.Buffer) -> str:
+        ...
+    def __sub__(self: typing_extensions.Buffer, value: float) -> typing_extensions.Buffer:
+        """
+        Returns a new Buffer containing the samples in `self` subtracted by `value`.
+        """
+    @typing.overload
+    def fill(self: typing_extensions.Buffer, sample: float) -> None:
         ...
     @typing.overload
-    def fill(self, sample: float) -> None:
+    def fill(self: typing_extensions.Buffer, function: typing.Callable[[float], float]) -> None:
         ...
-    @typing.overload
-    def fill(self, function: typing.Callable[[float], float]) -> None:
+    def get(self: typing_extensions.Buffer, channel: int, frame: float) -> float:
         ...
-    def get(self, channel: int, frame: float) -> float:
+    def get_frame(self: typing_extensions.Buffer, channel: int, frame: float) -> float:
         ...
-    def get_frame(self, channel: int, frame: float) -> float:
+    def load(self: typing_extensions.Buffer, filename: str) -> None:
         ...
-    def load(self, filename: str) -> None:
+    def save(self: typing_extensions.Buffer, filename: str) -> None:
         ...
-    def save(self, filename: str) -> None:
+    def set(self: typing_extensions.Buffer, channel: int, frame: int, value: float) -> bool:
         ...
-    def split(self, num_frames_per_part: int) -> list[typing_extensions.Buffer]:
+    def split(self: typing_extensions.Buffer, num_frames_per_part: int) -> list[typing_extensions.Buffer]:
         ...
     @property
     def data(self) -> numpy.ndarray[numpy.float32]:
@@ -632,6 +659,12 @@ class FFTLPF(Node):
     """
     def __init__(self, input: Node = 0, frequency: Node = 2000) -> None:
         ...
+class FFTNoiseGate(Node):
+    """
+    FFT-based noise gate. Requires an FFT* input.
+    """
+    def __init__(self, input: Node = 0, threshold: Node = 0.5, invert: Node = 0.0) -> None:
+        ...
 class FFTPhaseVocoder(Node):
     """
     Phase vocoder. Requires an FFT* input.
@@ -682,9 +715,9 @@ class Gate(Node):
         ...
 class Granulator(Node):
     """
-    Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.
+    Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo. If `wrap` is true, grain playback can wrap around the end/start of the buffer.
     """
-    def __init__(self, buffer: ... = None, clock: Node = 0, pos: Node = 0, duration: Node = 0.1, pan: Node = 0.0, rate: Node = 1.0, max_grains: Node = 2048) -> None:
+    def __init__(self, buffer: ... = None, clock: Node = 0, pos: Node = 0, duration: Node = 0.1, pan: Node = 0.0, rate: Node = 1.0, max_grains: Node = 2048, wrap: bool = False) -> None:
         ...
 class GraphAlreadyCreatedException(Exception):
     pass
@@ -738,6 +771,33 @@ class Index(Node):
         ...
 class InvalidChannelCountException(Exception):
     pass
+class KDTree:
+    """
+    A KDTree structure
+    """
+    def __init__(self, data: list[list[float]] = None) -> None:
+        ...
+    def get_nearest(self, target: list[float]) -> KDTreeMatch:
+        ...
+class KDTreeMatch:
+    """
+    A KDTreeMatch result
+    """
+    @property
+    def coordinate(self) -> list[float]:
+        """
+        The coordinate
+        """
+    @property
+    def distance(self) -> float:
+        """
+        The distance
+        """
+    @property
+    def index(self) -> int:
+        """
+        The index
+        """
 class LFO(Node):
     """
     LFO
@@ -821,6 +881,12 @@ class Multiply(Node):
     Multiply each sample of a by each sample of b. Can also be written as a * b
     """
     def __init__(self, a: Node = 1.0, b: Node = 1.0) -> None:
+        ...
+class NearestNeighbour(Node):
+    """
+    Nearest Neighbour.
+    """
+    def __init__(self, buffer: ... = None, target: Node = 0.0) -> None:
         ...
 class Node:
     """
@@ -1026,7 +1092,7 @@ class Node:
         """
     def set_buffer(self, string: str, buffer: ...) -> None:
         """
-        The length of the node's output buffer, in frames
+        Set the value of a node's buffer input
         """
     @typing.overload
     def set_input(self, name: str, value: float) -> None:
@@ -1450,13 +1516,19 @@ class SegmentPlayer(Node):
     """
     Trigger segments of a buffer at the given onset positions.
     """
-    def __init__(self, buffer: ... = None, onsets: list[float] = 0, index: Node = None, rate: Node = 1.0) -> None:
+    def __init__(self, buffer: ... = None, onsets: list[float] = 0, index: Node = None, rate: Node = 1.0, clock: Node = None) -> None:
+        ...
+class SegmentedGranulator(Node):
+    """
+    Segmented Granulator.
+    """
+    def __init__(self, buffer: ... = None, onset_times: list[float] = 0, durations: list[float] = 0, index: Node = 0.0, rate: Node = 1.0, clock: Node = None, max_grains: Node = None) -> None:
         ...
 class Sequence(Node):
     """
     Outputs the elements in `sequence`, incrementing position on each `clock`.
     """
-    def __init__(self, sequence: list[float] = [], clock: Node = None) -> None:
+    def __init__(self: typing.Sequence, sequence: list[float] = [], clock: Node = None) -> None:
         ...
 class Sin(Node):
     """
@@ -1593,9 +1665,15 @@ class TriangleOscillator(Node):
     """
     def __init__(self, frequency: Node = 440) -> None:
         ...
+class VampAnalysis(Node):
+    """
+    Feature extraction using the Vamp plugin toolkit.
+    """
+    def __init__(self, input: Node = 0.0, plugin_id: str = 'vamp-example-plugins:spectralcentroid:linearcentroid') -> None:
+        ...
 class WaveShaper(Node):
     """
-    Applies wave-shaping as described in `buffer`.
+    Applies wave-shaping as described in the WaveShaperBuffer `buffer`.
     """
     def __init__(self, input: Node = 0.0, buffer: ... = None) -> None:
         ...
