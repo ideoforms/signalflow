@@ -13,11 +13,13 @@ oscillator_b = TriangleOscillator(440)
 envelope_a = ASREnvelope(0.01, 0.0, 0.25, 1.0, clock)
 envelope_b = ASREnvelope(0.01, 0.0, 0.5, 1.0, divided_clock)
 
-voice_a = oscillator_a * envelope_a
-voice_b = oscillator_b * envelope_b
+voice_a = oscillator_a * envelope_a * 0.5
+voice_b = oscillator_b * envelope_b * 0.5
 
-left = StereoPanner(voice_a, -1.0)
-right = StereoPanner(voice_b, 1.0)
+left = StereoPanner(voice_a, -0.75)
+right = StereoPanner(voice_b, 0.75)
 
 left.play()
 right.play()
+
+graph.wait()
