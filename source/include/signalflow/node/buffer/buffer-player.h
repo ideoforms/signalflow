@@ -7,7 +7,7 @@ namespace signalflow
 
 /**--------------------------------------------------------------------------------*
  * Plays the contents of the given buffer. start_time/end_time are in seconds.
- * When a clock signal is receives, rewinds to the start_time.
+ * When a clock signal is received, rewinds to the start_time.
  *---------------------------------------------------------------------------------*/
 class BufferPlayer : public Node
 {

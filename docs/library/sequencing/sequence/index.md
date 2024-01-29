@@ -6,7 +6,7 @@ description: Sequence: Outputs the elements in `sequence`, incrementing position
 # Sequence
 
 ```python
-Sequence(sequence=std::vector<float> ( ), clock=None)
+Sequence(sequence=std : : vector <float >(), clock=None)
 ```
 
 Outputs the elements in `sequence`, incrementing position on each `clock`.

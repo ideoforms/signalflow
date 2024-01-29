@@ -2,9 +2,9 @@ from signalflow import *
 graph = AudioGraph()
 
 #-------------------------------------------------------------------------------
-# Siren effect, using a sinewave LFO to modulate a sawtooth's frequency
+# Using the MouseY position to change the frequency of an oscillator.
 #-------------------------------------------------------------------------------
-lfo = SineLFO(1, 200, 1000)
-saw = SawOscillator(lfo)
-saw.play()
+frequency = MouseY() * 1000
+osc = TriangleOscillator(frequency)
+osc.play()
 graph.wait()

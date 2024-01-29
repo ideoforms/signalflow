@@ -9,14 +9,25 @@ description: SawLFO: Produces a sawtooth LFO at the fiven `frequency` and `phase
 SawLFO(frequency=1.0, min=0.0, max=1.0, phase=0.0)
 ```
 
-Produces a sawtooth LFO at the fiven `frequency` and `phase` offset, with output ranging from `min` to `max`.
+Produces a sawtooth LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
 
 ### Examples
 
 ```python
 
+<<<<<<< HEAD
 # Siren effect, using a sawtooth LFO to modulate a sine wave's frequency
 lfo = SawLFO(1, 200, 1000)
 sine = SineOscillator(lfo)
 sine.play()
 ```
+=======
+#-------------------------------------------------------------------------------
+# Siren effect, using a sawtooth LFO to modulate a sinewave's frequency
+#-------------------------------------------------------------------------------
+lfo = SawLFO(1, 200, 1000)
+sine = SineOscillator(lfo)
+sine.play()
+```
+
+>>>>>>> docs/examples

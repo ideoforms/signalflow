@@ -19,9 +19,7 @@
 - **[BufferRecorder](buffer/bufferrecorder/index.md)**: Records the input to a buffer. feedback controls overdub.
 - **[FeedbackBufferReader](buffer/feedbackbufferreader/index.md)**: Counterpart to FeedbackBufferWriter.
 - **[FeedbackBufferWriter](buffer/feedbackbufferwriter/index.md)**: Counterpart to FeedbackBufferReader.
-- **[GrainSegments](buffer/grainsegments/index.md)**: GrainSegments
 - **[Granulator](buffer/granulator/index.md)**: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.
-- **[SegmentPlayer](buffer/segmentplayer/index.md)**: Trigger segments of a buffer at the given onset positions.
 
 ---
 
@@ -102,8 +100,8 @@
 - **[SawOscillator](oscillators/sawoscillator/index.md)**: Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.
 - **[SineLFO](oscillators/sinelfo/index.md)**: Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
 - **[SineOscillator](oscillators/sineoscillator/index.md)**: Produces a sine wave at the given `frequency`.
-- **[SquareLFO](oscillators/squarelfo/index.md)**: Produces a pulse wave LFO with the given `frequency` and pulsewidth of `width`, ranging from `min` to `max`, where `width` of `0.5` is a square wave.
-- **[SquareOscillator](oscillators/squareoscillator/index.md)**: Produces a pulse wave with the given `frequency` and pulse `width`, where `width` of `0.5` is a square wave and other `width` values produce a rectangular wave.
+- **[SquareLFO](oscillators/squarelfo/index.md)**: Produces a pulse wave LFO with the given `frequency` and pulse `width`,  ranging from `min` to `max`, where `width` of `0.5` is a square wave and other values produce a rectangular wave.
+- **[SquareOscillator](oscillators/squareoscillator/index.md)**: Produces a pulse wave with the given `frequency` and pulse `width`,  where `width` of `0.5` is a square wave and other values produce a rectangular wave.
 - **[TriangleLFO](oscillators/trianglelfo/index.md)**: Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.
 - **[TriangleOscillator](oscillators/triangleoscillator/index.md)**: Produces a triangle wave with the given `frequency`.
 - **[Wavetable](oscillators/wavetable/index.md)**: Plays the wavetable stored in buffer at the given `frequency` and `phase` offset. `sync` can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.
@@ -176,7 +174,6 @@
 - **[Euclidean](sequencing/euclidean/index.md)**: Euclidean rhythm as described by Toussaint, with `sequence_length` (n) and `num_events` (k), driven by `clock`.
 - **[FlipFlop](sequencing/flipflop/index.md)**: Flips from 0/1 on each `clock`.
 - **[ImpulseSequence](sequencing/impulsesequence/index.md)**: Each time a `clock` or trigger is received, outputs the next value in `sequence`. At all other times, outputs zero.
-- **[Index](sequencing/index/index.md)**: Outputs the value in `list` corresponding to `index`.
 - **[Latch](sequencing/latch/index.md)**: Initially outputs 0. When a trigger is received at `set`, outputs 1. When a trigger is subsequently received at `reset`, outputs 0, until the next `set`.
 - **[Sequence](sequencing/sequence/index.md)**: Outputs the elements in `sequence`, incrementing position on each `clock`.
 
