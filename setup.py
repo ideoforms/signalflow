@@ -53,7 +53,8 @@ signalflow_packages = [
     'signalflow-stubs',
     'signalflow_midi',
     'signalflow_examples',
-    'signalflow_visualisation'
+    'signalflow_visualisation',
+    'signalflow_analysis',
 ]
 signalflow_package_data = []
 if sys.platform == 'win32':
