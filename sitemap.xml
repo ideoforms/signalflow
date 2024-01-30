@@ -2,932 +2,962 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://signalflow.dev/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/examples/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/license/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/buffer/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/buffer/access/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/buffer/creating/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/buffer/exporting/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/buffer/input/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/buffer/operators/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/buffer/properties/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/graph/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/graph/config/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/graph/creating/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/graph/properties/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/graph/recording/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/graph/stopping/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/howto/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/howto/midi/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/howto/plotting/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/command-line-generic/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/next-steps/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/linux/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/linux/buttons/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/linux/command-line/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/macos/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/macos/buttons/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/macos/command-line/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/installation/macos/easy/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/analysis/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/analysis/crosscorrelate/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/analysis/nearestneighbour/</loc>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/analysis/onsetdetector/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/analysis/vampanalysis/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/beatcutter/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/bufferlooper/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/bufferplayer/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/bufferrecorder/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/feedbackbufferreader/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/feedbackbufferwriter/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/grainsegments/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/buffer/granulation/</loc>
+         <lastmod>2024-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/buffer/granulation/granulator/</loc>
+         <lastmod>2024-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/buffer/granulation/segmentedgranulator/</loc>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/granulator/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/buffer/segmentplayer/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/control/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/control/mousedown/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/control/mousex/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/control/mousey/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/envelope/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/envelope/adsrenvelope/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/envelope/asrenvelope/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/envelope/detectsilence/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/envelope/envelope/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/envelope/line/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/envelope/rectangularenvelope/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fft/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftcontinuousphasevocoder/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/fft/fftcontrast/</loc>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftconvolve/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftfindpeaks/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/fft/fftflipspectrum/</loc>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftlpf/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftnoisegate/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftphasevocoder/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/ffttonality/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftzerophase/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/ifft/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/abs/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/add/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/amplitudetodecibels/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/channelarray/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/channelcrossfade/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/channelmixer/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/channelselect/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/cos/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/decibelstoamplitude/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/divide/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/equal/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/frequencytomidinote/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/greaterthan/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/greaterthanorequal/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/if/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/lessthan/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/lessthanorequal/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/midinotetofrequency/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/modulo/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/multiply/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/notequal/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/pow/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/round/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/roundtoscale/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/scalelinexp/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/scalelinlin/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/sin/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/subtract/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/sum/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/tan/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/tanh/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/constant/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/impulse/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/sawlfo/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/sawoscillator/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/sinelfo/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/sineoscillator/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/squarelfo/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/squareoscillator/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/trianglelfo/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/triangleoscillator/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/wavetable/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/oscillators/wavetable2d/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/clip/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/delays/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/delays/allpassdelay/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/delays/combdelay/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/delays/onetapdelay/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/delays/stutter/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/distortion/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/distortion/resample/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/distortion/sampleandhold/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/distortion/squiz/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/distortion/waveshaper/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/dynamics/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/dynamics/compressor/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/dynamics/gate/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/dynamics/maximiser/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/dynamics/rms/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/filters/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/filters/biquadfilter/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/filters/dcfilter/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/filters/eq/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/filters/moogvcf/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/filters/svfilter/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/fold/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/panning/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/panning/azimuthpanner/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/panning/channelpanner/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/panning/spatialpanner/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/panning/stereobalance/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/panning/stereopanner/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/panning/stereowidth/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/smooth/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/wetdry/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/processors/wrap/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/clockdivider/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/counter/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/euclidean/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/flipflop/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/impulsesequence/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/index/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/latch/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/sequencing/sequence/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/logistic/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/pinknoise/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randombrownian/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomchoice/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomcoin/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomexponential/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomexponentialdist/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomgaussian/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomimpulse/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomimpulsesequence/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/randomuniform/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/stochastic/whitenoise/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/developing/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/inputs/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/multichannel/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/operators/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/playback/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/properties/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/node/stochastic/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/auto-free/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/defining/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/exporting/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/inputs/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/operators/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/playback/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/patch/properties/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/planning/EXAMPLES/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/planning/NAMING/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/planning/PLAN/</loc>
-         <lastmod>2024-01-14</lastmod>
+         <lastmod>2024-01-30</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>

@@ -1563,6 +1563,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1584,13 +1599,23 @@
 <div class="highlight"><pre><span></span><code><span class="n">Sequence</span><span class="p">(</span><span class="n">sequence</span><span class="o">=</span><span class="n">std</span><span class="p">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="nb">float</span><span class="o">&gt;</span> <span class="p">(</span> <span class="p">),</span> <span class="n">clock</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Outputs the elements in <code>sequence</code>, incrementing position on each <code>clock</code>.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Creating a sequence using the MIDI note values of a C Major scale, starting on middle C.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">Impulse</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">sequence</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">([</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">62</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">72</span> <span class="p">],</span> <span class="n">clock</span><span class="p">)</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="n">MidiNoteToFrequency</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+<span class="n">oscillator</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+<span class="n">oscillator</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
       
         <br>
         Created:

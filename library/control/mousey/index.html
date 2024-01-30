@@ -1563,6 +1563,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1584,13 +1599,31 @@
 <div class="highlight"><pre><span></span><code><span class="n">MouseY</span><span class="p">()</span>
 </code></pre></div>
 <p>Outputs the normalised cursor Y position, from 0 to 1. Currently only supported on macOS.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using the MouseY position to change the frequency of an oscillator.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="n">MouseY</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1000</span>
+<span class="n">osc</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+<span class="n">osc</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># A simple wobbling synthesiser controlled using the mouse. When the mouse is clicked, as detected by MouseDown(), an LFO is activated and affects the oscillator&#39;s frequency. MouseX position changes the rate of the LFO. MouseY position changes the upper frequency limit, affecting pitch.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">rate</span> <span class="o">=</span> <span class="n">MouseX</span><span class="p">()</span> <span class="o">*</span> <span class="mi">10</span>
+<span class="n">upper_limit</span> <span class="o">=</span> <span class="n">MouseY</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1500</span>
+<span class="n">lfo</span> <span class="o">=</span> <span class="n">SineLFO</span><span class="p">(</span><span class="n">rate</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">upper_limit</span><span class="p">)</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="n">If</span><span class="p">(</span><span class="n">MouseDown</span><span class="p">(),</span> <span class="n">lfo</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">osc</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+<span class="n">osc</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
       
         <br>
         Created:

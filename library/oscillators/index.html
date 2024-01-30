@@ -1601,12 +1601,12 @@
 <h1 id="oscillators">Oscillators</h1>
 <ul>
 <li><strong><a href="impulse/">Impulse</a></strong>: Produces a value of 1 at the given <code>frequency</code>, with output of 0 at all other times. If frequency is 0, produces a single impulse.</li>
-<li><strong><a href="sawlfo/">SawLFO</a></strong>: Produces a sawtooth LFO, with output ranging from <code>min</code> to <code>max</code>.</li>
+<li><strong><a href="sawlfo/">SawLFO</a></strong>: Produces a sawtooth LFO at the given <code>frequency</code> and <code>phase</code> offset, with output ranging from <code>min</code> to <code>max</code>.</li>
 <li><strong><a href="sawoscillator/">SawOscillator</a></strong>: Produces a (non-band-limited) sawtooth wave, with the given <code>frequency</code> and <code>phase</code> offset. When a <code>reset</code> or trigger is received, resets the phase to zero.</li>
 <li><strong><a href="sinelfo/">SineLFO</a></strong>: Produces a sinusoidal LFO at the given <code>frequency</code> and <code>phase</code> offset, with output ranging from <code>min</code> to <code>max</code>.</li>
 <li><strong><a href="sineoscillator/">SineOscillator</a></strong>: Produces a sine wave at the given <code>frequency</code>.</li>
-<li><strong><a href="squarelfo/">SquareLFO</a></strong>: Produces a pulse wave LFO with the given <code>frequency</code> and pulsewidth of <code>width</code>, ranging from <code>min</code> to <code>max</code>, where <code>width</code> of <code>0.5</code> is a square wave.</li>
-<li><strong><a href="squareoscillator/">SquareOscillator</a></strong>: Produces a pulse wave with the given <code>frequency</code> and pulse <code>width</code>, where <code>width</code> of <code>0.5</code> is a square wave and other <code>width</code> values produce a rectangular wave.</li>
+<li><strong><a href="squarelfo/">SquareLFO</a></strong>: Produces a pulse wave LFO with the given <code>frequency</code> and pulse <code>width</code>,  ranging from <code>min</code> to <code>max</code>, where <code>width</code> of <code>0.5</code> is a square wave and other values produce a rectangular wave.</li>
+<li><strong><a href="squareoscillator/">SquareOscillator</a></strong>: Produces a pulse wave with the given <code>frequency</code> and pulse <code>width</code>,  where <code>width</code> of <code>0.5</code> is a square wave and other values produce a rectangular wave.</li>
 <li><strong><a href="trianglelfo/">TriangleLFO</a></strong>: Produces a triangle LFO with the given <code>frequency</code> and <code>phase</code> offset, ranging from <code>min</code> to <code>max</code>.</li>
 <li><strong><a href="triangleoscillator/">TriangleOscillator</a></strong>: Produces a triangle wave with the given <code>frequency</code>.</li>
 <li><strong><a href="wavetable/">Wavetable</a></strong>: Plays the wavetable stored in buffer at the given <code>frequency</code> and <code>phase</code> offset. <code>sync</code> can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.</li>
@@ -1618,7 +1618,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-12T18:07:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-12</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
       
         <br>
         Created:

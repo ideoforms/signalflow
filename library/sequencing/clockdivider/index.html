@@ -1563,6 +1563,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1584,13 +1599,35 @@
 <div class="highlight"><pre><span></span><code><span class="n">ClockDivider</span><span class="p">(</span><span class="n">clock</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">factor</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </code></pre></div>
 <p>When given a <code>clock</code> input (e.g., an Impulse), divides the clock by the given <code>factor</code>. factor must be an integer greater than or equal to 1.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using a ClockDivider to create rhythms related to the main clock. Here the oscillator in the left channel is heard on every tick of the clock. The oscillator in the right channel is heard every 3 ticks of the clock.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">Impulse</span><span class="p">(</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">divided_clock</span> <span class="o">=</span> <span class="n">ClockDivider</span><span class="p">(</span><span class="n">clock</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="n">oscillator_a</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="mi">220</span><span class="p">)</span>
+<span class="n">oscillator_b</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="mi">440</span><span class="p">)</span>
+
+<span class="n">envelope_a</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.25</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">clock</span><span class="p">)</span>
+<span class="n">envelope_b</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">divided_clock</span><span class="p">)</span>
+
+<span class="n">voice_a</span> <span class="o">=</span> <span class="n">oscillator_a</span> <span class="o">*</span> <span class="n">envelope_a</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">voice_b</span> <span class="o">=</span> <span class="n">oscillator_b</span> <span class="o">*</span> <span class="n">envelope_b</span> <span class="o">*</span> <span class="mf">0.5</span>
+
+<span class="n">left</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">voice_a</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.75</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">voice_b</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">)</span>
+
+<span class="n">left</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="n">right</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
       
         <br>
         Created:

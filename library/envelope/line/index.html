@@ -1563,6 +1563,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1584,13 +1599,23 @@
 <div class="highlight"><pre><span></span><code><span class="n">Line</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">time</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">loop</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">clock</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using a line to control the gain of an oscillator, emulating a sidechain ducking effect.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">Impulse</span><span class="p">(</span><span class="n">frequency</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">line</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">clock</span><span class="p">)</span>
+<span class="n">osc</span> <span class="o">=</span> <span class="n">SawOscillator</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">osc</span> <span class="o">*</span> <span class="n">line</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
       
         <br>
         Created:

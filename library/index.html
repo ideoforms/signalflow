@@ -1592,6 +1592,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#buffer-granulation" class="md-nav__link">
+    Buffer: Granulation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#control" class="md-nav__link">
     Control
   </a>
@@ -1706,6 +1713,7 @@
 <h2 id="analysis">Analysis</h2>
 <ul>
 <li><strong><a href="analysis/crosscorrelate/">CrossCorrelate</a></strong>: Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.</li>
+<li><strong><a href="analysis/nearestneighbour/">NearestNeighbour</a></strong>: Nearest Neighbour.</li>
 <li><strong><a href="analysis/onsetdetector/">OnsetDetector</a></strong>: Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.</li>
 <li><strong><a href="analysis/vampanalysis/">VampAnalysis</a></strong>: Feature extraction using the Vamp plugin toolkit.</li>
 </ul>
@@ -1714,13 +1722,17 @@
 <ul>
 <li><strong><a href="buffer/beatcutter/">BeatCutter</a></strong>: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.</li>
 <li><strong><a href="buffer/bufferlooper/">BufferLooper</a></strong>: Read and write from a buffer concurrently, with controllable overdub.</li>
-<li><strong><a href="buffer/bufferplayer/">BufferPlayer</a></strong>: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.</li>
+<li><strong><a href="buffer/bufferplayer/">BufferPlayer</a></strong>: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.</li>
 <li><strong><a href="buffer/bufferrecorder/">BufferRecorder</a></strong>: Records the input to a buffer. feedback controls overdub.</li>
 <li><strong><a href="buffer/feedbackbufferreader/">FeedbackBufferReader</a></strong>: Counterpart to FeedbackBufferWriter.</li>
 <li><strong><a href="buffer/feedbackbufferwriter/">FeedbackBufferWriter</a></strong>: Counterpart to FeedbackBufferReader.</li>
-<li><strong><a href="buffer/grainsegments/">GrainSegments</a></strong>: GrainSegments</li>
-<li><strong><a href="buffer/granulator/">Granulator</a></strong>: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.</li>
 <li><strong><a href="buffer/segmentplayer/">SegmentPlayer</a></strong>: Trigger segments of a buffer at the given onset positions.</li>
+</ul>
+<hr />
+<h2 id="buffer-granulation">Buffer: Granulation</h2>
+<ul>
+<li><strong><a href="buffer/granulation/segmentedgranulator/">SegmentedGranulator</a></strong>: Segmented Granulator.</li>
+<li><strong><a href="buffer/granulation/granulator/">Granulator</a></strong>: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo. If <code>wrap</code> is true, grain playback can wrap around the end/start of the buffer.</li>
 </ul>
 <hr />
 <h2 id="control">Control</h2>
@@ -1744,6 +1756,8 @@
 <ul>
 <li><strong><a href="fft/fftcontinuousphasevocoder/">FFTContinuousPhaseVocoder</a></strong>: Continuous phase vocoder. Requires an FFT* input.</li>
 <li><strong><a href="fft/fftconvolve/">FFTConvolve</a></strong>: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.</li>
+<li><strong><a href="fft/fftcontrast/">FFTContrast</a></strong>: FFT Contrast. Requires an FFT* input.</li>
+<li><strong><a href="fft/fftflipspectrum/">FFTFlipSpectrum</a></strong>: Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.</li>
 <li><strong><a href="fft/fft/">FFT</a></strong>: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.</li>
 <li><strong><a href="fft/fftfindpeaks/">FFTFindPeaks</a></strong>: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.</li>
 <li><strong><a href="fft/ifft/">IFFT</a></strong>: Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.</li>
@@ -1792,12 +1806,12 @@
 <h2 id="oscillators">Oscillators</h2>
 <ul>
 <li><strong><a href="oscillators/impulse/">Impulse</a></strong>: Produces a value of 1 at the given <code>frequency</code>, with output of 0 at all other times. If frequency is 0, produces a single impulse.</li>
-<li><strong><a href="oscillators/sawlfo/">SawLFO</a></strong>: Produces a sawtooth LFO, with output ranging from <code>min</code> to <code>max</code>.</li>
+<li><strong><a href="oscillators/sawlfo/">SawLFO</a></strong>: Produces a sawtooth LFO at the given <code>frequency</code> and <code>phase</code> offset, with output ranging from <code>min</code> to <code>max</code>.</li>
 <li><strong><a href="oscillators/sawoscillator/">SawOscillator</a></strong>: Produces a (non-band-limited) sawtooth wave, with the given <code>frequency</code> and <code>phase</code> offset. When a <code>reset</code> or trigger is received, resets the phase to zero.</li>
 <li><strong><a href="oscillators/sinelfo/">SineLFO</a></strong>: Produces a sinusoidal LFO at the given <code>frequency</code> and <code>phase</code> offset, with output ranging from <code>min</code> to <code>max</code>.</li>
 <li><strong><a href="oscillators/sineoscillator/">SineOscillator</a></strong>: Produces a sine wave at the given <code>frequency</code>.</li>
-<li><strong><a href="oscillators/squarelfo/">SquareLFO</a></strong>: Produces a pulse wave LFO with the given <code>frequency</code> and pulsewidth of <code>width</code>, ranging from <code>min</code> to <code>max</code>, where <code>width</code> of <code>0.5</code> is a square wave.</li>
-<li><strong><a href="oscillators/squareoscillator/">SquareOscillator</a></strong>: Produces a pulse wave with the given <code>frequency</code> and pulse <code>width</code>, where <code>width</code> of <code>0.5</code> is a square wave and other <code>width</code> values produce a rectangular wave.</li>
+<li><strong><a href="oscillators/squarelfo/">SquareLFO</a></strong>: Produces a pulse wave LFO with the given <code>frequency</code> and pulse <code>width</code>,  ranging from <code>min</code> to <code>max</code>, where <code>width</code> of <code>0.5</code> is a square wave and other values produce a rectangular wave.</li>
+<li><strong><a href="oscillators/squareoscillator/">SquareOscillator</a></strong>: Produces a pulse wave with the given <code>frequency</code> and pulse <code>width</code>,  where <code>width</code> of <code>0.5</code> is a square wave and other values produce a rectangular wave.</li>
 <li><strong><a href="oscillators/trianglelfo/">TriangleLFO</a></strong>: Produces a triangle LFO with the given <code>frequency</code> and <code>phase</code> offset, ranging from <code>min</code> to <code>max</code>.</li>
 <li><strong><a href="oscillators/triangleoscillator/">TriangleOscillator</a></strong>: Produces a triangle wave with the given <code>frequency</code>.</li>
 <li><strong><a href="oscillators/wavetable/">Wavetable</a></strong>: Plays the wavetable stored in buffer at the given <code>frequency</code> and <code>phase</code> offset. <code>sync</code> can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.</li>
@@ -1890,7 +1904,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-12T18:07:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-12</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
       
         <br>
         Created:
