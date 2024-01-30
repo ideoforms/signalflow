@@ -2,9 +2,9 @@ from signalflow import *
 graph = AudioGraph()
 
 #-------------------------------------------------------------------------------
-# Siren effect, using a sinewave LFO to modulate a sawtooth's frequency
+# Alarm effect, using a pulse wave LFO to modulate a sinewave's frequency
 #-------------------------------------------------------------------------------
-lfo = SineLFO(1, 200, 1000)
-saw = SawOscillator(lfo)
-saw.play()
+lfo = SquareLFO(1, 200, 400)
+sine = SineOscillator(lfo)
+sine.play()
 graph.wait()

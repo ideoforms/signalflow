@@ -6,7 +6,7 @@ description: RandomChoice: Pick a random value from the given array. If a clock 
 # RandomChoice
 
 ```python
-RandomChoice(values=std::vector<float> ( ), clock=None, reset=None)
+RandomChoice(values=std : : vector <float >(), clock=None, reset=None)
 ```
 
 Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick.
