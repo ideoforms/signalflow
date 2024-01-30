@@ -22,6 +22,11 @@ namespace signalflow
 
 AudioGraph *shared_graph = nullptr;
 
+AudioGraph *AudioGraph::get_shared_graph()
+{
+    return shared_graph;
+}
+
 AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool start)
 {
     if (shared_graph)

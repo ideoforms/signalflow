@@ -10,6 +10,7 @@ void init_python_graph(py::module &m)
              "start"_a = true)
         .def(py::init<AudioGraphConfig *, std::string, bool>(), "config"_a = nullptr, "output_device"_a = "",
              "start"_a = true)
+        .def_static("get_shared_graph", &AudioGraph::get_shared_graph)
 
         /*--------------------------------------------------------------------------------
          * Properties

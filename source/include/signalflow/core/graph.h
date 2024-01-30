@@ -400,6 +400,8 @@ public:
      *--------------------------------------------------------------------------------*/
     AudioGraphConfig &get_config();
 
+    static AudioGraph *get_shared_graph();
+
 protected:
     void init();
     void register_memory_alloc(size_t num_bytes);
