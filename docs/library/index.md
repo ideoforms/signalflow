@@ -6,6 +6,7 @@
 ## Analysis
 
 - **[CrossCorrelate](analysis/crosscorrelate/index.md)**: Outputs the cross-correlation of the input signal with the given buffer. If hop_size is zero, calculates the cross-correlation every sample.
+- **[NearestNeighbour](analysis/nearestneighbour/index.md)**: Nearest Neighbour.
 - **[OnsetDetector](analysis/onsetdetector/index.md)**: Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.
 - **[VampAnalysis](analysis/vampanalysis/index.md)**: Feature extraction using the Vamp plugin toolkit.
 
@@ -15,11 +16,18 @@
 
 - **[BeatCutter](buffer/beatcutter/index.md)**: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.
 - **[BufferLooper](buffer/bufferlooper/index.md)**: Read and write from a buffer concurrently, with controllable overdub.
-- **[BufferPlayer](buffer/bufferplayer/index.md)**: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.
+- **[BufferPlayer](buffer/bufferplayer/index.md)**: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.
 - **[BufferRecorder](buffer/bufferrecorder/index.md)**: Records the input to a buffer. feedback controls overdub.
 - **[FeedbackBufferReader](buffer/feedbackbufferreader/index.md)**: Counterpart to FeedbackBufferWriter.
 - **[FeedbackBufferWriter](buffer/feedbackbufferwriter/index.md)**: Counterpart to FeedbackBufferReader.
-- **[Granulator](buffer/granulator/index.md)**: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo.
+- **[SegmentPlayer](buffer/segmentplayer/index.md)**: Trigger segments of a buffer at the given onset positions.
+
+---
+
+## Buffer: Granulation
+
+- **[SegmentedGranulator](buffer/granulation/segmentedgranulator/index.md)**: Segmented Granulator.
+- **[Granulator](buffer/granulation/granulator/index.md)**: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo. If `wrap` is true, grain playback can wrap around the end/start of the buffer.
 
 ---
 
@@ -46,6 +54,8 @@
 
 - **[FFTContinuousPhaseVocoder](fft/fftcontinuousphasevocoder/index.md)**: Continuous phase vocoder. Requires an FFT* input.
 - **[FFTConvolve](fft/fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
+- **[FFTContrast](fft/fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
+- **[FFTFlipSpectrum](fft/fftflipspectrum/index.md)**: Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.
 - **[FFT](fft/fft/index.md)**: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
 - **[FFTFindPeaks](fft/fftfindpeaks/index.md)**: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
 - **[IFFT](fft/ifft/index.md)**: Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
@@ -96,7 +106,7 @@
 ## Oscillators
 
 - **[Impulse](oscillators/impulse/index.md)**: Produces a value of 1 at the given `frequency`, with output of 0 at all other times. If frequency is 0, produces a single impulse.
-- **[SawLFO](oscillators/sawlfo/index.md)**: Produces a sawtooth LFO, with output ranging from `min` to `max`.
+- **[SawLFO](oscillators/sawlfo/index.md)**: Produces a sawtooth LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
 - **[SawOscillator](oscillators/sawoscillator/index.md)**: Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.
 - **[SineLFO](oscillators/sinelfo/index.md)**: Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
 - **[SineOscillator](oscillators/sineoscillator/index.md)**: Produces a sine wave at the given `frequency`.
@@ -174,6 +184,7 @@
 - **[Euclidean](sequencing/euclidean/index.md)**: Euclidean rhythm as described by Toussaint, with `sequence_length` (n) and `num_events` (k), driven by `clock`.
 - **[FlipFlop](sequencing/flipflop/index.md)**: Flips from 0/1 on each `clock`.
 - **[ImpulseSequence](sequencing/impulsesequence/index.md)**: Each time a `clock` or trigger is received, outputs the next value in `sequence`. At all other times, outputs zero.
+- **[Index](sequencing/index/index.md)**: Outputs the value in `list` corresponding to `index`.
 - **[Latch](sequencing/latch/index.md)**: Initially outputs 0. When a trigger is received at `set`, outputs 1. When a trigger is subsequently received at `reset`, outputs 0, until the next `set`.
 - **[Sequence](sequencing/sequence/index.md)**: Outputs the elements in `sequence`, incrementing position on each `clock`.
 

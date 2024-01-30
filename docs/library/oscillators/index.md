@@ -3,7 +3,7 @@
 # Oscillators
 
 - **[Impulse](impulse/index.md)**: Produces a value of 1 at the given `frequency`, with output of 0 at all other times. If frequency is 0, produces a single impulse.
-- **[SawLFO](sawlfo/index.md)**: Produces a sawtooth LFO, with output ranging from `min` to `max`.
+- **[SawLFO](sawlfo/index.md)**: Produces a sawtooth LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
 - **[SawOscillator](sawoscillator/index.md)**: Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.
 - **[SineLFO](sinelfo/index.md)**: Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
 - **[SineOscillator](sineoscillator/index.md)**: Produces a sine wave at the given `frequency`.

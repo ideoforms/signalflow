@@ -16,10 +16,13 @@ Produces a value of 1 at the given `frequency`, with output of 0 at all other ti
 ```python
 
 #-------------------------------------------------------------------------------
-# Impulse generator producing an impulse every second (60bpm)
+# Using an Impulse node as a clock to trigger an envelope once per second.
 #-------------------------------------------------------------------------------
-impulse = Impulse(frequency=1.0)
-output = impulse * 0.5
+clock = Impulse(1.0)
+osc = TriangleOscillator(250)
+envelope = ASREnvelope(0.01, 0.0, 0.5, 1.0, clock)
+output = osc * envelope
 output.play()
+
 ```
 

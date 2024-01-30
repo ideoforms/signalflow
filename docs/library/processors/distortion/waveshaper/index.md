@@ -23,6 +23,8 @@ sine = SineOscillator(120)
 waveshaper = WaveShaper(sine, buf)
 attenuated = waveshaper * 0.1
 attenuated.play()
+
+
 ```
 
 ```python
