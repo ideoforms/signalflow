@@ -2,7 +2,9 @@ from signalflow import *
 graph = AudioGraph()
 
 #-------------------------------------------------------------------------------
-# Using a ClockDivider to create rhythms related to the main clock. Here the oscillator in the left channel is heard on every tick of the clock. The oscillator in the right channel is heard every 3 ticks of the clock.
+# Using a ClockDivider to create rhythms related to the main clock. Here the 
+# oscillator panned left is heard on every tick of the clock. The oscillator 
+# panned right is heard every 3 ticks of the clock.
 #-------------------------------------------------------------------------------
 clock = Impulse(2.0)
 divided_clock = ClockDivider(clock, 3)
