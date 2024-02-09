@@ -11,10 +11,12 @@ sequence = Sequence(arpeggio, clock)
 frequency = MidiNoteToFrequency(sequence)
 
 oscillator = SawOscillator(frequency)
-envelope= ASREnvelope(0.1, 0, 0.2, 1.0, clock)
+envelope = ASREnvelope(0.1, 0, 0.2, 1.0, clock)
 voice = oscillator * envelope
-
-comb = CombDelay(voice, 0.09, 0.6, 0.9)
+comb = CombDelay(input=voice, 
+                 delay_time=0.09, 
+                 feedback=0.6, 
+                 max_delay_time=0.9)
 
 output = StereoPanner(comb) * 0.5
 output.play()

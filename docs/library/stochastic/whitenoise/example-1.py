@@ -10,8 +10,10 @@ graph = AudioGraph()
 #-------------------------------------------------------------------------------
 noise = WhiteNoise()
 cutoff = WhiteNoise(1, 100, 300, True, True)
-
-filtered = SVFilter(noise, SIGNALFLOW_FILTER_TYPE_BAND_PASS, cutoff, 0.8)
-output = StereoPanner(filtered)
+filtered = SVFilter(input=noise,
+                    filter_type= "band_pass", 
+                    cutoff=cutoff,
+                    resonance=0.8)
+output = StereoPanner(filtered) * 0.5
 output.play()
 graph.wait()
