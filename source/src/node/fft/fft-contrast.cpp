@@ -1,4 +1,5 @@
 #include "signalflow/node/fft/fft-contrast.h"
+#include <algorithm>
 
 namespace signalflow
 {
