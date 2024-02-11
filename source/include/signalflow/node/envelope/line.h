@@ -6,7 +6,7 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Line segment with the given start/end values and duration.
+ * Line segment with the given start/end values, and duration (in seconds).
  * If loop is true, repeats indefinitely.
  * Retriggers on a clock signal.
  *---------------------------------------------------------------------------------*/
