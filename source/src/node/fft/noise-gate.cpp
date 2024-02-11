@@ -43,35 +43,6 @@ void FFTNoiseGate::process(Buffer &out, int num_frames)
                 out[hop][frame] = input->out[hop][frame];
             }
         }
-
-        /*
-        float min_magnitude = 1e6;
-        float max_magnitude = 0.0;
-        for (int bin = 0; bin < this->num_bins; bin++)
-        {
-            if (this->out[hop][bin] < min_magnitude)
-                min_magnitude = input->out[hop][bin];
-            if (this->out[hop][bin] > max_magnitude)
-                max_magnitude = input->out[hop][bin];
-        }
-
-        float cutoff = min_magnitude * powf(max_magnitude / min_magnitude, this->threshold->out[0][0]);
-
-        for (int frame = 0; frame < this->fft_size; frame++)
-        {
-            if (frame < this->num_bins)
-            {
-                if (input->out[hop][frame] > cutoff)
-                    out[hop][frame] = input->out[hop][frame];
-                else
-                    out[hop][frame] = 0.0;
-            }
-            else
-            {
-                out[hop][frame] = input->out[hop][frame];
-            }
-        }
-        */
     }
 }
 
