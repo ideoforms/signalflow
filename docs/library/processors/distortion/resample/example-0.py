@@ -2,10 +2,10 @@ from signalflow import *
 graph = AudioGraph()
 
 #-------------------------------------------------------------------------------
-# Siren effect, using a sinewave LFO to modulate a sawtooth's frequency
+# Using Resample to distort a sine wave.
 #-------------------------------------------------------------------------------
-lfo = SineLFO(1, 200, 1000)
-saw = SawOscillator(lfo)
-output = StereoPanner(saw) * 0.3
+sine = SineOscillator(440)
+crushed = Resample(sine, 11025, 4)
+output = StereoPanner(crushed) * 0.3
 output.play()
 graph.wait()

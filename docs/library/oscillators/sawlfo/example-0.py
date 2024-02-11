@@ -6,5 +6,6 @@ graph = AudioGraph()
 #-------------------------------------------------------------------------------
 lfo = SawLFO(1, 200, 1000)
 sine = SineOscillator(lfo)
-sine.play()
+output = StereoPanner(sine) * 0.5
+output.play()
 graph.wait()

@@ -2,10 +2,10 @@ from signalflow import *
 graph = AudioGraph()
 
 #-------------------------------------------------------------------------------
-# Siren effect, using a sinewave LFO to modulate a sawtooth's frequency
+# Using ChannelArray to pan a low tone to the left and a high tone to the right.
 #-------------------------------------------------------------------------------
-lfo = SineLFO(1, 200, 1000)
-saw = SawOscillator(lfo)
-output = StereoPanner(saw) * 0.3
-output.play()
+low = TriangleOscillator(220)
+high = TriangleOscillator(660)
+panned = ChannelArray([low, high]) * 0.3
+panned.play()
 graph.wait()
