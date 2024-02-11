@@ -39,7 +39,7 @@ void init_python_nodes(py::module &m)
     py::class_<BufferLooper, Node, NodeRefTemplate<BufferLooper>>(m, "BufferLooper", "Read and write from a buffer concurrently, with controllable overdub.")
         .def(py::init<BufferRef, NodeRef, NodeRef, bool, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop_playback"_a = false, "loop_record"_a = false);
 
-    py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer", "Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.")
+    py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer", "Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0, "start_time"_a = nullptr, "end_time"_a = nullptr, "clock"_a = nullptr);
 
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder", "Records the input to a buffer. feedback controls overdub.")
@@ -99,41 +99,41 @@ void init_python_nodes(py::module &m)
     py::class_<RectangularEnvelope, Node, NodeRefTemplate<RectangularEnvelope>>(m, "RectangularEnvelope", "Rectangular envelope with the given sustain duration.")
         .def(py::init<NodeRef, NodeRef>(), "sustain_duration"_a = 1.0, "clock"_a = nullptr);
 
-    py::class_<FFTContinuousPhaseVocoder, Node, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder", "Continuous phase vocoder. Requires an FFT* input.")
+    py::class_<FFTContinuousPhaseVocoder, FFTNode, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder", "Continuous phase vocoder. Requires an FFT* input.")
         .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
 
 #ifdef __APPLE__
 
-    py::class_<FFTConvolve, Node, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve", "Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.")
+    py::class_<FFTConvolve, FFTOpNode, NodeRefTemplate<FFTConvolve>>(m, "FFTConvolve", "Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = nullptr, "buffer"_a = nullptr);
 
 #endif
 
-    py::class_<FFTContrast, Node, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
+    py::class_<FFTContrast, FFTOpNode, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "contrast"_a = 1);
 
-    py::class_<FFTFlipSpectrum, Node, NodeRefTemplate<FFTFlipSpectrum>>(m, "FFTFlipSpectrum", "Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
+    py::class_<FFTFlipSpectrum, FFTOpNode, NodeRefTemplate<FFTFlipSpectrum>>(m, "FFTFlipSpectrum", "Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "flip"_a = 0, "rotate"_a = 0);
 
-    py::class_<FFT, Node, NodeRefTemplate<FFT>>(m, "FFT", "Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.")
+    py::class_<FFT, FFTNode, NodeRefTemplate<FFT>>(m, "FFT", "Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNALFLOW_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
 
-    py::class_<FFTFindPeaks, Node, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks", "Find peaks in the FFT magnitude spectrum. Requires an FFT* input.")
+    py::class_<FFTFindPeaks, FFTOpNode, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks", "Find peaks in the FFT magnitude spectrum. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef, int, bool>(), "input"_a = 0, "prominence"_a = 1, "threshold"_a = 0.000001, "count"_a = SIGNALFLOW_MAX_CHANNELS, "interpolate"_a = true);
 
-    py::class_<IFFT, Node, NodeRefTemplate<IFFT>>(m, "IFFT", "Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.")
+    py::class_<IFFT, FFTOpNode, NodeRefTemplate<IFFT>>(m, "IFFT", "Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.")
         .def(py::init<NodeRef, bool>(), "input"_a = nullptr, "do_window"_a = false);
 
-    py::class_<FFTLPF, Node, NodeRefTemplate<FFTLPF>>(m, "FFTLPF", "FFT-based brick wall low pass filter. Requires an FFT* input.")
+    py::class_<FFTLPF, FFTOpNode, NodeRefTemplate<FFTLPF>>(m, "FFTLPF", "FFT-based brick wall low pass filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 2000);
 
-    py::class_<FFTNoiseGate, Node, NodeRefTemplate<FFTNoiseGate>>(m, "FFTNoiseGate", "FFT-based noise gate. Requires an FFT* input.")
+    py::class_<FFTNoiseGate, FFTOpNode, NodeRefTemplate<FFTNoiseGate>>(m, "FFTNoiseGate", "FFT-based noise gate. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "threshold"_a = 0.5, "invert"_a = 0.0);
 
-    py::class_<FFTPhaseVocoder, Node, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder", "Phase vocoder. Requires an FFT* input.")
+    py::class_<FFTPhaseVocoder, FFTOpNode, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder", "Phase vocoder. Requires an FFT* input.")
         .def(py::init<NodeRef>(), "input"_a = nullptr);
 
-    py::class_<FFTTonality, Node, NodeRefTemplate<FFTTonality>>(m, "FFTTonality", "Tonality filter. Requires an FFT* input.")
+    py::class_<FFTTonality, FFTOpNode, NodeRefTemplate<FFTTonality>>(m, "FFTTonality", "Tonality filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
 
     py::class_<Add, Node, NodeRefTemplate<Add>>(m, "Add", "Add each sample of a to each sample of b. Can also be written as a + b")
@@ -246,7 +246,7 @@ void init_python_nodes(py::module &m)
     py::class_<LFO, Node, NodeRefTemplate<LFO>>(m, "LFO", "LFO")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
-    py::class_<SawLFO, Node, NodeRefTemplate<SawLFO>>(m, "SawLFO", "Produces a sawtooth LFO, with output ranging from `min` to `max`.")
+    py::class_<SawLFO, Node, NodeRefTemplate<SawLFO>>(m, "SawLFO", "Produces a sawtooth LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<SawOscillator, Node, NodeRefTemplate<SawOscillator>>(m, "SawOscillator", "Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.")
@@ -258,10 +258,10 @@ void init_python_nodes(py::module &m)
     py::class_<SineOscillator, Node, NodeRefTemplate<SineOscillator>>(m, "SineOscillator", "Produces a sine wave at the given `frequency`.")
         .def(py::init<NodeRef>(), "frequency"_a = 440);
 
-    py::class_<SquareLFO, Node, NodeRefTemplate<SquareLFO>>(m, "SquareLFO", "Produces a pulse wave LFO with the given `frequency` and pulsewidth of `width`, ranging from `min` to `max`, where `width` of `0.5` is a square wave.")
+    py::class_<SquareLFO, Node, NodeRefTemplate<SquareLFO>>(m, "SquareLFO", "Produces a pulse wave LFO with the given `frequency` and pulse `width`,  ranging from `min` to `max`, where `width` of `0.5` is a square wave and other values produce a rectangular wave.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "width"_a = 0.5, "phase"_a = 0.0);
 
-    py::class_<SquareOscillator, Node, NodeRefTemplate<SquareOscillator>>(m, "SquareOscillator", "Produces a pulse wave with the given `frequency` and pulse `width`, where `width` of `0.5` is a square wave and other `width` values produce a rectangular wave.")
+    py::class_<SquareOscillator, Node, NodeRefTemplate<SquareOscillator>>(m, "SquareOscillator", "Produces a pulse wave with the given `frequency` and pulse `width`,  where `width` of `0.5` is a square wave and other values produce a rectangular wave.")
         .def(py::init<NodeRef, NodeRef>(), "frequency"_a = 440, "width"_a = 0.5);
 
     py::class_<TriangleLFO, Node, NodeRefTemplate<TriangleLFO>>(m, "TriangleLFO", "Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.")

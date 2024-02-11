@@ -1,4 +1,5 @@
 #include "signalflow/node/fft/fftnode.h"
+#include <vector>
 
 namespace signalflow
 {
@@ -36,6 +37,18 @@ FFTNode::~FFTNode()
 {
     delete this->magnitudes;
     delete this->phases;
+}
+
+std::vector<float> FFTNode::get_magnitudes()
+{
+    return std::vector<float>(this->magnitudes[0],
+                              this->magnitudes[0] + this->num_bins);
+}
+
+std::vector<float> FFTNode::get_phases()
+{
+    return std::vector<float>(this->phases[0],
+                              this->phases[0] + this->num_bins);
 }
 
 FFTOpNode::FFTOpNode(NodeRef input)

@@ -10,6 +10,9 @@ public:
     FFTNode(int fft_size, int hop_size, int window_size, bool do_window);
     ~FFTNode();
 
+    std::vector<float> get_magnitudes();
+    std::vector<float> get_phases();
+
     sample **magnitudes;
     sample **phases;
     int fft_size;

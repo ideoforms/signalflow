@@ -46,7 +46,7 @@ omitted_classes = ["GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
 vamp_only_classes = ["VampAnalysis"]
-known_parent_classes = ["Node", "StochasticNode"]
+known_parent_classes = ["Node", "StochasticNode", "FFTNode", "FFTOpNode"]
 documentation_omit_folders = ["io"]
 documentation_omit_classes = ["Constant"]
 

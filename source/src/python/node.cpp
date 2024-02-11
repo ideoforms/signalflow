@@ -296,6 +296,14 @@ void init_python_node(py::module &m)
         .def("set_seed", &StochasticNode::set_seed);
 
     /*--------------------------------------------------------------------------------
+     * FFTNode
+     *-------------------------------------------------------------------------------*/
+    py::class_<FFTNode, Node, NodeRefTemplate<FFTNode>>(m, "FFTNode")
+        .def("get_magnitudes", &FFTNode::get_magnitudes)
+        .def("get_phases", &FFTNode::get_phases);
+    py::class_<FFTOpNode, FFTNode, NodeRefTemplate<FFTOpNode>>(m, "FFTOpNode");
+
+    /*--------------------------------------------------------------------------------
      * Constants and enums
      *-------------------------------------------------------------------------------*/
     py::enum_<signalflow_node_state_t>(m, "signalflow_node_state_t", py::arithmetic(), "signalflow_node_state_t")
