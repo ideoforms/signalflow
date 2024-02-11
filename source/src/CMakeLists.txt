@@ -43,6 +43,8 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/find-peaks.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-flip-spectrum.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-contrast.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-magnitude-phase-array.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-random-phase.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/comb.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/allpass.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/onetap.cpp
@@ -94,6 +96,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/sum.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/trigonometry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/comparison.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/time-shift.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/constant.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/saw.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/sine.cpp

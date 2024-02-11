@@ -115,6 +115,9 @@ def generate_class_bindings(cls: NodeClass):
     if cls.name == "VampAnalysis":
         output += '.def("list_plugins", &VampAnalysis::list_plugins, R"pbdoc(list[str]: List the available plugin names.)pbdoc")\n'
 
+    if cls.name == "FFTMagnitudePhaseArray":
+        output += '.def("set_magnitudes", &FFTMagnitudePhaseArray::set_magnitudes)\n'
+
     output = output[:-1] + ";\n"
     return output
 

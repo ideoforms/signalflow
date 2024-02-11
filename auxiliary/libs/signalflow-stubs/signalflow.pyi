@@ -9,7 +9,8 @@
 from __future__ import annotations
 import numpy
 import typing
-__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTContinuousPhaseVocoder', 'FFTConvolve', 'FFTFindPeaks', 'FFTLPF', 'FFTNoiseGate', 'FFTPhaseVocoder', 'FFTTonality', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InvalidChannelCountException', 'KDTree', 'KDTreeMatch', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'NearestNeighbour', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'SegmentedGranulator', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TriangleLFO', 'TriangleOscillator', 'VampAnalysis', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
+import typing_extensions
+__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTContinuousPhaseVocoder', 'FFTContrast', 'FFTConvolve', 'FFTFindPeaks', 'FFTFlipSpectrum', 'FFTLPF', 'FFTMagnitudePhaseArray', 'FFTNode', 'FFTNoiseGate', 'FFTOpNode', 'FFTPhaseVocoder', 'FFTRandomPhase', 'FFTTonality', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InvalidChannelCountException', 'KDTree', 'KDTreeMatch', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'NearestNeighbour', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'SegmentedGranulator', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TimeShift', 'TriangleLFO', 'TriangleOscillator', 'VampAnalysis', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
 class ADSREnvelope(Node):
     """
     Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
@@ -51,6 +52,9 @@ class AudioGraph:
     The global audio signal processing graph
     """
     output: Node
+    @staticmethod
+    def get_shared_graph() -> AudioGraph:
+        ...
     @typing.overload
     def __init__(self, config: AudioGraphConfig = None, output_device: Node = None, start: bool = True) -> None:
         ...
@@ -447,7 +451,7 @@ class BufferLooper(Node):
         ...
 class BufferPlayer(Node):
     """
-    Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is receives, rewinds to the start_time.
+    Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.
     """
     def __init__(self, buffer: ... = None, rate: Node = 1.0, loop: Node = 0, start_time: Node = None, end_time: Node = None, clock: Node = None) -> None:
         ...
@@ -598,6 +602,11 @@ class EnvelopeBuffer(Buffer):
         Create an envelope buffer containing the given number of samples.
         """
     @typing.overload
+    def __init__(self, samples: list[float]) -> None:
+        """
+        Create an envelope buffer containing the specified 1D array of samples.
+        """
+    @typing.overload
     def __init__(self, shape: str) -> None:
         """
         Create an envelope buffer with the specified shape, one of: rectangular, triangle, hanning, linear-decay.
@@ -629,49 +638,82 @@ class Euclidean(Node):
     """
     def __init__(self, clock: Node = 0, sequence_length: Node = 0, num_events: Node = 0) -> None:
         ...
-class FFT(Node):
+class FFT(FFTNode):
     """
     Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
     """
     def __init__(self, input: Node = 0.0, fft_size: int = 1024, hop_size: int = 128, window_size: int = 0, do_window: bool = True) -> None:
         ...
-class FFTContinuousPhaseVocoder(Node):
+class FFTContinuousPhaseVocoder(FFTNode):
     """
     Continuous phase vocoder. Requires an FFT* input.
     """
     def __init__(self, input: Node = None, rate: float = 1.0) -> None:
         ...
-class FFTConvolve(Node):
+class FFTContrast(FFTOpNode):
+    """
+    FFT Contrast. Requires an FFT* input.
+    """
+    def __init__(self, input: Node = 0, contrast: Node = 1) -> None:
+        ...
+class FFTConvolve(FFTOpNode):
     """
     Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
     """
     def __init__(self, input: Node = None, buffer: ... = None) -> None:
         ...
-class FFTFindPeaks(Node):
+class FFTFindPeaks(FFTOpNode):
     """
     Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
     """
     def __init__(self, input: Node = 0, prominence: Node = 1, threshold: Node = 1e-06, count: int = 64, interpolate: bool = True) -> None:
         ...
-class FFTLPF(Node):
+class FFTFlipSpectrum(FFTOpNode):
+    """
+    Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.
+    """
+    def __init__(self, input: Node = 0, flip: Node = 0, rotate: Node = 0) -> None:
+        ...
+class FFTLPF(FFTOpNode):
     """
     FFT-based brick wall low pass filter. Requires an FFT* input.
     """
     def __init__(self, input: Node = 0, frequency: Node = 2000) -> None:
         ...
-class FFTNoiseGate(Node):
+class FFTMagnitudePhaseArray(FFTOpNode):
+    """
+    Fixed mag/phase array.
+    """
+    def __init__(self, input: Node = 0, magnitudes: list[float] = 0, phases: list[float] = 0) -> None:
+        ...
+    def set_magnitudes(self, arg0: list[float]) -> None:
+        ...
+class FFTNode(Node):
+    def get_magnitudes(self) -> list[float]:
+        ...
+    def get_phases(self) -> list[float]:
+        ...
+class FFTNoiseGate(FFTOpNode):
     """
     FFT-based noise gate. Requires an FFT* input.
     """
     def __init__(self, input: Node = 0, threshold: Node = 0.5, invert: Node = 0.0) -> None:
         ...
-class FFTPhaseVocoder(Node):
+class FFTOpNode(FFTNode):
+    pass
+class FFTPhaseVocoder(FFTOpNode):
     """
     Phase vocoder. Requires an FFT* input.
     """
     def __init__(self, input: Node = None) -> None:
         ...
-class FFTTonality(Node):
+class FFTRandomPhase(FFTOpNode):
+    """
+    Randomise phase values.
+    """
+    def __init__(self, input: Node = 0) -> None:
+        ...
+class FFTTonality(FFTOpNode):
     """
     Tonality filter. Requires an FFT* input.
     """
@@ -735,7 +777,7 @@ class GreaterThanOrEqual(Node):
     """
     def __init__(self, a: Node = 0, b: Node = 0) -> None:
         ...
-class IFFT(Node):
+class IFFT(FFTOpNode):
     """
     Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
     """
@@ -1490,7 +1532,7 @@ class SampleAndHold(Node):
         ...
 class SawLFO(Node):
     """
-    Produces a sawtooth LFO, with output ranging from `min` to `max`.
+    Produces a sawtooth LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
     """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, phase: Node = 0.0) -> None:
         ...
@@ -1522,7 +1564,7 @@ class SegmentedGranulator(Node):
     """
     Segmented Granulator.
     """
-    def __init__(self, buffer: ... = None, onset_times: list[float] = 0, durations: list[float] = 0, index: Node = 0.0, rate: Node = 1.0, clock: Node = None, max_grains: Node = None) -> None:
+    def __init__(self, buffer: ... = None, onset_times: list[float] = 0, durations: list[float] = 0, index: Node = 0.0, rate: Node = 1.0, clock: Node = 0, max_grains: Node = 2048) -> None:
         ...
 class Sequence(Node):
     """
@@ -1573,13 +1615,13 @@ class SpatialSpeaker:
     pass
 class SquareLFO(Node):
     """
-    Produces a pulse wave LFO with the given `frequency` and pulsewidth of `width`, ranging from `min` to `max`, where `width` of `0.5` is a square wave.
+    Produces a pulse wave LFO with the given `frequency` and pulse `width`,  ranging from `min` to `max`, where `width` of `0.5` is a square wave and other values produce a rectangular wave.
     """
     def __init__(self, frequency: Node = 1.0, min: Node = 0.0, max: Node = 1.0, width: Node = 0.5, phase: Node = 0.0) -> None:
         ...
 class SquareOscillator(Node):
     """
-    Produces a pulse wave with the given `frequency` and pulse `width`, where `width` of `0.5` is a square wave and other `width` values produce a rectangular wave.
+    Produces a pulse wave with the given `frequency` and pulse `width`,  where `width` of `0.5` is a square wave and other values produce a rectangular wave.
     """
     def __init__(self, frequency: Node = 440, width: Node = 0.5) -> None:
         ...
@@ -1653,6 +1695,12 @@ class Tanh(Node):
     """
     def __init__(self, a: Node = 0) -> None:
         ...
+class TimeShift(Node):
+    """
+    TimeShift
+    """
+    def __init__(self, a: Node = 0) -> None:
+        ...
 class TriangleLFO(Node):
     """
     Produces a triangle LFO with the given `frequency` and `phase` offset, ranging from `min` to `max`.
@@ -1671,6 +1719,10 @@ class VampAnalysis(Node):
     """
     def __init__(self, input: Node = 0.0, plugin_id: str = 'vamp-example-plugins:spectralcentroid:linearcentroid') -> None:
         ...
+    def list_plugins(self) -> list[str]:
+        """
+        list[str]: List the available plugin names.
+        """
 class WaveShaper(Node):
     """
     Applies wave-shaping as described in the WaveShaperBuffer `buffer`.
