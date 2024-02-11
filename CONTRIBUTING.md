@@ -110,6 +110,8 @@ To author a new Node class:
 - Re-run the tests: `python3 setup.py test`
 - Update the stubs (see [Generating stubs](#generating-stubs))
 
+Note that, to comply with the registry system, all arguments to Node constructors must have default values so that the Node class can be instantiated with a zero-argument syntax, e.g. `NodeClass()`.
+
 ## Test
 
 To run the unit test suite:
@@ -146,7 +148,8 @@ To add examples to the node library, simply add a Python script inside the corre
 To generate and render the HTML documentation, install `mkdocs` and associated plugins:
 
 ```
-pip3 install mkdocs mkdocs-material mkdocs-include-markdown-plugin mkdocs-git-revision-date-localized-plugin
+# use specific mkdocs-material version for full "Last update" text in git revision-date
+pip3 install mkdocs mkdocs-material==9.1.15 mkdocs-include-markdown-plugin mkdocs-git-revision-date-localized-plugin
 ```
 
 To serve the HTML documentation locally, on `http://localhost:8000`:
