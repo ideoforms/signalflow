@@ -235,6 +235,7 @@ KDTreeMatch KDTree::get_nearest(const std::vector<float> &target)
 {
     if (target.size() != this->num_dimensions)
     {
+        fprintf(stderr, "KDTree: Target has an invalid number of dimensions\n");
         throw std::runtime_error("Target has an invalid number of dimensions (expected = " + std::to_string(this->num_dimensions) + ", actual = " + std::to_string(target.size()) + ")");
     }
     auto result = this->root->get_nearest(target, KDTreeMatch(0, {}, std::numeric_limits<float>::max()));
