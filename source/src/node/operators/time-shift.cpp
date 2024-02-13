@@ -8,7 +8,7 @@ namespace signalflow
 TimeShift::TimeShift(NodeRef a)
     : UnaryOpNode(a)
 {
-    this->name = "TimeShift";
+    this->name = "time-shift";
 }
 
 void TimeShift::process(Buffer &out, int num_frames)
