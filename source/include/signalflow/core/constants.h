@@ -3,6 +3,7 @@
 #include "signalflow/buffer/ringbuffer.h"
 #include "signalflow/core/exceptions.h"
 
+#include <limits>
 #include <map>
 #include <stdlib.h>
 #include <string>
@@ -30,6 +31,11 @@ typedef RingBuffer<sample> SampleRingBuffer;
     {                  \
         (void) (expr); \
     } while (0)
+
+/*------------------------------------------------------------------------
+ * Sentinel value, used to represent an undefined or unset float value.
+ *-----------------------------------------------------------------------*/
+#define SIGNALFLOW_NULL_FLOAT std::numeric_limits<float>::max()
 
 /*------------------------------------------------------------------------
  * Max supported number of output channels. Impacts memory usage.

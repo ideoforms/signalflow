@@ -711,7 +711,7 @@ class FFTRandomPhase(FFTOpNode):
     """
     Randomise phase values.
     """
-    def __init__(self, input: Node = 0) -> None:
+    def __init__(self, input: Node = 0, level: Node = 1.0) -> None:
         ...
 class FFTTonality(FFTOpNode):
     """
@@ -866,7 +866,7 @@ class LessThanOrEqual(Node):
         ...
 class Line(Node):
     """
-    Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal.
+    Line segment with the given start/end values, and duration (in seconds). If loop is true, repeats indefinitely. Retriggers on a clock signal.
     """
     def __init__(self, start: Node = 0.0, end: Node = 1.0, time: Node = 1.0, loop: Node = 0, clock: Node = None) -> None:
         ...

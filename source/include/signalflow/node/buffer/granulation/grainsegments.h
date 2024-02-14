@@ -22,7 +22,8 @@ public:
                         NodeRef max_grains = 2048);
 
     virtual void process(Buffer &out, int num_frames) override;
-    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER,
+                         float value = SIGNALFLOW_NULL_FLOAT) override;
     virtual void set_buffer(std::string, BufferRef buffer) override;
 
 protected:
@@ -38,7 +39,7 @@ protected:
     std::vector<float> durations;
     float rate_scale_factor;
     std::vector<Grain *> grains;
-    std::mutex mutex;
+    bool triggered = false;
 };
 
 REGISTER(SegmentedGranulator, "segmented-granulator")

@@ -198,7 +198,7 @@ public:
      * Generic trigger method. 
      *-----------------------------------------------------------------------*/
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER,
-                         float value = 1);
+                         float value = SIGNALFLOW_NULL_FLOAT);
 
     /*------------------------------------------------------------------------
      * Print the node's output value to stdout at a specified frequency.

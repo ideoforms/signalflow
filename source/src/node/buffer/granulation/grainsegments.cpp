@@ -64,8 +64,9 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
 
     for (int frame = 0; frame < num_frames; frame++)
     {
-        if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
+        if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame) || this->triggered)
         {
+            this->triggered = false;
             int index = (int) this->index->out[0][frame];
             if (index < 0 || index >= this->onset_times.size())
             {
@@ -78,9 +79,7 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
                                          this->onset_times[index] * buffer->get_sample_rate(),
                                          this->durations[index] * buffer->get_sample_rate(),
                                          this->rate->out[0][frame] * this->rate_scale_factor);
-                this->mutex.lock();
                 this->grains.push_back(grain);
-                this->mutex.unlock();
             }
         }
 
@@ -109,9 +108,7 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
             else
             {
                 delete grain;
-                this->mutex.lock();
                 grains.erase(it);
-                this->mutex.unlock();
             }
         }
     }
@@ -121,12 +118,21 @@ void SegmentedGranulator::trigger(std::string name, float value)
 {
     /*--------------------------------------------------------------------------------
      * TODO: Don't repeat this same block of code from the trigger block above
-     * TODO: How to honour `value` here, if specified?
-     *       Perhaps the default should be a null value, that gets ignored in favour
-     *       of `index` if not specified.
      *--------------------------------------------------------------------------------*/
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
+        if (value == SIGNALFLOW_NULL_FLOAT)
+        {
+            /*--------------------------------------------------------------------------------
+             * If triggered without an explicitly-specified index, defer the trigger
+             * until the next process() block. This is because, if the .index property of
+             * the granulator is set at the same time as trigger() is called, the .index
+             * update won't take effect until the next process().
+             *--------------------------------------------------------------------------------*/
+            this->triggered = true;
+            return;
+        }
+
         int index = (int) value;
         if (index < 0 || index >= this->onset_times.size())
         {
@@ -139,9 +145,7 @@ void SegmentedGranulator::trigger(std::string name, float value)
                                      this->onset_times[index] * buffer->get_sample_rate(),
                                      this->durations[index] * buffer->get_sample_rate(),
                                      this->rate->out[0][0] * this->rate_scale_factor);
-            this->mutex.lock();
             this->grains.push_back(grain);
-            this->mutex.unlock();
         }
     }
 }

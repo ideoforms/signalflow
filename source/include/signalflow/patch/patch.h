@@ -133,7 +133,7 @@ public:
      * Trigger this Patch.
      *--------------------------------------------------------------------------------*/
     void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER,
-                 float value = 1.0);
+                 float value = SIGNALFLOW_NULL_FLOAT);
 
     /**--------------------------------------------------------------------------------
      * Parse a template from live Node objects to create a network of NodeDefs
