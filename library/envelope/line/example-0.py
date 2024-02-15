@@ -8,6 +8,6 @@ graph = AudioGraph()
 clock = Impulse(frequency=1.0)
 line = Line(0.0, 0.5, 0.5, False, clock)
 osc = SawOscillator(200)
-output = osc * line
+output = StereoPanner(osc * line)
 output.play()
 graph.wait()
