@@ -1563,6 +1563,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1584,13 +1599,45 @@
 <div class="highlight"><pre><span></span><code><span class="n">WhiteNoise</span><span class="p">(</span><span class="n">frequency</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="nb">min</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="nb">max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">interpolate</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">random_interval</span><span class="o">=</span><span class="n">true</span><span class="p">,</span> <span class="n">reset</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </code></pre></div>
 <p>Generates whitenoise between min/max. If frequency is zero, generates at audio rate. For frequencies lower than audio rate, interpolate applies linear interpolation between values, and random_interval specifies whether new random values should be equally-spaced or randomly-spaced.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using white noise to control the pitch of an oscillator.</span>
+<span class="c1"># A new pitch is determined once every second. Interpolation is turned off so </span>
+<span class="c1"># that the oscillator jumps to the new pitch instead of smoothly moving to it.</span>
+<span class="c1"># Random interval is turned off so that pitch changes occur at a regular rate.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="n">WhiteNoise</span><span class="p">(</span> <span class="n">frequency</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                        <span class="nb">min</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> 
+                        <span class="nb">max</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> 
+                        <span class="n">interpolate</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                        <span class="n">random_interval</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">oscillator</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">oscillator</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using white noise to simulate the sound of wind.</span>
+<span class="c1"># White noise is generated at audio rate and passed into a band-pass filter.</span>
+<span class="c1"># The cutoff of the filter is controlled by another white noise generator, which</span>
+<span class="c1"># generates a new value between 100 and 300 at randomly-spaced intervals every </span>
+<span class="c1"># second, and smoothly interpolates between these values.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">noise</span> <span class="o">=</span> <span class="n">WhiteNoise</span><span class="p">()</span>
+<span class="n">cutoff</span> <span class="o">=</span> <span class="n">WhiteNoise</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">filtered</span> <span class="o">=</span> <span class="n">SVFilter</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="n">noise</span><span class="p">,</span>
+                    <span class="n">filter_type</span><span class="o">=</span> <span class="s2">&quot;band_pass&quot;</span><span class="p">,</span> 
+                    <span class="n">cutoff</span><span class="o">=</span><span class="n">cutoff</span><span class="p">,</span>
+                    <span class="n">resonance</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">filtered</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-15T23:50:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-15</span>
       
         <br>
         Created:

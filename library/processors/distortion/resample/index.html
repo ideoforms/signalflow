@@ -1563,6 +1563,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1584,13 +1599,22 @@
 <div class="highlight"><pre><span></span><code><span class="n">Resample</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">44100</span><span class="p">,</span> <span class="n">bit_rate</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 </code></pre></div>
 <p>Resampler and bit crusher. <code>sample_rate</code> is in Hz, <code>bit_rate</code> is an integer between 0 and 16.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using Resample to distort a sine wave.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="mi">440</span><span class="p">)</span>
+<span class="n">crushed</span> <span class="o">=</span> <span class="n">Resample</span><span class="p">(</span><span class="n">sine</span><span class="p">,</span> <span class="mi">11025</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">crushed</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.3</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-15T23:50:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-15</span>
       
         <br>
         Created:

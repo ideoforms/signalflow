@@ -1563,6 +1563,21 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    Examples
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1584,13 +1599,47 @@
 <div class="highlight"><pre><span></span><code><span class="n">StereoPanner</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">pan</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
 </code></pre></div>
 <p>Pans a mono input to a stereo output. <code>pan</code> should be between -1 (hard left) to +1 (hard right), with 0 = centre.</p>
+<h3 id="examples">Examples</h3>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using StereoPanner to pan a low pitch to the left and a high pitch to the</span>
+<span class="c1"># right.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">low</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="mi">220</span><span class="p">)</span>
+<span class="n">high</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="mi">660</span><span class="p">)</span>
+
+<span class="n">left</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">low</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">right</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">high</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">)</span>
+
+<span class="n">output</span> <span class="o">=</span> <span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="n">right</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="c1"># Using StereoPanner to repeatedly pan an arpeggiating oscillator between the </span>
+<span class="c1"># left and right channels.</span>
+<span class="c1">#-------------------------------------------------------------------------------</span>
+<span class="n">clock</span> <span class="o">=</span> <span class="n">Impulse</span><span class="p">(</span><span class="mf">8.0</span><span class="p">)</span>
+<span class="n">CMaj7</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">60</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">71</span><span class="p">,</span> <span class="mi">74</span><span class="p">,</span> <span class="mi">76</span> <span class="p">]</span> <span class="o">*</span> <span class="mi">8</span>
+<span class="n">FMaj9</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">65</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">77</span><span class="p">,</span> <span class="mi">81</span> <span class="p">]</span> <span class="o">*</span> <span class="mi">8</span>
+<span class="n">arpeggios</span> <span class="o">=</span> <span class="n">CMaj7</span> <span class="o">+</span> <span class="n">FMaj9</span>
+<span class="n">sequence</span> <span class="o">=</span> <span class="n">Sequence</span><span class="p">(</span><span class="n">arpeggios</span><span class="p">,</span> <span class="n">clock</span><span class="p">)</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="n">MidiNoteToFrequency</span><span class="p">(</span><span class="n">sequence</span><span class="p">)</span>
+
+<span class="n">oscillator</span> <span class="o">=</span> <span class="n">TriangleOscillator</span><span class="p">(</span><span class="n">frequency</span><span class="p">)</span>
+<span class="n">release</span> <span class="o">=</span> <span class="n">Line</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+<span class="n">envelope</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">release</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">clock</span><span class="p">)</span>
+<span class="n">voice</span> <span class="o">=</span> <span class="n">oscillator</span> <span class="o">*</span> <span class="n">envelope</span>
+
+<span class="n">pan</span> <span class="o">=</span> <span class="n">SineLFO</span><span class="p">(</span><span class="mf">0.1667</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">voice</span><span class="p">,</span> <span class="n">pan</span><span class="p">)</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+</code></pre></div>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:39:19+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-15T23:50:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-15</span>
       
         <br>
         Created:

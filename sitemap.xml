@@ -336,12 +336,22 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://signalflow.dev/library/fft/fftmagnitudephasearray/</loc>
+         <lastmod>2024-02-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://signalflow.dev/library/fft/fftnoisegate/</loc>
          <lastmod>2024-02-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://signalflow.dev/library/fft/fftphasevocoder/</loc>
+         <lastmod>2024-02-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/fft/fftrandomphase/</loc>
          <lastmod>2024-02-15</lastmod>
          <changefreq>daily</changefreq>
     </url>
@@ -517,6 +527,11 @@
     </url>
     <url>
          <loc>https://signalflow.dev/library/operators/tanh/</loc>
+         <lastmod>2024-02-15</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://signalflow.dev/library/operators/timeshift/</loc>
          <lastmod>2024-02-15</lastmod>
          <changefreq>daily</changefreq>
     </url>

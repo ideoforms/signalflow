@@ -1605,7 +1605,7 @@
 <span class="c1">#-------------------------------------------------------------------------------</span>
 <span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="mi">440</span><span class="p">)</span>
 <span class="n">envelope</span> <span class="o">=</span> <span class="n">ASREnvelope</span><span class="p">(</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">sine</span> <span class="o">*</span> <span class="n">envelope</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">sine</span> <span class="o">*</span> <span class="n">envelope</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
 <span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 </code></pre></div>
 
@@ -1614,7 +1614,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-15T23:50:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-15</span>
       
         <br>
         Created:

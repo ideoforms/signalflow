@@ -1605,7 +1605,8 @@
 <span class="c1">#-----------------------------------------------------------------------------------</span>
 <span class="n">lfo</span> <span class="o">=</span> <span class="n">TriangleLFO</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">900</span><span class="p">)</span>
 <span class="n">sine</span> <span class="o">=</span> <span class="n">SineOscillator</span><span class="p">(</span><span class="n">lfo</span><span class="p">)</span>
-<span class="n">sine</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">StereoPanner</span><span class="p">(</span><span class="n">sine</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+<span class="n">output</span><span class="o">.</span><span class="n">play</span><span class="p">()</span>
 </code></pre></div>
 
   <hr>
@@ -1613,7 +1614,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-01-30T18:23:06+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-01-30</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-15T23:50:21+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-15</span>
       
         <br>
         Created:
