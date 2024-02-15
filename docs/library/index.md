@@ -45,7 +45,7 @@
 - **[ASREnvelope](envelope/asrenvelope/index.md)**: Attack-sustain-release envelope.
 - **[DetectSilence](envelope/detectsilence/index.md)**: Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.
 - **[Envelope](envelope/envelope/index.md)**: Generic envelope constructor, given an array of levels, times and curves.
-- **[Line](envelope/line/index.md)**: Line segment with the given start/end values and duration. If loop is true, repeats indefinitely. Retriggers on a clock signal.
+- **[Line](envelope/line/index.md)**: Line segment with the given start/end values, and duration (in seconds). If loop is true, repeats indefinitely. Retriggers on a clock signal.
 - **[RectangularEnvelope](envelope/rectangularenvelope/index.md)**: Rectangular envelope with the given sustain duration.
 
 ---
@@ -56,6 +56,8 @@
 - **[FFTConvolve](fft/fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
 - **[FFTContrast](fft/fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
 - **[FFTFlipSpectrum](fft/fftflipspectrum/index.md)**: Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.
+- **[FFTMagnitudePhaseArray](fft/fftmagnitudephasearray/index.md)**: Fixed mag/phase array.
+- **[FFTRandomPhase](fft/fftrandomphase/index.md)**: Randomise phase values.
 - **[FFT](fft/fft/index.md)**: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
 - **[FFTFindPeaks](fft/fftfindpeaks/index.md)**: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
 - **[IFFT](fft/ifft/index.md)**: Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
@@ -96,6 +98,7 @@
 - **[ScaleLinLin](operators/scalelinlin/index.md)**: Scales the input from a linear range (between a and b) to a linear range (between c and d).
 - **[Subtract](operators/subtract/index.md)**: Subtract each sample of b from each sample of a. Can also be written as a - b
 - **[Sum](operators/sum/index.md)**: Sums the output of all of the input nodes, by sample.
+- **[TimeShift](operators/timeshift/index.md)**: TimeShift
 - **[Sin](operators/sin/index.md)**: Outputs sin(a), per sample.
 - **[Cos](operators/cos/index.md)**: Outputs cos(a), per sample.
 - **[Tan](operators/tan/index.md)**: Outputs tan(a), per sample.

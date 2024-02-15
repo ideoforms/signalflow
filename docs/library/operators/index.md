@@ -29,6 +29,7 @@
 - **[ScaleLinLin](scalelinlin/index.md)**: Scales the input from a linear range (between a and b) to a linear range (between c and d).
 - **[Subtract](subtract/index.md)**: Subtract each sample of b from each sample of a. Can also be written as a - b
 - **[Sum](sum/index.md)**: Sums the output of all of the input nodes, by sample.
+- **[TimeShift](timeshift/index.md)**: TimeShift
 - **[Sin](sin/index.md)**: Outputs sin(a), per sample.
 - **[Cos](cos/index.md)**: Outputs cos(a), per sample.
 - **[Tan](tan/index.md)**: Outputs tan(a), per sample.

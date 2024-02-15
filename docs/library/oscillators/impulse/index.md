@@ -21,7 +21,7 @@ Produces a value of 1 at the given `frequency`, with output of 0 at all other ti
 clock = Impulse(1.0)
 osc = TriangleOscillator(250)
 envelope = ASREnvelope(0.01, 0.0, 0.5, 1.0, clock)
-output = osc * envelope
+output = StereoPanner(osc * envelope)
 output.play()
 
 ```

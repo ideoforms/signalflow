@@ -20,7 +20,8 @@ Produces a pulse wave LFO with the given `frequency` and pulse `width`,  ranging
 #-------------------------------------------------------------------------------
 lfo = SquareLFO(1, 200, 400)
 sine = SineOscillator(lfo)
-sine.play()
+output = StereoPanner(sine) * 0.5
+output.play()
 
 ```
 

@@ -20,7 +20,8 @@ Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with outp
 #-------------------------------------------------------------------------------
 lfo = SineLFO(1, 200, 1000)
 saw = SawOscillator(lfo)
-saw.play()
+output = StereoPanner(saw) * 0.3
+output.play()
 
 ```
 

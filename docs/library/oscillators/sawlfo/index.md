@@ -20,7 +20,8 @@ Produces a sawtooth LFO at the given `frequency` and `phase` offset, with output
 #-------------------------------------------------------------------------------
 lfo = SawLFO(1, 200, 1000)
 sine = SineOscillator(lfo)
-sine.play()
+output = StereoPanner(sine) * 0.5
+output.play()
 
 ```
 

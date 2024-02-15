@@ -20,7 +20,7 @@ Produces a triangle wave with the given `frequency`.
 #-------------------------------------------------------------------------------
 tri = TriangleOscillator(440)
 envelope = ASREnvelope(0.1, 0.1, 0.5)
-output = tri * envelope
+output = StereoPanner(tri * envelope) * 0.5
 output.play()
 
 ```

@@ -20,7 +20,8 @@ Produces a triangle LFO with the given `frequency` and `phase` offset, ranging f
 #-----------------------------------------------------------------------------------
 lfo = TriangleLFO(3, 200, 900)
 sine = SineOscillator(lfo)
-sine.play()
+output = StereoPanner(sine) * 0.5
+output.play()
 
 ```
 
