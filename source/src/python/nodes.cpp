@@ -112,15 +112,15 @@ void init_python_nodes(py::module &m)
     py::class_<FFTContrast, FFTOpNode, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "contrast"_a = 1);
 
-    py::class_<FFTFlipSpectrum, FFTOpNode, NodeRefTemplate<FFTFlipSpectrum>>(m, "FFTFlipSpectrum", "Flips the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "flip"_a = 0, "rotate"_a = 0);
-
     py::class_<FFTMagnitudePhaseArray, FFTOpNode, NodeRefTemplate<FFTMagnitudePhaseArray>>(m, "FFTMagnitudePhaseArray", "Fixed mag/phase array.")
         .def(py::init<NodeRef, std::vector<float>, std::vector<float>>(), "input"_a = 0, "magnitudes"_a = 0, "phases"_a = 0)
         .def("set_magnitudes", &FFTMagnitudePhaseArray::set_magnitudes);
 
     py::class_<FFTRandomPhase, FFTOpNode, NodeRefTemplate<FFTRandomPhase>>(m, "FFTRandomPhase", "Randomise phase values.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 1.0);
+
+    py::class_<FFTTransform, FFTOpNode, NodeRefTemplate<FFTTransform>>(m, "FFTTransform", "Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "flip"_a = 0, "rotate"_a = 0);
 
     py::class_<FFT, FFTNode, NodeRefTemplate<FFT>>(m, "FFT", "Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.")
         .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNALFLOW_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
