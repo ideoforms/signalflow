@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cassert>
 #include <math.h>
+#include <stdexcept>
 #include <string>
 
 void print_data(std::vector<std::vector<float>> data)
