@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## [v0.4.6](https://github.com/ideoforms/signalflow/tree/v0.4.6) (2024-02-16)
+
+- Added `NearestNeighbours`, `KDTree` and `signalflow_analysis` package (including `AudioFeatureBuffer`) for audio feature analysis, latent space navigation and playback
+- Added `signalflow_visualisation` package for visualising patch structures with NetworkX
+- New nodes: `FFTContrast`, `FFTTransform`, `FFTMagnitudePhaseArray`, `FFTRandomPhase`, `TimeShift`
+- Many documentation additions and Node examples (thanks to @gregwht)
+
 ## [v0.4.3](https://github.com/ideoforms/signalflow/tree/v0.4.3) (2023-11-12)
 
 - Added Windows build support for Python
