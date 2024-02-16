@@ -11,6 +11,7 @@ NearestNeighbour::NearestNeighbour(BufferRef buffer, NodeRef target)
 
     this->name = "nearest-neighbour";
     this->kdtree = nullptr;
+    this->no_input_upmix = true;
 
     this->create_buffer("buffer", this->buffer);
     this->create_input("target", this->target);
@@ -29,6 +30,7 @@ void NearestNeighbour::set_buffer(std::string name, BufferRef buffer)
     if (name == "buffer")
     {
         this->Node::set_buffer(name, buffer);
+        this->set_channels(this->buffer->get_num_channels(), 1);
 
         /*--------------------------------------------------------------------------------
          * Initialise K-D tree data structure.
