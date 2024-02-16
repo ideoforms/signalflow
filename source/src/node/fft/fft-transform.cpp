@@ -1,18 +1,18 @@
-#include "signalflow/node/fft/fft-flip-spectrum.h"
+#include "signalflow/node/fft/fft-transform.h"
 
 namespace signalflow
 {
 
-FFTFlipSpectrum::FFTFlipSpectrum(NodeRef input, NodeRef flip, NodeRef rotate)
+FFTTransform::FFTTransform(NodeRef input, NodeRef flip, NodeRef rotate)
     : FFTOpNode(input), flip(flip), rotate(rotate)
 {
-    this->name = "fft-flip-spectrum";
+    this->name = "fft-transform";
 
     this->create_input("flip", this->flip);
     this->create_input("rotate", this->rotate);
 }
 
-void FFTFlipSpectrum::process(Buffer &out, int num_frames)
+void FFTTransform::process(Buffer &out, int num_frames)
 {
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;

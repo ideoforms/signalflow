@@ -41,7 +41,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/tonality.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/convolve.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/find-peaks.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-flip-spectrum.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-transform.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-contrast.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-magnitude-phase-array.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-random-phase.cpp

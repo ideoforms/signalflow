@@ -27,6 +27,10 @@ public:
     virtual void set_buffer(std::string, BufferRef buffer) override;
 
 protected:
+    std::vector<float> onset_times;
+    std::vector<float> durations;
+    std::vector<Grain *> grains;
+
     BufferRef buffer;
     BufferRef envelope;
 
@@ -35,10 +39,7 @@ protected:
     NodeRef clock;
     NodeRef max_grains;
 
-    std::vector<float> onset_times;
-    std::vector<float> durations;
     float rate_scale_factor;
-    std::vector<Grain *> grains;
     bool triggered = false;
 };
 
