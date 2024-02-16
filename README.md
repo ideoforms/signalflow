@@ -90,6 +90,7 @@ The following Node classes are currently included with the base distribution:
 
 Thanks to the following contributors:
 
+- Greg White ([@gregwht](https://github.com/gregwht): Examples, documentation and testing
 - Arthur Carabott ([@acarabott](https://github.com/acarabott)), Tim Murray-Browne ([@timmb](https://github.com/timmb)): Windows support
 - Dan Stowell ([@danstowell](https://github.com/danstowell)): Build improvements
 - Marc Fargas ([@telenieko](https://github.com/telenieko)): Generous donation of the `signalflow` pypi namespace
