@@ -10,7 +10,7 @@ def main():
     graph.poll(1)
 
     #------------------------------------------------------------------------
-    # Change frequency on average once per second.
+    # Once per second, select a new random frequency (40-20000Hz)
     #------------------------------------------------------------------------
     f0 = RandomExponential(40, 2000, clock=RandomImpulse(1))
 
