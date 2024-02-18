@@ -168,18 +168,28 @@ void AudioGraph::clear()
 
 void AudioGraph::destroy()
 {
-    AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
-    if (audioout)
+    // Clear output when destroyed to ensure that multiply destroy() calls won't crash
+    if (this->output)
     {
-        audioout->destroy();
-    }
-    if (shared_graph == this)
-    {
-        shared_graph = nullptr;
+        AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
+        if (audioout)
+        {
+            audioout->destroy();
+        }
+        if (shared_graph == this)
+        {
+            shared_graph = nullptr;
+        }
+        this->output = nullptr;
     }
 }
 
-AudioGraph::~AudioGraph() { this->destroy(); }
+AudioGraph::~AudioGraph()
+{
+    // When the AudioGraph is deallocated (which happens automatically at the end of a Python script),
+    // ensure it is destroyed.
+    this->destroy();
+}
 
 void AudioGraph::wait(float time)
 {
