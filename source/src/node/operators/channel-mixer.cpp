@@ -65,10 +65,18 @@ void ChannelMixer::process(Buffer &out, int num_frames)
             }
             channel_amp = channel_amp * this->amplitude_compensation_level;
 
+#ifdef __APPLE__
+            vDSP_vsma(this->input->out[in_channel], 1,
+                      &channel_amp,
+                      out[out_channel], 1,
+                      out[out_channel], 1,
+                      num_frames);
+#else
             for (int frame = 0; frame < num_frames; frame++)
             {
                 out[out_channel][frame] += channel_amp * this->input->out[in_channel][frame];
             }
+#endif
         }
     }
 }
