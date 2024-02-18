@@ -80,11 +80,11 @@ void write_callback(struct SoundIoOutStream *outstream, int frame_count_min, int
                         if (*ptr < -1.0)
                             *ptr = -1.0;
                     }
-		    else if (outstream->format == SoundIoFormatS16LE)
+                    else if (outstream->format == SoundIoFormatS16LE)
                     {
                         int16_t *ptr = reinterpret_cast<int16_t *>(areas[channel].ptr + areas[channel].step * frame);
-                        *ptr = (int16_t) (output->out[channel][frame] * 32768.0f);
-	            }
+                        *ptr = (int16_t)(output->out[channel][frame] * 32768.0f);
+                    }
                 }
             }
         }
