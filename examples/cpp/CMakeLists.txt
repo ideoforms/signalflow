@@ -10,7 +10,6 @@ set(EXAMPLES ${EXAMPLES}
     supersaw-example.cpp
     patch-example.cpp
     trigger-example.cpp
-    waveshaper-example.cpp
     wavetable-2d-example.cpp
     wavetable-example.cpp
 )
