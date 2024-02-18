@@ -77,7 +77,10 @@ void SineOscillator::process(Buffer &out, int num_frames)
 #else
         for (int frame = 0; frame < num_frames; frame++)
         {
-            out[channel][frame] += this->phase_offset->out[channel][frame];
+            if (this->phase_offset)
+            {
+                out[channel][frame] += this->phase_offset->out[channel][frame];
+            }
             out[channel][frame] = sinf(out[channel][frame]);
         }
 #endif
