@@ -17,7 +17,7 @@ namespace signalflow
 class AudioIn_SoundIO : public AudioIn_Abstract
 {
 public:
-    AudioIn_SoundIO();
+    AudioIn_SoundIO(unsigned int num_channels = 1);
     virtual ~AudioIn_SoundIO() override;
     virtual int init() override;
     virtual int start() override;
@@ -32,6 +32,7 @@ public:
     Buffer *buffer;
     int read_pos;
     int write_pos;
+    unsigned int num_channels_requested;
 };
 
 }

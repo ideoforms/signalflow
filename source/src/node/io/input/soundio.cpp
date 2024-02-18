@@ -2,6 +2,8 @@
 
 #ifdef HAVE_SOUNDIO
 
+#define SIGNALFLOW_AUDIO_IN_DEFAULT_BUFFER_SIZE 1024
+
 #include "signalflow/core/graph.h"
 #include "signalflow/node/io/output/soundio.h"
 
@@ -48,7 +50,7 @@ void read_callback(struct SoundIoInStream *instream,
 
         for (int frame = 0; frame < frame_count; frame++)
         {
-            for (int channel = 0; channel < layout->channel_count; channel += 1)
+            for (int channel = 0; channel < input->buffer->get_num_channels(); channel += 1)
             {
                 float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
                 input->buffer->data[channel][input->write_pos] = *ptr;
@@ -65,17 +67,20 @@ void read_callback(struct SoundIoInStream *instream,
     is_processing = false;
 }
 
-AudioIn_SoundIO::AudioIn_SoundIO()
+AudioIn_SoundIO::AudioIn_SoundIO(unsigned int num_channels)
     : AudioIn_Abstract()
 {
     // Allocate enough buffer for twice our block size, else
     // we risk overwriting our input buffer from the audio in
     // while it is still being read from.
     // TODO: Bad hardcoded block size
-    this->buffer = new Buffer(2, 2048 * 2);
+
+    this->num_channels_requested = num_channels;
     this->read_pos = 0;
-    this->write_pos = 2048;
+    this->write_pos = (int) (SIGNALFLOW_AUDIO_IN_DEFAULT_BUFFER_SIZE / 2);
     this->name = "audioin_soundio";
+    this->buffer = NULL;
+
     this->init();
 }
 
@@ -117,7 +122,13 @@ int AudioIn_SoundIO::init()
         throw audio_io_exception("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
     }
 
-    this->num_output_channels = this->instream->layout.channel_count;
+    if (this->num_channels_requested > this->instream->layout.channel_count)
+    {
+        throw audio_io_exception("AudioIn: Not enough input channels available (requested " + std::to_string(this->num_channels_requested) + ", available " + std::to_string(this->instream->layout.channel_count) + ")");
+    }
+    this->set_channels(0, this->num_channels_requested);
+    this->buffer = new Buffer(this->num_output_channels, SIGNALFLOW_AUDIO_IN_DEFAULT_BUFFER_SIZE);
+
     int buffer_size = this->instream->software_latency * this->instream->sample_rate;
     std::string s = num_output_channels == 1 ? "" : "s";
 
@@ -156,9 +167,9 @@ void AudioIn_SoundIO::process(Buffer &out, int num_frames)
     {
         for (int channel = 0; channel < num_output_channels; channel++)
         {
-            out[channel][frame] = this->buffer->data[channel][read_pos];
+            out[channel][frame] = this->buffer->data[channel][this->read_pos];
         }
-        read_pos = (read_pos + 1) % this->buffer->get_num_frames();
+        this->read_pos = (this->read_pos + 1) % this->buffer->get_num_frames();
     }
 }
 
