@@ -52,6 +52,7 @@ class CMakeBuild(build_ext):
 signalflow_packages = [
     'signalflow-stubs',
     'signalflow_midi',
+    'signalflow_cli',
     'signalflow_examples',
     'signalflow_visualisation',
     'signalflow_analysis',
@@ -96,5 +97,9 @@ setup(
         "signalflow-stubs": ["*.pyi"],
         "signalflow": signalflow_package_data
     },
-    scripts=['source/bin/signalflow']
+    entry_points = {
+        'console_scripts': [
+            'signalflow_test = signalflow_cli:main',
+        ],
+    }
 )
