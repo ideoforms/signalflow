@@ -4,15 +4,15 @@
 namespace signalflow
 {
 
-Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef phase, NodeRef sync, BufferRef phase_map)
-    : buffer(buffer), frequency(frequency), phase(phase), sync(sync), phase_map(phase_map)
+Wavetable::Wavetable(BufferRef buffer, NodeRef frequency, NodeRef phase_offset, NodeRef sync, BufferRef phase_map)
+    : buffer(buffer), frequency(frequency), phase_offset(phase_offset), sync(sync), phase_map(phase_map)
 {
     SIGNALFLOW_CHECK_GRAPH();
 
     this->name = "wavetable";
 
     this->create_input("frequency", this->frequency);
-    this->create_input("phase", this->phase);
+    this->create_input("phase_offset", this->phase_offset);
     this->create_input("sync", this->sync);
     this->create_buffer("buffer", this->buffer);
     this->create_buffer("phase_map", this->phase_map);
@@ -45,7 +45,7 @@ void Wavetable::process(Buffer &out, int num_frames)
             float frequency = this->frequency->out[channel][frame];
 
             // TODO Create wavetable buffer
-            float index = this->current_phase[channel] + this->phase->out[channel][frame];
+            float index = this->current_phase[channel] + this->phase_offset->out[channel][frame];
             index = fmod(index, 1);
             while (index < 0)
             {
@@ -67,14 +67,14 @@ void Wavetable::process(Buffer &out, int num_frames)
     }
 }
 
-Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfade, NodeRef phase, NodeRef sync)
-    : buffer(buffer), frequency(frequency), crossfade(crossfade), phase(phase), sync(sync)
+Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfade, NodeRef phase_offset, NodeRef sync)
+    : buffer(buffer), frequency(frequency), crossfade(crossfade), phase_offset(phase_offset), sync(sync)
 {
     this->name = "wavetable2d";
 
     this->create_input("frequency", this->frequency);
     this->create_input("crossfade", this->crossfade);
-    this->create_input("phase", this->phase);
+    this->create_input("phase_offset", this->phase_offset);
     this->create_input("sync", this->sync);
 
     // Named Buffer inputs don't yet work for Buffer2Ds :-(
@@ -85,7 +85,7 @@ Wavetable2D::Wavetable2D(BufferRef2D buffer, NodeRef frequency, NodeRef crossfad
 
 void Wavetable2D::alloc()
 {
-    this->phase_offset.resize(this->num_output_channels_allocated);
+    this->current_phase.resize(this->num_output_channels_allocated);
 }
 
 void Wavetable2D::process(Buffer &out, int num_frames)
@@ -96,7 +96,7 @@ void Wavetable2D::process(Buffer &out, int num_frames)
         {
             float frequency = this->frequency->out[channel][frame];
 
-            float current_phase = this->phase_offset[channel] + this->phase->out[channel][frame];
+            float current_phase = this->current_phase[channel] + this->phase_offset->out[channel][frame];
             current_phase = fmod(current_phase, 1);
             while (current_phase < 0)
             {
@@ -108,9 +108,9 @@ void Wavetable2D::process(Buffer &out, int num_frames)
 
             out[channel][frame] = rv;
 
-            this->phase_offset[channel] += (frequency / this->graph->get_sample_rate());
-            while (this->phase_offset[channel] >= 1.0)
-                this->phase_offset[channel] -= 1.0;
+            this->current_phase[channel] += (frequency / this->graph->get_sample_rate());
+            while (this->current_phase[channel] >= 1.0)
+                this->current_phase[channel] -= 1.0;
         }
     }
 }

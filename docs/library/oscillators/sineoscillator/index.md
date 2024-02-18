@@ -6,7 +6,7 @@ description: SineOscillator: Produces a sine wave at the given `frequency`.
 # SineOscillator
 
 ```python
-SineOscillator(frequency=440)
+SineOscillator(frequency=440, phase_offset=None, reset=None)
 ```
 
 Produces a sine wave at the given `frequency`.

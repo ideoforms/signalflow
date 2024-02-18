@@ -7,7 +7,6 @@ import pytest
 Fs = 1000
 N = 1024
 
-
 def test_nodes_oscillators_sine(graph):
     a = sf.SineOscillator([10, 20])
     graph.render_subgraph(a)
@@ -21,6 +20,18 @@ def test_nodes_oscillators_sine(graph):
     assert a.output_buffer[0] == pytest.approx(expected, abs=0.0001)
 
     expected = np.sin(np.arange(graph.output_buffer_size) * np.pi * 2 * 20 / graph.sample_rate)
+    assert a.output_buffer[1] == pytest.approx(expected, abs=0.0001)
+
+    # --------------------------------------------------------------------------------
+    # Phase shift
+    # --------------------------------------------------------------------------------
+    a = sf.SineOscillator([10, 20], [np.pi * 2 * 0.25, np.pi * 2 * 0.5])
+    graph.render_subgraph(a)
+
+    expected = np.sin(np.arange(graph.output_buffer_size) * np.pi * 2 * 10 / graph.sample_rate + (np.pi * 2 * 0.25))
+    assert a.output_buffer[0] == pytest.approx(expected, abs=0.0001)
+
+    expected = np.sin(np.arange(graph.output_buffer_size) * np.pi * 2 * 20 / graph.sample_rate + (np.pi * 2 * 0.5))
     assert a.output_buffer[1] == pytest.approx(expected, abs=0.0001)
 
 

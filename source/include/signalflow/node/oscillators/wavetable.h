@@ -16,7 +16,7 @@ class Wavetable : public Node
 public:
     Wavetable(BufferRef buffer = nullptr,
               NodeRef frequency = 440,
-              NodeRef phase = 0,
+              NodeRef phase_offset = 0,
               NodeRef sync = 0,
               BufferRef phase_map = nullptr);
 
@@ -26,7 +26,7 @@ public:
 private:
     BufferRef buffer;
     NodeRef frequency;
-    NodeRef phase;
+    NodeRef phase_offset;
     NodeRef sync;
     BufferRef phase_map;
 
@@ -40,7 +40,7 @@ public:
     Wavetable2D(BufferRef2D buffer = nullptr,
                 NodeRef frequency = 440,
                 NodeRef crossfade = 0.0,
-                NodeRef phase = 0.0,
+                NodeRef phase_offset = 0.0,
                 NodeRef sync = 0);
 
     virtual void alloc() override;
@@ -50,10 +50,10 @@ private:
     BufferRef2D buffer;
     NodeRef frequency;
     NodeRef crossfade;
-    NodeRef phase;
+    NodeRef phase_offset;
     NodeRef sync;
 
-    std::vector<float> phase_offset;
+    std::vector<float> current_phase;
 };
 
 REGISTER(Wavetable, "wavetable")

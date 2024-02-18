@@ -6,7 +6,7 @@ description: Wavetable2D: Wavetable2D
 # Wavetable2D
 
 ```python
-Wavetable2D(buffer=None, frequency=440, crossfade=0.0, phase=0.0, sync=0)
+Wavetable2D(buffer=None, frequency=440, crossfade=0.0, phase_offset=0.0, sync=0)
 ```
 
 Wavetable2D

@@ -260,13 +260,13 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<SawOscillator, Node, NodeRefTemplate<SawOscillator>>(m, "SawOscillator", "Produces a (non-band-limited) sawtooth wave, with the given `frequency` and `phase` offset. When a `reset` or trigger is received, resets the phase to zero.")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 440, "phase"_a = nullptr, "reset"_a = nullptr);
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 440, "phase_offset"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<SineLFO, Node, NodeRefTemplate<SineLFO>>(m, "SineLFO", "Produces a sinusoidal LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "phase"_a = 0.0);
 
     py::class_<SineOscillator, Node, NodeRefTemplate<SineOscillator>>(m, "SineOscillator", "Produces a sine wave at the given `frequency`.")
-        .def(py::init<NodeRef>(), "frequency"_a = 440);
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "frequency"_a = 440, "phase_offset"_a = nullptr, "reset"_a = nullptr);
 
     py::class_<SquareLFO, Node, NodeRefTemplate<SquareLFO>>(m, "SquareLFO", "Produces a pulse wave LFO with the given `frequency` and pulse `width`,  ranging from `min` to `max`, where `width` of `0.5` is a square wave and other values produce a rectangular wave.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "frequency"_a = 1.0, "min"_a = 0.0, "max"_a = 1.0, "width"_a = 0.5, "phase"_a = 0.0);
@@ -281,10 +281,10 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef>(), "frequency"_a = 440);
 
     py::class_<Wavetable, Node, NodeRefTemplate<Wavetable>>(m, "Wavetable", "Plays the wavetable stored in buffer at the given `frequency` and `phase` offset. `sync` can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, BufferRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "phase"_a = 0, "sync"_a = 0, "phase_map"_a = nullptr);
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, BufferRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "phase_offset"_a = 0, "sync"_a = 0, "phase_map"_a = nullptr);
 
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D", "Wavetable2D")
-        .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "phase"_a = 0.0, "sync"_a = 0);
+        .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "phase_offset"_a = 0.0, "sync"_a = 0);
 
     py::class_<Clip, Node, NodeRefTemplate<Clip>>(m, "Clip", "Clip the input to `min`/`max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
