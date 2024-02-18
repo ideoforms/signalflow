@@ -68,16 +68,23 @@ void write_callback(struct SoundIoOutStream *outstream, int frame_count_min, int
             {
                 for (int channel = 0; channel < layout->channel_count; channel += 1)
                 {
-                    float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
-                    *ptr = output->out[channel][frame];
-
-                    /*-----------------------------------------------------------------------*
-                     * Hard limiter.
-                     *-----------------------------------------------------------------------*/
-                    if (*ptr > 1.0)
-                        *ptr = 1.0;
-                    if (*ptr < -1.0)
-                        *ptr = -1.0;
+                    if (outstream->format == SoundIoFormatFloat32NE)
+                    {
+                        float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
+                        *ptr = output->out[channel][frame];
+                        /*-----------------------------------------------------------------------*
+                         * Hard limiter.
+                         *-----------------------------------------------------------------------*/
+                        if (*ptr > 1.0)
+                            *ptr = 1.0;
+                        if (*ptr < -1.0)
+                            *ptr = -1.0;
+                    }
+		    else if (outstream->format == SoundIoFormatS16LE)
+                    {
+                        int16_t *ptr = reinterpret_cast<int16_t *>(areas[channel].ptr + areas[channel].step * frame);
+                        *ptr = (int16_t) (output->out[channel][frame] * 32768.0f);
+	            }
                 }
             }
         }
@@ -203,12 +210,16 @@ int AudioOut_SoundIO::init()
     {
         this->outstream->format = SoundIoFormatFloat32NE;
     }
+    else if (soundio_device_supports_format(device, SoundIoFormatS16LE))
+    {
+        this->outstream->format = SoundIoFormatS16LE;
+    }
     else
     {
         /*-----------------------------------------------------------------------*
          * SignalFlow currently only supports float32 sample output
          *-----------------------------------------------------------------------*/
-        throw audio_io_exception("libsoundio error: Output device does not support float32 samples");
+        throw audio_io_exception("libsoundio error: Output device does not support float32 or int16le samples");
     }
     this->outstream->write_callback = write_callback;
     if (!this->sample_rate)
