@@ -8,19 +8,25 @@
 from signalflow import *
 import os
 
-graph = AudioGraph()
 
-#--------------------------------------------------------------------------------
-# Read samples into a Buffer by passing the filename
-#--------------------------------------------------------------------------------
-audio_path = os.path.join(os.path.dirname(__file__), "audio", "stereo-count.wav")
-buf = Buffer(audio_path)
-print("Loaded buffer with %d channel(s), duration: %.1fs" % (buf.num_channels, buf.duration))
+def main():
+    graph = AudioGraph()
 
-#--------------------------------------------------------------------------------
-# Begin looping playback
-#--------------------------------------------------------------------------------
-player = BufferPlayer(buf, loop=True)
+    #--------------------------------------------------------------------------------
+    # Read samples into a Buffer by passing the filename
+    #--------------------------------------------------------------------------------
+    audio_path = os.path.join(os.path.dirname(__file__), "audio", "stereo-count.wav")
+    buf = Buffer(audio_path)
+    print("Loaded buffer with %d channel(s), duration: %.1fs" % (buf.num_channels, buf.duration))
 
-graph.play(player)
-graph.wait()
+    #--------------------------------------------------------------------------------
+    # Begin looping playback
+    #--------------------------------------------------------------------------------
+    player = BufferPlayer(buf, loop=True)
+
+    graph.play(player)
+    graph.wait()
+
+
+if __name__ == "__main__":
+    main()

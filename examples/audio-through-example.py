@@ -1,29 +1,34 @@
 #!/usr/bin/env python3
 
-#--------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------
 # Example: Audio playthrough, from input to output.
-# (Be careful to listen through headphones or feedback might occur.)
-#--------------------------------------------------------------------------------
+# (Listen through headphones to avoid feedback)
+# --------------------------------------------------------------------------------
 
 from signalflow import *
 
-graph = AudioGraph()
 
-#--------------------------------------------------------------------------------
-# Read single channel input.
-# To specify the audio device to use, add to ~/.signalflow/config:
-# 
-# [audio]
-# input_device_name = "My Device"
-#--------------------------------------------------------------------------------
-audio_in = AudioIn()
+def main():
+    graph = AudioGraph()
 
-#--------------------------------------------------------------------------------
-# Add some ringmod and delay.
-#--------------------------------------------------------------------------------
-audio_out = audio_in * SineOscillator(200)
-audio_out = audio_out + CombDelay(audio_out, 0.2, 0.8) * 0.3
-output = ChannelArray([ audio_out, audio_out ])
+    #--------------------------------------------------------------------------------
+    # Read mono audio input.
+    # To specify the audio device to use, add to ~/.signalflow/config:
+    #
+    # [audio]
+    # input_device_name = "My Device"
+    #--------------------------------------------------------------------------------
+    audio_in = AudioIn(1)
 
-graph.play(output)
-graph.wait()
+    #--------------------------------------------------------------------------------
+    # Add some delay, and play 
+    #--------------------------------------------------------------------------------
+    output = audio_in + CombDelay(audio_in, 0.2, 0.8) * 0.3
+    stereo = StereoPanner(output)
+
+    graph.play(stereo)
+    graph.wait()
+
+
+if __name__ == "__main__":
+    main()
