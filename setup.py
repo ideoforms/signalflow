@@ -99,7 +99,7 @@ setup(
     },
     entry_points = {
         'console_scripts': [
-            'signalflow_test = signalflow_cli:main',
+            'signalflow = signalflow_cli:main',
         ],
     }
 )
