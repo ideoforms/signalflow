@@ -177,7 +177,9 @@ def folder_name_to_title(folder_name: str) -> str:
 def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
     classes = {}
     classes["io"] = [
-        NodeClass("AudioIn", None, [[]], "Audio input"),
+        NodeClass("AudioIn", None, [[
+            Parameter("num_channels", "int", 1)
+        ]], "Audio input"),
         NodeClass("AudioOut_Abstract", None, [], "Abstract audio output"),
         NodeClass("AudioOut_Dummy", "AudioOut_Abstract", [[
             Parameter("num_channels", "int", 2),
