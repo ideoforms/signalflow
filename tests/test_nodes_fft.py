@@ -82,11 +82,17 @@ def test_fft_ifft(graph):
         buffer_a = Buffer(1, buffer_size)
         buffer_b = Buffer(1, buffer_size)
 
-        process_tree(SineOscillator(440), buffer_a)
+        # TODO: graph.render_subgraph_to_buffer()
+        sine = SineOscillator(440)
+        sine.play()
+        graph.render_to_buffer(buffer_a)
+        sine.stop()
 
         fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
         ifft = IFFT(fft)
-        process_tree(ifft, buffer_b)
+        ifft.play()
+        graph.render_to_buffer(buffer_b)
+        ifft.stop()
 
         assert np.all(np.abs(buffer_a.data[0] - buffer_b.data[0]) < 0.000001)
 
@@ -100,13 +106,18 @@ def test_fft_ifft_split(graph):
     buffer_b2 = Buffer(1, fft_size // 2)
     buffer_b3 = Buffer(1, fft_size // 2)
 
-    process_tree(SineOscillator(440), buffer_a)
+    sine = SineOscillator(440)
+    graph.play(sine)
+    graph.render_to_buffer(buffer_a)
+    graph.stop(sine)
 
     fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
     ifft = IFFT(fft)
-    process_tree(ifft, buffer_b1)
-    process_tree(ifft, buffer_b2)
-    process_tree(ifft, buffer_b3)
+    graph.play(ifft)
+    graph.render_to_buffer(buffer_b1)
+    graph.render_to_buffer(buffer_b2)
+    graph.render_to_buffer(buffer_b3)
+    graph.stop(ifft)
     #--------------------------------------------------------------------------------
     # Note that the first buffer will be empty as no output will be
     # generated until 1 fft_size worth of samples has been processed.
@@ -121,16 +132,24 @@ def test_fft_convolve(graph):
         return
 
     buffer_a = Buffer(1, fft_size)
-    process_tree(Impulse(0), buffer_a)
+    impulse = Impulse(0)
+    impulse.play()
+    graph.render_to_buffer(buffer_a)
+    impulse.stop()
 
     buffer_b = Buffer(1, fft_size)
-    process_tree(SineOscillator(440), buffer_b)
+    sine = SineOscillator(440)
+    sine.play()
+    graph.render_to_buffer(buffer_b)
+    sine.stop()
 
     fft = FFT(SineOscillator(440), fft_size=fft_size, hop_size=fft_size, do_window=False)
     convolve = FFTConvolve(fft, buffer_a)
     ifft = IFFT(convolve) * 0.5
     buffer_c = Buffer(1, fft_size)
-    process_tree(ifft, buffer_c)
+    graph.play(ifft)
+    graph.render_to_buffer(buffer_c)
+    graph.stop(ifft)
 
     assert np.all(np.abs(buffer_b.data[0] - buffer_c.data[0]) < 0.000001)
 
@@ -141,15 +160,20 @@ def test_fft_convolve_split(graph):
     buffer_ir = Buffer(1, fft_size * 4)
     envelope_duration_seconds = buffer_ir.num_frames / graph.sample_rate
     envelope = ASREnvelope(0, 0, envelope_duration_seconds) * SineOscillator(440)
-    process_tree(envelope, buffer_ir)
+
+    # TODO: graph.render_subgraph_to_buffer()
+    graph.play(envelope)
+    graph.render_to_buffer(buffer_ir)
+    graph.stop(envelope)
 
     fft = FFT(Impulse(0), fft_size=fft_size, hop_size=fft_size, do_window=False)
     convolve = FFTConvolve(fft, buffer_ir)
     ifft = IFFT(convolve) * 0.5
+    ifft.play()
 
     buffer_out = Buffer(1, fft_size)
     output_samples = np.zeros(0)
     for n in range(4):
-        process_tree(ifft, buffer_out)
+        graph.render_to_buffer(buffer_out)
         output_samples = np.concatenate((output_samples, buffer_out.data[0]))
     assert np.all(np.abs(output_samples - buffer_ir.data[0]) < 0.000001)

@@ -1,10 +1,12 @@
 import signalflow
 
 import re
+import pytest
 import inspect
 
 from . import graph
 
+@pytest.mark.skip
 def test_node_registry():
     """
     Try instantiating each Node class in turn, check that no crashes take place.

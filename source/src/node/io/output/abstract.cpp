@@ -102,6 +102,12 @@ void AudioOut_Abstract::replace_input(NodeRef node, NodeRef other)
     }
 }
 
+void AudioOut_Abstract::set_channels(int num_input_channels, int num_output_channels)
+{
+    Node::set_channels(num_input_channels, num_output_channels);
+    this->resize_output_buffers(num_input_channels);
+}
+
 bool AudioOut_Abstract::has_input(NodeRef node)
 {
     return std::find(std::begin(audio_inputs), std::end(audio_inputs), node) != std::end(audio_inputs);

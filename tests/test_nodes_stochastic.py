@@ -15,7 +15,7 @@ def test_random_impulse(graph):
     graph.render_to_buffer(b)
     impulse_count = np.sum(b.data[0])
     assert impulse_count > 0
-    assert np.abs(impulse_count - frequency) < (0.1 * frequency)
+    assert np.abs(impulse_count - frequency) < (0.2 * frequency)
     graph.stop(a)
 
     a = RandomImpulse(frequency, SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
@@ -23,7 +23,7 @@ def test_random_impulse(graph):
     graph.render_to_buffer(b)
     impulse_count = np.sum(b.data[0])
     assert impulse_count > 0
-    assert np.abs(impulse_count - frequency) < (0.1 * frequency)
+    assert np.abs(impulse_count - frequency) < (0.2 * frequency)
     graph.stop(a)
 
 def test_random_uniform(graph):

@@ -24,6 +24,8 @@ public:
     virtual bool has_input(NodeRef node);
     std::list<NodeRef> get_inputs();
 
+    virtual void set_channels(int num_input_channels, int num_output_channels);
+
     unsigned int get_sample_rate();
 
     /**--------------------------------------------------------------------------------

@@ -52,7 +52,7 @@ sys.path = list(filter(lambda path: "auxiliary/libs" not in path, sys.path))
 
 import signalflow
 
-def process_tree(node, buffer=None, num_frames=signalflow.SIGNALFLOW_DEFAULT_BLOCK_SIZE):
+def process_tree(node, buffer=None, num_frames=signalflow.SIGNALFLOW_NODE_BUFFER_SIZE):
     if buffer is not None:
         num_frames = buffer.num_frames
     for _, input in node.inputs.items():
