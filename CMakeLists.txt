@@ -217,11 +217,6 @@ if (CMAKE_BUILD_PYTHON)
     if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         target_link_libraries(signalflow ${Python3_LIBRARIES})
     endif()
-else()
-    #-------------------------------------------------------------------------------
-    # Build examples
-    #-------------------------------------------------------------------------------
-    add_subdirectory("examples/cpp")
 endif()
 
 #-------------------------------------------------------------------------------
