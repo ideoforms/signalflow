@@ -1,5 +1,14 @@
 # CHANGELOG
 
+## [v0.4.7](https://github.com/ideoforms/signalflow/tree/v0.4.7) (2024-02-23)
+
+ - Optimized performance of `SineOscillator`, `Sum` and `ChannelMixer` on macOS with vDSP SIMD optimisations
+ - Added support for `int16` audio devices
+ - Added `num_channels` param to `AudioIn`
+ - Reduced `Node` memory usage by allocating buffers more economically
+ - Fix bug when recreating AudioGraph after destroy()
+ - Fixed `signalflow` command-line installer by switching to setuptools `entry_points`
+
 ## [v0.4.6](https://github.com/ideoforms/signalflow/tree/v0.4.6) (2024-02-16)
 
 - Added `NearestNeighbours`, `KDTree` and `signalflow_analysis` package (including `AudioFeatureBuffer`) for audio feature analysis, latent space navigation and playback
