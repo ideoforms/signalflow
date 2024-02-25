@@ -6,11 +6,11 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Wavetable: Plays the wavetable stored in buffer at the given `frequency` and `phase` offset. `sync` can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.">
+        <meta name="description" content="FFTTransform: Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.">
       
       
       
-        <link rel="canonical" href="https://signalflow.dev/library/oscillators/wavetable/">
+        <link rel="canonical" href="https://signalflow.dev/library/fft/ffttransform/">
       
       
       
@@ -19,7 +19,7 @@
     
     
       
-        <title>Wavetable node documentation - SignalFlow</title>
+        <title>FFTTransform node documentation - SignalFlow</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#wavetable" class="md-skip">
+        <a href="#ffttransform" class="md-skip">
           Skip to content
         </a>
       
@@ -105,7 +105,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Wavetable node documentation
+              FFTTransform node documentation
             
           </span>
         </div>
@@ -1389,7 +1389,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../fft/" class="md-nav__link">
+      <a href="../" class="md-nav__link">
         FFT
       </a>
     </li>
@@ -1417,7 +1417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../" class="md-nav__link">
+      <a href="../../oscillators/" class="md-nav__link">
         Oscillators
       </a>
     </li>
@@ -1579,22 +1579,22 @@
   
 
 
-<p><a href="../../">Reference library</a> &gt; <a href="../">Oscillators</a> &gt; <a href="./">Wavetable</a></p>
-<h1 id="wavetable">Wavetable</h1>
-<div class="highlight"><pre><span></span><code><span class="n">Wavetable</span><span class="p">(</span><span class="n">buffer</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="mi">440</span><span class="p">,</span> <span class="n">phase_offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sync</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">phase_map</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<p><a href="../../">Reference library</a> &gt; <a href="../">FFT</a> &gt; <a href="./">FFTTransform</a></p>
+<h1 id="ffttransform">FFTTransform</h1>
+<div class="highlight"><pre><span></span><code><span class="n">FFTTransform</span><span class="p">(</span><span class="nb">input</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">flip</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">rotate</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </code></pre></div>
-<p>Plays the wavetable stored in buffer at the given <code>frequency</code> and <code>phase</code> offset. <code>sync</code> can be used to provide a hard sync input, which resets the wavetable's phase at each zero-crossing.</p>
+<p>Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.</p>
 
   <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-18T12:27:54+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-18</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-25T01:53:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-25</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2023-12-03T21:03:36+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2023-12-03</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-25T01:53:13+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-25</span>
       
     
   </small>
