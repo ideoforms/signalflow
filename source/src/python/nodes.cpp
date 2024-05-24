@@ -119,6 +119,9 @@ void init_python_nodes(py::module &m)
     py::class_<FFTRandomPhase, FFTOpNode, NodeRefTemplate<FFTRandomPhase>>(m, "FFTRandomPhase", "Randomise phase values.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 1.0);
 
+    py::class_<FFTScaleMagnitudes, FFTOpNode, NodeRefTemplate<FFTScaleMagnitudes>>(m, "FFTScaleMagnitudes", "Randomise phase values.")
+        .def(py::init<NodeRef, std::vector<float>>(), "input"_a = 0, "scale"_a = 0);
+
     py::class_<FFTTransform, FFTOpNode, NodeRefTemplate<FFTTransform>>(m, "FFTTransform", "Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "flip"_a = 0, "rotate"_a = 0);
 
@@ -361,7 +364,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<int, NodeRef, NodeRef, NodeRef>(), "num_channels"_a = 2, "input"_a = 0, "pan"_a = 0.0, "width"_a = 1.0);
 
     py::class_<SpatialPanner, Node, NodeRefTemplate<SpatialPanner>>(m, "SpatialPanner", "Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported.")
-        .def(py::init<std::shared_ptr<SpatialEnvironment>, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, std::string>(), "env"_a = nullptr, "input"_a = 0.0, "x"_a = 0.0, "y"_a = 0.0, "z"_a = 0.0, "radius"_a = 1.0, "algorithm"_a = "dbap");
+        .def(py::init<std::shared_ptr<SpatialEnvironment>, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, std::string>(), "env"_a = nullptr, "input"_a = 0.0, "x"_a = 0.0, "y"_a = 0.0, "z"_a = 0.0, "radius"_a = 1.0, "use_delays"_a = 1.0, "algorithm"_a = "dbap");
 
     py::class_<StereoBalance, Node, NodeRefTemplate<StereoBalance>>(m, "StereoBalance", "Takes a stereo input and rebalances it, where `balance` of `0` is unchanged, `-1` is hard left, and `1` is hard right.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "balance"_a = 0);
