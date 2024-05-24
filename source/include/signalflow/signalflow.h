@@ -175,6 +175,7 @@
 #include <signalflow/node/fft/fft-contrast.h>
 #include <signalflow/node/fft/fft-magnitude-phase-array.h>
 #include <signalflow/node/fft/fft-random-phase.h>
+#include <signalflow/node/fft/fft-scale-magnitudes.h>
 #include <signalflow/node/fft/fft-transform.h>
 #include <signalflow/node/fft/fft.h>
 #include <signalflow/node/fft/find-peaks.h>
