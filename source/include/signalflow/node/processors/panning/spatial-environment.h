@@ -1,5 +1,6 @@
 #pragma once
 
+#include "signalflow/buffer/ringbuffer.h"
 #include "signalflow/core/constants.h"
 #include "signalflow/node/node.h"
 
@@ -50,6 +51,7 @@ public:
                   NodeRef y = 0.0,
                   NodeRef z = 0.0,
                   NodeRef radius = 1.0,
+                  NodeRef use_delays = 1.0,
                   std::string algorithm = "dbap");
 
     virtual void process(Buffer &out, int num_frames) override;
@@ -60,7 +62,9 @@ public:
     NodeRef y;
     NodeRef z;
     NodeRef radius;
+    NodeRef use_delays;
     std::string algorithm;
+    SampleRingBuffer *buffer;
 };
 
 REGISTER(SpatialPanner, "spatial-panner")
