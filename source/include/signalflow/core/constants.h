@@ -45,9 +45,10 @@ typedef RingBuffer<sample> SampleRingBuffer;
 
 /*------------------------------------------------------------------------
  * Initial number of output buffers to allocate per node
- * TODO: Turn this into a run-time config parameter
+ * TODO: Turn this into a run-time config parameter, and set default to 2
+ *       Otherwise memory usage is very high by default
  *-----------------------------------------------------------------------*/
-#define SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS 2
+#define SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS 32
 
 /*------------------------------------------------------------------------
  * Max supported number of FFT bins.
