@@ -4,11 +4,6 @@
 #-------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.15.0)
 
-project(SignalFlow C CXX)
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Develop)
-endif()
-
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     #-------------------------------------------------------------------------------
     # On Apple, build the current native system by default
@@ -29,14 +24,21 @@ if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     endif()
 
     #--------------------------------------------------------------------------------
-    # Allow deployment on older versions of macOS,
+    # Allow deployment on older versions of macOS (back to 10.14 Mojave),
     # and default to the include/lib paths of the current Python virtualenv
     # (important for cross-compiling wheels)
     #--------------------------------------------------------------------------------
-    # set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
     set(Python_FIND_VIRTUALENV STANDARD)
     set(Python_FIND_FRAMEWORKS LAST)
 endif()
+
+# project call should come after set CMAKE_OSX_DEPLOYMENT_TARGET
+project(SignalFlow C CXX)
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Develop)
+endif()
+
 
 #--------------------------------------------------------------------------------
 # Print config setup to help with debugging
