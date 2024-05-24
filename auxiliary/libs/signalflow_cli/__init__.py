@@ -114,7 +114,7 @@ def main():
     # --------------------------------------------------------------------------------
     # Command: configure
     # --------------------------------------------------------------------------------
-    configure = subparsers.add_parser('configure', help='edit signalflow configuration')
+    configure = subparsers.add_parser('configure', aliases=['config'], help='edit signalflow configuration')
 
     # --------------------------------------------------------------------------------
     # Command: version
