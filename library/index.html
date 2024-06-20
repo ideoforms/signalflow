@@ -1722,7 +1722,7 @@
 <ul>
 <li><strong><a href="buffer/beatcutter/">BeatCutter</a></strong>: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.</li>
 <li><strong><a href="buffer/bufferlooper/">BufferLooper</a></strong>: Read and write from a buffer concurrently, with controllable overdub.</li>
-<li><strong><a href="buffer/bufferplayer/">BufferPlayer</a></strong>: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.</li>
+<li><strong><a href="buffer/bufferplayer/">BufferPlayer</a></strong>: Plays the contents of the given buffer. <code>start_time</code>/<code>end_time</code> are in seconds. When a <code>clock</code> signal is received, rewinds to the <code>start_time</code>.  Set <code>clock</code> to <code>0</code> to prevent the buffer from being triggered immediately.</li>
 <li><strong><a href="buffer/bufferrecorder/">BufferRecorder</a></strong>: Records the input to a buffer. feedback controls overdub.</li>
 <li><strong><a href="buffer/feedbackbufferreader/">FeedbackBufferReader</a></strong>: Counterpart to FeedbackBufferWriter.</li>
 <li><strong><a href="buffer/feedbackbufferwriter/">FeedbackBufferWriter</a></strong>: Counterpart to FeedbackBufferReader.</li>
@@ -1759,6 +1759,7 @@
 <li><strong><a href="fft/fftcontrast/">FFTContrast</a></strong>: FFT Contrast. Requires an FFT* input.</li>
 <li><strong><a href="fft/fftmagnitudephasearray/">FFTMagnitudePhaseArray</a></strong>: Fixed mag/phase array.</li>
 <li><strong><a href="fft/fftrandomphase/">FFTRandomPhase</a></strong>: Randomise phase values.</li>
+<li><strong><a href="fft/fftscalemagnitudes/">FFTScaleMagnitudes</a></strong>: Randomise phase values.</li>
 <li><strong><a href="fft/ffttransform/">FFTTransform</a></strong>: Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.</li>
 <li><strong><a href="fft/fft/">FFT</a></strong>: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.</li>
 <li><strong><a href="fft/fftfindpeaks/">FFTFindPeaks</a></strong>: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.</li>
@@ -1907,7 +1908,7 @@
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-02-18T12:28:23+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-02-18</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2024-06-20T21:37:43+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2024-06-20</span>
       
         <br>
         Created:
