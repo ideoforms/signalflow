@@ -7,6 +7,7 @@
 - **[FFTContrast](fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
 - **[FFTMagnitudePhaseArray](fftmagnitudephasearray/index.md)**: Fixed mag/phase array.
 - **[FFTRandomPhase](fftrandomphase/index.md)**: Randomise phase values.
+- **[FFTScaleMagnitudes](fftscalemagnitudes/index.md)**: Randomise phase values.
 - **[FFTTransform](ffttransform/index.md)**: Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.
 - **[FFT](fft/index.md)**: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
 - **[FFTFindPeaks](fftfindpeaks/index.md)**: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
