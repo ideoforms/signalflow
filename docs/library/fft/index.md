@@ -6,6 +6,7 @@
 - **[FFTConvolve](fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
 - **[FFTContrast](fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
 - **[FFTCrossFade](fftcrossfade/index.md)**: FFT FFTCrossFade. Requires two FFT* inputs.
+- **[FFTLFO](fftlfo/index.md)**: FFT LFO. Requires an FFT* input.
 - **[FFTMagnitudePhaseArray](fftmagnitudephasearray/index.md)**: Fixed mag/phase array.
 - **[FFTRandomPhase](fftrandomphase/index.md)**: Randomise phase values.
 - **[FFTScaleMagnitudes](fftscalemagnitudes/index.md)**: Randomise phase values.

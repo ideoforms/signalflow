@@ -115,6 +115,9 @@ void init_python_nodes(py::module &m)
     py::class_<FFTCrossFade, FFTOpNode, NodeRefTemplate<FFTCrossFade>>(m, "FFTCrossFade", "FFT FFTCrossFade. Requires two FFT* inputs.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "inputA"_a = 0, "inputB"_a = 0, "crossfade"_a = 0.0);
 
+    py::class_<FFTLFO, FFTOpNode, NodeRefTemplate<FFTLFO>>(m, "FFTLFO", "FFT LFO. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 1.0, "spectral_cycles"_a = 1.0);
+
     py::class_<FFTMagnitudePhaseArray, FFTOpNode, NodeRefTemplate<FFTMagnitudePhaseArray>>(m, "FFTMagnitudePhaseArray", "Fixed mag/phase array.")
         .def(py::init<NodeRef, std::vector<float>, std::vector<float>>(), "input"_a = 0, "magnitudes"_a = 0, "phases"_a = 0)
         .def("set_magnitudes", &FFTMagnitudePhaseArray::set_magnitudes);

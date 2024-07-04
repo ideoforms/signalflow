@@ -47,6 +47,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-random-phase.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-scale-magnitudes.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-cross-fade.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/comb.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/allpass.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/onetap.cpp
