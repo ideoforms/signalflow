@@ -173,6 +173,7 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/fft/continuous-pv.h>
 #include <signalflow/node/fft/fft-contrast.h>
+#include <signalflow/node/fft/fft-cross-fade.h>
 #include <signalflow/node/fft/fft-magnitude-phase-array.h>
 #include <signalflow/node/fft/fft-random-phase.h>
 #include <signalflow/node/fft/fft-scale-magnitudes.h>

@@ -55,6 +55,7 @@
 - **[FFTContinuousPhaseVocoder](fft/fftcontinuousphasevocoder/index.md)**: Continuous phase vocoder. Requires an FFT* input.
 - **[FFTConvolve](fft/fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
 - **[FFTContrast](fft/fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
+- **[FFTCrossFade](fft/fftcrossfade/index.md)**: FFT FFTCrossFade. Requires two FFT* inputs.
 - **[FFTMagnitudePhaseArray](fft/fftmagnitudephasearray/index.md)**: Fixed mag/phase array.
 - **[FFTRandomPhase](fft/fftrandomphase/index.md)**: Randomise phase values.
 - **[FFTScaleMagnitudes](fft/fftscalemagnitudes/index.md)**: Randomise phase values.

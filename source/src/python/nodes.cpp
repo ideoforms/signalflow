@@ -39,7 +39,7 @@ void init_python_nodes(py::module &m)
     py::class_<BufferLooper, Node, NodeRefTemplate<BufferLooper>>(m, "BufferLooper", "Read and write from a buffer concurrently, with controllable overdub.")
         .def(py::init<BufferRef, NodeRef, NodeRef, bool, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop_playback"_a = false, "loop_record"_a = false);
 
-    py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer", "Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.")
+    py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer", "Plays the contents of the given buffer. `start_time`/`end_time` are in seconds. When a `clock` signal is received, rewinds to the `start_time`.  Set `clock` to `0` to prevent the buffer from being triggered immediately.")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0, "start_time"_a = nullptr, "end_time"_a = nullptr, "clock"_a = nullptr);
 
     py::class_<BufferRecorder, Node, NodeRefTemplate<BufferRecorder>>(m, "BufferRecorder", "Records the input to a buffer. feedback controls overdub.")
@@ -111,6 +111,9 @@ void init_python_nodes(py::module &m)
 
     py::class_<FFTContrast, FFTOpNode, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "contrast"_a = 1);
+
+    py::class_<FFTCrossFade, FFTOpNode, NodeRefTemplate<FFTCrossFade>>(m, "FFTCrossFade", "FFT FFTCrossFade. Requires two FFT* inputs.")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "inputA"_a = 0, "inputB"_a = 0, "crossfade"_a = 0.0);
 
     py::class_<FFTMagnitudePhaseArray, FFTOpNode, NodeRefTemplate<FFTMagnitudePhaseArray>>(m, "FFTMagnitudePhaseArray", "Fixed mag/phase array.")
         .def(py::init<NodeRef, std::vector<float>, std::vector<float>>(), "input"_a = 0, "magnitudes"_a = 0, "phases"_a = 0)
