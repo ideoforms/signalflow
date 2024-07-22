@@ -27,7 +27,7 @@
 ## Buffer: Granulation
 
 - **[SegmentedGranulator](buffer/granulation/segmentedgranulator/index.md)**: Segmented Granulator.
-- **[Granulator](buffer/granulation/granulator/index.md)**: Granulator. Generates a grain from the given buffer each time a clock signal is received, with the given duration/rate/pan parameters. The input buffer can be mono or stereo. If `wrap` is true, grain playback can wrap around the end/start of the buffer.
+- **[Granulator](buffer/granulation/granulator/index.md)**: Granulator. Generates a grain from the given buffer each time a trigger is received on the `clock` input. Each new grain uses the given `duration`, `amplitude`, `pan` and `rate` values presented at each input at the moment the grain is created. The input buffer can be mono or stereo. If `wrap` is true, grain playback can wrap around the end/start of the buffer.
 
 ---
 

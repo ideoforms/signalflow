@@ -8,17 +8,19 @@ Granulator::Granulator(BufferRef buffer,
                        NodeRef clock,
                        NodeRef pos,
                        NodeRef duration,
+                       NodeRef amplitude,
                        NodeRef pan,
                        NodeRef rate,
                        NodeRef max_grains,
                        bool wrap)
-    : pos(pos), clock(clock), duration(duration), pan(pan), rate(rate), max_grains(max_grains), wrap(wrap)
+    : pos(pos), clock(clock), duration(duration), amplitude(amplitude), pan(pan), rate(rate), max_grains(max_grains), wrap(wrap)
 {
     this->name = "granulator";
 
     this->create_input("pos", this->pos);
     this->create_input("clock", this->clock);
     this->create_input("duration", this->duration);
+    this->create_input("amplitude", this->amplitude);
     this->create_input("pan", this->pan);
     this->create_input("rate", this->rate);
     this->create_input("max_grains", this->max_grains);
@@ -60,6 +62,7 @@ void Granulator::process(Buffer &out, int num_frames)
         sample pos = this->pos->out[0][frame];
         sample duration = this->duration->out[0][frame];
         sample rate = this->rate->out[0][frame];
+        sample amplitude = this->amplitude->out[0][frame];
         sample pan = this->pan->out[0][frame];
         sample max_grains = this->max_grains->out[0][frame];
 
@@ -71,6 +74,7 @@ void Granulator::process(Buffer &out, int num_frames)
                                          pos * buffer->get_sample_rate(),
                                          duration * buffer->get_sample_rate(),
                                          rate * this->rate_scale_factor,
+                                         amplitude,
                                          pan,
                                          this->wrap);
                 this->grains.push_back(grain);
@@ -92,7 +96,7 @@ void Granulator::process(Buffer &out, int num_frames)
                  * obtain the amplitude sample for the correct index (e.g, phase = 0
                  * for the first sample).
                  *-----------------------------------------------------------------------*/
-                float amp = this->envelope->get(0, grain->get_progress());
+                float amp = this->envelope->get(0, grain->get_progress()) * grain->amplitude;
                 grain->step();
 
                 /*------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #include "signalflow/node/buffer/granulation/grain.h"
 
-Grain::Grain(BufferRef buffer, int phase, int length_samples, float rate, float pan, bool wrap)
-    : buffer(buffer), phase(phase), length_samples(length_samples), rate(rate), pan(pan), wrap(wrap)
+Grain::Grain(BufferRef buffer, int phase, int length_samples, float rate, float amplitude, float pan, bool wrap)
+    : buffer(buffer), phase(phase), length_samples(length_samples), rate(rate), amplitude(amplitude), pan(pan), wrap(wrap)
 {
     this->samples_processed = 0;
     if (rate < 0)
