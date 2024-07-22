@@ -1,7 +1,7 @@
 # Contributing
 
 - [Building from source](#building-from-source)
-- [Creating a new Node](#creating-a-new-node)
+- [Authoring a new Node](#authoring-a-new-node)
 - [Test](#test)
 - [Release](#release)
 - [Documentation](#documentation)

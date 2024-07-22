@@ -37,7 +37,6 @@ def download_examples(output_directory: str = "examples") -> None:
         "granulation-example.py",
         "hello-world-example.py",
         "karplus-strong-example.py",
-        "list-output-devices.py",
         "midi-fm-voicer-example.py",
         "midi-keyboard-example.py",
         "modulation-example.py",

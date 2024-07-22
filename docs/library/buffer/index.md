@@ -4,7 +4,7 @@
 
 - **[BeatCutter](beatcutter/index.md)**: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.
 - **[BufferLooper](bufferlooper/index.md)**: Read and write from a buffer concurrently, with controllable overdub.
-- **[BufferPlayer](bufferplayer/index.md)**: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.
+- **[BufferPlayer](bufferplayer/index.md)**: Plays the contents of the given buffer. `start_time`/`end_time` are in seconds. When a `clock` signal is received, rewinds to the `start_time`.  Set `clock` to `0` to prevent the buffer from being triggered immediately.
 - **[BufferRecorder](bufferrecorder/index.md)**: Records the input to a buffer. feedback controls overdub.
 - **[FeedbackBufferReader](feedbackbufferreader/index.md)**: Counterpart to FeedbackBufferWriter.
 - **[FeedbackBufferWriter](feedbackbufferwriter/index.md)**: Counterpart to FeedbackBufferReader.

@@ -16,7 +16,7 @@
 
 - **[BeatCutter](buffer/beatcutter/index.md)**: Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.
 - **[BufferLooper](buffer/bufferlooper/index.md)**: Read and write from a buffer concurrently, with controllable overdub.
-- **[BufferPlayer](buffer/bufferplayer/index.md)**: Plays the contents of the given buffer. start_time/end_time are in seconds. When a clock signal is received, rewinds to the start_time.
+- **[BufferPlayer](buffer/bufferplayer/index.md)**: Plays the contents of the given buffer. `start_time`/`end_time` are in seconds. When a `clock` signal is received, rewinds to the `start_time`.  Set `clock` to `0` to prevent the buffer from being triggered immediately.
 - **[BufferRecorder](buffer/bufferrecorder/index.md)**: Records the input to a buffer. feedback controls overdub.
 - **[FeedbackBufferReader](buffer/feedbackbufferreader/index.md)**: Counterpart to FeedbackBufferWriter.
 - **[FeedbackBufferWriter](buffer/feedbackbufferwriter/index.md)**: Counterpart to FeedbackBufferReader.
@@ -55,8 +55,11 @@
 - **[FFTContinuousPhaseVocoder](fft/fftcontinuousphasevocoder/index.md)**: Continuous phase vocoder. Requires an FFT* input.
 - **[FFTConvolve](fft/fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
 - **[FFTContrast](fft/fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
+- **[FFTCrossFade](fft/fftcrossfade/index.md)**: FFT FFTCrossFade. Requires two FFT* inputs.
+- **[FFTLFO](fft/fftlfo/index.md)**: FFT LFO. Requires an FFT* input.
 - **[FFTMagnitudePhaseArray](fft/fftmagnitudephasearray/index.md)**: Fixed mag/phase array.
 - **[FFTRandomPhase](fft/fftrandomphase/index.md)**: Randomise phase values.
+- **[FFTScaleMagnitudes](fft/fftscalemagnitudes/index.md)**: Randomise phase values.
 - **[FFTTransform](fft/ffttransform/index.md)**: Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.
 - **[FFT](fft/fft/index.md)**: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
 - **[FFTFindPeaks](fft/fftfindpeaks/index.md)**: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.

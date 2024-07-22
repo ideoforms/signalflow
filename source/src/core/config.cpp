@@ -144,7 +144,7 @@ AudioGraphConfig::AudioGraphConfig()
     }
     if (getenv("SIGNALFLOW_INPUT_BUFFER_SIZE"))
     {
-        this->output_buffer_size = atoi(getenv("SIGNALFLOW_INPUT_BUFFER_SIZE"));
+        this->input_buffer_size = atoi(getenv("SIGNALFLOW_INPUT_BUFFER_SIZE"));
     }
     if (getenv("SIGNALFLOW_OUTPUT_BUFFER_SIZE"))
     {
@@ -152,7 +152,7 @@ AudioGraphConfig::AudioGraphConfig()
     }
     if (getenv("SIGNALFLOW_INPUT_DEVICE_NAME"))
     {
-        this->output_device_name = std::string(getenv("SIGNALFLOW_INPUT_DEVICE_NAME"));
+        this->input_device_name = std::string(getenv("SIGNALFLOW_INPUT_DEVICE_NAME"));
     }
     if (getenv("SIGNALFLOW_OUTPUT_BACKEND_NAME"))
     {
