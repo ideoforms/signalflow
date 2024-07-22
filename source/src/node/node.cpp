@@ -86,7 +86,7 @@ void Node::_process(Buffer &out, int num_frames)
 {
     if (&out == &this->out && num_frames > this->output_buffer_length)
     {
-        throw std::runtime_error("Node " + this->name + " cannot render because output buffer size is insufficient (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size.");
+        throw insufficient_buffer_size_exception("Node " + this->name + " cannot render because output buffer size is insufficient (" + std::to_string(num_frames) + " samples requested, buffer size = " + std::to_string(this->output_buffer_length) + "). Increase the buffer size. More information: https://signalflow.dev/troubleshooting/insufficient_buffer_size_exception/");
     }
 
     /*--------------------------------------------------------------------------------

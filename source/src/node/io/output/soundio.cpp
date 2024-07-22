@@ -186,14 +186,14 @@ int AudioOut_SoundIO::init()
 
     int default_out_device_index = soundio_default_output_device_index(this->soundio);
     if (default_out_device_index < 0)
-        throw device_not_found_exception("No audio devices were found");
+        throw device_not_found_exception("No audio devices were found. More information: https://signalflow.dev/troubleshooting/device_not_found_exception/");
 
     if (!this->device_name.empty())
     {
         int index = soundio_get_device_by_name(this->soundio, this->device_name.c_str());
         if (index == -1)
         {
-            throw device_not_found_exception("Could not find device name: " + this->device_name);
+            throw device_not_found_exception("Could not find device name: " + this->device_name + ".  More information: https://signalflow.dev/troubleshooting/device_not_found_exception/");
         }
         this->device = soundio_get_output_device(this->soundio, index);
     }

@@ -100,7 +100,7 @@ int AudioIn_SoundIO::init()
 
     int default_in_device_index = soundio_default_input_device_index(this->soundio);
     if (default_in_device_index < 0)
-        throw device_not_found_exception("No input devices found.");
+        throw device_not_found_exception("No input devices found. More information: https://signalflow.dev/troubleshooting/device_not_found_exception/");
 
     this->device = soundio_get_input_device(this->soundio, default_in_device_index);
     if (!device)

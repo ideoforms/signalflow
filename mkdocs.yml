@@ -113,6 +113,14 @@ nav:
      - Accessing a buffer's contents: buffer/access.md
      - Operators: buffer/operators.md
      - Properties: buffer/properties.md
+ - Troubleshooting:
+   - Troubleshooting: troubleshooting/index.md
+   - Installation problems: troubleshooting/installation.md
+   - Exceptions:
+     - InsufficientBufferSizeException: troubleshooting/insufficient_buffer_size_exception.md
+     - DeviceNotFoundException: troubleshooting/device_not_found_exception.md
+     - NodeNotPlayingException: troubleshooting/node_not_playing_exception.md
+     - NodeAlreadyPlayingException: troubleshooting/node_already_playing_exception.md
  - Reference library:
    - "Reference library": library/index.md
    - "Analysis": library/analysis/index.md

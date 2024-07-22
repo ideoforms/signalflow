@@ -35,6 +35,16 @@ struct invalid_channel_count_exception : public std::runtime_error
         : std::runtime_error(message) {}
 };
 
+struct insufficient_buffer_size_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    insufficient_buffer_size_exception()
+        : std::runtime_error("Node cannot render because output buffer size is insufficient. Increase the buffer size. More information: https://signalflow.dev/troubleshooting/insufficient_buffer_size_exception/") {}
+    insufficient_buffer_size_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
 struct device_not_found_exception : public std::runtime_error
 {
     using std::runtime_error::runtime_error;
@@ -80,7 +90,7 @@ struct node_already_playing_exception : public std::runtime_error
     using std::runtime_error::runtime_error;
 
     node_already_playing_exception()
-        : std::runtime_error("Node cannot be played as it is already playing") {}
+        : std::runtime_error("Node cannot be played as it is already playing. More information: https://signalflow.dev/troubleshooting/node_already_playing_exception/") {}
     node_already_playing_exception(const char *message)
         : std::runtime_error(message) {}
 };
@@ -90,7 +100,7 @@ struct node_not_playing_exception : public std::runtime_error
     using std::runtime_error::runtime_error;
 
     node_not_playing_exception()
-        : std::runtime_error("Node cannot be stopped as it is not playing") {}
+        : std::runtime_error("Node cannot be stopped as it is not playing. More information: https://signalflow.dev/troubleshooting/node_not_playing_exception/") {}
     node_not_playing_exception(const char *message)
         : std::runtime_error(message) {}
 };
