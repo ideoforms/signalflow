@@ -58,7 +58,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<BufferRef, std::vector<float>, std::vector<float>, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onset_times"_a = 0, "durations"_a = 0, "index"_a = 0.0, "rate"_a = 1.0, "clock"_a = 0, "max_grains"_a = 2048);
 
     py::class_<Granulator, Node, NodeRefTemplate<Granulator>>(m, "Granulator", "Granulator. Generates a grain from the given buffer each time a trigger is received on the `clock` input. Each new grain uses the given `duration`, `amplitude`, `pan` and `rate` values presented at each input at the moment the grain is created. The input buffer can be mono or stereo. If `wrap` is true, grain playback can wrap around the end/start of the buffer.")
-        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, bool>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "amplitude"_a = 0.0, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048, "wrap"_a = false);
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, bool>(), "buffer"_a = nullptr, "clock"_a = 0, "pos"_a = 0, "duration"_a = 0.1, "amplitude"_a = 1.0, "pan"_a = 0.0, "rate"_a = 1.0, "max_grains"_a = 2048, "wrap"_a = false);
 
 #ifdef __APPLE__
 

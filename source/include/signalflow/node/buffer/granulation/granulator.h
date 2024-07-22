@@ -23,7 +23,7 @@ public:
                NodeRef clock = 0,
                NodeRef pos = 0,
                NodeRef duration = 0.1,
-               NodeRef amplitude = 0.0,
+               NodeRef amplitude = 1.0,
                NodeRef pan = 0.0,
                NodeRef rate = 1.0,
                NodeRef max_grains = 2048,
