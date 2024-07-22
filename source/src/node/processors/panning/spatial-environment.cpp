@@ -135,9 +135,8 @@ void SpatialPanner::process(Buffer &out, int num_frames)
                 auto speaker = speakers[channel];
                 if (speaker)
                 {
-                    // m/s
+                    // Speed of sound, in m/s
                     float SPEED_OF_SOUND = 343.0;
-                    // float distance = sqrtf(powf(speaker->x - this->x->out[0][frame], 2) + powf(speaker->y - this->y->out[0][frame], 2) + powf(speaker->z - this->z->out[0][frame], 2));
                     float dx = speaker->x - this->x->out[0][frame];
                     float dy = speaker->y - this->y->out[0][frame];
                     float dz = speaker->z - this->z->out[0][frame];
@@ -148,27 +147,19 @@ void SpatialPanner::process(Buffer &out, int num_frames)
                         distance_squared = MIN_DISTANCE_SQUARED;
 
                     float distance = sqrtf(distance_squared);
-
-                    // float attenuation = 1.0 / distance_m; // 2024-05-29
                     float attenuation = (1.0f / distance_squared) * 0.25f;
-                    // float attenuation = (1.0 / powf(distance, 1.5)) * 0.1;
-                    // float attenuation = (distance_squared) * 0.1;
 
-                    // if (use_delays->out[0][frame])
-                    // {
+                    if (use_delays->out[0][frame])
+                    {
                         float delay_seconds = distance / SPEED_OF_SOUND;
                         float delay_samples = delay_seconds * this->graph->get_sample_rate();
-                        if (frame == 0)
-                        {
-                            // printf("distance %.4fm, attenuation: %.4f, delay_samples: %.4f\n", distance, attenuation, delay_samples);
-                        }
 
                         out[channel][frame] = this->buffer->get(-delay_samples) * attenuation;
-                    // }
-                    // else
-                    // {
-                    //     out[channel][frame] = this->buffer->get(-1) * attenuation;
-                    // }
+                    }
+                    else
+                    {
+                        out[channel][frame] = this->buffer->get(-1) * attenuation;
+                    }
                 }
             }
         }
