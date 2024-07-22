@@ -127,6 +127,9 @@ void SpatialPanner::process(Buffer &out, int num_frames)
     }
     else if (algorithm == "beamformer")
     {
+        /*--------------------------------------------------------------------------------
+         * Delay and sum beamformer.
+         *--------------------------------------------------------------------------------*/
         for (int frame = 0; frame < num_frames; frame++)
         {
             this->buffer->append(this->input->out[0][frame]);
@@ -139,17 +142,8 @@ void SpatialPanner::process(Buffer &out, int num_frames)
                     float SPEED_OF_SOUND = 343.0;
                     float distance = sqrtf(powf(speaker->x - this->x->out[0][frame], 2) + powf(speaker->y - this->y->out[0][frame], 2) + powf(speaker->z - this->z->out[0][frame], 2));
 
-                    //                    float amp = (this->radius->out[0][frame] - distance) / this->radius->out[0][frame];
-                    //                    if (amp < 0)
-                    //                        amp = 0;
                     float distance_m = distance * 0.001;
                     float attenuation = 1.0 / (distance_m * distance_m);
-                    //                    float attenuation = 1.0;
-                    if (frame == 0 && channel == 0)
-                    {
-                        //                        printf("distance %.4f, attenuation: %.4f\n", distance, attenuation);
-                        //                        printf("use_delays: %f\n", use_delays->out[0][frame]);
-                    }
 
                     if (use_delays->out[0][frame])
                     {
