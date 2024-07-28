@@ -51,8 +51,8 @@ void init_python_nodes(py::module &m)
     py::class_<FeedbackBufferWriter, Node, NodeRefTemplate<FeedbackBufferWriter>>(m, "FeedbackBufferWriter", "Counterpart to FeedbackBufferReader.")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "input"_a = 0.0, "delay_time"_a = 0.1);
 
-    py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer", "Trigger segments of a buffer at the given onset positions.")
-        .def(py::init<BufferRef, std::vector<float>, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onsets"_a = 0, "index"_a = nullptr, "rate"_a = 1.0, "clock"_a = nullptr);
+    py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer", "Trigger segments of `buffer` at the given list of `onsets` positions, in seconds. `index` determines the index of the onset to play back at, which can also be passed as an argument to trigger(). `rate` determines the playback rate, and `clock` can be used to retrigger based on the output of another Node. If `continue_after_segment` is non-zero, playback will continue after the subsequent onset.")
+        .def(py::init<BufferRef, std::vector<float>, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onsets"_a = 0, "index"_a = nullptr, "rate"_a = 1.0, "clock"_a = nullptr, "continue_after_segment"_a = 0);
 
     py::class_<SegmentedGranulator, Node, NodeRefTemplate<SegmentedGranulator>>(m, "SegmentedGranulator", "Segmented Granulator.")
         .def(py::init<BufferRef, std::vector<float>, std::vector<float>, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onset_times"_a = 0, "durations"_a = 0, "index"_a = 0.0, "rate"_a = 1.0, "clock"_a = 0, "max_grains"_a = 2048);

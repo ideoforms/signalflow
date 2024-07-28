@@ -7,8 +7,9 @@
 namespace signalflow
 {
 
-SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRef index, NodeRef rate, NodeRef clock)
-    : buffer(buffer), index(index), rate(rate), clock(clock)
+SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRef index, NodeRef rate,
+                             NodeRef clock, NodeRef continue_after_segment)
+    : buffer(buffer), index(index), rate(rate), clock(clock), continue_after_segment(continue_after_segment)
 {
     this->name = "segment-player";
 
@@ -19,9 +20,11 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRe
     this->create_input("index", this->index);
     this->create_input("rate", this->rate);
     this->create_input("clock", this->clock);
+    this->create_input("continue_after_segment", this->continue_after_segment);
 
     this->rate_scale_factor = 1.0;
     this->phase = 0.0;
+    this->segment_end_phase = 0.0;
 
     if (buffer)
     {
@@ -45,33 +48,40 @@ void SegmentPlayer::process(Buffer &out, int num_frames)
 {
     sample s;
 
+    int continue_after_segment = this->continue_after_segment->out[0][0];
     for (int frame = 0; frame < num_frames; frame++)
     {
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            if ((unsigned int) this->phase < buffer->get_num_frames())
+            if (this->state == SIGNALFLOW_NODE_STATE_STOPPED)
             {
-                s = this->buffer->get_frame(channel, this->phase);
+                s = 0.0;
             }
             else
             {
-                s = 0.0;
+                if ((unsigned int) this->phase < buffer->get_num_frames())
+                {
+                    s = this->buffer->get_frame(channel, this->phase);
+                }
+                else
+                {
+                    s = 0.0;
+                }
             }
 
             out[channel][frame] = s;
         }
 
         this->phase += this->rate->out[0][frame] * this->rate_scale_factor;
+        if (!continue_after_segment && (this->phase >= this->segment_end_phase))
+        {
+            this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
+        }
     }
 }
 
 void SegmentPlayer::trigger(std::string name, float value)
 {
-    /*--------------------------------------------------------------------------------
-     * TODO: How to honour `value` here, if specified?
-     *       Perhaps the default should be a null value, that gets ignored in favour
-     *       of `index` if not specified.
-     *--------------------------------------------------------------------------------*/
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
         PropertyRef onsetsref = this->get_property("onsets");
@@ -81,7 +91,15 @@ void SegmentPlayer::trigger(std::string name, float value)
             if (onsets.size() > 0)
             {
                 int segment_index;
-                if (this->index)
+                /*--------------------------------------------------------------------------------
+                 * If `value` is explicitly specified, use this as the segment index.
+                 * Otherwise, use the value of the `index` input, or a random value.
+                 *--------------------------------------------------------------------------------*/
+                if (value != SIGNALFLOW_NULL_FLOAT)
+                {
+                    segment_index = (int) value;
+                }
+                else if (this->index)
                 {
                     segment_index = this->index->out[0][0];
                 }
@@ -90,6 +108,16 @@ void SegmentPlayer::trigger(std::string name, float value)
                     segment_index = random_integer(0, onsets.size());
                 }
                 this->phase = onsets[segment_index] * this->buffer->get_sample_rate();
+                if (segment_index < onsets.size() - 1)
+                {
+                    this->segment_end_phase = onsets[segment_index + 1] * this->buffer->get_sample_rate();
+                }
+                else
+                {
+                    this->segment_end_phase = this->buffer->get_duration() * this->buffer->get_sample_rate();
+                }
+
+                this->set_state(SIGNALFLOW_NODE_STATE_ACTIVE);
             }
         }
     }

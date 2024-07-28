@@ -20,7 +20,7 @@
 - **[BufferRecorder](buffer/bufferrecorder/index.md)**: Records the input to a buffer. feedback controls overdub.
 - **[FeedbackBufferReader](buffer/feedbackbufferreader/index.md)**: Counterpart to FeedbackBufferWriter.
 - **[FeedbackBufferWriter](buffer/feedbackbufferwriter/index.md)**: Counterpart to FeedbackBufferReader.
-- **[SegmentPlayer](buffer/segmentplayer/index.md)**: Trigger segments of a buffer at the given onset positions.
+- **[SegmentPlayer](buffer/segmentplayer/index.md)**: Trigger segments of `buffer` at the given list of `onsets` positions, in seconds. `index` determines the index of the onset to play back at, which can also be passed as an argument to trigger(). `rate` determines the playback rate, and `clock` can be used to retrigger based on the output of another Node. If `continue_after_segment` is non-zero, playback will continue after the subsequent onset.
 
 ---
 
