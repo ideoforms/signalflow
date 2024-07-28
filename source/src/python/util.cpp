@@ -23,9 +23,11 @@ void init_python_util(py::module &m)
 
     m.def("random_seed", random_seed, R"pbdoc(Set the global random seed)pbdoc");
     m.def(
-        "random_uniform", []() { return random_uniform(); }, R"pbdoc(Return a uniformly random number)pbdoc");
+        "random_uniform", []() { return random_uniform(); }, R"pbdoc(Return a uniformly distributed random float)pbdoc");
     m.def(
-        "random_uniform", [](float from, float to) { return random_uniform(from, to); }, R"pbdoc(Return a uniformly random number)pbdoc");
+        "random_uniform", [](float from, float to) { return random_uniform(from, to); }, R"pbdoc(Return a uniformly distributed random float)pbdoc");
+    m.def(
+        "random_integer", [](int from, int to) { return random_integer(from, to); }, R"pbdoc(Return a uniformly distributed random integer)pbdoc");
     m.def(
         "random_exponential", [](float from, float to) { return random_exponential(from, to); }, R"pbdoc(Return a random number, exponentially distributed across a fixed range)pbdoc");
 
