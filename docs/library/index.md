@@ -102,6 +102,7 @@
 - **[Subtract](operators/subtract/index.md)**: Subtract each sample of b from each sample of a. Can also be written as a - b
 - **[Sum](operators/sum/index.md)**: Sums the output of all of the input nodes, by sample.
 - **[TimeShift](operators/timeshift/index.md)**: TimeShift
+- **[TriggerMult](operators/triggermult/index.md)**: Distribute any triggers to all output nodes.
 - **[Sin](operators/sin/index.md)**: Outputs sin(a), per sample.
 - **[Cos](operators/cos/index.md)**: Outputs cos(a), per sample.
 - **[Tan](operators/tan/index.md)**: Outputs tan(a), per sample.

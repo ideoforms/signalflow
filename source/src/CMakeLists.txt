@@ -98,6 +98,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/subtract.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/sum.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/trigonometry.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/trigger-mult.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/comparison.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/time-shift.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/constant.cpp

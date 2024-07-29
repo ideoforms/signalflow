@@ -30,6 +30,7 @@
 - **[Subtract](subtract/index.md)**: Subtract each sample of b from each sample of a. Can also be written as a - b
 - **[Sum](sum/index.md)**: Sums the output of all of the input nodes, by sample.
 - **[TimeShift](timeshift/index.md)**: TimeShift
+- **[TriggerMult](triggermult/index.md)**: Distribute any triggers to all output nodes.
 - **[Sin](sin/index.md)**: Outputs sin(a), per sample.
 - **[Cos](cos/index.md)**: Outputs cos(a), per sample.
 - **[Tan](tan/index.md)**: Outputs tan(a), per sample.

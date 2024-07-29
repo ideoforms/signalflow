@@ -44,6 +44,7 @@
 #include <signalflow/node/operators/subtract.h>
 #include <signalflow/node/operators/sum.h>
 #include <signalflow/node/operators/time-shift.h>
+#include <signalflow/node/operators/trigger-mult.h>
 #include <signalflow/node/operators/trigonometry.h>
 
 /*------------------------------------------------------------------------
