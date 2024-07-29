@@ -8,8 +8,8 @@ namespace signalflow
 {
 
 SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRef index, NodeRef rate,
-                             NodeRef clock, NodeRef continue_after_segment)
-    : buffer(buffer), index(index), rate(rate), clock(clock), continue_after_segment(continue_after_segment)
+                             NodeRef start_offset, NodeRef clock, NodeRef continue_after_segment)
+    : buffer(buffer), index(index), rate(rate), start_offset(start_offset), clock(clock), continue_after_segment(continue_after_segment)
 {
     this->name = "segment-player";
 
@@ -19,6 +19,7 @@ SegmentPlayer::SegmentPlayer(BufferRef buffer, std::vector<float> onsets, NodeRe
     this->set_property("onsets", onsets);
     this->create_input("index", this->index);
     this->create_input("rate", this->rate);
+    this->create_input("start_offset", this->start_offset);
     this->create_input("clock", this->clock);
     this->create_input("continue_after_segment", this->continue_after_segment);
 
@@ -85,6 +86,7 @@ void SegmentPlayer::trigger(std::string name, float value)
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
         PropertyRef onsetsref = this->get_property("onsets");
+
         if (onsetsref)
         {
             std::vector<float> onsets = onsetsref->float_array_value();
@@ -107,7 +109,14 @@ void SegmentPlayer::trigger(std::string name, float value)
                 {
                     segment_index = random_integer(0, onsets.size());
                 }
-                this->phase = onsets[segment_index] * this->buffer->get_sample_rate();
+
+                float start_offset = 0.0f;
+                if (this->start_offset)
+                {
+                    start_offset = this->start_offset->out[0][0];
+                }
+
+                this->phase = (onsets[segment_index] + start_offset) * this->buffer->get_sample_rate();
                 if (segment_index < onsets.size() - 1)
                 {
                     this->segment_end_phase = onsets[segment_index + 1] * this->buffer->get_sample_rate();

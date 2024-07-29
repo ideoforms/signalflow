@@ -20,6 +20,7 @@ public:
                   std::vector<float> onsets = {},
                   NodeRef index = nullptr,
                   NodeRef rate = 1.0,
+                  NodeRef start_offset = nullptr,
                   NodeRef clock = nullptr,
                   NodeRef continue_after_segment = 0);
 
@@ -41,6 +42,7 @@ protected:
     double segment_end_phase;
     NodeRef index;
     NodeRef rate;
+    NodeRef start_offset;
     float rate_scale_factor;
     NodeRef clock;
     NodeRef continue_after_segment;
