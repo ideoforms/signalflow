@@ -27,12 +27,12 @@ public:
     virtual void set_buffer(std::string, BufferRef buffer) override;
 
 protected:
+    BufferRef buffer;
+    BufferRef envelope;
+
     std::vector<float> onset_times;
     std::vector<float> durations;
     std::vector<Grain *> grains;
-
-    BufferRef buffer;
-    BufferRef envelope;
 
     NodeRef index;
     NodeRef rate;
