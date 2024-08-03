@@ -1,4 +1,5 @@
 from signalflow import AudioGraph, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add
+from signalflow import InsufficientBufferSizeException
 from . import count_zero_crossings, graph
 import pytest
 import numpy as np
@@ -37,7 +38,7 @@ def test_graph_cyclic(graph):
 def test_graph_render(graph):
     sine = SineOscillator(440)
     graph.play(sine)
-    with pytest.raises(RuntimeError):
+    with pytest.raises(InsufficientBufferSizeException):
         graph.render(441000)
     del graph
 
