@@ -28,7 +28,6 @@ void read_callback(struct SoundIoInStream *instream,
     if (!shared_in)
         return;
 
-    const struct SoundIoChannelLayout *layout = &instream->layout;
     struct SoundIoChannelArea *areas;
     int frame_count = frame_count_max;
     int frames_left = frame_count_max;
