@@ -287,7 +287,8 @@ void init_python_node(py::module &m)
         .def_property_readonly(
             "is_playing", [](NodeRef node) { return node->get_graph()->is_playing(node); }, R"pbdoc(Query whether the node is currently playing)pbdoc")
         .def(
-            "stop", [](NodeRef node) { node->get_graph()->stop(node); }, R"pbdoc(Stop playing the node by disconnecting it from the graph's output)pbdoc");
+            "stop", [](NodeRef node) { node->get_graph()->stop(node); }, R"pbdoc(Stop playing the node by disconnecting it from the graph's output)pbdoc")
+        .def_property_readonly("graph", &Node::get_graph, R"pbdoc(The AudioGraph that the node is part of.)pbdoc");
 
     /*--------------------------------------------------------------------------------
      * StochasticNode
