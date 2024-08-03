@@ -9,7 +9,7 @@ from setuptools.command.build_ext import build_ext
 
 class CMakeExtension(Extension):
     def __init__(self, name, sourcedir=''):
-        Extension.__init__(self, name, sources=[])
+        super().__init__(name, sources=[])
         self.sourcedir = os.path.abspath(sourcedir)
 
 
@@ -20,17 +20,18 @@ class CMakeBuild(build_ext):
 
     def build_extension(self, ext):
         extdir = os.path.abspath(self.build_lib)
-
         cfg = 'Debug' if self.debug else 'Release'
         cpu_count = os.cpu_count()
         build_args = ['--config', cfg, '-j', str(cpu_count)]
 
         print("Building signalflow version " + self.distribution.get_version())
         print("Detected %d CPUs" % os.cpu_count())
-        cmake_args = ['-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
-                      '-DCMAKE_BUILD_PYTHON=1',
-                      '-DCMAKE_BUILD_TYPE=' + cfg,
-                      '-DSIGNALFLOW_VERSION=' + self.distribution.get_version()]
+        cmake_args = [
+            '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
+            '-DCMAKE_BUILD_PYTHON=1',
+            '-DCMAKE_BUILD_TYPE=' + cfg,
+            '-DSIGNALFLOW_VERSION=' + self.distribution.get_version()
+        ]
         if 'CMAKE_OSX_ARCHITECTURES' in os.environ:
             cmake_args += ['-DCMAKE_OSX_ARCHITECTURES=%s' % os.environ['CMAKE_OSX_ARCHITECTURES']]
 
@@ -68,38 +69,6 @@ if sys.platform == 'win32':
     signalflow_package_data = ['*.pyd']
 
 setup(
-    name='signalflow',
-    version='0.4.7',
-    author='Daniel Jones',
-    author_email='dan@erase.net',
-    description='SignalFlow is a sound synthesis library designed to make it quick and intuitive to explore complex sonic ideas',
-    keywords=['audio', 'sound', 'synthesis', 'dsp', 'sound-synthesis'],
-    classifiers=[
-        'Topic :: Multimedia :: Sound/Audio',
-        'Topic :: Multimedia :: Sound/Audio :: Sound Synthesis',
-        'Topic :: Artistic Software',
-        'Development Status :: 4 - Beta',
-        'Intended Audience :: Developers'
-    ],
-    long_description=open("README.md", "r").read(),
-    long_description_content_type="text/markdown",
     ext_modules=[CMakeExtension('signalflow')],
     cmdclass=dict(build_ext=CMakeBuild),
-    python_requires=">=3.8",
-    setup_requires=['pytest-runner', 'pybind11-stubgen'],
-    install_requires=['numpy'],
-    tests_require=['pytest', 'numpy', 'scipy'],
-    package_dir={'': 'auxiliary/libs'},
-    packages=signalflow_packages,
-    include_package_data=True,
-    # signalflow-stubs contains type hint data in a .pyi file, per PEP 561
-    package_data={
-        "signalflow-stubs": ["*.pyi"],
-        "signalflow": signalflow_package_data
-    },
-    entry_points = {
-        'console_scripts': [
-            'signalflow = signalflow_cli:main',
-        ],
-    }
 )
