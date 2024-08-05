@@ -52,7 +52,7 @@ Node::Node()
         this->output_buffer_length = SIGNALFLOW_NODE_BUFFER_SIZE;
     }
 
-    this->resize_output_buffers(SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS);
+    this->resize_output_buffers(SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS);
 
     /*------------------------------------------------------------------------
      * last_num_frames caches the number of frames generated in the last
@@ -126,6 +126,18 @@ void Node::set_channels(int num_input_channels, int num_output_channels)
     this->num_input_channels = num_input_channels;
     this->num_output_channels = num_output_channels;
     this->matches_input_channels = false;
+
+    /*--------------------------------------------------------------------------------
+     * Added 2024-08-05 to address crash in which a multichannel ChannelPanner
+     * connected directly to AudioOut does not correctly allocate its buffers, as
+     * resize_output_buffers() currently only gets called in the
+     * `this->matches_input_channels` block in `update_channels()` (below).
+     *
+     * This means that resize_output_buffers() is called on every call to
+     * set_channels(). However, resize_output_buffers() is a no-op if no resize
+     * operation is needed, so this should have minimal impact on CPU.
+     *--------------------------------------------------------------------------------*/
+    this->resize_output_buffers(num_output_channels);
 }
 
 void Node::update_channels()
@@ -245,7 +257,7 @@ void Node::resize_output_buffers(int output_buffer_count)
     else
     {
         /*------------------------------------------------------------------------
-         * If not enough channels/frames  are allocated, dealloc the current
+         * If not enough channels/frames are allocated, dealloc the current
          * allocations and resize
          *-----------------------------------------------------------------------*/
         this->free();

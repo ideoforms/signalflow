@@ -156,7 +156,7 @@ public:
 
     /**------------------------------------------------------------------------
      * Get the number of output channels allocated in memory.
-     * Initially, a node allocates SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS
+     * Initially, a node allocates SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS
      * channels. During the course of graph construction, if more channels
      * than this are required, it re-allocates the memory.
      *
