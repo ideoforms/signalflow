@@ -21,6 +21,7 @@ using namespace pybind11::literals;
  *----------------------------------------------------------------------------*/
 PYBIND11_DECLARE_HOLDER_TYPE(T, NodeRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, BufferRefTemplate<T>, false)
+PYBIND11_DECLARE_HOLDER_TYPE(T, FFTBufferRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, PatchRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, PatchSpecRefTemplate<T>, false)
 PYBIND11_DECLARE_HOLDER_TYPE(T, PropertyRefTemplate<T>, false)

@@ -161,4 +161,43 @@ void init_python_buffer(py::module &m)
              R"pbdoc(Create an envelope buffer filled with the output of a given function.)pbdoc")
         .def_property_readonly("frame_offsets", &Buffer::get_frame_offsets,
                                R"pbdoc(Returns a list containing the offset in the envelope buffer for each frame, ranging over 0..1.)pbdoc");
+
+    /*--------------------------------------------------------------------------------
+     * Buffer
+     *-------------------------------------------------------------------------------*/
+    py::class_<FFTBuffer, FFTBufferRefTemplate<FFTBuffer>>(m, "FFTBuffer",
+                                                           "A buffer of audio spectra in magnitude/phase format")
+        /*--------------------------------------------------------------------------------
+         * Constructors
+         *-------------------------------------------------------------------------------*/
+        .def(py::init<std::string, int, int>(), "filename"_a, "fft_size"_a, "hop_size"_a, R"pbdoc(Load an FFTBuffer from a .spectra file.)pbdoc")
+
+        /*--------------------------------------------------------------------------------
+         * Operators
+         *-------------------------------------------------------------------------------*/
+        .def("__str__",
+             [](FFTBufferRef a) {
+                 std::string filename = a->get_filename();
+                 if (filename.empty())
+                 {
+                     return "FFTBuffer (" + std::to_string(a->get_num_frames()) + " frames)";
+                 }
+                 else
+                 {
+                     return "FFTBuffer (" + filename + ", " + std::to_string(a->get_num_frames()) + " frames)";
+                 }
+             })
+
+        /*--------------------------------------------------------------------------------
+         * Properties
+         *-------------------------------------------------------------------------------*/
+        .def_property_readonly("num_frames", &FFTBuffer::get_num_frames,
+                               R"pbdoc(Returns the number of spectral frames in the FFT buffer.)pbdoc")
+        .def_property_readonly("sample_rate", &FFTBuffer::get_sample_rate,
+                               R"pbdoc(Returns the FFT buffer's sample rate.)pbdoc")
+        .def_property_readonly("duration", &FFTBuffer::get_duration,
+                               R"pbdoc(Returns the FFT buffer's duration, in seconds.)pbdoc")
+        .def_property_readonly(
+            "filename", &FFTBuffer::get_filename,
+            R"pbdoc(Returns the FFT buffer's filename, if the buffer has been loaded from/saved to file.)pbdoc");
 }

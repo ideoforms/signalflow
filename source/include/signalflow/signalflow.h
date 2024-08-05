@@ -12,16 +12,26 @@
 #include <signalflow/core/util.h>
 #include <signalflow/core/version.h>
 
-#include <signalflow/buffer/buffer.h>
-#include <signalflow/buffer/ringbuffer.h>
+/*------------------------------------------------------------------------
+ * Node
+ *-----------------------------------------------------------------------*/
+#include <signalflow/node/node.h>
+#include <signalflow/node/registry.h>
 
+/*------------------------------------------------------------------------
+ * Patch
+ *-----------------------------------------------------------------------*/
 #include <signalflow/patch/patch-node-spec.h>
 #include <signalflow/patch/patch-registry.h>
 #include <signalflow/patch/patch-spec.h>
 #include <signalflow/patch/patch.h>
 
-#include <signalflow/node/node.h>
-#include <signalflow/node/registry.h>
+/*------------------------------------------------------------------------
+ * Buffers
+ *-----------------------------------------------------------------------*/
+#include <signalflow/buffer/buffer.h>
+#include <signalflow/buffer/fftbuffer.h>
+#include <signalflow/buffer/ringbuffer.h>
 
 /*------------------------------------------------------------------------
  * Operators

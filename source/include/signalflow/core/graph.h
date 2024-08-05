@@ -432,6 +432,7 @@ private:
     int recording_num_channels;
 
     friend class Buffer;
+    friend class FFTBuffer;
 };
 
 class AudioGraphRef : public std::shared_ptr<AudioGraph>

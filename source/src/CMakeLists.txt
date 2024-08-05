@@ -1,6 +1,7 @@
 set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/buffer/buffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/buffer/buffer2d.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/buffer/fftbuffer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/graph.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/config.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/core/core.cpp
