@@ -60,6 +60,7 @@ public:
      * @returns A sample value, between [-1, 1].
      *
      *------------------------------------------------------------------------*/
+    sample *get_frame(int frame);
     sample *get_magnitudes(int frame);
     sample *get_phases(int frame);
 
@@ -110,6 +111,15 @@ public:
      *
      *------------------------------------------------------------------------*/
     unsigned int get_hop_size();
+
+    /**------------------------------------------------------------------------
+     * Get the number of FFT bins in the buffer, which is equal to
+     * (fft_size / 2) + 1.
+     *
+     * @returns The number of bins.
+     *
+     *------------------------------------------------------------------------*/
+    unsigned int get_num_bins();
 
     /**------------------------------------------------------------------------
      * Get the filename that the buffer was loaded from / saved to, if set.

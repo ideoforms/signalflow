@@ -109,6 +109,9 @@ void init_python_nodes(py::module &m)
 
 #endif
 
+    py::class_<FFTBufferPlayer, FFTNode, NodeRefTemplate<FFTBufferPlayer>>(m, "FFTBufferPlayer", "FFTBufferPlayer. Plays from a buffer of audio spectra in mag/phase format.")
+        .def(py::init<FFTBufferRef>(), "buffer"_a = nullptr);
+
     py::class_<FFTContrast, FFTOpNode, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "contrast"_a = 1);
 

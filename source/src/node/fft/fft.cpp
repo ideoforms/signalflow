@@ -181,7 +181,7 @@ void FFT::process(Buffer &out, int num_frames)
 
     /*------------------------------------------------------------------------
      * Calculate the number of hops to perform.
-     * Each hop is stored in an out put channel so we can't have > 32.
+     * Each hop is stored in an output channel so we can't have > 32.
      * **Note** that num_hops is recalculated for each audio I/O output frame.
      * For larger FFT sizes, num_hops may be equal to zero for several
      * consecutive output frames.

@@ -58,6 +58,11 @@ FFTBuffer::FFTBuffer(std::string filename, int fft_size, int hop_size)
     }
 
     this->resize(num_frames);
+
+    for (int frame = 0; frame < num_frames; frame++)
+    {
+        fread(this->data[frame], sizeof(float), this->num_bins * 2, fd);
+    }
 }
 
 FFTBuffer::~FFTBuffer()
@@ -118,6 +123,8 @@ void FFTBuffer::resize(int num_frames)
     }
 }
 
+sample *FFTBuffer::get_frame(int frame) { return this->data[frame]; }
+
 float FFTBuffer::get_sample_rate() { return this->sample_rate; }
 
 void FFTBuffer::set_sample_rate(float sample_rate) { this->sample_rate = sample_rate; }
@@ -129,6 +136,8 @@ std::string FFTBuffer::get_filename() { return this->filename; }
 unsigned int FFTBuffer::get_fft_size() { return this->fft_size; }
 
 unsigned int FFTBuffer::get_hop_size() { return this->hop_size; }
+
+unsigned int FFTBuffer::get_num_bins() { return this->num_bins; }
 
 float FFTBuffer::get_duration() { return this->duration; }
 

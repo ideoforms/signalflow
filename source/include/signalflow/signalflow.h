@@ -183,6 +183,7 @@
  * FFT
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/fft/continuous-pv.h>
+#include <signalflow/node/fft/fft-buffer-player.h>
 #include <signalflow/node/fft/fft-contrast.h>
 #include <signalflow/node/fft/fft-cross-fade.h>
 #include <signalflow/node/fft/fft-lfo.h>
