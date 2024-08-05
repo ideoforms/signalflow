@@ -1,10 +1,3 @@
-#------------------------------------------------------------------------
-# This file is included so that pytest can find the package
-# root and import the `supercollider` module from a local relative path.
-#
-# https://docs.pytest.org/en/latest/goodpractices.html#test-package-name
-#------------------------------------------------------------------------
-
 import os
 import sys
 import pytest
@@ -40,9 +33,7 @@ def distutils_dir_name(dir_name):
 # Ensure that build dir exists and prioritise this library in sys.path
 #------------------------------------------------------------------------
 build_dir = os.path.join("build", distutils_dir_name("lib"))
-if not os.path.exists(build_dir):
-    raise RuntimeError("Couldn't find .so build dir: %s" % build_dir)
-if build_dir not in sys.path:
+if os.path.exists(build_dir) and build_dir not in sys.path:
     sys.path.insert(0, build_dir)
 
 #------------------------------------------------------------------------
