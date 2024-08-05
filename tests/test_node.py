@@ -1,4 +1,4 @@
-from signalflow import SineOscillator, AudioGraph, Line, SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS
+from signalflow import SineOscillator, AudioGraph, Line, SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS
 from signalflow import NodeAlreadyPlayingException, NodeNotPlayingException
 import signalflow as sf
 import numpy as np
@@ -14,7 +14,7 @@ def test_node_no_graph():
 def test_node_process(graph):
     a = SineOscillator(440)
     a.process(1024)
-    assert a.output_buffer.shape == (SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS, 1024)
+    assert a.output_buffer.shape == (SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS, 1024)
 
 
 def test_node_add_input(graph):
@@ -77,13 +77,13 @@ def test_node_write_to_output_buffer(graph):
     a.output_buffer[0][3] = 1.0
     assert a.output_buffer[0][3] == 1.0
 
-    assert a.output_buffer.shape == (SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS, graph.output_buffer_size)
-    a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS - 1][-1] = 1.0
-    assert a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS - 1][-1] == 1.0
+    assert a.output_buffer.shape == (SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS, graph.output_buffer_size)
+    a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS - 1][-1] = 1.0
+    assert a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS - 1][-1] == 1.0
     with pytest.raises(IndexError):
-        a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS][graph.output_buffer_size - 1] == 1.0
+        a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS][graph.output_buffer_size - 1] == 1.0
     with pytest.raises(IndexError):
-        a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_BUFFERS][graph.output_buffer_size] == 1.0
+        a.output_buffer[SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS][graph.output_buffer_size] == 1.0
 
 
 def test_node_trigger(graph):
