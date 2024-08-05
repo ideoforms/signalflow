@@ -39,7 +39,9 @@ public:
                       bool polar = true,
                       bool do_window = false,
                       float scale_factor = 1.0);
-    virtual void process(Buffer &out, int num_frames);
+    virtual void process(Buffer &out, int num_frames) override;
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER,
+                         float value = SIGNALFLOW_NULL_FLOAT) override;
 };
 
 REGISTER(IFFT, "ifft")

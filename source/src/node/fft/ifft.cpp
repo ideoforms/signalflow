@@ -195,4 +195,16 @@ void IFFT::process(Buffer &out, int num_frames)
     }
 }
 
+void IFFT::trigger(std::string name, float value)
+{
+    /*------------------------------------------------------------------------
+     * Zero the contents of the current output buffer to prevent overlap.
+     *-----------------------------------------------------------------------*/
+    if (name == "flush")
+    {
+        int buffer_size_bytes = this->get_output_buffer_length() * sizeof(sample);
+        memset(this->out[0], 0, buffer_size_bytes);
+    }
+}
+
 }
