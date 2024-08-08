@@ -47,15 +47,17 @@ void init_python_buffer(py::module &m)
         .def("__str__",
              [](BufferRef a) {
                  std::string filename = a->get_filename();
+                 std::string channels_s = a->get_num_channels() == 1 ? "" : "s";
+                 std::string frames_s = a->get_num_frames() == 1 ? "" : "s";
                  if (filename.empty())
                  {
-                     return "Buffer (" + std::to_string(a->get_num_channels()) + " channels, "
-                         + std::to_string(a->get_num_frames()) + " frames)";
+                     return "Buffer (" + std::to_string(a->get_num_channels()) + " channel" + channels_s + ", "
+                         + std::to_string(a->get_num_frames()) + " frame" + frames_s + ")";
                  }
                  else
                  {
-                     return "Buffer (" + filename + ", " + std::to_string(a->get_num_channels()) + " channels, "
-                         + std::to_string(a->get_num_frames()) + " frames)";
+                     return "Buffer (" + filename + ", " + std::to_string(a->get_num_channels()) + " channel" + channels_s + ", "
+                         + std::to_string(a->get_num_frames()) + " frame" + frames_s + ")";
                  }
              })
         .def(
