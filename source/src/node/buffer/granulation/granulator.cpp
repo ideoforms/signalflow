@@ -131,4 +131,23 @@ void Granulator::process(Buffer &out, int num_frames)
     }
 }
 
+void Granulator::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
+    {
+        Grain *grain = new Grain(this->buffer,
+                                 this->pos->out[0][0] * buffer->get_sample_rate(),
+                                 this->duration->out[0][0] * buffer->get_sample_rate(),
+                                 this->rate->out[0][0] * this->rate_scale_factor,
+                                 this->amplitude->out[0][0],
+                                 this->pan->out[0][0],
+                                 this->wrap);
+        this->grains.push_back(grain);
+    }
+    else
+    {
+        this->Node::trigger(name, value);
+    }
+}
+
 }

@@ -31,6 +31,8 @@ public:
 
     virtual void process(Buffer &out, int num_frames) override;
     virtual void set_buffer(std::string name, BufferRef buffer) override;
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER,
+                         float value = SIGNALFLOW_NULL_FLOAT) override;
 
 private:
     BufferRef buffer;
