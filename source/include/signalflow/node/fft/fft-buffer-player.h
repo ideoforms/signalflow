@@ -13,7 +13,7 @@ namespace signalflow
 class FFTBufferPlayer : public FFTNode
 {
 public:
-    FFTBufferPlayer(FFTBufferRef buffer = nullptr);
+    FFTBufferPlayer(FFTBufferRef buffer = nullptr, NodeRef rate = 1.0);
     ~FFTBufferPlayer();
 
     virtual void process(Buffer &out, int num_frames) override;
@@ -22,6 +22,8 @@ public:
 
 private:
     FFTBufferRef buffer;
+    NodeRef rate;
+
     int current_frame_index;
     int next_frame_counter;
     int flush_count;
