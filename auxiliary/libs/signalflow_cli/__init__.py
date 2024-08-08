@@ -168,7 +168,7 @@ def main():
                                    default='examples')
 
     args = parser.parse_args()
-    if args.command == 'configure':
+    if args.command == 'configure' or args.command == 'config':
         run_configure()
     elif args.command == 'version':
         run_version()
