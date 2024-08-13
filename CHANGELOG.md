@@ -1,23 +1,33 @@
 # CHANGELOG
 
+## [v0.4.10](https://github.com/ideoforms/signalflow/tree/v0.4.10) (2024-08-13)
+
+- Added `TriggerRoundRobin` node, to sequentially distribute triggers across outputs
+- Added `WavetableBuffer` class, with some initial wavetables that can be constructed by name (`sine`, `triangle`, `square`, `saw`)
+- Added `plot_buffer()` to `signalflow_visualisation`
+- Allow exceptions to be safely raised in the audio I/O thread without appearing as a Python kernel crash
+- `Granulator`: Add trigger() support
+- Fixed bug in `ASREnvelope` in which per-channel shape parameters were not honoured correctly
+- Fixed broken stubs installer
+
 ## [v0.4.9](https://github.com/ideoforms/signalflow/tree/v0.4.9) (2024-08-05)
 
- - Added `FFTBuffer` and `FFTBufferPlayer` node, and other new FFT processor nodes: `FFTCrossFade`, `FFTLFO`, `FFTScaleMagnitudes`
- - Added `TriggerMult` node to distribute a trigger to multiple outputs
- - Migrated build system to use `pyproject.toml`
- - Improved memory management and handling of `SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS`
- - `SpatialPanner`: Added beamforming support
- - Added support for >24-channel output devices on macOS (via custom libsoundio build)
- - Added troubleshooting docs
+- Added `FFTBuffer` and `FFTBufferPlayer` node, and other new FFT processor nodes: `FFTCrossFade`, `FFTLFO`, `FFTScaleMagnitudes`
+- Added `TriggerMult` node to distribute a trigger to multiple outputs
+- Migrated build system to use `pyproject.toml`
+- Improved memory management and handling of `SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS`
+- `SpatialPanner`: Added beamforming support
+- Added support for >24-channel output devices on macOS (via custom libsoundio build)
+- Added troubleshooting docs
 
 ## [v0.4.7](https://github.com/ideoforms/signalflow/tree/v0.4.7) (2024-02-23)
 
- - Optimized performance of `SineOscillator`, `Sum` and `ChannelMixer` on macOS with vDSP SIMD optimisations
- - Added support for `int16` audio devices
- - Added `num_channels` param to `AudioIn`
- - Reduced `Node` memory usage by allocating buffers more economically
- - Fix bug when recreating AudioGraph after destroy()
- - Fixed `signalflow` command-line installer by switching to setuptools `entry_points`
+- Optimized performance of `SineOscillator`, `Sum` and `ChannelMixer` on macOS with vDSP SIMD optimisations
+- Added support for `int16` audio devices
+- Added `num_channels` param to `AudioIn`
+- Reduced `Node` memory usage by allocating buffers more economically
+- Fixed bug when recreating AudioGraph after destroy()
+- Fixed `signalflow` command-line installer by switching to setuptools `entry_points`
 
 ## [v0.4.6](https://github.com/ideoforms/signalflow/tree/v0.4.6) (2024-02-16)
 
