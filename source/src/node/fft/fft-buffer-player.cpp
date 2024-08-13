@@ -54,7 +54,7 @@ void FFTBufferPlayer::trigger(std::string name, float value)
     }
     else
     {
-        throw std::runtime_error("Unknown trigger: " + name);
+        this->FFTNode::trigger(name, value);
     }
 }
 

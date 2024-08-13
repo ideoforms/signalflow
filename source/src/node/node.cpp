@@ -502,7 +502,7 @@ void Node::set_patch(Patch *patch)
 
 void Node::trigger(std::string name, float value)
 {
-    throw std::runtime_error("Trigger " + name + " is not implemented in node class " + this->name);
+    throw unknown_trigger_name_exception("Trigger " + name + " is not implemented in node class " + this->name);
 }
 
 void Node::poll(float frequency, std::string label)

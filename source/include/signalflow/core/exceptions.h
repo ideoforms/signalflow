@@ -105,4 +105,14 @@ struct node_not_playing_exception : public std::runtime_error
         : std::runtime_error(message) {}
 };
 
+struct unknown_trigger_name_exception : public std::runtime_error
+{
+    using std::runtime_error::runtime_error;
+
+    unknown_trigger_name_exception()
+        : std::runtime_error("The specified trigger name is not recognised by this node") {}
+    unknown_trigger_name_exception(const char *message)
+        : std::runtime_error(message) {}
+};
+
 }

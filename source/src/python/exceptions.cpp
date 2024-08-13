@@ -15,4 +15,5 @@ void init_python_exceptions(py::module &m)
     py::register_exception<signalflow::node_already_playing_exception>(m, "NodeAlreadyPlayingException");
     py::register_exception<signalflow::node_not_playing_exception>(m, "NodeNotPlayingException");
     py::register_exception<signalflow::cpu_usage_above_limit_exception>(m, "CPUUsageAboveLimitException");
+    py::register_exception<signalflow::unknown_trigger_name_exception>(m, "UnknownTriggerNameException");
 }

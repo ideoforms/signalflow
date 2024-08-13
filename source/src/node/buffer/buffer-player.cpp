@@ -88,7 +88,7 @@ void BufferPlayer::trigger(std::string name, float value)
     }
     else
     {
-        throw std::runtime_error("Unknown trigger: " + name);
+        this->Node::trigger(name, value);
     }
 }
 
