@@ -34,6 +34,7 @@
 #include <signalflow/buffer/fftbuffer.h>
 #include <signalflow/buffer/ringbuffer.h>
 #include <signalflow/buffer/waveshaper-buffer.h>
+#include <signalflow/buffer/wavetable-buffer.h>
 
 /*------------------------------------------------------------------------
  * Operators

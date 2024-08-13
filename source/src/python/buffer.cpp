@@ -164,6 +164,22 @@ void init_python_buffer(py::module &m)
         .def_property_readonly("frame_offsets", &Buffer::get_frame_offsets,
                                R"pbdoc(Returns a list containing the offset in the envelope buffer for each frame, ranging over 0..1.)pbdoc");
 
+    py::class_<WavetableBuffer, Buffer, BufferRefTemplate<WavetableBuffer>>(m,
+                                                                            "WavetableBuffer",
+                                                                            "Buffer encapsulating a single cycle of a wavetable")
+        .def(py::init<int>(), "num_frames"_a,
+             R"pbdoc(Create a wavetable buffer containing the given number of samples.)pbdoc")
+        .def(py::init<std::vector<float>>(), "samples"_a,
+             R"pbdoc(Create n wavetable buffer containing the specified 1D array of samples.)pbdoc")
+        .def(py::init<std::string>(), "shape"_a,
+             R"pbdoc(Create a wavetable buffer with the specified shape, one of: rectangular, triangle, hanning, linear-decay.)pbdoc")
+        .def(py::init<std::string, int>(), "shape"_a, "num_frames"_a,
+             R"pbdoc(Create a wavetable buffer with the specified shape and number of frames.)pbdoc")
+        .def(py::init<const std::function<float(float)>>(), "function"_a,
+             R"pbdoc(Create a wavetable buffer filled with the output of a given function.)pbdoc")
+        .def_property_readonly("frame_offsets", &Buffer::get_frame_offsets,
+                               R"pbdoc(Returns a list containing the offset in the wavetable buffer for each frame, ranging over 0..1.)pbdoc");
+
     /*--------------------------------------------------------------------------------
      * Buffer
      *-------------------------------------------------------------------------------*/
