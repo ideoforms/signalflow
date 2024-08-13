@@ -52,9 +52,9 @@ void ASREnvelope::process(Buffer &out, int num_frames)
                 this->phase[channel] = 0.0;
             }
 
-            float attack = this->attack->out[0][frame];
-            float sustain = this->sustain->out[0][frame];
-            float release = this->release->out[0][frame];
+            float attack = this->attack->out[channel][frame];
+            float sustain = this->sustain->out[channel][frame];
+            float release = this->release->out[channel][frame];
 
             if (this->phase[channel] < attack)
             {
