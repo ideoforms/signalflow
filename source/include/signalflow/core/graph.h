@@ -8,6 +8,7 @@
  *--------------------------------------------------------------------------------*/
 
 #include "signalflow/core/config.h"
+#include "signalflow/core/core.h"
 #include "signalflow/node/io/output/abstract.h"
 #include "signalflow/node/node.h"
 #include "signalflow/patch/patch.h"
@@ -402,6 +403,9 @@ public:
 
     static AudioGraph *get_shared_graph();
 
+    bool has_raised_audio_thread_error();
+    void raise_audio_thread_error();
+
 protected:
     void init();
     void register_memory_alloc(size_t num_bytes);
@@ -423,6 +427,7 @@ private:
     float cpu_usage;
     float cpu_usage_smoothing;
     size_t memory_usage;
+    bool raised_audio_thread_error = false;
 
     NodeRef output = nullptr;
     AudioGraphConfig config;

@@ -39,7 +39,7 @@ void FeedbackBufferWriter::process(Buffer &out, int num_frames)
 
             if (delay_samples < this->graph->get_output_buffer_size())
             {
-                throw std::runtime_error("FeedbackBufferWriter delay_time cannot be shorter than the AudioGraph output buffer size");
+                signalflow_audio_thread_error("FeedbackBufferWriter delay_time cannot be shorter than the AudioGraph output buffer size");
             }
 
             int offset = this->phase + delay_samples;

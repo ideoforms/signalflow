@@ -112,6 +112,16 @@ To author a new Node class:
 
 Note that, to comply with the registry system, all arguments to Node constructors must have default values so that the Node class can be instantiated with a zero-argument syntax, e.g. `NodeClass()`.
 
+## Error handling
+
+Exceptions should not be raised from the `process()` function, as this function runs in the audio thread and exceptions will not be correctly caught by the Python interpreter, meaning that, particularly in environments such as Jupyter, the process will appear to crash.
+
+Instead, the `signalflow_audio_thread_error()` function should be called. This outputs the exception to `stderr`, and halts the graph process. The exception string should start with the name of the Node class, to make it clear where the error originates, ideally with a hint on how to resolve the issue. For example:
+
+```
+CombDelay: Delay time exceeds maximum. Reduce the delay_time, or increase max_delay_time.
+```
+
 ## Test
 
 To run the unit test suite:

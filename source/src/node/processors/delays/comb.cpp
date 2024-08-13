@@ -1,3 +1,4 @@
+#include "signalflow/core/core.h"
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/node/processors/delays/comb.h"
 
@@ -40,9 +41,9 @@ void CombDelay::process(Buffer &out, int num_frames)
             sample feedback = this->feedback->out[channel][frame];
             float offset = delay_time * this->graph->get_sample_rate();
 
-            if (delay_time >= this->max_delay_time)
+            if (delay_time > this->max_delay_time)
             {
-                throw std::runtime_error("CombDelay: Delay time exceeds maximum");
+                signalflow_audio_thread_error("CombDelay: Delay time exceeds maximum. Reduce the delay_time, or increase max_delay_time.");
             }
 
             sample rv = input->out[channel][frame] + (feedback * buffers[channel]->get(-offset));

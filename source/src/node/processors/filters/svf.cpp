@@ -113,7 +113,7 @@ void SVFilter::process(Buffer &out, int num_frames)
                     out[channel][frame] = v2 - (v0 - k[channel] * v1 - v2);
                     break;
                 default:
-                    throw std::runtime_error("SVFilter does not support this filter type");
+                    signalflow_audio_thread_error("SVFilter: Unsupported filter type");
             }
         }
     }

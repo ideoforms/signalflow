@@ -148,6 +148,16 @@ void AudioGraph::stop()
     audioout->stop();
 }
 
+bool AudioGraph::has_raised_audio_thread_error()
+{
+    return this->raised_audio_thread_error;
+}
+
+void AudioGraph::raise_audio_thread_error()
+{
+    this->raised_audio_thread_error = true;
+}
+
 void AudioGraph::clear()
 {
     AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
@@ -193,13 +203,20 @@ AudioGraph::~AudioGraph()
 
 void AudioGraph::wait(float time)
 {
+    long time_elapsed_ms = 0;
+    long time_to_wait;
     if (time == -1)
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds(std::numeric_limits<long>::max()));
+        time_to_wait = std::numeric_limits<long>::max();
     }
     else
     {
-        std::this_thread::sleep_for(std::chrono::milliseconds((long) (1000.0f * time)));
+        time_to_wait = (long) (1000.0f * time);
+    }
+    while (time_elapsed_ms < time_to_wait && !this->has_raised_audio_thread_error())
+    {
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+        time_elapsed_ms += 10;
     }
 }
 

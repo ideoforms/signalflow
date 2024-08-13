@@ -138,6 +138,9 @@ void init_python_graph(py::module &m)
                       * Release the GIL so that other threads can do processing.
                       *-------------------------------------------------------------------------------*/
                      py::gil_scoped_release release;
+
+                     if (graph.has_raised_audio_thread_error())
+                         break;
                  }
              })
         .def(
@@ -166,6 +169,9 @@ void init_python_graph(py::module &m)
                      * Release the GIL so that other threads can do processing.
                      *-------------------------------------------------------------------------------*/
                     py::gil_scoped_release release;
+
+                    if (graph.has_raised_audio_thread_error())
+                        break;
                 }
             },
             "seconds"_a);

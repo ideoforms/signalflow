@@ -114,7 +114,7 @@ void ADSREnvelope::process(Buffer &out, int num_frames)
         }
         else
         {
-            throw std::runtime_error("Invalid curve value");
+            signalflow_audio_thread_error("ADSREnvelope: Invalid curve value");
         }
 
         for (int channel = 0; channel < this->num_output_channels; channel++)

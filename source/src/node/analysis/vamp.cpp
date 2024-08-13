@@ -36,7 +36,7 @@ VampAnalysis::VampAnalysis(NodeRef input, std::string plugin_id)
      *-----------------------------------------------------------------------*/
     size_t num_colons = std::count(plugin_id.begin(), plugin_id.end(), ':');
     if (num_colons != 2)
-        throw std::runtime_error("Invalid Vamp plugin ID: " + plugin_id);
+        signalflow_audio_thread_error("Invalid Vamp plugin ID: " + plugin_id);
 
     int first_separator = plugin_id.find(':');
     int second_separator = plugin_id.find(':', first_separator + 1);
