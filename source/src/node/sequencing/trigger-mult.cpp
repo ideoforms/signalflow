@@ -1,4 +1,4 @@
-#include "signalflow/node/operators/trigger-mult.h"
+#include "signalflow/node/sequencing/trigger-mult.h"
 #include <math.h>
 
 namespace signalflow
@@ -16,8 +16,7 @@ void TriggerMult::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float value = this->input->out[channel][frame];
-            out[channel][frame] = value;
+            out[channel][frame] = this->input->out[channel][frame];
         }
     }
 }

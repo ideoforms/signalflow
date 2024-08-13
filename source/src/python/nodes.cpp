@@ -247,9 +247,6 @@ void init_python_nodes(py::module &m)
     py::class_<TimeShift, Node, NodeRefTemplate<TimeShift>>(m, "TimeShift", "TimeShift")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
-    py::class_<TriggerMult, Node, NodeRefTemplate<TriggerMult>>(m, "TriggerMult", "Distribute any triggers to all output nodes.")
-        .def(py::init<NodeRef>(), "a"_a = 0);
-
     py::class_<Sin, Node, NodeRefTemplate<Sin>>(m, "Sin", "Outputs sin(a), per sample.")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
@@ -411,6 +408,12 @@ void init_python_nodes(py::module &m)
 
     py::class_<Sequence, Node, NodeRefTemplate<Sequence>>(m, "Sequence", "Outputs the elements in `sequence`, incrementing position on each `clock`.")
         .def(py::init<std::vector<float>, NodeRef>(), "sequence"_a = std::vector<float>(), "clock"_a = nullptr);
+
+    py::class_<TriggerMult, Node, NodeRefTemplate<TriggerMult>>(m, "TriggerMult", "Distribute any triggers to all output nodes.")
+        .def(py::init<NodeRef>(), "a"_a = 0);
+
+    py::class_<TriggerRoundRobin, Node, NodeRefTemplate<TriggerRoundRobin>>(m, "TriggerRoundRobin", "Relay trigger() events to a single node from the list of connected outputs, with `direction` determining the direction: 1 (or above) = move forwards by N, -1 = move backwards by N, 0 = stationary.")
+        .def(py::init<NodeRef>(), "direction"_a = 1);
 
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic", "Logistic noise.")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);

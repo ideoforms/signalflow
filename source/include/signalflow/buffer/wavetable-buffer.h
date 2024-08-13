@@ -18,6 +18,12 @@ namespace signalflow
  * A WavetableBuffer is a mono buffer with a fixed number of samples,
  * which can be sampled at a position [0,1] to give a bipolar [-1, 1]
  * amplitude value, intended for use with the Wavetable node.
+ *
+ * At some point, it would be nice to support multi-sampled wavetables
+ * band-limited per octave.
+ *
+ * Some useful notes:
+ * https://www.earlevel.com/main/category/digital-audio/oscillators/wavetable-oscillators/
  *-----------------------------------------------------------------------*/
 class WavetableBuffer : public Buffer
 {

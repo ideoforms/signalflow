@@ -245,7 +245,7 @@ public:
     virtual void set_value(float value);
 
     std::map<std::string, NodeRef *> get_inputs();
-    std::set<std::pair<Node *, std::string>> get_outputs();
+    std::vector<std::pair<Node *, std::string>> get_outputs();
     std::map<std::string, PropertyRef *> get_properties();
     std::map<std::string, BufferRef *> get_buffers();
 
@@ -347,7 +347,7 @@ protected:
      * Note that a node may modulate two different parameters of the same
      * node.
      *-----------------------------------------------------------------------*/
-    std::set<std::pair<Node *, std::string>> outputs;
+    std::vector<std::pair<Node *, std::string>> outputs;
 
     /*------------------------------------------------------------------------
      * Hash table of properties: (name, PropertyRef *)

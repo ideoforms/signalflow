@@ -1,3 +1,5 @@
+#include <algorithm>
+
 #include "signalflow/node/node.h"
 
 #include "signalflow/node/operators/add.h"
@@ -308,7 +310,7 @@ std::map<std::string, NodeRef *> Node::get_inputs()
     return this->inputs;
 }
 
-std::set<std::pair<Node *, std::string>> Node::get_outputs()
+std::vector<std::pair<Node *, std::string>> Node::get_outputs()
 {
     return this->outputs;
 }
@@ -413,12 +415,21 @@ void Node::remove_input(NodeRef input)
 
 void Node::add_output(Node *target, std::string name)
 {
-    this->outputs.insert(std::make_pair(target, name));
+    this->outputs.push_back(std::make_pair(target, name));
 }
 
 void Node::remove_output(Node *target, std::string name)
 {
-    this->outputs.erase(std::make_pair(target, name));
+    std::vector<std::pair<Node *, std::string>>::iterator iter;
+
+    for (iter = this->outputs.begin(); iter != this->outputs.end();)
+    {
+        if (iter->second == name)
+        {
+            this->outputs.erase(iter);
+            break;
+        }
+    }
 }
 
 bool Node::get_matches_input_channels()

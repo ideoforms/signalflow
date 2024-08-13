@@ -57,7 +57,6 @@
 #include <signalflow/node/operators/subtract.h>
 #include <signalflow/node/operators/sum.h>
 #include <signalflow/node/operators/time-shift.h>
-#include <signalflow/node/operators/trigger-mult.h>
 #include <signalflow/node/operators/trigonometry.h>
 
 /*------------------------------------------------------------------------
@@ -168,6 +167,8 @@
 #include <signalflow/node/sequencing/index.h>
 #include <signalflow/node/sequencing/latch.h>
 #include <signalflow/node/sequencing/sequence.h>
+#include <signalflow/node/sequencing/trigger-mult.h>
+#include <signalflow/node/sequencing/trigger-round-robin.h>
 
 /*------------------------------------------------------------------------
  * Analysis and MIR
