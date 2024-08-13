@@ -421,6 +421,16 @@ sample **Buffer::get_data() { return this->data; }
 
 sample *&Buffer::operator[](int index) { return this->data[index]; }
 
+std::vector<float> Buffer::get_frame_offsets()
+{
+    std::vector<float> offsets(this->num_frames);
+    for (unsigned long i = 0; i < this->num_frames; i++)
+    {
+        offsets[i] = this->frame_to_offset(i);
+    }
+    return offsets;
+}
+
 /*-------------------------------------------------------------------------
  * Operators
  *-----------------------------------------------------------------------*/
@@ -490,103 +500,5 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator-(double constant)
 }
 
 template class BufferRefTemplate<Buffer>;
-
-EnvelopeBuffer::EnvelopeBuffer(int length)
-    : Buffer(1, length)
-{
-    /*-------------------------------------------------------------------------
-     * Initialise to a flat envelope at maximum amplitude.
-     *-----------------------------------------------------------------------*/
-    this->fill(1.0);
-}
-
-EnvelopeBuffer::EnvelopeBuffer(std::string shape, int num_frames)
-    : EnvelopeBuffer(num_frames)
-{
-    if (shape == "triangle")
-    {
-        for (int x = 0; x < num_frames / 2; x++)
-            this->data[0][x] = (float) x / (num_frames / 2);
-        for (int x = 0; x < num_frames / 2; x++)
-            this->data[0][(num_frames / 2) + x] = 1.0 - (float) x / (num_frames / 2);
-    }
-    else if (shape == "linear-decay")
-    {
-        for (int x = 0; x < num_frames; x++)
-            this->data[0][x] = 1.0 - (float) x / num_frames;
-    }
-    else if (shape == "hanning")
-    {
-        for (int x = 0; x < num_frames; x++)
-        {
-            this->data[0][x] = 0.5 * (1.0 - cos(2 * M_PI * x / (num_frames - 1)));
-        }
-    }
-    else if (shape == "rectangular")
-    {
-        for (int x = 0; x < num_frames; x++)
-        {
-            this->data[0][x] = 1.0;
-        }
-    }
-    else
-    {
-        throw std::runtime_error("Invalid buffer shape: " + shape);
-    }
-}
-
-EnvelopeBuffer::EnvelopeBuffer(const std::function<float(float)> f)
-    : Buffer(1, 1024)
-{
-    this->fill(f);
-}
-
-EnvelopeBuffer::EnvelopeBuffer(std::vector<float> samples)
-    : Buffer(samples) {}
-
-double EnvelopeBuffer::offset_to_frame(double offset)
-{
-    return signalflow_scale_lin_lin(offset, 0, 1, 0, this->num_frames - 1);
-}
-
-double EnvelopeBuffer::frame_to_offset(double frame)
-{
-    return signalflow_scale_lin_lin(frame, 0, this->num_frames - 1, 0, 1);
-}
-
-WaveShaperBuffer::WaveShaperBuffer(int length)
-    : Buffer(1, length)
-{
-    /*-------------------------------------------------------------------------
-     * Initialise to a 1-to-1 linear mapping.
-     *-----------------------------------------------------------------------*/
-    this->fill([](float input) { return input; });
-}
-
-WaveShaperBuffer::WaveShaperBuffer(const std::function<float(float)> f)
-    : Buffer(1, 1024)
-{
-    this->fill(f);
-}
-
-double WaveShaperBuffer::offset_to_frame(double offset)
-{
-    return signalflow_scale_lin_lin(offset, -1, 1, 0, this->num_frames - 1);
-}
-
-double WaveShaperBuffer::frame_to_offset(double frame)
-{
-    return signalflow_scale_lin_lin(frame, 0, this->num_frames - 1, -1, 1);
-}
-
-std::vector<float> Buffer::get_frame_offsets()
-{
-    std::vector<float> offsets(this->num_frames);
-    for (unsigned long i = 0; i < this->num_frames; i++)
-    {
-        offsets[i] = this->frame_to_offset(i);
-    }
-    return offsets;
-}
 
 }

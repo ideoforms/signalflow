@@ -1,3 +1,4 @@
+#include "signalflow/buffer/envelope-buffer.h"
 #include "signalflow/core/graph.h"
 #include "signalflow/node/buffer/granulation/grainsegments.h"
 
