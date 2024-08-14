@@ -51,6 +51,9 @@ void init_python_nodes(py::module &m)
     py::class_<FeedbackBufferWriter, Node, NodeRefTemplate<FeedbackBufferWriter>>(m, "FeedbackBufferWriter", "Counterpart to FeedbackBufferReader.")
         .def(py::init<BufferRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "input"_a = 0.0, "delay_time"_a = 0.1);
 
+    py::class_<HistoryBufferWriter, Node, NodeRefTemplate<HistoryBufferWriter>>(m, "HistoryBufferWriter", "Writes a rolling history buffer of a given duration, in seconds. At any moment in time, the contents of the buffer. TODO: Should this be an UnaryOpNode?")
+        .def(py::init<BufferRef, NodeRef, int>(), "buffer"_a = nullptr, "input"_a = 0.0, "downsample"_a = 1);
+
     py::class_<SegmentPlayer, Node, NodeRefTemplate<SegmentPlayer>>(m, "SegmentPlayer", "Trigger segments of `buffer` at the given list of `onsets` positions, in seconds. `index` determines the index of the onset to play back at, which can also be passed as an argument to trigger(). `rate` determines the playback rate, and `clock` can be used to retrigger based on the output of another Node. If `continue_after_segment` is non-zero, playback will continue after the subsequent onset.")
         .def(py::init<BufferRef, std::vector<float>, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "onsets"_a = 0, "index"_a = nullptr, "rate"_a = 1.0, "start_offset"_a = nullptr, "clock"_a = nullptr, "continue_after_segment"_a = 0);
 

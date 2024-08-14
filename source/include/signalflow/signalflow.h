@@ -96,6 +96,7 @@
 #include <signalflow/node/buffer/feedback-buffer-writer.h>
 #include <signalflow/node/buffer/granulation/grainsegments.h>
 #include <signalflow/node/buffer/granulation/granulator.h>
+#include <signalflow/node/buffer/history-buffer-writer.h>
 #include <signalflow/node/buffer/segment-player.h>
 
 /*------------------------------------------------------------------------
