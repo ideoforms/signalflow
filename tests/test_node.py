@@ -1,4 +1,4 @@
-from signalflow import SineOscillator, AudioGraph, Line, SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS
+from signalflow import SineOscillator, AudioGraph, Line, Sum, Constant, SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS
 from signalflow import NodeAlreadyPlayingException, NodeNotPlayingException
 import signalflow as sf
 import numpy as np
@@ -171,3 +171,29 @@ def test_node_outputs(graph):
     node.stop()
     graph.render()
     assert len(node.outputs) == 0
+
+def test_node_variable_inputs(graph):
+    # Render a sum of multiple inputs
+    constants = [1, 2, 3]
+    sum = Sum(constants)
+    sum.play()
+    graph.render()
+    assert np.all(sum.output_buffer[0] == 6)
+
+    # Add a new input
+    sum.add_input(4)
+    graph.render()
+    assert np.all(sum.output_buffer[0] == 10)
+    assert list(sum.inputs.keys()) == ["input0", "input1", "input2", "input3"]
+
+    # Remove an input from the middle of the list, and check the sum
+    sum.remove_input(sum.inputs["input1"])
+    graph.render()
+    assert np.all(sum.output_buffer[0] == 8)
+    assert list(sum.inputs.keys()) == ["input0", "input2", "input3"]
+
+    # Add another new input
+    sum.add_input(5)
+    assert list(sum.inputs.keys()) == ["input0", "input2", "input3", "input4"]
+    graph.render()
+    assert np.all(sum.output_buffer[0] == 13)
