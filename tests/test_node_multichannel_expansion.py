@@ -113,6 +113,16 @@ def test_expansion_channel_array(graph):
         peak_frequencies == pytest.approx([440, 880, 1760, 3520], abs=(graph.sample_rate / len(buf) / 2)))
 
 
+def test_expansion_channel_array_remove(graph):
+    a = ChannelArray([1, 2, 3])
+    assert a.num_output_channels == 3
+    graph.render_subgraph(a, reset=True)
+    a.remove_input(a.inputs["input1"])
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 1)
+    assert np.all(a.output_buffer[1] == 3)
+
+
 def test_expansion_channel_mismatch(graph):
     a = SineOscillator([440, 880])
     with pytest.raises(InvalidChannelCountException):

@@ -559,6 +559,100 @@ UnaryOpNode::UnaryOpNode(NodeRef a)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// VariableInputNode
+////////////////////////////////////////////////////////////////////////////////
+
+VariableInputNode::VariableInputNode()
+{
+    this->has_variable_inputs = true;
+    this->last_input_index = 0;
+}
+
+VariableInputNode::VariableInputNode(std::initializer_list<NodeRef> inputs)
+    : VariableInputNode()
+{
+    for (NodeRef input : inputs)
+    {
+        this->add_input(input);
+    }
+}
+
+VariableInputNode::VariableInputNode(std::vector<NodeRef> inputs)
+    : VariableInputNode()
+{
+    for (NodeRef input : inputs)
+    {
+        this->add_input(input);
+    }
+}
+
+VariableInputNode::VariableInputNode(std::vector<float> inputs)
+    : VariableInputNode()
+{
+    for (float input : inputs)
+    {
+        this->add_input(new Constant(input));
+    }
+}
+
+VariableInputNode::VariableInputNode(std::vector<int> inputs)
+    : VariableInputNode()
+{
+    for (int input : inputs)
+    {
+        this->add_input(new Constant(input));
+    }
+}
+
+void VariableInputNode::add_input(NodeRef input)
+{
+    /*------------------------------------------------------------------------
+     * Use last_input_index rather than input_list.size() because this
+     * index must monotonically increase. If inputs are removed from the
+     * list, input_list.size() will drop meaning that an index will be
+     * erroneously reused.
+     *-----------------------------------------------------------------------*/
+    std::string input_name = "input" + std::to_string(last_input_index++);
+    this->input_list.push_back(input);
+    this->Node::create_input(input_name, input_list.back());
+}
+
+void VariableInputNode::set_input(std::string name, const NodeRef &node)
+{
+    if (this->inputs.find(name) == this->inputs.end())
+    {
+        this->input_list.push_back(node);
+        this->Node::create_input(name, input_list.back());
+    }
+
+    this->Node::set_input(name, node);
+}
+
+void VariableInputNode::remove_input(NodeRef node)
+{
+    bool removed = false;
+    for (auto param : this->inputs)
+    {
+        if (*(param.second) == node)
+        {
+            /*--------------------------------------------------------------------------------
+             * Remove Node outgoing reference first, to avoid node being garbage collected.
+             *--------------------------------------------------------------------------------*/
+            node->remove_output(this, param.first);
+
+            this->destroy_input(param.first);
+            this->input_list.remove(node);
+            removed = true;
+            break;
+        }
+    }
+    if (!removed)
+    {
+        throw std::runtime_error("VariableInputNode: Couldn't find node to remove");
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // NodeRef
 ////////////////////////////////////////////////////////////////////////////////
 

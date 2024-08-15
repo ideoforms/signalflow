@@ -193,6 +193,9 @@ def test_node_variable_inputs(graph):
     assert list(sum.inputs.keys()) == ["input0", "input2", "input3"]
 
     # Add another new input
+    # (This tests for the gotcha solved by last_input_index in VariableInputNode,
+    # in which an inputX name is erroneously reused when shrinking and enlarging
+    # the list)
     sum.add_input(5)
     assert list(sum.inputs.keys()) == ["input0", "input2", "input3", "input4"]
     graph.render()

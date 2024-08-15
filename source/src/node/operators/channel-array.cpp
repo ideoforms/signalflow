@@ -1,51 +1,52 @@
 #include "signalflow/core/core.h"
 #include "signalflow/node/operators/channel-array.h"
-#include "signalflow/node/oscillators/constant.h"
 
 namespace signalflow
 {
 
-ChannelArray::ChannelArray()
+void ChannelArray::init()
 {
     this->name = "channel-array";
     this->no_input_upmix = true;
-    this->has_variable_inputs = true;
+
+    /*--------------------------------------------------------------------------------*
+     * This explicit call to update_channels() is needed because C++ cannot call
+     * this class's update_channels() method in the superclass constructor.
+     *
+     * When inputs are created in VariableInputNode's constructor, this should normally
+     * happen automatically. Instead we need to do it here explicitly.
+     *---------------------------------------------------------------------------------*/
+    this->update_channels();
+}
+
+ChannelArray::ChannelArray()
+    : VariableInputNode()
+{
+    this->init();
 }
 
 ChannelArray::ChannelArray(std::initializer_list<NodeRef> inputs)
-    : ChannelArray()
+    : VariableInputNode(inputs)
 {
-    for (NodeRef input : inputs)
-    {
-        this->add_input(input);
-    }
+    this->init();
 }
 
 ChannelArray::ChannelArray(std::vector<NodeRef> inputs)
-    : ChannelArray()
+    : VariableInputNode(inputs)
 {
-    for (NodeRef input : inputs)
-    {
-        this->add_input(input);
-    }
+    this->init();
 }
 
 ChannelArray::ChannelArray(std::vector<float> inputs)
-    : ChannelArray()
+    : VariableInputNode(inputs)
 {
-    for (float input : inputs)
-    {
-        this->add_input(new Constant(input));
-    }
+    this->init();
 }
 
 ChannelArray::ChannelArray(std::vector<int> inputs)
-    : ChannelArray()
+    : VariableInputNode(inputs)
 {
-    for (int input : inputs)
-    {
-        this->add_input(new Constant(input));
-    }
+    this->init();
 }
 
 void ChannelArray::process(Buffer &out, int num_frames)
@@ -74,24 +75,6 @@ void ChannelArray::update_channels()
     signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
 
     this->resize_output_buffers(this->num_input_channels);
-}
-
-void ChannelArray::add_input(NodeRef input)
-{
-    this->input_list.push_back(input);
-    std::string input_name = "input" + std::to_string(this->inputs.size());
-    this->Node::create_input(input_name, input_list.back());
-}
-
-void ChannelArray::set_input(std::string name, const NodeRef &node)
-{
-    if (this->inputs.find(name) == this->inputs.end())
-    {
-        this->input_list.push_back(node);
-        this->Node::create_input(name, input_list.back());
-    }
-
-    this->Node::set_input(name, node);
 }
 
 }

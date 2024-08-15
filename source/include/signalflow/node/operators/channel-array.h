@@ -11,7 +11,7 @@ namespace signalflow
 /**--------------------------------------------------------------------------------*
  * Takes an array of inputs and spreads them across multiple channels of output.
  *---------------------------------------------------------------------------------*/
-class ChannelArray : public Node
+class ChannelArray : public VariableInputNode
 {
 
 public:
@@ -24,10 +24,8 @@ public:
     virtual void process(Buffer &out, int num_frames);
     virtual void update_channels();
 
-    virtual void add_input(NodeRef input);
-    virtual void set_input(std::string name, const NodeRef &node);
-
-    std::list<NodeRef> input_list;
+protected:
+    void init();
 };
 
 REGISTER(ChannelArray, "channel-array")

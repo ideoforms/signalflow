@@ -7,6 +7,7 @@
 #include "signalflow/core/property.h"
 #include "signalflow/node/registry.h"
 
+#include <list>
 #include <memory>
 #include <set>
 #include <string>
@@ -462,6 +463,25 @@ public:
 
     NodeRef input0;
     NodeRef input1;
+};
+
+class VariableInputNode : public Node
+{
+
+public:
+    VariableInputNode();
+    VariableInputNode(std::initializer_list<NodeRef> inputs);
+    VariableInputNode(std::vector<NodeRef> inputs);
+    VariableInputNode(std::vector<int> inputs);
+    VariableInputNode(std::vector<float> inputs);
+
+    virtual void add_input(NodeRef input);
+    virtual void set_input(std::string name, const NodeRef &node);
+    virtual void remove_input(NodeRef input);
+
+protected:
+    std::list<NodeRef> input_list;
+    unsigned int last_input_index;
 };
 
 }
