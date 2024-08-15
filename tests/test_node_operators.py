@@ -1,4 +1,4 @@
-from signalflow import Constant, ChannelArray, Sum
+from signalflow import Constant, ChannelArray, Sum, SelectInput, Counter, Impulse
 import numpy as np
 
 from . import graph
@@ -195,3 +195,33 @@ def test_sum(graph):
     assert a.num_output_channels == 1
     graph.render_subgraph(a)
     assert np.all(a.output_buffer[0] == 10)
+
+    a = ChannelArray([1, 1])
+    b = ChannelArray([2, 2, 2])
+    c = Sum([a, b, 3])
+    graph.render_subgraph(c)
+    assert np.all(c.output_buffer[0] == 6)
+    assert np.all(c.output_buffer[1] == 6)
+    assert np.all(c.output_buffer[2] == 6)
+
+def test_select_input(graph):
+    a = SelectInput([1, 2, 3], 0)
+
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 1)
+
+    a.set_input("index", 1)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 2)
+
+    a.set_input("index", 2)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 3)
+
+    # test audio-rate modulation and wraparound
+    a.set_input("index", Counter(Impulse(graph.sample_rate // 4), 0, 3))
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0][0:4] == 1)
+    assert np.all(a.output_buffer[0][4:8] == 2)
+    assert np.all(a.output_buffer[0][8:12] == 3)
+    assert np.all(a.output_buffer[0][12:16] == 1)
