@@ -535,7 +535,7 @@ void Node::poll(float frequency, std::string label)
 
 float Node::get_value()
 {
-    throw std::runtime_error("get_value() is only applicable to Constant nodes");
+    return this->out.data[0][0];
 }
 
 void Node::set_value(float value)

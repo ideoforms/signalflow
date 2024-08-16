@@ -240,9 +240,15 @@ public:
     int last_num_frames;
 
     /*------------------------------------------------------------------------
-     * Primarily used for Constant nodes
+     * For Constant nodes, returns the value of the constant; for all other
+     * nodes, returns the first sample of the first channel of the output
+     * buffer (node.output_buffer[0][0])
      *-----------------------------------------------------------------------*/
     virtual float get_value();
+
+    /*------------------------------------------------------------------------
+     * Only applicable to Constant nodes.
+     *-----------------------------------------------------------------------*/
     virtual void set_value(float value);
 
     std::map<std::string, NodeRef *> get_inputs();

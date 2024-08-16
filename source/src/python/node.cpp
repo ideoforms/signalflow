@@ -171,7 +171,7 @@ void init_python_node(py::module &m)
         .def_property_readonly("patch", &Node::get_patch, R"pbdoc(Returns the patch that a node is part of, or None if the node is not part of a patch)pbdoc")
         .def_property_readonly("state", &Node::get_state, R"pbdoc(Returns the node's current playback state)pbdoc")
         .def_property("value", &Node::get_value, &Node::set_value, R"pbdoc(Get/set the node's current value. Only applicable to Constant nodes.)pbdoc")
-        .def("get_value", &Node::get_value, R"pbdoc(Get the node's current value. Only applicable to Constant nodes.)pbdoc")
+        .def("get_value", &Node::get_value, R"pbdoc(Get the node's current output value (equivalent to output_buffer[0][0]))pbdoc")
         .def("set_value", &Node::set_value, "value"_a, R"pbdoc(Set the node's current value. Only applicable to Constant nodes.)pbdoc")
         .def_property_readonly(
             "inputs", [](Node &node) {
