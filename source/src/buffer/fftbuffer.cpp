@@ -35,7 +35,6 @@ FFTBuffer::FFTBuffer(std::string filename, int fft_size, int hop_size)
     size_t file_size = ftell(fd);
     fseek(fd, 0, SEEK_SET);
     double num_frames_frac = (double) file_size / (this->num_bins * 2 * sizeof(float));
-    printf("FFTBuffer: File size %zu bytes, %.2f frames\n", file_size, num_frames_frac);
     if (num_frames_frac != (int) num_frames_frac)
     {
         throw std::runtime_error("Error: Not an integer number of frames (found " + std::to_string(num_frames) + " frames)");
@@ -59,9 +58,13 @@ FFTBuffer::FFTBuffer(std::string filename, int fft_size, int hop_size)
 
     this->resize(num_frames);
 
-    for (int frame = 0; frame < num_frames; frame++)
+    for (unsigned int frame = 0; frame < num_frames; frame++)
     {
-        fread(this->data[frame], sizeof(float), this->num_bins * 2, fd);
+        size_t rv = fread(this->data[frame], sizeof(float), this->num_bins * 2, fd);
+        if (rv != this->num_bins * 2)
+        {
+            throw std::runtime_error("FFTBuffer: Read too few items");
+        }
     }
 }
 

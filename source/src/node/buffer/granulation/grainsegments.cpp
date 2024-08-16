@@ -69,7 +69,7 @@ void SegmentedGranulator::process(Buffer &out, int num_frames)
         {
             this->triggered = false;
             int index = (int) this->index->out[0][frame];
-            if (index < 0 || index >= this->onset_times.size())
+            if (index < 0 || index >= (int) this->onset_times.size())
             {
                 throw std::runtime_error("Invalid segment index: " + std::to_string(index) + " (num_segments = " + std::to_string(this->onset_times.size()) + ")");
             }
@@ -135,7 +135,7 @@ void SegmentedGranulator::trigger(std::string name, float value)
         }
 
         int index = (int) value;
-        if (index < 0 || index >= this->onset_times.size())
+        if (index < 0 || index >= (int) this->onset_times.size())
         {
             throw std::runtime_error("Invalid segment index: " + std::to_string(index) + " (num_segments = " + std::to_string(this->onset_times.size()) + ")");
         }

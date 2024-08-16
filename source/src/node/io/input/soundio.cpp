@@ -49,7 +49,7 @@ void read_callback(struct SoundIoInStream *instream,
 
         for (int frame = 0; frame < frame_count; frame++)
         {
-            for (int channel = 0; channel < input->buffer->get_num_channels(); channel += 1)
+            for (unsigned int channel = 0; channel < input->buffer->get_num_channels(); channel += 1)
             {
                 float *ptr = reinterpret_cast<float *>(areas[channel].ptr + areas[channel].step * frame);
                 input->buffer->data[channel][input->write_pos] = *ptr;
@@ -121,7 +121,7 @@ int AudioIn_SoundIO::init()
         throw audio_io_exception("libsoundio init error: unable to start device: " + std::string(soundio_strerror(err)));
     }
 
-    if (this->num_channels_requested > this->instream->layout.channel_count)
+    if (this->num_channels_requested > (unsigned int) this->instream->layout.channel_count)
     {
         throw audio_io_exception("AudioIn: Not enough input channels available (requested " + std::to_string(this->num_channels_requested) + ", available " + std::to_string(this->instream->layout.channel_count) + ")");
     }

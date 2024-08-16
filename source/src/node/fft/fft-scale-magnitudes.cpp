@@ -11,7 +11,7 @@ FFTScaleMagnitudes::FFTScaleMagnitudes(NodeRef input,
     : FFTOpNode(input), scale(scale)
 {
     this->name = "fft-scale-magnitudes";
-    if (this->scale.size() != this->num_bins)
+    if (this->scale.size() != (unsigned int) this->num_bins)
     {
         throw std::runtime_error("FFTScaleMagnitudes: scale array must be same length as magnitude array (" + std::to_string(this->num_bins) + ")");
     }

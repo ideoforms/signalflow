@@ -92,14 +92,14 @@ void SegmentPlayer::trigger(std::string name, float value)
             std::vector<float> onsets = onsetsref->float_array_value();
             if (onsets.size() > 0)
             {
-                int segment_index;
+                unsigned int segment_index;
                 /*--------------------------------------------------------------------------------
                  * If `value` is explicitly specified, use this as the segment index.
                  * Otherwise, use the value of the `index` input, or a random value.
                  *--------------------------------------------------------------------------------*/
                 if (value != SIGNALFLOW_NULL_FLOAT)
                 {
-                    segment_index = (int) value;
+                    segment_index = (unsigned int) value;
                 }
                 else if (this->index)
                 {
