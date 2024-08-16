@@ -35,7 +35,13 @@ void MoogVCF::process(Buffer &out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             float cutoff = signalflow_scale_lin_lin(this->cutoff->out[channel][frame], 0, this->graph->get_sample_rate() / 2, 0.005, 1);
-            float resonance = this->resonance->out[channel][frame];
+
+            /*------------------------------------------------------------------------
+             * The original algorithm typically expects resonance values between
+             * [0, 4]. Rescale in this implementation, for consistency with other
+             * filter nodes that expect [0, 1].
+             *-----------------------------------------------------------------------*/
+            float resonance = this->resonance->out[channel][frame] * 4.0;
             float f = cutoff * 1.16;
             float fb = resonance * (1.0 - 0.15 * f * f);
 

@@ -6,7 +6,8 @@
 namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
- * Moog ladder low-pass filter.
+ * Simulation of the Moog ladder low-pass filter. `cutoff` sets the cutoff
+ * frequency; `resonance` should typically be between 0..1.
  *---------------------------------------------------------------------------------*/
 class MoogVCF : public UnaryOpNode
 {
