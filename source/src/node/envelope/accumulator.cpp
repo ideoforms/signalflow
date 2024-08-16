@@ -26,8 +26,8 @@ void Accumulator::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
-        float strike_force = value == SIGNALFLOW_NULL_FLOAT ? value : this->strike_force->out[0][0];
-        float increment = strike_force * (1.0 - strike_force);
+        float strike_force = (value == SIGNALFLOW_NULL_FLOAT) ? this->strike_force->out[0][0] : value;
+        float increment = strike_force * (1.0 - this->current_value);
         this->current_value += increment;
     }
 }
