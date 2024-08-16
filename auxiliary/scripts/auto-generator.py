@@ -41,7 +41,7 @@ class NodeClass:
         return self.name.lower()
 
 
-node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "FFTNode", "FFTOpNode", "LFO"]
+node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "VariableInputNode", "FFTNode", "FFTOpNode", "LFO"]
 omitted_classes = ["GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
