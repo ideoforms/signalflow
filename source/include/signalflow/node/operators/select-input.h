@@ -9,7 +9,9 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Generates the
+ * Pass through the output of one or more `inputs`, based on the integer input index
+ * specified in `index`. Unlike `ChannelSelect`, inputs may be multichannel,
+ * and `index` can be modulated in real time.
  *---------------------------------------------------------------------------------*/
 class SelectInput : public VariableInputNode
 {

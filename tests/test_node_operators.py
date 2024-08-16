@@ -225,3 +225,22 @@ def test_select_input(graph):
     assert np.all(a.output_buffer[0][4:8] == 2)
     assert np.all(a.output_buffer[0][8:12] == 3)
     assert np.all(a.output_buffer[0][12:16] == 1)
+
+    # test multichannel upmix behaviour -
+    # should always honour the max number of input channels
+    a = ChannelArray([1, 2])
+    b = Constant(3)
+    c = SelectInput([a, b], index=0)
+    assert a.num_output_channels == 2
+    assert b.num_output_channels == 1
+    assert c.index.num_output_channels == 1
+    assert c.num_output_channels == 2
+
+    graph.render_subgraph(c, reset=True)
+    assert np.all(c.output_buffer[0] == 1)
+    assert np.all(c.output_buffer[1] == 2)
+
+    c.index = 1
+    graph.render_subgraph(c, reset=True)
+    assert np.all(c.output_buffer[0] == 3)
+    assert np.all(c.output_buffer[1] == 3)
