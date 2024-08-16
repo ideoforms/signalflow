@@ -119,6 +119,7 @@
 /*------------------------------------------------------------------------
  * Envelopes and lifecycle
  *-----------------------------------------------------------------------*/
+#include <signalflow/node/envelope/accumulator.h>
 #include <signalflow/node/envelope/adsr.h>
 #include <signalflow/node/envelope/asr.h>
 #include <signalflow/node/envelope/detect-silence.h>

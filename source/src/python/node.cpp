@@ -197,11 +197,13 @@ void init_python_node(py::module &m)
         .def_property_readonly(
             "output_buffer", [](Node &node) {
                 /*--------------------------------------------------------------------------------
-             * Assigning a data owner to the array ensures that it is returned as a
-             * pointer to the original data, rather than a copy. This means that we can
-             * modify the contents of the output buffer in-place from Python if we want to.
-             * https://github.com/pybind/pybind11/issues/323
-             *-------------------------------------------------------------------------------*/
+                 * Assigning a data owner to the array ensures that it is returned as a
+                 * pointer to the original data, rather than a copy. This means that we can
+                 * modify the contents of the output buffer in-place from Python if we want to.
+                 * https://github.com/pybind/pybind11/issues/323
+                 *
+                 * TODO: Why not return the actual Buffer object?
+                 *-------------------------------------------------------------------------------*/
                 py::str dummy_data_owner;
                 return py::array_t<float>(
                     { node.get_num_output_channels_allocated(), node.last_num_frames },

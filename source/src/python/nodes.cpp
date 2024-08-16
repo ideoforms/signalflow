@@ -84,6 +84,9 @@ void init_python_nodes(py::module &m)
 
 #endif
 
+    py::class_<Accumulator, Node, NodeRefTemplate<Accumulator>>(m, "Accumulator", "Accumulator with decay.")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "strike_force"_a = 0.5, "decay_coefficient"_a = 0.9999, "trigger"_a = nullptr);
+
     py::class_<ADSREnvelope, Node, NodeRefTemplate<ADSREnvelope>>(m, "ADSREnvelope", "Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "attack"_a = 0.1, "decay"_a = 0.1, "sustain"_a = 0.5, "release"_a = 0.1, "gate"_a = 0);
 
@@ -237,7 +240,7 @@ void init_python_nodes(py::module &m)
     py::class_<ScaleLinLin, Node, NodeRefTemplate<ScaleLinLin>>(m, "ScaleLinLin", "Scales the input from a linear range (between a and b) to a linear range (between c and d).")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "a"_a = 0, "b"_a = 1, "c"_a = 1, "d"_a = 10);
 
-    py::class_<SelectInput, Node, NodeRefTemplate<SelectInput>>(m, "SelectInput", "Selects an input")
+    py::class_<SelectInput, Node, NodeRefTemplate<SelectInput>>(m, "SelectInput", "Select from the outputs of one or more `inputs` nodes, based on the input index specified in `index`. Unlike `ChannelSelect`, inputs may be multichannel, and `index` can be modulated in real time.")
         .def(py::init<NodeRef>(), "index"_a = 0)
         .def(py::init<std::initializer_list<NodeRef>, NodeRef>(), "inputs"_a, "index"_a = 0)
         .def(py::init<std::vector<NodeRef>, NodeRef>(), "inputs"_a, "index"_a = 0)
