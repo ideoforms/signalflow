@@ -1,6 +1,13 @@
-# MIT License
+# License
 
-Copyright (c) Daniel John Jones
+SignalFlow is an open-source framework that provided is under a dual license.
+
+ - Use of the SignalFlow library with a Python interpreter, script or notebook is licensed under the free and permissive [MIT License](https://opensource.org/license/mit), reproduced in full below.
+ - Use of SignalFlow or its components outside of a Python environment (for example, embedded within a binary object) is subject to a separate agreement. Please [contact the author](https://danieljohnjones.com/contact/) to discuss. 
+
+All content is copyright (c) Daniel John Jones.
+
+## MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

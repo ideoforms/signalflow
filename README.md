@@ -94,3 +94,9 @@ Thanks to the following contributors:
 - Arthur Carabott ([@acarabott](https://github.com/acarabott)), Tim Murray-Browne ([@timmb](https://github.com/timmb)): Windows support
 - Dan Stowell ([@danstowell](https://github.com/danstowell)): Build improvements
 - Marc Fargas ([@telenieko](https://github.com/telenieko)): Generous donation of the `signalflow` pypi namespace
+
+## License
+
+Use of the SignalFlow library with a Python interpreter, script or notebook is licensed under the free and permissive [MIT License](LICENSE.md).
+
+Use of SignalFlow or its components outside of a Python environment (for example, embedded within a binary object) is subject to a separate agreement. Please [contact the author](https://danieljohnjones.com/contact/) to discuss.
