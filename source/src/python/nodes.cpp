@@ -37,7 +37,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<BufferRef, int, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "segment_count"_a = 8, "stutter_probability"_a = 0.0, "stutter_count"_a = 1, "jump_probability"_a = 0.0, "duty_cycle"_a = 1.0, "rate"_a = 1.0, "segment_rate"_a = 1.0);
 
     py::class_<BufferLooper, Node, NodeRefTemplate<BufferLooper>>(m, "BufferLooper", "Read and write from a buffer concurrently, with controllable overdub.")
-        .def(py::init<BufferRef, NodeRef, NodeRef, bool, bool>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop_playback"_a = false, "loop_record"_a = false);
+        .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop_playback"_a = 0, "loop_record"_a = 0, "start_time"_a = nullptr, "end_time"_a = nullptr, "looper_level"_a = 1.0, "playthrough_level"_a = 0.0);
 
     py::class_<BufferPlayer, Node, NodeRefTemplate<BufferPlayer>>(m, "BufferPlayer", "Plays the contents of the given buffer. `start_time`/`end_time` are in seconds. When a `clock` signal is received, rewinds to the `start_time`.  Set `clock` to `0` to prevent the buffer from being triggered immediately.")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0, "loop"_a = 0, "start_time"_a = nullptr, "end_time"_a = nullptr, "clock"_a = nullptr);
@@ -240,7 +240,7 @@ void init_python_nodes(py::module &m)
     py::class_<ScaleLinLin, Node, NodeRefTemplate<ScaleLinLin>>(m, "ScaleLinLin", "Scales the input from a linear range (between a and b) to a linear range (between c and d).")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "a"_a = 0, "b"_a = 1, "c"_a = 1, "d"_a = 10);
 
-    py::class_<SelectInput, Node, NodeRefTemplate<SelectInput>>(m, "SelectInput", "Select from the outputs of one or more `inputs` nodes, based on the input index specified in `index`. Unlike `ChannelSelect`, inputs may be multichannel, and `index` can be modulated in real time.")
+    py::class_<SelectInput, Node, NodeRefTemplate<SelectInput>>(m, "SelectInput", "Pass through the output of one or more `inputs`, based on the integer input index specified in `index`. Unlike `ChannelSelect`, inputs may be multichannel, and `index` can be modulated in real time.")
         .def(py::init<NodeRef>(), "index"_a = 0)
         .def(py::init<std::initializer_list<NodeRef>, NodeRef>(), "inputs"_a, "index"_a = 0)
         .def(py::init<std::vector<NodeRef>, NodeRef>(), "inputs"_a, "index"_a = 0)
@@ -372,7 +372,7 @@ void init_python_nodes(py::module &m)
     py::class_<EQ, Node, NodeRefTemplate<EQ>>(m, "EQ", "Three-band EQ.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "low_gain"_a = 1.0, "mid_gain"_a = 1.0, "high_gain"_a = 1.0, "low_freq"_a = 500, "high_freq"_a = 5000);
 
-    py::class_<MoogVCF, Node, NodeRefTemplate<MoogVCF>>(m, "MoogVCF", "Moog ladder low-pass filter.")
+    py::class_<MoogVCF, Node, NodeRefTemplate<MoogVCF>>(m, "MoogVCF", "Simulation of the Moog ladder low-pass filter. `cutoff` sets the cutoff frequency; `resonance` should typically be between 0..1.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "cutoff"_a = 200.0, "resonance"_a = 0.0);
 
     py::class_<SVFilter, Node, NodeRefTemplate<SVFilter>>(m, "SVFilter", "State variable filter. `filter_type` can be 'low_pass', 'band_pass', 'high_pass', 'notch', 'peak', 'low_shelf', 'high_shelf'. `resonance` should be between `[0..1]`.")
