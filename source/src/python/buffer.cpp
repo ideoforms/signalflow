@@ -89,8 +89,8 @@ void init_python_buffer(py::module &m)
                                R"pbdoc(Returns the number of frames the buffer.)pbdoc")
         .def_property_readonly("num_channels", &Buffer::get_num_channels,
                                R"pbdoc(Returns the number of channels in the buffer.)pbdoc")
-        .def_property_readonly("sample_rate", &Buffer::get_sample_rate,
-                               R"pbdoc(Returns the buffer's sample rate.)pbdoc")
+        .def_property("sample_rate", &Buffer::get_sample_rate, &Buffer::set_sample_rate,
+                      R"pbdoc(Get/set the buffer's sample rate. Note that this does not resample the audio.)pbdoc")
         .def_property_readonly("duration", &Buffer::get_duration,
                                R"pbdoc(Returns the buffer's duration, in seconds.)pbdoc")
         .def_property_readonly(
