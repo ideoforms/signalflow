@@ -426,6 +426,7 @@ private:
     int _node_count_tmp;
     float cpu_usage;
     float cpu_usage_smoothing;
+    float peak_level;
     size_t memory_usage;
     bool raised_audio_thread_error = false;
 

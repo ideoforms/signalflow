@@ -460,6 +460,19 @@ void AudioGraph::render(int num_frames)
         sf_writef_float(this->recording_fd, this->recording_buffer, num_frames);
     }
 
+    this->peak_level = 0.0;
+    for (int channel = 0; channel < this->output->num_input_channels; channel++)
+    {
+        for (int frame = 0; frame < num_frames; frame++)
+        {
+            sample level_abs = abs(this->output->out[channel][frame]);
+            if (level_abs > this->peak_level)
+            {
+                this->peak_level = level_abs;
+            }
+        }
+    }
+
     /*------------------------------------------------------------------------
      * Calculate CPU usage (approximately) by measuring the % of time
      * within the audio I/O callback that was used for processing.
@@ -748,9 +761,23 @@ std::string AudioGraph::get_status()
     ss << std::fixed << std::setprecision(1) << memory_usage_mb;
     std::string memory_usage_str = ss.str();
 
+    float peak_output = signalflow_amplitude_to_db(this->peak_level);
+
+    std::string peak_output_str;
+    if (peak_output > -180)
+    {
+        std::ostringstream out;
+        out << std::fixed << std::setprecision(1) << peak_output;
+        peak_output_str = out.str();
+    }
+    else
+    {
+        peak_output_str = "-";
+    }
+
     std::string status = "AudioGraph: " + std::to_string(node_count) + " active " + nodes + ", "
         + std::to_string(patch_count) + " " + patches + ", " + cpu_usage_str + "% CPU usage, " + memory_usage_str
-        + "MB memory usage";
+        + "MB memory usage, output = " + peak_output_str + "dB";
 
     return status;
 }
