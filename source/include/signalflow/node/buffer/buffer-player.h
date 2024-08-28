@@ -5,6 +5,10 @@
 namespace signalflow
 {
 
+#define SIGNALFLOW_BUFFER_PLAYER_LOOP_MODE_OFF 0
+#define SIGNALFLOW_BUFFER_PLAYER_LOOP_MODE_ON 1
+#define SIGNALFLOW_BUFFER_PLAYER_LOOP_MODE_PINGPONG 2
+
 /**--------------------------------------------------------------------------------*
  * Plays the contents of the given buffer. `start_time`/`end_time` are in seconds.
  * When a `clock` signal is received, rewinds to the `start_time`.
@@ -33,6 +37,7 @@ public:
 private:
     double phase;
     double rate_scale_factor;
+    int loop_direction;
 };
 
 REGISTER(BufferPlayer, "buffer-player")
