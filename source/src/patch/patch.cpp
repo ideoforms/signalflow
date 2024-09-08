@@ -149,7 +149,9 @@ void Patch::set_input(std::string name, float value)
     }
     else
     {
-        printf("name: %s\n", current->name.c_str());
+        // Replace a non-constant node with a constant
+        NodeRef new_constant = new Constant(value);
+        this->set_input(name, new_constant);
     }
 }
 
