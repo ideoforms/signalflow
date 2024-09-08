@@ -70,14 +70,33 @@ std::map<std::string, std::map<std::string, std::string>> parse_config(std::istr
 
 AudioGraphConfig::AudioGraphConfig()
 {
-    const std::string config_path = SIGNALFLOW_USER_DIR + "/config";
+    std::string config_path = SIGNALFLOW_USER_DIR + "/config";
+    std::ifstream input(config_path);
 
+    // Don't throw an error if the user config file does not exist,
+    // just continue silently.
+    if (input.good())
+    {
+        parse_file(input);
+    }
+
+    parse_env();
+}
+
+AudioGraphConfig::AudioGraphConfig(std::string config_path)
+{
     std::ifstream input(config_path);
     if (!input.good())
     {
-        return;
+        throw std::runtime_error("Config path could not be read: " + config_path);
     }
 
+    parse_file(input);
+    parse_env();
+}
+
+void AudioGraphConfig::parse_file(std::ifstream &input)
+{
     auto sections = parse_config(input);
     for (auto section_pair : sections)
     {
@@ -137,7 +156,10 @@ AudioGraphConfig::AudioGraphConfig()
             }
         }
     }
+}
 
+void AudioGraphConfig::parse_env()
+{
     if (getenv("SIGNALFLOW_SAMPLE_RATE"))
     {
         this->sample_rate = atoi(getenv("SIGNALFLOW_SAMPLE_RATE"));

@@ -14,7 +14,19 @@ namespace signalflow
 class AudioGraphConfig
 {
 public:
+    /**--------------------------------------------------------------------------------
+     * Create a new AudioGraphConfig, reading configuration from the default path
+     * (~/.signalflow/config)
+     *
+     *--------------------------------------------------------------------------------*/
     AudioGraphConfig();
+
+    /**--------------------------------------------------------------------------------
+     * Create a new AudioGraphConfig, reading from a user-specified path.
+     * If the path does not exist, raises a runtime exception.
+     *
+     *--------------------------------------------------------------------------------*/
+    AudioGraphConfig(std::string config_path);
 
     /**--------------------------------------------------------------------------------
      * Get the preferred sample rate.
@@ -152,6 +164,9 @@ public:
     void print() const;
 
 private:
+    void parse_file(std::ifstream &input);
+    void parse_env();
+
     unsigned int sample_rate = 0;
     unsigned int input_buffer_size = 0;
     unsigned int output_buffer_size = 0;

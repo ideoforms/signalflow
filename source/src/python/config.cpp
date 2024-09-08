@@ -7,6 +7,7 @@ void init_python_config(py::module &m)
      *-------------------------------------------------------------------------------*/
     py::class_<AudioGraphConfig>(m, "AudioGraphConfig", "Configuration options for the AudioGraph")
         .def(py::init<>())
+        .def(py::init<std::string>(), R"pbdoc(Read an AudioGraphConfig from a user-specified path)pbdoc")
         .def("print", &AudioGraphConfig::print, R"pbdoc(Print the AudioGraphConfig to stdout)pbdoc")
         .def_property("sample_rate", &AudioGraphConfig::get_sample_rate, &AudioGraphConfig::set_sample_rate)
         .def_property("input_buffer_size", &AudioGraphConfig::get_input_buffer_size, &AudioGraphConfig::set_input_buffer_size)
