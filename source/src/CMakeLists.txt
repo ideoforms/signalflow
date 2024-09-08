@@ -92,6 +92,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/divide.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-mixer.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-array.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-offset.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-select.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-crossfade.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/frequency-to-midi-note.cpp

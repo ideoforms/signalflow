@@ -183,6 +183,9 @@ void init_python_nodes(py::module &m)
     py::class_<ChannelMixer, Node, NodeRefTemplate<ChannelMixer>>(m, "ChannelMixer", "Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels.")
         .def(py::init<int, NodeRef, bool>(), "num_channels"_a = 1, "input"_a = 0, "amplitude_compensation"_a = true);
 
+    py::class_<ChannelOffset, Node, NodeRefTemplate<ChannelOffset>>(m, "ChannelOffset", "Offsets the input by a specified number of channels. With an N-channel input and an offset of M, the output will have M+N channels.")
+        .def(py::init<int, NodeRef>(), "offset"_a = 0, "input"_a = nullptr);
+
     py::class_<ChannelSelect, Node, NodeRefTemplate<ChannelSelect>>(m, "ChannelSelect", "Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step.")
         .def(py::init<NodeRef, int, int, int>(), "input"_a = nullptr, "offset"_a = 0, "maximum"_a = 0, "step"_a = 1);
 
