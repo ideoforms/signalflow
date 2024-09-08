@@ -62,7 +62,17 @@ void init_python_patch(py::module &m)
 
         .def("play", [](PatchRef patch) { return patch->get_graph()->play(patch); })
         .def("stop", [](PatchRef patch) { patch->get_graph()->stop(patch); })
-        .def("add_to_graph", [](PatchRef patch) { return patch->get_graph()->add_patch(patch); })
+        .def("add_to_graph", [](PatchRef patch) {
+            try
+            {
+                patch->get_graph()->add_patch(patch);
+                return true;
+            }
+            catch (const cpu_usage_above_limit_exception &e)
+            {
+                return false;
+            }
+        })
         .def("trigger", [](Patch &patch) { patch.trigger(); })
         .def("trigger", [](Patch &patch, std::string name) { patch.trigger(name); })
         .def("trigger", [](Patch &patch, std::string name, float value) { patch.trigger(name, value); })
