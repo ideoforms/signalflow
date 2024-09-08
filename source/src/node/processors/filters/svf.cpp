@@ -121,9 +121,13 @@ void SVFilter::process(Buffer &out, int num_frames)
 
 void SVFilter::_recalculate(int frame)
 {
+    float fs = this->graph->get_sample_rate();
+    float nyquist = fs / 2;
     for (int channel = 0; channel < num_output_channels; channel++)
     {
-        g[channel] = tanf(M_PI * this->cutoff->out[channel][frame] / this->graph->get_sample_rate());
+        float cutoff = this->cutoff->out[channel][frame];
+        cutoff = fmin(cutoff, nyquist);
+        g[channel] = tanf(M_PI * cutoff / fs);
         k[channel] = 2.0 - 2.0 * this->resonance->out[channel][frame];
         a1[channel] = 1 / (1 + g[channel] * (g[channel] + k[channel]));
         a2[channel] = g[channel] * a1[channel];
