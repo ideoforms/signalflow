@@ -73,8 +73,10 @@ AudioGraphConfig::AudioGraphConfig()
     std::string config_path = SIGNALFLOW_USER_DIR + "/config";
     std::ifstream input(config_path);
 
-    // Don't throw an error if the user config file does not exist,
-    // just continue silently.
+    /*--------------------------------------------------------------------------------
+     * Don't throw an error if the user config file does not exist,
+     * just continue silently.
+     *--------------------------------------------------------------------------------*/
     if (input.good())
     {
         parse_file(input);
@@ -86,9 +88,17 @@ AudioGraphConfig::AudioGraphConfig()
 AudioGraphConfig::AudioGraphConfig(std::string config_path)
 {
     std::ifstream input(config_path);
+    /*--------------------------------------------------------------------------------
+     * For user-specified paths, try opening the unqualified path initially,
+     * then relative to the user dir.
+     *--------------------------------------------------------------------------------*/
     if (!input.good())
     {
-        throw std::runtime_error("Config path could not be read: " + config_path);
+        input.open(SIGNALFLOW_USER_DIR + "/" + config_path);
+        if (!input.good())
+        {
+            throw std::runtime_error("Config path could not be found: " + config_path);
+        }
     }
 
     parse_file(input);
