@@ -170,6 +170,9 @@ void init_python_nodes(py::module &m)
     py::class_<DecibelsToAmplitude, Node, NodeRefTemplate<DecibelsToAmplitude>>(m, "DecibelsToAmplitude", "DecibelsToAmplitude")
         .def(py::init<NodeRef>(), "a"_a = 0);
 
+    py::class_<Bus, Node, NodeRefTemplate<Bus>>(m, "Bus", "Buss the output of all of the input nodes, by sample.")
+        .def(py::init<unsigned int>(), "num_channels"_a = 1);
+
     py::class_<ChannelArray, Node, NodeRefTemplate<ChannelArray>>(m, "ChannelArray", "Takes an array of inputs and spreads them across multiple channels of output.")
         .def(py::init<>())
         .def(py::init<std::initializer_list<NodeRef>>(), "inputs"_a)

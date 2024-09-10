@@ -41,6 +41,7 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/operators/add.h>
 #include <signalflow/node/operators/amplitude-to-decibels.h>
+#include <signalflow/node/operators/bus.h>
 #include <signalflow/node/operators/channel-array.h>
 #include <signalflow/node/operators/channel-crossfade.h>
 #include <signalflow/node/operators/channel-mixer.h>

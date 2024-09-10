@@ -1,4 +1,4 @@
-from signalflow import Constant, ChannelArray, ChannelOffset, Sum, SelectInput, Counter, Impulse
+from signalflow import Constant, ChannelArray, ChannelOffset, Sum, SelectInput, Counter, Impulse, Bus
 import numpy as np
 
 from . import graph
@@ -261,3 +261,29 @@ def test_select_input(graph):
     graph.render_subgraph(c, reset=True)
     assert np.all(c.output_buffer[0] == 3)
     assert np.all(c.output_buffer[1] == 3)
+
+def test_bus(graph):
+    a = Bus(2)
+    graph.render_subgraph(a, reset=True)
+    assert a.num_input_channels == 2
+    assert a.num_output_channels == 2
+    assert np.all(a.output_buffer[0] == 0)
+    assert np.all(a.output_buffer[1] == 0)
+
+    b = Constant(3)
+    c = ChannelArray([4, 5])
+    a.add_input(b)
+    a.add_input(c)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 7)
+    assert np.all(a.output_buffer[1] == 8)
+
+    a.remove_input(b)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 4)
+    assert np.all(a.output_buffer[1] == 5)
+
+    a.remove_input(c)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 0)
+    assert np.all(a.output_buffer[1] == 0)
