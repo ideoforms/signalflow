@@ -2,6 +2,7 @@
 
 # Envelope
 
+- **[Accumulator](accumulator/index.md)**: Accumulator with decay.
 - **[ADSREnvelope](adsrenvelope/index.md)**: Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
 - **[ASREnvelope](asrenvelope/index.md)**: Attack-sustain-release envelope.
 - **[DetectSilence](detectsilence/index.md)**: Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.

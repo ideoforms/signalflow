@@ -5,9 +5,11 @@
 - **[Add](add/index.md)**: Add each sample of a to each sample of b. Can also be written as a + b
 - **[AmplitudeToDecibels](amplitudetodecibels/index.md)**: Map a linear amplitude value to decibels.
 - **[DecibelsToAmplitude](decibelstoamplitude/index.md)**: DecibelsToAmplitude
+- **[Bus](bus/index.md)**: Bus is a node with a fixed number of input channels and arbitrary number of inputs, used to aggregate multiple sources. It is similar to Sum, but with a defined channel count that does not adapt to its inputs.
 - **[ChannelArray](channelarray/index.md)**: Takes an array of inputs and spreads them across multiple channels of output.
 - **[ChannelCrossfade](channelcrossfade/index.md)**: Given a multichannel input, crossfades between channels based on the given position within the virtual array, producing a single-channel output.
 - **[ChannelMixer](channelmixer/index.md)**: Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels.
+- **[ChannelOffset](channeloffset/index.md)**: Offsets the input by a specified number of channels. With an N-channel input and an offset of M, the output will have M+N channels.
 - **[ChannelSelect](channelselect/index.md)**: Select a subset of channels from a multichannel input, starting at offset, up to a maximum of maximum, with the given step.
 - **[Equal](equal/index.md)**: Compares the output of a to the output of b. Outputs 1 when equal, 0 otherwise. Can also be written as a == b
 - **[NotEqual](notequal/index.md)**: Compares the output of a to the output of b. Outputs 0 when equal, 1 otherwise. Can also be written as a != b
@@ -27,10 +29,10 @@
 - **[Round](round/index.md)**: Round the input to the nearest integer value.
 - **[ScaleLinExp](scalelinexp/index.md)**: Scales the input from a linear range (between a and b) to an exponential range (between c and d).
 - **[ScaleLinLin](scalelinlin/index.md)**: Scales the input from a linear range (between a and b) to a linear range (between c and d).
+- **[SelectInput](selectinput/index.md)**: Pass through the output of one or more `inputs`, based on the integer input index specified in `index`. Unlike `ChannelSelect`, inputs may be multichannel, and `index` can be modulated in real time.
 - **[Subtract](subtract/index.md)**: Subtract each sample of b from each sample of a. Can also be written as a - b
 - **[Sum](sum/index.md)**: Sums the output of all of the input nodes, by sample.
 - **[TimeShift](timeshift/index.md)**: TimeShift
-- **[TriggerMult](triggermult/index.md)**: Distribute any triggers to all output nodes.
 - **[Sin](sin/index.md)**: Outputs sin(a), per sample.
 - **[Cos](cos/index.md)**: Outputs cos(a), per sample.
 - **[Tan](tan/index.md)**: Outputs tan(a), per sample.

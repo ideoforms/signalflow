@@ -10,3 +10,5 @@
 - **[Index](index/index.md)**: Outputs the value in `list` corresponding to `index`.
 - **[Latch](latch/index.md)**: Initially outputs 0. When a trigger is received at `set`, outputs 1. When a trigger is subsequently received at `reset`, outputs 0, until the next `set`.
 - **[Sequence](sequence/index.md)**: Outputs the elements in `sequence`, incrementing position on each `clock`.
+- **[TriggerMult](triggermult/index.md)**: Distribute any triggers to all output nodes.
+- **[TriggerRoundRobin](triggerroundrobin/index.md)**: Relay trigger() events to a single node from the list of connected outputs, with `direction` determining the direction: 1 (or above) = move forwards by N, -1 = move backwards by N, 0 = stationary.

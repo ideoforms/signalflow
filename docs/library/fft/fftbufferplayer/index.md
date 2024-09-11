@@ -6,7 +6,7 @@ description: FFTBufferPlayer: FFTBufferPlayer. Plays from a buffer of audio spec
 # FFTBufferPlayer
 
 ```python
-FFTBufferPlayer(buffer=None, do_window=true)
+FFTBufferPlayer(buffer=None, rate=1.0)
 ```
 
 FFTBufferPlayer. Plays from a buffer of audio spectra in mag/phase format.

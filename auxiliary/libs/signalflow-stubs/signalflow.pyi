@@ -10,7 +10,7 @@ from __future__ import annotations
 import numpy
 import typing
 import typing_extensions
-__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Accumulator', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTBuffer', 'FFTBufferPlayer', 'FFTContinuousPhaseVocoder', 'FFTContrast', 'FFTConvolve', 'FFTCrossFade', 'FFTFindPeaks', 'FFTLFO', 'FFTLPF', 'FFTMagnitudePhaseArray', 'FFTNode', 'FFTNoiseGate', 'FFTOpNode', 'FFTPhaseVocoder', 'FFTRandomPhase', 'FFTScaleMagnitudes', 'FFTTonality', 'FFTTransform', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'HistoryBufferWriter', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InsufficientBufferSizeException', 'InvalidChannelCountException', 'KDTree', 'KDTreeMatch', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'NearestNeighbour', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'SegmentedGranulator', 'SelectInput', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TimeShift', 'TriangleLFO', 'TriangleOscillator', 'TriggerMult', 'TriggerRoundRobin', 'UnknownTriggerNameException', 'VampAnalysis', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WavetableBuffer', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_integer', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
+__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Accumulator', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'Bus', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelOffset', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTBuffer', 'FFTBufferPlayer', 'FFTContinuousPhaseVocoder', 'FFTContrast', 'FFTConvolve', 'FFTCrossFade', 'FFTFindPeaks', 'FFTLFO', 'FFTLPF', 'FFTMagnitudePhaseArray', 'FFTNode', 'FFTNoiseGate', 'FFTOpNode', 'FFTPhaseVocoder', 'FFTRandomPhase', 'FFTScaleMagnitudes', 'FFTTonality', 'FFTTransform', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'HistoryBufferWriter', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InsufficientBufferSizeException', 'InvalidChannelCountException', 'KDTree', 'KDTreeMatch', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'NearestNeighbour', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'SegmentedGranulator', 'SelectInput', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TimeShift', 'TriangleLFO', 'TriangleOscillator', 'TriggerMult', 'TriggerRoundRobin', 'UnknownTriggerNameException', 'VampAnalysis', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WavetableBuffer', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_integer', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
 class ADSREnvelope(Node):
     """
     Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
@@ -249,8 +249,14 @@ class AudioGraphConfig:
     output_buffer_size: int
     output_device_name: str
     sample_rate: int
+    @typing.overload
     def __init__(self) -> None:
         ...
+    @typing.overload
+    def __init__(self, arg0: str) -> None:
+        """
+        Read an AudioGraphConfig from a user-specified path
+        """
     def print(self) -> None:
         """
         Print the AudioGraphConfig to stdout
@@ -439,8 +445,11 @@ class Buffer:
     @property
     def sample_rate(self) -> float:
         """
-        Returns the buffer's sample rate.
+        Get/set the buffer's sample rate. Note that this does not resample the audio.
         """
+    @sample_rate.setter
+    def sample_rate(self, arg1: float) -> None:
+        ...
 class Buffer2D(Buffer):
     """
     Two-dimensional buffer of audio samples
@@ -453,7 +462,7 @@ class BufferLooper(Node):
     """
     Read and write from a buffer concurrently, with controllable overdub.
     """
-    def __init__(self, buffer: ... = None, input: Node = 0.0, feedback: Node = 0.0, loop_playback: bool = False, loop_record: bool = False) -> None:
+    def __init__(self, buffer: ... = None, input: Node = 0.0, feedback: Node = 0.0, loop_playback: Node = 0, loop_record: Node = 0, start_time: Node = None, end_time: Node = None, looper_level: Node = 1.0, playthrough_level: Node = 0.0) -> None:
         ...
 class BufferPlayer(Node):
     """
@@ -466,6 +475,12 @@ class BufferRecorder(Node):
     Records the input to a buffer. feedback controls overdub.
     """
     def __init__(self, buffer: ... = None, input: Node = 0.0, feedback: Node = 0.0, loop: bool = False) -> None:
+        ...
+class Bus(Node):
+    """
+    Buss the output of all of the input nodes, by sample.
+    """
+    def __init__(self, num_channels: int = 1) -> None:
         ...
 class CPUUsageAboveLimitException(Exception):
     pass
@@ -499,6 +514,12 @@ class ChannelMixer(Node):
     Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels.
     """
     def __init__(self, num_channels: int = 1, input: Node = 0, amplitude_compensation: bool = True) -> None:
+        ...
+class ChannelOffset(Node):
+    """
+    Offsets the input by a specified number of channels. With an N-channel input and an offset of M, the output will have M+N channels.
+    """
+    def __init__(self, offset: int = 0, input: Node = None) -> None:
         ...
 class ChannelPanner(Node):
     """
@@ -964,7 +985,7 @@ class Modulo(Node):
         ...
 class MoogVCF(Node):
     """
-    Moog ladder low-pass filter.
+    Simulation of the Moog ladder low-pass filter. `cutoff` sets the cutoff frequency; `resonance` should typically be between 0..1.
     """
     def __init__(self, input: Node = 0.0, cutoff: Node = 200.0, resonance: Node = 0.0) -> None:
         ...
@@ -1155,7 +1176,7 @@ class Node:
         ...
     def get_value(self) -> float:
         """
-        Get the node's current value. Only applicable to Constant nodes.
+        Get the node's current output value (equivalent to output_buffer[0][0])
         """
     def play(self) -> None:
         """
@@ -1408,7 +1429,7 @@ class Patch:
         ...
     def add_node(self, arg0: Node) -> Node:
         ...
-    def add_to_graph(self) -> None:
+    def add_to_graph(self) -> bool:
         ...
     def get_auto_free(self) -> bool:
         ...
@@ -1641,7 +1662,7 @@ class SegmentedGranulator(Node):
         ...
 class SelectInput(Node):
     """
-    Select from the outputs of one or more `inputs` nodes, based on the input index specified in `index`. Unlike `ChannelSelect`, inputs may be multichannel, and `index` can be modulated in real time.
+    Pass through the output of one or more `inputs`, based on the integer input index specified in `index`. Unlike `ChannelSelect`, inputs may be multichannel, and `index` can be modulated in real time.
     """
     @typing.overload
     def __init__(self, index: Node = 0) -> None:
@@ -2338,4 +2359,4 @@ SIGNALFLOW_NODE_STATE_ACTIVE: signalflow_node_state_t  # value = <signalflow_nod
 SIGNALFLOW_NODE_STATE_STOPPED: signalflow_node_state_t  # value = <signalflow_node_state_t.SIGNALFLOW_NODE_STATE_STOPPED: 1>
 SIGNALFLOW_PATCH_STATE_ACTIVE: signalflow_patch_state_t  # value = <signalflow_patch_state_t.SIGNALFLOW_PATCH_STATE_ACTIVE: 0>
 SIGNALFLOW_PATCH_STATE_STOPPED: signalflow_patch_state_t  # value = <signalflow_patch_state_t.SIGNALFLOW_PATCH_STATE_STOPPED: 1>
-__version__: str = '0.4.10'
+__version__: str = '0.4.11'
