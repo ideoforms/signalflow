@@ -158,6 +158,24 @@ public:
     void set_cpu_usage_limit(float limit);
 
     /**--------------------------------------------------------------------------------
+     * Get the current auto_record mode.
+     *
+     * @returns true or false
+     *
+     *--------------------------------------------------------------------------------*/
+    bool get_auto_record() const;
+
+    /**--------------------------------------------------------------------------------
+     * Set the auto_record mode.
+     * If true, the AudioGraph automatically continuously records its output to a
+     * timestamped .wav file in ~/.signalflow/recordings.
+     *
+     * @param on If true, automatically records when the graph is running.
+     *
+     *--------------------------------------------------------------------------------*/
+    void set_auto_record(bool on);
+
+    /**--------------------------------------------------------------------------------
      * Print the current config to stdout.
      *
      *--------------------------------------------------------------------------------*/
@@ -174,6 +192,7 @@ private:
     std::string output_device_name;
     std::string output_backend_name;
     float cpu_usage_limit = 0.0;
+    bool auto_record = false;
 };
 
 } /* namespace signalflow */

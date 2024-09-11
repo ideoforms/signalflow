@@ -147,6 +147,23 @@ void AudioGraphConfig::parse_file(std::ifstream &input)
                 {
                     this->cpu_usage_limit = std::stof(parameter_value);
                 }
+                else if (parameter_name == "auto_record")
+                {
+                    std::vector<std::string> true_values = { "yes", "on", "true", "1" };
+                    std::vector<std::string> false_values = { "no", "off", "false", "0" };
+                    if (std::find(true_values.begin(), true_values.end(), parameter_value) != true_values.end())
+                    {
+                        this->auto_record = true;
+                    }
+                    else if (std::find(false_values.begin(), false_values.end(), parameter_value) != false_values.end())
+                    {
+                        this->auto_record = false;
+                    }
+                    else
+                    {
+                        throw std::runtime_error("Invalid value for auto_record: " + parameter_value);
+                    }
+                }
                 else
                 {
                     throw std::runtime_error("Invalid section parameter name: " + section_name + " > "
@@ -198,6 +215,10 @@ void AudioGraphConfig::parse_env()
     {
         this->cpu_usage_limit = atof(getenv("SIGNALFLOW_CPU_USAGE_LIMIT"));
     }
+    if (getenv("SIGNALFLOW_AUTO_RECORD"))
+    {
+        this->auto_record = (bool) atoi(getenv("SIGNALFLOW_AUTO_RECORD"));
+    }
 }
 
 unsigned int AudioGraphConfig::get_sample_rate() const { return this->sample_rate; }
@@ -227,6 +248,10 @@ void AudioGraphConfig::set_output_backend_name(const std::string &name) { this->
 float AudioGraphConfig::get_cpu_usage_limit() const { return this->cpu_usage_limit; }
 
 void AudioGraphConfig::set_cpu_usage_limit(float limit) { this->cpu_usage_limit = limit; }
+
+bool AudioGraphConfig::get_auto_record() const { return this->auto_record; }
+
+void AudioGraphConfig::set_auto_record(bool on) { this->auto_record = on; }
 
 void AudioGraphConfig::print() const
 {

@@ -1,21 +1,23 @@
 #include "signalflow/core/core.h"
 #include "signalflow/core/graph-monitor.h"
 #include "signalflow/core/graph.h"
-#include "signalflow/node/node.h"
-#include "signalflow/node/oscillators/constant.h"
-
-#include "signalflow/patch/patch.h"
-
 #include "signalflow/node/io/output/abstract.h"
 #include "signalflow/node/io/output/dummy.h"
 #include "signalflow/node/io/output/ios.h"
 #include "signalflow/node/io/output/soundio.h"
+#include "signalflow/node/node.h"
+#include "signalflow/node/oscillators/constant.h"
+#include "signalflow/patch/patch.h"
 
 #include <iomanip>
 #include <limits.h>
 #include <math.h>
 #include <sstream>
 #include <string.h>
+
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 namespace signalflow
 {
@@ -31,6 +33,13 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool
 {
     if (shared_graph)
     {
+        /*--------------------------------------------------------------------------------
+         * TODO: At some point, it would be nice to allow the creation of multiple
+         *       AudioGraphs, or recreating the shared AudioGraph (perhaps given some
+         *       config option). However, this may have unforeseen circumstances and
+         *       would need memory/CPU to be correctly cleaned up, which does not happen
+         *       right now.
+         *--------------------------------------------------------------------------------*/
         throw graph_already_created_exception();
     }
     shared_graph = this;
@@ -140,12 +149,47 @@ void AudioGraph::start()
 {
     AudioOut_Abstract *audio_out = (AudioOut_Abstract *) this->output.get();
     audio_out->start();
+
+    if (this->config.get_auto_record())
+    {
+        std::time_t now = std::time(nullptr);
+        char timestamp[100];
+        std::strftime(timestamp, sizeof(timestamp), "%Y-%m-%d-%H%M%S", std::localtime(&now));
+        std::string timestamp_str(timestamp);
+        std::string recordings_dir = SIGNALFLOW_USER_DIR + "/recordings";
+        std::string recording_filename = recordings_dir + "/signalflow-" + timestamp_str + ".wav";
+
+        // TODO: This is all very POSIX-specific and won't work on Windows
+        struct stat st;
+        if (stat(SIGNALFLOW_USER_DIR.c_str(), &st) == -1)
+        {
+            int rv = mkdir(SIGNALFLOW_USER_DIR.c_str(), 0755);
+            if (rv != 0)
+            {
+                throw std::runtime_error("AudioGraph: Failed creating user directory for auto_record (" + SIGNALFLOW_USER_DIR + ")");
+            }
+        }
+        if (stat(recordings_dir.c_str(), &st) == -1)
+        {
+            int rv = mkdir(recordings_dir.c_str(), 0755);
+            if (rv != 0)
+            {
+                throw std::runtime_error("AudioGraph: Failed creating recordings directory for auto_record (" + recordings_dir + ")");
+            }
+        }
+        this->start_recording(recording_filename, this->output->get_num_input_channels());
+    }
 }
 
 void AudioGraph::stop()
 {
     AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
     audioout->stop();
+
+    if (this->config.get_auto_record())
+    {
+        this->stop_recording();
+    }
 }
 
 bool AudioGraph::has_raised_audio_thread_error()

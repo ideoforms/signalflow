@@ -138,9 +138,9 @@ typedef RingBuffer<sample> SampleRingBuffer;
     }
 
 #ifdef _WIN32
-#define SIGNALFLOW_USER_DIR std::string(getenv("HOMEPATH")) + "/.signalflow"
+#define SIGNALFLOW_USER_DIR (std::string(getenv("HOMEPATH")) + "/.signalflow")
 #else
-#define SIGNALFLOW_USER_DIR std::string(getenv("HOME")) + "/.signalflow"
+#define SIGNALFLOW_USER_DIR (std::string(getenv("HOME")) + "/.signalflow")
 #endif
 
 /**------------------------------------------------------------------------
