@@ -46,3 +46,13 @@ def test_save_block_to_text_file():
 @pytest.mark.skip
 def test_save_block_to_wav_file():
     pass
+
+
+def test_calculate_decay_coefficient():
+    decay_time = 0.5
+    sample_rate = 48000
+    decay_level = 0.001
+
+    exponent = signalflow.calculate_decay_coefficient(decay_time, sample_rate, decay_level)
+    rv = exponent ** (decay_time * sample_rate)
+    assert rv == pytest.approx(decay_level, abs=1e-6)
