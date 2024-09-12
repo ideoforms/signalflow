@@ -42,6 +42,10 @@ void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::stri
 float signalflow_array_sum(float *array, size_t size);
 float signalflow_array_mean(float *array, size_t size);
 
+float signalflow_calculate_decay_coefficient(float decay_time,
+                                             unsigned int sample_rate,
+                                             float decay_level);
+
 std::vector<int> signalflow_binary_sequence_to_vector(std::string binary);
 
 }

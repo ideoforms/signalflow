@@ -31,6 +31,12 @@ void init_python_util(py::module &m)
     m.def(
         "random_exponential", [](float from, float to) { return random_exponential(from, to); }, R"pbdoc(Return a random number, exponentially distributed across a fixed range)pbdoc");
 
+    m.def(
+        "calculate_decay_coefficient", [](float decay_time, unsigned int sample_rate, float decay_level) {
+            return signalflow_calculate_decay_coefficient(decay_time, sample_rate, decay_level);
+        },
+        R"pbdoc(Calculate the coefficient required for an exponential decay curve, with duration of decay_time and final value of decay_level (typically 0.001 or -60dB))pbdoc");
+
     py::class_<KDTree>(m, "KDTree", "A KDTree structure")
         .def(py::init<std::vector<std::vector<float>>>(), "data"_a = nullptr)
         .def("get_nearest", &KDTree::get_nearest, "target"_a);

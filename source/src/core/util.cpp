@@ -204,4 +204,20 @@ float signalflow_array_mean(float *array, size_t size)
     return sum / size;
 }
 
-} /* namespace signalflow */
+float signalflow_calculate_decay_coefficient(float decay_time,
+                                             unsigned int sample_rate,
+                                             float decay_level)
+{
+    // # linear to db = 20 x log10(lin)
+    // # db to linear = 10 ^ (db / 20)
+    // # for a floor of -60dB, want to find x such that x^y = 10^(-3)
+    // # and y is the required delay duration in samples
+    // #  = 0.001^(1/y)
+    //     decay_time_samples = int(decay_time * sample_rate)
+    //           return np.power(envelope_floor, 1.0 / decay_time_samples)
+    float decay_time_samples = decay_time * sample_rate;
+    return powf(decay_level, 1.0f / decay_time_samples);
+}
+
+}
+/* namespace signalflow */
