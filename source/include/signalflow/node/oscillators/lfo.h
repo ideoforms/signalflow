@@ -11,7 +11,7 @@ public:
     virtual void alloc() override;
 
 protected:
-    std::vector<float> current_phase;
+    std::vector<double> current_phase;
     NodeRef frequency;
     NodeRef min;
     NodeRef max;
