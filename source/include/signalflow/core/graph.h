@@ -25,6 +25,8 @@ class AudioGraph
 public:
     AudioGraph(AudioGraphConfig *config = nullptr, std::string output_device = "", bool start = true);
     AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool start = true);
+    AudioGraph(std::string config_name, std::string output_device = "", bool start = true);
+    AudioGraph(std::string config_name, NodeRef output_device, bool start = true);
 
     virtual ~AudioGraph();
 

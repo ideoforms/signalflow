@@ -77,6 +77,11 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool
     }
 }
 
+AudioGraph::AudioGraph(std::string config_name, std::string output_device, bool start)
+    : AudioGraph(new AudioGraphConfig(config_name), output_device, start)
+{
+}
+
 AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool start)
 {
     if (shared_graph)
@@ -112,6 +117,11 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool sta
     {
         this->start();
     }
+}
+
+AudioGraph::AudioGraph(std::string config_name, NodeRef output_device, bool start)
+    : AudioGraph(new AudioGraphConfig(config_name), output_device, start)
+{
 }
 
 void AudioGraph::init()
