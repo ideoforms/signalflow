@@ -29,6 +29,10 @@ void ADSREnvelope::trigger(std::string name, float value)
         this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
         this->released = false;
     }
+    else
+    {
+        this->Node::trigger(name, value);
+    }
 }
 
 void ADSREnvelope::process(Buffer &out, int num_frames)
