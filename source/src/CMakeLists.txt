@@ -121,6 +121,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/lfo/saw-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/lfo/triangle-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/oscillators/lfo/square-lfo.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/physical/maraca.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-recorder.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-player.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/buffer-looper.cpp

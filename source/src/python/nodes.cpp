@@ -317,6 +317,9 @@ void init_python_nodes(py::module &m)
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D", "Wavetable2D")
         .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "phase_offset"_a = 0.0, "sync"_a = 0);
 
+    py::class_<Maraca, StochasticNode, NodeRefTemplate<Maraca>>(m, "Maraca", "Model of maraca")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "num_beans"_a = 64, "shake_decay"_a = 0.99, "grain_decay"_a = 0.99, "shake_duration"_a = 0.02, "shell_frequency"_a = 12000, "shell_resonance"_a = 0.9, "clock"_a = nullptr, "energy"_a = nullptr);
+
     py::class_<Clip, Node, NodeRefTemplate<Clip>>(m, "Clip", "Clip the input to `min`/`max`.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = nullptr, "min"_a = -1.0, "max"_a = 1.0);
 
@@ -342,7 +345,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<NodeRef, NodeRef, float>(), "input"_a = 0.0, "delay_time"_a = 0.1, "max_delay_time"_a = 0.5);
 
     py::class_<Stutter, Node, NodeRefTemplate<Stutter>>(m, "Stutter", "Stutters the input whenever a trigger is received on `clock`. Generates `stutter_count` repeats, with duration of `stutter_time`.")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "stutter_time"_a = 0.1, "stutter_count"_a = 1, "clock"_a = nullptr, "max_stutter_time"_a = 1.0);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "stutter_time"_a = 0.1, "stutter_count"_a = 1, "stutter_probability"_a = 1.0, "stutter_advance_time"_a = 0.0, "clock"_a = nullptr, "max_stutter_time"_a = 1.0);
 
     py::class_<Resample, Node, NodeRefTemplate<Resample>>(m, "Resample", "Resampler and bit crusher. `sample_rate` is in Hz, `bit_rate` is an integer between 0 and 16.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "sample_rate"_a = 44100, "bit_rate"_a = 16);

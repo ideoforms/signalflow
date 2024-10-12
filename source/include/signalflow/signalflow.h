@@ -119,6 +119,11 @@
 #include <signalflow/node/stochastic/white-noise.h>
 
 /*------------------------------------------------------------------------
+ * Physical modelling
+ *-----------------------------------------------------------------------*/
+#include <signalflow/node/physical/maraca.h>
+
+/*------------------------------------------------------------------------
  * Envelopes and lifecycle
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/envelope/accumulator.h>
