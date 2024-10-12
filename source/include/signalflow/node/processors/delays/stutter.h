@@ -18,6 +18,8 @@ public:
     Stutter(NodeRef input = 0.0,
             NodeRef stutter_time = 0.1,
             NodeRef stutter_count = 1,
+            NodeRef stutter_probability = 1.0,
+            NodeRef stutter_advance_time = 0.0,
             NodeRef clock = nullptr,
             float max_stutter_time = 1.0);
     ~Stutter() override;
@@ -29,6 +31,8 @@ public:
 private:
     NodeRef stutter_time;
     NodeRef stutter_count;
+    NodeRef stutter_probability;
+    NodeRef stutter_advance_time;
     NodeRef clock;
     float max_stutter_time;
 
@@ -37,6 +41,7 @@ private:
     std::vector<int> stutters_to_do;
     std::vector<int> stutter_sample_buffer_offset;
     std::vector<int> stutter_samples_remaining;
+    std::vector<int> stutter_sample_index;
 };
 
 REGISTER(Stutter, "stutter")
