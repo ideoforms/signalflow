@@ -286,6 +286,12 @@ void init_python_node(py::module &m)
          *-------------------------------------------------------------------------------*/
         .def(
             "play", [](NodeRef node) { node->get_graph()->play(node); }, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
+        .def(
+            "play", [](NodeRef node, int output_channel) {
+                NodeRef channel_offset = new ChannelOffset(output_channel, node);
+                node->get_graph()->play(channel_offset);
+            },
+            "output_channel"_a, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
         .def_property_readonly(
             "is_playing", [](NodeRef node) { return node->get_graph()->is_playing(node); }, R"pbdoc(Query whether the node is currently playing)pbdoc")
         .def(
