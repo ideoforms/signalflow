@@ -129,30 +129,6 @@ add_library(signalflow SHARED ${SRC})
 #-------------------------------------------------------------------------------
 add_compile_definitions(SIGNALFLOW_VERSION="${SIGNALFLOW_VERSION}")
 
-#-------------------------------------------------------------------------------
-# Dependencies
-#-------------------------------------------------------------------------------
-
-set(SOUNDIO_BUILD_DIR "" CACHE PATH "Path to built SoundIO library (will use find_library if blank)")
-
-if (SOUNDIO_BUILD_DIR)
-    set(SOUNDIO_INCLUDE_DIR "${SOUNDIO_BUILD_DIR}/.." CACHE PATH "Path to SoundIO include directory (ignored if SOUNDIO_BUILD_DIR is blank")
-    add_definitions(-DHAVE_SOUNDIO)
-    target_link_libraries(signalflow "${SOUNDIO_BUILD_DIR}/x64-Debug/soundio.lib")
-    include_directories(signalflow "${SOUNDIO_BUILD_DIR}/$<CONFIG>/")
-    include_directories(signalflow "${SOUNDIO_INCLUDE_DIR}/")
-else()
-    find_library(SOUNDIO soundio)
-    if (SOUNDIO)
-        message("Found libsoundio")
-        add_definitions(-DHAVE_SOUNDIO)
-        target_link_libraries(signalflow ${SOUNDIO})
-    else()
-        message(SEND_ERROR "Couldn't find libsoundio")
-    endif()
-endif()
-
-
 set(SNDFILE_BUILD_DIR "" CACHE PATH "Path to build sndfile library (will use find_library if blank)")
 
 if (SNDFILE_BUILD_DIR)

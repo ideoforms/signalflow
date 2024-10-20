@@ -34,6 +34,7 @@ public:
 private:
     std::string backend_name;
     std::string device_name;
+    ma_context context;
     ma_device device;
 };
 

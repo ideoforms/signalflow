@@ -5,9 +5,6 @@ void init_python_nodes(py::module &m)
     /*--------------------------------------------------------------------------------
          * Node subclasses
          *-------------------------------------------------------------------------------*/
-    py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn", "Audio input")
-        .def(py::init<int>(), "num_channels"_a = 1);
-
     py::class_<AudioOut_Abstract, Node, NodeRefTemplate<AudioOut_Abstract>>(m, "AudioOut_Abstract", "Abstract audio output");
 
     py::class_<AudioOut_Dummy, Node, NodeRefTemplate<AudioOut_Dummy>>(m, "AudioOut_Dummy", "Dummy audio output for offline processing")

@@ -3,8 +3,6 @@
 #define MINIAUDIO_IMPLEMENTATION
 #include "signalflow/node/io/output/miniaudio-library.h"
 
-#ifdef HAVE_SOUNDIO
-
 #include "signalflow/core/graph.h"
 
 #include <algorithm>
@@ -86,7 +84,6 @@ int AudioOut_MiniAudio::init()
     ma_uint32 playback_device_count;
     ma_device_info *capture_devices;
     ma_uint32 capture_device_count;
-    ma_context context;
     ma_result rv;
 
     if (ma_context_init(NULL, 0, NULL, &context) != MA_SUCCESS)
@@ -106,16 +103,18 @@ int AudioOut_MiniAudio::init()
     {
         for (int i = 0; i < playback_device_count; i++)
         {
-            printf(" - (%d) %s\n", i, playback_devices[i].name);
-            if (strcmp(playback_devices[i].name, device_name.c_str()) == 0)
+            if (strncmp(playback_devices[i].name, device_name.c_str(), strlen(device_name.c_str())) == 0)
             {
+                if (selected_device_index != -1)
+                {
+                    throw std::runtime_error("More than one audio device found matching name '" + device_name + "'");
+                }
                 selected_device_index = i;
             }
         }
         if (selected_device_index == -1)
         {
-            printf("Couldn't find device\n");
-            return -1;
+            throw std::runtime_error("No audio device found matching name '" + device_name + "'");
         }
 
         config.playback.pDeviceID = &playback_devices[selected_device_index].id;
@@ -190,19 +189,66 @@ int AudioOut_MiniAudio::destroy()
 
 std::list<std::string> AudioOut_MiniAudio::get_output_device_names()
 {
-    return {};
+    std::list<std::string> device_names;
+
+    ma_context context;
+    ma_result rv;
+    ma_device_info *playback_devices;
+    ma_uint32 playback_device_count;
+    ma_device_info *capture_devices;
+    ma_uint32 capture_device_count;
+
+    rv = ma_context_init(NULL, 0, NULL, &context);
+    if (rv != MA_SUCCESS)
+    {
+        throw std::runtime_error("miniaudio: Failure initialising audio context");
+    }
+
+    rv = ma_context_get_devices(&context,
+                                &playback_devices,
+                                &playback_device_count,
+                                &capture_devices,
+                                &capture_device_count);
+    if (rv != MA_SUCCESS)
+    {
+        throw std::runtime_error("miniaudio: Failure querying audio devices");
+    }
+    for (int i = 0; i < playback_device_count; i++)
+    {
+        device_names.push_back(std::string(playback_devices[i].name));
+    }
+
+    return device_names;
 }
 
 int AudioOut_MiniAudio::get_default_output_device_index()
 {
-    return 0;
+    // TODO: Is this even used?
+    return -1;
 }
 
 std::list<std::string> AudioOut_MiniAudio::get_output_backend_names()
 {
-    return {};
+    std::list<std::string> backend_names;
+    ma_backend enabled_backends[MA_BACKEND_COUNT];
+    size_t enabled_backend_count;
+    ma_result rv;
+
+    rv = ma_get_enabled_backends(enabled_backends, MA_BACKEND_COUNT, &enabled_backend_count);
+    if (rv != MA_SUCCESS)
+    {
+        throw std::runtime_error("miniaudio: Failure querying backend devices");
+    }
+    for (int i = 0; i < enabled_backend_count; i++)
+    {
+        std::string backend_name = std::string(ma_get_backend_name(enabled_backends[i]));
+        if (backend_name != "Custom" && backend_name != "Null")
+        {
+            backend_names.push_back(backend_name);
+        }
+    }
+
+    return backend_names;
 }
 
 } // namespace signalflow
-
-#endif
