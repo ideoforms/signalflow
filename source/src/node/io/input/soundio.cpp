@@ -5,7 +5,7 @@
 #define SIGNALFLOW_AUDIO_IN_DEFAULT_BUFFER_SIZE 1024
 
 #include "signalflow/core/graph.h"
-#include "signalflow/node/io/output/soundio.h"
+#include "signalflow/node/io/output/miniaudio.h"
 
 #include <iostream>
 #include <math.h>
@@ -92,7 +92,7 @@ int AudioIn_SoundIO::init()
 {
     int err;
 
-    this->soundio = ((AudioOut_SoundIO *) this->graph->get_output().get())->soundio;
+    this->soundio = NULL; // ((AudioOut_MiniAudio *) this->graph->get_output().get())->soundio;
 
     if (!this->soundio)
         throw audio_io_exception("libsoundio init error: No output node found in graph (initialising input before output?)");

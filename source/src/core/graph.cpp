@@ -4,7 +4,7 @@
 #include "signalflow/node/io/output/abstract.h"
 #include "signalflow/node/io/output/dummy.h"
 #include "signalflow/node/io/output/ios.h"
-#include "signalflow/node/io/output/soundio.h"
+#include "signalflow/node/io/output/miniaudio.h"
 #include "signalflow/node/node.h"
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/patch/patch.h"
@@ -590,13 +590,13 @@ std::list<NodeRef> AudioGraph::get_outputs()
 
 std::list<std::string> AudioGraph::get_output_device_names()
 {
-    AudioOut_SoundIO *output = (AudioOut_SoundIO *) (this->output.get());
+    AudioOut_MiniAudio *output = (AudioOut_MiniAudio *) (this->output.get());
     return output->get_output_device_names();
 }
 
 std::list<std::string> AudioGraph::get_output_backend_names()
 {
-    AudioOut_SoundIO *output = (AudioOut_SoundIO *) (this->output.get());
+    AudioOut_MiniAudio *output = (AudioOut_MiniAudio *) (this->output.get());
     return output->get_output_backend_names();
 }
 
