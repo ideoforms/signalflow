@@ -140,7 +140,10 @@ def extract_docs(doxygen: str) -> str:
         if re.search(r"^\s*/\*", line) or re.search(r"\*/\s*$", line):
             continue
         line = re.sub(r"^\s*\*\s*", "", line)
-        output = output + line + " "
+
+        # Escape quote marks to avoid breaking auto-generated pydocs
+        line = re.sub('"', '\\"', line)
+        output = output + line + "\\n"
     return output.strip()
 
 
