@@ -3,7 +3,6 @@
 #include "signalflow/core/graph.h"
 #include "signalflow/node/io/output/abstract.h"
 #include "signalflow/node/io/output/dummy.h"
-#include "signalflow/node/io/output/ios.h"
 #include "signalflow/node/io/output/miniaudio.h"
 #include "signalflow/node/node.h"
 #include "signalflow/node/oscillators/constant.h"
@@ -49,7 +48,7 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool
         this->config = *config;
     }
 
-    if (output_device == "dummy")
+    if (output_device == "dummy" || this->config.get_output_device_name() == "dummy")
     {
         this->output = new AudioOut_Dummy();
     }
@@ -590,13 +589,13 @@ std::list<NodeRef> AudioGraph::get_outputs()
 
 std::list<std::string> AudioGraph::get_output_device_names()
 {
-    AudioOut_MiniAudio *output = (AudioOut_MiniAudio *) (this->output.get());
+    AudioOut *output = (AudioOut *) (this->output.get());
     return output->get_output_device_names();
 }
 
 std::list<std::string> AudioGraph::get_output_backend_names()
 {
-    AudioOut_MiniAudio *output = (AudioOut_MiniAudio *) (this->output.get());
+    AudioOut *output = (AudioOut *) (this->output.get());
     return output->get_output_backend_names();
 }
 

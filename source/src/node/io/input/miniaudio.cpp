@@ -11,7 +11,8 @@ static bool is_processing = false;
 
 namespace signalflow
 {
-extern AudioIn_Abstract *shared_in;
+
+AudioIn *shared_in;
 
 void read_callback(ma_device *pDevice,
                    void *pOutput,
@@ -20,7 +21,7 @@ void read_callback(ma_device *pDevice,
 {
     is_processing = true;
 
-    AudioIn_MiniAudio *input_node = (AudioIn_MiniAudio *) shared_in;
+    AudioIn *input_node = (AudioIn *) shared_in;
     if (!input_node)
         return;
 
@@ -30,7 +31,7 @@ void read_callback(ma_device *pDevice,
     int num_channels = input_node->get_num_output_channels();
     for (unsigned int frame = 0; frame < frameCount; frame++)
     {
-        for (unsigned int channel = 0; channel < num_channels; channel++)
+        for (int channel = 0; channel < num_channels; channel++)
         {
             input_node->out[channel][frame] = input_samples[frame * num_channels + channel];
         }
@@ -39,7 +40,7 @@ void read_callback(ma_device *pDevice,
     is_processing = false;
 }
 
-AudioIn_MiniAudio::AudioIn_MiniAudio(unsigned int num_channels)
+AudioIn::AudioIn(unsigned int num_channels)
     : AudioIn_Abstract()
 {
     this->name = "audioin-miniaudio";
@@ -47,13 +48,13 @@ AudioIn_MiniAudio::AudioIn_MiniAudio(unsigned int num_channels)
     this->init();
 }
 
-AudioIn_MiniAudio::~AudioIn_MiniAudio()
+AudioIn::~AudioIn()
 {
     // TODO: call superclass destructor to set shared_in to null
     this->destroy();
 }
 
-int AudioIn_MiniAudio::init()
+void AudioIn::init()
 {
     ma_device_config config = ma_device_config_init(ma_device_type_capture);
     config.capture.format = ma_format_f32;
@@ -65,7 +66,7 @@ int AudioIn_MiniAudio::init()
     ma_result rv = ma_device_init(NULL, &config, &device);
     if (rv != MA_SUCCESS)
     {
-        throw std::runtime_error("miniaudio: Error initialising input device");
+        throw audio_io_exception("miniaudio: Error initialising input device");
     }
 
     this->set_channels(0, device.capture.internalChannels);
@@ -76,33 +77,27 @@ int AudioIn_MiniAudio::init()
               << std::endl;
 
     this->start();
-
-    return 0;
 }
 
-int AudioIn_MiniAudio::start()
+void AudioIn::start()
 {
     ma_result rv = ma_device_start(&device);
     if (rv != MA_SUCCESS)
     {
-        throw std::runtime_error("miniaudio: Error starting device");
+        throw audio_io_exception("miniaudio: Error starting device");
     }
-
-    return 0;
 }
 
-int AudioIn_MiniAudio::stop()
+void AudioIn::stop()
 {
     ma_result rv = ma_device_stop(&device);
     if (rv != MA_SUCCESS)
     {
-        throw std::runtime_error("miniaudio: Error stopping device");
+        throw audio_io_exception("miniaudio: Error stopping device");
     }
-
-    return 0;
 }
 
-int AudioIn_MiniAudio::destroy()
+void AudioIn::destroy()
 {
     while (is_processing)
     {
@@ -110,11 +105,9 @@ int AudioIn_MiniAudio::destroy()
 
     this->stop();
     shared_in = nullptr;
-
-    return 0;
 }
 
-void AudioIn_MiniAudio::process(Buffer &out, int num_samples)
+void AudioIn::process(Buffer &out, int num_samples)
 {
 }
 

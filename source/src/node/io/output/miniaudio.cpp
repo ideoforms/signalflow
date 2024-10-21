@@ -20,29 +20,44 @@ namespace signalflow
 
 extern AudioGraph *shared_graph;
 
-void data_callback(ma_device *pDevice,
-                   void *pOutput,
-                   const void *pInput,
-                   ma_uint32 frame_count)
+std::unordered_map<std::string, ma_backend> possible_backend_names = {
+    { "wasapi", ma_backend_wasapi },
+    { "dsound", ma_backend_dsound },
+    { "ma_backend_winmm", ma_backend_winmm },
+    { "coreaudio", ma_backend_coreaudio },
+    { "sndio", ma_backend_sndio },
+    { "audio4", ma_backend_audio4 },
+    { "oss", ma_backend_oss },
+    { "pulseaudio", ma_backend_pulseaudio },
+    { "alsa", ma_backend_alsa },
+    { "jack", ma_backend_jack },
+    { "aaudio", ma_backend_aaudio },
+    { "opensl", ma_backend_opensl },
+    { "webaudio", ma_backend_webaudio },
+    { "null", ma_backend_null },
+};
+
+void data_callback(ma_device *ma_device_ptr,
+                   void *ma_output_pointer,
+                   const void *ma_input_pointer,
+                   ma_uint32 ma_frame_count)
 {
     is_processing = true;
-    int channel_count = pDevice->playback.channels;
+    int channel_count = ma_device_ptr->playback.channels;
 
     /*-----------------------------------------------------------------------*
-     * Return if the shared_graph hasn't been initialized yet.
-     * (The libsoundio Pulse Audio driver calls the write_callback once
-     * on initialization, so this may happen legitimately.)
+     * Do nothing if the shared_graph hasn't been initialized yet.
      *-----------------------------------------------------------------------*/
     if (!shared_graph || !shared_graph->get_output())
     {
         return;
     }
 
-    float *output_pointer = (float *) pOutput;
+    float *output_pointer = (float *) ma_output_pointer;
 
     try
     {
-        shared_graph->render(frame_count);
+        shared_graph->render(ma_frame_count);
     }
     catch (const std::exception &e)
     {
@@ -51,9 +66,9 @@ void data_callback(ma_device *pDevice,
     }
 
     NodeRef output = shared_graph->get_output();
-    for (unsigned int frame = 0; frame < frame_count; frame++)
+    for (unsigned int frame = 0; frame < ma_frame_count; frame++)
     {
-        for (unsigned int channel = 0; channel < channel_count; channel += 1)
+        for (int channel = 0; channel < channel_count; channel += 1)
         {
             output_pointer[channel_count * frame + channel] = output->out[channel][frame];
         }
@@ -62,63 +77,46 @@ void data_callback(ma_device *pDevice,
     is_processing = false;
 }
 
-AudioOut_MiniAudio::AudioOut_MiniAudio(const std::string &backend_name,
-                                       const std::string &device_name,
-                                       unsigned int sample_rate,
-                                       unsigned int buffer_size)
+AudioOut::AudioOut(const std::string &backend_name,
+                   const std::string &device_name,
+                   unsigned int sample_rate,
+                   unsigned int buffer_size)
     : AudioOut_Abstract()
 {
     this->backend_name = backend_name;
     this->device_name = device_name;
     this->sample_rate = sample_rate;
     this->buffer_size = buffer_size;
-    this->name = "audioout-miniaudio";
+    this->name = "audioout";
 
     this->init();
 }
 
-void AudioOut_MiniAudio::init_context(ma_context *context)
+void AudioOut::init_context(ma_context *context)
 {
     if (!this->backend_name.empty())
     {
-        std::unordered_map<std::string, ma_backend> possible_backend_names = {
-            { "wasapi", ma_backend_wasapi },
-            { "dsound", ma_backend_dsound },
-            { "ma_backend_winmm", ma_backend_winmm },
-            { "coreaudio", ma_backend_coreaudio },
-            { "sndio", ma_backend_sndio },
-            { "audio4", ma_backend_audio4 },
-            { "oss", ma_backend_oss },
-            { "pulseaudio", ma_backend_pulseaudio },
-            { "alsa", ma_backend_alsa },
-            { "jack", ma_backend_jack },
-            { "aaudio", ma_backend_aaudio },
-            { "opensl", ma_backend_opensl },
-            { "webaudio", ma_backend_webaudio },
-            { "null", ma_backend_null },
-        };
-
         if (possible_backend_names.find(this->backend_name) == possible_backend_names.end())
         {
-            throw std::runtime_error("miniaudio: Backend name not recognised: " + this->backend_name);
+            throw audio_io_exception("miniaudio: Backend name not recognised: " + this->backend_name);
         }
         ma_backend backend_name = possible_backend_names[this->backend_name];
 
         if (ma_context_init(&backend_name, 1, NULL, context) != MA_SUCCESS)
         {
-            throw std::runtime_error("miniaudio: Error initialising context");
+            throw audio_io_exception("miniaudio: Error initialising context");
         }
     }
     else
     {
         if (ma_context_init(NULL, 0, NULL, context) != MA_SUCCESS)
         {
-            throw std::runtime_error("miniaudio: Error initialising context");
+            throw audio_io_exception("miniaudio: Error initialising context");
         }
     }
 }
 
-int AudioOut_MiniAudio::init()
+void AudioOut::init()
 {
     ma_device_config config = ma_device_config_init(ma_device_type_playback);
 
@@ -144,14 +142,14 @@ int AudioOut_MiniAudio::init()
             {
                 if (selected_device_index != -1)
                 {
-                    throw std::runtime_error("More than one audio device found matching name '" + device_name + "'");
+                    throw audio_io_exception("More than one audio device found matching name '" + device_name + "'");
                 }
                 selected_device_index = i;
             }
         }
         if (selected_device_index == -1)
         {
-            throw std::runtime_error("No audio device found matching name '" + device_name + "'");
+            throw audio_io_exception("No audio device found matching name '" + device_name + "'");
         }
 
         config.playback.pDeviceID = &playback_devices[selected_device_index].id;
@@ -160,13 +158,15 @@ int AudioOut_MiniAudio::init()
     // Set to ma_format_unknown to use the device's native format.
     config.playback.format = ma_format_f32;
 
-    // Set to 0 to use the device's native channel count / buffer size.
+    // Set to 0 to use the device's native channel count.
     config.playback.channels = 0;
+
+    // Set to 0 to use the device's native buffer size.
     config.periodSizeInFrames = buffer_size;
 
     // Note that the underlying connection always uses the device's native sample rate.
     // Setting values other than zero instantiates miniaudio's internal resampler.
-    config.sampleRate = sample_rate;
+    config.sampleRate = this->sample_rate;
     config.dataCallback = data_callback;
 
     // Buffer blocks into a fixed number of frames
@@ -175,50 +175,47 @@ int AudioOut_MiniAudio::init()
     rv = ma_device_init(NULL, &config, &device);
     if (rv != MA_SUCCESS)
     {
-        throw std::runtime_error("miniaudio: Error initialising output device");
+        throw audio_io_exception("miniaudio: Error initialising output device");
     }
 
-    this->sample_rate = device.playback.internalSampleRate;
     this->set_channels(device.playback.internalChannels, 0);
 
     std::string s = device.playback.internalChannels == 1 ? "" : "s";
     std::cerr << "[miniaudio] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
               << "buffer size " << device.playback.internalPeriodSizeInFrames << " samples, " << device.playback.internalChannels << " channel" << s << ")"
               << std::endl;
-
-    return 0;
 }
 
-int AudioOut_MiniAudio::start()
+void AudioOut::start()
 {
     ma_result rv = ma_device_start(&device);
     if (rv != MA_SUCCESS)
     {
-        throw std::runtime_error("miniaudio: Error starting output device");
+        throw audio_io_exception("miniaudio: Error starting output device");
     }
     this->set_state(SIGNALFLOW_NODE_STATE_ACTIVE);
-    return 0;
 }
 
-int AudioOut_MiniAudio::stop()
+void AudioOut::stop()
 {
-    // TODO
+    ma_result rv = ma_device_stop(&device);
+    if (rv != MA_SUCCESS)
+    {
+        throw audio_io_exception("miniaudio: Error stopping output device");
+    }
     this->set_state(SIGNALFLOW_NODE_STATE_STOPPED);
-    return 0;
 }
 
-int AudioOut_MiniAudio::destroy()
+void AudioOut::destroy()
 {
     while (is_processing)
     {
     }
 
     ma_device_uninit(&device);
-
-    return 0;
 }
 
-std::list<std::string> AudioOut_MiniAudio::get_output_device_names()
+std::list<std::string> AudioOut::get_output_device_names()
 {
     std::list<std::string> device_names;
 
@@ -237,7 +234,7 @@ std::list<std::string> AudioOut_MiniAudio::get_output_device_names()
                                 &capture_device_count);
     if (rv != MA_SUCCESS)
     {
-        throw std::runtime_error("miniaudio: Failure querying audio devices");
+        throw audio_io_exception("miniaudio: Failure querying audio devices");
     }
     for (unsigned int i = 0; i < playback_device_count; i++)
     {
@@ -247,13 +244,13 @@ std::list<std::string> AudioOut_MiniAudio::get_output_device_names()
     return device_names;
 }
 
-int AudioOut_MiniAudio::get_default_output_device_index()
+int AudioOut::get_default_output_device_index()
 {
     // TODO: Is this even used?
     return -1;
 }
 
-std::list<std::string> AudioOut_MiniAudio::get_output_backend_names()
+std::list<std::string> AudioOut::get_output_backend_names()
 {
     std::list<std::string> backend_names;
     ma_backend enabled_backends[MA_BACKEND_COUNT];
@@ -263,14 +260,20 @@ std::list<std::string> AudioOut_MiniAudio::get_output_backend_names()
     rv = ma_get_enabled_backends(enabled_backends, MA_BACKEND_COUNT, &enabled_backend_count);
     if (rv != MA_SUCCESS)
     {
-        throw std::runtime_error("miniaudio: Failure querying backend devices");
+        throw audio_io_exception("miniaudio: Failure querying backend devices");
     }
     for (unsigned int i = 0; i < enabled_backend_count; i++)
     {
-        std::string backend_name = std::string(ma_get_backend_name(enabled_backends[i]));
-        if (backend_name != "Custom" && backend_name != "Null")
+        for (auto pair : possible_backend_names)
         {
-            backend_names.push_back(backend_name);
+            if (pair.second == enabled_backends[i])
+            {
+                std::string backend_name = pair.first;
+                if (backend_name != "null")
+                {
+                    backend_names.push_back(backend_name);
+                }
+            }
         }
     }
 

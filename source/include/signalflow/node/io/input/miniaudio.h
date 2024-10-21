@@ -1,8 +1,5 @@
 #pragma once
 
-#define AudioIn AudioIn_MiniAudio
-
-#include <soundio/soundio.h>
 #include <vector>
 
 #include "abstract.h"
@@ -13,15 +10,15 @@
 namespace signalflow
 {
 
-class AudioIn_MiniAudio : public AudioIn_Abstract
+class AudioIn : public AudioIn_Abstract
 {
 public:
-    AudioIn_MiniAudio(unsigned int num_channels = 1);
-    virtual ~AudioIn_MiniAudio() override;
-    virtual int init() override;
-    virtual int start() override;
-    virtual int stop() override;
-    virtual int destroy() override;
+    AudioIn(unsigned int num_channels = 1);
+    virtual ~AudioIn() override;
+    virtual void init() override;
+    virtual void start() override;
+    virtual void stop() override;
+    virtual void destroy() override;
     virtual void process(Buffer &out, int num_samples) override;
 
 private:

@@ -13,10 +13,10 @@ public:
     AudioOut_Abstract();
     virtual void process(Buffer &out, int num_samples);
 
-    virtual int init() = 0;
-    virtual int start() = 0;
-    virtual int stop() = 0;
-    virtual int destroy() = 0;
+    virtual void init() = 0;
+    virtual void start() = 0;
+    virtual void stop() = 0;
+    virtual void destroy() = 0;
 
     virtual void add_input(NodeRef node);
     virtual void remove_input(NodeRef node);
