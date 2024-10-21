@@ -71,6 +71,7 @@ def run_list_input_device_names(backend_name: str = None):
     for name in input_device_names:
         print(" - %s" % name)
 
+
 def run_list_backend_names():
     backend_names = AudioGraph.get_backend_names()
     print("Available output backend names:")
@@ -144,14 +145,14 @@ def main():
     # --------------------------------------------------------------------------------
     list_input_device_names = subparsers.add_parser('list-input-device-names', help='list available input devices')
     list_input_device_names.add_argument('--backend-name', type=str,
-                                          help='name of audio backend to use (default: system default backend)',
-                                          default=None)
+                                         help='name of audio backend to use (default: system default backend)',
+                                         default=None)
 
     # --------------------------------------------------------------------------------
     # Command: list-output-backend-names
     # --------------------------------------------------------------------------------
-    list_output_backend_names = subparsers.add_parser('list-output-backend-names',
-                                                      help='list available output backends')
+    list_backend_names = subparsers.add_parser('list-backend-names',
+                                               help='list available output backends')
     help = subparsers.add_parser('help', help='show help')
 
     # --------------------------------------------------------------------------------
