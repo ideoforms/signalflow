@@ -17,7 +17,7 @@ Building from source assumes that you have a working installation of Python 3, i
 
 To build on macOS from source, install dependencies with Homebrew:
 ```
-brew install cmake libsndfile libsoundio
+brew install cmake libsndfile
 ```
 
 Clone this repository, then build and install with `pip`:
@@ -35,13 +35,8 @@ SignalFlow supports Linux (verified on Ubuntu 20.04 and Raspberry Pi OS buster) 
 
 To build the Python library from source on Linux, install dependencies with apt:
 ```
-apt-get install -y git cmake g++ python3-pip libasound2-dev libsndfile1-dev libsoundio-dev fftw3-dev
-```
-
-If you experience an error on Raspberry Pi `libf77blas.so.3: cannot open shared object file`:
-
-```
-sudo apt-get install -y libatlas-base-dev
+# If on Raspberry Pi: libfftw3-dev
+apt-get install -y git cmake g++ python3-pip libasound2-dev libsndfile1-dev fftw3-dev
 ```
 
 Clone this repository, then build and install with `pip`:
@@ -60,8 +55,6 @@ This is work in progress.
 
 Currently, dependencies need to be downloaded and built by hand. These can be placed anywhere.
 
-- https://github.com/timmb/libsoundio - check out the `fix-msvc` branch.
-  - Use CMake GUI to build libsoundio with Visual Studio 2019 with binaries in a subfolder of that repo named `build`. (Configure, Generate, Open project, Batch build all configurations)
 - https://github.com/libsndfile/libsndfile
   - Use CMake GUI to build libsndfile with Visual Studio 2019 with binaries in a subfolder of that repo named `build`. (Configure, Generate, Open project, Batch build all configurations)
 - Download Windows binaries of FFTW from http://fftw.org/install/windows.html.
