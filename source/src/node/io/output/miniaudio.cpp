@@ -243,8 +243,6 @@ std::list<std::string> AudioOut::get_output_device_names(std::string backend_nam
     ma_result rv;
     ma_device_info *playback_devices;
     ma_uint32 playback_device_count;
-    ma_device_info *capture_devices;
-    ma_uint32 capture_device_count;
     ma_context context;
 
     AudioOut::init_context(&context, backend_name);
@@ -252,8 +250,8 @@ std::list<std::string> AudioOut::get_output_device_names(std::string backend_nam
     rv = ma_context_get_devices(&context,
                                 &playback_devices,
                                 &playback_device_count,
-                                &capture_devices,
-                                &capture_device_count);
+                                NULL,
+                                NULL);
     if (rv != MA_SUCCESS)
     {
         throw audio_io_exception("miniaudio: Failure querying audio devices");
@@ -268,7 +266,37 @@ std::list<std::string> AudioOut::get_output_device_names(std::string backend_nam
     return device_names;
 }
 
-std::list<std::string> AudioOut::get_output_backend_names()
+std::list<std::string> AudioOut::get_input_device_names(std::string backend_name)
+{
+    std::list<std::string> device_names;
+
+    ma_result rv;
+    ma_device_info *capture_devices;
+    ma_uint32 capture_device_count;
+    ma_context context;
+
+    AudioOut::init_context(&context, backend_name);
+
+    rv = ma_context_get_devices(&context,
+                                NULL,
+                                NULL,
+                                &capture_devices,
+                                &capture_device_count);
+    if (rv != MA_SUCCESS)
+    {
+        throw audio_io_exception("miniaudio: Failure querying audio devices");
+    }
+    for (unsigned int i = 0; i < capture_device_count; i++)
+    {
+        device_names.push_back(std::string(capture_devices[i].name));
+    }
+
+    ma_context_uninit(&context);
+
+    return device_names;
+}
+
+std::list<std::string> AudioOut::get_backend_names()
 {
     std::list<std::string> backend_names;
     ma_backend enabled_backends[MA_BACKEND_COUNT];

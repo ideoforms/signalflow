@@ -65,10 +65,16 @@ def run_list_output_device_names(backend_name: str = None):
         print(" - %s" % name)
 
 
-def run_list_output_backend_names():
-    output_backend_names = AudioGraph.get_output_backend_names()
+def run_list_input_device_names(backend_name: str = None):
+    input_device_names = AudioGraph.get_input_device_names(backend_name)
+    print("Available input device names:")
+    for name in input_device_names:
+        print(" - %s" % name)
+
+def run_list_backend_names():
+    backend_names = AudioGraph.get_backend_names()
     print("Available output backend names:")
-    for name in output_backend_names:
+    for name in backend_names:
         print(" - %s" % name)
 
 
@@ -129,8 +135,16 @@ def main():
     # Command: list-output-device-names
     # --------------------------------------------------------------------------------
     list_output_device_names = subparsers.add_parser('list-output-device-names', help='list available output devices')
-    list_output_device_names.add_argument('--output-backend-name', type=str,
-                                          help='name of output backend to use (default: system default backend)',
+    list_output_device_names.add_argument('--backend-name', type=str,
+                                          help='name of audio backend to use (default: system default backend)',
+                                          default=None)
+
+    # --------------------------------------------------------------------------------
+    # Command: list-input-device-names
+    # --------------------------------------------------------------------------------
+    list_input_device_names = subparsers.add_parser('list-input-device-names', help='list available input devices')
+    list_input_device_names.add_argument('--backend-name', type=str,
+                                          help='name of audio backend to use (default: system default backend)',
                                           default=None)
 
     # --------------------------------------------------------------------------------
@@ -168,9 +182,11 @@ def main():
     elif args.command == 'test':
         run_test(args.frequency, args.gain, args.output_backend_name, args.output_device_name)
     elif args.command == 'list-output-device-names':
-        run_list_output_device_names(args.output_backend_name)
-    elif args.command == 'list-output-backend-names':
-        run_list_output_backend_names()
+        run_list_output_device_names(args.backend_name)
+    elif args.command == 'list-input-device-names':
+        run_list_input_device_names(args.backend_name)
+    elif args.command == 'list-backend-names':
+        run_list_backend_names()
     elif args.command == 'list-midi-output-device-names':
         run_list_midi_output_device_names()
     elif args.command == 'list-midi-input-device-names':

@@ -55,7 +55,13 @@ void init_python_graph(py::module &m)
                 return AudioGraph::get_output_device_names(backend_name_str);
             },
             "backend_name"_a = "", R"pbdoc(list[str]: List the available output device names.)pbdoc")
-        .def_static("get_output_backend_names", &AudioGraph::get_output_backend_names, R"pbdoc(list[str]: List the available output backend names.)pbdoc")
+        .def_static(
+            "get_input_device_names", [](py::object backend_name) {
+                std::string backend_name_str = backend_name.is_none() ? "" : backend_name.cast<std::string>();
+                return AudioGraph::get_input_device_names(backend_name_str);
+            },
+            "backend_name"_a = "", R"pbdoc(list[str]: List the available input device names.)pbdoc")
+        .def_static("get_backend_names", &AudioGraph::get_backend_names, R"pbdoc(list[str]: List the available audio backend names.)pbdoc")
 
         /*--------------------------------------------------------------------------------
          * Methods

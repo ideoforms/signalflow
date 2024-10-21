@@ -26,7 +26,8 @@ public:
     virtual void destroy() override;
 
     static std::list<std::string> get_output_device_names(std::string backend_name = "");
-    static std::list<std::string> get_output_backend_names();
+    static std::list<std::string> get_input_device_names(std::string backend_name = "");
+    static std::list<std::string> get_backend_names();
 
 private:
     /*--------------------------------------------------------------------------------

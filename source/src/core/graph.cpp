@@ -594,9 +594,15 @@ std::list<std::string> AudioGraph::get_output_device_names(std::string backend_n
 }
 
 // static
-std::list<std::string> AudioGraph::get_output_backend_names()
+std::list<std::string> AudioGraph::get_input_device_names(std::string backend_name)
 {
-    return AudioOut::get_output_backend_names();
+    return AudioOut::get_input_device_names(backend_name);
+}
+
+// static
+std::list<std::string> AudioGraph::get_backend_names()
+{
+    return AudioOut::get_backend_names();
 }
 
 NodeRef AudioGraph::add_node(NodeRef node)
