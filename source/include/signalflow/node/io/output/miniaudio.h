@@ -32,6 +32,8 @@ public:
     int get_default_output_device_index();
 
 private:
+    void init_context(ma_context *context);
+
     std::string backend_name;
     std::string device_name;
     ma_context context;

@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unordered_map>
 
 static bool is_processing = false;
 
@@ -71,9 +72,52 @@ AudioOut_MiniAudio::AudioOut_MiniAudio(const std::string &backend_name,
     this->device_name = device_name;
     this->sample_rate = sample_rate;
     this->buffer_size = buffer_size;
-    this->name = "audioout-soundio";
+    this->name = "audioout-miniaudio";
+    printf("backend name: %s\n", backend_name.c_str());
 
     this->init();
+}
+
+void AudioOut_MiniAudio::init_context(ma_context *context)
+{
+    if (!this->backend_name.empty())
+    {
+        std::unordered_map<std::string, ma_backend> possible_backend_names = {
+            { "wasapi", ma_backend_wasapi },
+            { "dsound", ma_backend_dsound },
+            { "ma_backend_winmm", ma_backend_winmm },
+            { "coreaudio", ma_backend_coreaudio },
+            { "sndio", ma_backend_sndio },
+            { "audio4", ma_backend_audio4 },
+            { "oss", ma_backend_oss },
+            { "pulseaudio", ma_backend_pulseaudio },
+            { "alsa", ma_backend_alsa },
+            { "jack", ma_backend_jack },
+            { "aaudio", ma_backend_aaudio },
+            { "opensl", ma_backend_opensl },
+            { "webaudio", ma_backend_webaudio },
+            { "null", ma_backend_null },
+        };
+
+        if (possible_backend_names.find(this->backend_name) == possible_backend_names.end())
+        {
+            throw std::runtime_error("miniaudio: Backend name not recognised: " + this->backend_name);
+        }
+        printf("Initialising context with backend %s\n", this->backend_name.c_str());
+        ma_backend backend_name = possible_backend_names[this->backend_name];
+
+        if (ma_context_init(&backend_name, 1, NULL, context) != MA_SUCCESS)
+        {
+            throw std::runtime_error("miniaudio: Error initialising context");
+        }
+    }
+    else
+    {
+        if (ma_context_init(NULL, 0, NULL, context) != MA_SUCCESS)
+        {
+            throw std::runtime_error("miniaudio: Error initialising context");
+        }
+    }
 }
 
 int AudioOut_MiniAudio::init()
@@ -86,14 +130,9 @@ int AudioOut_MiniAudio::init()
     ma_uint32 capture_device_count;
     ma_result rv;
 
-    if (ma_context_init(NULL, 0, NULL, &context) != MA_SUCCESS)
-    {
-        // Error.
-        printf("Error initialising context\n");
-        return -1;
-    }
+    this->init_context(&this->context);
 
-    rv = ma_context_get_devices(&context,
+    rv = ma_context_get_devices(&this->context,
                                 &playback_devices,
                                 &playback_device_count,
                                 &capture_devices,
@@ -191,18 +230,13 @@ std::list<std::string> AudioOut_MiniAudio::get_output_device_names()
 {
     std::list<std::string> device_names;
 
-    ma_context context;
     ma_result rv;
     ma_device_info *playback_devices;
     ma_uint32 playback_device_count;
     ma_device_info *capture_devices;
     ma_uint32 capture_device_count;
-
-    rv = ma_context_init(NULL, 0, NULL, &context);
-    if (rv != MA_SUCCESS)
-    {
-        throw std::runtime_error("miniaudio: Failure initialising audio context");
-    }
+    ma_context context;
+    this->init_context(&context);
 
     rv = ma_context_get_devices(&context,
                                 &playback_devices,
