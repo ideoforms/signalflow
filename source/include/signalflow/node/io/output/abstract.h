@@ -26,10 +26,16 @@ public:
 
     virtual void set_channels(int num_input_channels, int num_output_channels);
 
+    /**--------------------------------------------------------------------------------
+     * Returns the audio output's sample rate. Note that this may not be the
+     * same as the audio hardware's sample rate if the user has specified
+     * a non-zero sample rate in AudioGraphConfig.
+     *-------------------------------------------------------------------------------*/
     unsigned int get_sample_rate();
 
     /**--------------------------------------------------------------------------------
-     * Returns the buffer size required by the audio hardware.
+     * Returns the buffer size observed by the audio HAL. Note that this is
+     * served by miniaudio.
      *
      * @return The buffer size, in frames.
      *-------------------------------------------------------------------------------*/
