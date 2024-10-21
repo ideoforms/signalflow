@@ -51,9 +51,9 @@ void data_callback(ma_device *pDevice,
     }
 
     NodeRef output = shared_graph->get_output();
-    for (int frame = 0; frame < frame_count; frame++)
+    for (unsigned int frame = 0; frame < frame_count; frame++)
     {
-        for (int channel = 0; channel < channel_count; channel += 1)
+        for (unsigned int channel = 0; channel < channel_count; channel += 1)
         {
             output_pointer[channel_count * frame + channel] = output->out[channel][frame];
         }
@@ -138,7 +138,7 @@ int AudioOut_MiniAudio::init()
     int selected_device_index = -1;
     if (!this->device_name.empty())
     {
-        for (int i = 0; i < playback_device_count; i++)
+        for (unsigned int i = 0; i < playback_device_count; i++)
         {
             if (strncmp(playback_devices[i].name, device_name.c_str(), strlen(device_name.c_str())) == 0)
             {
@@ -239,7 +239,7 @@ std::list<std::string> AudioOut_MiniAudio::get_output_device_names()
     {
         throw std::runtime_error("miniaudio: Failure querying audio devices");
     }
-    for (int i = 0; i < playback_device_count; i++)
+    for (unsigned int i = 0; i < playback_device_count; i++)
     {
         device_names.push_back(std::string(playback_devices[i].name));
     }
@@ -265,7 +265,7 @@ std::list<std::string> AudioOut_MiniAudio::get_output_backend_names()
     {
         throw std::runtime_error("miniaudio: Failure querying backend devices");
     }
-    for (int i = 0; i < enabled_backend_count; i++)
+    for (unsigned int i = 0; i < enabled_backend_count; i++)
     {
         std::string backend_name = std::string(ma_get_backend_name(enabled_backends[i]));
         if (backend_name != "Custom" && backend_name != "Null")

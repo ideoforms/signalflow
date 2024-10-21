@@ -28,9 +28,9 @@ void read_callback(ma_device *pDevice,
 
     // TODO: the number of channels at the mic input might not be the same as the number of channels of this device
     int num_channels = input_node->get_num_output_channels();
-    for (int frame = 0; frame < frameCount; frame++)
+    for (unsigned int frame = 0; frame < frameCount; frame++)
     {
-        for (int channel = 0; channel < num_channels; channel++)
+        for (unsigned int channel = 0; channel < num_channels; channel++)
         {
             input_node->out[channel][frame] = input_samples[frame * num_channels + channel];
         }
@@ -76,6 +76,8 @@ int AudioIn_MiniAudio::init()
               << std::endl;
 
     this->start();
+
+    return 0;
 }
 
 int AudioIn_MiniAudio::start()
@@ -85,6 +87,8 @@ int AudioIn_MiniAudio::start()
     {
         throw std::runtime_error("miniaudio: Error starting device");
     }
+
+    return 0;
 }
 
 int AudioIn_MiniAudio::stop()
@@ -94,6 +98,8 @@ int AudioIn_MiniAudio::stop()
     {
         throw std::runtime_error("miniaudio: Error stopping device");
     }
+
+    return 0;
 }
 
 int AudioIn_MiniAudio::destroy()
