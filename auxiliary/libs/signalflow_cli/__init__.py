@@ -62,7 +62,7 @@ def run_list_output_device_names(output_backend_name: str = None):
     config = AudioGraphConfig()
     if output_backend_name:
         config.output_backend_name = output_backend_name
-    config.output_device_name = ""
+    # config.output_device_name = "dummy"
     graph = AudioGraph(config=config, start=False)
     print("Available output device names:")
     for name in graph.output_device_names:
@@ -71,8 +71,8 @@ def run_list_output_device_names(output_backend_name: str = None):
 
 def run_list_output_backend_names():
     config = AudioGraphConfig()
-    config.output_backend_name = "dummy"
-    config.output_device_name = ""
+    config.output_backend_name = "null"
+    config.output_device_name = "dummy"
     graph = AudioGraph(config=config, start=False)
     print("Available output backend names:")
     for name in graph.output_backend_names:
