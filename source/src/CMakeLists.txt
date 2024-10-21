@@ -83,6 +83,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/fold.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/wetdry.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/abstract.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/io/input/miniaudio.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/abstract.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/dummy.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/io/output/miniaudio.cpp

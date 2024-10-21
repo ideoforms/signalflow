@@ -73,7 +73,6 @@ AudioOut_MiniAudio::AudioOut_MiniAudio(const std::string &backend_name,
     this->sample_rate = sample_rate;
     this->buffer_size = buffer_size;
     this->name = "audioout-miniaudio";
-    printf("backend name: %s\n", backend_name.c_str());
 
     this->init();
 }
@@ -103,7 +102,6 @@ void AudioOut_MiniAudio::init_context(ma_context *context)
         {
             throw std::runtime_error("miniaudio: Backend name not recognised: " + this->backend_name);
         }
-        printf("Initialising context with backend %s\n", this->backend_name.c_str());
         ma_backend backend_name = possible_backend_names[this->backend_name];
 
         if (ma_context_init(&backend_name, 1, NULL, context) != MA_SUCCESS)
@@ -177,21 +175,16 @@ int AudioOut_MiniAudio::init()
     rv = ma_device_init(NULL, &config, &device);
     if (rv != MA_SUCCESS)
     {
-        printf("Error initialising device\n");
-        return -1;
+        throw std::runtime_error("miniaudio: Error initialising output device");
     }
 
     this->sample_rate = device.playback.internalSampleRate;
     this->set_channels(device.playback.internalChannels, 0);
 
     std::string s = device.playback.internalChannels == 1 ? "" : "s";
-
-    std::cerr << "[MINIAUDIO] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
+    std::cerr << "[miniaudio] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
               << "buffer size " << device.playback.internalPeriodSizeInFrames << " samples, " << device.playback.internalChannels << " channel" << s << ")"
               << std::endl;
-
-    // do we need to set num_output channels to allocate the right number of output buffers?
-    this->set_channels(device.playback.internalChannels, 0);
 
     return 0;
 }
@@ -201,8 +194,7 @@ int AudioOut_MiniAudio::start()
     ma_result rv = ma_device_start(&device);
     if (rv != MA_SUCCESS)
     {
-        printf("Error starting device\n");
-        return -1;
+        throw std::runtime_error("miniaudio: Error starting output device");
     }
     this->set_state(SIGNALFLOW_NODE_STATE_ACTIVE);
     return 0;

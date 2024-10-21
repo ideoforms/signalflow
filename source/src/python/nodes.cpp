@@ -5,6 +5,9 @@ void init_python_nodes(py::module &m)
     /*--------------------------------------------------------------------------------
          * Node subclasses
          *-------------------------------------------------------------------------------*/
+    py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn", "Audio input")
+        .def(py::init<int>(), "num_channels"_a = 1);
+
     py::class_<AudioOut_Abstract, Node, NodeRefTemplate<AudioOut_Abstract>>(m, "AudioOut_Abstract", "Abstract audio output");
 
     py::class_<AudioOut_Dummy, Node, NodeRefTemplate<AudioOut_Dummy>>(m, "AudioOut_Dummy", "Dummy audio output for offline processing")
@@ -314,7 +317,7 @@ void init_python_nodes(py::module &m)
     py::class_<Wavetable2D, Node, NodeRefTemplate<Wavetable2D>>(m, "Wavetable2D", "Wavetable2D")
         .def(py::init<BufferRef2D, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "frequency"_a = 440, "crossfade"_a = 0.0, "phase_offset"_a = 0.0, "sync"_a = 0);
 
-    py::class_<Maraca, StochasticNode, NodeRefTemplate<Maraca>>(m, "Maraca", "Model of maraca")
+    py::class_<Maraca, StochasticNode, NodeRefTemplate<Maraca>>(m, "Maraca", "Physically-inspired model of a maraca.  Parameters: - `num_beans`: The number of simulated beans in the maraca (1-1024) - `shake_decay`: Decay constant for the energy injected per shake - `grain_decay`: Decay constant for the energy created per bean collision - `shake_duration`: Duration of each shake action, milliseconds - `shell_frequency`: Resonant frequency of the maraca's shell, hertz - `shell_resonance`: Resonanc of the maraca's shell (0-1) - `clock`: If specified, triggers shake actions - `energy`: If specified, injects energy into the maraca  From Cook (1997), 'Physically Informed Sonic Modeling (PhISM): Synthesis of Percussive Sounds', Computer Music Journal.")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "num_beans"_a = 64, "shake_decay"_a = 0.99, "grain_decay"_a = 0.99, "shake_duration"_a = 0.02, "shell_frequency"_a = 12000, "shell_resonance"_a = 0.9, "clock"_a = nullptr, "energy"_a = nullptr);
 
     py::class_<Clip, Node, NodeRefTemplate<Clip>>(m, "Clip", "Clip the input to `min`/`max`.")
