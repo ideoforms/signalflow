@@ -43,6 +43,7 @@ void read_callback(ma_device *pDevice,
 AudioIn::AudioIn(unsigned int num_channels)
     : AudioIn_Abstract()
 {
+    shared_in = this;
     this->name = "audioin-miniaudio";
     this->num_channels = num_channels;
     this->init();
@@ -59,7 +60,7 @@ void AudioIn::init()
     ma_device_config config = ma_device_config_init(ma_device_type_capture);
     config.capture.format = ma_format_f32;
     config.capture.channels = this->num_channels;
-    config.periodSizeInFrames = 0;
+    config.periodSizeInFrames = this->get_graph()->get_output_buffer_size();
     config.sampleRate = this->get_graph()->get_sample_rate();
     config.dataCallback = read_callback;
 
@@ -71,6 +72,12 @@ void AudioIn::init()
 
     this->set_channels(0, device.capture.internalChannels);
 
+    /*--------------------------------------------------------------------------------
+     * Note that the underlying sample rate used by the recording hardware
+     * (`device.capture.internalSampleRate`) may not be the same as that used
+     * by `AudioIn`: SignalFlow requires that the input and output streams are both
+     * on the same sample rate, so miniaudio's resampling is used to unify them.
+     *-------------------------------------------------------------------------------*/
     std::string s = device.capture.internalChannels == 1 ? "" : "s";
     std::cerr << "[miniaudio] Input device: " << std::string(device.capture.name) << " (" << device.capture.internalSampleRate << "Hz, "
               << "buffer size " << device.capture.internalPeriodSizeInFrames << " samples, " << device.capture.internalChannels << " channel" << s << ")"

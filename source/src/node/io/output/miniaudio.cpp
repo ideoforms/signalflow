@@ -148,6 +148,9 @@ void AudioOut::init()
     // Buffer blocks into a fixed number of frames
     config.noFixedSizedCallback = 1;
 
+    // On Core Audio, let the application select a preferred sample rate.
+    config.coreaudio.allowNominalSampleRateChange = 1;
+
     rv = ma_device_init(NULL, &config, &device);
     if (rv != MA_SUCCESS)
     {
@@ -168,9 +171,14 @@ void AudioOut::init()
         this->sample_rate = device.playback.internalSampleRate;
     }
 
+    /*--------------------------------------------------------------------------------
+     * Update AudioOut's buffer size to reflect the actual underlying buffer size.
+     *-------------------------------------------------------------------------------*/
+    this->buffer_size = device.playback.internalPeriodSizeInFrames;
+
     std::string s = device.playback.internalChannels == 1 ? "" : "s";
     std::cerr << "[miniaudio] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
-              << "buffer size " << device.playback.internalPeriodSizeInFrames << " samples, " << device.playback.internalChannels << " channel" << s << ")"
+              << "buffer size " << this->buffer_size << " samples, " << device.playback.internalChannels << " channel" << s << ")"
               << std::endl;
 }
 
