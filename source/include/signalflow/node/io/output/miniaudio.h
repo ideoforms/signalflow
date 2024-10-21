@@ -25,16 +25,15 @@ public:
     virtual void stop() override;
     virtual void destroy() override;
 
-    std::list<std::string> get_output_device_names();
-    std::list<std::string> get_output_backend_names();
-    int get_default_output_device_index();
+    static std::list<std::string> get_output_device_names(std::string backend_name = "");
+    static std::list<std::string> get_output_backend_names();
 
 private:
     /*--------------------------------------------------------------------------------
      * Initialise a new miniaudio context, using the specified backend name if
      * present, or the default backend otherwise.
      *-------------------------------------------------------------------------------*/
-    void init_context(ma_context *context);
+    static void init_context(ma_context *context, std::string backend_name = "");
 
     std::string backend_name;
     std::string device_name;

@@ -92,30 +92,6 @@ AudioOut::AudioOut(const std::string &backend_name,
     this->init();
 }
 
-void AudioOut::init_context(ma_context *context)
-{
-    if (!this->backend_name.empty())
-    {
-        if (possible_backend_names.find(this->backend_name) == possible_backend_names.end())
-        {
-            throw audio_io_exception("miniaudio: Backend name not recognised: " + this->backend_name);
-        }
-        ma_backend backend_name = possible_backend_names[this->backend_name];
-
-        if (ma_context_init(&backend_name, 1, NULL, context) != MA_SUCCESS)
-        {
-            throw audio_io_exception("miniaudio: Error initialising context");
-        }
-    }
-    else
-    {
-        if (ma_context_init(NULL, 0, NULL, context) != MA_SUCCESS)
-        {
-            throw audio_io_exception("miniaudio: Error initialising context");
-        }
-    }
-}
-
 void AudioOut::init()
 {
     ma_device_config config = ma_device_config_init(ma_device_type_playback);
@@ -126,7 +102,7 @@ void AudioOut::init()
     ma_uint32 capture_device_count;
     ma_result rv;
 
-    this->init_context(&this->context);
+    AudioOut::init_context(&this->context, this->backend_name);
 
     rv = ma_context_get_devices(&this->context,
                                 &playback_devices,
@@ -180,6 +156,18 @@ void AudioOut::init()
 
     this->set_channels(device.playback.internalChannels, 0);
 
+    /*--------------------------------------------------------------------------------
+     * If no specified sample rate was given, update AudioOut's sample rate to
+     * reflect the actual underlying sample rate.
+     *
+     * Otherwise, SignalFlow will use the user-specified sample rate, and miniaudio
+     * will perform sample-rate conversion.
+     *-------------------------------------------------------------------------------*/
+    if (this->sample_rate == 0)
+    {
+        this->sample_rate = device.playback.internalSampleRate;
+    }
+
     std::string s = device.playback.internalChannels == 1 ? "" : "s";
     std::cerr << "[miniaudio] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
               << "buffer size " << device.playback.internalPeriodSizeInFrames << " samples, " << device.playback.internalChannels << " channel" << s << ")"
@@ -215,7 +203,32 @@ void AudioOut::destroy()
     ma_device_uninit(&device);
 }
 
-std::list<std::string> AudioOut::get_output_device_names()
+// static
+void AudioOut::init_context(ma_context *context, std::string backend_name)
+{
+    if (!backend_name.empty())
+    {
+        if (possible_backend_names.find(backend_name) == possible_backend_names.end())
+        {
+            throw audio_io_exception("miniaudio: Backend name not recognised: " + backend_name);
+        }
+        ma_backend backend = possible_backend_names[backend_name];
+
+        if (ma_context_init(&backend, 1, NULL, context) != MA_SUCCESS)
+        {
+            throw audio_io_exception("miniaudio: Error initialising context");
+        }
+    }
+    else
+    {
+        if (ma_context_init(NULL, 0, NULL, context) != MA_SUCCESS)
+        {
+            throw audio_io_exception("miniaudio: Error initialising context");
+        }
+    }
+}
+
+std::list<std::string> AudioOut::get_output_device_names(std::string backend_name)
 {
     std::list<std::string> device_names;
 
@@ -225,7 +238,8 @@ std::list<std::string> AudioOut::get_output_device_names()
     ma_device_info *capture_devices;
     ma_uint32 capture_device_count;
     ma_context context;
-    this->init_context(&context);
+
+    AudioOut::init_context(&context, backend_name);
 
     rv = ma_context_get_devices(&context,
                                 &playback_devices,
@@ -241,13 +255,9 @@ std::list<std::string> AudioOut::get_output_device_names()
         device_names.push_back(std::string(playback_devices[i].name));
     }
 
-    return device_names;
-}
+    ma_context_uninit(&context);
 
-int AudioOut::get_default_output_device_index()
-{
-    // TODO: Is this even used?
-    return -1;
+    return device_names;
 }
 
 std::list<std::string> AudioOut::get_output_backend_names()

@@ -587,16 +587,16 @@ std::list<NodeRef> AudioGraph::get_outputs()
     return output->get_inputs();
 }
 
-std::list<std::string> AudioGraph::get_output_device_names()
+// static
+std::list<std::string> AudioGraph::get_output_device_names(std::string backend_name)
 {
-    AudioOut *output = (AudioOut *) (this->output.get());
-    return output->get_output_device_names();
+    return AudioOut::get_output_device_names(backend_name);
 }
 
+// static
 std::list<std::string> AudioGraph::get_output_backend_names()
 {
-    AudioOut *output = (AudioOut *) (this->output.get());
-    return output->get_output_backend_names();
+    return AudioOut::get_output_backend_names();
 }
 
 NodeRef AudioGraph::add_node(NodeRef node)
