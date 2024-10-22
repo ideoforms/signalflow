@@ -57,6 +57,7 @@ AudioIn::~AudioIn()
 
 void AudioIn::init()
 {
+    ma_result rv;
     ma_device_config config = ma_device_config_init(ma_device_type_capture);
     config.capture.format = ma_format_f32;
     config.capture.channels = this->num_channels;
@@ -64,7 +65,47 @@ void AudioIn::init()
     config.sampleRate = this->get_graph()->get_sample_rate();
     config.dataCallback = read_callback;
 
-    ma_result rv = ma_device_init(NULL, &config, &device);
+    ma_device_info *capture_devices;
+    ma_uint32 capture_device_count;
+
+    // TODO: Add get_input_backend_name
+    AudioOut::init_context(&this->context, this->get_graph()->get_config().get_output_backend_name());
+
+    rv = ma_context_get_devices(&this->context,
+                                NULL,
+                                NULL,
+                                &capture_devices,
+                                &capture_device_count);
+    int selected_device_index = -1;
+    std::string device_name = this->get_graph()->get_config().get_input_device_name();
+
+    if (!device_name.empty())
+    {
+        for (unsigned int i = 0; i < capture_device_count; i++)
+        {
+            /*-----------------------------------------------------------------------*
+             * For ease of use, SignalFlow allows for partial matches so that only
+             * the first part of the device names needs to be specified. However,
+             * an errors is thrown if the match is ambiguous.
+             *-----------------------------------------------------------------------*/
+            if (strncmp(capture_devices[i].name, device_name.c_str(), strlen(device_name.c_str())) == 0)
+            {
+                if (selected_device_index != -1)
+                {
+                    throw audio_io_exception("More than one audio device found matching name '" + device_name + "'");
+                }
+                selected_device_index = i;
+            }
+        }
+        if (selected_device_index == -1)
+        {
+            throw audio_io_exception("No audio device found matching name '" + device_name + "'");
+        }
+
+        config.capture.pDeviceID = &capture_devices[selected_device_index].id;
+    }
+
+    rv = ma_device_init(NULL, &config, &device);
     if (rv != MA_SUCCESS)
     {
         throw audio_io_exception("miniaudio: Error initialising input device");

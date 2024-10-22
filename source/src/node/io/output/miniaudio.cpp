@@ -98,8 +98,6 @@ void AudioOut::init()
 
     ma_device_info *playback_devices;
     ma_uint32 playback_device_count;
-    ma_device_info *capture_devices;
-    ma_uint32 capture_device_count;
     ma_result rv;
 
     AudioOut::init_context(&this->context, this->backend_name);
@@ -107,13 +105,18 @@ void AudioOut::init()
     rv = ma_context_get_devices(&this->context,
                                 &playback_devices,
                                 &playback_device_count,
-                                &capture_devices,
-                                &capture_device_count);
+                                NULL,
+                                NULL);
     int selected_device_index = -1;
     if (!this->device_name.empty())
     {
         for (unsigned int i = 0; i < playback_device_count; i++)
         {
+            /*-----------------------------------------------------------------------*
+             * For ease of use, SignalFlow allows for partial matches so that only
+             * the first part of the device names needs to be specified. However,
+             * an errors is thrown if the match is ambiguous.
+             *-----------------------------------------------------------------------*/
             if (strncmp(playback_devices[i].name, device_name.c_str(), strlen(device_name.c_str())) == 0)
             {
                 if (selected_device_index != -1)
@@ -144,9 +147,6 @@ void AudioOut::init()
     // Setting values other than zero instantiates miniaudio's internal resampler.
     config.sampleRate = this->sample_rate;
     config.dataCallback = data_callback;
-
-    // Buffer blocks into a fixed number of frames
-    config.noFixedSizedCallback = 1;
 
     // On Core Audio, let the application select a preferred sample rate.
     config.coreaudio.allowNominalSampleRateChange = 1;
