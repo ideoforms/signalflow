@@ -14,6 +14,7 @@ typedef float sample;
 typedef sample *frame;
 
 typedef RingBuffer<sample> SampleRingBuffer;
+typedef RingQueue<sample> SampleRingQueue;
 
 #if defined(__APPLE__) && !defined(FFT_FFTW)
 #define FFT_ACCELERATE

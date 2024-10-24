@@ -13,6 +13,7 @@ namespace signalflow
 {
 
 AudioIn *shared_in;
+std::vector<SampleRingQueue *> input_queue;
 
 void read_callback(ma_device *pDevice,
                    void *pOutput,
@@ -33,7 +34,7 @@ void read_callback(ma_device *pDevice,
     {
         for (int channel = 0; channel < num_channels; channel++)
         {
-            input_node->out[channel][frame] = input_samples[frame * num_channels + channel];
+            input_queue[channel]->append(input_samples[frame * num_channels + channel]);
         }
     }
 
@@ -124,6 +125,11 @@ void AudioIn::init()
               << "buffer size " << device.capture.internalPeriodSizeInFrames << " samples, " << device.capture.internalChannels << " channel" << s << ")"
               << std::endl;
 
+    for (int channel = 0; channel < device.capture.internalChannels; channel++)
+    {
+        input_queue.push_back(new SampleRingQueue(device.capture.internalPeriodSizeInFrames * 4));
+    }
+
     this->start();
 }
 
@@ -157,6 +163,13 @@ void AudioIn::destroy()
 
 void AudioIn::process(Buffer &out, int num_samples)
 {
+    for (int channel = 0; channel < this->num_output_channels; channel++)
+    {
+        for (int frame = 0; frame < num_samples; frame++)
+        {
+            out[channel][frame] = input_queue[channel]->pop();
+        }
+    }
 }
 
 }

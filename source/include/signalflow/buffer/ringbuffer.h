@@ -7,6 +7,7 @@
  *--------------------------------------------------------------------------------*/
 
 #include <math.h>
+#include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -20,27 +21,46 @@ template <class T>
 class RingBuffer
 {
 public:
-    RingBuffer(int size);
+    RingBuffer(unsigned int capacity);
     ~RingBuffer();
 
     void append(T value);
-    void extend(T *ptr, int count);
+    void extend(T *ptr, unsigned int count);
     T get(double index);
     T operator[](double index) { return this->get(index); }
 
-private:
+protected:
     T *data = nullptr;
-    int size;
-    int position;
+    unsigned int capacity;
+    unsigned int write_position;
     signalflow_interpolation_mode_t interpolation_mode;
 };
 
 template <class T>
-RingBuffer<T>::RingBuffer(int size)
+class RingQueue : public RingBuffer<T>
 {
-    this->data = new T[size]();
-    this->position = 0;
-    this->size = size;
+public:
+    RingQueue(unsigned int capacity)
+        : RingBuffer<T>(capacity)
+    {
+        read_position = capacity - 256;
+    }
+    T pop();
+
+private:
+    unsigned int read_position;
+};
+
+template <class T>
+RingBuffer<T>::RingBuffer(unsigned int capacity)
+{
+    if (capacity == 0)
+    {
+        throw std::runtime_error("RingBuffer must have a capacity greater than zero");
+    }
+    this->data = new T[capacity]();
+    this->write_position = 0;
+    this->capacity = capacity;
 }
 
 template <class T>
@@ -52,12 +72,12 @@ RingBuffer<T>::~RingBuffer()
 template <class T>
 void RingBuffer<T>::append(T value)
 {
-    this->data[this->position] = value;
-    this->position = (this->position + 1) % this->size;
+    this->data[this->write_position] = value;
+    this->write_position = (this->write_position + 1) % this->capacity;
 }
 
 template <class T>
-void RingBuffer<T>::extend(T *ptr, int count)
+void RingBuffer<T>::extend(T *ptr, unsigned int count)
 {
     for (int i = 0; i < count; i++)
         this->append(ptr[i]);
@@ -66,19 +86,27 @@ void RingBuffer<T>::extend(T *ptr, int count)
 template <class T>
 T RingBuffer<T>::get(double index)
 {
-    double frame = index + this->position;
+    double frame = index + this->write_position;
     while (frame < 0)
     {
-        frame += this->size;
+        frame += this->capacity;
     }
-    frame = fmod(frame, this->size);
+    frame = fmod(frame, this->capacity);
 
     double frame_frac = (frame - (int) frame);
     int frame_index = (int) frame;
-    int next_frame_index = ((int) ceil(frame)) % size;
+    int next_frame_index = ((int) ceil(frame)) % this->capacity;
 
-    T rv = ((1.0 - frame_frac) * data[frame_index]) + (frame_frac * data[next_frame_index]);
+    T rv = ((1.0 - frame_frac) * this->data[frame_index]) + (frame_frac * this->data[next_frame_index]);
 
+    return rv;
+}
+
+template <class T>
+T RingQueue<T>::pop()
+{
+    T rv = this->data[this->read_position];
+    this->read_position = (this->read_position + 1) % this->capacity;
     return rv;
 }
 
