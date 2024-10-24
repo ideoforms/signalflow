@@ -7,11 +7,11 @@
  *--------------------------------------------------------------------------------*/
 
 #include <math.h>
+#include <mutex>
 #include <stdexcept>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <mutex>
 
 enum signalflow_interpolation_mode_t : unsigned int;
 
@@ -27,8 +27,11 @@ public:
 
     void append(T value);
     void extend(T *ptr, unsigned int count);
+    void extend(std::vector<T> vec);
     T get(double index);
     T operator[](double index) { return this->get(index); }
+    unsigned int get_capacity() { return this->capacity; }
+    unsigned int get_write_position() { return this->write_position; }
 
 protected:
     T *data = nullptr;
@@ -44,7 +47,7 @@ public:
     RingQueue(unsigned int capacity)
         : RingBuffer<T>(capacity)
     {
-        this->read_position = this->capacity - 826;
+        this->read_position = this->capacity - 1;
         this->filled_count = 0;
     }
     T pop();
@@ -66,7 +69,7 @@ RingBuffer<T>::RingBuffer(unsigned int capacity)
         throw std::runtime_error("RingBuffer must have a capacity greater than zero");
     }
     this->data = new T[capacity]();
-    this->write_position = 0;
+    this->write_position = capacity - 1;
     this->capacity = capacity;
 }
 
@@ -79,8 +82,8 @@ RingBuffer<T>::~RingBuffer()
 template <class T>
 void RingBuffer<T>::append(T value)
 {
-    this->data[this->write_position] = value;
     this->write_position = (this->write_position + 1) % this->capacity;
+    this->data[this->write_position] = value;
 }
 
 template <class T>
@@ -88,6 +91,13 @@ void RingBuffer<T>::extend(T *ptr, unsigned int count)
 {
     for (int i = 0; i < count; i++)
         this->append(ptr[i]);
+}
+
+template <class T>
+void RingBuffer<T>::extend(std::vector<T> vec)
+{
+    for (auto item : vec)
+        this->append(item);
 }
 
 template <class T>
@@ -113,9 +123,9 @@ template <class T>
 T RingQueue<T>::pop()
 {
     mutex.lock();
-    T rv = this->data[this->read_position];
     this->read_position = (this->read_position + 1) % this->capacity;
     this->filled_count--;
+    T rv = this->data[this->read_position];
     mutex.unlock();
     return rv;
 }

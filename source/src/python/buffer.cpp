@@ -2,6 +2,25 @@
 
 void init_python_buffer(py::module &m)
 {
+    py::class_<SampleRingBuffer>(m, "SampleRingBuffer", "A circular buffer of audio samples with a single read/write head")
+        .def(py::init<unsigned int>(), "capacity"_a, R"pbdoc(Create a new ring buffer)pbdoc")
+        .def("append", &SampleRingBuffer::append, R"pbdoc(Append an item to the ring buffer.)pbdoc")
+        .def(
+            "extend", [](SampleRingBuffer &buf, std::vector<sample> vec) { buf.extend(vec); },
+            R"pbdoc(Extend the ring buffer.)pbdoc")
+        .def("get", &SampleRingBuffer::get, R"pbdoc(Retrieve an item from the ring buffer, with offset relative to the read head.)pbdoc")
+        .def("get_capacity", &SampleRingBuffer::get_capacity, R"pbdoc(Returns the capacity of the ring buffer.)pbdoc");
+
+    py::class_<SampleRingQueue>(m, "SampleRingQueue", "A circular queue of audio samples with separate read/write heads")
+        .def(py::init<unsigned int>(), "capacity"_a, R"pbdoc(Create a new ring queue)pbdoc")
+        .def("append", &SampleRingQueue::append, R"pbdoc(Append an item to the ring queue.)pbdoc")
+        .def(
+            "extend", [](SampleRingQueue &buf, std::vector<sample> vec) { buf.extend(vec); },
+            R"pbdoc(Extend the ring queue.)pbdoc")
+        .def("pop", &SampleRingQueue::pop, R"pbdoc(Pop an item from the ring queue.)pbdoc")
+        .def("get_capacity", &SampleRingQueue::get_capacity, R"pbdoc(Returns the capacity of the ring queue.)pbdoc")
+        .def("get_filled_count", &SampleRingQueue::get_filled_count, R"pbdoc(Returns the number of items filled in the ring queue.)pbdoc");
+
     /*--------------------------------------------------------------------------------
      * Buffer
      *-------------------------------------------------------------------------------*/

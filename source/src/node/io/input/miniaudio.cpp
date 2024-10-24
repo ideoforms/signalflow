@@ -127,7 +127,10 @@ void AudioIn::init()
 
     for (int channel = 0; channel < device.capture.internalChannels; channel++)
     {
-        input_queue.push_back(new SampleRingQueue(device.capture.internalPeriodSizeInFrames * 8));
+        SampleRingQueue *queue = new SampleRingQueue(device.capture.internalPeriodSizeInFrames * 8);
+        std::vector<float> silence(device.capture.internalPeriodSizeInFrames, 0);
+        queue->extend(silence);
+        input_queue.push_back(queue);
     }
 
     this->start();
