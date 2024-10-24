@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <vector>
 
 enum signalflow_interpolation_mode_t : unsigned int;
 
