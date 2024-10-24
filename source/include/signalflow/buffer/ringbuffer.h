@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <mutex>
 
 enum signalflow_interpolation_mode_t : unsigned int;
 
@@ -43,12 +44,18 @@ public:
     RingQueue(unsigned int capacity)
         : RingBuffer<T>(capacity)
     {
-        read_position = capacity - 256;
+        this->read_position = this->capacity - 826;
+        this->filled_count = 0;
     }
     T pop();
 
+    int get_filled_count() { return this->filled_count; }
+    void append(T value);
+
 private:
     unsigned int read_position;
+    int filled_count;
+    std::mutex mutex;
 };
 
 template <class T>
@@ -105,9 +112,21 @@ T RingBuffer<T>::get(double index)
 template <class T>
 T RingQueue<T>::pop()
 {
+    mutex.lock();
     T rv = this->data[this->read_position];
     this->read_position = (this->read_position + 1) % this->capacity;
+    this->filled_count--;
+    mutex.unlock();
     return rv;
+}
+
+template <class T>
+void RingQueue<T>::append(T value)
+{
+    mutex.lock();
+    this->RingBuffer<T>::append(value);
+    this->filled_count++;
+    mutex.unlock();
 }
 
 }

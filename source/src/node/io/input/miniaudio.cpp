@@ -127,7 +127,7 @@ void AudioIn::init()
 
     for (int channel = 0; channel < device.capture.internalChannels; channel++)
     {
-        input_queue.push_back(new SampleRingQueue(device.capture.internalPeriodSizeInFrames * 4));
+        input_queue.push_back(new SampleRingQueue(device.capture.internalPeriodSizeInFrames * 8));
     }
 
     this->start();

@@ -23,7 +23,7 @@ def main():
     #--------------------------------------------------------------------------------
     # Add some delay, and play 
     #--------------------------------------------------------------------------------
-    output = audio_in + CombDelay(audio_in, 0.2, 0.8) * 0.3
+    output = audio_in
     stereo = StereoPanner(output)
 
     graph.play(stereo)
