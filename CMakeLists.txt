@@ -147,6 +147,9 @@ add_library(signalflow SHARED ${SRC})
 #-------------------------------------------------------------------------------
 add_compile_definitions(SIGNALFLOW_VERSION="${SIGNALFLOW_VERSION}")
 
+#-------------------------------------------------------------------------------
+# Dependency: libsndfile
+#-------------------------------------------------------------------------------
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
     set(SNDFILE_BINARY_DIR "${PROJECT_SOURCE_DIR}/../libsndfile-1.2.2-win64" CACHE PATH "For Windows, path to downloaded sndfile directory")
     add_definitions(-DHAVE_SNDFILE)
@@ -163,9 +166,12 @@ else()
     endif()
 endif()
 
+#-------------------------------------------------------------------------------
+# Dependency: fftw3
+#-------------------------------------------------------------------------------
 if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(FFTW_BUILD_DIR "${PROJECT_SOURCE_DIR}/../fftw-3.3.5-dll64" CACHE PATH "Path to prebuilt FFTW library (will use find_library if blank)")
-    if (FFTW_BUILD_DIR)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Windows"))
+        set(FFTW_BUILD_DIR "${PROJECT_SOURCE_DIR}/../fftw-3.3.5-dll64" CACHE PATH "Path to prebuilt FFTW library (will use find_library if blank)")
         include_directories("${FFTW_BUILD_DIR}")
         add_definitions(-DFFT_FFTW)
         target_link_libraries(signalflow
