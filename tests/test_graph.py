@@ -81,7 +81,7 @@ def test_graph_num_output_channels():
     output = AudioOut_Dummy(5)
     graph = AudioGraph(output_device=output, start=False)
     assert graph.num_output_channels == 5
-    del graph
+    graph.destroy()
 
 
 def test_graph_render_to_buffer(graph):
