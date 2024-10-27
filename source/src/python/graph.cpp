@@ -1,19 +1,47 @@
 #include "signalflow/python/python.h"
 
+void graph_created_warning()
+{
+    std::cerr << "AudioGraph: The global audio graph has already been created. To create a new graph, call .destroy() first." << std::endl;
+}
+
 void init_python_graph(py::module &m)
 {
     /*--------------------------------------------------------------------------------
-     * Graph
+     * AudioGraph.
+     *
+     * This class is a singleton, which is handled by this block of constructors.
+     * If a shared_graph already exists, return it, with a warning.
      *-------------------------------------------------------------------------------*/
-    py::class_<AudioGraph>(m, "AudioGraph", "The global audio signal processing graph")
-        .def(py::init<AudioGraphConfig *, NodeRef, bool>(), "config"_a = nullptr, "output_device"_a = nullptr,
-             "start"_a = true)
-        .def(py::init<AudioGraphConfig *, std::string, bool>(), "config"_a = nullptr, "output_device"_a = "",
-             "start"_a = true)
-        .def(py::init<std::string, NodeRef, bool>(), "config_name"_a = nullptr, "output_device"_a = nullptr,
-             "start"_a = true)
-        .def(py::init<std::string, std::string, bool>(), "config_name"_a = nullptr, "output_device"_a = "",
-             "start"_a = true)
+    py::class_<AudioGraph, std::unique_ptr<AudioGraph, py::nodelete>>(m, "AudioGraph", "The global audio signal processing graph")
+        .def(py::init<>([](AudioGraphConfig *config, NodeRef output_device, bool start) {
+                 AudioGraph *graph = AudioGraph::get_shared_graph();
+                 if (graph)
+                     graph_created_warning();
+                 return graph ? graph : new AudioGraph(config, output_device, start);
+             }),
+             "config"_a = nullptr, "output_device"_a = nullptr, "start"_a = true)
+        .def(py::init<>([](AudioGraphConfig *config, std::string output_device, bool start) {
+                 AudioGraph *graph = AudioGraph::get_shared_graph();
+                 if (graph)
+                     graph_created_warning();
+                 return graph ? graph : new AudioGraph(config, output_device, start);
+             }),
+             "config"_a = nullptr, "output_device"_a = nullptr, "start"_a = true)
+        .def(py::init<>([](std::string config_name, NodeRef output_device, bool start) {
+                 AudioGraph *graph = AudioGraph::get_shared_graph();
+                 if (graph)
+                     graph_created_warning();
+                 return graph ? graph : new AudioGraph(config_name, output_device, start);
+             }),
+             "config"_a = nullptr, "output_device"_a = nullptr, "start"_a = true)
+        .def(py::init<>([](std::string config_name, NodeRef output_device, bool start) {
+                 AudioGraph *graph = AudioGraph::get_shared_graph();
+                 if (graph)
+                     graph_created_warning();
+                 return graph ? graph : new AudioGraph(config_name, output_device, start);
+             }),
+             "config"_a = nullptr, "output_device"_a = nullptr, "start"_a = true)
         .def_static("get_shared_graph", &AudioGraph::get_shared_graph)
 
         /*--------------------------------------------------------------------------------
