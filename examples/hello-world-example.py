@@ -24,7 +24,7 @@ def main():
     # Play the
     #------------------------------------------------------------------------
     graph.play(stereo)
-    graph.wait()
+    graph.wait(2)
 
 if __name__ == "__main__":
     main()

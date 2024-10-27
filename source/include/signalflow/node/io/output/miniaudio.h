@@ -1,6 +1,5 @@
 #pragma once
 
-#include <soundio/soundio.h>
 #include <vector>
 
 #include "abstract.h"

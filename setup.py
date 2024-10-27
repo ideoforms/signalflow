@@ -69,6 +69,7 @@ if sys.platform == 'win32':
     signalflow_package_data = ['*.pyd']
 
 setup(
+    packages=signalflow_packages,
     ext_modules=[CMakeExtension('signalflow')],
     cmdclass=dict(build_ext=CMakeBuild),
 )

@@ -16,7 +16,7 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
+//#include <unistd.h>
 
 namespace signalflow
 {
@@ -169,6 +169,7 @@ void AudioGraph::start()
         std::string recording_filename = recordings_dir + "/signalflow-" + timestamp_str + ".wav";
 
         // TODO: This is all very POSIX-specific and won't work on Windows
+        /*
         struct stat st;
         if (stat(SIGNALFLOW_USER_DIR.c_str(), &st) == -1)
         {
@@ -186,6 +187,7 @@ void AudioGraph::start()
                 throw std::runtime_error("AudioGraph: Failed creating recordings directory for auto_record (" + recordings_dir + ")");
             }
         }
+        */
         this->start_recording(recording_filename, this->output->get_num_input_channels());
     }
 }

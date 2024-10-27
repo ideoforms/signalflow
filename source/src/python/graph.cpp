@@ -119,17 +119,19 @@ void init_python_graph(py::module &m)
 
         .def("wait", [](AudioGraph &graph) {
             /*--------------------------------------------------------------------------------
-                  * Interruptible wait
-                  * https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-properly-handle-ctrl-c-in-long-running-functions
-                  *-------------------------------------------------------------------------------*/
+             * Interruptible wait
+             * https://pybind11.readthedocs.io/en/stable/faq.html#how-can-i-properly-handle-ctrl-c-in-long-running-functions
+             *-------------------------------------------------------------------------------*/
             for (;;)
             {
                 if (PyErr_CheckSignals() != 0)
                     throw py::error_already_set();
                 /*--------------------------------------------------------------------------------
-                      * Release the GIL so that other threads can do processing.
-                      *-------------------------------------------------------------------------------*/
+                 * Release the GIL so that other threads can do processing.
+                 *-------------------------------------------------------------------------------*/
                 py::gil_scoped_release release;
+
+                std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
                 if (graph.has_raised_audio_thread_error())
                     break;
@@ -137,9 +139,7 @@ void init_python_graph(py::module &m)
         })
         .def(
             "wait", [](AudioGraph &graph, float timeout_seconds) {
-                timeval tv;
-                gettimeofday(&tv, NULL);
-                double t0 = tv.tv_sec + tv.tv_usec / 1000000.0;
+                double t0 = signalflow_timestamp();
 
                 for (;;)
                 {
@@ -148,8 +148,7 @@ void init_python_graph(py::module &m)
 
                     if (timeout_seconds)
                     {
-                        gettimeofday(&tv, NULL);
-                        double t1 = tv.tv_sec + tv.tv_usec / 1000000.0;
+                        double t1 = signalflow_timestamp();
                         if (t1 - t0 > timeout_seconds)
                         {
                             break;
@@ -160,6 +159,8 @@ void init_python_graph(py::module &m)
                      * Release the GIL so that other threads can do processing.
                      *-------------------------------------------------------------------------------*/
                     py::gil_scoped_release release;
+
+                    std::this_thread::sleep_for(std::chrono::milliseconds(5));
 
                     if (graph.has_raised_audio_thread_error())
                         break;
