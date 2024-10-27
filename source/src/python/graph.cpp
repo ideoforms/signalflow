@@ -159,7 +159,7 @@ void init_python_graph(py::module &m)
                  *-------------------------------------------------------------------------------*/
                 py::gil_scoped_release release;
 
-                std::this_thread::sleep_for(std::chrono::milliseconds(5));
+                signalflow_msleep(5);
 
                 if (graph.has_raised_audio_thread_error())
                     break;
@@ -188,7 +188,7 @@ void init_python_graph(py::module &m)
                      *-------------------------------------------------------------------------------*/
                     py::gil_scoped_release release;
 
-                    std::this_thread::sleep_for(std::chrono::milliseconds(5));
+                    signalflow_msleep(5);
 
                     if (graph.has_raised_audio_thread_error())
                         break;

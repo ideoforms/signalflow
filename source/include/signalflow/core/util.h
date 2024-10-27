@@ -18,6 +18,7 @@
 namespace signalflow
 {
 double signalflow_timestamp();
+void signalflow_msleep(int millis);
 long signalflow_create_random_seed();
 
 double signalflow_clip(double value, double min, double max);

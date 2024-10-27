@@ -12,6 +12,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <thread>
 
 namespace signalflow
 {
@@ -26,6 +27,11 @@ double signalflow_timestamp()
                std::chrono::high_resolution_clock::now().time_since_epoch())
                .count()
         / 1000000.0;
+}
+
+void signalflow_msleep(int millis)
+{
+    std::this_thread::sleep_for(std::chrono::milliseconds(millis));
 }
 
 long signalflow_create_random_seed()
