@@ -170,7 +170,7 @@ endif()
 # Dependency: fftw3
 #-------------------------------------------------------------------------------
 if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    if (CMAKE_SYSTEM_NAME STREQUAL "Windows"))
+    if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
         set(FFTW_BUILD_DIR "${PROJECT_SOURCE_DIR}/../fftw-3.3.5-dll64" CACHE PATH "Path to prebuilt FFTW library (will use find_library if blank)")
         include_directories("${FFTW_BUILD_DIR}")
         add_definitions(-DFFT_FFTW)
