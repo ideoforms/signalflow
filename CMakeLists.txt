@@ -4,41 +4,46 @@
 #-------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.15.0)
 
+#--------------------------------------------------------------------------------
+# Allow deployment on older versions of macOS (back to 10.14 Mojave),
+# and default to the include/lib paths of the current Python virtualenv
+# (important for cross-compiling wheels)
+#--------------------------------------------------------------------------------
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
+set(Python_FIND_VIRTUALENV STANDARD)
+set(Python_FIND_FRAMEWORKS LAST)
+
+#-------------------------------------------------------------------------------
+# Note that project() call should come after set CMAKE_OSX_DEPLOYMENT_TARGET,
+# but CMAKE_SYSTEM_NAME is only available *after* project(), so any platform-
+# dependent code should come later on.
+#-------------------------------------------------------------------------------
+project(SignalFlow C CXX)
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Develop)
+endif()
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     #-------------------------------------------------------------------------------
     # On Apple, build the current native system by default
     #-------------------------------------------------------------------------------
     if (NOT CMAKE_OSX_ARCHITECTURES)
         execute_process(COMMAND uname -m
-        OUTPUT_VARIABLE CMAKE_OSX_ARCHITECTURES
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+                OUTPUT_VARIABLE CMAKE_OSX_ARCHITECTURES
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
     endif()
 
     #-------------------------------------------------------------------------------
-    # Select the appropriate homebrew prefix by architecture
+    # Select the appropriate homebrew prefix by architecture.
+    # This is necessary so that the library is correctly linked against
+    # dependencies later on.
     #-------------------------------------------------------------------------------
     if (CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
         set(CMAKE_PREFIX_PATH /opt/homebrew)
     else()
         set(CMAKE_PREFIX_PATH /usr/local)
     endif()
-
-    #--------------------------------------------------------------------------------
-    # Allow deployment on older versions of macOS (back to 10.14 Mojave),
-    # and default to the include/lib paths of the current Python virtualenv
-    # (important for cross-compiling wheels)
-    #--------------------------------------------------------------------------------
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
-    set(Python_FIND_VIRTUALENV STANDARD)
-    set(Python_FIND_FRAMEWORKS LAST)
 endif()
-
-# project call should come after set CMAKE_OSX_DEPLOYMENT_TARGET
-project(SignalFlow C CXX)
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Develop)
-endif()
-
 
 #--------------------------------------------------------------------------------
 # Print config setup to help with debugging
@@ -54,7 +59,9 @@ cmake_print_variables(CMAKE_PREFIX_PATH)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
 
-
+#-------------------------------------------------------------------------------
+# Compiler flags for optimisations, warnings, etc.
+#-------------------------------------------------------------------------------
 if (MSVC)
     #-------------------------------------------------------------------------------
     # Windows Visual C: Enable parallelisation
@@ -81,7 +88,6 @@ else()
     endif()
 endif()
 
-
 include_directories(
     /usr/local/include
     /opt/homebrew/include
@@ -90,6 +96,9 @@ include_directories(
     source/lib/pybind11/include
 )
 
+#-------------------------------------------------------------------------------
+# Compiler flags for debug vs release vs dev mode
+#-------------------------------------------------------------------------------
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     message("Building in debug mode")
     if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
