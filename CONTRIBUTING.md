@@ -51,17 +51,13 @@ pip3 install .
 
 ### Windows
 
-This is work in progress.
+The build process for SignalFlow on 64-bit Windows has been verified with Visual Studio 2022 and CMake.
 
-Currently, dependencies need to be downloaded and built by hand. These can be placed anywhere.
-
-- https://github.com/libsndfile/libsndfile
-  - Use CMake GUI to build libsndfile with Visual Studio 2019 with binaries in a subfolder of that repo named `build`. (Configure, Generate, Open project, Batch build all configurations)
-- Download Windows binaries of FFTW from http://fftw.org/install/windows.html.
-
-To build SignalFlow, use the CMake GUI. Press configure and you will see three empty fields to fill in with the path to the two build folders and the FFTW binaries folder (see above). Set these parameters then press Configure, then Generate then Open. Then build in Visual Studio 2019.
-
-As of 2021-03-03, only the signalflow project has been ported to build correctly on Windows. Only tested in x64 and for Debug builds. Tested using Visual Studio 2019.
+- Download Windows binaries of [FFTW](http://fftw.org/install/windows.html) and [libsndfile](https://github.com/libsndfile/libsndfile/releases/), and unzip them in the same filesystem location as the `signalflow` source directory
+- Install Python 3, and dependencies: `python -m pip install build delvewheel`
+- Build the binary wheel: `python -m build --wheel`
+- Copy the libsndfile and fftw binaries into `dlls`
+- Bundle the DLL dependencies with the wheel: `python -m delvewheel repair --add-path=dlls *.whl`
 
 </details>
 
