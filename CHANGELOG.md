@@ -1,5 +1,23 @@
 # CHANGELOG
 
+## [v0.5.0](https://github.com/ideoforms/signalflow/tree/v0.5.0) (2024-10-28)
+
+- Replaced the `libsoundio` audio abstraction layer with `miniaudio`, heralding first-class Windows and Linux support.
+- Retired historical `AudioOut` classes for different operating systems, and refactored querying of inputs/outputs/backends
+- `AudioGraphConfig`: Added `auto_record` flag, to automatically record all output in timestamped audio files
+- Added support for instantiating `AudioGraph` and `AudioGraphConfig` with the path of a config file 
+- Modified `AudioGraph` to become a singleton, and throw a warning instead of an exception upon attempting to create a second `AudioGraph`
+- Added Python bindings and added unit tests for `SampleRingBuffer` and `SampleRingQueue` classes
+- Nodes:
+  - Added `Bus` node, to act as a fixed-channel summer with variable inputs
+  - Added `Maraca` node, a simple physically-inspired model of a shaker, after Cook (1997)
+  - Added `ChannelOffset` node to offset a node's output by `N` channels, and `node.play(output_channel=N)` syntax
+  - Added `SelectInput` node, to pass the output of an input whose index can be modulated at audio rate
+  - Added `HistoryBufferWriter` node to capture a rolling signal history window, useful for oscilloscope UI display
+  - Added `Accumulator` node, to accumulate energy with some leaky decay coefficient, and accompanying `calculate_decay_coefficient` function
+  - Added abstract `VariableInputNode` class
+  - Added `stutter_probability` and `stutter_advance_time` inputs to `Stutter`
+
 ## [v0.4.10](https://github.com/ideoforms/signalflow/tree/v0.4.10) (2024-08-13)
 
 - Added `TriggerRoundRobin` node, to sequentially distribute triggers across outputs
