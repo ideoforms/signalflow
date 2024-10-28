@@ -1,14 +1,14 @@
-# SignalFlow: Easy install for macOS
+# SignalFlow: Easy install with Visual Studio Code
 
-The simplest way to start exploring SignalFlow is with the free [Visual Studio Code](https://code.visualstudio.com/) editor. Visual Studio Code can edit interactive "Jupyter" notebooks, which allow you to run and modify blocks of Python code in real-time, which is a great way to experiment live with audio synthesis.
+The simplest way to start exploring SignalFlow is with the free [Visual Studio Code](https://code.visualstudio.com/) editor. Visual Studio Code can edit interactive Jupyter notebooks, allowing you to run and modify blocks of Python code in real-time, which is a great way to experiment live with audio synthesis.
 
-You'll only need to do this installation process once. Once setup, experimenting with SignalFlow is as simple as opening Visual Studio Code.  
+You'll only need to do this installation process once. Once set up, experimenting with SignalFlow is as simple as opening Visual Studio Code.  
 
 ---
 
 ## 1. Install Python
 
-Download and install the latest version of Python (currently 3.12).
+Download and install the latest version of Python.
 
 [Download Python](https://www.python.org/downloads/){ .md-button }
 
@@ -20,7 +20,7 @@ Download and install the latest version of Visual Studio Code.
 
 [Download Visual Studio Code](https://code.visualstudio.com/Download){ .md-button }
 
-Once installed, open `Applications` and run `Visual Studio Code`.
+Once installed, open Visual Studio Code.
 
 ---
 
@@ -28,7 +28,7 @@ Once installed, open `Applications` and run `Visual Studio Code`.
 
 Visual Studio Code requires extensions to be installed to handle Python and Jupyter files.
 
-In Visual Studio Code, select the `Extensions` icon from in the far-left column (or press `⇧⌘X`), and install the `Python` and `Jupyter` extensions by searching for their names and clicking "Install" on each.
+In Visual Studio Code, select the `Extensions` icon from in the far-left column, and install the `Python` and `Jupyter` extensions by searching for their names and clicking "Install" on each.
 
 Once installation has finished, close the `Extensions` tab.
 
@@ -51,7 +51,7 @@ In Visual Studio code, create a new folder to contain your new SignalFlow projec
 
 ## 5. Create a notebook
 
-Select `File → New File...` (`^⌥⌘N`), and select `Jupyter Notebook`. You should see the screen layout change to display an empty black text block (in Jupyter parlance, a "cell"). 
+Select `File → New File...`, and select `Jupyter Notebook`. You should see the screen layout change to display an empty black text block (in Jupyter parlance, a "cell"). 
 
 ---
 
@@ -62,14 +62,14 @@ Click the button marked `Select Kernel` in the top right.
  - Select `Python Environments...`
  - Select `Create Python Environment`
  - Select `Venv`
- - Finally, select the version of Python you just installed (`3.12.x`).
+ - Finally, select the version of Python you just installed.
 
 !!! info "Multiple versions of Python?"
     If you already have one or more versions of Python installed, any version from Python 3.8 upwards is fine.
 
 Visual Studio Code will launch into some activity, in which it is installing necessary libraries and creating a Python "virtual environment", which is an isolated area of the filesystem containing all the packages needed for this working space. Working in different virtual environments for different projects is good practice to minimise the likelihood of conflicts and disruptions.
 
-When the setup is complete, the button in the top right should change to say `.venv (Python 3.12.x)`.
+When the setup is complete, the button in the top right should change to say `.venv (Python 3.x.x)`.
 
 !!! info
     New notebooks created within this workspace will share the same Python virtual environment.  
@@ -84,7 +84,7 @@ In the first block, copy and paste the below:
 %pip install signalflow
 ```
 
-To run the cell, press `^↵` (control-enter). After a minute, you should see some output saying `Successfully installed signalflow`.
+To run the cell, press `Ctrl-Enter`. After a minute, you should see some output saying `Successfully installed signalflow`.
 
 !!! info "Running cells with '.venv' requires the ipykernel package."
     If you are given a prompt that the `ipykernel` package is required, press "Install" to install the package.
@@ -102,7 +102,7 @@ print("Hello")
 print("world!")
 ```
 
-Press `^↵` (control-enter) to run the cell. You should see "Hello world!" appear below the cell. 
+Press `Ctrl-Enter` to run the cell. You should see "Hello world!" appear below the cell. 
 
 !!! info "Keyboard shortcuts"
     - Navigate between cells with the arrow keys
@@ -120,7 +120,7 @@ Clear the first cell, and replace it with:
 from signalflow import *
 ```
 
-Run the cell with `^↵`. This command imports all of the SignalFlow commands and classes, and only needs to be run once per session.
+Run the cell with `Ctrl-Enter`. This command imports all of the SignalFlow commands and classes, and only needs to be run once per session.
 
 Create a new cell by pressing `b`, and in the new cell, run:
 
