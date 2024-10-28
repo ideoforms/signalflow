@@ -131,7 +131,7 @@ For each new release:
   - Linux x86: wheels are automatically built using GitHub actions
   - Linux rpi: wheels must be built manually using `auxiliary/cibuildwheel/make-raspberry-pi-aarch64.sh`
   - macOS: wheels must be built manually using `auxiliary/cibuildwheel/make-macos-x86-arm64.sh`
-  - Windows: wheels must be built manually (TBC)
+  - Windows: wheels must be built manually: `python -m cibuildwheel`, and renamed from `win32` to `win_amd64`
 - Upload wheels to pypi: `twine upload wheelhouse/1.2.34/*`
 
 ## Documentation
