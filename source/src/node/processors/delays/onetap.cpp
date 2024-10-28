@@ -42,7 +42,7 @@ void OneTapDelay::process(Buffer &out, int num_frames)
              * through the current frame immediately
              *-------------------------------------------------------------------------------*/
             buffers[channel]->append(this->input->out[channel][frame]);
-            out[channel][frame] = buffers[channel]->get(-offset - 1);
+            out[channel][frame] = buffers[channel]->get(-offset);
         }
     }
 }

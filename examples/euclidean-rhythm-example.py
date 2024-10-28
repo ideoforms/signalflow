@@ -68,7 +68,7 @@ def main():
     pingpong = PingPongDelayPatch(mix)
     pingpong.play()
 
-    graph.wait()
+    graph.wait(20)
 
     
 if __name__ == "__main__":

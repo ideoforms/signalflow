@@ -11,13 +11,14 @@ jobs:
       run: |
         sudo rm -rf /home/linuxbrew
         sudo apt-get update -y
-        sudo apt-get install libasound2-dev libsoundio-dev libsndfile1-dev fftw3-dev -y
+        sudo apt-get install libasound2-dev libsndfile1-dev fftw3-dev -y
         sudo apt-get install python3 python3-setuptools python3-pip 
         # Requires setuptools >= 62.1 for `python setup.py test`, as earlier versions
         # used a different build path to the .so file as located in tests/__init__.py
         # 2024-07-29: Require importlib_metadata for now due to this:
         #             https://github.com/pypa/setuptools/issues/4478
         sudo pip3 install -U pytest numpy scipy setuptools>=62.1.0 importlib_metadata
+        curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
     - name: Configure
       run: mkdir build && cd build && cmake ..
     - name: Make

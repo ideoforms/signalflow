@@ -1,4 +1,4 @@
-from signalflow import Buffer, Buffer2D
+from signalflow import Buffer, Buffer2D, SampleRingBuffer, SampleRingQueue
 from signalflow import SIGNALFLOW_INTERPOLATION_MODE_NONE, SIGNALFLOW_INTERPOLATION_MODE_LINEAR
 from signalflow import GraphNotCreatedException
 import numpy as np
@@ -202,3 +202,37 @@ def test_buffer_2d(graph):
     assert b2d.get2D(1.5, 1.00) == 5
 
     # TODO: Test with no interpolation
+
+
+def test_ring_buffer():
+    buf = SampleRingBuffer(128)
+    assert buf.get_capacity() == 128
+
+    assert buf.get(0) == 0.0
+    buf.append(7)
+    buf.append(9)
+    buf.append(8)
+    assert buf.get(0) == 8
+    assert buf.get(-1) == 9
+    assert buf.get(-2) == 7
+
+    buf.extend([1, 2, 3])
+    assert buf.get(0) == 3
+    assert buf.get(-1) == 2
+    assert buf.get(-2) == 1
+
+def test_ring_queue():
+    queue = SampleRingQueue(128)
+    assert queue.get_capacity() == 128
+    assert queue.get_filled_count() == 0
+    queue.append(7)
+    queue.append(8)
+    assert queue.get_filled_count() == 2
+    assert queue.pop() == 7
+    assert queue.pop() == 8
+    assert queue.get_filled_count() == 0
+
+    queue.extend([1, 2, 3])
+    assert queue.pop() == 1
+    assert queue.pop() == 2
+    assert queue.pop() == 3

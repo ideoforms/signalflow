@@ -7,7 +7,6 @@ namespace signalflow
 AudioOut_Abstract::AudioOut_Abstract()
 {
     this->name = "audioout";
-    // do we need to set num_output channels to allocate the right number of output buffers?
     this->set_channels(2, 0);
     this->no_input_upmix = true;
     this->has_variable_inputs = true;
@@ -105,6 +104,11 @@ void AudioOut_Abstract::replace_input(NodeRef node, NodeRef other)
 void AudioOut_Abstract::set_channels(int num_input_channels, int num_output_channels)
 {
     Node::set_channels(num_input_channels, num_output_channels);
+
+    /*--------------------------------------------------------------------------------
+     * Typically, Node objects allocate an output buffer per output channel.
+     * In this unique case, allocate an output buffer per input channel.
+     *--------------------------------------------------------------------------------*/
     this->resize_output_buffers(num_input_channels);
 }
 

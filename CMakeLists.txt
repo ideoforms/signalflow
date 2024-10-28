@@ -4,41 +4,46 @@
 #-------------------------------------------------------------------------------
 cmake_minimum_required(VERSION 3.15.0)
 
+#--------------------------------------------------------------------------------
+# Allow deployment on older versions of macOS (back to 10.14 Mojave),
+# and default to the include/lib paths of the current Python virtualenv
+# (important for cross-compiling wheels)
+#--------------------------------------------------------------------------------
+set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
+set(Python_FIND_VIRTUALENV STANDARD)
+set(Python_FIND_FRAMEWORKS LAST)
+
+#-------------------------------------------------------------------------------
+# Note that project() call should come after set CMAKE_OSX_DEPLOYMENT_TARGET,
+# but CMAKE_SYSTEM_NAME is only available *after* project(), so any platform-
+# dependent code should come later on.
+#-------------------------------------------------------------------------------
+project(SignalFlow C CXX)
+if (NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Develop)
+endif()
+
 if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
     #-------------------------------------------------------------------------------
     # On Apple, build the current native system by default
     #-------------------------------------------------------------------------------
     if (NOT CMAKE_OSX_ARCHITECTURES)
         execute_process(COMMAND uname -m
-        OUTPUT_VARIABLE CMAKE_OSX_ARCHITECTURES
-        OUTPUT_STRIP_TRAILING_WHITESPACE)
+                OUTPUT_VARIABLE CMAKE_OSX_ARCHITECTURES
+                OUTPUT_STRIP_TRAILING_WHITESPACE)
     endif()
 
     #-------------------------------------------------------------------------------
-    # Select the appropriate homebrew prefix by architecture
+    # Select the appropriate homebrew prefix by architecture.
+    # This is necessary so that the library is correctly linked against
+    # dependencies later on.
     #-------------------------------------------------------------------------------
     if (CMAKE_OSX_ARCHITECTURES STREQUAL "arm64")
         set(CMAKE_PREFIX_PATH /opt/homebrew)
     else()
         set(CMAKE_PREFIX_PATH /usr/local)
     endif()
-
-    #--------------------------------------------------------------------------------
-    # Allow deployment on older versions of macOS (back to 10.14 Mojave),
-    # and default to the include/lib paths of the current Python virtualenv
-    # (important for cross-compiling wheels)
-    #--------------------------------------------------------------------------------
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.15" CACHE STRING "Minimum macOS deployment version" FORCE)
-    set(Python_FIND_VIRTUALENV STANDARD)
-    set(Python_FIND_FRAMEWORKS LAST)
 endif()
-
-# project call should come after set CMAKE_OSX_DEPLOYMENT_TARGET
-project(SignalFlow C CXX)
-if (NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Develop)
-endif()
-
 
 #--------------------------------------------------------------------------------
 # Print config setup to help with debugging
@@ -55,25 +60,32 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_MACOSX_RPATH 1)
 
 #-------------------------------------------------------------------------------
-# Shared compiler flags.
+# Compiler flags for optimisations, warnings, etc.
 #-------------------------------------------------------------------------------
-
-if (NOT MSVC)
+if (MSVC)
+    #-------------------------------------------------------------------------------
+    # Windows Visual C: Enable parallelisation
+    #-------------------------------------------------------------------------------
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+else()
+    #-------------------------------------------------------------------------------
+    # GCC/Clang: Enable strict compiler warnings
+    #-------------------------------------------------------------------------------
     add_compile_options(
             -pedantic
             -fPIC
             -Wall
     )
-endif()
 
-#-------------------------------------------------------------------------------
-# Hide superfluous compiler warnings on macOS
-#-------------------------------------------------------------------------------
-if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    add_compile_options(
-        -Wno-gnu-zero-variadic-macro-arguments
-        -Wno-vla-extension
-    )
+    #-------------------------------------------------------------------------------
+    # Hide superfluous compiler warnings on macOS
+    #-------------------------------------------------------------------------------
+    if (CMAKE_SYSTEM_NAME STREQUAL "Darwin")
+        add_compile_options(
+            -Wno-gnu-zero-variadic-macro-arguments
+            -Wno-vla-extension
+        )
+    endif()
 endif()
 
 include_directories(
@@ -84,15 +96,30 @@ include_directories(
     source/lib/pybind11/include
 )
 
+#-------------------------------------------------------------------------------
+# Compiler flags for debug vs release vs dev mode
+#-------------------------------------------------------------------------------
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
     message("Building in debug mode")
-    add_compile_options(-ggdb3 -O0 -DDEBUG)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+        add_compile_options(-O1)
+    else()
+        add_compile_options(-ggdb3 -O0 -DDEBUG)
+    endif()
 elseif (${CMAKE_BUILD_TYPE} STREQUAL "Release")
     message("Building in release mode")
-    add_compile_options(-O3 -funroll-loops)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+        add_compile_options(-O2)
+    else()
+        add_compile_options(-O3 -funroll-loops)
+    endif()
 else()
     message("Building in dev mode")
-    add_compile_options(-O0)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+        add_compile_options(-O1)
+    else()
+        add_compile_options(-O0)
+    endif()
 endif()
 
 #-------------------------------------------------------------------------------
@@ -130,57 +157,36 @@ add_library(signalflow SHARED ${SRC})
 add_compile_definitions(SIGNALFLOW_VERSION="${SIGNALFLOW_VERSION}")
 
 #-------------------------------------------------------------------------------
-# Dependencies
+# Dependency: libsndfile
 #-------------------------------------------------------------------------------
-
-set(SOUNDIO_BUILD_DIR "" CACHE PATH "Path to built SoundIO library (will use find_library if blank)")
-
-if (SOUNDIO_BUILD_DIR)
-    set(SOUNDIO_INCLUDE_DIR "${SOUNDIO_BUILD_DIR}/.." CACHE PATH "Path to SoundIO include directory (ignored if SOUNDIO_BUILD_DIR is blank")
-    add_definitions(-DHAVE_SOUNDIO)
-    target_link_libraries(signalflow "${SOUNDIO_BUILD_DIR}/x64-Debug/soundio.lib")
-    include_directories(signalflow "${SOUNDIO_BUILD_DIR}/$<CONFIG>/")
-    include_directories(signalflow "${SOUNDIO_INCLUDE_DIR}/")
-else()
-    find_library(SOUNDIO soundio)
-    if (SOUNDIO)
-        message("Found libsoundio")
-        add_definitions(-DHAVE_SOUNDIO)
-        target_link_libraries(signalflow ${SOUNDIO})
-    else()
-        message(SEND_ERROR "Couldn't find libsoundio")
-    endif()
-endif()
-
-
-set(SNDFILE_BUILD_DIR "" CACHE PATH "Path to build sndfile library (will use find_library if blank)")
-
-if (SNDFILE_BUILD_DIR)
-    set(SNDFILE_INCLUDE_DIR "${SNDFILE_BUILD_DIR}/../include" CACHE PATH "Path to sndfile include directory (ignored if SNDFILE_BUILD_DIR is blank")
+if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+    set(SNDFILE_BINARY_DIR "${PROJECT_SOURCE_DIR}/../libsndfile-1.2.2-win64" CACHE PATH "For Windows, path to downloaded sndfile directory")
     add_definitions(-DHAVE_SNDFILE)
-    target_link_libraries(signalflow "${SNDFILE_BUILD_DIR}/sndfile")
-    include_directories(signalflow "${SNDFILE_BUILD_DIR}/include/")
-    include_directories(signalflow "${SNDFILE_INCLUDE_DIR}/")
+    target_link_libraries(signalflow "${SNDFILE_BINARY_DIR}/lib/sndfile.lib")
+    include_directories(signalflow "${SNDFILE_BINARY_DIR}/include/")
 else()
     find_library(SNDFILE sndfile)
     if (SNDFILE)
         message("Found sndfile")
         add_definitions(-DHAVE_SNDFILE)
         target_link_libraries(signalflow ${SNDFILE})
-        else()
-        message(SEND_ERROR "Couldn't find libsndfile")
+    else()
+        message(FATAL_ERROR "Couldn't find libsndfile")
     endif()
 endif()
 
+#-------------------------------------------------------------------------------
+# Dependency: fftw3
+#-------------------------------------------------------------------------------
 if (NOT CMAKE_SYSTEM_NAME STREQUAL "Darwin")
-    set(FFTW_BUILD_DIR "" CACHE PATH "Path to prebuilt FFTW library (will use find_library if blank)")
-    if (FFTW_BUILD_DIR)
+    if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
+        set(FFTW_BUILD_DIR "${PROJECT_SOURCE_DIR}/../fftw-3.3.5-dll64" CACHE PATH "Path to prebuilt FFTW library (will use find_library if blank)")
         include_directories("${FFTW_BUILD_DIR}")
         add_definitions(-DFFT_FFTW)
         target_link_libraries(signalflow
-            "${FFTW_BUILD_DIR}/libfftw3-3"
-            "${FFTW_BUILD_DIR}/libfftw3f-3"
-            "${FFTW_BUILD_DIR}/libfftw3l-3"
+            "${FFTW_BUILD_DIR}/libfftw3-3.lib"
+            "${FFTW_BUILD_DIR}/libfftw3f-3.lib"
+            "${FFTW_BUILD_DIR}/libfftw3l-3.lib"
         )
     else()
         find_library(FFTW3F fftw3f)

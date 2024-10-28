@@ -199,7 +199,15 @@ public:
      * @return The list of device names.
      *
      *--------------------------------------------------------------------------------*/
-    std::list<std::string> get_output_device_names();
+    static std::list<std::string> get_output_device_names(std::string backend_name = "");
+
+    /**--------------------------------------------------------------------------------
+     * Returns a list of available audio I/O input devices.
+     *
+     * @return The list of device names.
+     *
+     *--------------------------------------------------------------------------------*/
+    static std::list<std::string> get_input_device_names(std::string backend_name = "");
 
     /**--------------------------------------------------------------------------------
      * Returns a list of available audio I/O output backends.
@@ -207,7 +215,7 @@ public:
      * @return The list of backend names.
      *
      *--------------------------------------------------------------------------------*/
-    std::list<std::string> get_output_backend_names();
+    static std::list<std::string> get_backend_names();
 
     /**--------------------------------------------------------------------------------
      * Schedule a node for rendering without connecting the node to the graph's output.

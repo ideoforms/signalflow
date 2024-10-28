@@ -3,8 +3,7 @@
 #include "signalflow/core/graph.h"
 #include "signalflow/node/io/output/abstract.h"
 #include "signalflow/node/io/output/dummy.h"
-#include "signalflow/node/io/output/ios.h"
-#include "signalflow/node/io/output/soundio.h"
+#include "signalflow/node/io/output/miniaudio.h"
 #include "signalflow/node/node.h"
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/patch/patch.h"
@@ -17,7 +16,7 @@
 
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <unistd.h>
+//#include <unistd.h>
 
 namespace signalflow
 {
@@ -49,7 +48,7 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool
         this->config = *config;
     }
 
-    if (output_device == "dummy")
+    if (output_device == "dummy" || this->config.get_output_device_name() == "dummy")
     {
         this->output = new AudioOut_Dummy();
     }
@@ -170,6 +169,7 @@ void AudioGraph::start()
         std::string recording_filename = recordings_dir + "/signalflow-" + timestamp_str + ".wav";
 
         // TODO: This is all very POSIX-specific and won't work on Windows
+        /*
         struct stat st;
         if (stat(SIGNALFLOW_USER_DIR.c_str(), &st) == -1)
         {
@@ -187,6 +187,7 @@ void AudioGraph::start()
                 throw std::runtime_error("AudioGraph: Failed creating recordings directory for auto_record (" + recordings_dir + ")");
             }
         }
+        */
         this->start_recording(recording_filename, this->output->get_num_input_channels());
     }
 }
@@ -588,16 +589,22 @@ std::list<NodeRef> AudioGraph::get_outputs()
     return output->get_inputs();
 }
 
-std::list<std::string> AudioGraph::get_output_device_names()
+// static
+std::list<std::string> AudioGraph::get_output_device_names(std::string backend_name)
 {
-    AudioOut_SoundIO *output = (AudioOut_SoundIO *) (this->output.get());
-    return output->get_output_device_names();
+    return AudioOut::get_output_device_names(backend_name);
 }
 
-std::list<std::string> AudioGraph::get_output_backend_names()
+// static
+std::list<std::string> AudioGraph::get_input_device_names(std::string backend_name)
 {
-    AudioOut_SoundIO *output = (AudioOut_SoundIO *) (this->output.get());
-    return output->get_output_backend_names();
+    return AudioOut::get_input_device_names(backend_name);
+}
+
+// static
+std::list<std::string> AudioGraph::get_backend_names()
+{
+    return AudioOut::get_backend_names();
 }
 
 NodeRef AudioGraph::add_node(NodeRef node)

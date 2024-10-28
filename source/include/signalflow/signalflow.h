@@ -65,13 +65,11 @@
 /*------------------------------------------------------------------------
  * I/O
  *-----------------------------------------------------------------------*/
+#include <signalflow/node/io/input/abstract.h>
+#include <signalflow/node/io/input/miniaudio.h>
 #include <signalflow/node/io/output/abstract.h>
 #include <signalflow/node/io/output/dummy.h>
-#include <signalflow/node/io/output/ios.h>
-#include <signalflow/node/io/output/soundio.h>
-
-#include <signalflow/node/io/input/abstract.h>
-#include <signalflow/node/io/input/soundio.h>
+#include <signalflow/node/io/output/miniaudio.h>
 
 /*------------------------------------------------------------------------
  * Oscillators
