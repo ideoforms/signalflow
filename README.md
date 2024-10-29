@@ -42,11 +42,11 @@ graph.wait()
 
 ## Installation
 
-SignalFlow requires Python 3.8 or above.
+SignalFlow requires Python 3.8 or above, and supports macOS, Linux (x86_64), Raspberry Pi, and Windows (64-bit).
 
-In brief, SignalFlow can be installed with pip: `pip3 install signalflow`.
+In a nutshell, SignalFlow can be installed with pip: `pip3 install signalflow`.
 
-For complete per-platform instructions and setup guides, see [Installing SignalFlow](https://signalflow.dev/installation/).
+For a complete walkthrough on setting up your system with Python and SignalFlow, see [Installing SignalFlow](https://signalflow.dev/installation/).
 
 ## Examples
 
@@ -63,7 +63,7 @@ signalflow_examples.download_examples()
 
 In-depth documentation, including a reference guide to each of the Node classes, can be found at [signalflow.dev](https://signalflow.dev/). 
 
-## Node classes
+## Node class library
 
 The following Node classes are currently included with the base distribution:
 
@@ -94,6 +94,8 @@ Thanks to the following contributors:
 - Arthur Carabott ([@acarabott](https://github.com/acarabott)), Tim Murray-Browne ([@timmb](https://github.com/timmb)): Windows support
 - Dan Stowell ([@danstowell](https://github.com/danstowell)): Build improvements
 - Marc Fargas ([@telenieko](https://github.com/telenieko)): Generous donation of the `signalflow` pypi namespace
+- Ed Gillett: Generous donation of Linux build machine
+- Sid Gudka: Generous donation of Windows build machine
 
 ## License
 
