@@ -70,13 +70,8 @@ nav:
    - Getting started: index.md
    - Installation:
      - Installation: installation/index.md
-     - Installing on macOS:
-       - Installing on macOS: installation/macos/index.md
-       - Easy install: installation/macos/easy.md
-       - Command-line installation: installation/macos/command-line.md
-     - Installing on Linux:
-       - Installing on Linux: installation/linux/index.md
-       - Command-line installation: installation/linux/command-line.md
+     - Easy installation: installation/easy.md
+     - Command-line installation: installation/command-line.md
    - Examples: examples.md
    - License: license.md
  - Elements:
@@ -143,7 +138,5 @@ not_in_nav: |
   library/*/*.md
   library/*/*/*.md
   library/*/*/*/*.md
-  installation/*/buttons.md
-  installation/command-line-generic.md
   installation/next-steps.md
   planning/*

@@ -128,7 +128,7 @@ Create a new cell by pressing `b`, and in the new cell, run:
 graph = AudioGraph()
 ```
 
-This will create and start a new global audio [processing graph](../../graph/index.md), using the system's default audio output. You should see the name of the audio device printed to the notebook.
+This will create and start a new global audio [processing graph](../graph/index.md), using the system's default audio output. You should see the name of the audio device printed to the notebook.
 
 This also needs to be run once per session. In fact, only one global `AudioGraph` object can be created.  
 
@@ -174,5 +174,3 @@ output.stop()
 {%
    include-markdown "installation/next-steps.md"
 %}
- 
----

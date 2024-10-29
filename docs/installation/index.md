@@ -22,4 +22,3 @@ If you are an existing Python user and confident with the command line:
 
 [Several example scripts](https://github.com/ideoforms/signalflow/tree/master/examples) are included within the repo, covering simple control and modulation, FM synthesis, sample granulation, MIDI control, chaotic functions, etc.
 
----
