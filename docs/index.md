@@ -47,7 +47,7 @@ In subsequent examples, we will skip the `import` line and assume you have alrea
 
 At its core, SignalFlow has a handful of key concepts.
 
-- At the top level is the **[AudioGraph](graph/index.md)**, which connects to the system's audio input/output hardware.
+- At the top level is the **[AudioGraph](graph/index.md)**, which connects to the system's audio input/output hardware, and handles the [global configuration](graph/config.md).
 - The graph comprises of a network of **[Nodes](node/index.md)**, each of which performs a single function (for example, generating a cyclical waveform, or filtering an input node). Nodes are connected by input and output relationships: the output of one node may be used to control the frequency of another. As the output of the first node increases, the frequency of the second node increases correspondingly. This modulation is applied on a sample-by-sample basis: all modulation in SignalFlow happens at audio rate.
 - Nodes may have multiple **[inputs](node/inputs.md)**, which determine which synthesis properties can be modulated at runtime.
 - A node can also have **[Buffer](buffer/index.md)** properties, which contain audio waveform data that can be read and written to, for playback or recording of samples. 

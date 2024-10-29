@@ -2,21 +2,26 @@
 
 ## General Python installation guidelines
 
-- You should a version of Python that is separate from the system Python, either using Homebrew or Python.org installers
-- You should also ideally create a virtual environment to avoid conflicts with other local Python installs
+- It is generally best to use a version of Python that is separate from the system Python, using an installer from Python.org or a package manager such as [Homebrew](https://brew.sh/).
+- To minimise conflicts with other software, you should also ideally create a Python virtual environment, which is outlined in the [easy installation guide](../installation/easy.md).
 
 ## On macOS
 
-Please follow the [installation guidelines for macOS](../installation/macos/index.md). Some general recommendations:
-
- - macOS 10.15 (Catalina) or above is required
- - Python 3.8 or above is required
+Note that macOS 10.15 (Catalina) or above is required.
 
 ## On Linux
 
-Unfortunately, Pipewire is not currently supported due to lack of support from the [libsoundio](https://github.com/andrewrk/libsoundio) subsystem that SignalFlow relies on for cross-platform audio I/O. 
- 
-## On Windows
+If you are having audio problems with Linux, try switching to a different audio backend. From the command-line, run:
 
-If `pip install signalflow` returns `ERROR: No matching distribution found for signalflow`, please note that SignalFlow for Windows currently only supports Python 3.12.
+```
+signalflow list-backend-names
+```
 
+Then, run `signalflow config`, and add a line to select an alternative backend:
+
+```
+[audio]
+output_backend_name = "pulseaudio"
+```
+
+---

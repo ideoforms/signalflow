@@ -14,7 +14,7 @@ If you're new to Python or getting started from scratch, the tutorial below will
 
 If you are an existing Python user and confident with the command line:
 
-[Install from the command line](command-line-generic.md){ .md-button }
+[Install from the command line](command-line.md){ .md-button }
 
 ---
 
