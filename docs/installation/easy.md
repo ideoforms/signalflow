@@ -51,7 +51,7 @@ In Visual Studio code, create a new folder to contain your new SignalFlow projec
 
 ## 5. Create a notebook
 
-Select `File → New File...`, and select `Jupyter Notebook`. You should see the screen layout change to display an empty black text block (in Jupyter parlance, a "cell"). 
+Select `File → New File...`, and select `Jupyter Notebook`. You should see the screen layout change to display an empty black text block (in Jupyter terminology, a "cell"). 
 
 ---
 
@@ -163,10 +163,10 @@ The `pan` property of `StereoPanner` controls its position in the stereo field f
 panner.pan = -1
 ```
 
-Finally, to stop the playback:
+Finally, to stop all playback:
 
 ```python
-output.stop()
+graph.clear()
 ```
 
 ---
