@@ -128,6 +128,12 @@ void AudioIn::init()
     for (int channel = 0; channel < device.capture.internalChannels; channel++)
     {
         SampleRingQueue *queue = new SampleRingQueue(device.capture.internalPeriodSizeInFrames * 8);
+        /*--------------------------------------------------------------------------------
+         * Initialise the queue with single block of silence, ensuring that the write
+         * head is always ahead of the read head by a block. This adds a single block
+         * of latency between input and output, but buffers against jitter in the
+         * case that two reads occur between one write (as experienced on Linux/alsa).
+         *-------------------------------------------------------------------------------*/
         std::vector<float> silence(device.capture.internalPeriodSizeInFrames, 0);
         queue->extend(silence);
         input_queue.push_back(queue);
