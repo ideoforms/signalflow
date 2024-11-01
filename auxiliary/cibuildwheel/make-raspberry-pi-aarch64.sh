@@ -11,24 +11,17 @@
 # Fail if any subcommands fail
 set -e 
 
-pyenv install 3.8.17 3.9.17 3.10.12 3.11.4
+# Install dependencies to build a fully-fledged Python install
+sudo apt-get install build-essential libffi-dev libreadline-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
 
-for VERSION in 3.8.17 3.9.17 3.10.12 3.11.4
+VERSIONS="3.8.20 3.9.20 3.10.15 3.11.10 3.12.7 3.13.0"
+
+pyenv install --skip-existing $VERSIONS
+
+for VERSION in $VERSIONS
 do
     pyenv local $VERSION
     python3 --version
     pip3 install build
     python3 -m build --wheel
-done
-
-echo "Renaming to _armv7l..."
-SIGNALFLOW_VERSION=$(cat setup.py | grep version= | tr -dc '0-9.')
-echo "SignalFlow version = $SIGNALFLOW_VERSION"
-cd dist
-mkdir $SIGNALFLOW_VERSION
-for FILE in signalflow-${SIGNALFLOW_VERSION}*_aarch64.whl
-do
-    OUTPUT_FILE=$SIGNALFLOW_VERSION/$(echo $FILE | sed 's/aarch64/armv7l/')
-    mv $FILE $OUTPUT_FILE
-    echo "Created product: dist/$OUTPUT_FILE"
 done
