@@ -20,6 +20,7 @@ pyenv install --skip-existing $VERSIONS
 
 for VERSION in $VERSIONS
 do
+    echo "Building version: $VERSION"
     pyenv local $VERSION
     python3 --version
     pip3 install build
