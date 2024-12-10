@@ -9,6 +9,9 @@ from signalflow import *
 
 
 def main():
+    print("Audio playthrough: Plays the microphone input through the default output")
+    print("Listen through headphones to avoid feedback")
+
     graph = AudioGraph()
 
     #--------------------------------------------------------------------------------
@@ -18,12 +21,14 @@ def main():
     # [audio]
     # input_device_name = "My Device"
     #--------------------------------------------------------------------------------
-    audio_in = AudioIn(1)
+    audio_in = AudioIn()
+    audio_in = audio_in[0]
 
     #--------------------------------------------------------------------------------
     # Add some delay, and play 
     #--------------------------------------------------------------------------------
     output = audio_in
+    output = output + CombDelay(output, 0.1, feedback=0.8)
     stereo = StereoPanner(output)
 
     graph.play(stereo)

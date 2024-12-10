@@ -16,9 +16,10 @@ def main():
     #------------------------------------------------------------------------
     # Load an audio buffer.
     #------------------------------------------------------------------------
-    audio_path = os.path.join(os.path.dirname(__file__), "audio", "gliss.aif")
+    audio_path = os.path.join(os.path.dirname(__file__), "audio", "stereo-count.wav")
     buf = Buffer(audio_path)
-    clock = RandomImpulse(50)
+    grain_frequency = WhiteNoise(frequency=2, min=1, max=50)
+    clock = RandomImpulse(grain_frequency)
     granulator = Granulator(buffer=buf,
                             clock=clock,
                             pan=RandomUniform(-1, 1, clock=clock),

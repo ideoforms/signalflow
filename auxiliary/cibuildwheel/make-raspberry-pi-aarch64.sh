@@ -2,6 +2,7 @@
 
 #--------------------------------------------------------------------------------
 # Build script for Raspberry Pi, which creates Linux/arm builds.
+# Tested on Raspberry Pi 4 running Raspberry Pi OS circa October 2024
 # Requires pyenv, which requires libffi-dev to build Python with ctypes support.
 #
 # May be ultimately better to switch to this arm runner action:
@@ -33,4 +34,6 @@ do
 done
 
 pip3 install build auditwheel
-auditwheel repair --plat manylinux_2_34_aarch64 dist/*.whl
+cd dist
+mkdir -p fixed
+auditwheel repair *.whl -w fixed --plat manylinux_2_34_aarch64
