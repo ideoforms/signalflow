@@ -74,6 +74,7 @@ nav:
      - Command-line installation: installation/command-line.md
    - Examples: examples.md
    - License: license.md
+   - Code of Conduct: code-of-conduct.md
  - Elements:
    - The AudioGraph:
      - The AudioGraph: graph/index.md
