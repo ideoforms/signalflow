@@ -1,4 +1,0 @@
-# Issues with Linux audio
-
- - Permissions: https://askubuntu.com/questions/598377/aplay-l-doesnt-see-my-loopback-sound-card
- - Change backend (need to add support)
