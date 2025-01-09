@@ -42,7 +42,7 @@ graph.wait()
 
 ## Installation
 
-SignalFlow requires Python 3.8 or above, and supports macOS, Linux (x86_64), Raspberry Pi, and Windows (64-bit).
+SignalFlow requires Python 3.8 or above, and supports macOS, Linux (x86_64), Raspberry Pi (3+), and Windows (64-bit).
 
 In a nutshell, SignalFlow can be installed with pip: `pip3 install signalflow`.
 
