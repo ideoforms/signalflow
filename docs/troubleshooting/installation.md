@@ -24,4 +24,8 @@ Then, run `signalflow config`, and add a line to select an alternative backend:
 output_backend_name = "pulseaudio"
 ```
 
+## On Raspberry Pi
+
+SignalFlow requires Raspberry Pi 3 Model B or above. Note that only 64-bit devices and operating systems are supported (`uname -m` should display `aarch64`). 
+
 ---
