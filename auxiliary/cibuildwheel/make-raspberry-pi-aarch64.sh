@@ -17,7 +17,8 @@ curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o s
 # Install dependencies to build a fully-fledged Python install
 sudo apt-get install build-essential libffi-dev libreadline-dev libncursesw5-dev libssl-dev libsqlite3-dev tk-dev libgdbm-dev libc6-dev libbz2-dev
 
-sudo apt install patchelf
+# Install dependencies to build a manylinux wheel
+sudo apt-get install patchelf
 
 VERSIONS="3.8.20 3.9.20 3.10.15 3.11.10 3.12.7 3.13.0"
 
@@ -28,6 +29,7 @@ do
     echo "Building version: $VERSION"
     pyenv local $VERSION
     python3 --version
+    python3 -m pip install build
     python3 -m build --wheel
 done
 
