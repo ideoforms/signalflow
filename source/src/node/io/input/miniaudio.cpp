@@ -30,6 +30,7 @@ void read_callback(ma_device *pDevice,
 
     // TODO: the number of channels at the mic input might not be the same as the number of channels of this device
     int num_channels = input_node->get_num_output_channels();
+
     for (unsigned int frame = 0; frame < frameCount; frame++)
     {
         for (int channel = 0; channel < num_channels; channel++)
@@ -112,7 +113,7 @@ void AudioIn::init()
         throw audio_io_exception("miniaudio: Error initialising input device");
     }
 
-    this->set_channels(0, device.capture.internalChannels);
+    this->set_channels(0, this->num_channels);
 
     /*--------------------------------------------------------------------------------
      * Note that the underlying sample rate used by the recording hardware
@@ -120,12 +121,12 @@ void AudioIn::init()
      * by `AudioIn`: SignalFlow requires that the input and output streams are both
      * on the same sample rate, so miniaudio's resampling is used to unify them.
      *-------------------------------------------------------------------------------*/
-    std::string s = device.capture.internalChannels == 1 ? "" : "s";
+    std::string s = this->num_channels == 1 ? "" : "s";
     std::cerr << "[miniaudio] Input device: " << std::string(device.capture.name) << " (" << device.capture.internalSampleRate << "Hz, "
-              << "buffer size " << device.capture.internalPeriodSizeInFrames << " samples, " << device.capture.internalChannels << " channel" << s << ")"
+              << "buffer size " << device.capture.internalPeriodSizeInFrames << " samples, " << this->num_channels << " channel" << s << ")"
               << std::endl;
 
-    for (int channel = 0; channel < device.capture.internalChannels; channel++)
+    for (int channel = 0; channel < this->num_channels; channel++)
     {
         SampleRingQueue *queue = new SampleRingQueue(device.capture.internalPeriodSizeInFrames * 8);
         /*--------------------------------------------------------------------------------
