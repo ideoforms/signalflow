@@ -18,6 +18,7 @@ Building from source assumes that you have a working installation of Python 3, i
 To build on macOS from source, install dependencies with Homebrew:
 ```
 brew install cmake libsndfile
+curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
 ```
 
 Clone this repository, then build and install with `pip`:
@@ -37,6 +38,7 @@ To build the Python library from source on Linux, install dependencies with apt:
 ```
 # If on Raspberry Pi: libfftw3-dev
 apt-get install -y git cmake g++ python3-pip libasound2-dev libsndfile1-dev fftw3-dev
+curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
 ```
 
 Clone this repository, then build and install with `pip`:
