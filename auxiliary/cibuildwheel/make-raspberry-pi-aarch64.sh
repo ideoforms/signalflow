@@ -7,6 +7,7 @@
 #
 # May be ultimately better to switch to this arm runner action:
 # https://github.com/pguyot/arm-runner-action
+# Or at least cibuildwheel
 #--------------------------------------------------------------------------------
 
 # Fail if any subcommands fail
