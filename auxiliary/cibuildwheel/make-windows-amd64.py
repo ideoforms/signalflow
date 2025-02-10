@@ -7,6 +7,7 @@ import subprocess
 
 os.environ["CIBW_BUILD"] = "cp*-win_amd64"
 os.environ["CIBW_ARCHS_WINDOWS"] = "AMD64"
+os.environ["CIBW_BUILD_VERBOSITY"] = "1"
 
 rv = subprocess.call(["python", "-m", "cibuildwheel"])
 if rv == 0:
