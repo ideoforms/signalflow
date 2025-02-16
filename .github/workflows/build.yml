@@ -17,7 +17,9 @@ jobs:
         # used a different build path to the .so file as located in tests/__init__.py
         # 2024-07-29: Require importlib_metadata for now due to this:
         #             https://github.com/pypa/setuptools/issues/4478
-        sudo pip3 install -U pytest numpy scipy setuptools>=62.1.0 importlib_metadata
+        # 2025-02-06: Require packaging version due to this:
+        #             https://github.com/pypa/setuptools/issues/4501
+        sudo pip3 install -U pytest numpy scipy setuptools>=62.1.0 importlib_metadata packaging>=24.1
         curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
     - name: Configure
       run: mkdir build && cd build && cmake ..

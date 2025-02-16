@@ -129,7 +129,7 @@ def main():
     # --------------------------------------------------------------------------------
     test = subparsers.add_parser('test', help='play a test tone')
     test.add_argument('--gain', type=float, help='tone level, in dB (default: -12)', default=-12)
-    test.add_argument('--channels', '-c', type=int, help='number of channels to output, in sequence')
+    test.add_argument('--channels', '-c', type=int, help='number of channels to output, in sequence', default=1)
     test.add_argument('--frequency', type=float, help='tone frequency, in Hz (default: 440)', default=440)
     test.add_argument('--backend-name', type=str,
                       help='name of audio backend to use (default: system default backend)', default=None)
@@ -185,7 +185,7 @@ def main():
     elif args.command == 'version':
         run_version()
     elif args.command == 'test':
-        run_test(args.frequency, args.gain, args.backend_name, args.output_device_name)
+        run_test(args.frequency, args.gain, args.channels, args.backend_name, args.output_device_name)
     elif args.command == 'list-output-device-names':
         run_list_output_device_names(args.backend_name)
     elif args.command == 'list-input-device-names':

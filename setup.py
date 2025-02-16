@@ -47,7 +47,8 @@ class CMakeBuild(build_ext):
         # --------------------------------------------------------------------------------
         if os.name == "nt":
             libname = "signalflow.pyd"
-            shutil.copy(os.path.join(self.build_temp, cfg, libname), "auxiliary/libs/signalflow")
+            dll_path = os.path.join(self.build_temp, cfg, libname)
+            shutil.copy(dll_path, "%s/signalflow" % extdir)
 
 
 signalflow_packages = [

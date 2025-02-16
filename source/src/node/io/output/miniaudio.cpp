@@ -151,7 +151,7 @@ void AudioOut::init()
     // On Core Audio, let the application select a preferred sample rate.
     config.coreaudio.allowNominalSampleRateChange = 1;
 
-    rv = ma_device_init(NULL, &config, &device);
+    rv = ma_device_init(&this->context, &config, &device);
     if (rv != MA_SUCCESS)
     {
         throw audio_io_exception("miniaudio: Error initialising output device");
