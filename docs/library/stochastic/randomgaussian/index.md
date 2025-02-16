@@ -1,5 +1,5 @@
 title: RandomGaussian node documentation
-description: RandomGaussian: Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick.
+description: RandomGaussian: Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
 
 [Reference library](../../index.md) > [Stochastic](../index.md) > [RandomGaussian](index.md)
 
@@ -9,5 +9,5 @@ description: RandomGaussian: Generate an random Gaussian value, with given mean 
 RandomGaussian(mean=0.0, sigma=0.0, clock=None, reset=None)
 ```
 
-Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick.
+Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
 

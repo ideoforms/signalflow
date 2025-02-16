@@ -34,7 +34,8 @@ class NodeClass:
     name: str
     parent: Optional[str]
     constructors: list[list[Parameter]]
-    docs: str
+    docs_summary: str
+    docs_full: str
 
     @property
     def identifier(self):
@@ -88,12 +89,12 @@ def generate_class_bindings(cls: NodeClass):
     """
     if cls.name in omitted_classes:
         return ""
-    if cls.docs is None:
+    if cls.docs_summary is None:
         raise ValueError("No docs for class: %s" % cls.name)
     parent_class = cls.parent if cls.parent in known_parent_classes else "Node"
 
     output = 'py::class_<{class_name}, {superclass}, NodeRefTemplate<{class_name}>>(m, "{class_name}", "{class_docs}")\n'.format(
-        class_name=cls.name, class_docs=cls.docs, superclass=parent_class)
+        class_name=cls.name, class_docs=cls.docs_summary, superclass=parent_class)
     for parameter_set in cls.constructors:
         parameter_type_list = ", ".join([parameter.type for parameter in parameter_set])
         output += '    .def(py::init<{parameter_type_list}>()'.format(parameter_type_list=parameter_type_list);
@@ -122,7 +123,7 @@ def generate_class_bindings(cls: NodeClass):
     return output
 
 
-def extract_docs(doxygen: str) -> str:
+def extract_docs(doxygen: str) -> tuple[str, str]:
     """
     Given a quoted doxygen comment, extract just the documentation text, condensed onto a
     single line.
@@ -135,16 +136,25 @@ def extract_docs(doxygen: str) -> str:
     """
     lines = doxygen.split("\n")
     output = ""
+    output_short = ""
+    passed_first_para = False
     for line in lines:
         # start or end of comment
         if re.search(r"^\s*/\*", line) or re.search(r"\*/\s*$", line):
             continue
         line = re.sub(r"^\s*\*\s*", "", line)
 
+        # Empty line = paragraph spacing
+        if not re.match("\S", line):
+            passed_first_para = True
+            output += "\n\n"
+
         # Escape quote marks to avoid breaking auto-generated pydocs
         line = re.sub('"', '\\"', line)
-        output = output + line + "\\n"
-    return output.strip()
+        output = output + line + " "
+        if not passed_first_para:
+            output_short = output_short + line + " "
+    return (output_short.strip(), output.strip())
 
 
 def sanitize_type(p_type: str) -> str:
@@ -182,18 +192,18 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
     classes["io"] = [
         NodeClass("AudioIn", None, [[
             Parameter("num_channels", "int", 1)
-        ]], "Audio input"),
-        NodeClass("AudioOut_Abstract", None, [], "Abstract audio output"),
+        ]], "Audio input", "Audio input"),
+        NodeClass("AudioOut_Abstract", None, [], "Abstract audio output", "Abstract audio output"),
         NodeClass("AudioOut_Dummy", "AudioOut_Abstract", [[
             Parameter("num_channels", "int", 2),
             Parameter("buffer_size", "int", "SIGNALFLOW_DEFAULT_BLOCK_SIZE"),
-        ]], "Dummy audio output for offline processing"),
+        ]], "Dummy audio output for offline processing", "Dummy audio output for offline processing"),
         NodeClass("AudioOut", "AudioOut_Abstract", [[
             Parameter("backend_name", "std::string", ""),
             Parameter("device_name", "std::string", ""),
             Parameter("sample_rate", "int", 0),
             Parameter("buffer_size", "int", 0),
-        ]], "Audio output")
+        ]], "Audio output", "Audio output")
     ]
 
     class_category = None
@@ -223,7 +233,10 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
             # --------------------------------------------------------------------------------
             # Parse class documentation and constructors
             # --------------------------------------------------------------------------------
-            class_docs = extract_docs(value["doxygen"]) if "doxygen" in value else class_name
+            if "doxygen" in value:
+                class_docs, class_docs_long = extract_docs(value["doxygen"])
+            else:
+                class_docs, class_docs_long = class_name, class_name
             constructor_parameter_sets = []
             for method in value["methods"]["public"]:
                 if method["constructor"]:
@@ -241,7 +254,8 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
                 cls = NodeClass(class_name,
                                 parent_class,
                                 constructor_parameter_sets,
-                                class_docs)
+                                class_docs,
+                                class_docs_long)
                 classes[class_category].append(cls)
 
     return classes
@@ -316,7 +330,7 @@ def generate_node_library_index(node_classes) -> str:
             if cls.constructors:
                 cls_folder = os.path.join(folder, cls.identifier)
                 cls_doc_path = os.path.join(cls_folder, "index.md")
-                output_markdown += "- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs)
+                output_markdown += "- **[%s](%s)**: %s\n" % (cls.name, cls_doc_path, cls.docs_summary)
         output_markdown += "\n---\n"
 
     return output_markdown
@@ -369,7 +383,7 @@ def generate_node_library(node_classes):
                     continue
 
                 if cls.constructors:
-                    fd.write("- **[%s](%s/index.md)**: %s\n" % (cls.name, cls.identifier, cls.docs))
+                    fd.write("- **[%s](%s/index.md)**: %s\n" % (cls.name, cls.identifier, cls.docs_summary))
 
         for cls in classes:
             if cls.name in node_superclasses:
@@ -390,7 +404,7 @@ def generate_node_library(node_classes):
                     output_markdown_params = output_markdown_params.replace("nullptr", "None")
 
                     fd.write(f"title: {cls.name} node documentation\n")
-                    fd.write(f"description: {cls.name}: {cls.docs}\n\n")
+                    fd.write(f"description: {cls.name}: {cls.docs_summary}\n\n")
                     fd.write(
                         f"[Reference library](../../index.md) > [{folder_title}](../index.md) > [{cls.name}](index.md)\n\n")
 
@@ -398,7 +412,7 @@ def generate_node_library(node_classes):
                     fd.write(f"```python\n")
                     fd.write(f"{cls.name}({output_markdown_params})\n")
                     fd.write(f"```\n\n")
-                    fd.write(f"{cls.docs}\n\n")
+                    fd.write(f"{cls.docs_full}\n\n")
 
                     if len(example_scripts):
                         fd.write(f"### Examples\n\n")
