@@ -81,7 +81,7 @@ void BufferLooper::process(Buffer &out, int num_frames)
      *--------------------------------------------------------------------------------*/
     if (!this->buffer || !this->buffer->get_num_frames())
         return;
-    if (this->buffer->get_num_channels() != this->num_input_channels)
+    if (this->buffer->get_num_channels() != (unsigned int) this->num_input_channels)
     {
         signalflow_audio_thread_error("BufferLooper: Buffer channel count does not match the audio input (" + std::to_string(this->buffer->get_num_channels()) + " != " + std::to_string(this->num_input_channels) + ")");
     }
