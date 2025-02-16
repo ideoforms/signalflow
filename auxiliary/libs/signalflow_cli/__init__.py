@@ -33,18 +33,21 @@ def run_configure():
 
 def run_test(frequency: float = 440,
              gain: float = 0.0,
-             output_backend_name: str = None,
+             channels: int = 1,
+             backend_name: str = None,
              output_device_name: str = None):
     config = AudioGraphConfig()
-    if output_backend_name:
-        config.output_backend_name = output_backend_name
+    if backend_name:
+        config.backend_name = backend_name
     if output_device_name:
         config.output_device_name = output_device_name
     graph = AudioGraph(config=config)
     tone = SineOscillator(frequency)
     amplitude = db_to_amplitude(gain)
-    output = tone * amplitude
-    output.play()
+    attenuated = tone * amplitude
+    channel_index = Counter(Impulse(1), 0, channels)
+    panner = ChannelPanner(channels, attenuated, channel_index)
+    panner.play()
     print("Generating test tone at %dHz. Press Ctrl-C to stop." % frequency)
     try:
         graph.wait()
@@ -126,9 +129,10 @@ def main():
     # --------------------------------------------------------------------------------
     test = subparsers.add_parser('test', help='play a test tone')
     test.add_argument('--gain', type=float, help='tone level, in dB (default: -12)', default=-12)
+    test.add_argument('--channels', '-c', type=int, help='number of channels to output, in sequence')
     test.add_argument('--frequency', type=float, help='tone frequency, in Hz (default: 440)', default=440)
-    test.add_argument('--output-backend-name', type=str,
-                      help='name of output backend to use (default: system default backend)', default=None)
+    test.add_argument('--backend-name', type=str,
+                      help='name of audio backend to use (default: system default backend)', default=None)
     test.add_argument('--output-device-name', type=str,
                       help='name of output device to use (default: system default output)', default=None)
 
@@ -181,7 +185,7 @@ def main():
     elif args.command == 'version':
         run_version()
     elif args.command == 'test':
-        run_test(args.frequency, args.gain, args.output_backend_name, args.output_device_name)
+        run_test(args.frequency, args.gain, args.backend_name, args.output_device_name)
     elif args.command == 'list-output-device-names':
         run_list_output_device_names(args.backend_name)
     elif args.command == 'list-input-device-names':
