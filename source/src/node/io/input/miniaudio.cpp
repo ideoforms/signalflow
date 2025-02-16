@@ -71,7 +71,7 @@ void AudioIn::init()
     ma_uint32 capture_device_count;
 
     // TODO: Add get_input_backend_name
-    AudioOut::init_context(&this->context, this->get_graph()->get_config().get_output_backend_name());
+    AudioOut::init_context(&this->context, this->get_graph()->get_config().get_backend_name());
 
     rv = ma_context_get_devices(&this->context,
                                 NULL,

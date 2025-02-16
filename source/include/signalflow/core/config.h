@@ -127,7 +127,7 @@ public:
      * @returns The name, or an empty string if not set.
      *
      *--------------------------------------------------------------------------------*/
-    const std::string &get_output_backend_name() const;
+    const std::string &get_backend_name() const;
 
     /**--------------------------------------------------------------------------------
      * Set the name of the output audio backend to use.
@@ -137,7 +137,7 @@ public:
      * @param name The backend name.
      *
      *--------------------------------------------------------------------------------*/
-    void set_output_backend_name(const std::string &name);
+    void set_backend_name(const std::string &name);
 
     /**--------------------------------------------------------------------------------
      * Get the current CPU usage limit.
@@ -190,7 +190,7 @@ private:
     unsigned int output_buffer_size = 0;
     std::string input_device_name;
     std::string output_device_name;
-    std::string output_backend_name;
+    std::string backend_name;
     float cpu_usage_limit = 0.0;
     bool auto_record = false;
 };

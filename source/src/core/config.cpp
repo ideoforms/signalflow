@@ -139,9 +139,9 @@ void AudioGraphConfig::parse_file(std::ifstream &input)
                 {
                     this->output_device_name = parameter_value;
                 }
-                else if (parameter_name == "output_backend_name")
+                else if (parameter_name == "backend_name")
                 {
-                    this->output_backend_name = parameter_value;
+                    this->backend_name = parameter_value;
                 }
                 else if (parameter_name == "cpu_usage_limit")
                 {
@@ -203,9 +203,9 @@ void AudioGraphConfig::parse_env()
     {
         this->input_device_name = std::string(getenv("SIGNALFLOW_INPUT_DEVICE_NAME"));
     }
-    if (getenv("SIGNALFLOW_OUTPUT_BACKEND_NAME"))
+    if (getenv("SIGNALFLOW_BACKEND_NAME"))
     {
-        this->output_backend_name = std::string(getenv("SIGNALFLOW_OUTPUT_BACKEND_NAME"));
+        this->backend_name = std::string(getenv("SIGNALFLOW_BACKEND_NAME"));
     }
     if (getenv("SIGNALFLOW_OUTPUT_DEVICE_NAME"))
     {
@@ -241,9 +241,9 @@ const std::string &AudioGraphConfig::get_output_device_name() const { return thi
 
 void AudioGraphConfig::set_output_device_name(const std::string &name) { this->output_device_name = name; }
 
-const std::string &AudioGraphConfig::get_output_backend_name() const { return this->output_backend_name; }
+const std::string &AudioGraphConfig::get_backend_name() const { return this->backend_name; }
 
-void AudioGraphConfig::set_output_backend_name(const std::string &name) { this->output_backend_name = name; }
+void AudioGraphConfig::set_backend_name(const std::string &name) { this->backend_name = name; }
 
 float AudioGraphConfig::get_cpu_usage_limit() const { return this->cpu_usage_limit; }
 
@@ -255,7 +255,7 @@ void AudioGraphConfig::set_auto_record(bool on) { this->auto_record = on; }
 
 void AudioGraphConfig::print() const
 {
-    std::cout << "output_backend_name = " << this->output_backend_name << std::endl;
+    std::cout << "backend_name = " << this->backend_name << std::endl;
     std::cout << "output_device_name = " << this->output_device_name << std::endl;
     std::cout << "output_buffer_size = " << this->output_buffer_size << std::endl;
     std::cout << "input_device_name = " << this->input_device_name << std::endl;
