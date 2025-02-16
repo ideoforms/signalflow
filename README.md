@@ -97,6 +97,13 @@ Thanks to the following contributors:
 - Ed Gillett: Generous donation of Linux build machine
 - Sid Gudka: Generous donation of Windows build machine
 
+## Support
+
+Thanks to the following supporters and sponsors:
+
+- The [Python Software Foundation](https://www.python.org/psf-landing/) for funding development of learning materials
+- [JetBrains](https://www.jetbrains.com/) for providing the IDEs used to develop SignalFlow
+
 ## License
 
 Use of the SignalFlow library with a Python interpreter, script or notebook is licensed under the free and permissive [MIT License](LICENSE.md).
