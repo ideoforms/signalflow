@@ -32,3 +32,4 @@ dist
 wheelhouse/
 .vscode
 .vs
+miniaudio-library.h
