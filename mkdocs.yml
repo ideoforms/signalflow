@@ -126,6 +126,7 @@ nav:
    - "FFT": library/fft/index.md
    - "Operators": library/operators/index.md
    - "Oscillators": library/oscillators/index.md
+   - "Physical Modelling": library/physical/index.md
    - "Processors": library/processors/index.md
    - "Processors: Delays": library/processors/delays/index.md
    - "Processors: Distortion": library/processors/distortion/index.md
