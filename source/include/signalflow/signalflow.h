@@ -167,6 +167,7 @@
 /*------------------------------------------------------------------------
  * Sequencing
  *-----------------------------------------------------------------------*/
+#include <signalflow/node/sequencing/block-counter.h>
 #include <signalflow/node/sequencing/clock-divider.h>
 #include <signalflow/node/sequencing/counter.h>
 #include <signalflow/node/sequencing/euclidean.h>

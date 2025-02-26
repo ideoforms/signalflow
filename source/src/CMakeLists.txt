@@ -133,6 +133,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulation/grainsegments.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulation/granulator.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/buffer/granulation/grain.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/block-counter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/counter.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/index.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/sequencing/flipflop.cpp
