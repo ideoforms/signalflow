@@ -26,6 +26,8 @@ public:
     virtual void set_buffer(std::string, BufferRef buffer);
 
 protected:
+    double rate_scale_factor;
+
     BufferRef buffer;
     int segment_count;
     NodeRef stutter_probability;

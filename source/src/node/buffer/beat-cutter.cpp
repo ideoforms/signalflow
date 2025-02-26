@@ -1,3 +1,4 @@
+#include "signalflow/core/graph.h"
 #include "signalflow/core/random.h"
 #include "signalflow/node/buffer/beat-cutter.h"
 
@@ -60,6 +61,8 @@ void BeatCutter::set_buffer(std::string name, BufferRef buffer)
         this->current_segment_offset = this->segment_offsets[0];
         this->next_segment_offset = this->segment_offsets[1];
         this->current_stutter_length = this->segment_length;
+
+        this->rate_scale_factor = buffer->get_sample_rate() / this->get_graph()->get_sample_rate();
     }
 }
 
@@ -143,8 +146,8 @@ void BeatCutter::process(Buffer &out, int num_frames)
             }
         }
 
-        this->phase += this->rate->out[0][frame];
-        this->segment_phase += this->rate->out[0][frame] * current_segment_rate;
+        this->phase += this->rate->out[0][frame] * this->rate_scale_factor;
+        this->segment_phase += this->rate->out[0][frame] * current_segment_rate * this->rate_scale_factor;
 
         if (this->phase >= this->next_segment_offset)
         {
