@@ -40,7 +40,17 @@ void OnsetDetector::process(Buffer &out, int num_frames)
         }
         else if (this->fast_value > this->slow_value * this->threshold->out[0][frame])
         {
-            rv = 1.0;
+            float diff;
+            if (this->slow_value == 0.0)
+            {
+                diff = 1.0;
+            }
+            else
+            {
+                diff = this->fast_value - (this->slow_value * this->threshold->out[0][frame]);
+            }
+
+            rv = diff;
             this->interval_timer = this->min_interval->out[0][frame] * this->graph->get_sample_rate();
         }
 
