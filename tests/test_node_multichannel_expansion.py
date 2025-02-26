@@ -36,7 +36,8 @@ def test_expansion_multi(graph):
 
 
 def test_expansion_upmix():
-    output = AudioOut_Dummy(4, SIGNALFLOW_UNIT_TEST_BUFFER_SIZE)
+    output = AudioOut_Dummy(num_channels=4,
+                            buffer_size=SIGNALFLOW_UNIT_TEST_BUFFER_SIZE)
     config = AudioGraphConfig()
     config.output_buffer_size = SIGNALFLOW_UNIT_TEST_BUFFER_SIZE
     graph = AudioGraph(output_device=output, config=config)

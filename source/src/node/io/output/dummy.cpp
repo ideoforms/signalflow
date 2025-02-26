@@ -3,12 +3,14 @@
 namespace signalflow
 {
 
-AudioOut_Dummy::AudioOut_Dummy(int num_channels, int buffer_size)
+AudioOut_Dummy::AudioOut_Dummy(unsigned int num_channels,
+                               unsigned int sample_rate,
+                               unsigned int buffer_size)
     : AudioOut_Abstract()
 {
     this->name = "audioout-dummy";
     this->set_channels(num_channels, 0);
-    this->sample_rate = SIGNALFLOW_DEFAULT_SAMPLE_RATE;
+    this->sample_rate = sample_rate;
     this->buffer_size = buffer_size;
 }
 

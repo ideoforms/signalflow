@@ -9,7 +9,9 @@ namespace signalflow
 class AudioOut_Dummy : public AudioOut_Abstract
 {
 public:
-    AudioOut_Dummy(int num_channels = 2, int buffer_size = 256);
+    AudioOut_Dummy(unsigned int num_channels = 2,
+                   unsigned int sample_rate = SIGNALFLOW_DEFAULT_SAMPLE_RATE,
+                   unsigned int buffer_size = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
 
     virtual void init() {}
     virtual void start() {}

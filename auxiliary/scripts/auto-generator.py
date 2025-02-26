@@ -196,6 +196,7 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
         NodeClass("AudioOut_Abstract", None, [], "Abstract audio output", "Abstract audio output"),
         NodeClass("AudioOut_Dummy", "AudioOut_Abstract", [[
             Parameter("num_channels", "int", 2),
+            Parameter("sample_rate", "int", "SIGNALFLOW_DEFAULT_SAMPLE_RATE"),
             Parameter("buffer_size", "int", "SIGNALFLOW_DEFAULT_BLOCK_SIZE"),
         ]], "Dummy audio output for offline processing", "Dummy audio output for offline processing"),
         NodeClass("AudioOut", "AudioOut_Abstract", [[

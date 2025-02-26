@@ -75,7 +75,8 @@ def graph():
     config.input_buffer_size = SIGNALFLOW_UNIT_TEST_BUFFER_SIZE
     config.output_buffer_size = SIGNALFLOW_UNIT_TEST_BUFFER_SIZE
     graph = signalflow.AudioGraph(config=config,
-                                  output_device=signalflow.AudioOut_Dummy(2, SIGNALFLOW_UNIT_TEST_BUFFER_SIZE),
+                                  output_device=signalflow.AudioOut_Dummy(num_channels=2,
+                                                                          buffer_size=SIGNALFLOW_UNIT_TEST_BUFFER_SIZE),
                                   start=False)
     yield graph
     #--------------------------------------------------------------------------------
