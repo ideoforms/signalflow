@@ -117,7 +117,7 @@ CombDelay: Delay time exceeds maximum. Reduce the delay_time, or increase max_de
 
 To run the unit test suite:
 ```
-python3 setup.py test
+pytest
 ```
 
 ## Release

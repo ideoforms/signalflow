@@ -78,7 +78,7 @@ def test_graph_clear(graph):
 
 
 def test_graph_num_output_channels():
-    output = AudioOut_Dummy(5)
+    output = AudioOut_Dummy(num_channels=5)
     graph = AudioGraph(output_device=output, start=False)
     assert graph.num_output_channels == 5
     graph.destroy()
@@ -92,3 +92,10 @@ def test_graph_render_to_buffer(graph):
     assert b.num_frames == graph.sample_rate
     assert np.all(b.data[0] == 3)
     assert np.all(b.data[1] == 0)
+
+
+def test_graph_nrt_set_sample_rate():
+    output = AudioOut_Dummy(sample_rate=24000)
+    graph = AudioGraph(output_device=output, start=False)
+    assert graph.sample_rate == 24000
+    graph.destroy()
