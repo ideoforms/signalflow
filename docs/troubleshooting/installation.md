@@ -21,7 +21,7 @@ Then, run `signalflow config`, and add a line to select an alternative backend:
 
 ```
 [audio]
-output_backend_name = "pulseaudio"
+backend_name = "pulseaudio"
 ```
 
 ## On Raspberry Pi
