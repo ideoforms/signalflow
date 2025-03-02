@@ -154,6 +154,8 @@ void BeatCutter::process(Buffer &out, int num_frames)
             this->set_segment((this->segment_index + 1) % this->segment_count, frame);
         }
         this->phase = fmod(this->phase, this->buffer->get_num_frames());
+        if (this->phase < 0)
+            this->phase += this->buffer->get_num_frames();
     }
 }
 
