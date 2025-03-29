@@ -123,11 +123,16 @@ void Node::process(Buffer &out, int num_frames)
 // Channels
 ////////////////////////////////////////////////////////////////////////////////
 
-void Node::set_channels(int num_input_channels, int num_output_channels)
+void Node::set_channels(int num_input_channels, int num_output_channels, bool disable_input_channel_matching)
 {
+
     this->num_input_channels = num_input_channels;
     this->num_output_channels = num_output_channels;
-    this->matches_input_channels = false;
+
+    if (disable_input_channel_matching)
+    {
+        this->matches_input_channels = false;
+    }
 
     /*--------------------------------------------------------------------------------
      * Added 2024-08-05 to address crash in which a multichannel ChannelPanner
@@ -168,7 +173,6 @@ void Node::update_channels()
             // A param may be registered but not yet set
             if (!ptr || !*ptr)
                 continue;
-            std::string param_name = input.first;
 
             NodeRef input_node = *ptr;
             if (input_node->get_num_output_channels() > max_channels)
@@ -188,7 +192,17 @@ void Node::update_channels()
             }
         }
 
-        if (previous_num_output_channels != this->num_output_channels)
+        /*--------------------------------------------------------------------------------
+         * If the number of output channels has increased due to a change in an input's
+         * channel count:
+         *  - allocate more output buffers accordingly
+         *  - iterate over inputs, ensuring each input has enough working buffers
+         *    for inpux upmixing. This does not need to happen recursively, as inputs
+         *    to inputs are unaffected by the change.
+         *  - apply the change to each output node, propagating up the entire outbound
+         *    tree recursively.
+         *-------------------------------------------------------------------------------*/
+        if (this->num_output_channels > previous_num_output_channels)
         {
             for (auto output : this->outputs)
             {
@@ -209,13 +223,13 @@ void Node::update_channels()
             // A param may be registered but not yet set
             if (!ptr || !*ptr)
                 continue;
-            std::string param_name = input.first;
 
             NodeRef input_node = *ptr;
             if (input_node->get_num_output_channels() > this->num_input_channels)
             {
                 std::string message = "Node " + input_node->get_name() + " has more output channels than " + this->name + " supports (" + std::to_string(input_node->get_num_output_channels()) + " > " + std::to_string(this->num_input_channels) + "). Either downmix with ChannelMixer, or select the intended channels with ChannelSelect.";
                 signalflow_audio_thread_error(message);
+                return;
             }
         }
     }

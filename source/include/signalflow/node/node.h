@@ -261,7 +261,9 @@ protected:
       * Called by Node subclasses to specify a fixed number of in/out
       * channels. Also unsets matches_input_channels.
       *-----------------------------------------------------------------------*/
-    virtual void set_channels(int num_input_channels, int num_output_channels);
+    virtual void set_channels(int num_input_channels,
+                              int num_output_channels,
+                              bool disable_input_channel_matching = true);
 
     /*------------------------------------------------------------------------
       * Called whenever a Node's inputs are modified, so that it can
@@ -449,9 +451,13 @@ private:
 
     /*------------------------------------------------------------------------
      * Allow friends to access private methods
+     *
+     * Also includes some special Node subclasses that need to call
+     * update_channels()
      *-----------------------------------------------------------------------*/
     friend class AudioGraph;
     friend class Patch;
+    friend class ChannelArray;
 };
 
 class UnaryOpNode : public Node

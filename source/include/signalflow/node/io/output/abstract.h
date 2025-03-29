@@ -24,7 +24,9 @@ public:
     virtual bool has_input(NodeRef node);
     std::list<NodeRef> get_inputs();
 
-    virtual void set_channels(int num_input_channels, int num_output_channels);
+    virtual void set_channels(int num_input_channels,
+                              int num_output_channels,
+                              bool disable_input_channel_matching = true);
 
     /**--------------------------------------------------------------------------------
      * Returns the audio output's sample rate. Note that this may not be the
