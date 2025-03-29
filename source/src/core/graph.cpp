@@ -351,7 +351,7 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
                 {
                     throw std::runtime_error("Input node does not have enough buffers allocated (need "
                                              + std::to_string(node->get_num_input_channels()) + ", got "
-                                             + std::to_string(input_node->get_num_output_channels_allocated()));
+                                             + std::to_string(input_node->get_num_output_channels_allocated()) + ")");
                 }
 
                 /*------------------------------------------------------------------------
