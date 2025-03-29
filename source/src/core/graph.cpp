@@ -280,6 +280,16 @@ void AudioGraph::render_subgraph(const NodeRef &node) { this->render_subgraph(no
 void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 {
     /*------------------------------------------------------------------------
+     * render_subgraph() generally shouldn't be called if the audio thread
+     * has raised an error, because the audio I/O device has been shut down.
+     * If it is called manually (e.g., by a non-real-time process) after an
+     * error has been raised, return immediately, as otherwise a segfault
+     * may occur.
+     *-----------------------------------------------------------------------*/
+    if (this->has_raised_audio_thread_error())
+        throw audio_io_exception("Exception was thrown in audio thread, cannot continue processing");
+
+    /*------------------------------------------------------------------------
      * TODO: Should be able to render subgraph to a buffer of indefinite
      *       length. Need to add block-by-block processing
      *       (as per render_to_buffer)
@@ -483,6 +493,15 @@ void AudioGraph::render() { this->render(this->get_output_buffer_size()); }
 
 void AudioGraph::render(int num_frames)
 {
+    /*------------------------------------------------------------------------
+     * render() generally shouldn't be called if the audio thread has raised
+     * an error, because the audio I/O device has been shut down. If it is
+     * called manually (e.g., by a non-real-time process) after an error has
+     * been raised, return immediately, as otherwise a segfault may occur.
+     *-----------------------------------------------------------------------*/
+    if (this->has_raised_audio_thread_error())
+        throw audio_io_exception("Exception was thrown in audio thread, cannot continue processing");
+
     /*------------------------------------------------------------------------
      * Timestamp the start of processing to measure CPU usage.
      *-----------------------------------------------------------------------*/

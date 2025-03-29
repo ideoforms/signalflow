@@ -1,5 +1,5 @@
-from signalflow import AudioGraph, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add
-from signalflow import InsufficientBufferSizeException
+from signalflow import AudioGraph, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add, Sum
+from signalflow import InsufficientBufferSizeException, AudioIOException
 from . import count_zero_crossings, graph
 import pytest
 import numpy as np
@@ -98,4 +98,20 @@ def test_graph_nrt_set_sample_rate():
     output = AudioOut_Dummy(sample_rate=24000)
     graph = AudioGraph(output_device=output, start=False)
     assert graph.sample_rate == 24000
+    graph.destroy()
+
+
+def test_graph_render_after_exception():
+    """
+    Test that rendering after
+    """
+    graph = AudioGraph(output_device="dummy")
+    # Instantiate a stereo graph, and play a node with an invalid number of channels
+    # An exception is thrown in the audio thread
+    sines = SineOscillator([440] * 6)
+    sines.play()
+
+    # Rendering should now raise a
+    with pytest.raises(AudioIOException):
+        graph.render()
     graph.destroy()
