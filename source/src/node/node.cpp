@@ -125,7 +125,7 @@ void Node::process(Buffer &out, int num_frames)
 
 void Node::set_channels(int num_input_channels, int num_output_channels, bool disable_input_channel_matching)
 {
-
+    int previous_num_output_channels = this->num_output_channels;
     this->num_input_channels = num_input_channels;
     this->num_output_channels = num_output_channels;
 
@@ -144,7 +144,18 @@ void Node::set_channels(int num_input_channels, int num_output_channels, bool di
      * set_channels(). However, resize_output_buffers() is a no-op if no resize
      * operation is needed, so this should have minimal impact on CPU.
      *--------------------------------------------------------------------------------*/
-    this->resize_output_buffers(num_output_channels);
+    if (num_output_channels > previous_num_output_channels)
+    {
+        signalflow_debug("Node %s increased num_out_channels to %d", this->name.c_str(), this->num_output_channels);
+
+        this->resize_output_buffers(num_output_channels);
+
+        for (auto output : this->outputs)
+        {
+            Node *node = output.first;
+            node->update_channels();
+        }
+    }
 }
 
 void Node::update_channels()
@@ -179,19 +190,6 @@ void Node::update_channels()
                 max_channels = input_node->get_num_output_channels();
         }
 
-        int previous_num_output_channels = this->num_output_channels;
-        this->num_input_channels = max_channels;
-        this->num_output_channels = max_channels;
-
-        for (auto input : this->inputs)
-        {
-            NodeRef node = *input.second;
-            if (node && node->get_num_output_channels_allocated() < this->num_output_channels)
-            {
-                node->resize_output_buffers(this->num_output_channels);
-            }
-        }
-
         /*--------------------------------------------------------------------------------
          * If the number of output channels has increased due to a change in an input's
          * channel count:
@@ -202,18 +200,16 @@ void Node::update_channels()
          *  - apply the change to each output node, propagating up the entire outbound
          *    tree recursively.
          *-------------------------------------------------------------------------------*/
-        if (this->num_output_channels > previous_num_output_channels)
+        this->set_channels(max_channels, max_channels, false);
+
+        for (auto input : this->inputs)
         {
-            for (auto output : this->outputs)
+            NodeRef node = *input.second;
+            if (node && node->get_num_output_channels_allocated() < this->num_output_channels)
             {
-                Node *node = output.first;
-                node->update_channels();
+                node->resize_output_buffers(this->num_output_channels);
             }
         }
-
-        this->resize_output_buffers(this->num_output_channels);
-
-        signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
     }
     else
     {

@@ -101,9 +101,9 @@ void AudioOut_Abstract::replace_input(NodeRef node, NodeRef other)
     }
 }
 
-void AudioOut_Abstract::set_channels(int num_input_channels, int num_output_channels)
+void AudioOut_Abstract::set_channels(int num_input_channels, int num_output_channels, bool disable_input_channel_matching)
 {
-    Node::set_channels(num_input_channels, num_output_channels);
+    Node::set_channels(num_input_channels, num_output_channels, disable_input_channel_matching);
 
     /*--------------------------------------------------------------------------------
      * Typically, Node objects allocate an output buffer per output channel.

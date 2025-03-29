@@ -71,15 +71,6 @@ void ChannelArray::update_channels()
     }
 
     this->set_channels(this->num_input_channels, this->num_input_channels);
-
-    signalflow_debug("Node %s set num_out_channels to %d", this->name.c_str(), this->num_output_channels);
-
-    this->resize_output_buffers(this->num_input_channels);
-    for (auto output : this->outputs)
-    {
-        Node *node = output.first;
-        node->update_channels();
-    }
 }
 
 }
