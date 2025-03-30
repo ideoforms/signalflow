@@ -1,4 +1,4 @@
-from signalflow import Buffer, BufferPlayer, BufferRecorder, SineOscillator
+from signalflow import Buffer, BufferPlayer, BufferRecorder, SineOscillator, AudioGraph, AudioOut_Dummy
 from signalflow import SIGNALFLOW_NODE_STATE_ACTIVE, SIGNALFLOW_NODE_STATE_STOPPED
 from . import graph
 
@@ -53,3 +53,18 @@ def test_buffer_recorder_overdub(graph):
     assert recorder.state == SIGNALFLOW_NODE_STATE_ACTIVE
     sine_rendered = 0.5 * sine_rendered + np.sin(np.arange(len(record_buf)) * np.pi * 2 * 2000 / graph.sample_rate)
     assert record_buf.data[0] == pytest.approx(sine_rendered, abs=0.001)
+
+def test_buffer_multichannel_play():
+    """
+    Test that large multichannel buffers can be rendered successfully
+    """
+    output_device = AudioOut_Dummy(num_channels=64)
+    graph = AudioGraph(output_device=output_device)
+    buffer_data = np.ones((64, 2048))
+    buffer = Buffer(buffer_data)
+    player = BufferPlayer(buffer)
+    player.play()
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 1)
+    assert np.all(graph.output.output_buffer[63] == 1)
+    graph.destroy()

@@ -57,7 +57,7 @@ void BufferPlayer::set_buffer(std::string name, BufferRef buffer)
     if (name == "buffer")
     {
         this->Node::set_buffer(name, buffer);
-        this->num_output_channels = buffer->get_num_channels();
+        this->set_channels(1, buffer->get_num_channels());
         this->rate_scale_factor = buffer->get_sample_rate() / graph->get_sample_rate();
     }
 }
