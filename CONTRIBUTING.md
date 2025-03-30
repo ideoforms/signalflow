@@ -98,7 +98,7 @@ To author a new Node class:
 - Add the source file to `source/src/CMakeLists.txt`
 - Regenerate the auto-generated bindings and docs: `auxiliary/scripts/auto-generator.py --library --readme --bindings`
 - Add unit tests to the appropriate test script in `tests`
-- Re-run the tests: `python3 setup.py test`
+- Re-run the tests: `python3 -m pytest`
 - Update the stubs (see [Generating stubs](#generating-stubs))
 
 Note that, to comply with the registry system, all arguments to Node constructors must have default values so that the Node class can be instantiated with a zero-argument syntax, e.g. `NodeClass()`.
@@ -117,14 +117,14 @@ CombDelay: Delay time exceeds maximum. Reduce the delay_time, or increase max_de
 
 To run the unit test suite:
 ```
-pytest
+python3 -m pytest
 ```
 
 ## Release
 
 For each new release:
 
-- Update the version in `setup.py`
+- Update the version in `setup.cfg`
 - Add entry to `CHANGELOG.md`
 - Commit changes
 - Add a git version tag, in format `v1.2.34`

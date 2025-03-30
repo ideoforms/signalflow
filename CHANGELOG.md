@@ -1,5 +1,18 @@
 # CHANGELOG
 
+## [v0.5.3](https://github.com/ideoforms/signalflow/tree/v0.5.3) (2025-03-30)
+
+- Added `--channels` argument to `signalflow test`
+- Added support for custom sample rates in non-real-time processing
+- Added `BlockCounter` node, to count the number of blocks processed since launch
+- Fixed crash caused by calling render() after an exception in the audio I/O thread
+- Fixed crash in which ChannelArray does not propagate channel allocation properly
+- Fixed crash caused by playing multichannel buffers with BufferPlayer
+- Fixed bug in `BeatCutter` in which different buffer sample rates are not handled correctly
+- Renamed `output_backend_name` config parameter to `backend_name`
+- Improved general channel propagation logic
+- Updates to build process, particularly for Windows
+
 ## [v0.5.0](https://github.com/ideoforms/signalflow/tree/v0.5.0) (2024-10-28)
 
 - Replaced the `libsoundio` audio abstraction layer with `miniaudio`, heralding first-class Windows and Linux support.
