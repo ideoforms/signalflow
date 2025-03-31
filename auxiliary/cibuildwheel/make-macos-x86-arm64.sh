@@ -49,7 +49,11 @@ do
     # and that they are delocated. Failure to link can happen silently
     # if dependencies are not found!
     WHEEL_FILE=$(ls -tr wheelhouse/*.whl | tail -1)
-    delocate-listdeps $WHEEL_FILE | grep signalflow-stubs/.dylibs/libsndfile >/dev/null
+    if ! delocate-listdeps $WHEEL_FILE | grep signalflow-stubs/.dylibs/libsndfile >/dev/null
+    then
+      echo "Could not detect delocated libsndfile, linking/delocation failed?"
+      exit 1
+    fi
 
     #--------------------------------------------------------------------------------
     # Make arm64
@@ -68,6 +72,11 @@ do
     export CIBW_REPAIR_WHEEL_COMMAND_MACOS="DYLD_LIBRARY_PATH=$REPAIR_LIBRARY_PATH delocate-wheel -w {dest_dir} -v {wheel}"
 
     python3 -m cibuildwheel --output-dir wheelhouse --platform macos
+    
     WHEEL_FILE=$(ls -tr wheelhouse/*.whl | tail -1)
-    delocate-listdeps $WHEEL_FILE | grep signalflow-stubs/.dylibs/libsndfile >/dev/null
+    if ! delocate-listdeps $WHEEL_FILE | grep signalflow-stubs/.dylibs/libsndfile >/dev/null
+    then
+      echo "Could not detect delocated libsndfile, linking/delocation failed?"
+      exit 1
+    fi
 done
