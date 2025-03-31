@@ -1460,6 +1460,10 @@
             
           
         
+          
+            
+          
+        
       
       
         
@@ -1574,6 +1578,20 @@
     <li class="md-nav__item">
       <a href="../../library/oscillators/" class="md-nav__link">
         Oscillators
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../library/physical/" class="md-nav__link">
+        Physical Modelling
       </a>
     </li>
   
@@ -1777,14 +1795,17 @@
 <li>To minimise conflicts with other software, you should also ideally create a Python virtual environment, which is outlined in the <a href="../../installation/easy/">easy installation guide</a>.</li>
 </ul>
 <h2 id="on-macos">On macOS</h2>
-<p>Note that macOS 10.15 (Catalina) or above is required.</p>
+<ul>
+<li>macOS 12 (Monterey) or above is required</li>
+<li>Some archive releases are available supporting macOS 10.15 (Catalina and above), but note that these may not contain the latest fixes and features</li>
+</ul>
 <h2 id="on-linux">On Linux</h2>
 <p>If you are having audio problems with Linux, try switching to a different audio backend. From the command-line, run:</p>
 <div class="highlight"><pre><span></span><code>signalflow list-backend-names
 </code></pre></div>
 <p>Then, run <code>signalflow config</code>, and add a line to select an alternative backend:</p>
 <div class="highlight"><pre><span></span><code>[audio]
-output_backend_name = &quot;pulseaudio&quot;
+backend_name = &quot;pulseaudio&quot;
 </code></pre></div>
 <h2 id="on-raspberry-pi">On Raspberry Pi</h2>
 <p>SignalFlow requires Raspberry Pi 3 Model B or above. Note that only 64-bit devices and operating systems are supported (<code>uname -m</code> should display <code>aarch64</code>). </p>
@@ -1795,7 +1816,7 @@ output_backend_name = &quot;pulseaudio&quot;
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-01-09T16:43:18+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-01-09</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2025-03-31T13:43:47+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2025-03-31</span>
       
         <br>
         Created:
