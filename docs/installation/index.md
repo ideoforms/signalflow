@@ -4,7 +4,7 @@
 
 SignalFlow requires Python 3.8 or above, on the following systems:
 
- - **macOS**: Catalina (10.15) and above
+ - **macOS**: Monterey (macOS 12) and above
  - **Windows**: Windows 10 and above (64-bit)
  - **Linux**: Any Linux on an x86_64 processor
  - **Raspberry Pi**: Raspberry Pi 3 Model B and above (64-bit)

@@ -7,7 +7,8 @@
 
 ## On macOS
 
-Note that macOS 10.15 (Catalina) or above is required.
+- macOS 12 (Monterey) or above is required
+- Some archive releases are available supporting macOS 10.15 (Catalina and above), but note that these may not contain the latest fixes and features
 
 ## On Linux
 
