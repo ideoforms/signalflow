@@ -72,7 +72,6 @@ VampAnalysis::VampAnalysis(NodeRef input, std::string plugin_id)
             }
         }
 
-        signalflow_debug("Loaded plugin (output index %d)", this->output_index);
         bool rv = this->plugin->initialise(1, graph->get_output_buffer_size(), graph->get_output_buffer_size());
         // bool rv = this->plugin->initialise(1, 1024, 1024);
         if (!rv)
@@ -125,6 +124,7 @@ void VampAnalysis::process(Buffer &out, int num_frames)
     else
     {
         // no features extracted
+        printf("WARNING: No features found\n");
     }
 }
 
