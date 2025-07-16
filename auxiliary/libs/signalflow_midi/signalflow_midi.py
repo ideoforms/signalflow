@@ -17,8 +17,8 @@ class MIDIManager:
 
     def __init__(self, device_name: str = None, channel: int = None):
         if device_name is None:
-            if os.getenv("SIGNALFLOW_MIDI_OUTPUT_DEVICE_NAME") is not None:
-                device_name = os.getenv("SIGNALFLOW_MIDI_OUTPUT_DEVICE_NAME")
+            if os.getenv("SIGNALFLOW_MIDI_INPUT_DEVICE_NAME") is not None:
+                device_name = os.getenv("SIGNALFLOW_MIDI_INPUT_DEVICE_NAME")
             else:
                 config_path = os.path.expanduser("~/.signalflow/config")
                 parser = configparser.ConfigParser()
