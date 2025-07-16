@@ -44,6 +44,7 @@ void CombDelay::process(Buffer &out, int num_frames)
             if (delay_time > this->max_delay_time)
             {
                 signalflow_audio_thread_error("CombDelay: Delay time exceeds maximum. Reduce the delay_time, or increase max_delay_time.");
+                return;
             }
 
             sample rv = input->out[channel][frame] + (feedback * buffers[channel]->get(-offset + 1));
