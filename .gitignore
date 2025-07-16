@@ -8,7 +8,6 @@ recordings/
 _site/
 site/
 TODO.md
-NOTES.md
 *.swp
 *-test
 *-test.cpp
@@ -33,3 +32,4 @@ wheelhouse/
 .vscode
 .vs
 miniaudio-library.h
+notes
