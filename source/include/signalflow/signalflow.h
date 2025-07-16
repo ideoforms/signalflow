@@ -196,6 +196,8 @@
  * FFT
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/fft/continuous-pv.h>
+#include <signalflow/node/fft/features/fft-spectral-centroid.h>
+#include <signalflow/node/fft/features/fft-spectral-flatness.h>
 #include <signalflow/node/fft/fft-buffer-player.h>
 #include <signalflow/node/fft/fft-contrast.h>
 #include <signalflow/node/fft/fft-cross-fade.h>

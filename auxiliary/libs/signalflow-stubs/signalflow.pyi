@@ -10,7 +10,7 @@ from __future__ import annotations
 import numpy
 import typing
 import typing_extensions
-__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Accumulator', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'Bus', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelOffset', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTBuffer', 'FFTBufferPlayer', 'FFTContinuousPhaseVocoder', 'FFTContrast', 'FFTConvolve', 'FFTCrossFade', 'FFTFindPeaks', 'FFTLFO', 'FFTLPF', 'FFTMagnitudePhaseArray', 'FFTNode', 'FFTNoiseGate', 'FFTOpNode', 'FFTPhaseVocoder', 'FFTRandomPhase', 'FFTScaleMagnitudes', 'FFTTonality', 'FFTTransform', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'HistoryBufferWriter', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InsufficientBufferSizeException', 'InvalidChannelCountException', 'KDTree', 'KDTreeMatch', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'NearestNeighbour', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'SegmentedGranulator', 'SelectInput', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TimeShift', 'TriangleLFO', 'TriangleOscillator', 'TriggerMult', 'TriggerRoundRobin', 'UnknownTriggerNameException', 'VampAnalysis', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WavetableBuffer', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'calculate_decay_coefficient', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_integer', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
+__all__ = ['ADSREnvelope', 'ASREnvelope', 'Abs', 'Accumulator', 'Add', 'AllpassDelay', 'AmplitudeToDecibels', 'AudioGraph', 'AudioGraphConfig', 'AudioIOException', 'AudioIn', 'AudioOut', 'AudioOut_Abstract', 'AudioOut_Dummy', 'AzimuthPanner', 'BeatCutter', 'BiquadFilter', 'BlockCounter', 'Buffer', 'Buffer2D', 'BufferLooper', 'BufferPlayer', 'BufferRecorder', 'Bus', 'CPUUsageAboveLimitException', 'ChannelArray', 'ChannelCrossfade', 'ChannelMixer', 'ChannelOffset', 'ChannelPanner', 'ChannelSelect', 'Clip', 'ClockDivider', 'CombDelay', 'Compressor', 'Constant', 'Cos', 'Counter', 'CrossCorrelate', 'DCFilter', 'DecibelsToAmplitude', 'DetectSilence', 'DeviceNotFoundException', 'Divide', 'EQ', 'Envelope', 'EnvelopeBuffer', 'Equal', 'Euclidean', 'FFT', 'FFTBuffer', 'FFTBufferPlayer', 'FFTContinuousPhaseVocoder', 'FFTContrast', 'FFTConvolve', 'FFTCrossFade', 'FFTFindPeaks', 'FFTLFO', 'FFTLPF', 'FFTMagnitudePhaseArray', 'FFTNode', 'FFTNoiseGate', 'FFTOpNode', 'FFTPhaseVocoder', 'FFTRandomPhase', 'FFTScaleMagnitudes', 'FFTTonality', 'FFTTransform', 'FeedbackBufferReader', 'FeedbackBufferWriter', 'FlipFlop', 'Fold', 'FrequencyToMidiNote', 'Gate', 'Granulator', 'GraphAlreadyCreatedException', 'GraphNotCreatedException', 'GreaterThan', 'GreaterThanOrEqual', 'HistoryBufferWriter', 'IFFT', 'If', 'Impulse', 'ImpulseSequence', 'Index', 'InsufficientBufferSizeException', 'InvalidChannelCountException', 'KDTree', 'KDTreeMatch', 'LFO', 'Latch', 'LessThan', 'LessThanOrEqual', 'Line', 'Logistic', 'Maraca', 'Maximiser', 'MidiNoteToFrequency', 'Modulo', 'MoogVCF', 'MouseDown', 'MouseX', 'MouseY', 'Multiply', 'NearestNeighbour', 'Node', 'NodeAlreadyPlayingException', 'NodeNotPlayingException', 'NodeRegistry', 'NotEqual', 'OneTapDelay', 'OnsetDetector', 'Patch', 'PatchFinishedPlaybackException', 'PatchRegistry', 'PatchSpec', 'PinkNoise', 'Pow', 'RMS', 'RandomBrownian', 'RandomChoice', 'RandomCoin', 'RandomExponential', 'RandomExponentialDist', 'RandomGaussian', 'RandomImpulse', 'RandomImpulseSequence', 'RandomUniform', 'RectangularEnvelope', 'Resample', 'Round', 'RoundToScale', 'SIGNALFLOW_DEFAULT_BLOCK_SIZE', 'SIGNALFLOW_DEFAULT_FFT_HOP_SIZE', 'SIGNALFLOW_DEFAULT_FFT_SIZE', 'SIGNALFLOW_DEFAULT_SAMPLE_RATE', 'SIGNALFLOW_DEFAULT_TRIGGER', 'SIGNALFLOW_EVENT_DISTRIBUTION_POISSON', 'SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM', 'SIGNALFLOW_FILTER_TYPE_BAND_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_PASS', 'SIGNALFLOW_FILTER_TYPE_HIGH_SHELF', 'SIGNALFLOW_FILTER_TYPE_LOW_PASS', 'SIGNALFLOW_FILTER_TYPE_LOW_SHELF', 'SIGNALFLOW_FILTER_TYPE_NOTCH', 'SIGNALFLOW_FILTER_TYPE_PEAK', 'SIGNALFLOW_INTERPOLATION_MODE_COSINE', 'SIGNALFLOW_INTERPOLATION_MODE_LINEAR', 'SIGNALFLOW_INTERPOLATION_MODE_NONE', 'SIGNALFLOW_MAX_CHANNELS', 'SIGNALFLOW_MAX_FFT_SIZE', 'SIGNALFLOW_NODE_BUFFER_SIZE', 'SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS', 'SIGNALFLOW_NODE_STATE_ACTIVE', 'SIGNALFLOW_NODE_STATE_STOPPED', 'SIGNALFLOW_PATCH_STATE_ACTIVE', 'SIGNALFLOW_PATCH_STATE_STOPPED', 'SVFilter', 'SampleAndHold', 'SampleRingBuffer', 'SampleRingQueue', 'SawLFO', 'SawOscillator', 'ScaleLinExp', 'ScaleLinLin', 'SegmentPlayer', 'SegmentedGranulator', 'SelectInput', 'Sequence', 'Sin', 'SineLFO', 'SineOscillator', 'Smooth', 'SpatialEnvironment', 'SpatialPanner', 'SpatialSpeaker', 'SquareLFO', 'SquareOscillator', 'Squiz', 'StereoBalance', 'StereoPanner', 'StereoWidth', 'StochasticNode', 'Stutter', 'Subtract', 'Sum', 'Tan', 'Tanh', 'TimeShift', 'TriangleLFO', 'TriangleOscillator', 'TriggerMult', 'TriggerRoundRobin', 'UnknownTriggerNameException', 'WaveShaper', 'WaveShaperBuffer', 'Wavetable', 'Wavetable2D', 'WavetableBuffer', 'WetDry', 'WhiteNoise', 'Wrap', 'amplitude_to_db', 'calculate_decay_coefficient', 'clip', 'db_to_amplitude', 'fold', 'frequency_to_midi_note', 'midi_note_to_frequency', 'random_exponential', 'random_integer', 'random_seed', 'random_uniform', 'save_block_to_text_file', 'save_block_to_wav_file', 'scale_exp_lin', 'scale_lin_exp', 'scale_lin_lin', 'signalflow_event_distribution_t', 'signalflow_filter_type_t', 'signalflow_interpolation_mode_t', 'signalflow_node_state_t', 'signalflow_patch_state_t', 'wrap']
 class ADSREnvelope(Node):
     """
     Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
@@ -59,19 +59,34 @@ class AudioGraph:
     """
     output: Node
     @staticmethod
+    def get_backend_names() -> list[str]:
+        """
+        list[str]: List the available audio backend names.
+        """
+    @staticmethod
+    def get_input_device_names(backend_name: typing.Any = '') -> list[str]:
+        """
+        list[str]: List the available input device names.
+        """
+    @staticmethod
+    def get_output_device_names(backend_name: typing.Any = '') -> list[str]:
+        """
+        list[str]: List the available output device names.
+        """
+    @staticmethod
     def get_shared_graph() -> AudioGraph:
         ...
     @typing.overload
     def __init__(self, config: AudioGraphConfig = None, output_device: Node = None, start: bool = True) -> None:
         ...
     @typing.overload
-    def __init__(self, config: AudioGraphConfig = None, output_device: str = '', start: bool = True) -> None:
+    def __init__(self, config: AudioGraphConfig = None, output_device: str = None, start: bool = True) -> None:
         ...
     @typing.overload
-    def __init__(self, config_name: str = None, output_device: Node = None, start: bool = True) -> None:
+    def __init__(self, config: str = None, output_device: Node = None, start: bool = True) -> None:
         ...
     @typing.overload
-    def __init__(self, config_name: str = None, output_device: str = '', start: bool = True) -> None:
+    def __init__(self, config: str = None, output_device: Node = None, start: bool = True) -> None:
         ...
     def add_node(self, node: Node) -> Node:
         """
@@ -202,19 +217,9 @@ class AudioGraph:
         int: Get the number of output channels available in the graph.
         """
     @property
-    def output_backend_names(self) -> list[str]:
-        """
-        list[str]: List the available output backend names.
-        """
-    @property
     def output_buffer_size(self) -> int:
         """
         int: Get the current output buffer size, in frames.
-        """
-    @property
-    def output_device_names(self) -> list[str]:
-        """
-        list[str]: List the available output device names.
         """
     @property
     def outputs(self) -> list[Node]:
@@ -249,10 +254,10 @@ class AudioGraphConfig:
     Configuration options for the AudioGraph
     """
     auto_record: bool
+    backend_name: str
     cpu_usage_limit: float
     input_buffer_size: int
     input_device_name: str
-    output_backend_name: str
     output_buffer_size: int
     output_device_name: str
     sample_rate: int
@@ -290,7 +295,7 @@ class AudioOut_Dummy(Node):
     """
     Dummy audio output for offline processing
     """
-    def __init__(self, num_channels: int = 2, buffer_size: int = 256) -> None:
+    def __init__(self, num_channels: int = 2, sample_rate: int = 44100, buffer_size: int = 256) -> None:
         ...
 class AzimuthPanner(Node):
     """
@@ -313,6 +318,12 @@ class BiquadFilter(Node):
         ...
     @typing.overload
     def __init__(self, input: Node, filter_type: str, cutoff: Node = 440, resonance: Node = 0.0, peak_gain: Node = 0.0) -> None:
+        ...
+class BlockCounter(Node):
+    """
+    Increments by one for each audio block processed.
+    """
+    def __init__(self) -> None:
         ...
 class Buffer:
     """
@@ -473,7 +484,7 @@ class BufferLooper(Node):
         ...
 class BufferPlayer(Node):
     """
-    Plays the contents of the given buffer. `start_time`/`end_time` are in seconds. When a `clock` signal is received, rewinds to the `start_time`.  Set `clock` to `0` to prevent the buffer from being triggered immediately.
+    Plays the contents of the given buffer. `start_time`/`end_time` are in seconds. When a `clock` signal is received, rewinds to the `start_time`.
     """
     def __init__(self, buffer: ... = None, rate: Node = 1.0, loop: Node = 0, start_time: Node = None, end_time: Node = None, clock: Node = None) -> None:
         ...
@@ -867,7 +878,7 @@ class GreaterThanOrEqual(Node):
         ...
 class HistoryBufferWriter(Node):
     """
-    Writes a rolling history buffer of a given duration. At a given moment in time, the contents of the buffer will be equal to the past N seconds of the audio generated by `input`. This is useful for (e.g.) a visual display of a rolling waveform or LFO window. `downsample` can be used to downsample the input; for example, with `downsample` of 10, a 1-second buffer can be used to display 10 seconds of historical audio.
+    Writes a rolling history buffer of a given duration. At a given moment in time, the contents of the buffer will be equal to the past N seconds of the audio generated by `input`.
     """
     def __init__(self, buffer: ... = None, input: Node = 0.0, downsample: int = 1) -> None:
         ...
@@ -971,6 +982,12 @@ class Logistic(Node):
     Logistic noise.
     """
     def __init__(self, chaos: Node = 3.7, frequency: Node = 0.0) -> None:
+        ...
+class Maraca(StochasticNode):
+    """
+    Physically-inspired model of a maraca.
+    """
+    def __init__(self, num_beans: Node = 64, shake_decay: Node = 0.99, grain_decay: Node = 0.99, shake_duration: Node = 0.02, shell_frequency: Node = 12000, shell_resonance: Node = 0.9, clock: Node = None, energy: Node = None) -> None:
         ...
 class Maximiser(Node):
     """
@@ -1372,7 +1389,7 @@ class OneTapDelay(Node):
         ...
 class OnsetDetector(Node):
     """
-    Simple time-domain onset detector. Outputs an impulse when an onset is detected in the input. Maintains short-time and long-time averages. An onset is registered when the short-time average is threshold x the long-time average. min_interval is the minimum interval between onsets, in seconds.
+    Simple time-domain onset detector: outputs an impulse when an onset is detected in the input.
     """
     def __init__(self, input: Node = 0.0, threshold: Node = 2.0, min_interval: Node = 0.1) -> None:
         ...
@@ -1450,10 +1467,6 @@ class Patch:
         ...
     def get_trigger_node(self) -> Node:
         ...
-    @typing.overload
-    def play(self) -> None:
-        ...
-    @typing.overload
     def play(self) -> None:
         ...
     def set_auto_free(self, arg0: bool) -> None:
@@ -1545,37 +1558,37 @@ class RMS(Node):
         ...
 class RandomBrownian(StochasticNode):
     """
-    Outputs Brownian noise between min/max, with a mean change of delta between samples. If a clock is passed, only generates a new value on a clock tick.
+    Outputs Brownian noise between min/max, with a mean change of delta between samples. If a clock is passed, only generates a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
     """
     def __init__(self, min: Node = -1.0, max: Node = 1.0, delta: Node = 0.01, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomChoice(StochasticNode):
     """
-    Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick.
+    Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
     """
     def __init__(self, values: list[float] = [], clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomCoin(StochasticNode):
     """
-    Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick.
+    Flip a coin with the given probability. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
     """
     def __init__(self, probability: Node = 0.5, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomExponential(StochasticNode):
     """
-    Generate an random exponential value between min/max. If a clock is passed, only picks a new value on a clock tick.
+    Generate an random exponential value between min/max. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
     """
     def __init__(self, min: Node = 0.001, max: Node = 1.0, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomExponentialDist(StochasticNode):
     """
-    Generate an random value following the exponential distribution. If a clock is passed, only picks a new value on a clock tick.
+    Generate an random value following the exponential distribution. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
     """
     def __init__(self, scale: Node = 0.0, clock: Node = None, reset: Node = None) -> None:
         ...
 class RandomGaussian(StochasticNode):
     """
-    Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick.
+    Generate an random Gaussian value, with given mean and sigma. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
     """
     def __init__(self, mean: Node = 0.0, sigma: Node = 0.0, clock: Node = None, reset: Node = None) -> None:
         ...
@@ -1597,7 +1610,7 @@ class RandomImpulseSequence(StochasticNode):
         ...
 class RandomUniform(StochasticNode):
     """
-    Generates a uniformly random value between min/max. If a clock is passed, only picks a new value on a clock tick.
+    Generates a uniformly random value between min/max. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
     """
     def __init__(self, min: Node = 0.0, max: Node = 1.0, clock: Node = None, reset: Node = None) -> None:
         ...
@@ -1641,6 +1654,58 @@ class SampleAndHold(Node):
     """
     def __init__(self, input: Node = None, clock: Node = None) -> None:
         ...
+class SampleRingBuffer:
+    """
+    A circular buffer of audio samples with a single read/write head
+    """
+    def __init__(self, capacity: int) -> None:
+        """
+        Create a new ring buffer
+        """
+    def append(self, arg0: float) -> None:
+        """
+        Append an item to the ring buffer.
+        """
+    def extend(self, arg0: list[float]) -> None:
+        """
+        Extend the ring buffer.
+        """
+    def get(self, arg0: float) -> float:
+        """
+        Retrieve an item from the ring buffer, with offset relative to the read head.
+        """
+    def get_capacity(self) -> int:
+        """
+        Returns the capacity of the ring buffer.
+        """
+class SampleRingQueue:
+    """
+    A circular queue of audio samples with separate read/write heads
+    """
+    def __init__(self, capacity: int) -> None:
+        """
+        Create a new ring queue
+        """
+    def append(self, arg0: float) -> None:
+        """
+        Append an item to the ring queue.
+        """
+    def extend(self, arg0: list[float]) -> None:
+        """
+        Extend the ring queue.
+        """
+    def get_capacity(self) -> int:
+        """
+        Returns the capacity of the ring queue.
+        """
+    def get_filled_count(self) -> int:
+        """
+        Returns the number of items filled in the ring queue.
+        """
+    def pop(self) -> float:
+        """
+        Pop an item from the ring queue.
+        """
 class SawLFO(Node):
     """
     Produces a sawtooth LFO at the given `frequency` and `phase` offset, with output ranging from `min` to `max`.
@@ -1667,7 +1732,7 @@ class ScaleLinLin(Node):
         ...
 class SegmentPlayer(Node):
     """
-    Trigger segments of `buffer` at the given list of `onsets` positions, in seconds. `index` determines the index of the onset to play back at, which can also be passed as an argument to trigger(). `rate` determines the playback rate, and `clock` can be used to retrigger based on the output of another Node. If `continue_after_segment` is non-zero, playback will continue after the subsequent onset.
+    Trigger segments of `buffer` at the given list of `onsets` positions, in seconds.
     """
     def __init__(self, buffer: ... = None, onsets: list[float] = 0, index: Node = None, rate: Node = 1.0, start_offset: Node = None, clock: Node = None, continue_after_segment: Node = 0) -> None:
         ...
@@ -1786,7 +1851,7 @@ class Stutter(Node):
     """
     Stutters the input whenever a trigger is received on `clock`. Generates `stutter_count` repeats, with duration of `stutter_time`.
     """
-    def __init__(self, input: Node = 0.0, stutter_time: Node = 0.1, stutter_count: Node = 1, clock: Node = None, max_stutter_time: float = 1.0) -> None:
+    def __init__(self, input: Node = 0.0, stutter_time: Node = 0.1, stutter_count: Node = 1, stutter_probability: Node = 1.0, stutter_advance_time: Node = 0.0, clock: Node = None, max_stutter_time: float = 1.0) -> None:
         ...
 class Subtract(Node):
     """
@@ -1857,16 +1922,6 @@ class TriggerRoundRobin(Node):
         ...
 class UnknownTriggerNameException(Exception):
     pass
-class VampAnalysis(Node):
-    """
-    Feature extraction using the Vamp plugin toolkit.
-    """
-    def __init__(self, input: Node = 0.0, plugin_id: str = 'vamp-example-plugins:spectralcentroid:linearcentroid') -> None:
-        ...
-    def list_plugins(self) -> list[str]:
-        """
-        list[str]: List the available plugin names.
-        """
 class WaveShaper(Node):
     """
     Applies wave-shaping as described in the WaveShaperBuffer `buffer`.
@@ -2380,4 +2435,4 @@ SIGNALFLOW_NODE_STATE_ACTIVE: signalflow_node_state_t  # value = <signalflow_nod
 SIGNALFLOW_NODE_STATE_STOPPED: signalflow_node_state_t  # value = <signalflow_node_state_t.SIGNALFLOW_NODE_STATE_STOPPED: 1>
 SIGNALFLOW_PATCH_STATE_ACTIVE: signalflow_patch_state_t  # value = <signalflow_patch_state_t.SIGNALFLOW_PATCH_STATE_ACTIVE: 0>
 SIGNALFLOW_PATCH_STATE_STOPPED: signalflow_patch_state_t  # value = <signalflow_patch_state_t.SIGNALFLOW_PATCH_STATE_STOPPED: 1>
-__version__: str = '0.4.11'
+__version__: str = '0.5.3'

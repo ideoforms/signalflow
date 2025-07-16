@@ -161,6 +161,12 @@ void init_python_nodes(py::module &m)
     py::class_<FFTTonality, FFTOpNode, NodeRefTemplate<FFTTonality>>(m, "FFTTonality", "Tonality filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
 
+    py::class_<FFTSpectralCentroid, FFTOpNode, NodeRefTemplate<FFTSpectralCentroid>>(m, "FFTSpectralCentroid", "Randomise phase values.")
+        .def(py::init<NodeRef>(), "input"_a = 0);
+
+    py::class_<FFTSpectralFlatness, FFTOpNode, NodeRefTemplate<FFTSpectralFlatness>>(m, "FFTSpectralFlatness", "Randomise phase values.")
+        .def(py::init<NodeRef>(), "input"_a = 0);
+
     py::class_<Add, Node, NodeRefTemplate<Add>>(m, "Add", "Add each sample of a to each sample of b. Can also be written as a + b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);
 
