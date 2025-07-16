@@ -57,6 +57,8 @@ void init_python_graph(py::module &m)
                                R"pbdoc(float: Get the current CPU usage (from 0.0 to 1.0).)pbdoc")
         .def_property_readonly("memory_usage", &AudioGraph::get_memory_usage,
                                R"pbdoc(int: Get the current memory usage, in bytes.)pbdoc")
+        .def_property_readonly("output_level_peak", &AudioGraph::get_output_level_peak,
+                               R"pbdoc(float: Get the current audio output amplitude, based on the peak sample in the current output buffer.)pbdoc")
         .def_property_readonly("num_output_channels", &AudioGraph::get_num_output_channels,
                                R"pbdoc(int: Get the number of output channels available in the graph.)pbdoc")
         .def_property_readonly("output_buffer_size", &AudioGraph::get_output_buffer_size,
@@ -70,6 +72,8 @@ void init_python_graph(py::module &m)
         .def_property_readonly(
             "structure", [](AudioGraph &graph) { return graph.get_structure(); },
             R"pbdoc(int: Get a text representation of the AudioGraph's node connectivity structure.)pbdoc")
+        .def_property_readonly("has_raised_audio_thread_error", &AudioGraph::has_raised_audio_thread_error,
+                               R"pbdoc(bool: Returns True if the AudioGraph has encountered an exception in the audio I/O thread)pbdoc")
         .def_property("sample_rate", &AudioGraph::get_sample_rate, &AudioGraph::set_sample_rate,
                       R"pbdoc(int: Get/set the graph's sample rate.)pbdoc")
         .def_property("output", &AudioGraph::get_output, &AudioGraph::set_output)

@@ -404,6 +404,15 @@ public:
     size_t get_memory_usage();
 
     /**--------------------------------------------------------------------------------
+     * Query the magnitude of the current output signal, based on the absolute peak
+     * sample in the current output buffer.
+     *
+     * @return The output magnitude (between 0 and 1).
+     *
+     *--------------------------------------------------------------------------------*/
+    float get_output_level_peak();
+
+    /**--------------------------------------------------------------------------------
      * Get the current graph config.
      *
      * @return The config.
@@ -436,7 +445,7 @@ private:
     int _node_count_tmp;
     float cpu_usage;
     float cpu_usage_smoothing;
-    float peak_level;
+    float output_level_peak;
     size_t memory_usage;
     bool raised_audio_thread_error = false;
 

@@ -534,15 +534,15 @@ void AudioGraph::render(int num_frames)
         sf_writef_float(this->recording_fd, this->recording_buffer, num_frames);
     }
 
-    this->peak_level = 0.0;
+    this->output_level_peak = 0.0;
     for (int channel = 0; channel < this->output->num_input_channels; channel++)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
             sample level_abs = abs(this->output->out[channel][frame]);
-            if (level_abs > this->peak_level)
+            if (level_abs > this->output_level_peak)
             {
-                this->peak_level = level_abs;
+                this->output_level_peak = level_abs;
             }
         }
     }
@@ -841,7 +841,7 @@ std::string AudioGraph::get_status()
     ss << std::fixed << std::setprecision(1) << memory_usage_mb;
     std::string memory_usage_str = ss.str();
 
-    float peak_output = signalflow_amplitude_to_db(this->peak_level);
+    float peak_output = signalflow_amplitude_to_db(this->output_level_peak);
 
     std::string peak_output_str;
     if (peak_output > -180)
@@ -906,6 +906,8 @@ int AudioGraph::get_patch_count() { return (int) this->patches.size(); }
 float AudioGraph::get_cpu_usage() { return this->cpu_usage; }
 
 size_t AudioGraph::get_memory_usage() { return this->memory_usage; }
+
+float AudioGraph::get_output_level_peak() { return this->output_level_peak; }
 
 AudioGraphConfig &AudioGraph::get_config() { return this->config; }
 
