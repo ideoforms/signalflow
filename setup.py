@@ -55,6 +55,7 @@ signalflow_packages = [
     'signalflow-stubs',
     'signalflow_midi',
     'signalflow_cli',
+    'signalflow_vscode',
     'signalflow_examples',
     'signalflow_visualisation',
     'signalflow_analysis',
