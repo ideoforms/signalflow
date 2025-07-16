@@ -82,21 +82,6 @@ class SignalFlowStatus:
 # Create global instance
 status = SignalFlowStatus()
 
-# Convenience functions
-def info(key: str, value: str) -> bool:
-    return status.info(key, value)
-
-def success(key: str, value: str) -> bool:
-    return status.success(key, value)
-
-def warning(key: str, value: str) -> bool:
-    return status.warning(key, value)
-
-def error(key: str, value: str) -> bool:
-    return status.error(key, value)
-
-def clear_all() -> bool:
-    return status.clear()
 
 def clear_audio_graph() -> bool:
     """Clear the AudioGraph singleton"""
@@ -105,16 +90,16 @@ def clear_audio_graph() -> bool:
         graph = AudioGraph.get_shared_graph()
         if graph is not None:
             graph.clear()
-            info("AudioGraph", "Cleared")
+            status.info("AudioGraph", "Cleared")
             return True
         else:
-            info("AudioGraph", "No active graph to clear")
+            status.info("AudioGraph", "No active graph to clear")
             return True
     except ImportError:
-        error("AudioGraph", "SignalFlow not available")
+        status.error("AudioGraph", "SignalFlow not available")
         return False
     except Exception as e:
-        error("AudioGraph", f"Clear failed: {str(e)}")
+        status.error("AudioGraph", f"Clear failed: {str(e)}")
         return False
 
 # RPC Listener for remote clear commands
@@ -196,26 +181,26 @@ def run_signalflow_status_display_thread():
         graph = AudioGraph.get_shared_graph()
         if graph:
             if graph.has_raised_audio_thread_error:
-                error("AudioGraph", "Error in audio thread")
+                status.error("AudioGraph", "Error in audio thread")
             else:
-                success("AudioGraph", "Running")
+                status.success("AudioGraph", "Running")
                 cpu_usage_percent = graph.cpu_usage * 100
                 if cpu_usage_percent > 60:
-                    warning("CPU", "%.1f%%" % cpu_usage_percent)
+                    status.warning("CPU", "%.1f%%" % cpu_usage_percent)
                 else:
-                    info("CPU", "%.1f%%" % cpu_usage_percent)
+                    status.info("CPU", "%.1f%%" % cpu_usage_percent)
                 memory_usage_mb = graph.memory_usage / (1024 * 1024)
-                info("Memory", "%.1f MB" % memory_usage_mb)
+                status.info("Memory", "%.1f MB" % memory_usage_mb)
                 level_db = amplitude_to_db(graph.output_level_peak)
                 if graph.output_level_peak > 1.0:
-                    error("Level", "%.1fdB (clipping!)" % level_db)
+                    status.error("Level", "%.1fdB (clipping!)" % level_db)
                 else:
                     level_str = "%.1f" % level_db if level_db > -180 else "-"
-                    info("Level", "%sdB" % level_str)
-                info("Patches", str(graph.patch_count))
-                info("Nodes", str(graph.node_count))
+                    status.info("Level", "%sdB" % level_str)
+                status.info("Patches", str(graph.patch_count))
+                status.info("Nodes", str(graph.node_count))
         else:
-            info("AudioGraph", "Not created")
+            status.info("AudioGraph", "Not created")
         time.sleep(0.5)
 
 # Cleanup on exit
@@ -226,5 +211,5 @@ def _cleanup():
 
 atexit.register(_cleanup)
 
-clear_all()
+status.clear()
 start_signalflow_listener()
