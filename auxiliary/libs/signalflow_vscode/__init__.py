@@ -8,103 +8,103 @@ import atexit
 import socket
 import time
 import json
+import os
 
 from signalflow import AudioGraph, amplitude_to_db
 from typing import Optional, Literal
 
+def get_notebook_port() -> int:
+    """Get the port for the current notebook using VS Code variable"""
+    try:
+        # Try to access VS Code variable from the calling frame
+        import inspect
+        frame = inspect.currentframe()
+        while frame:
+            frame = frame.f_back
+            if frame and '__vsc_ipynb_file__' in frame.f_globals:
+                notebook_path = frame.f_globals['__vsc_ipynb_file__']
+                basename = os.path.basename(notebook_path)
+
+                # Calculate hash same as VS Code extension
+                hash_obj = 0
+                for char in basename:
+                    hash_obj = ((hash_obj << 5) - hash_obj) + ord(char)
+                    hash_obj = ((hash_obj & 0xFFFFFFFF) ^ 0x80000000) - 0x80000000
+
+                remainder = hash_obj % 1000
+                if hash_obj < 0 and remainder != 0:
+                    remainder = remainder - 1000
+                return 8765 + abs(remainder)
+    except:
+        pass
+
+    # Fallback to default port
+    return 8765
+
 class SignalFlowStatus:
-    def __init__(self, host: str = "localhost", port: int = 8765):
+    def __init__(self, host: str = "localhost", port: Optional[int] = None):
+        if port is None:
+            port = get_notebook_port()
         self.base_url = f"http://{host}:{port}"
+        self.port = port
         self.session = requests.Session()
-        
+
     def update(self, key: str, value: str, status_type: Literal["info", "warning", "error", "success"] = "info") -> bool:
-        """Update a status item in the VS Code panel"""
         try:
             response = self.session.post(
                 f"{self.base_url}/status",
-                json={
-                    "key": key,
-                    "value": value,
-                    "type": status_type
-                },
+                json={"key": key, "value": value, "type": status_type},
                 timeout=1
             )
             return response.status_code == 200
-        except requests.exceptions.RequestException:
+        except:
             return False
-    
+
     def info(self, key: str, value: str) -> bool:
-        """Update with info status"""
         return self.update(key, value, "info")
-    
+
     def success(self, key: str, value: str) -> bool:
-        """Update with success status"""
         return self.update(key, value, "success")
-    
+
     def warning(self, key: str, value: str) -> bool:
-        """Update with warning status"""
         return self.update(key, value, "warning")
-    
+
     def error(self, key: str, value: str) -> bool:
-        """Update with error status"""
         return self.update(key, value, "error")
-    
+
     def clear(self) -> bool:
-        """Clear all status items"""
         try:
             response = self.session.delete(f"{self.base_url}/status", timeout=1)
             return response.status_code == 200
-        except requests.exceptions.RequestException:
+        except:
             return False
-    
-    def get_all(self) -> Optional[dict]:
-        """Get all current status items"""
-        try:
-            response = self.session.get(f"{self.base_url}/status", timeout=1)
-            if response.status_code == 200:
-                return response.json()
-            return None
-        except requests.exceptions.RequestException:
-            return None
 
-# Global instance for convenience
+# Create global instance
 status = SignalFlowStatus()
 
 # Convenience functions
-def update_status(key: str, value: str, status_type: Literal["info", "warning", "error", "success"] = "info") -> bool:
-    """Update a status item (convenience function)"""
-    return status.update(key, value, status_type)
-
 def info(key: str, value: str) -> bool:
-    """Update with info status (convenience function)"""
     return status.info(key, value)
 
 def success(key: str, value: str) -> bool:
-    """Update with success status (convenience function)"""
     return status.success(key, value)
 
 def warning(key: str, value: str) -> bool:
-    """Update with warning status (convenience function)"""
     return status.warning(key, value)
 
 def error(key: str, value: str) -> bool:
-    """Update with error status (convenience function)"""
     return status.error(key, value)
 
 def clear_all() -> bool:
-    """Clear all status items (convenience function)"""
     return status.clear()
 
 def clear_audio_graph() -> bool:
     """Clear the AudioGraph singleton"""
     try:
-        # Import AudioGraph and clear the shared graph
+        from signalflow import AudioGraph
         graph = AudioGraph.get_shared_graph()
-        
-        # Check if graph exists before clearing
         if graph is not None:
             graph.clear()
-            # Also update status to reflect the clear action
             info("AudioGraph", "Cleared")
             return True
         else:
@@ -119,53 +119,45 @@ def clear_audio_graph() -> bool:
 
 # RPC Listener for remote clear commands
 class SignalFlowRPCListener:
-    def __init__(self, port: int = 8766):
+    def __init__(self, port: Optional[int] = None):
+        if port is None:
+            port = get_notebook_port() + 1
         self.port = port
         self.running = False
         self.server_thread = None
         self.tcp_server = None
-        
+
     def start_listener(self):
-        """Start the RPC listener in a background thread"""
         if self.running:
             return
-        
-        # Clear any existing status before starting listener
-        clear_all()
-            
         self.running = True
         self.server_thread = threading.Thread(target=self._run_tcp_server, daemon=True)
         self.server_thread.start()
-        
+
     def stop_listener(self):
-        """Stop the RPC listener"""
         self.running = False
         if self.tcp_server:
             self.tcp_server.close()
-            
+
     def _run_tcp_server(self):
-        """Run TCP socket server"""
         try:
             self.tcp_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.tcp_server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
             self.tcp_server.bind(('localhost', self.port))
             self.tcp_server.listen(1)
-            
+
             while self.running:
                 try:
                     conn, addr = self.tcp_server.accept()
                     threading.Thread(target=self._handle_connection, args=(conn,), daemon=True).start()
                 except OSError:
                     break
-                    
-        except Exception as e:
+        except:
             pass
-            
+
     def _handle_connection(self, conn):
-        """Handle incoming RPC connection"""
         try:
             data = conn.recv(1024).decode('utf-8')
-            
             if data.strip() == 'clear':
                 result = clear_audio_graph()
                 response = json.dumps({"success": result, "message": "AudioGraph cleared"})
@@ -173,34 +165,34 @@ class SignalFlowRPCListener:
             else:
                 response = json.dumps({"success": False, "message": "Unknown command"})
                 conn.send(response.encode('utf-8'))
-        except Exception as e:
-            error_response = json.dumps({"success": False, "message": str(e)})
+        except:
+            error_response = json.dumps({"success": False, "message": "Error"})
             conn.send(error_response.encode('utf-8'))
         finally:
             conn.close()
 
-# Global RPC listener instance
-_rpc_listener = SignalFlowRPCListener()
+# Global RPC listener
+_rpc_listener = None
 
 def start_signalflow_listener():
-    """Start the SignalFlow RPC listener for remote clear commands
-    
-    Call this function at the start of your notebook to enable cmd+. functionality:
-    
-    import signalflow_status
-    signalflow_status.start_signalflow_listener()
-    """
+    """Start the SignalFlow RPC listener for remote clear commands"""
+    global _rpc_listener
+    if _rpc_listener is None:
+        _rpc_listener = SignalFlowRPCListener(port=status.port + 1)
     _rpc_listener.start_listener()
 
+    # Start a background thread to display status updates
     thread = threading.Thread(target=run_signalflow_status_display_thread, daemon=True)
     thread.start()
-    
+
 def stop_signalflow_listener():
-    """Stop the SignalFlow RPC listener"""
-    _rpc_listener.stop_listener()
+    global _rpc_listener
+    if _rpc_listener:
+        _rpc_listener.stop_listener()
 
 def run_signalflow_status_display_thread():
-    while _rpc_listener.running:
+    global _rpc_listener
+    while _rpc_listener and _rpc_listener.running:
         graph = AudioGraph.get_shared_graph()
         if graph:
             if graph.has_raised_audio_thread_error:
@@ -226,41 +218,13 @@ def run_signalflow_status_display_thread():
             info("AudioGraph", "Not created")
         time.sleep(0.5)
 
+# Cleanup on exit
+def _cleanup():
+    global _rpc_listener
+    if _rpc_listener:
+        _rpc_listener.stop_listener()
 
-# Auto-cleanup on exit
-atexit.register(stop_signalflow_listener)
+atexit.register(_cleanup)
 
-# Example usage and testing
-if __name__ == "__main__":
-    # Test the connection
-    print("Testing SignalFlow Status connection...")
-    
-    # Update various status types
-    success("Connection", "Established")
-    info("Model", "Loading...")
-    time.sleep(1)
-    success("Model", "Loaded successfully")
-    
-    warning("Memory", "Usage at 80%")
-    time.sleep(1)
-    
-    error("Database", "Connection failed")
-    time.sleep(1)
-    
-    success("Database", "Reconnected")
-    
-    # Show current status
-    current = status.get_all()
-    if current:
-        print("\nCurrent status:")
-        for key, data in current.items():
-            print(f"  {key}: {data['value']} ({data['type']})")
-    
-    print("\nTest complete!")
-
-class NotebookAudioGraph (AudioGraph):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        start_signalflow_listener()
-
+clear_all()
 start_signalflow_listener()
