@@ -19,7 +19,7 @@ jobs:
         #             https://github.com/pypa/setuptools/issues/4478
         # 2025-02-06: Require packaging version due to this:
         #             https://github.com/pypa/setuptools/issues/4501
-        sudo pip3 install -U pytest numpy scipy setuptools>=62.1.0 importlib_metadata packaging>=24.1
+        pip3 install -U pytest numpy scipy setuptools>=62.1.0 importlib_metadata packaging>=24.1
         curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
     - name: Configure
       run: mkdir build && cd build && cmake ..
