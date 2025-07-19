@@ -26,8 +26,8 @@ jobs:
     - name: Make
       run: cd build && make -j8
     - name: Python build
-      run: python3 setup.py build
+      run: pip3 install .
     - name: Install test dependencies
-      run: pip3 install -e ".[test]"
+      run: pip3 install ".[test]"
     - name: Python test
       run: pytest
