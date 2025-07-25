@@ -63,8 +63,13 @@ void Envelope::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
+        /*--------------------------------------------------------------------------------
+         * If given, value is parsed as the integer index of the node to jump to in the
+         * envelope (0 = start of envelope, 1 = first node, etc).
+         *-------------------------------------------------------------------------------*/
+        int _node_index = (value == SIGNALFLOW_NULL_FLOAT) ? 0 : int(value);
         this->level = std::numeric_limits<float>::max();
-        this->node_index = 0;
+        this->node_index = _node_index;
         this->node_phase = 0;
         this->state = SIGNALFLOW_NODE_STATE_ACTIVE;
     }
@@ -81,7 +86,7 @@ void Envelope::process(Buffer &out, int num_frames)
 
         if (level == std::numeric_limits<float>::max())
         {
-            level = this->levels[0]->out[0][frame];
+            level = this->levels[this->node_index]->out[0][frame];
         }
 
         if (this->state == SIGNALFLOW_NODE_STATE_ACTIVE)
