@@ -1,5 +1,15 @@
 # CHANGELOG
 
+## [v0.5.4](https://github.com/ideoforms/signalflow/tree/v0.5.4(2025-07-25)
+
+- Renamed `output_backend_name` to `backend_name` in `AudioGraphConfig`, reflecting the fact that the same backend must be used for input and output
+- Added support for triggering a specified envelope breakpoint in `Envelope`
+- Added `has_raised_audio_thread_error`, for more elegant handling of exceptions in the audio I/O thread
+- Added `output_level_peak`, for display of signal output level
+- Added `FFTSpectralCentroid` and `FFTSpectralFlatness` frequency-domain MIR nodes
+- Added initial draft of `signalflow_vscode` package to interact with the SignalFlow Visual Studio Code plugin
+- Fixed bug in which `signalflow_midi` did not correctly honour the `SIGNALFLOW_MIDI_INPUT_DEVICE_NAME` environmental variable
+
 ## [v0.5.3](https://github.com/ideoforms/signalflow/tree/v0.5.3) (2025-03-30)
 
 - Added `--channels` argument to `signalflow test`
