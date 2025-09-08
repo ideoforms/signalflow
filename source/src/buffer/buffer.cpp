@@ -357,10 +357,18 @@ sample Buffer::get_frame(int channel, double frame)
 
     if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_LINEAR)
     {
-        double frame_frac = (frame - (int) frame);
-        sample rv = ((1.0 - frame_frac) * this->data[channel][(int) frame])
-            + (frame_frac * this->data[channel][(int) ceil(frame)]);
-        return rv;
+        int int_frame = (int) frame;
+        if (frame == int_frame)
+        {
+            return this->data[channel][int_frame];
+        }
+        else
+        {
+            double frame_frac = (frame - int_frame);
+            sample rv = ((1.0 - frame_frac) * this->data[channel][int_frame])
+                + (frame_frac * this->data[channel][(int) ceil(frame)]);
+            return rv;
+        }
     }
     else if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_NONE)
     {
@@ -419,7 +427,7 @@ signalflow_interpolation_mode_t Buffer::get_interpolation_mode() { return this->
 
 sample **Buffer::get_data() { return this->data; }
 
-sample *&Buffer::operator[](int index) { return this->data[index]; }
+// sample *&Buffer::operator[](int index) {  }
 
 std::vector<float> Buffer::get_frame_offsets()
 {

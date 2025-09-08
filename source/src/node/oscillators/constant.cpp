@@ -27,10 +27,7 @@ void Constant::process(Buffer &out, int num_frames)
 #if __APPLE__
     vDSP_vfill(&(this->value), out[0], 1, num_frames);
 #else
-    for (int frame = 0; frame < num_frames; frame++)
-    {
-        out[0][frame] = this->value;
-    }
+    std::fill(out[0], out[0] + num_frames, this->value);
 #endif
 }
 

@@ -267,12 +267,15 @@ public:
      * Subscript operator is a direct accessor into the buffer's data.
      * Each array element points to a single channel of floating-point samples.
      *
+     * attribute(always inline) makes a significant difference to performance here
+     * (particularly benchmarked on gcc/arm on rpi)
+     *
      * @param index Array index. Must be smaller than the buffer's
      *              channel count.
      * @returns A reference to a channel of samples
      *
      *------------------------------------------------------------------------*/
-    sample *&operator[](int index);
+    __attribute__((always_inline)) inline sample *&operator[](int index) { return this->data[index]; }
 
     /**------------------------------------------------------------------------
      * Returns the x values corresponding to each frame in the buffer.
