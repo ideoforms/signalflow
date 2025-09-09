@@ -31,6 +31,11 @@ void WhiteNoise::alloc()
 
 void WhiteNoise::process(Buffer &out, int num_frames)
 {
+    // Local deferences of input NodeRefs save about 5% cycles for this node
+    Node *min = this->min.get();
+    Node *max = this->max.get();
+    Node *frequency = this->frequency.get();
+
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
         if (this->value[channel] == std::numeric_limits<float>::max())
@@ -44,26 +49,26 @@ void WhiteNoise::process(Buffer &out, int num_frames)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
 
-            float min = this->min->out[channel][frame];
-            float max = this->max->out[channel][frame];
-            float frequency = this->frequency->out[channel][frame];
-            if (!frequency)
-                frequency = this->graph->get_sample_rate();
+            float vmin = min->out[channel][frame];
+            float vmax = max->out[channel][frame];
+            float vfrequency = frequency->out[channel][frame];
+            if (!vfrequency)
+                vfrequency = this->graph->get_sample_rate();
 
             if (this->steps_remaining[channel] <= 0)
             {
                 // pick a new target value
-                float target = this->random_uniform(min, max);
+                float target = this->random_uniform(vmin, vmax);
 
-                if (frequency > 0)
+                if (vfrequency > 0)
                 {
                     if (random_interval)
                     {
-                        this->steps_remaining[channel] = (int) (this->random_uniform() * this->graph->get_sample_rate() / (frequency / 2.0));
+                        this->steps_remaining[channel] = (int) (this->random_uniform() * this->graph->get_sample_rate() / (vfrequency / 2.0));
                     }
                     else
                     {
-                        this->steps_remaining[channel] = (int) round(this->graph->get_sample_rate() / frequency);
+                        this->steps_remaining[channel] = (int) round(this->graph->get_sample_rate() / vfrequency);
                     }
                     if (this->steps_remaining[channel] == 0)
                         this->steps_remaining[channel] = 1;
