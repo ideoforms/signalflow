@@ -13,8 +13,9 @@ namespace signalflow
 
 /*--------------------------------------------------------------------*
  * Maintain a single global RNG state object.
+ * xoshiro256ss is ~40% faster than std::mt19937 (Mac M1)
  *--------------------------------------------------------------------*/
-std::mt19937 rng;
+xoshiro256ss rng;
 
 /*--------------------------------------------------------------------*
  * random_init(): Initialise pseudo-random number generator.

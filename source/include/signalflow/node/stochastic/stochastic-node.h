@@ -2,6 +2,7 @@
 
 #include "signalflow/node/node.h"
 
+#include "signalflow/core/random.h"
 #include <random>
 
 #define SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()             \
@@ -28,8 +29,7 @@ protected:
 
     NodeRef reset;
     unsigned long int seed;
-
-    std::mt19937 rng;
+    xoshiro256ss rng;
 };
 
 }
