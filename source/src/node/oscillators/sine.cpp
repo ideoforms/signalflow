@@ -41,6 +41,7 @@ void SineOscillator::process(Buffer &out, int num_frames)
      * Precalculate phase increment for efficiency
      *--------------------------------------------------------------------------------*/
     float phase_increment_scale = M_PI * 2.0 / this->graph->get_sample_rate();
+    Node *frequency = this->frequency.get();
 
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
@@ -53,7 +54,7 @@ void SineOscillator::process(Buffer &out, int num_frames)
 
             out[channel][frame] = this->phase[channel];
 
-            this->phase[channel] += this->frequency->out[channel][frame] * phase_increment_scale;
+            this->phase[channel] += frequency->out[channel][frame] * phase_increment_scale;
 
             /*--------------------------------------------------------------------------------
              * This formulation is much more efficient than fmod().
