@@ -106,10 +106,9 @@ T RingBuffer<T>::get(double index)
 {
     double frame = index + this->write_position;
     while (frame < 0)
-    {
         frame += this->capacity;
-    }
-    frame = fmod(frame, this->capacity);
+    while (frame > this->capacity)
+        frame -= this->capacity;
 
     double frame_frac = (frame - (int) frame);
     int frame_index = (int) frame;
