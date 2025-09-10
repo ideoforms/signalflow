@@ -316,22 +316,22 @@ void Node::set_state(signalflow_node_state_t state)
 // Inputs and outputs
 ////////////////////////////////////////////////////////////////////////////////
 
-std::map<std::string, NodeRef *> Node::get_inputs()
+const std::map<std::string, NodeRef *> &Node::get_inputs() const
 {
     return this->inputs;
 }
 
-std::vector<std::pair<Node *, std::string>> Node::get_outputs()
+const std::vector<std::pair<Node *, std::string>> &Node::get_outputs() const
 {
     return this->outputs;
 }
 
-std::map<std::string, PropertyRef *> Node::get_properties()
+const std::map<std::string, PropertyRef *> &Node::get_properties() const
 {
     return this->properties;
 }
 
-std::map<std::string, BufferRef *> Node::get_buffers()
+const std::map<std::string, BufferRef *> &Node::get_buffers() const
 {
     return this->buffers;
 }

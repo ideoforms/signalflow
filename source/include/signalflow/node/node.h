@@ -251,10 +251,13 @@ public:
      *-----------------------------------------------------------------------*/
     virtual void set_value(float value);
 
-    std::map<std::string, NodeRef *> get_inputs();
-    std::vector<std::pair<Node *, std::string>> get_outputs();
-    std::map<std::string, PropertyRef *> get_properties();
-    std::map<std::string, BufferRef *> get_buffers();
+    /*------------------------------------------------------------------------
+     * Return references to avoid copy semantics (vastly slower)
+     *-----------------------------------------------------------------------*/
+    const std::map<std::string, NodeRef *> &get_inputs() const;
+    const std::vector<std::pair<Node *, std::string>> &get_outputs() const;
+    const std::map<std::string, PropertyRef *> &get_properties() const;
+    const std::map<std::string, BufferRef *> &get_buffers() const;
 
 protected:
     /*------------------------------------------------------------------------
