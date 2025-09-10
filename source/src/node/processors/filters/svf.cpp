@@ -82,6 +82,9 @@ void SVFilter::alloc()
 
 void SVFilter::process(Buffer &out, int num_frames)
 {
+    // Cache filter_type rather than querying property each iteration, for efficiency
+    signalflow_filter_type_t filter_type = (signalflow_filter_type_t) this->filter_type->int_value();
+
     for (int frame = 0; frame < num_frames; frame++)
     {
         this->_recalculate(frame);
@@ -95,7 +98,7 @@ void SVFilter::process(Buffer &out, int num_frames)
             ic1eq[channel] = 2 * v1 - ic1eq[channel];
             ic2eq[channel] = 2 * v2 - ic2eq[channel];
 
-            switch (this->filter_type->int_value())
+            switch (filter_type)
             {
                 case SIGNALFLOW_FILTER_TYPE_LOW_PASS:
                     out[channel][frame] = v2;
