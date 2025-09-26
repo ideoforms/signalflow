@@ -13,9 +13,13 @@ void Add::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+
 #if defined(__APPLE__)
+
         vDSP_vadd(input0->out[channel], 1, input1->out[channel], 1, out[channel], 1, num_frames);
+
 #elif defined(__aarch64__)
+
         for (int frame = 0; frame <= num_frames - 4; frame += 4)
         {
             // Load 4 floats from each input
@@ -28,14 +32,16 @@ void Add::process(Buffer &out, int num_frames)
             // Store result
             vst1q_f32(&out[channel][frame], c);
         }
+
 #else
+
         for (int frame = 0; frame < num_frames; frame++)
         {
             out[channel][frame] = input0->out[channel][frame] + input1->out[channel][frame];
         }
+
 #endif
     }
 }
 
 }
-
