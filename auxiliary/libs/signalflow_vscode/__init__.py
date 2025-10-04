@@ -7,21 +7,21 @@ Overview:
 
 """
 
-import linecache
+from .notebook import NotebookMapper
+
 import threading
 import requests
-import inspect
 import atexit
 import socket
 import time
 import json
-import os
 
-import urllib.parse
 from signalflow import AudioGraph, amplitude_to_db
-from typing import Optional, Literal
+from typing import Literal
+
 
 signalflow_vscode_debug = False
+notebook_mapper = NotebookMapper()
 
 def debug_log(message: str):
     if signalflow_vscode_debug:
@@ -31,48 +31,18 @@ def debug():
     global signalflow_vscode_debug
     signalflow_vscode_debug = True
     debug_log("SignalFlow extension debugging enabled.")
-    debug_log("Ports: %d (status), %d (RPC)" % (get_notebook_port(), get_notebook_port() + 1))
+    debug_log("Ports: %d (status), %d (RPC)" % (notebook_mapper.get_notebook_port(), notebook_mapper.get_notebook_port() + 1))
 
-def get_current_notebook_path() -> Optional[str]:
-    frame = inspect.currentframe()
-    while frame:
-        frame = frame.f_back
-        if frame and '__vsc_ipynb_file__' in frame.f_globals:
-            notebook_path = frame.f_globals['__vsc_ipynb_file__']
-            # Handle URL decoding if the path contains %20 etc.
-            decoded_path = urllib.parse.unquote(notebook_path)
-            return decoded_path
 
-            return notebook_path
-    raise RuntimeError("Could not determine notebook path from VS Code variables")
 
-def get_notebook_port() -> int:
-    """
-    Get the port for the current notebook based a deterministic hash function.
-    Notebook path is derived from VS Code's __vsc_ipynb_file__ variable.
-    """
-    notebook_path = get_current_notebook_path()
-    basename = os.path.basename(notebook_path)
-
-    # Calculate hash using the same algorithm as the VS Code extension
-    hash_obj = 0
-    for char in basename:
-        hash_obj = ((hash_obj << 5) - hash_obj) + ord(char)
-        hash_obj = ((hash_obj & 0xFFFFFFFF) ^ 0x80000000) - 0x80000000
-
-    remainder = hash_obj % 1000
-    if hash_obj < 0 and remainder != 0:
-        remainder = remainder - 1000
-    return 8765 + abs(remainder)
-
-class SignalFlowStatus:
+class SignalFlowStatusClient:
     def __init__(self, host: str = "localhost"):
-        self.port = get_notebook_port()
+        self.port = notebook_mapper.get_notebook_port()
         self.base_url = f"http://{host}:{self.port}"
         self.session = requests.Session()
         self.is_started = False
 
-    def start(self) -> bool:
+    def display(self) -> bool:
         """
         Begin displaying the SignalFlow Status panel in VS Code.
         """
@@ -145,48 +115,26 @@ class SignalFlowStatus:
         return response.status_code == 200
 
 # Create global instance
-status = SignalFlowStatus()
+status = SignalFlowStatusClient()
 
-def clear_status() -> bool:
-    return status.clear()
 
-def start() -> bool:
-    """Start the SignalFlow Status panel in VS Code"""
-    return status.start()
-
-def stop_playback():
-    """Clear the AudioGraph singleton"""
-    try:
-        from signalflow import AudioGraph
-        graph = AudioGraph.get_shared_graph()
-        if graph is not None:
-            graph.clear()
-            status.info("AudioGraph", "Cleared")
-        else:
-            status.info("AudioGraph", "No active graph to clear")
-    except (ImportError, ModuleNotFoundError):
-        # If SignalFlow is not available, there is no AudioGraph to clear
-        pass
-
-    try:
-        from isobar import Timeline
-        timeline = Timeline.get_shared_timeline()
-        if timeline is not None:
-            timeline.clear()
-            status.info("Timeline", "Cleared")
-    except (ImportError, ModuleNotFoundError):
-        # If isobar is not available, there is no timeline to clear
-        pass
+def start():
+    """
+    Display and initialise the SignalFlow Status panel in VS Code.
+    """
+    status.display()
+    status.clear()
+    start_signalflow_listener()
 
 
 
 # RPC Listener for remote clear commands
 class SignalFlowRPCListener:
-    def __init__(self, port: Optional[int] = None, notebook_path: str = None):
-        if port is None:
-            port = get_notebook_port() + 1
-        self.port = port
-        self.notebook_path = notebook_path or get_current_notebook_path()
+    def __init__(self):
+        notebook_mapper = NotebookMapper()
+
+        self.port = notebook_mapper.get_notebook_port() + 1
+        self.notebook_path = notebook_mapper.get_current_notebook_path()
         self.running = False
         self.server_thread = None
         self.tcp_server = None
@@ -197,7 +145,7 @@ class SignalFlowRPCListener:
         self.running = True
         self.server_thread = threading.Thread(target=self._run_tcp_server, daemon=True)
         self.server_thread.start()
-        # print("SignalFlow RPC Listener started on port", self.port)
+        debug_log("SignalFlow RPC Listener started on port %d" % self.port)
         status.info("RPC Listener", f"Started on port {self.port}")
 
     def stop_listener(self):
@@ -231,17 +179,14 @@ class SignalFlowRPCListener:
                 print("signalflow_vscode: Received command: %s" % data)
 
             if command == 'stop-playback':
-                stop_playback()
+                self.stop_playback()
                 response = json.dumps({"success": True, "message": "Playback stopped"})
                 conn.send(response.encode('utf-8'))
             elif command.startswith('stop-tracks:'):
                 # Extract cell ID and stop tracks in that cell
                 cell_id = command.split(':', 1)[1]
-                success, message = self._stop_tracks_in_cell(cell_id)
-                if success:
-                    response = json.dumps({"success": True, "message": message})
-                else:
-                    response = json.dumps({"success": False, "message": message})
+                success, message = self.stop_tracks_in_cell(cell_id)
+                response = json.dumps({"success": success, "message": message})
                 conn.send(response.encode('utf-8'))
             else:
                 response = json.dumps({"success": False, "message": "Unknown command"})
@@ -252,19 +197,41 @@ class SignalFlowRPCListener:
         finally:
             conn.close()
 
-    def _stop_tracks_in_cell(self, cell_id: str) -> tuple[bool, str]:
-        """Stop all tracks defined in a specific cell"""
-        # Use the stored notebook path if available, otherwise try to get it
-        notebook_path = self.notebook_path
-        if not notebook_path:
-            # Fallback to using NotebookCellMapper to get the path
-            mapper = NotebookCellMapper()
-            notebook_path = mapper.notebook_path
-        
-        if not notebook_path or not os.path.exists(notebook_path):
-            return False, f"Notebook path not found or doesn't exist: {notebook_path}"
+    def stop_playback(self):
+        """
+        Clear the AudioGraph and Timeline objects.
+        """
+        try:
+            from signalflow import AudioGraph
+            graph = AudioGraph.get_shared_graph()
+            if graph is not None:
+                graph.clear()
+                status.info("AudioGraph", "Cleared")
+            else:
+                status.info("AudioGraph", "No active graph to clear")
+        except (ImportError, ModuleNotFoundError):
+            # If SignalFlow is not available, there is no AudioGraph to clear
+            pass
 
-        with open(notebook_path, 'r', encoding='utf-8') as f:
+        try:
+            from isobar import Timeline
+            timeline = Timeline.get_shared_timeline()
+            if timeline is not None:
+                timeline.clear()
+                status.info("Timeline", "Cleared")
+        except (ImportError, ModuleNotFoundError):
+            # If isobar is not available, there is no timeline to clear
+            pass
+
+    def stop_tracks_in_cell(self, cell_id: str) -> tuple[bool, str]:
+        """
+        Stop all isobar tracks defined in a specific cell.
+        """
+
+        debug_log(f"Stopping tracks in cell {cell_id}")
+
+        # Use the stored notebook path if available, otherwise try to get it
+        with open(self.notebook_path, 'r', encoding='utf-8') as f:
             notebook = json.load(f)
 
         # Find the cell with the given ID
@@ -290,9 +257,6 @@ class SignalFlowRPCListener:
             timeline = Timeline.get_shared_timeline()
             if not timeline:
                 return True, "No active timeline to stop tracks in"
-
-            stopped_count = 0
-            total_tracks = len(timeline.tracks)
             
             for track_name in track_names:
                 # Find tracks with matching names
@@ -300,15 +264,11 @@ class SignalFlowRPCListener:
                     track_attr_name = getattr(track, 'name', None)
                     if track_attr_name == track_name:
                         track.stop()
-                        stopped_count += 1
 
-            if stopped_count > 0:
-                return True, f"Stopped {stopped_count} track(s) in cell {cell_id}"
-            else:
-                return True, f"Found track definitions ({track_names}) but no matching active tracks"
+            return True, f"Stopped tracks in cell {cell_id}"
                 
         except (ImportError, ModuleNotFoundError) as e:
-            return False, f"isobar not available: {e}"
+            return True, f"isobar not available: {e}"
 
 
     def _extract_track_names(self, cell_source: str) -> list:
@@ -332,10 +292,12 @@ class SignalFlowRPCListener:
 _rpc_listener = None
 
 def start_signalflow_listener():
-    """Start the SignalFlow RPC listener for remote commands"""
+    """
+    Start the SignalFlow RPC listener for remote commands.
+    """
     global _rpc_listener
     if _rpc_listener is None:
-        _rpc_listener = SignalFlowRPCListener(port=status.port + 1)
+        _rpc_listener = SignalFlowRPCListener()
     _rpc_listener.start_listener()
 
     # Start a background thread to display status updates
@@ -346,6 +308,9 @@ def stop_signalflow_listener():
     global _rpc_listener
     if _rpc_listener:
         _rpc_listener.stop_listener()
+
+atexit.register(stop_signalflow_listener)
+
 
 def run_signalflow_status_display_thread():
     global _rpc_listener
@@ -394,98 +359,23 @@ def run_signalflow_status_display_thread():
 
         time.sleep(0.25)
 
-# Cleanup on exit
-def _cleanup():
-    global _rpc_listener
-    if _rpc_listener:
-        _rpc_listener.stop_listener()
 
-atexit.register(_cleanup)
+# Externally-exposed API functions, called with
+# cell_id = signalflow_vscode.get_this_cell_id() 
+# signalflow_vscode.flash_cell_id(cell_id, "text to flash")
 
-# Cell flashing class
-class NotebookCellMapper:
-    """Class to map execution context to notebook cell IDs"""
-
-    def __init__(self, notebook_path: str = None):
-        self.notebook_path = notebook_path or get_current_notebook_path()
-        self.line_to_cell_map = {}
-
-    def get_cell_from_current_frame(self) -> dict:
-        """
-        Get cell information for the current execution frame.
-        """
-        try:
-            # Look for the frame that's executing user code (module __main__)
-            stack = inspect.stack()
-            for frame_info in stack[1:]:  # Skip current function
-                frame = frame_info.frame
-                if '__vsc_ipynb_file__' in frame.f_globals:
-                    module_name = frame.f_globals.get('__name__', '')
-                    filename = frame.f_code.co_filename
-
-                    # Check if this is user code execution in a temp file
-                    if module_name == '__main__' and 'ipykernel_' in filename:
-                        # Get lines of context around the execution point
-                        line = linecache.getline(filename, frame_info.lineno).strip()                       
-                        return self._match_content_to_cell(line)
-
-
-            print("No valid cell found in current frame")
-            return None
-        except Exception as e:
-            print(f"Error getting cell: {e}")
-            return None
-
-    def _match_content_to_cell(self, line: str) -> dict:
-        """
-        Match code snippet to a cell in the notebook using exact line matching.
-        """
-        with open(self.notebook_path, 'r', encoding='utf-8') as f:
-            notebook = json.load(f)
-
-        # Look for exact line matches (perfect for track() calls with unique identifiers)
-        for cell in notebook.get('cells', []):
-            if cell.get('cell_type') == 'code':
-                cell_source = ''.join(cell.get('source', []))
-                cell_lines = [line.strip() for line in cell_source.split('\n') if line.strip()]
-
-                # Check if any snippet line appears exactly in this cell
-                if line in cell_lines:
-                    return cell.get('id')
-
-        print("No matching cell found for code snippet")
-        return None
-
-
-def flash_cell(cell_id: str, flash_text: str = None):
+def flash_cell_id(cell_id: str, flash_text: str = None):
     """
     Flash a specific notebook cell in VS Code.
     """
     return status.flash_cell(cell_id, flash_text)
 
-def vscode_get_this_cell_id():
+def get_this_cell_id():
     """
     Get the ID of the currently executing cell.
     """
-    mapper = NotebookCellMapper()
+    mapper = NotebookMapper()
     return mapper.get_cell_from_current_frame()
 
-def vscode_flash_cell_id(cell_id: str, flash_text: str = None):
-    """
-    Flash a specific cell by its ID.
-    """
-    return status.flash_cell(cell_id, flash_text)
-
-def which_cell(flash_text: str = None):
-    """
-    Simple function to determine which cell is calling this and flash it.
-    """
-    mapper = NotebookCellMapper()
-    cell_id = mapper.get_cell_from_current_frame()
-    print(f"Called from cell: {cell_id}")
-    # Flash the cell with optional custom text
-    flash_cell(cell_id, flash_text)
 
 start()
-clear_status()
-start_signalflow_listener()
