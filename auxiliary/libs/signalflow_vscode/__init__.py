@@ -9,6 +9,7 @@ Overview:
 
 import threading
 import requests
+import inspect
 import atexit
 import socket
 import time
@@ -20,53 +21,55 @@ from typing import Optional, Literal
 
 signalflow_vscode_debug = False
 
+def debug_log(message: str):
+    if signalflow_vscode_debug:
+        print("signalflow_vscode: %s" % message)
+
 def debug():
     global signalflow_vscode_debug
     signalflow_vscode_debug = True
-    print("SignalFlow VS Code debugging enabled.")
-    print("Ports: %d (status), %d (RPC)" % (get_notebook_port(), get_notebook_port() + 1))
+    debug_log("SignalFlow extension debugging enabled.")
+    debug_log("Ports: %d (status), %d (RPC)" % (get_notebook_port(), get_notebook_port() + 1))
+
+def get_notebook_path() -> Optional[str]:
+    frame = inspect.currentframe()
+    while frame:
+        frame = frame.f_back
+        if frame and '__vsc_ipynb_file__' in frame.f_globals:
+            notebook_path = frame.f_globals['__vsc_ipynb_file__']
+            return notebook_path
+    raise RuntimeError("Could not determine notebook path from VS Code variables")
 
 def get_notebook_port() -> int:
     """
     Get the port for the current notebook based a deterministic hash function.
+    Notebook path is derived from VS Code's __vsc_ipynb_file__ variable.
     """
-    try:
-        # Try to access VS Code variable from the calling frame
-        import inspect
-        frame = inspect.currentframe()
-        while frame:
-            frame = frame.f_back
-            if frame and '__vsc_ipynb_file__' in frame.f_globals:
-                notebook_path = frame.f_globals['__vsc_ipynb_file__']
-                basename = os.path.basename(notebook_path)
+    notebook_path = get_notebook_path()
+    basename = os.path.basename(notebook_path)
 
-                # Calculate hash same as VS Code extension
-                hash_obj = 0
-                for char in basename:
-                    hash_obj = ((hash_obj << 5) - hash_obj) + ord(char)
-                    hash_obj = ((hash_obj & 0xFFFFFFFF) ^ 0x80000000) - 0x80000000
+    # Calculate hash using the same algorithm as the VS Code extension
+    hash_obj = 0
+    for char in basename:
+        hash_obj = ((hash_obj << 5) - hash_obj) + ord(char)
+        hash_obj = ((hash_obj & 0xFFFFFFFF) ^ 0x80000000) - 0x80000000
 
-                remainder = hash_obj % 1000
-                if hash_obj < 0 and remainder != 0:
-                    remainder = remainder - 1000
-                return 8765 + abs(remainder)
-    except:
-        pass
-
-    # Fallback to default port
-    return 8765
+    remainder = hash_obj % 1000
+    if hash_obj < 0 and remainder != 0:
+        remainder = remainder - 1000
+    return 8765 + abs(remainder)
 
 class SignalFlowStatus:
-    def __init__(self, host: str = "localhost", port: Optional[int] = None):
-        if port is None:
-            port = get_notebook_port()
-        self.base_url = f"http://{host}:{port}"
-        self.port = port
+    def __init__(self, host: str = "localhost"):
+        self.port = get_notebook_port()
+        self.base_url = f"http://{host}:{self.port}"
         self.session = requests.Session()
         self.is_started = False
 
     def start(self) -> bool:
-        """Activate the SignalFlow Status panel in VS Code"""
+        """
+        Begin displaying the SignalFlow Status panel in VS Code.
+        """
         try:
             response = self.session.post(f"{self.base_url}/start", timeout=1)
             if response.status_code == 200:
@@ -75,26 +78,14 @@ class SignalFlowStatus:
             else:
                 print("Invalid response from SignalFlow Visual Studio Code extension (response code: %d)" % response.status_code)
                 return False
+            
         except requests.exceptions.ConnectionError:
             # Try to provide more helpful error message
-            try:
-                import inspect
-                frame = inspect.currentframe()
-                while frame:
-                    frame = frame.f_back
-                    if frame and '__vsc_ipynb_file__' in frame.f_globals:
-                        notebook_path = frame.f_globals['__vsc_ipynb_file__']
-                        notebook_name = os.path.basename(notebook_path)
-                        print(f"Could not connect to SignalFlow VS Code extension on port {self.port} for notebook '{notebook_name}'.")
-                        print("This could be because:")
-                        print("1. The VS Code extension is not installed or enabled")
-                        print("2. Another VS Code instance is using the same notebook name (port conflict)")
-                        print("3. The extension failed to start the server")
-                        print(f"Try renaming the notebook or closing other VS Code instances with notebooks named '{notebook_name}'")
-                        return False
-            except:
-                pass
-            print("Could not connect to SignalFlow Visual Studio Code extension. Please check that it is installed and enabled.")
+            print(f"Could not connect to SignalFlow VS Code extension on port {self.port}.")
+            print("This could be because:")
+            print("1. The VS Code extension is not installed or enabled")
+            print("2. Another VS Code instance is using the same notebook name (port conflict)")
+            print("3. The extension failed to start the server")
             return False
 
     def update(self, key: str, value: str, status_type: Literal["info", "warning", "error", "success"] = "info") -> bool:
