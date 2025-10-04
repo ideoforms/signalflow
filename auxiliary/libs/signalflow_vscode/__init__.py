@@ -7,6 +7,7 @@ Overview:
 
 """
 
+import linecache
 import threading
 import requests
 import inspect
@@ -16,6 +17,7 @@ import time
 import json
 import os
 
+import urllib.parse
 from signalflow import AudioGraph, amplitude_to_db
 from typing import Optional, Literal
 
@@ -31,12 +33,16 @@ def debug():
     debug_log("SignalFlow extension debugging enabled.")
     debug_log("Ports: %d (status), %d (RPC)" % (get_notebook_port(), get_notebook_port() + 1))
 
-def get_notebook_path() -> Optional[str]:
+def get_current_notebook_path() -> Optional[str]:
     frame = inspect.currentframe()
     while frame:
         frame = frame.f_back
         if frame and '__vsc_ipynb_file__' in frame.f_globals:
             notebook_path = frame.f_globals['__vsc_ipynb_file__']
+            # Handle URL decoding if the path contains %20 etc.
+            decoded_path = urllib.parse.unquote(notebook_path)
+            return decoded_path
+
             return notebook_path
     raise RuntimeError("Could not determine notebook path from VS Code variables")
 
@@ -45,7 +51,7 @@ def get_notebook_port() -> int:
     Get the port for the current notebook based a deterministic hash function.
     Notebook path is derived from VS Code's __vsc_ipynb_file__ variable.
     """
-    notebook_path = get_notebook_path()
+    notebook_path = get_current_notebook_path()
     basename = os.path.basename(notebook_path)
 
     # Calculate hash using the same algorithm as the VS Code extension
@@ -88,13 +94,23 @@ class SignalFlowStatus:
             print("3. The extension failed to start the server")
             return False
 
-    def update(self, key: str, value: str, status_type: Literal["info", "warning", "error", "success"] = "info") -> bool:
+    def update(self,
+               key: str,
+               value: str,
+               status_type: Literal["info", "warning", "error", "success"] = "info") -> bool:
+        """
+        Display a status update in the SignalFlow Status panel in VS Code.
+
+        Args:
+            key (str): The key for the status update.
+            value (str): The value for the status update.
+            status_type (Literal["info", "warning", "error", "success"], optional): The type of status update. Defaults to "info".
+        """
         if not self.is_started:
             return False
         try:
-            response = self.session.post(f"{self.base_url}/status",
-                json={"key": key, "value": value, "type": status_type},
-                timeout=1)
+            payload = {"key": key, "value": value, "type": status_type}
+            response = self.session.post(f"{self.base_url}/status", json=payload, timeout=1)
             return response.status_code == 200
         except Exception:
             return False
@@ -114,28 +130,19 @@ class SignalFlowStatus:
     def clear(self) -> bool:
         if not self.is_started:
             return False
-        try:
-            response = self.session.delete(f"{self.base_url}/status", timeout=1)
-            return response.status_code == 200
-        except:
-            return False
+        response = self.session.delete(f"{self.base_url}/status", timeout=1)
+        return response.status_code == 200
 
     def flash_cell(self, cell_id: str, flash_text: str = None) -> bool:
-        """Flash a specific notebook cell in VS Code"""
-        try:
-            payload = {"cellId": cell_id}
-            if flash_text:
-                payload["flashText"] = flash_text
+        """
+        Flash a specific notebook cell in VS Code.
 
-            response = self.session.post(
-                f"{self.base_url}/flash-cell",
-                json=payload,
-                timeout=1
-            )
-            return response.status_code == 200
-        except Exception as e:
-            print(f"Error flashing cell: {e}")
-            return False
+        Args:
+            cell_id (str): The Jupyter identifier of the cell to flash.
+        """
+        payload = {"cellId": cell_id, "flashText": flash_text}
+        response = self.session.post(f"{self.base_url}/flash-cell", json=payload, timeout=1)
+        return response.status_code == 200
 
 # Create global instance
 status = SignalFlowStatus()
@@ -179,28 +186,10 @@ class SignalFlowRPCListener:
         if port is None:
             port = get_notebook_port() + 1
         self.port = port
-        self.notebook_path = notebook_path or self._get_current_notebook_path()
+        self.notebook_path = notebook_path or get_current_notebook_path()
         self.running = False
         self.server_thread = None
         self.tcp_server = None
-
-    def _get_current_notebook_path(self) -> str:
-        """Get the current notebook path from VS Code variables"""
-        import inspect
-        frame = inspect.currentframe()
-        while frame:
-            frame = frame.f_back
-            if frame and '__vsc_ipynb_file__' in frame.f_globals:
-                path = frame.f_globals['__vsc_ipynb_file__']
-                # Handle URL decoding if the path contains %20 etc.
-                try:
-                    from urllib.parse import unquote
-                    decoded_path = unquote(path)
-                    return decoded_path
-                except:
-                    return path
-        
-        return None
 
     def start_listener(self):
         if self.running:
@@ -321,23 +310,6 @@ class SignalFlowRPCListener:
         except (ImportError, ModuleNotFoundError) as e:
             return False, f"isobar not available: {e}"
 
-    def _get_current_notebook_path(self) -> str:
-        """Get the current notebook path from VS Code variables"""
-        import inspect
-        frame = inspect.currentframe()
-        while frame:
-            frame = frame.f_back
-            if frame and '__vsc_ipynb_file__' in frame.f_globals:
-                path = frame.f_globals['__vsc_ipynb_file__']
-                # Handle URL decoding if the path contains %20 etc.
-                try:
-                    from urllib.parse import unquote
-                    decoded_path = unquote(path)
-                    return decoded_path
-                except:
-                    return path
-        
-        return None
 
     def _extract_track_names(self, cell_source: str) -> list:
         """Extract track names from cell source code"""
@@ -435,30 +407,14 @@ class NotebookCellMapper:
     """Class to map execution context to notebook cell IDs"""
 
     def __init__(self, notebook_path: str = None):
-        self.notebook_path = notebook_path or self._get_current_notebook_path()
+        self.notebook_path = notebook_path or get_current_notebook_path()
         self.line_to_cell_map = {}
 
-    def _get_current_notebook_path(self) -> str:
-        """Get the current notebook path from VS Code variables"""
-        import inspect
-        frame = inspect.currentframe()
-        while frame:
-            frame = frame.f_back
-            if frame and '__vsc_ipynb_file__' in frame.f_globals:
-                path = frame.f_globals['__vsc_ipynb_file__']
-                # Handle URL decoding if the path contains %20 etc.
-                try:
-                    from urllib.parse import unquote
-                    decoded_path = unquote(path)
-                    return decoded_path
-                except:
-                    return path
-        return None
-
     def get_cell_from_current_frame(self) -> dict:
-        """Get cell information for the current execution frame"""
+        """
+        Get cell information for the current execution frame.
+        """
         try:
-            import inspect
             # Look for the frame that's executing user code (module __main__)
             stack = inspect.stack()
             for frame_info in stack[1:]:  # Skip current function
@@ -469,8 +425,6 @@ class NotebookCellMapper:
 
                     # Check if this is user code execution in a temp file
                     if module_name == '__main__' and 'ipykernel_' in filename:
-                        # Try to get source code context from the frame
-                        import linecache
                         # Get lines of context around the execution point
                         line = linecache.getline(filename, frame_info.lineno).strip()                       
                         return self._match_content_to_cell(line)
@@ -483,66 +437,54 @@ class NotebookCellMapper:
             return None
 
     def _match_content_to_cell(self, line: str) -> dict:
-        """Match code snippet to a cell in the notebook using exact line matching"""
-        try:
-            if not self.notebook_path or not os.path.exists(self.notebook_path):
-                return None
+        """
+        Match code snippet to a cell in the notebook using exact line matching.
+        """
+        with open(self.notebook_path, 'r', encoding='utf-8') as f:
+            notebook = json.load(f)
 
-            with open(self.notebook_path, 'r', encoding='utf-8') as f:
-                notebook = json.load(f)
+        # Look for exact line matches (perfect for track() calls with unique identifiers)
+        for cell in notebook.get('cells', []):
+            if cell.get('cell_type') == 'code':
+                cell_source = ''.join(cell.get('source', []))
+                cell_lines = [line.strip() for line in cell_source.split('\n') if line.strip()]
 
-            # Look for exact line matches (perfect for track() calls with unique identifiers)
-            for cell in notebook.get('cells', []):
-                if cell.get('cell_type') == 'code':
-                    cell_source = ''.join(cell.get('source', []))
-                    cell_lines = [line.strip() for line in cell_source.split('\n') if line.strip()]
+                # Check if any snippet line appears exactly in this cell
+                if line in cell_lines:
+                    return cell.get('id')
 
-                    # Check if any snippet line appears exactly in this cell
-                    if line in cell_lines:
-                        return {
-                            'cell_id': cell.get('id', 'unknown'),
-                            'cell_type': cell.get('cell_type', 'code'),
-                            'line_in_cell': 1
-                        }
-
-            print("No matching cell found for code snippet")
-            return None
-        except Exception as e:
-            print("Error matching content to cell:", e)
-            return None
-
+        print("No matching cell found for code snippet")
+        return None
 
 
 def flash_cell(cell_id: str, flash_text: str = None):
-    """Flash a specific notebook cell in VS Code"""
+    """
+    Flash a specific notebook cell in VS Code.
+    """
     return status.flash_cell(cell_id, flash_text)
 
 def vscode_get_this_cell_id():
-    """Get the ID of the currently executing cell"""
+    """
+    Get the ID of the currently executing cell.
+    """
     mapper = NotebookCellMapper()
-    cell_info = mapper.get_cell_from_current_frame()
-    if cell_info:
-        return cell_info['cell_id']
-    else:
-        return None
+    return mapper.get_cell_from_current_frame()
 
 def vscode_flash_cell_id(cell_id: str, flash_text: str = None):
-    """Flash a specific cell by its ID"""
+    """
+    Flash a specific cell by its ID.
+    """
     return status.flash_cell(cell_id, flash_text)
 
 def which_cell(flash_text: str = None):
-    """Simple function to determine which cell is calling this and flash it"""
+    """
+    Simple function to determine which cell is calling this and flash it.
+    """
     mapper = NotebookCellMapper()
-    cell_info = mapper.get_cell_from_current_frame()
-    if cell_info:
-        cell_id = cell_info['cell_id']
-        print(f"Called from cell: {cell_id}")
-        # Flash the cell with optional custom text
-        flash_cell(cell_id, flash_text)
-        return cell_id
-    else:
-        print("Could not determine calling cell")
-        return None
+    cell_id = mapper.get_cell_from_current_frame()
+    print(f"Called from cell: {cell_id}")
+    # Flash the cell with optional custom text
+    flash_cell(cell_id, flash_text)
 
 start()
 clear_status()
