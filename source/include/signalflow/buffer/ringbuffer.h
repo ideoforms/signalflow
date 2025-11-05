@@ -29,6 +29,7 @@ public:
     void append(T value);
     void extend(T *ptr, unsigned int count);
     void extend(std::vector<T> vec);
+    T get(int index);
     T get(double index);
     T operator[](double index) { return this->get(index); }
     unsigned int get_capacity() { return this->capacity; }
@@ -38,7 +39,7 @@ protected:
     T *data = nullptr;
     unsigned int capacity;
     unsigned int write_position;
-    signalflow_interpolation_mode_t interpolation_mode;
+    signalflow_interpolation_mode_t interpolation_mode = (signalflow_interpolation_mode_t) 1;
 };
 
 template <class T>
@@ -102,6 +103,18 @@ void RingBuffer<T>::extend(std::vector<T> vec)
 }
 
 template <class T>
+T RingBuffer<T>::get(int index)
+{
+    int frame = index + this->write_position;
+    while (frame < 0)
+        frame += this->capacity;
+    while (frame > this->capacity)
+        frame -= this->capacity;
+
+    return this->data[frame];
+}
+
+template <class T>
 T RingBuffer<T>::get(double index)
 {
     double frame = index + this->write_position;
@@ -110,11 +123,23 @@ T RingBuffer<T>::get(double index)
     while (frame > this->capacity)
         frame -= this->capacity;
 
-    double frame_frac = (frame - (int) frame);
-    int frame_index = (int) frame;
-    int next_frame_index = ((int) ceil(frame)) % this->capacity;
+    T rv;
+    if (this->interpolation_mode == 1)
+    {
+        double frame_frac = (frame - (int) frame);
+        int frame_index = (int) frame;
+        int next_frame_index = ((int) ceil(frame)) % this->capacity;
 
-    T rv = ((1.0 - frame_frac) * this->data[frame_index]) + (frame_frac * this->data[next_frame_index]);
+        rv = ((1.0 - frame_frac) * this->data[frame_index]) + (frame_frac * this->data[next_frame_index]);
+    }
+    else if (this->interpolation_mode == 0)
+    {
+        rv = this->data[(int) frame];
+    }
+    else
+    {
+        throw std::runtime_error("RingBuffer: Unsupported interpolation mode: " + std::to_string(this->interpolation_mode));
+    }
 
     return rv;
 }
