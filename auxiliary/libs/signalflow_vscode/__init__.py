@@ -111,7 +111,13 @@ class SignalFlowStatusClient:
             cell_id (str): The Jupyter identifier of the cell to flash.
         """
         payload = {"cellId": cell_id, "flashText": flash_text}
-        response = self.session.post(f"{self.base_url}/flash-cell", json=payload, timeout=1)
+        try:
+            response = self.session.post(f"{self.base_url}/flash-cell", json=payload, timeout=1)
+        except requests.exceptions.ConnectionError:
+            # This can happen when the connection gets closed early, possibly due to
+            # being saturated with flash requests?
+            print("WARNING: Connection closed when trying to flash cell")
+            return False
         return response.status_code == 200
 
 # Create global instance
