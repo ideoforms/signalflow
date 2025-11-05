@@ -33,6 +33,9 @@ void init_python_nodes(py::module &m)
 
 #endif
 
+    py::class_<YinPitchTracker, Node, NodeRefTemplate<YinPitchTracker>>(m, "YinPitchTracker", "YIN pitch tracker")
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, unsigned int>(), "input"_a = 0.0, "threshold"_a = 0.1, "f0_min"_a = 50.0, "f0_max"_a = 2000.0, "window_size"_a = 2048);
+
     py::class_<BeatCutter, Node, NodeRefTemplate<BeatCutter>>(m, "BeatCutter", "Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.")
         .def(py::init<BufferRef, int, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "segment_count"_a = 8, "stutter_probability"_a = 0.0, "stutter_count"_a = 1, "jump_probability"_a = 0.0, "duty_cycle"_a = 1.0, "rate"_a = 1.0, "segment_rate"_a = 1.0);
 
@@ -411,6 +414,9 @@ void init_python_nodes(py::module &m)
 
     py::class_<StereoWidth, Node, NodeRefTemplate<StereoWidth>>(m, "StereoWidth", "Reduces the width of a stereo signal. When `width` = 1, input is unchanged. When `width` = 0, outputs a pair of identical channels both containing L+R.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "width"_a = 1);
+
+    py::class_<FeedbackDelayNetwork, Node, NodeRefTemplate<FeedbackDelayNetwork>>(m, "FeedbackDelayNetwork", "Feedback Delay Network reverb. Uses multiple delay lines with an orthogonal feedback matrix for dense, natural-sounding reverberation.")
+        .def(py::init<NodeRef, int, NodeRef, NodeRef, NodeRef, NodeRef, float>(), "input"_a = 0.0, "num_delays"_a = 8, "feedback"_a = 0.85, "damping"_a = 0.5, "wet"_a = 0.5, "dry"_a = 0.5, "max_delay_time"_a = 0.2);
 
     py::class_<BlockCounter, Node, NodeRefTemplate<BlockCounter>>(m, "BlockCounter", "Increments by one for each audio block processed.")
         .def(py::init<>());

@@ -160,6 +160,7 @@
 #include <signalflow/node/processors/panning/stereo-balance.h>
 #include <signalflow/node/processors/panning/stereo-panner.h>
 #include <signalflow/node/processors/panning/stereo-width.h>
+#include <signalflow/node/processors/reverb/fdn.h>
 #include <signalflow/node/processors/smooth.h>
 #include <signalflow/node/processors/wetdry.h>
 #include <signalflow/node/processors/wrap.h>
@@ -186,6 +187,7 @@
 #include <signalflow/node/analysis/nearest-neighbour.h>
 #include <signalflow/node/analysis/onset-detector.h>
 #include <signalflow/node/analysis/vamp.h>
+#include <signalflow/node/analysis/yin.h>
 
 /*------------------------------------------------------------------------
  * Control interfaces

@@ -60,6 +60,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/allpass.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/onetap.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/stutter.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/reverb/fdn.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/sample-and-hold.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/resample.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/distortion/squiz.cpp
@@ -150,6 +151,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/cross-correlate.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/nearest-neighbour.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/onset-detector.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/yin.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-registry.cpp
