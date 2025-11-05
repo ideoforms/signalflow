@@ -8,7 +8,12 @@ void init_python_buffer(py::module &m)
         .def(
             "extend", [](SampleRingBuffer &buf, std::vector<sample> vec) { buf.extend(vec); },
             R"pbdoc(Extend the ring buffer.)pbdoc")
-        .def("get", &SampleRingBuffer::get, R"pbdoc(Retrieve an item from the ring buffer, with offset relative to the read head.)pbdoc")
+        .def(
+            "get", [](SampleRingBuffer &buf, int index) { return buf.get(index); },
+            R"pbdoc(Retrieve an item from the ring buffer, with offset relative to the read head.)pbdoc")
+        .def(
+            "get", [](SampleRingBuffer &buf, float index) { return buf.get(index); },
+            R"pbdoc(Retrieve an item from the ring buffer, with offset relative to the read head.)pbdoc")
         .def("get_capacity", &SampleRingBuffer::get_capacity, R"pbdoc(Returns the capacity of the ring buffer.)pbdoc");
 
     py::class_<SampleRingQueue>(m, "SampleRingQueue", "A circular queue of audio samples with separate read/write heads")
