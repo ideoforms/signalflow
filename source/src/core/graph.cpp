@@ -57,7 +57,8 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, std::string output_device, bool
         this->output = new AudioOut(this->config.get_backend_name(),
                                     this->config.get_output_device_name(),
                                     this->config.get_sample_rate(),
-                                    this->config.get_output_buffer_size());
+                                    this->config.get_output_buffer_size(),
+                                    this->config.get_num_output_channels());
         if (!this->output)
         {
             throw std::runtime_error("AudioGraph: Couldn't find audio output device");
@@ -103,7 +104,8 @@ AudioGraph::AudioGraph(AudioGraphConfig *config, NodeRef output_device, bool sta
         this->output = new AudioOut(this->config.get_backend_name(),
                                     this->config.get_output_device_name(),
                                     this->config.get_sample_rate(),
-                                    this->config.get_output_buffer_size());
+                                    this->config.get_output_buffer_size(),
+                                    this->config.get_num_output_channels());
         if (!this->output)
         {
             throw std::runtime_error("AudioGraph: Couldn't find audio output device");
