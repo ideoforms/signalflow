@@ -131,6 +131,10 @@ void AudioGraphConfig::parse_file(std::ifstream &input)
                 {
                     this->output_buffer_size = std::stoi(parameter_value);
                 }
+                else if (parameter_name == "num_output_channels")
+                {
+                    this->num_output_channels = std::stoi(parameter_value);
+                }
                 else if (parameter_name == "input_device_name")
                 {
                     this->input_device_name = parameter_value;
@@ -199,6 +203,10 @@ void AudioGraphConfig::parse_env()
     {
         this->output_buffer_size = atoi(getenv("SIGNALFLOW_OUTPUT_BUFFER_SIZE"));
     }
+    if (getenv("SIGNALFLOW_NUM_OUTPUT_CHANNELS"))
+    {
+        this->num_output_channels = atoi(getenv("SIGNALFLOW_NUM_OUTPUT_CHANNELS"));
+    }
     if (getenv("SIGNALFLOW_INPUT_DEVICE_NAME"))
     {
         this->input_device_name = std::string(getenv("SIGNALFLOW_INPUT_DEVICE_NAME"));
@@ -232,6 +240,10 @@ void AudioGraphConfig::set_input_buffer_size(unsigned int buffer_size) { this->i
 unsigned int AudioGraphConfig::get_output_buffer_size() const { return this->output_buffer_size; }
 
 void AudioGraphConfig::set_output_buffer_size(unsigned int buffer_size) { this->output_buffer_size = buffer_size; }
+
+unsigned int AudioGraphConfig::get_num_output_channels() const { return this->num_output_channels; }
+
+void AudioGraphConfig::set_num_output_channels(unsigned int num_channels) { this->num_output_channels = num_channels; }
 
 const std::string &AudioGraphConfig::get_input_device_name() const { return this->input_device_name; }
 

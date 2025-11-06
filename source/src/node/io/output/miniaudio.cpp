@@ -80,13 +80,15 @@ void data_callback(ma_device *ma_device_ptr,
 AudioOut::AudioOut(const std::string &backend_name,
                    const std::string &device_name,
                    unsigned int sample_rate,
-                   unsigned int buffer_size)
+                   unsigned int buffer_size,
+                   unsigned int num_channels)
     : AudioOut_Abstract()
 {
     this->backend_name = backend_name;
     this->device_name = device_name;
     this->sample_rate = sample_rate;
     this->buffer_size = buffer_size;
+    this->num_channels = num_channels;
     this->name = "audioout";
 
     this->init();
@@ -138,7 +140,7 @@ void AudioOut::init()
     config.playback.format = ma_format_f32;
 
     // Set to 0 to use the device's native channel count.
-    config.playback.channels = 0;
+    config.playback.channels = num_channels;
 
     // Set to 0 to use the device's native buffer size.
     config.periodSizeInFrames = buffer_size;

@@ -86,6 +86,32 @@ public:
     void set_output_buffer_size(unsigned int buffer_size);
 
     /**--------------------------------------------------------------------------------
+     * Get the preferred number of output channels.
+     * 
+     * To retrieve the actual number of channels used by the hardware, call
+     * AudioGraph::get_num_output_channels()
+     *
+     * @returns The preferred number of channels, or 0 if not set.
+     *
+     *--------------------------------------------------------------------------------*/
+    unsigned int get_num_output_channels() const;
+
+    /**--------------------------------------------------------------------------------
+     * Set the preferred number of output channels.
+     * 
+     * This should very rarely be needed as the default will be to enable the maximum
+     * number of channels available. It is needed in the unique (?) case that the Alsa 
+     * driver incorrectly exposes multichannel devices as stereo. 
+     * 
+     * If this is called after the AudioGraph has already been started, this will have
+     * no effect until it is restarted.
+     *
+     * @param num_channels The preferred number of channels, or 0 to use the default.
+     *
+     *--------------------------------------------------------------------------------*/
+    void set_num_output_channels(unsigned int num_channels);
+
+    /**--------------------------------------------------------------------------------
      * Get the name of the audio hardware device to use for input.
      *
      * @returns The name, or an empty string if not set.
@@ -188,6 +214,7 @@ private:
     unsigned int sample_rate = 0;
     unsigned int input_buffer_size = 0;
     unsigned int output_buffer_size = 0;
+    unsigned int num_output_channels = 0;
     std::string input_device_name;
     std::string output_device_name;
     std::string backend_name;

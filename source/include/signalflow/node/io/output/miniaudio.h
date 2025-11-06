@@ -17,7 +17,8 @@ public:
     AudioOut(const std::string &backend_name = "",
              const std::string &device_name = "",
              unsigned int sample_rate = 0,
-             unsigned int buffer_size = 0);
+             unsigned int buffer_size = 0,
+             unsigned int num_channels = 0);
 
     virtual void init() override;
     virtual void start() override;
@@ -39,6 +40,7 @@ public:
 private:
     std::string backend_name;
     std::string device_name;
+    unsigned int num_channels;
     ma_context context;
     ma_device device;
 };
