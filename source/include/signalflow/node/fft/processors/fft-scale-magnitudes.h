@@ -1,6 +1,6 @@
 #pragma once
 
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 
 namespace signalflow
 {
@@ -8,16 +8,16 @@ namespace signalflow
 /**--------------------------------------------------------------------------------*
  * Randomise phase values.
  *---------------------------------------------------------------------------------*/
-class FFTRandomPhase : public FFTOpNode
+class FFTScaleMagnitudes : public FFTOpNode
 {
 public:
-    FFTRandomPhase(NodeRef input = 0, NodeRef level = 1.0);
+    FFTScaleMagnitudes(NodeRef input = 0, std::vector<float> scale = {});
     virtual void process(Buffer &out, int num_frames);
 
 protected:
-    NodeRef level;
+    std::vector<float> scale;
 };
 
-REGISTER(FFTRandomPhase, "fft-random-phase")
+REGISTER(FFTScaleMagnitudes, "fft-scale-magnitudes")
 
 }

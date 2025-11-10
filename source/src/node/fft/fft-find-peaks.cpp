@@ -1,5 +1,5 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/fft/find-peaks.h"
+#include "signalflow/node/fft/fft-find-peaks.h"
 #include <algorithm>
 
 namespace signalflow

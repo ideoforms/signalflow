@@ -1,6 +1,6 @@
 #include "signalflow/core/graph.h"
 #include "signalflow/core/random.h"
-#include "signalflow/node/fft/continuous-pv.h"
+#include "signalflow/node/fft/fft-continuous-pv.h"
 
 namespace signalflow
 {

@@ -1,4 +1,4 @@
-#include "signalflow/node/fft/fft-cross-fade.h"
+#include "signalflow/node/fft/processors/fft-cross-fade.h"
 #include <algorithm>
 
 namespace signalflow

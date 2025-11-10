@@ -1,8 +1,8 @@
 #ifdef __APPLE__
 
 #include "signalflow/core/core.h"
-#include "signalflow/node/fft/convolve.h"
 #include "signalflow/node/fft/fft.h"
+#include "signalflow/node/fft/processors/fft-convolve.h"
 
 namespace signalflow
 {

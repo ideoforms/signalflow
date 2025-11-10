@@ -197,25 +197,26 @@
 /*------------------------------------------------------------------------
  * FFT
  *-----------------------------------------------------------------------*/
-#include <signalflow/node/fft/continuous-pv.h>
 #include <signalflow/node/fft/features/fft-spectral-centroid.h>
 #include <signalflow/node/fft/features/fft-spectral-flatness.h>
 #include <signalflow/node/fft/fft-buffer-player.h>
-#include <signalflow/node/fft/fft-contrast.h>
-#include <signalflow/node/fft/fft-cross-fade.h>
-#include <signalflow/node/fft/fft-lfo.h>
+#include <signalflow/node/fft/fft-continuous-pv.h>
+#include <signalflow/node/fft/fft-find-peaks.h>
 #include <signalflow/node/fft/fft-magnitude-phase-array.h>
-#include <signalflow/node/fft/fft-random-phase.h>
-#include <signalflow/node/fft/fft-scale-magnitudes.h>
-#include <signalflow/node/fft/fft-transform.h>
+#include <signalflow/node/fft/fft-node.h>
+#include <signalflow/node/fft/fft-phase-vocoder.h>
 #include <signalflow/node/fft/fft.h>
-#include <signalflow/node/fft/find-peaks.h>
 #include <signalflow/node/fft/ifft.h>
-#include <signalflow/node/fft/lpf.h>
-#include <signalflow/node/fft/noise-gate.h>
-#include <signalflow/node/fft/phase-vocoder.h>
-#include <signalflow/node/fft/tonality.h>
+#include <signalflow/node/fft/processors/fft-contrast.h>
+#include <signalflow/node/fft/processors/fft-cross-fade.h>
+#include <signalflow/node/fft/processors/fft-lfo.h>
+#include <signalflow/node/fft/processors/fft-lpf.h>
+#include <signalflow/node/fft/processors/fft-noise-gate.h>
+#include <signalflow/node/fft/processors/fft-random-phase.h>
+#include <signalflow/node/fft/processors/fft-scale-magnitudes.h>
+#include <signalflow/node/fft/processors/fft-tonality.h>
+#include <signalflow/node/fft/processors/fft-transform.h>
 
 #ifdef __APPLE__
-#include <signalflow/node/fft/convolve.h>
+#include <signalflow/node/fft/processors/fft-convolve.h>
 #endif

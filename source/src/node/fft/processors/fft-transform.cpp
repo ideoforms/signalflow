@@ -1,4 +1,4 @@
-#include "signalflow/node/fft/fft-transform.h"
+#include "signalflow/node/fft/processors/fft-transform.h"
 
 namespace signalflow
 {

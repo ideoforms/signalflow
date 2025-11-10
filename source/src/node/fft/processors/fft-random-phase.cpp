@@ -1,5 +1,5 @@
 #include "signalflow/core/random.h"
-#include "signalflow/node/fft/fft-random-phase.h"
+#include "signalflow/node/fft/processors/fft-random-phase.h"
 
 #include <algorithm>
 

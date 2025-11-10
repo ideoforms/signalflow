@@ -1,22 +1,25 @@
 #pragma once
 
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 
 namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * FFT-based brick wall low pass filter.
+ * FFT Contrast.
  * Requires an FFT* input.
  *---------------------------------------------------------------------------------*/
-class FFTLPF : public FFTOpNode
+class FFTContrast : public FFTOpNode
 {
 public:
-    FFTLPF(NodeRef input = 0, NodeRef frequency = 2000);
+    FFTContrast(NodeRef input = 0, NodeRef contrast = 1);
     virtual void process(Buffer &out, int num_frames);
 
-    NodeRef frequency;
+private:
+    NodeRef contrast;
+    float mags[SIGNALFLOW_MAX_FFT_SIZE / 2];
 };
 
-REGISTER(FFTLPF, "fft-lpf")
+REGISTER(FFTContrast, "fft-contrast")
+
 }

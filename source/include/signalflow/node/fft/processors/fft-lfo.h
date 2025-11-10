@@ -1,25 +1,26 @@
 #pragma once
 
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 
 namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Transforms the FFT magnitude spectrum in the X axis.
+ * FFT LFO.
  * Requires an FFT* input.
  *---------------------------------------------------------------------------------*/
-class FFTTransform : public FFTOpNode
+class FFTLFO : public FFTOpNode
 {
 public:
-    FFTTransform(NodeRef input = 0, NodeRef flip = 0, NodeRef rotate = 0);
+    FFTLFO(NodeRef input = 0, NodeRef frequency = 1.0, NodeRef spectral_cycles = 1.0);
     virtual void process(Buffer &out, int num_frames);
 
 private:
-    NodeRef flip;
-    NodeRef rotate;
+    NodeRef frequency;
+    NodeRef spectral_cycles;
+    double phase;
 };
 
-REGISTER(FFTTransform, "fft-transform")
+REGISTER(FFTLFO, "fft-lfo")
 
 }

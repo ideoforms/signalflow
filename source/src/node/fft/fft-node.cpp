@@ -1,4 +1,4 @@
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 #include <vector>
 
 namespace signalflow

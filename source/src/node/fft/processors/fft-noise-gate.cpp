@@ -1,4 +1,4 @@
-#include "signalflow/node/fft/noise-gate.h"
+#include "signalflow/node/fft/processors/fft-noise-gate.h"
 
 #include <algorithm>
 

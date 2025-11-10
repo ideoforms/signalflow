@@ -1,5 +1,5 @@
 #include "signalflow/core/random.h"
-#include "signalflow/node/fft/fft-scale-magnitudes.h"
+#include "signalflow/node/fft/processors/fft-scale-magnitudes.h"
 
 #include <algorithm>
 

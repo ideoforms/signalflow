@@ -1,5 +1,5 @@
 #include "signalflow/core/graph.h"
-#include "signalflow/node/fft/lpf.h"
+#include "signalflow/node/fft/processors/fft-lpf.h"
 
 namespace signalflow
 {

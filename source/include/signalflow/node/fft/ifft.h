@@ -1,6 +1,6 @@
 #pragma once
 
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 
 #if defined(FFT_ACCELERATE)
 #include <Accelerate/Accelerate.h>

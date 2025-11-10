@@ -1,4 +1,4 @@
-#include "signalflow/node/fft/tonality.h"
+#include "signalflow/node/fft/processors/fft-tonality.h"
 
 #include <algorithm>
 #include <array>

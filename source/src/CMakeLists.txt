@@ -37,23 +37,23 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/rect.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/envelope/detect-silence.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fftnode.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-node.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/ifft.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/lpf.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/noise-gate.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/phase-vocoder.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/continuous-pv.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/tonality.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/convolve.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/find-peaks.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-transform.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-contrast.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-magnitude-phase-array.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-random-phase.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-scale-magnitudes.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-cross-fade.cpp
-        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-buffer-player.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-phase-vocoder.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-continuous-pv.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-find-peaks.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/fft-magnitude-phase-array.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-lpf.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-noise-gate.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-tonality.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-convolve.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-transform.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-contrast.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-random-phase.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-scale-magnitudes.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-cross-fade.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/features/fft-spectral-flatness.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/features/fft-spectral-centroid.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/comb.cpp

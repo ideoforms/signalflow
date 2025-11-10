@@ -1,31 +1,30 @@
 #pragma once
 
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 
 namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Continuous phase vocoder.
+ * Phase vocoder.
  * Requires an FFT* input.
  *---------------------------------------------------------------------------------*/
-class FFTContinuousPhaseVocoder : public FFTNode
+class FFTPhaseVocoder : public FFTOpNode
 {
 public:
-    FFTContinuousPhaseVocoder(NodeRef input = nullptr, float rate = 1.0);
+    FFTPhaseVocoder(NodeRef input = nullptr);
 
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1);
     virtual void process(Buffer &out, int num_frames);
-    virtual void trigger(std::string name, float value);
 
     sample *magnitude_buffer;
     sample *phase_buffer;
     sample *phase_deriv;
+    bool frozen;
+    bool just_frozen;
 
-    NodeRef input;
-    float rate;
-
-    bool prefilled_fft_buffer;
+    NodeRef clock = nullptr;
 };
 
-REGISTER(FFTContinuousPhaseVocoder, "fft-continuous-pv")
+REGISTER(FFTPhaseVocoder, "fft_phase_vocoder")
 }

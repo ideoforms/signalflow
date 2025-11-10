@@ -1,21 +1,22 @@
 #pragma once
 
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 
 namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Remove phase information from a frequency-domain input.
+ * FFT-based brick wall low pass filter.
  * Requires an FFT* input.
  *---------------------------------------------------------------------------------*/
-class FFTZeroPhase : public UnaryOpNode
+class FFTLPF : public FFTOpNode
 {
 public:
-    FFTZeroPhase(NodeRef input = 0);
-
+    FFTLPF(NodeRef input = 0, NodeRef frequency = 2000);
     virtual void process(Buffer &out, int num_frames);
+
+    NodeRef frequency;
 };
 
-REGISTER(FFTZeroPhase, "zero_phase")
+REGISTER(FFTLPF, "fft-lpf")
 }
