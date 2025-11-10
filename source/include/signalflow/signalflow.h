@@ -188,6 +188,7 @@
 #include <signalflow/node/analysis/onset-detector.h>
 #include <signalflow/node/analysis/vamp.h>
 #include <signalflow/node/analysis/yin.h>
+#include <signalflow/node/analysis/zero-crossing-rate.h>
 
 /*------------------------------------------------------------------------
  * Control interfaces
@@ -199,6 +200,7 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/fft/features/fft-spectral-centroid.h>
 #include <signalflow/node/fft/features/fft-spectral-flatness.h>
+#include <signalflow/node/fft/features/fft-spectral-flux.h>
 #include <signalflow/node/fft/fft-buffer-player.h>
 #include <signalflow/node/fft/fft-continuous-pv.h>
 #include <signalflow/node/fft/fft-find-peaks.h>

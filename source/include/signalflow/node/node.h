@@ -227,7 +227,7 @@ public:
     Buffer out;
 
     /*------------------------------------------------------------------------
-     * Used to cache
+     * Used to cache the last sample in the previous buffer.
      *-----------------------------------------------------------------------*/
     std::vector<float> last_sample;
 

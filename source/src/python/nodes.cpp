@@ -34,7 +34,10 @@ void init_python_nodes(py::module &m)
 #endif
 
     py::class_<YinPitchTracker, Node, NodeRefTemplate<YinPitchTracker>>(m, "YinPitchTracker", "YIN pitch tracker")
-        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, unsigned int>(), "input"_a = 0.0, "threshold"_a = 0.1, "f0_min"_a = 50.0, "f0_max"_a = 2000.0, "window_size"_a = 2048);
+        .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, unsigned int>(), "input"_a = 0.0, "threshold"_a = 0.1, "f0_min"_a = 50.0, "f0_max"_a = 2000.0, "window_size"_a = 1024);
+
+    py::class_<ZeroCrossingRate, Node, NodeRefTemplate<ZeroCrossingRate>>(m, "ZeroCrossingRate", "Calculates the zero-crossing rate of the input signal. Outputs the rate at which the signal crosses zero. Useful for simple pitch estimation.")
+        .def(py::init<NodeRef>(), "input"_a = nullptr);
 
     py::class_<BeatCutter, Node, NodeRefTemplate<BeatCutter>>(m, "BeatCutter", "Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.")
         .def(py::init<BufferRef, int, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "segment_count"_a = 8, "stutter_probability"_a = 0.0, "stutter_count"_a = 1, "jump_probability"_a = 0.0, "duty_cycle"_a = 1.0, "rate"_a = 1.0, "segment_rate"_a = 1.0);
@@ -108,8 +111,39 @@ void init_python_nodes(py::module &m)
     py::class_<RectangularEnvelope, Node, NodeRefTemplate<RectangularEnvelope>>(m, "RectangularEnvelope", "Rectangular envelope with the given sustain duration.")
         .def(py::init<NodeRef, NodeRef>(), "sustain_duration"_a = 1.0, "clock"_a = nullptr);
 
+    py::class_<FFTBufferPlayer, FFTNode, NodeRefTemplate<FFTBufferPlayer>>(m, "FFTBufferPlayer", "FFTBufferPlayer. Plays from a buffer of audio spectra in mag/phase format.")
+        .def(py::init<FFTBufferRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0);
+
     py::class_<FFTContinuousPhaseVocoder, FFTNode, NodeRefTemplate<FFTContinuousPhaseVocoder>>(m, "FFTContinuousPhaseVocoder", "Continuous phase vocoder. Requires an FFT* input.")
         .def(py::init<NodeRef, float>(), "input"_a = nullptr, "rate"_a = 1.0);
+
+    py::class_<FFTFindPeaks, FFTOpNode, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks", "Find peaks in the FFT magnitude spectrum. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef, NodeRef, int, bool>(), "input"_a = 0, "prominence"_a = 1, "threshold"_a = 0.000001, "count"_a = SIGNALFLOW_MAX_CHANNELS, "interpolate"_a = true);
+
+    py::class_<FFTMagnitudePhaseArray, FFTOpNode, NodeRefTemplate<FFTMagnitudePhaseArray>>(m, "FFTMagnitudePhaseArray", "Fixed mag/phase array.")
+        .def(py::init<NodeRef, std::vector<float>, std::vector<float>>(), "input"_a = 0, "magnitudes"_a = 0, "phases"_a = 0)
+        .def("set_magnitudes", &FFTMagnitudePhaseArray::set_magnitudes);
+
+    py::class_<FFTPhaseVocoder, FFTOpNode, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder", "Phase vocoder. Requires an FFT* input.")
+        .def(py::init<NodeRef>(), "input"_a = nullptr);
+
+    py::class_<FFT, FFTNode, NodeRefTemplate<FFT>>(m, "FFT", "Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.")
+        .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNALFLOW_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
+
+    py::class_<IFFT, FFTOpNode, NodeRefTemplate<IFFT>>(m, "IFFT", "Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.")
+        .def(py::init<NodeRef, bool>(), "input"_a = nullptr, "do_window"_a = false);
+
+    py::class_<FFTSpectralCentroid, FFTOpNode, NodeRefTemplate<FFTSpectralCentroid>>(m, "FFTSpectralCentroid", "Randomise phase values.")
+        .def(py::init<NodeRef>(), "input"_a = 0);
+
+    py::class_<FFTSpectralFlatness, FFTOpNode, NodeRefTemplate<FFTSpectralFlatness>>(m, "FFTSpectralFlatness", "Randomise phase values.")
+        .def(py::init<NodeRef>(), "input"_a = 0);
+
+    py::class_<FFTSpectralFlux, FFTOpNode, NodeRefTemplate<FFTSpectralFlux>>(m, "FFTSpectralFlux", "Spectral flux: measures the change in magnitude spectrum between frames.")
+        .def(py::init<NodeRef>(), "input"_a = 0);
+
+    py::class_<FFTContrast, FFTOpNode, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "contrast"_a = 1);
 
 #ifdef __APPLE__
 
@@ -118,39 +152,11 @@ void init_python_nodes(py::module &m)
 
 #endif
 
-    py::class_<FFTBufferPlayer, FFTNode, NodeRefTemplate<FFTBufferPlayer>>(m, "FFTBufferPlayer", "FFTBufferPlayer. Plays from a buffer of audio spectra in mag/phase format.")
-        .def(py::init<FFTBufferRef, NodeRef>(), "buffer"_a = nullptr, "rate"_a = 1.0);
-
-    py::class_<FFTContrast, FFTOpNode, NodeRefTemplate<FFTContrast>>(m, "FFTContrast", "FFT Contrast. Requires an FFT* input.")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "contrast"_a = 1);
-
     py::class_<FFTCrossFade, FFTOpNode, NodeRefTemplate<FFTCrossFade>>(m, "FFTCrossFade", "FFT FFTCrossFade. Requires two FFT* inputs.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "inputA"_a = 0, "inputB"_a = 0, "crossfade"_a = 0.0);
 
     py::class_<FFTLFO, FFTOpNode, NodeRefTemplate<FFTLFO>>(m, "FFTLFO", "FFT LFO. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 1.0, "spectral_cycles"_a = 1.0);
-
-    py::class_<FFTMagnitudePhaseArray, FFTOpNode, NodeRefTemplate<FFTMagnitudePhaseArray>>(m, "FFTMagnitudePhaseArray", "Fixed mag/phase array.")
-        .def(py::init<NodeRef, std::vector<float>, std::vector<float>>(), "input"_a = 0, "magnitudes"_a = 0, "phases"_a = 0)
-        .def("set_magnitudes", &FFTMagnitudePhaseArray::set_magnitudes);
-
-    py::class_<FFTRandomPhase, FFTOpNode, NodeRefTemplate<FFTRandomPhase>>(m, "FFTRandomPhase", "Randomise phase values.")
-        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 1.0);
-
-    py::class_<FFTScaleMagnitudes, FFTOpNode, NodeRefTemplate<FFTScaleMagnitudes>>(m, "FFTScaleMagnitudes", "Randomise phase values.")
-        .def(py::init<NodeRef, std::vector<float>>(), "input"_a = 0, "scale"_a = 0);
-
-    py::class_<FFTTransform, FFTOpNode, NodeRefTemplate<FFTTransform>>(m, "FFTTransform", "Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
-        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "flip"_a = 0, "rotate"_a = 0);
-
-    py::class_<FFT, FFTNode, NodeRefTemplate<FFT>>(m, "FFT", "Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.")
-        .def(py::init<NodeRef, int, int, int, bool>(), "input"_a = 0.0, "fft_size"_a = SIGNALFLOW_DEFAULT_FFT_SIZE, "hop_size"_a = SIGNALFLOW_DEFAULT_FFT_HOP_SIZE, "window_size"_a = 0, "do_window"_a = true);
-
-    py::class_<FFTFindPeaks, FFTOpNode, NodeRefTemplate<FFTFindPeaks>>(m, "FFTFindPeaks", "Find peaks in the FFT magnitude spectrum. Requires an FFT* input.")
-        .def(py::init<NodeRef, NodeRef, NodeRef, int, bool>(), "input"_a = 0, "prominence"_a = 1, "threshold"_a = 0.000001, "count"_a = SIGNALFLOW_MAX_CHANNELS, "interpolate"_a = true);
-
-    py::class_<IFFT, FFTOpNode, NodeRefTemplate<IFFT>>(m, "IFFT", "Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.")
-        .def(py::init<NodeRef, bool>(), "input"_a = nullptr, "do_window"_a = false);
 
     py::class_<FFTLPF, FFTOpNode, NodeRefTemplate<FFTLPF>>(m, "FFTLPF", "FFT-based brick wall low pass filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "frequency"_a = 2000);
@@ -158,17 +164,17 @@ void init_python_nodes(py::module &m)
     py::class_<FFTNoiseGate, FFTOpNode, NodeRefTemplate<FFTNoiseGate>>(m, "FFTNoiseGate", "FFT-based noise gate. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "threshold"_a = 0.5, "invert"_a = 0.0);
 
-    py::class_<FFTPhaseVocoder, FFTOpNode, NodeRefTemplate<FFTPhaseVocoder>>(m, "FFTPhaseVocoder", "Phase vocoder. Requires an FFT* input.")
-        .def(py::init<NodeRef>(), "input"_a = nullptr);
+    py::class_<FFTRandomPhase, FFTOpNode, NodeRefTemplate<FFTRandomPhase>>(m, "FFTRandomPhase", "Randomise phase values.")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 1.0);
+
+    py::class_<FFTScaleMagnitudes, FFTOpNode, NodeRefTemplate<FFTScaleMagnitudes>>(m, "FFTScaleMagnitudes", "Randomise phase values.")
+        .def(py::init<NodeRef, std::vector<float>>(), "input"_a = 0, "scale"_a = 0);
 
     py::class_<FFTTonality, FFTOpNode, NodeRefTemplate<FFTTonality>>(m, "FFTTonality", "Tonality filter. Requires an FFT* input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "level"_a = 0.5, "smoothing"_a = 0.9);
 
-    py::class_<FFTSpectralCentroid, FFTOpNode, NodeRefTemplate<FFTSpectralCentroid>>(m, "FFTSpectralCentroid", "Randomise phase values.")
-        .def(py::init<NodeRef>(), "input"_a = 0);
-
-    py::class_<FFTSpectralFlatness, FFTOpNode, NodeRefTemplate<FFTSpectralFlatness>>(m, "FFTSpectralFlatness", "Randomise phase values.")
-        .def(py::init<NodeRef>(), "input"_a = 0);
+    py::class_<FFTTransform, FFTOpNode, NodeRefTemplate<FFTTransform>>(m, "FFTTransform", "Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.")
+        .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0, "flip"_a = 0, "rotate"_a = 0);
 
     py::class_<Add, Node, NodeRefTemplate<Add>>(m, "Add", "Add each sample of a to each sample of b. Can also be written as a + b")
         .def(py::init<NodeRef, NodeRef>(), "a"_a = 0, "b"_a = 0);

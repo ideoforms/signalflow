@@ -56,6 +56,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/processors/fft-lfo.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/features/fft-spectral-flatness.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/features/fft-spectral-centroid.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/fft/features/fft-spectral-flux.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/comb.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/allpass.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/processors/delays/onetap.cpp
@@ -152,6 +153,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/nearest-neighbour.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/onset-detector.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/yin.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/analysis/zero-crossing-rate.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-node-spec.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/patch/patch-registry.cpp
