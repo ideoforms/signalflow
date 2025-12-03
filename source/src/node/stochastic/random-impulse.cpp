@@ -23,6 +23,22 @@ RandomImpulse::RandomImpulse(NodeRef frequency, signalflow_event_distribution_t 
 void RandomImpulse::alloc()
 {
     this->steps_remaining.resize(this->num_output_channels_allocated);
+
+    for (int channel = 0; channel < this->num_output_channels; channel++)
+    {
+        float freq = this->frequency->out[channel][0];
+        if (freq == 0)
+            continue;
+
+        if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_UNIFORM)
+        {
+            this->steps_remaining[channel] = (int) this->random_uniform(0, this->graph->get_sample_rate() / (freq / 2.0));
+        }
+        else if (this->distribution == SIGNALFLOW_EVENT_DISTRIBUTION_POISSON)
+        {
+            this->steps_remaining[channel] = this->graph->get_sample_rate() * -logf(1.0 - this->random_uniform(0, 1)) / freq;
+        }
+    }
 }
 
 void RandomImpulse::process(Buffer &out, int num_frames)
