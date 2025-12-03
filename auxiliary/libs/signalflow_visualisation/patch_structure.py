@@ -1,7 +1,5 @@
 import os
 import json
-import networkx as nx
-from IPython.display import SVG
 from signalflow import Patch
 
 def visualise_patch_structure(patch: Patch, filename: str = None, dpi: int = None):
@@ -22,6 +20,9 @@ def visualise_patch_structure(patch: Patch, filename: str = None, dpi: int = Non
 
     TODO: Implement support for cyclical graphs (requires reformulating JSON using JSON pointers)
     """
+
+    import networkx as nx
+    from IPython.display import SVG
 
     G = nx.DiGraph()
 
