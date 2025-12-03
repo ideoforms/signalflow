@@ -119,6 +119,16 @@ public:
     void save(std::string filename);
 
     /**------------------------------------------------------------------------
+     * Load all audio files from a directory into a vector of Buffer objects.
+     *
+     * @param directory_path The directory to search.
+     * @param extensions A list of file extensions to load (default: .wav, .aif)
+     * @returns A vector of BufferRef objects.
+     *
+     *------------------------------------------------------------------------*/
+    static std::vector<BufferRef> load_directory(std::string directory_path, std::vector<std::string> extensions = { ".wav", ".aif" });
+
+    /**------------------------------------------------------------------------
      * Splits the buffer into chunks of `num_frames_per_part` frames,
      * and returns the vector of chunks. Useful for creating Buffer2D
      * objects from longer 1D wavetable buffers.
@@ -128,6 +138,12 @@ public:
      *
      *------------------------------------------------------------------------*/
     std::vector<BufferRef> split(int num_frames_per_part);
+
+    /**------------------------------------------------------------------------
+     * Play the buffer through the default audio output device.
+     *
+     *------------------------------------------------------------------------*/
+    void play();
 
     /**------------------------------------------------------------------------
      * @param channel The channel number

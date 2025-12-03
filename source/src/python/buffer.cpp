@@ -94,6 +94,9 @@ void init_python_buffer(py::module &m)
             "__div__", [](BufferRef a, float b) { return a / b; }, "value"_a,
             R"pbdoc(Returns a new Buffer containing the samples in `self` divided by `value`.)pbdoc")
         .def(
+            "__truediv__", [](BufferRef a, float b) { return a / b; }, "value"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` divided by `value`.)pbdoc")
+        .def(
             "__add__", [](BufferRef a, float b) { return a + b; }, "value"_a,
             R"pbdoc(Returns a new Buffer containing the samples in `self` added to `value`.)pbdoc")
         .def(
@@ -155,7 +158,33 @@ void init_python_buffer(py::module &m)
             "fill", [](Buffer &buf, const std::function<float(float)> f) { buf.fill(f); }, "function"_a)
         .def("split", &Buffer::split, "num_frames_per_part"_a)
         .def("load", &Buffer::load, "filename"_a)
-        .def("save", &Buffer::save, "filename"_a);
+        .def("save", &Buffer::save, "filename"_a)
+        .def(
+            "play", [](BufferRef &buf, bool blocking = false) {
+                AudioGraph *shared_graph = AudioGraph::get_shared_graph();
+                if (!shared_graph)
+                {
+                    throw std::runtime_error("Cannot play buffer: no shared AudioGraph instance");
+                }
+
+                PatchRef patch = new Patch();
+                NodeRef player = new BufferPlayer(buf);
+                patch->add_node(player);
+                patch->set_output(player);
+                patch->set_auto_free_node(player);
+                shared_graph->play(patch);
+
+                if (blocking)
+                {
+                    shared_graph->wait(buf->get_duration());
+                }
+            },
+            "blocking"_a = false, R"pbdoc(Play the buffer through the default audio output device.)pbdoc")
+
+        /*--------------------------------------------------------------------------------
+         * Static methods
+         *-------------------------------------------------------------------------------*/
+        .def_static("load_directory", &Buffer::load_directory, "directory_path"_a, "extensions"_a = std::vector<std::string>({ "wav", "aif" }), R"pbdoc(list[Buffer]: Load a directory of audio files into a list of buffers.)pbdoc");
 
     py::class_<Buffer2D, Buffer, BufferRefTemplate<Buffer2D>>(m, "Buffer2D", "Two-dimensional buffer of audio samples")
         .def(py::init<std::vector<BufferRef>>())
@@ -205,7 +234,7 @@ void init_python_buffer(py::module &m)
                                R"pbdoc(Returns a list containing the offset in the wavetable buffer for each frame, ranging over 0..1.)pbdoc");
 
     /*--------------------------------------------------------------------------------
-     * Buffer
+     * FFTBuffer
      *-------------------------------------------------------------------------------*/
     py::class_<FFTBuffer, FFTBufferRefTemplate<FFTBuffer>>(m, "FFTBuffer",
                                                            "A buffer of audio spectra in magnitude/phase format")

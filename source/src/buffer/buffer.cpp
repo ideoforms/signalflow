@@ -2,6 +2,7 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/core/exceptions.h"
 #include "signalflow/core/graph.h"
+#include "signalflow/node/buffer/buffer-player.h"
 #include <sndfile.h>
 
 #include <stdlib.h>
@@ -13,7 +14,13 @@
 #include <unistd.h>
 #endif
 
+#include <algorithm>
+#include <cctype>
 #include <vector>
+
+#ifndef WIN32
+#include <dirent.h>
+#endif
 
 #define SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE 1024
 
@@ -299,6 +306,59 @@ void Buffer::save(std::string filename)
     this->filename = filename;
 }
 
+std::vector<BufferRef> Buffer::load_directory(std::string directory_path, std::vector<std::string> extensions)
+{
+    std::vector<BufferRef> buffers;
+#ifdef WIN32
+    throw std::runtime_error("Buffer::load_directory is not yet implemented for Windows");
+#else
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(directory_path.c_str())) != NULL)
+    {
+        while ((ent = readdir(dir)) != NULL)
+        {
+            std::string filename = ent->d_name;
+            if (filename == "." || filename == "..")
+            {
+                continue;
+            }
+
+            std::string path = directory_path + "/" + filename;
+            bool match = false;
+            for (auto extension : extensions)
+            {
+                std::transform(filename.begin(), filename.end(), filename.begin(), [](unsigned char c) { return std::tolower(c); });
+                if (filename.compare(filename.length() - extension.length(), extension.length(), extension) == 0)
+                {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (match)
+            {
+                try
+                {
+                    BufferRef buffer = new Buffer(path);
+                    buffers.push_back(buffer);
+                }
+                catch (const std::exception &e)
+                {
+                    std::cerr << "Failed to load buffer from " << path << ": " << e.what() << std::endl;
+                }
+            }
+        }
+        closedir(dir);
+    }
+    else
+    {
+        throw std::runtime_error("Could not open directory: " + directory_path);
+    }
+#endif
+    return buffers;
+}
+
 std::vector<BufferRef> Buffer::split(int num_frames_per_part)
 {
     if (this->num_channels != 1)
@@ -407,6 +467,21 @@ void Buffer::fill(const std::function<float(float)> f)
             this->data[channel][frame] = f(offset);
         }
     }
+}
+
+void Buffer::play()
+{
+    if (!shared_graph)
+    {
+        throw std::runtime_error("Cannot play buffer: no shared AudioGraph instance");
+    }
+
+    PatchRef patch = new Patch();
+    NodeRef player = new BufferPlayer(this);
+    patch->add_node(player);
+    patch->set_output(player);
+    patch->set_auto_free_node(player);
+    shared_graph->play(patch);
 }
 
 float Buffer::get_sample_rate() { return this->sample_rate; }
