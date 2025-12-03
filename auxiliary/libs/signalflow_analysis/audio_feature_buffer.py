@@ -2,6 +2,7 @@ import os
 import numpy as np
 import pandas as pd
 from signalflow import AudioGraph, Buffer, BufferPlayer, Node
+from signalflow import FFT, FFTOpNode
 
 class AudioFeatureBuffer (Buffer):
     @classmethod
@@ -92,11 +93,11 @@ class AudioFeatureBuffer (Buffer):
                 segment_buffer.save("%s/segment-%d.wav" % (segment_dir, segment_index))
 
             player = BufferPlayer(segment_buffer)
+            player_fft = FFT(player, block_size, hop_size)
             graph = AudioGraph.get_shared_graph()
             segment_block_length = graph.output_buffer_size
             segment_block_count = segment_length // segment_block_length
             segment_block_values_per_feature = [[] for _ in range(num_features)]
-            feature_output_buffer = Buffer(1, segment_block_length)
             for segment_block_index in range(segment_block_count):
                 #--------------------------------------------------------------------------------
                 # For each feature, run Vamp on the audio segment and output feature values
@@ -107,10 +108,15 @@ class AudioFeatureBuffer (Buffer):
                 #       (<1024) - need to overcome this
                 #--------------------------------------------------------------------------------
                 player.process(segment_block_length)
+                player_fft.process(segment_block_length)
                 for feature_index, feature in enumerate(features):
-                    feature.input = player
-                    feature.process(feature_output_buffer)
-                    feature_value = feature_output_buffer.data[0][0]
+                    if isinstance(feature, FFTOpNode):
+                        feature.input = player_fft
+                        feature.process(segment_block_length)
+                    else:
+                        feature.input = player
+                        feature.process(segment_block_length)
+                    feature_value = feature.output_buffer[0][0]
                     segment_block_values_per_feature[feature_index].append(feature_value)
             for feature_index in range(len(features)):
                 average_feature_value = np.median(segment_block_values_per_feature[feature_index])
