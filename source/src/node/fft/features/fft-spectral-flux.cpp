@@ -12,6 +12,11 @@ FFTSpectralFlux::FFTSpectralFlux(NodeRef input)
     this->name = "fft-spectral-flux";
 
     // Initialize previous magnitudes if needed
+    this->alloc();
+}
+
+void FFTSpectralFlux::alloc()
+{
     previous_magnitudes.resize(this->num_bins, 0.0f);
 }
 

@@ -60,10 +60,10 @@ FFTOpNode::FFTOpNode(NodeRef input)
 {
     this->create_input("input", this->input);
 
-    if (dynamic_cast<FFTNode *>(input.get()) == nullptr)
-    {
-        throw std::runtime_error("Input to FFT operation nodes must be an FFT node");
-    }
+    // if (dynamic_cast<FFTNode *>(input.get()) == nullptr)
+    // {
+    //     throw std::runtime_error("Input to FFT operation nodes must be an FFT node");
+    // }
 }
 
 void FFTOpNode::set_input(std::string name, const NodeRef &node)
@@ -72,6 +72,11 @@ void FFTOpNode::set_input(std::string name, const NodeRef &node)
     if (name == "input")
     {
         // TODO: Update FFT size and buffers
+        this->fft_size = ((FFTNode *) node.get())->fft_size;
+        this->num_bins = ((FFTNode *) node.get())->num_bins;
+        this->hop_size = ((FFTNode *) node.get())->hop_size;
+        this->window_size = ((FFTNode *) node.get())->window_size;
+        this->do_window = ((FFTNode *) node.get())->do_window;
     }
 }
 

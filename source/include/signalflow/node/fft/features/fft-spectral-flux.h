@@ -12,7 +12,8 @@ class FFTSpectralFlux : public FFTOpNode
 {
 public:
     FFTSpectralFlux(NodeRef input = 0);
-    virtual void process(Buffer &out, int num_frames);
+    virtual void process(Buffer &out, int num_frames) override;
+    virtual void alloc() override;
 
 private:
     std::vector<float> previous_magnitudes;
