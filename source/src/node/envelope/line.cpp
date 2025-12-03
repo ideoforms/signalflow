@@ -17,10 +17,8 @@ Line::Line(NodeRef start, NodeRef end, NodeRef time, NodeRef loop, NodeRef clock
 
     this->alloc();
 
-    if (!clock)
-    {
-        this->trigger();
-    }
+    // Don't trigger immediately as start/end times can only be read when inputs have been processed.
+    // Init-time trigger happens at the start of process().
 }
 
 void Line::alloc()
@@ -51,7 +49,7 @@ void Line::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame) || (!clock && !this->duration_samples[channel]))
             {
                 this->step[channel] = 0;
                 this->duration_samples[channel] = this->graph->get_sample_rate() * this->time->out[channel][frame] - 1;
