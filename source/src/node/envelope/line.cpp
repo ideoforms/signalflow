@@ -16,6 +16,11 @@ Line::Line(NodeRef start, NodeRef end, NodeRef time, NodeRef loop, NodeRef clock
     this->create_input("clock", this->clock);
 
     this->alloc();
+
+    if (!clock)
+    {
+        this->trigger();
+    }
 }
 
 void Line::alloc()
@@ -46,7 +51,7 @@ void Line::process(Buffer &out, int num_frames)
     {
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (!duration_samples[channel] || SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame))
             {
                 this->step[channel] = 0;
                 this->duration_samples[channel] = this->graph->get_sample_rate() * this->time->out[channel][frame] - 1;
