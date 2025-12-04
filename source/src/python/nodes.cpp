@@ -196,7 +196,7 @@ void init_python_nodes(py::module &m)
         .def(py::init<std::vector<float>>(), "inputs"_a);
 
     py::class_<ChannelCrossfade, Node, NodeRefTemplate<ChannelCrossfade>>(m, "ChannelCrossfade", "Given a multichannel input, crossfades between channels based on the given position within the virtual array, producing a single-channel output.")
-        .def(py::init<NodeRef, NodeRef, int>(), "input"_a = nullptr, "index"_a = nullptr, "num_output_channels"_a = 1);
+        .def(py::init<NodeRef, NodeRef, int, std::string>(), "input"_a = nullptr, "index"_a = nullptr, "num_output_channels"_a = 1, "type"_a = "linear");
 
     py::class_<ChannelMixer, Node, NodeRefTemplate<ChannelMixer>>(m, "ChannelMixer", "Downmix a multichannel input to a lower-channel output. If num_channels is greater than one, spreads the input channels across the field. If amplitude_compensation is enabled, scale down the amplitude based on the ratio of input to output channels.")
         .def(py::init<int, NodeRef, bool>(), "num_channels"_a = 1, "input"_a = 0, "amplitude_compensation"_a = true);

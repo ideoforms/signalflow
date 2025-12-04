@@ -1,4 +1,5 @@
 from signalflow import Constant, ChannelArray, ChannelOffset, Sum, SelectInput, Counter, Impulse, Bus
+from signalflow import ChannelCrossfade
 import numpy as np
 
 from . import graph
@@ -287,3 +288,26 @@ def test_bus(graph):
     graph.render_subgraph(a, reset=True)
     assert np.all(a.output_buffer[0] == 0)
     assert np.all(a.output_buffer[1] == 0)
+
+def test_crossfade(graph):
+    a = ChannelArray([1, 2, 3, 4])
+    b = ChannelCrossfade(a, Constant(0))
+
+    graph.render_subgraph(b, reset=True)
+    assert np.all(b.output_buffer[0] == 1)
+
+    b.set_input("index", 1)
+    graph.render_subgraph(b, reset=True)
+    assert np.all(b.output_buffer[0] == 2)
+
+    b.set_input("index", 2)
+    graph.render_subgraph(b, reset=True)
+    assert np.all(b.output_buffer[0] == 3)
+
+    b.set_input("index", 2.5)
+    graph.render_subgraph(b, reset=True)
+    assert np.all(b.output_buffer[0] == 3.5)
+
+    c = ChannelCrossfade(ChannelArray([0.0, 1.0]), 0.5, type="equal-power")
+    graph.render_subgraph(c, reset=True)
+    assert np.allclose(c.output_buffer[0], np.sqrt(0.5))
