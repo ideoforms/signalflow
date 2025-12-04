@@ -172,7 +172,7 @@ void init_python_buffer(py::module &m)
         .def("load", &Buffer::load, "filename"_a)
         .def("save", &Buffer::save, "filename"_a)
         .def(
-            "play", [](BufferRef &buf, bool blocking = false) {
+            "play", [](BufferRef &buf, float gain = 0.0, bool blocking = false) {
                 AudioGraph *shared_graph = AudioGraph::get_shared_graph();
                 if (!shared_graph)
                 {
@@ -182,7 +182,15 @@ void init_python_buffer(py::module &m)
                 PatchRef patch = new Patch();
                 NodeRef player = new BufferPlayer(buf);
                 patch->add_node(player);
-                patch->set_output(player);
+                if (gain != 0.0)
+                {
+                    NodeRef attenuated = player * signalflow_db_to_amplitude(gain);
+                    patch->set_output(attenuated);
+                }
+                else
+                {
+                    patch->set_output(player);
+                }
                 patch->set_auto_free_node(player);
                 shared_graph->play(patch);
 
@@ -191,7 +199,7 @@ void init_python_buffer(py::module &m)
                     shared_graph->wait(buf->get_duration());
                 }
             },
-            "blocking"_a = false, R"pbdoc(Play the buffer through the default audio output device.)pbdoc")
+            "gain"_a = 0.0, "blocking"_a = false, R"pbdoc(Play the buffer through the default audio output device.)pbdoc")
 
         /*--------------------------------------------------------------------------------
          * Static methods
