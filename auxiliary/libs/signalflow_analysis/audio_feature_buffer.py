@@ -124,6 +124,7 @@ class AudioFeatureBuffer (Buffer):
         # --------------------------------------------------------------------------------
         # For each segment, extract the samples to a buffer
         # --------------------------------------------------------------------------------
+        player_fft = FFT(0, block_size, hop_size)
         for segment_index, segment_offset in enumerate(feature_buffer.segment_offsets):
             segment_length = feature_buffer.segment_lengths[segment_index]
             segment_samples = audio_buffer.data[:, segment_offset:segment_offset+segment_length]
@@ -136,7 +137,8 @@ class AudioFeatureBuffer (Buffer):
                 segment_buffer.save("%s/segment-%d.wav" % (segment_dir, segment_index))
 
             player = BufferPlayer(segment_buffer)
-            player_fft = FFT(player, block_size, hop_size)
+            # player_fft = FFT(player, block_size, hop_size)
+            player_fft.input = player
             graph = AudioGraph.get_shared_graph()
             segment_block_length = graph.output_buffer_size
             segment_block_count = segment_length // segment_block_length
