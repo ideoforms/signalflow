@@ -4,6 +4,48 @@ import pandas as pd
 from signalflow import AudioGraph, Buffer, BufferPlayer, Node
 from signalflow import FFT, FFTOpNode
 
+
+def get_feature_for_buffer(buffer: Buffer,
+                           feature: Node,
+                           block_size: int = 4096,
+                           hop_size: int = 2048):
+    return get_features_for_buffer(buffer,
+                                   features=[feature],
+                                   block_size=block_size,
+                                   hop_size=hop_size)[0]
+
+def get_features_for_buffer(buffer: Buffer,
+                            features: list[Node],
+                            block_size: int = 4096,
+                            hop_size: int = 2048,
+                            aggregate_method: str = 'median',
+                            as_dict: bool = False):
+    if aggregate_method not in ['median', 'mean', 'max', 'min']:
+        raise ValueError("Invalid aggregate method: %s" % aggregate_method)
+
+    feature_buffer = AudioFeatureBuffer.from_buffer(buffer,
+                                                    block_size=block_size,
+                                                    hop_size=hop_size,
+                                                    features=features,
+                                                    labels=[feature.name for feature in features])
+    
+    values = []
+    for index, feature in enumerate(features):
+        if aggregate_method == 'mean':
+            feature_summary = np.mean(feature_buffer.data[index])
+        elif aggregate_method == 'median':
+            feature_summary = np.median(feature_buffer.data[index])
+        elif aggregate_method == 'max':
+            feature_summary = np.max(feature_buffer.data[index])
+        elif aggregate_method == 'min':
+            feature_summary = np.min(feature_buffer.data[index])
+        values.append(feature_summary)
+    if as_dict:
+        return {feature.name: values[index] for index, feature in enumerate(features)}
+    else:
+        return values
+
+
 class AudioFeatureBuffer (Buffer):
     @classmethod
     def from_buffer(cls,
@@ -16,7 +58,7 @@ class AudioFeatureBuffer (Buffer):
                     write_segments: bool = False,
                     features: list[Node] = None,
                     labels: list[str] = None):
-        #--------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------
         # Create an AudioFeatureBuffer from an existing audio buffer, generating one
         # frame of N-dimensional feature data for each segment in the buffer.
         #
@@ -25,7 +67,7 @@ class AudioFeatureBuffer (Buffer):
         #    vs variable-length blocks (i.e., segmented by onsets)
         #  - blocks with overlap
         #  - single or multiple feature extractors (for N-dimensional feature space)
-        #--------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------
         if audio_buffer.num_channels > 1:
             print("WARNING: AudioFeatureBuffer.from_buffer currently only supports mono input audio, only analysing the first channel")
             audio_buffer = audio_buffer[0]
@@ -36,7 +78,7 @@ class AudioFeatureBuffer (Buffer):
         num_features = len(features)
 
         if not labels:
-            labels = "xyzpqrstuvw"[num_features]
+            labels = "xyzpqrstuvw"[:num_features]
         if len(labels) != num_features:
             raise ValueError("Number of feature labels does not match number of features")
 
@@ -49,10 +91,10 @@ class AudioFeatureBuffer (Buffer):
             feature_buffer.segment_offsets = [hop_size * block_index for block_index in range(num_segments)]
             feature_buffer.segment_lengths = [block_size for _ in feature_buffer.segment_offsets]
 
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             # These derived properties simply convert sample units -> seconds, so can
             # be performed agnostically to the segmentation method.
-            #--------------------------------------------------------------------------------
+            # --------------------------------------------------------------------------------
             feature_buffer.segment_durations = [segment_length / audio_buffer.sample_rate for segment_length in feature_buffer.segment_lengths]
             feature_buffer.segment_times = [segment_offset / audio_buffer.sample_rate for segment_offset in feature_buffer.segment_offsets]
         elif segment_by == "onset_times":
@@ -72,15 +114,16 @@ class AudioFeatureBuffer (Buffer):
                     segment_duration = 2
                 feature_buffer.segment_durations.append(segment_duration)
             feature_buffer.segment_offsets = [int(round(segment_time * audio_buffer.sample_rate)) for segment_time in feature_buffer.segment_times]
-            feature_buffer.segment_lengths = [int(round(segment_duration * audio_buffer.sample_rate)) for segment_duration in feature_buffer.segment_durations]
+            feature_buffer.segment_lengths = [int(round(segment_duration * audio_buffer.sample_rate))
+                                              for segment_duration in feature_buffer.segment_durations]
         else:
             raise ValueError("Invalid segment mode: %s" % segment_by)
 
         feature_buffer.labels = labels
 
-        #--------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------
         # For each segment, extract the samples to a buffer
-        #--------------------------------------------------------------------------------
+        # --------------------------------------------------------------------------------
         for segment_index, segment_offset in enumerate(feature_buffer.segment_offsets):
             segment_length = feature_buffer.segment_lengths[segment_index]
             segment_samples = audio_buffer.data[:, segment_offset:segment_offset+segment_length]
@@ -99,14 +142,14 @@ class AudioFeatureBuffer (Buffer):
             segment_block_count = segment_length // segment_block_length
             segment_block_values_per_feature = [[] for _ in range(num_features)]
             for segment_block_index in range(segment_block_count):
-                #--------------------------------------------------------------------------------
+                # --------------------------------------------------------------------------------
                 # For each feature, run Vamp on the audio segment and output feature values
                 # into a mono buffer. Because Vamp only extracts one feature value per
                 # block, this buffer will just include the same value repeatedly.
                 #
                 # NOTE: Some vamp features don't seem to provide features for small blocks
                 #       (<1024) - need to overcome this
-                #--------------------------------------------------------------------------------
+                # --------------------------------------------------------------------------------
                 player.process(segment_block_length)
                 player_fft.process(segment_block_length)
                 for feature_index, feature in enumerate(features):
