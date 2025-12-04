@@ -383,7 +383,7 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
     }
 }
 
-void AudioGraph::reset_graph()
+void AudioGraph::handle_graph_changes()
 {
     for (auto pair : nodes_to_replace)
     {
@@ -466,6 +466,11 @@ void AudioGraph::reset_graph()
             }
         }
     }
+}
+
+void AudioGraph::reset_graph()
+{
+    this->handle_graph_changes();
 
     /*------------------------------------------------------------------------
      * Clear the record of processed nodes.
@@ -493,6 +498,13 @@ void AudioGraph::reset_subgraph(NodeRef node)
 
 void AudioGraph::render() { this->render(this->get_output_buffer_size()); }
 
+/*------------------------------------------------------------------------
+ * This is the core real-time rendering function.
+ *  - Timestamps the rendering time for CPU usage monitoring/limits
+ *  - Resets and renders the complete graph, plus scheduled nodes
+ *  - Writes to audio recording file if enabled
+ *  - Measures output levels
+ *------------------------------------------------------------------------*/
 void AudioGraph::render(int num_frames)
 {
     /*------------------------------------------------------------------------
@@ -564,16 +576,19 @@ void AudioGraph::render(int num_frames)
     this->cpu_usage = (1.0 - this->cpu_usage_smoothing) * cpu_usage + this->cpu_usage_smoothing * this->cpu_usage;
 }
 
-void AudioGraph::render_to_buffer(BufferRef buffer)
+void AudioGraph::render_subgraph_to_buffer(const NodeRef &node, BufferRef buffer)
 {
-    // TODO get_num_output_channels()
+    this->handle_graph_changes();
+
     int channel_count = buffer->get_num_channels();
     int block_size = this->get_output_buffer_size();
-    if (channel_count > this->output->num_input_channels)
+    if (channel_count > node->get_num_output_channels())
     {
-        throw std::runtime_error("Buffer cannot have more channels than the audio graph ("
+        // We permit output buffers to have fewer channels than the subgraph,
+        // for cases in which the user wants to render a single channel of output.
+        throw std::runtime_error("Output buffer has more channels than the subgraph's output node ("
                                  + std::to_string(channel_count)
-                                 + " != " + std::to_string(this->output->num_input_channels) + ")");
+                                 + " > " + std::to_string(node->get_num_output_channels()) + ")");
     }
     int block_count = ceilf((float) buffer->get_num_frames() / block_size);
 
@@ -584,13 +599,19 @@ void AudioGraph::render_to_buffer(BufferRef buffer)
         {
             block_frames = buffer->get_num_frames() % block_size;
         }
-        this->render(block_frames);
+        this->reset_subgraph(node);
+        this->render_subgraph(node, block_frames);
         for (int channel_index = 0; channel_index < channel_count; channel_index++)
         {
-            memcpy(buffer->data[channel_index] + (block_index * block_size), this->output->out[channel_index],
+            memcpy(buffer->data[channel_index] + (block_index * block_size), node->out[channel_index],
                    block_frames * sizeof(sample));
         }
     }
+}
+
+void AudioGraph::render_to_buffer(BufferRef buffer)
+{
+    this->render_subgraph_to_buffer(this->output, buffer);
 }
 
 BufferRef AudioGraph::render_to_new_buffer(int num_frames)

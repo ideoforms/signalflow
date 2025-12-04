@@ -139,6 +139,8 @@ public:
      *--------------------------------------------------------------------------------*/
     void render_to_buffer(BufferRef buffer);
 
+    void render_subgraph_to_buffer(const NodeRef &node, BufferRef buffer);
+
     /**--------------------------------------------------------------------------------
      * Allocate an output buffer of specified duration, and render the graph to it.
      *
@@ -146,6 +148,12 @@ public:
      *
      *--------------------------------------------------------------------------------*/
     BufferRef render_to_new_buffer(int num_frames);
+
+    /**--------------------------------------------------------------------------------
+     * Handle any graph changes that have been scheduled.
+     *
+     *--------------------------------------------------------------------------------*/
+    void handle_graph_changes();
 
     /**--------------------------------------------------------------------------------
      * Reset the audio graph:

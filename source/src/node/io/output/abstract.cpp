@@ -7,7 +7,7 @@ namespace signalflow
 AudioOut_Abstract::AudioOut_Abstract()
 {
     this->name = "audioout";
-    this->set_channels(2, 0);
+    this->set_channels(2, 2);
     this->no_input_upmix = true;
     this->has_variable_inputs = true;
     this->input_index = 0;

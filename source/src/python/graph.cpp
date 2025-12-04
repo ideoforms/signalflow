@@ -115,6 +115,7 @@ void init_python_graph(py::module &m)
         .def(
             "render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); }, "num_frames"_a, R"pbdoc(Render a specified number of samples of the AudioGraph's output.)pbdoc")
         .def("render_to_buffer", &AudioGraph::render_to_buffer, "buffer"_a, R"pbdoc(Render the graph's output to the specified buffer, for the same number of frames as the buffer's length.)pbdoc")
+        .def("render_subgraph_to_buffer", &AudioGraph::render_subgraph_to_buffer, "node"_a, "buffer"_a, R"pbdoc(Render a subgraph's output to the specified buffer, for the same number of frames as the buffer's length.)pbdoc")
         .def("render_to_new_buffer", &AudioGraph::render_to_new_buffer, "num_frames"_a, R"pbdoc(Render the graph's output for the specified number of frames, and return the resultant buffer.)pbdoc")
         .def(
             "render_subgraph", [](AudioGraph &graph, NodeRef node, int num_frames, bool reset) {

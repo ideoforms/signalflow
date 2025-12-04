@@ -115,3 +115,23 @@ def test_graph_render_after_exception():
     with pytest.raises(AudioIOException):
         graph.render()
     graph.destroy()
+
+def test_graph_render_subgraph_to_buffer(graph):
+    a = Constant(1)
+    b = Constant(2)
+    c = Constant(3)
+    d = Add(a, [b, c])
+    e = Constant(4)
+    graph.play(d)
+    graph.play(e)
+    buf = Buffer(2, graph.sample_rate)
+    graph.render_subgraph_to_buffer(d, buf)
+    assert np.all(buf.data[0] == 3)
+    assert np.all(buf.data[1] == 4)
+    
+    buf2 = Buffer(1, graph.sample_rate)
+    graph.render_subgraph_to_buffer(e, buf2)
+    assert np.all(buf2.data[0] == 4)
+
+    with pytest.raises(RuntimeError):
+        graph.render_subgraph_to_buffer(e, buf)

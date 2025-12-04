@@ -159,7 +159,7 @@ void AudioOut::init()
         throw audio_io_exception("miniaudio: Error initialising output device");
     }
 
-    this->set_channels(device.playback.internalChannels, 0);
+    this->set_channels(device.playback.internalChannels, device.playback.internalChannels);
 
     /*--------------------------------------------------------------------------------
      * If no specified sample rate was given, update AudioOut's sample rate to
