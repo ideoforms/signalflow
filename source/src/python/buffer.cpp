@@ -108,6 +108,18 @@ void init_python_buffer(py::module &m)
         .def(
             "__len__", [](Buffer &buf) { return buf.get_num_frames(); },
             R"pbdoc(Returns the length of the buffer `self`, in frames.)pbdoc")
+        .def(
+            "__mul__", [](BufferRef a, BufferRef b) { return a * b; }, "buffer"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` multiplied by `buffer`.)pbdoc")
+        .def(
+            "__truediv__", [](BufferRef a, BufferRef b) { return a / b; }, "buffer"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` divided by `buffer`.)pbdoc")
+        .def(
+            "__add__", [](BufferRef a, BufferRef b) { return a + b; }, "buffer"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` added to `buffer`.)pbdoc")
+        .def(
+            "__sub__", [](BufferRef a, BufferRef b) { return a - b; }, "buffer"_a,
+            R"pbdoc(Returns a new Buffer containing the samples in `self` subtracted by `buffer`.)pbdoc")
 
         /*--------------------------------------------------------------------------------
          * Properties

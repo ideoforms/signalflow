@@ -469,21 +469,6 @@ void Buffer::fill(const std::function<float(float)> f)
     }
 }
 
-void Buffer::play()
-{
-    if (!shared_graph)
-    {
-        throw std::runtime_error("Cannot play buffer: no shared AudioGraph instance");
-    }
-
-    PatchRef patch = new Patch();
-    NodeRef player = new BufferPlayer(this);
-    patch->add_node(player);
-    patch->set_output(player);
-    patch->set_auto_free_node(player);
-    shared_graph->play(patch);
-}
-
 float Buffer::get_sample_rate() { return this->sample_rate; }
 
 void Buffer::set_sample_rate(float sample_rate) { this->sample_rate = sample_rate; }
@@ -515,7 +500,7 @@ std::vector<float> Buffer::get_frame_offsets()
 }
 
 /*-------------------------------------------------------------------------
- * Operators
+ * Operators: Buffer <> constant
  *-----------------------------------------------------------------------*/
 
 template <class T>
@@ -577,6 +562,102 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator-(double constant)
         for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
         {
             output[channel][frame] = buffer->data[channel][frame] - constant;
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+/*-------------------------------------------------------------------------
+ * Operators: Buffer <> Buffer
+ *-----------------------------------------------------------------------*/
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator*(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot multiply buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] * other_buffer->data[channel][frame];
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator/(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot divide buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] / other_buffer->data[channel][frame];
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator+(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot add buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] + other_buffer->data[channel][frame];
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator-(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot subtract buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] - other_buffer->data[channel][frame];
         }
     }
     return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);

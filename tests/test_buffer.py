@@ -86,6 +86,62 @@ def test_buffer_sub(graph):
     assert np.array_equal(b.data[0], [0, 0.5, 1, 1.5])
 
 
+def test_buffer_buffer_multiply(graph):
+    b1 = Buffer([1, 2, 3, 4])
+    b2 = Buffer([2, 2.5, 5, 8])
+    b = b1 * b2
+    assert np.array_equal(b.data[0], [2, 5, 15, 32])
+
+    # Check that buffers of different size/channel count raises an error
+    with pytest.raises(RuntimeError):
+        b3 = Buffer([2, 2.5, 3, 3.5, 4])
+        b = b1 * b3
+    with pytest.raises(RuntimeError):
+        b4 = Buffer([[2, 2.5, 3, 3.5], [2, 2.5, 3, 3.5]])
+        b = b1 * b4
+
+def test_buffer_buffer_divide(graph):
+    b1 = Buffer([1, 2, 3, 4])
+    b2 = Buffer([2, 2.5, 5, 8])
+    b = b1 / b2
+    assert np.allclose(b.data[0], [0.5, 0.8, 0.6, 0.5])
+
+    # Check that buffers of different size/channel count raises an error
+    with pytest.raises(RuntimeError):
+        b3 = Buffer([2, 2.5, 3, 3.5, 4])
+        b = b1 / b3
+    with pytest.raises(RuntimeError):
+        b4 = Buffer([[2, 2.5, 3, 3.5], [2, 2.5, 3, 3.5]])
+        b = b1 / b4
+
+def test_buffer_buffer_add(graph):
+    b1 = Buffer([1, 2, 3, 4])
+    b2 = Buffer([2, 2.5, 5, 8])
+    b = b1 + b2
+    assert np.array_equal(b.data[0], [3, 4.5, 8, 12])
+
+    # Check that buffers of different size/channel count raises an error
+    with pytest.raises(RuntimeError):
+        b3 = Buffer([2, 2.5, 3, 3.5, 4])
+        b = b1 + b3
+    with pytest.raises(RuntimeError):
+        b4 = Buffer([[2, 2.5, 3, 3.5], [2, 2.5, 3, 3.5]])
+        b = b1 + b4
+
+def test_buffer_buffer_sub(graph):
+    b1 = Buffer([1, 2, 3, 4])
+    b2 = Buffer([2, 2.5, 5, 8])
+    b = b1 - b2
+    assert np.array_equal(b.data[0], [-1, -0.5, -2, -4])
+
+    # Check that buffers of different size/channel count raises an error
+    with pytest.raises(RuntimeError):
+        b3 = Buffer([2, 2.5, 3, 3.5, 4])
+        b = b1 - b3
+    with pytest.raises(RuntimeError):
+        b4 = Buffer([[2, 2.5, 3, 3.5], [2, 2.5, 3, 3.5]])
+        b = b1 - b4
+
 def test_buffer_subscript(graph):
     data = np.array([[-1, 0, 1], [2, 3, 4]])
     b = Buffer(data)

@@ -140,12 +140,6 @@ public:
     std::vector<BufferRef> split(int num_frames_per_part);
 
     /**------------------------------------------------------------------------
-     * Play the buffer through the default audio output device.
-     *
-     *------------------------------------------------------------------------*/
-    void play();
-
-    /**------------------------------------------------------------------------
      * @param channel The channel number
      * @param index A sample offset, between [0, num_frames].
      * @returns A sample value, between [-1, 1].
@@ -330,6 +324,10 @@ public:
     BufferRefTemplate operator/(double constant);
     BufferRefTemplate operator+(double constant);
     BufferRefTemplate operator-(double constant);
+    BufferRefTemplate operator*(const BufferRef &other);
+    BufferRefTemplate operator/(const BufferRef &other);
+    BufferRefTemplate operator+(const BufferRef &other);
+    BufferRefTemplate operator-(const BufferRef &other);
 };
 
 }
