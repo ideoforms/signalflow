@@ -81,6 +81,10 @@ class MIDIManager:
             pass
 
     @classmethod
+    def get_input_devices(cls):
+        return mido.get_input_names()
+
+    @classmethod
     def get_shared_manager(cls):
         if MIDIManager.shared_manager is None:
             MIDIManager.shared_manager = MIDIManager()
@@ -112,7 +116,7 @@ class MIDIManager:
 
 
 class MIDIControl(Patch):
-    def __init__(self, control, range_min, range_max, initial=None, mode="absolute", manager=None, curve="linear"):
+    def __init__(self, control, range_min=0, range_max=127, initial=None, mode="absolute", manager=None, curve="linear"):
         super().__init__()
         assert mode in ["absolute", "relative"]
         if manager is None:
