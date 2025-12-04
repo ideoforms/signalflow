@@ -72,7 +72,7 @@ void NearestNeighbour::process(Buffer &out, int num_frames)
         target_value_vector.push_back(this->target->out[i][0]);
     }
 
-    KDTreeMatch match = this->kdtree->get_nearest(target_value_vector);
+    KDTreeMatch match = this->kdtree->get_nearest(target_value_vector)[0];
     int index = match.index;
     for (auto channel = 0; channel < this->get_num_output_channels(); channel++)
     {
