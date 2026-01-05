@@ -130,6 +130,23 @@ void SpatialPanner::process(Buffer &out, int num_frames)
         for (int frame = 0; frame < num_frames; frame++)
         {
             this->buffer->append(this->input->out[0][frame]);
+
+            float max_distance_squared = 0.0;
+            for (int channel = 0; channel < this->get_num_output_channels(); channel++)
+            {
+                auto speaker = speakers[channel];
+                if (speaker)
+                {
+                    float dx = speaker->x - this->x->out[0][frame];
+                    float dy = speaker->y - this->y->out[0][frame];
+                    float dz = speaker->z - this->z->out[0][frame];
+                    float distance_squared = dx * dx + dy * dy + dz * dz;
+                    if (distance_squared > max_distance_squared)
+                        max_distance_squared = distance_squared;
+                }
+            }
+            float max_distance = sqrtf(max_distance_squared);
+
             for (int channel = 0; channel < this->get_num_output_channels(); channel++)
             {
                 auto speaker = speakers[channel];
@@ -141,20 +158,21 @@ void SpatialPanner::process(Buffer &out, int num_frames)
                     float dy = speaker->y - this->y->out[0][frame];
                     float dz = speaker->z - this->z->out[0][frame];
                     float distance_squared = dx * dx + dy * dy + dz * dz;
+                    float real_distance = sqrtf(distance_squared);
 
                     float MIN_DISTANCE_SQUARED = 0.1;
                     if (distance_squared < MIN_DISTANCE_SQUARED)
                         distance_squared = MIN_DISTANCE_SQUARED;
 
                     float distance = sqrtf(distance_squared);
-                    float attenuation = (1.0f / distance_squared) * 0.25f;
+                    float attenuation = (1.0f / distance);
 
                     if (use_delays->out[0][frame])
                     {
-                        float delay_seconds = distance / SPEED_OF_SOUND;
+                        float delay_seconds = (max_distance - real_distance) / SPEED_OF_SOUND;
                         float delay_samples = delay_seconds * this->graph->get_sample_rate();
 
-                        out[channel][frame] = this->buffer->get(-delay_samples) * attenuation;
+                        out[channel][frame] = this->buffer->get(-(delay_samples + 1)) * attenuation;
                     }
                     else
                     {
