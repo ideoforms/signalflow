@@ -47,7 +47,7 @@ omitted_classes = ["GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
 macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
 vamp_only_classes = ["VampAnalysis"]
-known_parent_classes = ["Node", "StochasticNode", "FFTNode", "FFTOpNode"]
+known_parent_classes = ["Node", "StochasticNode", "VariableInputNode", "FFTNode", "FFTOpNode"]
 documentation_omit_folders = ["io"]
 documentation_omit_classes = ["Constant"]
 
@@ -224,6 +224,7 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
             # --------------------------------------------------------------------------------
             # Check whether class is a subclass of a valid Node class
             # --------------------------------------------------------------------------------
+            
             if "inherits" in value and len(value["inherits"]):
                 parent_class = value["inherits"][0]["class"]
                 if parent_class not in node_superclasses:

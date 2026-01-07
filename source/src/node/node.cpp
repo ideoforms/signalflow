@@ -663,6 +663,15 @@ void VariableInputNode::remove_input(NodeRef node)
     }
 }
 
+void VariableInputNode::clear_inputs()
+{
+    while (!this->input_list.empty())
+    {
+        NodeRef node = this->input_list.front();
+        this->remove_input(node);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // NodeRef
 ////////////////////////////////////////////////////////////////////////////////

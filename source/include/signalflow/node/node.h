@@ -493,6 +493,7 @@ public:
     virtual void add_input(NodeRef input);
     virtual void set_input(std::string name, const NodeRef &node);
     virtual void remove_input(NodeRef input);
+    virtual void clear_inputs();
 
 protected:
     std::list<NodeRef> input_list;
