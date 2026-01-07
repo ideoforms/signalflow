@@ -70,6 +70,7 @@ SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
     this->create_input("z", this->z);
     this->create_input("radius", this->radius);
     this->create_input("use_delays", this->use_delays);
+    this->create_property("algorithm", this->algorithm);
 
     if (algorithm != "dbap" && algorithm != "nearest" && algorithm != "beamformer")
     {
@@ -77,10 +78,25 @@ SpatialPanner::SpatialPanner(std::shared_ptr<SpatialEnvironment> env,
     }
 }
 
+void SpatialPanner::set_property(std::string name, const PropertyRef &value)
+{
+    if (name == "algorithm")
+    {
+        std::string new_algorithm = value->string_value();
+        if (new_algorithm != "dbap" && new_algorithm != "nearest" && new_algorithm != "beamformer")
+        {
+            throw std::runtime_error("Invalid spatialisation algorithm: " + new_algorithm);
+        }
+    }
+
+    Node::set_property(name, value);
+}
+
 void SpatialPanner::process(Buffer &out, int num_frames)
 {
     auto speakers = this->env->get_channels();
 
+    std::string algorithm = this->algorithm->string_value();
     if (algorithm == "dbap")
     {
         for (int frame = 0; frame < num_frames; frame++)

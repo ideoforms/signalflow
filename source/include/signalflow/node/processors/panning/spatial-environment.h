@@ -55,6 +55,7 @@ public:
                   std::string algorithm = "dbap");
 
     virtual void process(Buffer &out, int num_frames) override;
+    virtual void set_property(std::string name, const PropertyRef &value) override;
 
     std::shared_ptr<SpatialEnvironment> env;
     NodeRef input;
@@ -63,7 +64,7 @@ public:
     NodeRef z;
     NodeRef radius;
     NodeRef use_delays;
-    std::string algorithm;
+    PropertyRef algorithm;
     SampleRingBuffer *buffer;
 };
 
