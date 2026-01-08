@@ -311,3 +311,21 @@ def test_crossfade(graph):
     c = ChannelCrossfade(ChannelArray([0.0, 1.0]), 0.5, type="equal-power")
     graph.render_subgraph(c, reset=True)
     assert np.allclose(c.output_buffer[0], np.sqrt(0.5))
+
+def test_bus(graph):
+    a = Bus(8)
+    graph.render_subgraph(a, reset=True)
+    assert a.num_input_channels == 8
+    assert a.num_output_channels == 8
+    assert np.all(a.output_buffer[0] == 0)
+    assert np.all(a.output_buffer[7] == 0)
+
+    b = Constant(3)
+    c = ChannelArray([4, 5])
+    a.add_input(b)
+    a.add_input(c)
+    graph.render_subgraph(a, reset=True)
+    assert np.all(a.output_buffer[0] == 7)
+    assert np.all(a.output_buffer[1] == 8)
+    assert np.all(a.output_buffer[6] == 7)
+    assert np.all(a.output_buffer[7] == 8)

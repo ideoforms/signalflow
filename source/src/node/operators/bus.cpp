@@ -9,7 +9,12 @@ Bus::Bus(unsigned int num_channels)
     : VariableInputNode()
 {
     this->name = "bus";
-    this->set_channels(num_channels, num_channels);
+
+    /*------------------------------------------------------------------------
+     * Must include false here to avoid breaking multichannel buses.
+     * Without it, inputs are not automatically upmixed.
+     *------------------------------------------------------------------------*/
+    this->set_channels(num_channels, num_channels, false);
 }
 
 void Bus::process(Buffer &out, int num_frames)
