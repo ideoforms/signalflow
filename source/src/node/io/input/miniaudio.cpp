@@ -122,7 +122,8 @@ void AudioIn::init()
      * on the same sample rate, so miniaudio's resampling is used to unify them.
      *-------------------------------------------------------------------------------*/
     std::string s = this->num_channels == 1 ? "" : "s";
-    std::cerr << "[miniaudio] Input device: " << std::string(device.capture.name) << " (" << device.capture.internalSampleRate << "Hz, "
+    // std::cerr << "[miniaudio] Input device: " << std::string(device.capture.name) << " (" << device.capture.internalSampleRate << "Hz, "
+    std::cerr << "[miniaudio] Input device: " << " (" << device.capture.internalSampleRate << "Hz, "
               << "buffer size " << device.capture.internalPeriodSizeInFrames << " samples, " << this->num_channels << " channel" << s << ")"
               << std::endl;
 

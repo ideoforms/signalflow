@@ -20,21 +20,21 @@ namespace signalflow
 
 extern AudioGraph *shared_graph;
 
-std::unordered_map<std::string, ma_backend> possible_backend_names = {
-    { "wasapi", ma_backend_wasapi },
-    { "dsound", ma_backend_dsound },
-    { "ma_backend_winmm", ma_backend_winmm },
-    { "coreaudio", ma_backend_coreaudio },
-    { "sndio", ma_backend_sndio },
-    { "audio4", ma_backend_audio4 },
-    { "oss", ma_backend_oss },
-    { "pulseaudio", ma_backend_pulseaudio },
-    { "alsa", ma_backend_alsa },
-    { "jack", ma_backend_jack },
-    { "aaudio", ma_backend_aaudio },
-    { "opensl", ma_backend_opensl },
-    { "webaudio", ma_backend_webaudio },
-    { "null", ma_backend_null },
+std::unordered_map<std::string, ma_device_backend_vtable *> possible_backend_names = {
+    { "wasapi", ma_device_backend_wasapi },
+    { "dsound", ma_device_backend_dsound },
+    { "ma_device_backend_winmm", ma_device_backend_winmm },
+    { "coreaudio", ma_device_backend_coreaudio },
+    { "sndio", ma_device_backend_sndio },
+    { "audio4", ma_device_backend_audio4 },
+    { "oss", ma_device_backend_oss },
+    { "pulseaudio", ma_device_backend_pulseaudio },
+    { "alsa", ma_device_backend_alsa },
+    { "jack", ma_device_backend_jack },
+    { "aaudio", ma_device_backend_aaudio },
+    { "opensl", ma_device_backend_opensl },
+    { "webaudio", ma_device_backend_webaudio },
+    { "null", ma_device_backend_null },
 };
 
 void data_callback(ma_device *ma_device_ptr,
@@ -102,6 +102,7 @@ void AudioOut::init()
     ma_uint32 playback_device_count;
     ma_result rv;
 
+    printf("init context - %s\n", this->backend_name.c_str());
     AudioOut::init_context(&this->context, this->backend_name);
 
     rv = ma_context_get_devices(&this->context,
@@ -179,7 +180,8 @@ void AudioOut::init()
     this->buffer_size = device.playback.internalPeriodSizeInFrames;
 
     std::string s = device.playback.internalChannels == 1 ? "" : "s";
-    std::cerr << "[miniaudio] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
+    // std::cerr << "[miniaudio] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
+    std::cerr << "[miniaudio] Output device: " << " (" << device.playback.internalSampleRate << "Hz, "
               << "buffer size " << this->buffer_size << " samples, " << device.playback.internalChannels << " channel" << s << ")"
               << std::endl;
 }
@@ -222,9 +224,16 @@ void AudioOut::init_context(ma_context *context, std::string backend_name)
         {
             throw audio_io_exception("miniaudio: Backend name not recognised: " + backend_name);
         }
-        ma_backend backend = possible_backend_names[backend_name];
 
-        if (ma_context_init(&backend, 1, NULL, context) != MA_SUCCESS)
+        ma_device_backend_vtable *backend = possible_backend_names[backend_name];
+        if (backend == NULL)
+        {
+            throw audio_io_exception("miniaudio: Backend not supported: " + backend_name);
+        }
+
+        ma_device_backend_config backend_config = ma_device_backend_config_init(backend, NULL);
+
+        if (ma_context_init(&backend_config, 1, NULL, context) != MA_SUCCESS)
         {
             throw audio_io_exception("miniaudio: Error initialising context");
         }
@@ -254,6 +263,7 @@ std::list<std::string> AudioOut::get_output_device_names(std::string backend_nam
                                 &playback_device_count,
                                 NULL,
                                 NULL);
+    printf("init: %s, %d devices\n", backend_name.c_str(), playback_device_count);
     if (rv != MA_SUCCESS)
     {
         throw audio_io_exception("miniaudio: Failure querying audio devices");
@@ -301,26 +311,16 @@ std::list<std::string> AudioOut::get_input_device_names(std::string backend_name
 std::list<std::string> AudioOut::get_backend_names()
 {
     std::list<std::string> backend_names;
-    ma_backend enabled_backends[MA_BACKEND_COUNT];
-    size_t enabled_backend_count;
-    ma_result rv;
 
-    rv = ma_get_enabled_backends(enabled_backends, MA_BACKEND_COUNT, &enabled_backend_count);
-    if (rv != MA_SUCCESS)
+    for (auto pair : possible_backend_names)
     {
-        throw audio_io_exception("miniaudio: Failure querying backend devices");
-    }
-    for (unsigned int i = 0; i < enabled_backend_count; i++)
-    {
-        for (auto pair : possible_backend_names)
+        printf("examining %s\n", pair.first.c_str());
+        if (pair.second != NULL)
         {
-            if (pair.second == enabled_backends[i])
+            std::string backend_name = pair.first;
+            if (backend_name != "null")
             {
-                std::string backend_name = pair.first;
-                if (backend_name != "null")
-                {
-                    backend_names.push_back(backend_name);
-                }
+                backend_names.push_back(backend_name);
             }
         }
     }
