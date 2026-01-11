@@ -265,7 +265,6 @@ std::list<std::string> AudioOut::get_output_device_names(std::string backend_nam
                                 &playback_device_count,
                                 NULL,
                                 NULL);
-    printf("init: %s, %d devices\n", backend_name.c_str(), playback_device_count);
     if (rv != MA_SUCCESS)
     {
         throw audio_io_exception("miniaudio: Failure querying audio devices");
