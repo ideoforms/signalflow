@@ -102,7 +102,6 @@ void AudioOut::init()
     ma_uint32 playback_device_count;
     ma_result rv;
 
-    printf("init context - %s\n", this->backend_name.c_str());
     AudioOut::init_context(&this->context, this->backend_name);
 
     rv = ma_context_get_devices(&this->context,
@@ -179,9 +178,12 @@ void AudioOut::init()
      *-------------------------------------------------------------------------------*/
     this->buffer_size = device.playback.internalPeriodSizeInFrames;
 
+    char device_name[256];
+    size_t name_len;
+    rv = ma_device_get_name(&device, ma_device_type_playback, device_name, sizeof(device_name) / sizeof(char), &name_len);
+
     std::string s = device.playback.internalChannels == 1 ? "" : "s";
-    // std::cerr << "[miniaudio] Output device: " << std::string(device.playback.name) << " (" << device.playback.internalSampleRate << "Hz, "
-    std::cerr << "[miniaudio] Output device: " << " (" << device.playback.internalSampleRate << "Hz, "
+    std::cerr << "[miniaudio] Output device: " << std::string(device_name) << " (" << device.playback.internalSampleRate << "Hz, "
               << "buffer size " << this->buffer_size << " samples, " << device.playback.internalChannels << " channel" << s << ")"
               << std::endl;
 }

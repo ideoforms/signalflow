@@ -121,9 +121,12 @@ void AudioIn::init()
      * by `AudioIn`: SignalFlow requires that the input and output streams are both
      * on the same sample rate, so miniaudio's resampling is used to unify them.
      *-------------------------------------------------------------------------------*/
+    char actual_device_name[256];      
+    size_t name_len;            
+    rv = ma_device_get_name(&device, ma_device_type_capture, actual_device_name, sizeof(actual_device_name) / sizeof(char), &name_len);
+
     std::string s = this->num_channels == 1 ? "" : "s";
-    // std::cerr << "[miniaudio] Input device: " << std::string(device.capture.name) << " (" << device.capture.internalSampleRate << "Hz, "
-    std::cerr << "[miniaudio] Input device: " << " (" << device.capture.internalSampleRate << "Hz, "
+    std::cerr << "[miniaudio] Input device: " << std::string(actual_device_name) << " (" << device.capture.internalSampleRate << "Hz, "
               << "buffer size " << device.capture.internalPeriodSizeInFrames << " samples, " << this->num_channels << " channel" << s << ")"
               << std::endl;
 
