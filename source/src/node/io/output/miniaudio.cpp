@@ -23,7 +23,7 @@ extern AudioGraph *shared_graph;
 std::unordered_map<std::string, ma_device_backend_vtable *> possible_backend_names = {
     { "wasapi", ma_device_backend_wasapi },
     { "dsound", ma_device_backend_dsound },
-    { "ma_device_backend_winmm", ma_device_backend_winmm },
+    { "winmm", ma_device_backend_winmm },
     { "coreaudio", ma_device_backend_coreaudio },
     { "sndio", ma_device_backend_sndio },
     { "audio4", ma_device_backend_audio4 },
