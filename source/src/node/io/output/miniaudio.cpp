@@ -315,7 +315,6 @@ std::list<std::string> AudioOut::get_backend_names()
 
     for (auto pair : possible_backend_names)
     {
-        printf("examining %s\n", pair.first.c_str());
         if (pair.second != NULL)
         {
             std::string backend_name = pair.first;
