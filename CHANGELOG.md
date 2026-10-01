@@ -1,6 +1,15 @@
 # CHANGELOG
 
-## [v0.5.4](https://github.com/ideoforms/signalflow/tree/v0.5.4(2025-07-25)
+## [v0.5.5](https://github.com/ideoforms/signalflow/tree/v0.5.5) (2026-10-01)
+
+- Added `signalflow_vscode` Visual Studio Code extension support
+- Added `signalflow_visualisation` plotting utils
+- Added initial `BinauralPanner` mode using libmysofa (macOS only for now)
+- Added `YinPitchTracker` and `FDN` nodes
+- Added `Buffer.play()` and `Buffer.load_directory()` helpers
+- Numerous CPU optimisations, including faster PRNG, improved ring buffer implementation, various Node subclass optimisations
+
+## [v0.5.4](https://github.com/ideoforms/signalflow/tree/v0.5.4) (2025-07-25)
 
 - Renamed `output_backend_name` to `backend_name` in `AudioGraphConfig`, reflecting the fact that the same backend must be used for input and output
 - Added support for triggering a specified envelope breakpoint in `Envelope`
