@@ -56,8 +56,13 @@ BinauralPanner::BinauralPanner(NodeRef input,
 void BinauralPanner::process(Buffer &out, int num_frames)
 {
     // Convert from -1..+1 to mysofa's coordinate system, which is in degrees anticlockwise from the X-axis
-    sample azimuth = (-1 * this->azimuth->out[0][0]) * 90;
-    sample elevation = this->elevation->out[0][0] * 90;
+    sample azimuth = -1 * (this->azimuth->out[0][0] / M_PI) * 180;
+    sample elevation = this->elevation->out[0][0] / M_PI * 180;
+
+    while (azimuth > 180)
+        azimuth -= 360;
+    while (azimuth < -180)
+        azimuth += 360;
 
     convolve_l0->set_buffer("buffer", ir_buf_l);
     convolve_r0->set_buffer("buffer", ir_buf_r);
