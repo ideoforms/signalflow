@@ -13,6 +13,10 @@
 # Fail if any subcommands fail
 set -e 
 
+# Make stubs
+pybind11-stubgen -o auxiliary/libs/signalflow-stubs signalflow
+
+# Download latest miniaudio
 curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
 
 # Install dependencies to build a fully-fledged Python install
