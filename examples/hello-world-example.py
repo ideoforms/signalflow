@@ -19,13 +19,11 @@ def main():
     sine = SineOscillator(440)
     sine = sine * db_to_amplitude(-12)
     stereo = StereoPanner(sine)
-    stereo = Squiz(stereo, MouseX())
 
     #------------------------------------------------------------------------
     # Play the
     #------------------------------------------------------------------------
     graph.play(stereo)
-    print(graph.output_device_name)
     graph.wait(2)
 
 if __name__ == "__main__":
