@@ -191,7 +191,8 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
     classes = {}
     classes["io"] = [
         NodeClass("AudioIn", None, [[
-            Parameter("num_channels", "int", 1)
+            Parameter("num_channels", "int", 1),
+            Parameter("first_channel", "int", 0),
         ]], "Audio input", "Audio input"),
         NodeClass("AudioOut_Abstract", None, [], "Abstract audio output", "Abstract audio output"),
         NodeClass("AudioOut_Dummy", "AudioOut_Abstract", [[

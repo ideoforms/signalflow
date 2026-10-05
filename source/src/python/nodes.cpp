@@ -6,7 +6,7 @@
          * Node subclasses
          *-------------------------------------------------------------------------------*/
         py::class_<AudioIn, Node, NodeRefTemplate<AudioIn>>(m, "AudioIn", "Audio input")
-        .def(py::init<int>(), "num_channels"_a = 1);
+        .def(py::init<int, int>(), "num_channels"_a = 1, "first_channel"_a = 0);
     
     py::class_<AudioOut_Abstract, Node, NodeRefTemplate<AudioOut_Abstract>>(m, "AudioOut_Abstract", "Abstract audio output");
     

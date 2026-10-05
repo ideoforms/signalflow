@@ -136,8 +136,10 @@ void Granulator::trigger(std::string name, float value)
 {
     if (name == SIGNALFLOW_DEFAULT_TRIGGER)
     {
+        float pos = (value != SIGNALFLOW_NULL_FLOAT) ? value : this->pos->out[0][0];
+
         Grain *grain = new Grain(this->buffer,
-                                 this->pos->out[0][0] * buffer->get_sample_rate(),
+                                 pos * buffer->get_sample_rate(),
                                  this->duration->out[0][0] * buffer->get_sample_rate(),
                                  this->rate->out[0][0] * this->rate_scale_factor,
                                  this->amplitude->out[0][0],

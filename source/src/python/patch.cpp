@@ -88,6 +88,7 @@ void init_python_patch(py::module &m)
 
         .def("add_node", &Patch::add_node)
         .def("set_output", &Patch::set_output)
+        .def("get_output", &Patch::get_output)
         .def("to_spec", &Patch::to_spec);
 
     py::class_<PatchSpec, PatchSpecRefTemplate<PatchSpec>>(m, "PatchSpec")
