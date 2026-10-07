@@ -8,14 +8,34 @@ import configparser
 import logging
 import mido
 import os
+from typing import Union
 
 logger = logging.getLogger(__name__)
 
+class MIDIDeviceNotFound (Exception):
+    pass
+
+class MultipleMIDIDevicesFound (Exception):
+    pass
 
 class MIDIManager:
     shared_manager = None
 
-    def __init__(self, device_name: str = None, channel: int = None):
+    def __init__(self, device_name: Union[str, list, tuple] = None, channel: int = None):
+        """
+        Initialize the MIDIManager with the specified device name and channel.
+
+        Args:
+            device_name (str): The name of the MIDI input device to use. If None, the device name
+                               will be determined from the environment variable or config file.
+                               The device name supports partial matches, and if multiple device names
+                               are specified, the system will search for each device sequentially.
+            channel (int): The MIDI channel to listen to. If None, all channels will be listened to.
+
+        Raises:
+            MIDIDeviceNotFound: If no matching MIDI input device is found.
+            MultipleMIDIDevicesFound: If multiple matching MIDI input devices are found.
+        """
         if device_name is None:
             if os.getenv("SIGNALFLOW_MIDI_INPUT_DEVICE_NAME") is not None:
                 device_name = os.getenv("SIGNALFLOW_MIDI_INPUT_DEVICE_NAME")
@@ -34,7 +54,9 @@ class MIDIManager:
                 except configparser.NoSectionError:
                     pass
 
-        self.input = mido.open_input(device_name)
+        matching_input_device = self._get_matching_input_device(device_name)
+        self.input = mido.open_input(matching_input_device)
+
         self.channel = channel
         self.input.callback = self.handle_message
 
@@ -79,6 +101,27 @@ class MIDIManager:
                 handler.handle_message(message)
         except AttributeError:
             pass
+
+    def _get_matching_input_device(self, device_name: Union[str, list, tuple]):
+        available_input_devices = mido.get_input_names()
+        if isinstance(device_name, (list, tuple)):
+            for device_name_str in device_name:
+                try:
+                    matching_device_name = self._get_matching_input_device(device_name_str)
+                    return matching_device_name
+                except MIDIDeviceNotFound:
+                    pass
+                except MultipleMIDIDevicesFound:
+                    raise
+            raise MIDIDeviceNotFound("No matching MIDI input device found for '%s'" % device_name)
+        else:
+            matching_device_names = list(filter(lambda name: name.startswith(device_name), available_input_devices))
+            if len(matching_device_names) == 1:
+                return matching_device_names[0]
+            elif len(matching_device_names) > 1:
+                raise MultipleMIDIDevicesFound("Multiple matching MIDI input devices found for: %s" % device_name)
+            else:
+                raise MIDIDeviceNotFound("No matching MIDI device found for '%s'" % device_name)
 
     @classmethod
     def get_input_devices(cls):
