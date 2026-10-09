@@ -10,7 +10,7 @@ Compressor::Compressor(NodeRef input, NodeRef threshold, NodeRef ratio,
     : UnaryOpNode(input), threshold(threshold), ratio(ratio), attack_time(attack_time), release_time(release_time), sidechain(sidechain)
 {
     this->name = "compressor";
-    this->current_ratio = 1.0;
+    this->envelope = 0.0;
 
     this->create_input("threshold", this->threshold);
     this->create_input("ratio", this->ratio);
@@ -21,53 +21,33 @@ Compressor::Compressor(NodeRef input, NodeRef threshold, NodeRef ratio,
 
 void Compressor::process(Buffer &out, int num_frames)
 {
+    float sample_rate = this->graph->get_sample_rate();
     for (int frame = 0; frame < num_frames; frame++)
     {
-        float input_sample = this->sidechain ? this->sidechain->out[0][frame] : this->input->out[0][frame];
-        if (fabsf(input_sample) > fabsf(this->threshold->out[0][frame]))
+        /*--------------------------------------------------------------------------------
+         * Follow the level of the input (or sidechain) with a peak envelope, rising with
+         * attack_time and falling with release_time (one-pole, time constants in seconds).
+         *--------------------------------------------------------------------------------*/
+        float level = fabsf(this->sidechain ? this->sidechain->out[0][frame] : this->input->out[0][frame]);
+        float time = (level > this->envelope) ? this->attack_time->out[0][frame] : this->release_time->out[0][frame];
+        float coefficient = (time > 0) ? expf(-1.0f / (time * sample_rate)) : 0.0f;
+        this->envelope = level + coefficient * (this->envelope - level);
+
+        /*--------------------------------------------------------------------------------
+         * Above the threshold, reduce the gain so that the level above the threshold is
+         * divided by the ratio (in dB): gain = (threshold / envelope) ^ (1 - 1 / ratio).
+         *--------------------------------------------------------------------------------*/
+        float threshold = fabsf(this->threshold->out[0][frame]);
+        float ratio = fmaxf(this->ratio->out[0][frame], 1.0f);
+        float gain = 1.0f;
+        if (this->envelope > threshold && threshold > 0)
         {
-            if (this->current_ratio < this->ratio->out[0][frame])
-            {
-                float attack_time_samples = this->attack_time->out[0][frame] * this->graph->get_sample_rate();
-                float compression_change_per_sample = ((this->ratio->out[0][frame] - 1) / attack_time_samples);
-                this->current_ratio += compression_change_per_sample;
-                // check overshoot
-                if (this->current_ratio > this->ratio->out[0][frame])
-                {
-                    this->current_ratio = this->ratio->out[0][frame];
-                }
-            }
-        }
-        else
-        {
-            if (this->current_ratio > 1)
-            {
-                float release_time_samples = this->release_time->out[0][frame] * this->graph->get_sample_rate();
-                float compression_change_per_sample = (-(this->ratio->out[0][frame] - 1) / release_time_samples);
-                this->current_ratio += compression_change_per_sample;
-                if (this->current_ratio < 1)
-                {
-                    this->current_ratio = 1;
-                }
-            }
+            gain = powf(threshold / this->envelope, 1.0f - 1.0f / ratio);
         }
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
-            out[channel][frame] = this->input->out[channel][frame] / this->current_ratio;
-            //            if (fabsf(this->input->out[channel][frame]) < threshold->out[channel][frame])
-            //            {
-            //                out[channel][frame] = this->input->out[channel][frame];
-            //            }
-            //            else
-            //            {
-            //                float remainder = fabsf(this->input->out[channel][frame]) - threshold->out[channel][frame];
-            //                float remainder_compressed = remainder / this->current_ratio;
-            //                float sample = threshold->out[channel][frame] + remainder_compressed;
-            //                printf("ratio %f, remainder %f, sample %f\n", this->current_ratio, remainder_compressed, sample);
-            //                out[channel][frame] = (this->input->out[channel][frame] > 0) ? sample : -sample;
-            //                out[channel][frame] = this->input->out[channel][frame] / this->current_ratio;
-            //            }
+            out[channel][frame] = this->input->out[channel][frame] * gain;
         }
     }
 }
