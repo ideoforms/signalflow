@@ -7,7 +7,11 @@ namespace signalflow
 {
 
 /**--------------------------------------------------------------------------------*
- * Generic envelope constructor, given an array of levels, times and curves.
+ * Generic envelope constructor, given arrays of levels, times and curves that
+ * describe the shape of the envelope over time.
+ * 
+ * Note that there must be one fewer time than levels, and the curves array
+ * should match the number of segments between levels.
  *---------------------------------------------------------------------------------*/
 class Envelope : public Node
 {
