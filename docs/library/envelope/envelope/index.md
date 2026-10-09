@@ -11,3 +11,28 @@ Envelope(levels=std::vector<NodeRef> ( ), times=std::vector<NodeRef> ( ), curves
 
 Generic envelope constructor, given an array of levels, times and curves.
 
+### Examples
+
+```python
+
+# Looping envelope different curve shapes
+sine = SineOscillator(880)
+envelope = Envelope(levels=[0.0, 1.0, 0.0], times=[0.5, 0.5], curves=[2, 0.5], loop=True)
+output = sine * envelope
+output.play()
+
+
+```
+
+```python
+
+# Percussive envelope with sharp attack and gradual decay, triggered by an impulse
+noise = WhiteNoise()
+impulse = Impulse(0.5)
+envelope = Envelope(levels=[0.0, 1.0, 0.1, 0.0], times=[0.01, 0.1, 1.0], clock=impulse)
+output = noise * envelope
+output.play()
+
+
+```
+
