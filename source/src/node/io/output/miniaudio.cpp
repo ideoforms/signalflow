@@ -177,11 +177,12 @@ void AudioOut::init()
      * Update AudioOut's buffer size to reflect the actual underlying buffer size.
      *-------------------------------------------------------------------------------*/
     this->buffer_size = device.playback.internalPeriodSizeInFrames;
-    this->device_name = std::string(device.playback.name);
 
     char device_name[256];
     size_t name_len;
     rv = ma_device_get_name(&device, ma_device_type_playback, device_name, sizeof(device_name) / sizeof(char), &name_len);
+
+    this->device_name = std::string(device_name);
 
     std::string s = device.playback.internalChannels == 1 ? "" : "s";
     std::cerr << "[miniaudio] Output device: " << std::string(device_name) << " (" << device.playback.internalSampleRate << "Hz, "
