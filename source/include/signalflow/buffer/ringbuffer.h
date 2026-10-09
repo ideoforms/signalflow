@@ -91,7 +91,7 @@ void RingBuffer<T>::append(T value)
 template <class T>
 void RingBuffer<T>::extend(T *ptr, unsigned int count)
 {
-    for (int i = 0; i < count; i++)
+    for (unsigned int i = 0; i < count; i++)
         this->append(ptr[i]);
 }
 
@@ -108,7 +108,7 @@ T RingBuffer<T>::get(int index)
     int frame = index + this->write_position;
     while (frame < 0)
         frame += this->capacity;
-    while (frame > this->capacity)
+    while ((unsigned int) frame > this->capacity)
         frame -= this->capacity;
 
     return this->data[frame];
