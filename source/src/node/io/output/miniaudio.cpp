@@ -159,7 +159,7 @@ void AudioOut::init()
         throw audio_io_exception("miniaudio: Error initialising output device");
     }
 
-    this->set_channels(device.playback.internalChannels, 0);
+    this->set_channels(device.playback.internalChannels, device.playback.internalChannels);
 
     /*--------------------------------------------------------------------------------
      * If no specified sample rate was given, update AudioOut's sample rate to
@@ -177,6 +177,7 @@ void AudioOut::init()
      * Update AudioOut's buffer size to reflect the actual underlying buffer size.
      *-------------------------------------------------------------------------------*/
     this->buffer_size = device.playback.internalPeriodSizeInFrames;
+    this->device_name = std::string(device.playback.name);
 
     char device_name[256];
     size_t name_len;

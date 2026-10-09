@@ -4,8 +4,8 @@
 namespace signalflow
 {
 
-NearestNeighbour::NearestNeighbour(BufferRef buffer, NodeRef target)
-    : target(target)
+NearestNeighbour::NearestNeighbour(BufferRef buffer, NodeRef target, NodeRef neighbour_index, int max_neighbours)
+    : target(target), neighbour_index(neighbour_index), max_neighbours(max_neighbours)
 {
     SIGNALFLOW_CHECK_GRAPH();
 
@@ -15,6 +15,7 @@ NearestNeighbour::NearestNeighbour(BufferRef buffer, NodeRef target)
 
     this->create_buffer("buffer", this->buffer);
     this->create_input("target", this->target);
+    this->create_input("neighbour_index", this->neighbour_index);
 
     if (buffer)
     {
@@ -51,7 +52,7 @@ void NearestNeighbour::set_buffer(std::string name, BufferRef buffer)
             }
             data.push_back(item);
         }
-        this->kdtree = new KDTree(data);
+        this->kdtree = new KDTree(data, this->max_neighbours);
 
         // TODO: set num output channels to # channels in buffer
     }
@@ -72,7 +73,18 @@ void NearestNeighbour::process(Buffer &out, int num_frames)
         target_value_vector.push_back(this->target->out[i][0]);
     }
 
-    KDTreeMatch match = this->kdtree->get_nearest(target_value_vector);
+    int neighbour_index_value = this->neighbour_index->out[0][0];
+
+    if (neighbour_index_value < 0)
+    {
+        neighbour_index_value = 0;
+    }
+    if (neighbour_index_value >= this->max_neighbours)
+    {
+        neighbour_index_value = this->max_neighbours - 1;
+    }
+
+    KDTreeMatch match = this->kdtree->get_nearest(target_value_vector)[neighbour_index_value];
     int index = match.index;
     for (auto channel = 0; channel < this->get_num_output_channels(); channel++)
     {

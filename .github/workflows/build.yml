@@ -7,27 +7,30 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
     - uses: actions/checkout@v2
+    - uses: actions/setup-python@v5
+      with:
+        python-version: "3.12"
     - name: Install dependencies
       run: |
         sudo rm -rf /home/linuxbrew
         sudo apt-get update -y
         sudo apt-get install libasound2-dev libsndfile1-dev fftw3-dev -y
-        sudo apt-get install python3 python3-setuptools python3-pip 
         # Requires setuptools >= 62.1 for `python setup.py test`, as earlier versions
         # used a different build path to the .so file as located in tests/__init__.py
         # 2024-07-29: Require importlib_metadata for now due to this:
         #             https://github.com/pypa/setuptools/issues/4478
         # 2025-02-06: Require packaging version due to this:
         #             https://github.com/pypa/setuptools/issues/4501
-        pip3 install -U pytest numpy scipy setuptools>=62.1.0 importlib_metadata packaging>=24.1
+        python -m pip install -U pip
+        python -m pip install -U pytest numpy scipy "setuptools>=62.1.0" importlib_metadata "packaging>=24.1"
         curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
     - name: Configure
       run: mkdir build && cd build && cmake ..
     - name: Make
       run: cd build && make -j8
     - name: Python build
-      run: pip3 install .
+      run: python -m pip install .
     - name: Install test dependencies
-      run: pip3 install ".[test]"
+      run: python -m pip install ".[test]"
     - name: Python test
-      run: pytest
+      run: python -m pytest

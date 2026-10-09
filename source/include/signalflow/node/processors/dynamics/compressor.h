@@ -7,9 +7,9 @@ namespace signalflow
 {
 /**--------------------------------------------------------------------------------*
  * Dynamic range compression, with optional `sidechain` input.
- * When the input amplitude is above `threshold`, compresses the amplitude with
- * the given `ratio`, following the given `attack_time` and `release_time`
- * in seconds.
+ * When the input level (a peak envelope, following the given `attack_time`
+ * and `release_time` in seconds) is above `threshold`, reduces the gain so that
+ * the level above the threshold is divided by `ratio` (in dB).
  *---------------------------------------------------------------------------------*/
 class Compressor : public UnaryOpNode
 {
@@ -30,7 +30,7 @@ public:
     NodeRef sidechain;
 
 private:
-    float current_ratio;
+    float envelope;
 };
 
 REGISTER(Compressor, "compressor")

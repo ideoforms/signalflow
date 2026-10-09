@@ -60,7 +60,7 @@ void Squiz::process(Buffer &out, int num_frames)
             this->read_pos[channel] += 1;
             if (this->read_pos[channel] >= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES)
                 this->read_pos[channel] -= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES;
-            sample read_cur = this->buffers[channel]->get(channel, this->read_pos[channel]);
+            sample read_cur = this->buffers[channel]->get(0, this->read_pos[channel]);
 
             if (read_cur > 0 && read_last <= 0)
             {

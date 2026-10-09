@@ -45,9 +45,9 @@ class NodeClass:
 node_superclasses = ["Node", "UnaryOpNode", "BinaryOpNode", "StochasticNode", "VariableInputNode", "FFTNode", "FFTOpNode", "LFO"]
 omitted_classes = ["GrainSegments", "FFTZeroPhase", "FFTOpNode", "FFTNode",
                    "StochasticNode"]
-macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve"]
+macos_only_classes = ["MouseX", "MouseY", "MouseDown", "FFTConvolve", "BinauralPanner"]
 vamp_only_classes = ["VampAnalysis"]
-known_parent_classes = ["Node", "StochasticNode", "FFTNode", "FFTOpNode"]
+known_parent_classes = ["Node", "StochasticNode", "VariableInputNode", "FFTNode", "FFTOpNode"]
 documentation_omit_folders = ["io"]
 documentation_omit_classes = ["Constant"]
 
@@ -191,7 +191,8 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
     classes = {}
     classes["io"] = [
         NodeClass("AudioIn", None, [[
-            Parameter("num_channels", "int", 1)
+            Parameter("num_channels", "int", 1),
+            Parameter("first_channel", "int", 0),
         ]], "Audio input", "Audio input"),
         NodeClass("AudioOut_Abstract", None, [], "Abstract audio output", "Abstract audio output"),
         NodeClass("AudioOut_Dummy", "AudioOut_Abstract", [[
@@ -224,6 +225,7 @@ def parse_node_classes(source_files) -> dict[str, list[Parameter]]:
             # --------------------------------------------------------------------------------
             # Check whether class is a subclass of a valid Node class
             # --------------------------------------------------------------------------------
+            
             if "inherits" in value and len(value["inherits"]):
                 parent_class = value["inherits"][0]["class"]
                 if parent_class not in node_superclasses:

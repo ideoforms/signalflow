@@ -19,6 +19,25 @@ public:
     int get_index() { return this->index; }
     std::vector<float> get_coordinate() { return this->coordinate; }
     float get_distance() { return this->distance; }
+
+    // Sorting operators
+    bool operator<(const KDTreeMatch &other) const { return distance < other.distance; }
+    bool operator>(const KDTreeMatch &other) const { return distance > other.distance; }
+};
+
+class KDTreeMatches
+{
+public:
+    KDTreeMatches(size_t capacity);
+    void add(const KDTreeMatch &match);
+    float get_worst_distance() const;
+    bool is_full() const;
+    const std::vector<KDTreeMatch> &get_matches() const;
+    void sort();
+
+private:
+    std::vector<KDTreeMatch> matches;
+    size_t capacity;
 };
 
 class KDTreeNode
@@ -30,8 +49,8 @@ public:
                KDTreeNode *right,
                const std::vector<std::vector<float>> &bounding_box);
     ~KDTreeNode();
-    KDTreeMatch get_nearest(const std::vector<float> &target,
-                            KDTreeMatch current_nearest);
+    void get_nearest(const std::vector<float> &target,
+                     KDTreeMatches &matches);
 
     int get_index();
     std::vector<float> get_coordinates();
@@ -47,12 +66,13 @@ private:
 class KDTree
 {
 public:
-    KDTree(std::vector<std::vector<float>> data);
+    KDTree(std::vector<std::vector<float>> data, size_t num_neighbors = 1);
     ~KDTree();
-    KDTreeMatch get_nearest(const std::vector<float> &target);
+    std::vector<KDTreeMatch> get_nearest(const std::vector<float> &target);
 
 private:
     size_t num_dimensions;
+    size_t num_neighbors;
     KDTreeNode *root;
     KDTreeNode *construct_subtree(std::vector<std::vector<float>> data,
                                   size_t dimension_index,

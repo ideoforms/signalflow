@@ -43,11 +43,19 @@ public:
      *-------------------------------------------------------------------------------*/
     unsigned int get_buffer_size();
 
+    /**--------------------------------------------------------------------------------
+     * Returns the name of the audio output device. 
+     * 
+     * @returns The device name.
+     *-------------------------------------------------------------------------------*/
+    const std::string get_device_name();
+
 protected:
     unsigned int sample_rate = 0;
     unsigned int buffer_size = 0;
     std::list<NodeRef> audio_inputs;
     int input_index;
+    std::string device_name;
 };
 
 } // namespace signalflow

@@ -7,7 +7,7 @@ namespace signalflow
 AudioOut_Abstract::AudioOut_Abstract()
 {
     this->name = "audioout";
-    this->set_channels(2, 0);
+    this->set_channels(2, 2);
     this->no_input_upmix = true;
     this->has_variable_inputs = true;
     this->input_index = 0;
@@ -130,6 +130,11 @@ unsigned int AudioOut_Abstract::get_sample_rate()
 unsigned int AudioOut_Abstract::get_buffer_size()
 {
     return this->buffer_size;
+}
+
+const std::string AudioOut_Abstract::get_device_name()
+{
+    return this->device_name;
 }
 
 } // namespace signalflow

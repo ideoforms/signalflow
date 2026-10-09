@@ -39,7 +39,6 @@ public:
 
 private:
     std::string backend_name;
-    std::string device_name;
     unsigned int num_channels;
     ma_context context;
     ma_device device;

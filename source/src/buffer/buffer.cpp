@@ -2,6 +2,7 @@
 #include "signalflow/core/constants.h"
 #include "signalflow/core/exceptions.h"
 #include "signalflow/core/graph.h"
+#include "signalflow/node/buffer/buffer-player.h"
 #include <sndfile.h>
 
 #include <stdlib.h>
@@ -13,7 +14,13 @@
 #include <unistd.h>
 #endif
 
+#include <algorithm>
+#include <cctype>
 #include <vector>
+
+#ifndef WIN32
+#include <dirent.h>
+#endif
 
 #define SIGNALFLOW_DEFAULT_BUFFER_BLOCK_SIZE 1024
 
@@ -299,6 +306,59 @@ void Buffer::save(std::string filename)
     this->filename = filename;
 }
 
+std::vector<BufferRef> Buffer::load_directory(std::string directory_path, std::vector<std::string> extensions)
+{
+    std::vector<BufferRef> buffers;
+#ifdef WIN32
+    throw std::runtime_error("Buffer::load_directory is not yet implemented for Windows");
+#else
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(directory_path.c_str())) != NULL)
+    {
+        while ((ent = readdir(dir)) != NULL)
+        {
+            std::string filename = ent->d_name;
+            if (filename == "." || filename == "..")
+            {
+                continue;
+            }
+
+            std::string path = directory_path + "/" + filename;
+            bool match = false;
+            for (auto extension : extensions)
+            {
+                std::transform(filename.begin(), filename.end(), filename.begin(), [](unsigned char c) { return std::tolower(c); });
+                if (filename.compare(filename.length() - extension.length(), extension.length(), extension) == 0)
+                {
+                    match = true;
+                    break;
+                }
+            }
+
+            if (match)
+            {
+                try
+                {
+                    BufferRef buffer = new Buffer(path);
+                    buffers.push_back(buffer);
+                }
+                catch (const std::exception &e)
+                {
+                    std::cerr << "Failed to load buffer from " << path << ": " << e.what() << std::endl;
+                }
+            }
+        }
+        closedir(dir);
+    }
+    else
+    {
+        throw std::runtime_error("Could not open directory: " + directory_path);
+    }
+#endif
+    return buffers;
+}
+
 std::vector<BufferRef> Buffer::split(int num_frames_per_part)
 {
     if (this->num_channels != 1)
@@ -440,7 +500,7 @@ std::vector<float> Buffer::get_frame_offsets()
 }
 
 /*-------------------------------------------------------------------------
- * Operators
+ * Operators: Buffer <> constant
  *-----------------------------------------------------------------------*/
 
 template <class T>
@@ -502,6 +562,102 @@ BufferRefTemplate<T> BufferRefTemplate<T>::operator-(double constant)
         for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
         {
             output[channel][frame] = buffer->data[channel][frame] - constant;
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+/*-------------------------------------------------------------------------
+ * Operators: Buffer <> Buffer
+ *-----------------------------------------------------------------------*/
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator*(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot multiply buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] * other_buffer->data[channel][frame];
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator/(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot divide buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] / other_buffer->data[channel][frame];
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator+(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot add buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] + other_buffer->data[channel][frame];
+        }
+    }
+    return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);
+}
+
+template <class T>
+BufferRefTemplate<T> BufferRefTemplate<T>::operator-(const BufferRef &other)
+{
+    Buffer *buffer = (Buffer *) this->get();
+    Buffer *other_buffer = (Buffer *) other.get();
+
+    if (buffer->get_num_channels() != other_buffer->get_num_channels() || buffer->get_num_frames() != other_buffer->get_num_frames())
+    {
+        throw std::runtime_error("Buffer: Cannot subtract buffers of different sizes");
+    }
+
+    std::vector<std::vector<sample>> output(buffer->get_num_channels());
+    for (unsigned int channel = 0; channel < buffer->get_num_channels(); channel++)
+    {
+        output[channel].resize(buffer->get_num_frames());
+        for (unsigned int frame = 0; frame < buffer->get_num_frames(); frame++)
+        {
+            output[channel][frame] = buffer->data[channel][frame] - other_buffer->data[channel][frame];
         }
     }
     return new Buffer(buffer->get_num_channels(), buffer->get_num_frames(), output);

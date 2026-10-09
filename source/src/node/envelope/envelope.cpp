@@ -1,6 +1,8 @@
 #include "signalflow/core/graph.h"
+#include "signalflow/core/util.h"
 #include "signalflow/node/envelope/envelope.h"
 
+#include <algorithm>
 #include <limits>
 
 namespace signalflow
@@ -93,12 +95,12 @@ void Envelope::process(Buffer &out, int num_frames)
         {
             if (node_index < levels.size() - 1)
             {
+                float level_start = this->levels[node_index]->out[0][frame];
                 float level_target = this->levels[node_index + 1]->out[0][frame];
                 float time = this->times[node_index]->out[0][frame];
                 float curve = (this->curves.size() > 0) ? (this->curves[node_index]->out[0][frame]) : 1;
-                float time_remaining = time - this->node_phase;
-                int steps_remaining = time_remaining * graph->get_sample_rate();
-                if (steps_remaining <= 0)
+
+                if (this->node_phase >= time)
                 {
                     level = level_target;
                     this->node_phase = 0.0;
@@ -106,12 +108,21 @@ void Envelope::process(Buffer &out, int num_frames)
                 }
                 else
                 {
-                    float step = (level_target - level) / steps_remaining;
-                    level += step;
+                    /*--------------------------------------------------------------------------------
+                     * Apply the curve to the normalised amplitude in [0, 1], where 0 is the lower
+                     * of the segment's two levels and 1 is the higher, then scale it back to the
+                     * segment's actual range. This means that a curve has the same shape whether
+                     * the segment is rising or falling, and is independent of absolute level.
+                     *-------------------------------------------------------------------------------*/
+                    float segment_phase = this->node_phase / time;
+                    float level_min = std::min(level_start, level_target);
+                    float level_max = std::max(level_start, level_target);
+                    float amplitude_norm = (level_target >= level_start) ? segment_phase : (1.0f - segment_phase);
+                    level = level_min + (level_max - level_min) * signalflow_curve(amplitude_norm, curve);
                     this->node_phase += phase_step;
                 }
 
-                rv = powf(level, curve);
+                rv = level;
             }
             else
             {

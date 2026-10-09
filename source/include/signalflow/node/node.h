@@ -194,7 +194,8 @@ public:
      * Get/set buffer properties, as used by BufferPlayer, Granulator, etc.
      *-----------------------------------------------------------------------*/
     virtual void set_buffer(std::string name, BufferRef buffer);
-
+    virtual BufferRef get_buffer(std::string name);
+    
     /*------------------------------------------------------------------------
      * Generic trigger method. 
      *-----------------------------------------------------------------------*/
@@ -227,7 +228,7 @@ public:
     Buffer out;
 
     /*------------------------------------------------------------------------
-     * Used to cache
+     * Used to cache the last sample in the previous buffer.
      *-----------------------------------------------------------------------*/
     std::vector<float> last_sample;
 
@@ -493,6 +494,7 @@ public:
     virtual void add_input(NodeRef input);
     virtual void set_input(std::string name, const NodeRef &node);
     virtual void remove_input(NodeRef input);
+    virtual void clear_inputs();
 
 protected:
     std::list<NodeRef> input_list;

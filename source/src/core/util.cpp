@@ -210,6 +210,15 @@ float signalflow_array_mean(float *array, size_t size)
     return sum / size;
 }
 
+float signalflow_curve(float value, float curve)
+{
+    if (curve == 1.0f)
+    {
+        return value;
+    }
+    return powf(value, curve);
+}
+
 float signalflow_calculate_decay_coefficient(float decay_time,
                                              unsigned int sample_rate,
                                              float decay_level)

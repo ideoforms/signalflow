@@ -63,6 +63,8 @@ void init_python_graph(py::module &m)
                                R"pbdoc(int: Get the number of output channels available in the graph.)pbdoc")
         .def_property_readonly("output_buffer_size", &AudioGraph::get_output_buffer_size,
                                R"pbdoc(int: Get the current output buffer size, in frames.)pbdoc")
+        .def_property_readonly("output_device_name", &AudioGraph::get_output_device_name,
+                               R"pbdoc(str: Get the name of the audio output device that the graph is connected to.)pbdoc")
         .def_property_readonly(
             "outputs", &AudioGraph::get_outputs,
             R"pbdoc(int: Get the list of Node objects currently connected to the graph's output.)pbdoc")
@@ -115,6 +117,7 @@ void init_python_graph(py::module &m)
         .def(
             "render", [](AudioGraph &graph, int num_frames) { graph.render(num_frames); }, "num_frames"_a, R"pbdoc(Render a specified number of samples of the AudioGraph's output.)pbdoc")
         .def("render_to_buffer", &AudioGraph::render_to_buffer, "buffer"_a, R"pbdoc(Render the graph's output to the specified buffer, for the same number of frames as the buffer's length.)pbdoc")
+        .def("render_subgraph_to_buffer", &AudioGraph::render_subgraph_to_buffer, "node"_a, "buffer"_a, R"pbdoc(Render a subgraph's output to the specified buffer, for the same number of frames as the buffer's length.)pbdoc")
         .def("render_to_new_buffer", &AudioGraph::render_to_new_buffer, "num_frames"_a, R"pbdoc(Render the graph's output for the specified number of frames, and return the resultant buffer.)pbdoc")
         .def(
             "render_subgraph", [](AudioGraph &graph, NodeRef node, int num_frames, bool reset) {

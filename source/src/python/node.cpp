@@ -218,17 +218,19 @@ void init_python_node(py::module &m)
          * Methods
          *-------------------------------------------------------------------------------*/
         .def("set_buffer", &Node::set_buffer, "string"_a, "buffer"_a, R"pbdoc(Set the value of a node's buffer input)pbdoc")
-        .def(
-            "poll", [](Node &node) { node.poll(); }, R"pbdoc(Print the node's last output value, once per second)pbdoc")
-        .def(
-            "poll", [](Node &node, float frequency) { node.poll(frequency); }, R"pbdoc(Print the node's last output value, at a frequency of `frequency`)pbdoc")
-        .def(
-            "poll", [](Node &node, float frequency, std::string label) { node.poll(frequency, label); }, R"pbdoc(Print the node's last output value, at a frequency of `frequency`, labelled with `label`)pbdoc")
-        .def(
-            "set_input", [](Node &node, std::string name, float value) { node.set_input(name, value); }, "name"_a, "value"_a, R"pbdoc(Set the input named `name` to `value`)pbdoc")
-        .def(
-            "set_input", [](Node &node, std::string name, NodeRef noderef) { node.set_input(name, noderef); }, "name"_a, "node"_a, R"pbdoc(Set the input named `name` to node `node`)pbdoc")
+        .def("get_buffer", &Node::get_buffer, "string"_a, R"pbdoc(Get the value of a node's buffer input)pbdoc")
+        .def("poll", [](Node &node) { node.poll(); }, R"pbdoc(Print the node's last output value, once per second)pbdoc")
+        .def("poll", [](Node &node, float frequency) { node.poll(frequency); }, R"pbdoc(Print the node's last output value, at a frequency of `frequency`)pbdoc")
+        .def("poll", [](Node &node, float frequency, std::string label) { node.poll(frequency, label); }, R"pbdoc(Print the node's last output value, at a frequency of `frequency`, labelled with `label`)pbdoc")
+        .def("set_input", [](Node &node, std::string name, float value) { node.set_input(name, value); }, "name"_a, "value"_a, R"pbdoc(Set the input named `name` to `value`)pbdoc")
+        .def("set_input", [](Node &node, std::string name, NodeRef noderef) { node.set_input(name, noderef); }, "name"_a, "node"_a, R"pbdoc(Set the input named `name` to node `node`)pbdoc")
         .def("get_input", &Node::get_input, "name"_a, R"pbdoc(Get the value of the input named `name`)pbdoc")
+        .def("set_property", [](Node &node, std::string name, std::string value) { node.set_property(name, value); },
+            "name"_a, "value"_a, R"pbdoc(Set the property named `name` to `value`)pbdoc")
+        .def("set_property", [](Node &node, std::string name, float value) { node.set_property(name, value); },
+            "name"_a, "value"_a, R"pbdoc(Set the property named `name` to `value`)pbdoc")
+        .def("set_property", [](Node &node, std::string name, int value) { node.set_property(name, value); },
+            "name"_a, "value"_a, R"pbdoc(Set the property named `name` to `value`)pbdoc")
         .def("get_property", [](Node &node, std::string name) -> py::object {
             PropertyRef property = node.get_property(name);
             switch (property->get_property_type())
@@ -285,11 +287,19 @@ void init_python_node(py::module &m)
          * have access to its NodeRef container.
          *-------------------------------------------------------------------------------*/
         .def(
-            "play", [](NodeRef node) { node->get_graph()->play(node); }, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
+            "play", [](NodeRef node) {
+                AudioGraph *graph = node->get_graph();
+                if (!graph)
+                    throw std::runtime_error("No AudioGraph has been created. Before playing a node, you must first create an AudioGraph.");
+                graph->play(node);
+            }, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
         .def(
             "play", [](NodeRef node, int output_channel) {
+                AudioGraph *graph = node->get_graph();
+                if (!graph)
+                    throw std::runtime_error("No AudioGraph has been created. Before playing a node, you must first create an AudioGraph.");
                 NodeRef channel_offset = new ChannelOffset(output_channel, node);
-                node->get_graph()->play(channel_offset);
+                graph->play(channel_offset);
             },
             "output_channel"_a, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
         .def_property_readonly(
@@ -303,6 +313,9 @@ void init_python_node(py::module &m)
      *-------------------------------------------------------------------------------*/
     py::class_<StochasticNode, Node, NodeRefTemplate<StochasticNode>>(m, "StochasticNode")
         .def("set_seed", &StochasticNode::set_seed);
+
+    py::class_<VariableInputNode, Node, NodeRefTemplate<VariableInputNode>>(m, "VariableInputNode")
+        .def("clear_inputs", &VariableInputNode::clear_inputs, R"pbdoc(Removes all inputs from the variable-input node.)pbdoc");
 
     /*--------------------------------------------------------------------------------
      * FFTNode

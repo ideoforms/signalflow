@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cassert>
 #include <math.h>
+#include <queue>
 #include <stdexcept>
 #include <string>
 
@@ -80,37 +81,72 @@ KDTreeNode::~KDTreeNode()
     }
 }
 
-KDTreeMatch KDTreeNode::get_nearest(const std::vector<float> &target,
-                                    KDTreeMatch current_nearest)
+KDTreeMatches::KDTreeMatches(size_t capacity)
+    : capacity(capacity)
+{
+    matches.reserve(capacity);
+}
+
+void KDTreeMatches::add(const KDTreeMatch &match)
+{
+    if (matches.size() < capacity)
+    {
+        matches.push_back(match);
+        std::push_heap(matches.begin(), matches.end());
+    }
+    else if (match.distance < matches.front().distance)
+    {
+        std::pop_heap(matches.begin(), matches.end());
+        matches.back() = match;
+        std::push_heap(matches.begin(), matches.end());
+    }
+}
+
+float KDTreeMatches::get_worst_distance() const
+{
+    return matches.size() < capacity ? std::numeric_limits<float>::max() : matches.front().distance;
+}
+
+bool KDTreeMatches::is_full() const
+{
+    return matches.size() >= capacity;
+}
+
+const std::vector<KDTreeMatch> &KDTreeMatches::get_matches() const
+{
+    return matches;
+}
+
+void KDTreeMatches::sort()
+{
+    std::sort_heap(matches.begin(), matches.end());
+}
+
+void KDTreeNode::get_nearest(const std::vector<float> &target,
+                             KDTreeMatches &matches)
 {
     float distance = distance_from_point_to_point(target, this->coordinates);
 
-    if (distance < current_nearest.distance)
+    if (distance < matches.get_worst_distance())
     {
-        current_nearest.coordinate = this->coordinates;
-        current_nearest.index = this->index;
-        current_nearest.distance = distance;
+        matches.add(KDTreeMatch(this->index, this->coordinates, distance));
     }
 
     /*------------------------------------------------------------------------------
      * Prune the tree by skipping any forks that can't contain any nodes closer
-     * than the current closest.
-     *
-     * TODO: Further optimization can be made by ordering this left/right
-     *       pruning based on whether the target would be to the left or right
-     *       of this node. Need to implement and benchmark.
+     * than the current furthest match in our N-neighbor set.
      *------------------------------------------------------------------------------*/
-    if (this->left && distance_from_point_to_bounding_box(target, left->bounding_box) < current_nearest.distance)
+    float worst_distance = matches.get_worst_distance();
+
+    if (this->left && distance_from_point_to_bounding_box(target, left->bounding_box) < worst_distance)
     {
-        current_nearest = left->get_nearest(target, current_nearest);
+        left->get_nearest(target, matches);
     }
 
-    if (this->right && distance_from_point_to_bounding_box(target, right->bounding_box) < current_nearest.distance)
+    if (this->right && distance_from_point_to_bounding_box(target, right->bounding_box) < worst_distance)
     {
-        current_nearest = right->get_nearest(target, current_nearest);
+        right->get_nearest(target, matches);
     }
-
-    return current_nearest;
 }
 
 int KDTreeNode::get_index()
@@ -123,11 +159,16 @@ std::vector<float> KDTreeNode::get_coordinates()
     return this->coordinates;
 }
 
-KDTree::KDTree(std::vector<std::vector<float>> data)
+KDTree::KDTree(std::vector<std::vector<float>> data, size_t num_neighbors)
+    : num_neighbors(num_neighbors)
 {
     if (data.empty())
     {
         throw std::runtime_error("KDTree: Data array cannot be empty");
+    }
+    if (num_neighbors == 0)
+    {
+        throw std::runtime_error("KDTree: num_neighbors must be at least 1");
     }
     this->num_dimensions = data[0].size();
 
@@ -232,13 +273,20 @@ KDTreeNode *KDTree::construct_subtree(std::vector<std::vector<float>> data,
     return node;
 }
 
-KDTreeMatch KDTree::get_nearest(const std::vector<float> &target)
+std::vector<KDTreeMatch> KDTree::get_nearest(const std::vector<float> &target)
 {
     if (target.size() != this->num_dimensions)
     {
         fprintf(stderr, "KDTree: Target has an invalid number of dimensions\n");
         throw std::runtime_error("Target has an invalid number of dimensions (expected = " + std::to_string(this->num_dimensions) + ", actual = " + std::to_string(target.size()) + ")");
     }
-    auto result = this->root->get_nearest(target, KDTreeMatch(0, {}, std::numeric_limits<float>::max()));
-    return result;
+
+    // Pre-allocate results container
+    KDTreeMatches matches(this->num_neighbors);
+    this->root->get_nearest(target, matches);
+
+    // Sort results by distance (closest first)
+    matches.sort();
+
+    return matches.get_matches();
 }

@@ -495,6 +495,14 @@ void Node::set_buffer(std::string name, BufferRef buffer)
     *(this->buffers[name]) = buffer;
 }
 
+BufferRef Node::get_buffer(std::string name)
+{
+    if (this->buffers.find(name) == this->buffers.end())
+        throw std::runtime_error("Node " + this->name + " has no such buffer: " + name);
+
+    return *(this->buffers[name]);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Patches
 ////////////////////////////////////////////////////////////////////////////////
@@ -661,6 +669,31 @@ void VariableInputNode::remove_input(NodeRef node)
     {
         throw std::runtime_error("VariableInputNode: Couldn't find node to remove");
     }
+}
+
+void VariableInputNode::clear_inputs()
+{
+    /*-----------------------------------------------------------------------------------
+     * TODO
+     * There are often cases (e.g. mute/solo on a bus containing multiple inputs)
+     * in which the user needs to clear a VariableInputNode's's inputs, and immediately
+     * add a new input. However, these cases are not addressed by the current lock-free
+     * system, which requires that nodes being removed are stopped outside of the 
+     * process() loop. 
+     * 
+     * This would require quite a major re-architecture, either using a lock-based system,
+     * or implementing a system that records all graph manipulations (both connect and
+     * disconnect operations) and then applies them before process() is called.
+     *-----------------------------------------------------------------------------------*/
+    // while (!this->input_list.empty())
+    // {
+    //     NodeRef node = this->input_list.front();
+    //     this->remove_input(node);
+    // }
+        for (NodeRef input : this->input_list)
+        {
+            graph->stop(input);
+        }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

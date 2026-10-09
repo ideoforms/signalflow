@@ -23,6 +23,9 @@
 ROOT=auxiliary/cibuildwheel
 set -e
 
+# Generate stubs
+pybind11-stubgen -o auxiliary/libs/signalflow-stubs signalflow
+
 for VERSION in 38 39 310 311 312 313
 do
     rm -rf build

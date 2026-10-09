@@ -55,4 +55,15 @@ void Impulse::process(Buffer &out, int num_frames)
     }
 }
 
+void Impulse::trigger(std::string name, float value)
+{
+    if (name == SIGNALFLOW_DEFAULT_TRIGGER)
+    {
+        for (int channel = 0; channel < this->num_output_channels; channel++)
+        {
+            this->steps_remaining[channel] = 0;
+        }
+    }
+}
+
 }

@@ -48,7 +48,7 @@ def test_envelope_adsr(graph):
     """
     assert env.output_buffer[0][110] == 0.5
     assert env.output_buffer[0][199] == 0.5
-    assert env.output_buffer[0][250] == 0.0
+    assert env.output_buffer[0][251] == 0.0
 
     #--------------------------------------------------------------------------------
     # Release early, right after attack segment

@@ -38,7 +38,7 @@ void init_python_util(py::module &m)
         R"pbdoc(Calculate the coefficient required for an exponential decay curve, with duration of decay_time and final value of decay_level (typically 0.001 or -60dB))pbdoc");
 
     py::class_<KDTree>(m, "KDTree", "A KDTree structure")
-        .def(py::init<std::vector<std::vector<float>>>(), "data"_a = nullptr)
+        .def(py::init<std::vector<std::vector<float>>, int>(), "data"_a = nullptr, "count"_a = 1)
         .def("get_nearest", &KDTree::get_nearest, "target"_a);
 
     py::class_<KDTreeMatch>(m, "KDTreeMatch", "A KDTreeMatch result")

@@ -22,6 +22,18 @@ class CMakeBuild(build_ext):
         extdir = os.path.abspath(self.build_lib)
         cfg = 'Debug' if self.debug else 'Release'
         cpu_count = os.cpu_count()
+
+        #--------------------------------------------------------------------------------
+        # Parallel compilation can exhaust memory on low-RAM Linux systems (e.g.
+        # Raspberry Pi), so build serially if less than 8GB is available.
+        #--------------------------------------------------------------------------------
+        if sys.platform.startswith('linux'):
+            with open('/proc/meminfo') as fd:
+                mem_total_kb = int(fd.readline().split()[1])
+            if mem_total_kb < 8 * 1024 * 1024:
+                print("Detected %.1fGB RAM, limiting build to 1 CPU" % (mem_total_kb / 1024 ** 2))
+                cpu_count = 1
+
         build_args = ['--config', cfg, '-j', str(cpu_count)]
 
         print("Building signalflow version " + self.distribution.get_version())

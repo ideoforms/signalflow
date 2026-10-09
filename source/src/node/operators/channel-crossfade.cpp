@@ -3,8 +3,8 @@
 namespace signalflow
 {
 
-ChannelCrossfade::ChannelCrossfade(NodeRef input, NodeRef index, int num_output_channels)
-    : UnaryOpNode(input), index(index), num_output_channels(num_output_channels)
+ChannelCrossfade::ChannelCrossfade(NodeRef input, NodeRef index, int num_output_channels, std::string type)
+    : UnaryOpNode(input), index(index), num_output_channels(num_output_channels), type(type)
 {
     if (!input)
     {
@@ -20,6 +20,24 @@ ChannelCrossfade::ChannelCrossfade(NodeRef input, NodeRef index, int num_output_
 
 void ChannelCrossfade::process(Buffer &out, int num_frames)
 {
+    // Store a poiner to the crossfade function:
+    // if type is "linear", use signalflow_interpolate_linear
+    // if type is "equal-power", use signalflow_interpolate_equal_power
+
+    double (*crossfade)(double, double, double);
+    if (type == "linear")
+    {
+        crossfade = signalflow_interpolate_linear;
+    }
+    else if (type == "equal-power")
+    {
+        crossfade = signalflow_interpolate_equal_power;
+    }
+    else
+    {
+        throw std::runtime_error("ChannelCrossfade: Invalid crossfade type");
+    }
+
     for (int frame = 0; frame < num_frames; frame++)
     {
         float input_channel_index = this->index->out[0][frame];
@@ -32,7 +50,7 @@ void ChannelCrossfade::process(Buffer &out, int num_frames)
             {
                 float in_a = this->input->out[input_channel_index + output_channel][frame];
                 float in_b = this->input->out[input_channel_index + output_channel + 1][frame];
-                out[output_channel][frame] = signalflow_interpolate_equal_power(in_a, in_b, xfade);
+                out[output_channel][frame] = crossfade(in_a, in_b, xfade);
             }
             else
             {

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "signalflow/buffer/fftbuffer.h"
-#include "signalflow/node/fft/fftnode.h"
+#include "signalflow/node/fft/fft-node.h"
 
 namespace signalflow
 {

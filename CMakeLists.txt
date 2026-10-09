@@ -209,6 +209,19 @@ else()
     message(WARNING "Couldn't find vamp")
 endif()
 
+#-------------------------------------------------------------------------------
+# Dependency: libmysofa (bundled)
+#-------------------------------------------------------------------------------
+include(GenerateExportHeader)
+include(GNUInstallDirs)
+set(BUILD_STATIC_LIBS ON CACHE BOOL "Build libmysofa as static library" FORCE)
+set(BUILD_SHARED_LIBS OFF CACHE BOOL "Build libmysofa as shared library" FORCE)
+set(BUILD_TESTS OFF CACHE BOOL "Disable libmysofa tests" FORCE)
+set(CPACK_PACKAGE_VERSION_MAJOR 1)
+set(CPACK_PACKAGE_VERSION_MINOR 3)
+set(CPACK_PACKAGE_VERSION_PATCH 0)
+add_subdirectory("source/lib/libmysofa")
+target_link_libraries(signalflow mysofa-static)
 
 #-------------------------------------------------------------------------------
 # Specify additional linker dependencies
