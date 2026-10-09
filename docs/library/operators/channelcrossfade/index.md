@@ -6,7 +6,7 @@ description: ChannelCrossfade: Given a multichannel input, crossfades between ch
 # ChannelCrossfade
 
 ```python
-ChannelCrossfade(input=None, index=None, num_output_channels=1)
+ChannelCrossfade(input=None, index=None, num_output_channels=1, type="linear")
 ```
 
 Given a multichannel input, crossfades between channels based on the given position within the virtual array, producing a single-channel output.

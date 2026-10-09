@@ -2,6 +2,7 @@
 
 # Sequencing
 
+- **[BlockCounter](blockcounter/index.md)**: Increments by one for each audio block processed.
 - **[ClockDivider](clockdivider/index.md)**: When given a `clock` input (e.g., an Impulse), divides the clock by the given `factor`. factor must be an integer greater than or equal to 1.
 - **[Counter](counter/index.md)**: Count upwards from `min` to `max`, driven by `clock`.
 - **[Euclidean](euclidean/index.md)**: Euclidean rhythm as described by Toussaint, with `sequence_length` (n) and `num_events` (k), driven by `clock`.

@@ -3,6 +3,7 @@
 # Processors: Panning
 
 - **[AzimuthPanner](azimuthpanner/index.md)**: Pan input around an equally-spaced ring of `num_channels` speakers. `pan` is the pan position from -1..+1, where 0 = centre front. `width` is the source's width, where 1.0 spans exactly between an adjacent pair of channels.
+- **[BinauralPanner](binauralpanner/index.md)**: Binaural panner.
 - **[ChannelPanner](channelpanner/index.md)**: Pan the input between a linear series of channels, where `pan` 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.
 - **[SpatialPanner](spatialpanner/index.md)**: Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported.
 - **[StereoBalance](stereobalance/index.md)**: Takes a stereo input and rebalances it, where `balance` of `0` is unchanged, `-1` is hard left, and `1` is hard right.
