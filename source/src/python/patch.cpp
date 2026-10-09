@@ -61,13 +61,13 @@ void init_python_patch(py::module &m)
         .def_property_readonly("state", &Patch::get_state)
 
         .def("play", [](PatchRef patch) {
-            AudioGraphRef graph = patch->get_graph();
+            AudioGraph *graph = patch->get_graph();
             if (!graph)
                 throw std::runtime_error("No AudioGraph has been created. Before playing a patch, you must first create an AudioGraph.");
             return graph->play(patch);
         })
         .def("stop", [](PatchRef patch) {
-            AudioGraphRef graph = patch->get_graph();
+            AudioGraph *graph = patch->get_graph();
             if (!graph)
                 throw std::runtime_error("No AudioGraph has been created. Before stopping a patch, you must first create an AudioGraph.");
             graph->stop(patch);
@@ -75,7 +75,7 @@ void init_python_patch(py::module &m)
         .def("add_to_graph", [](PatchRef patch) {
             try
             {
-                AudioGraphRef graph = patch->get_graph();
+                AudioGraph *graph = patch->get_graph();
                 if (!graph)
                     throw std::runtime_error("No AudioGraph has been created. Before adding a patch to the graph, you must first create an AudioGraph.");
                 graph->add_patch(patch);
