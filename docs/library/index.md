@@ -9,6 +9,8 @@
 - **[NearestNeighbour](analysis/nearestneighbour/index.md)**: Nearest Neighbour.
 - **[OnsetDetector](analysis/onsetdetector/index.md)**: Simple time-domain onset detector: outputs an impulse when an onset is detected in the input.
 - **[VampAnalysis](analysis/vampanalysis/index.md)**: Feature extraction using the Vamp plugin toolkit.
+- **[YinPitchTracker](analysis/yinpitchtracker/index.md)**: YIN pitch tracker
+- **[ZeroCrossingRate](analysis/zerocrossingrate/index.md)**: Calculates the zero-crossing rate of the input signal. Outputs the rate at which the signal crosses zero. Useful for simple pitch estimation.
 
 ---
 
@@ -46,7 +48,7 @@
 - **[ADSREnvelope](envelope/adsrenvelope/index.md)**: Attack-decay-sustain-release envelope. Sustain portion is held until gate is zero.
 - **[ASREnvelope](envelope/asrenvelope/index.md)**: Attack-sustain-release envelope.
 - **[DetectSilence](envelope/detectsilence/index.md)**: Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.
-- **[Envelope](envelope/envelope/index.md)**: Generic envelope constructor, given an array of levels, times and curves.
+- **[Envelope](envelope/envelope/index.md)**: Generic envelope constructor, given arrays of levels, times and curves that describe the shape of the envelope over time.
 - **[Line](envelope/line/index.md)**: Line segment with the given start/end values, and duration (in seconds). If loop is true, repeats indefinitely. Retriggers on a clock signal.
 - **[RectangularEnvelope](envelope/rectangularenvelope/index.md)**: Rectangular envelope with the given sustain duration.
 
@@ -54,24 +56,36 @@
 
 ## FFT
 
-- **[FFTContinuousPhaseVocoder](fft/fftcontinuousphasevocoder/index.md)**: Continuous phase vocoder. Requires an FFT* input.
-- **[FFTConvolve](fft/fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
 - **[FFTBufferPlayer](fft/fftbufferplayer/index.md)**: FFTBufferPlayer. Plays from a buffer of audio spectra in mag/phase format.
-- **[FFTContrast](fft/fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
-- **[FFTCrossFade](fft/fftcrossfade/index.md)**: FFT FFTCrossFade. Requires two FFT* inputs.
-- **[FFTLFO](fft/fftlfo/index.md)**: FFT LFO. Requires an FFT* input.
-- **[FFTMagnitudePhaseArray](fft/fftmagnitudephasearray/index.md)**: Fixed mag/phase array.
-- **[FFTRandomPhase](fft/fftrandomphase/index.md)**: Randomise phase values.
-- **[FFTScaleMagnitudes](fft/fftscalemagnitudes/index.md)**: Randomise phase values.
-- **[FFTTransform](fft/ffttransform/index.md)**: Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.
-- **[FFT](fft/fft/index.md)**: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
+- **[FFTContinuousPhaseVocoder](fft/fftcontinuousphasevocoder/index.md)**: Continuous phase vocoder. Requires an FFT* input.
 - **[FFTFindPeaks](fft/fftfindpeaks/index.md)**: Find peaks in the FFT magnitude spectrum. Requires an FFT* input.
-- **[IFFT](fft/ifft/index.md)**: Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
-- **[FFTLPF](fft/fftlpf/index.md)**: FFT-based brick wall low pass filter. Requires an FFT* input.
-- **[FFTNoiseGate](fft/fftnoisegate/index.md)**: FFT-based noise gate. Requires an FFT* input.
+- **[FFTMagnitudePhaseArray](fft/fftmagnitudephasearray/index.md)**: Fixed mag/phase array.
 - **[FFTPhaseVocoder](fft/fftphasevocoder/index.md)**: Phase vocoder. Requires an FFT* input.
-- **[FFTTonality](fft/ffttonality/index.md)**: Tonality filter. Requires an FFT* input.
-- **[FFTZeroPhase](fft/fftzerophase/index.md)**: Remove phase information from a frequency-domain input. Requires an FFT* input.
+- **[FFT](fft/fft/index.md)**: Fast Fourier Transform. Takes a time-domain input, and generates a frequency-domain (FFT) output.
+- **[IFFT](fft/ifft/index.md)**: Inverse Fast Fourier Transform. Requires an FFT* input, generates a time-domain output.
+
+---
+
+## Fft: Features
+
+- **[FFTSpectralCentroid](fft/features/fftspectralcentroid/index.md)**: Randomise phase values.
+- **[FFTSpectralFlatness](fft/features/fftspectralflatness/index.md)**: Randomise phase values.
+- **[FFTSpectralFlux](fft/features/fftspectralflux/index.md)**: Spectral flux: measures the change in magnitude spectrum between frames.
+
+---
+
+## Fft: Processors
+
+- **[FFTContrast](fft/processors/fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
+- **[FFTConvolve](fft/processors/fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.
+- **[FFTCrossFade](fft/processors/fftcrossfade/index.md)**: FFT FFTCrossFade. Requires two FFT* inputs.
+- **[FFTLFO](fft/processors/fftlfo/index.md)**: FFT LFO. Requires an FFT* input.
+- **[FFTLPF](fft/processors/fftlpf/index.md)**: FFT-based brick wall low pass filter. Requires an FFT* input.
+- **[FFTNoiseGate](fft/processors/fftnoisegate/index.md)**: FFT-based noise gate. Requires an FFT* input.
+- **[FFTRandomPhase](fft/processors/fftrandomphase/index.md)**: Randomise phase values.
+- **[FFTScaleMagnitudes](fft/processors/fftscalemagnitudes/index.md)**: Randomise phase values.
+- **[FFTTonality](fft/processors/ffttonality/index.md)**: Tonality filter. Requires an FFT* input.
+- **[FFTTransform](fft/processors/ffttransform/index.md)**: Transforms the FFT magnitude spectrum in the X axis. Requires an FFT* input.
 
 ---
 
@@ -167,7 +181,7 @@
 
 ## Processors: Dynamics
 
-- **[Compressor](processors/dynamics/compressor/index.md)**: Dynamic range compression, with optional `sidechain` input. When the input amplitude is above `threshold`, compresses the amplitude with the given `ratio`, following the given `attack_time` and `release_time` in seconds.
+- **[Compressor](processors/dynamics/compressor/index.md)**: Dynamic range compression, with optional `sidechain` input. When the input level (a peak envelope, following the given `attack_time` and `release_time` in seconds) is above `threshold`, reduces the gain so that the level above the threshold is divided by `ratio` (in dB).
 - **[Gate](processors/dynamics/gate/index.md)**: Outputs the input value when it is above the given `threshold`, otherwise zero.
 - **[Maximiser](processors/dynamics/maximiser/index.md)**: Gain maximiser.
 - **[RMS](processors/dynamics/rms/index.md)**: Outputs the root-mean-squared value of the input, in buffers equal to the graph's current buffer size.
@@ -187,6 +201,7 @@
 ## Processors: Panning
 
 - **[AzimuthPanner](processors/panning/azimuthpanner/index.md)**: Pan input around an equally-spaced ring of `num_channels` speakers. `pan` is the pan position from -1..+1, where 0 = centre front. `width` is the source's width, where 1.0 spans exactly between an adjacent pair of channels.
+- **[BinauralPanner](processors/panning/binauralpanner/index.md)**: Binaural panner.
 - **[ChannelPanner](processors/panning/channelpanner/index.md)**: Pan the input between a linear series of channels, where `pan` 0 = channel 0, 1 = channel 1, etc. No wrapping is applied.
 - **[SpatialPanner](processors/panning/spatialpanner/index.md)**: Implements a spatial panning algorithm, applied to a given SpatialEnvironment. Currently, only DBAP is supported.
 - **[StereoBalance](processors/panning/stereobalance/index.md)**: Takes a stereo input and rebalances it, where `balance` of `0` is unchanged, `-1` is hard left, and `1` is hard right.
@@ -195,8 +210,15 @@
 
 ---
 
+## Processors: Reverb
+
+- **[FeedbackDelayNetwork](processors/reverb/feedbackdelaynetwork/index.md)**: Feedback Delay Network reverb. Uses multiple delay lines with an orthogonal feedback matrix for dense, natural-sounding reverberation.
+
+---
+
 ## Sequencing
 
+- **[BlockCounter](sequencing/blockcounter/index.md)**: Increments by one for each audio block processed.
 - **[ClockDivider](sequencing/clockdivider/index.md)**: When given a `clock` input (e.g., an Impulse), divides the clock by the given `factor`. factor must be an integer greater than or equal to 1.
 - **[Counter](sequencing/counter/index.md)**: Count upwards from `min` to `max`, driven by `clock`.
 - **[Euclidean](sequencing/euclidean/index.md)**: Euclidean rhythm as described by Toussaint, with `sequence_length` (n) and `num_events` (k), driven by `clock`.
