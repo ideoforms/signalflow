@@ -20,7 +20,7 @@
         .def(py::init<NodeRef, BufferRef, int>(), "input"_a = nullptr, "buffer"_a = nullptr, "hop_size"_a = 0);
     
     py::class_<NearestNeighbour, Node, NodeRefTemplate<NearestNeighbour>>(m, "NearestNeighbour", "Nearest Neighbour.")
-        .def(py::init<BufferRef, NodeRef>(), "buffer"_a = nullptr, "target"_a = 0.0);
+        .def(py::init<BufferRef, NodeRef, NodeRef, int>(), "buffer"_a = nullptr, "target"_a = 0.0, "neighbour_index"_a = 0.0, "max_neighbours"_a = 1);
     
     py::class_<OnsetDetector, Node, NodeRefTemplate<OnsetDetector>>(m, "OnsetDetector", "Simple time-domain onset detector: outputs an impulse when an onset is detected in the input.")
         .def(py::init<NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 2.0, "min_interval"_a = 0.1);
@@ -102,7 +102,7 @@
     py::class_<DetectSilence, Node, NodeRefTemplate<DetectSilence>>(m, "DetectSilence", "Detects blocks of silence below the threshold value. Used as an auto-free node to terminate a Patch after processing is complete.")
         .def(py::init<NodeRef, NodeRef>(), "input"_a = nullptr, "threshold"_a = 0.00001);
     
-    py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope", "Generic envelope constructor, given an array of levels, times and curves.")
+    py::class_<Envelope, Node, NodeRefTemplate<Envelope>>(m, "Envelope", "Generic envelope constructor, given arrays of levels, times and curves that describe the shape of the envelope over time.")
         .def(py::init<std::vector<NodeRef >, std::vector<NodeRef >, std::vector<NodeRef >, NodeRef, bool>(), "levels"_a = std::vector<NodeRef> ( ), "times"_a = std::vector<NodeRef> ( ), "curves"_a = std::vector<NodeRef> ( ), "clock"_a = nullptr, "loop"_a = false);
     
     py::class_<Line, Node, NodeRefTemplate<Line>>(m, "Line", "Line segment with the given start/end values, and duration (in seconds). If loop is true, repeats indefinitely. Retriggers on a clock signal.")
@@ -374,7 +374,7 @@
     py::class_<WaveShaper, Node, NodeRefTemplate<WaveShaper>>(m, "WaveShaper", "Applies wave-shaping as described in the WaveShaperBuffer `buffer`.")
         .def(py::init<NodeRef, BufferRef>(), "input"_a = 0.0, "buffer"_a = nullptr);
     
-    py::class_<Compressor, Node, NodeRefTemplate<Compressor>>(m, "Compressor", "Dynamic range compression, with optional `sidechain` input. When the input amplitude is above `threshold`, compresses the amplitude with the given `ratio`, following the given `attack_time` and `release_time` in seconds.")
+    py::class_<Compressor, Node, NodeRefTemplate<Compressor>>(m, "Compressor", "Dynamic range compression, with optional `sidechain` input. When the input level (a peak envelope, following the given `attack_time` and `release_time` in seconds) is above `threshold`, reduces the gain so that the level above the threshold is divided by `ratio` (in dB).")
         .def(py::init<NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "input"_a = 0.0, "threshold"_a = 0.1, "ratio"_a = 2, "attack_time"_a = 0.01, "release_time"_a = 0.1, "sidechain"_a = nullptr);
     
     py::class_<Gate, Node, NodeRefTemplate<Gate>>(m, "Gate", "Outputs the input value when it is above the given `threshold`, otherwise zero.")
