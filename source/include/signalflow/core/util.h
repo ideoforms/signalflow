@@ -43,6 +43,12 @@ void signalflow_save_block_to_wav_file(sample *block, int num_samples, std::stri
 float signalflow_array_sum(float *array, size_t size);
 float signalflow_array_mean(float *array, size_t size);
 
+/**--------------------------------------------------------------------------------
+ * Apply a curve shape to a normalised value in [0, 1], returning a value in [0, 1].
+ * curve = 1 is linear; curve > 1 is slow-then-fast; curve < 1 is fast-then-slow.
+ *---------------------------------------------------------------------------------*/
+float signalflow_curve(float value, float curve);
+
 float signalflow_calculate_decay_coefficient(float decay_time,
                                              unsigned int sample_rate,
                                              float decay_level);
