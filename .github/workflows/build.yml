@@ -23,7 +23,7 @@ jobs:
         #             https://github.com/pypa/setuptools/issues/4501
         python -m pip install -U pip
         python -m pip install -U pytest numpy scipy "setuptools>=62.1.0" importlib_metadata "packaging>=24.1"
-        curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
+        curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
     - name: Configure
       run: mkdir build && cd build && cmake ..
     - name: Make
