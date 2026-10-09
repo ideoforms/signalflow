@@ -18,7 +18,7 @@ public:
              NodeRef clock = nullptr,
              bool loop = false);
 
-    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = 1.0) override;
+    virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER, float value = SIGNALFLOW_NULL_FLOAT) override;
     virtual void process(Buffer &out, int num_frames) override;
 
 private:
