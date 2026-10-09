@@ -287,11 +287,19 @@ void init_python_node(py::module &m)
          * have access to its NodeRef container.
          *-------------------------------------------------------------------------------*/
         .def(
-            "play", [](NodeRef node) { node->get_graph()->play(node); }, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
+            "play", [](NodeRef node) {
+                AudioGraphRef graph = node->get_graph();
+                if (!graph)
+                    throw std::runtime_error("No AudioGraph has been created. Before playing a node, you must first create an AudioGraph.");
+                graph->play(node);
+            }, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
         .def(
             "play", [](NodeRef node, int output_channel) {
                 NodeRef channel_offset = new ChannelOffset(output_channel, node);
-                node->get_graph()->play(channel_offset);
+                AudioGraphRef graph = node->get_graph();
+                if (!graph)
+                    throw std::runtime_error("No AudioGraph has been created. Before playing a node, you must first create an AudioGraph.");
+                graph->play(channel_offset);
             },
             "output_channel"_a, R"pbdoc(Begin playing the node by connecting it to the graph's output)pbdoc")
         .def_property_readonly(
