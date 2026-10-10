@@ -84,7 +84,12 @@ RingBuffer<T>::~RingBuffer()
 template <class T>
 void RingBuffer<T>::append(T value)
 {
-    this->write_position = (this->write_position + 1) % this->capacity;
+    /*--------------------------------------------------------------------------------
+     * Equivalent to (write_position + 1) % capacity, but avoids an integer division,
+     * which is significant as this is called per-sample by delay lines.
+     *--------------------------------------------------------------------------------*/
+    if (++this->write_position >= this->capacity)
+        this->write_position = 0;
     this->data[this->write_position] = value;
 }
 
@@ -128,7 +133,9 @@ T RingBuffer<T>::get(double index)
     {
         double frame_frac = (frame - (int) frame);
         int frame_index = (int) frame;
-        int next_frame_index = ((int) ceil(frame)) % this->capacity;
+        int next_frame_index = frame_index + 1;
+        if ((unsigned int) next_frame_index >= this->capacity)
+            next_frame_index = 0;
 
         rv = ((1.0 - frame_frac) * this->data[frame_index]) + (frame_frac * this->data[next_frame_index]);
     }
