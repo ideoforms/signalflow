@@ -40,13 +40,15 @@ jobs:
           #--------------------------------------------------------------------------------
           # Linux wheels are built in the manylinux_2_28 image (AlmaLinux 8).
           #  - fftw and alsa are available as system packages
-          #  - libsndfile is built from source, as the system package (1.0.28) is outdated
+          #  - libsndfile is built from source, as the system package (1.0.28) is outdated.
+          #    CMAKE_POLICY_VERSION_MINIMUM is required as libsndfile 1.2.2 declares
+          #    compatibility with CMake < 3.5, which CMake 4 no longer supports.
           #  - JACK and ALSA are loaded by miniaudio at runtime, so are not linked here
           #--------------------------------------------------------------------------------
           CIBW_BEFORE_ALL_LINUX: >
              yum install -y fftw-devel alsa-lib-devel &&
              git clone --depth 1 --branch 1.2.2 https://github.com/libsndfile/libsndfile.git /tmp/libsndfile &&
-             cmake -S /tmp/libsndfile -B /tmp/libsndfile/build -DBUILD_SHARED_LIBS=1 -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF &&
+             cmake -S /tmp/libsndfile -B /tmp/libsndfile/build -DBUILD_SHARED_LIBS=1 -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 &&
              cmake --build /tmp/libsndfile/build -j4 &&
              cmake --install /tmp/libsndfile/build &&
              curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
