@@ -11,8 +11,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-24.04]
-        # os: [macos-11]
+        # x86_64 and aarch64 (e.g. 64-bit Raspberry Pi OS), built natively
+        # TEMPORARY: aarch64 only, for testing. Restore to:
+        # os: [ubuntu-24.04, ubuntu-24.04-arm]
+        os: [ubuntu-24.04-arm]
 
     steps:
       - uses: actions/checkout@v4
@@ -27,15 +29,16 @@ jobs:
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
           #--------------------------------------------------------------------------------
-          # Build all CPython versions permitted by python_requires in setup.cfg.
+          # Build all CPython versions permitted by python_requires in setup.cfg,
+          # for the runner's native architecture.
           # Free-threaded builds are skipped, as SignalFlow has not been verified as
           # safe to run without the GIL.
           #--------------------------------------------------------------------------------
-          CIBW_BUILD: cp3*-manylinux_x86_64 cp3*-macosx_*
+          # TEMPORARY: Python 3.9 only, for testing. Restore to: cp3*-manylinux_*
+          CIBW_BUILD: cp39-manylinux_*
           CIBW_SKIP: cp3??t-*
+          CIBW_ARCHS_LINUX: native
           CIBW_BUILD_VERBOSITY: 1
-          CIBW_ARCHS_MACOS: arm64 x86_64
-          CIBW_ARCHS_LINUX: x86_64
 
           #--------------------------------------------------------------------------------
           # Linux wheels are built in the manylinux_2_28 image (AlmaLinux 8).
@@ -53,9 +56,6 @@ jobs:
              cmake --install /tmp/libsndfile/build &&
              curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
           CIBW_ENVIRONMENT_LINUX: LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
-          CIBW_BEFORE_ALL_MACOS: >
-             brew install cmake python libsndfile &&
-             curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
 
           #--------------------------------------------------------------------------------
           # Run the test suite against each built wheel. Tests are run from the project
@@ -64,6 +64,10 @@ jobs:
           CIBW_TEST_REQUIRES: pytest numpy scipy
           CIBW_TEST_COMMAND: cd {project} && python -m pytest tests
 
+      #--------------------------------------------------------------------------------
+      # Artifact names must be unique per matrix job.
+      #--------------------------------------------------------------------------------
       - uses: actions/upload-artifact@v4
         with:
+          name: wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
