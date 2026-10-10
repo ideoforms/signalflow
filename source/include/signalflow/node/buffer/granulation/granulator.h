@@ -27,7 +27,8 @@ public:
                NodeRef pan = 0.0,
                NodeRef rate = 1.0,
                NodeRef max_grains = 2048,
-               bool wrap = false);
+               bool wrap = false,
+               bool use_trigger_amplitude = false);
 
     virtual void process(Buffer &out, int num_frames) override;
     virtual void set_buffer(std::string name, BufferRef buffer) override;
@@ -47,6 +48,7 @@ private:
     NodeRef max_grains;
 
     bool wrap;
+    bool use_trigger_amplitude;
     double rate_scale_factor;
 
     std::vector<Grain *> grains;

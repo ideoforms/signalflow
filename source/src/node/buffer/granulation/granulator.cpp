@@ -13,8 +13,9 @@ Granulator::Granulator(BufferRef buffer,
                        NodeRef pan,
                        NodeRef rate,
                        NodeRef max_grains,
-                       bool wrap)
-    : pos(pos), clock(clock), duration(duration), amplitude(amplitude), pan(pan), rate(rate), max_grains(max_grains), wrap(wrap)
+                       bool wrap,
+                       bool use_trigger_amplitude)
+    : pos(pos), clock(clock), duration(duration), amplitude(amplitude), pan(pan), rate(rate), max_grains(max_grains), wrap(wrap), use_trigger_amplitude(use_trigger_amplitude)
 {
     this->name = "granulator";
 
@@ -67,15 +68,21 @@ void Granulator::process(Buffer &out, int num_frames)
         sample pan = this->pan->out[0][frame];
         sample max_grains = this->max_grains->out[0][frame];
 
-        if (SIGNALFLOW_CHECK_TRIGGER(clock, frame))
+        float trigger_amplitude = SIGNALFLOW_CHECK_TRIGGER(clock, frame);
+        if (trigger_amplitude > 0)
         {
+            float grain_amplitude = amplitude;
+            if (this->use_trigger_amplitude)
+            {
+                grain_amplitude *= trigger_amplitude;
+            }
             if (this->grains.size() < max_grains)
             {
                 Grain *grain = new Grain(buffer,
                                          pos * buffer->get_sample_rate(),
                                          duration * buffer->get_sample_rate(),
                                          rate * this->rate_scale_factor,
-                                         amplitude,
+                                         grain_amplitude,
                                          pan,
                                          this->wrap);
                 this->grains.push_back(grain);
