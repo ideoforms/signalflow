@@ -308,55 +308,74 @@ void Buffer::save(std::string filename)
 
 std::vector<BufferRef> Buffer::load_directory(std::string directory_path, std::vector<std::string> extensions)
 {
-    std::vector<BufferRef> buffers;
+    /*--------------------------------------------------------------------------------
+     * List the filenames within the directory, using the platform's native API.
+     *--------------------------------------------------------------------------------*/
+    std::vector<std::string> filenames;
 #ifdef WIN32
-    throw std::runtime_error("Buffer::load_directory is not yet implemented for Windows");
-#else
-    DIR *dir;
-    struct dirent *ent;
-    if ((dir = opendir(directory_path.c_str())) != NULL)
-    {
-        while ((ent = readdir(dir)) != NULL)
-        {
-            std::string filename = ent->d_name;
-            if (filename == "." || filename == "..")
-            {
-                continue;
-            }
-
-            std::string path = directory_path + "/" + filename;
-            bool match = false;
-            for (auto extension : extensions)
-            {
-                std::transform(filename.begin(), filename.end(), filename.begin(), [](unsigned char c) { return std::tolower(c); });
-                if (filename.length() >= extension.length()
-                    && filename.compare(filename.length() - extension.length(), extension.length(), extension) == 0)
-                {
-                    match = true;
-                    break;
-                }
-            }
-
-            if (match)
-            {
-                try
-                {
-                    BufferRef buffer = new Buffer(path);
-                    buffers.push_back(buffer);
-                }
-                catch (const std::exception &e)
-                {
-                    std::cerr << "Failed to load buffer from " << path << ": " << e.what() << std::endl;
-                }
-            }
-        }
-        closedir(dir);
-    }
-    else
+    struct _finddata_t ent;
+    std::string pattern = directory_path + "/*";
+    intptr_t handle = _findfirst(pattern.c_str(), &ent);
+    if (handle == -1)
     {
         throw std::runtime_error("Could not open directory: " + directory_path);
     }
+    do
+    {
+        filenames.push_back(ent.name);
+    } while (_findnext(handle, &ent) == 0);
+    _findclose(handle);
+#else
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir(directory_path.c_str())) == NULL)
+    {
+        throw std::runtime_error("Could not open directory: " + directory_path);
+    }
+    while ((ent = readdir(dir)) != NULL)
+    {
+        filenames.push_back(ent->d_name);
+    }
+    closedir(dir);
 #endif
+
+    /*--------------------------------------------------------------------------------
+     * Load each file that has one of the specified extensions.
+     *--------------------------------------------------------------------------------*/
+    std::vector<BufferRef> buffers;
+    for (auto filename : filenames)
+    {
+        if (filename == "." || filename == "..")
+        {
+            continue;
+        }
+
+        std::string path = directory_path + "/" + filename;
+        bool match = false;
+        for (auto extension : extensions)
+        {
+            std::transform(filename.begin(), filename.end(), filename.begin(), [](unsigned char c) { return std::tolower(c); });
+            if (filename.length() >= extension.length()
+                && filename.compare(filename.length() - extension.length(), extension.length(), extension) == 0)
+            {
+                match = true;
+                break;
+            }
+        }
+
+        if (match)
+        {
+            try
+            {
+                BufferRef buffer = new Buffer(path);
+                buffers.push_back(buffer);
+            }
+            catch (const std::exception &e)
+            {
+                std::cerr << "Failed to load buffer from " << path << ": " << e.what() << std::endl;
+            }
+        }
+    }
     return buffers;
 }
 
