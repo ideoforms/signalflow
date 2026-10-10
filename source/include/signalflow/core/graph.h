@@ -372,7 +372,7 @@ public:
      * @return The sample rate, in Hz.
      *
      *--------------------------------------------------------------------------------*/
-    int get_sample_rate();
+    int get_sample_rate() { return this->sample_rate; }
 
     /**--------------------------------------------------------------------------------
      * Set the audio sample rate.

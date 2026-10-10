@@ -318,9 +318,9 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
     /*------------------------------------------------------------------------
      * Pull our inputs before we generate our own outputs.
      *-----------------------------------------------------------------------*/
-    for (auto input : node->get_inputs())
+    for (const auto &input : node->get_inputs())
     {
-        NodeRef input_node = *(input.second);
+        const NodeRef &input_node = *(input.second);
         if (input_node)
         {
             this->render_subgraph(input_node, num_frames);
@@ -377,7 +377,11 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 
     node->_process(node->out, num_frames);
 
-    if (node->get_name() != "constant" && node->get_name().substr(0, 8) != "audioout")
+    /*--------------------------------------------------------------------------------
+     * Compare against the name member directly, as get_name() returns a copy,
+     * and this is called for every node in every block.
+     *--------------------------------------------------------------------------------*/
+    if (node->name != "constant" && node->name.compare(0, 8, "audioout") != 0)
     {
         /*--------------------------------------------------------------------------------
          *
@@ -995,8 +999,6 @@ std::string AudioGraph::get_status()
 
     return status;
 }
-
-int AudioGraph::get_sample_rate() { return this->sample_rate; }
 
 void AudioGraph::set_sample_rate(int sample_rate)
 {
