@@ -84,57 +84,84 @@ void SVFilter::process(Buffer &out, int num_frames)
 {
     // Cache filter_type rather than querying property each iteration, for efficiency
     signalflow_filter_type_t filter_type = (signalflow_filter_type_t) this->filter_type->int_value();
+    float fs = this->graph->get_sample_rate();
+    float nyquist = fs / 2;
 
-    for (int frame = 0; frame < num_frames; frame++)
+    for (int channel = 0; channel < num_output_channels; channel++)
     {
-        this->_recalculate(frame);
+        /*--------------------------------------------------------------------------------
+         * Keep coefficients and filter state in local variables during the loop.
+         * Accessing the member vectors directly forces loads and stores per sample,
+         * as the compiler cannot rule out that they alias the output buffer.
+         *--------------------------------------------------------------------------------*/
+        float c_ic1eq = ic1eq[channel], c_ic2eq = ic2eq[channel];
+        float c_g = g[channel], c_k = k[channel];
+        float c_a1 = a1[channel], c_a2 = a2[channel], c_a3 = a3[channel];
+        sample *in_channel = this->input->out[channel];
+        sample *cutoff_channel = this->cutoff->out[channel];
+        sample *resonance_channel = this->resonance->out[channel];
+        sample *out_channel = out[channel];
 
-        for (int channel = 0; channel < num_output_channels; channel++)
+        /*--------------------------------------------------------------------------------
+         * Coefficients are only recalculated when cutoff or resonance change, as
+         * tanf() is expensive and these are frequently constant. NAN ensures that
+         * coefficients are always calculated on the first frame of each block.
+         *--------------------------------------------------------------------------------*/
+        float last_cutoff = NAN;
+        float last_resonance = NAN;
+
+        for (int frame = 0; frame < num_frames; frame++)
         {
-            float v0 = this->input->out[channel][frame];
-            float v3 = v0 - ic2eq[channel];
-            float v1 = a1[channel] * ic1eq[channel] + a2[channel] * v3;
-            float v2 = ic2eq[channel] + a2[channel] * ic1eq[channel] + a3[channel] * v3;
-            ic1eq[channel] = 2 * v1 - ic1eq[channel];
-            ic2eq[channel] = 2 * v2 - ic2eq[channel];
+            float cutoff = cutoff_channel[frame];
+            float resonance = resonance_channel[frame];
+            if (cutoff != last_cutoff || resonance != last_resonance)
+            {
+                last_cutoff = cutoff;
+                last_resonance = resonance;
+                cutoff = fmin(cutoff, nyquist);
+                c_g = tanf(M_PI * cutoff / fs);
+                c_k = 2.0 - 2.0 * resonance;
+                c_a1 = 1 / (1 + c_g * (c_g + c_k));
+                c_a2 = c_g * c_a1;
+                c_a3 = c_g * c_a2;
+            }
+
+            float v0 = in_channel[frame];
+            float v3 = v0 - c_ic2eq;
+            float v1 = c_a1 * c_ic1eq + c_a2 * v3;
+            float v2 = c_ic2eq + c_a2 * c_ic1eq + c_a3 * v3;
+            c_ic1eq = 2 * v1 - c_ic1eq;
+            c_ic2eq = 2 * v2 - c_ic2eq;
 
             switch (filter_type)
             {
                 case SIGNALFLOW_FILTER_TYPE_LOW_PASS:
-                    out[channel][frame] = v2;
+                    out_channel[frame] = v2;
                     break;
                 case SIGNALFLOW_FILTER_TYPE_BAND_PASS:
-                    out[channel][frame] = v1;
+                    out_channel[frame] = v1;
                     break;
                 case SIGNALFLOW_FILTER_TYPE_HIGH_PASS:
-                    out[channel][frame] = v0 - k[channel] * v1 - v2;
+                    out_channel[frame] = v0 - c_k * v1 - v2;
                     break;
                 case SIGNALFLOW_FILTER_TYPE_NOTCH:
-                    out[channel][frame] = v2 + (v0 - k[channel] * v1 - v2);
+                    out_channel[frame] = v2 + (v0 - c_k * v1 - v2);
                     break;
                 case SIGNALFLOW_FILTER_TYPE_PEAK:
-                    out[channel][frame] = v2 - (v0 - k[channel] * v1 - v2);
+                    out_channel[frame] = v2 - (v0 - c_k * v1 - v2);
                     break;
                 default:
                     signalflow_audio_thread_error("SVFilter: Unsupported filter type");
             }
         }
-    }
-}
 
-void SVFilter::_recalculate(int frame)
-{
-    float fs = this->graph->get_sample_rate();
-    float nyquist = fs / 2;
-    for (int channel = 0; channel < num_output_channels; channel++)
-    {
-        float cutoff = this->cutoff->out[channel][frame];
-        cutoff = fmin(cutoff, nyquist);
-        g[channel] = tanf(M_PI * cutoff / fs);
-        k[channel] = 2.0 - 2.0 * this->resonance->out[channel][frame];
-        a1[channel] = 1 / (1 + g[channel] * (g[channel] + k[channel]));
-        a2[channel] = g[channel] * a1[channel];
-        a3[channel] = g[channel] * a2[channel];
+        ic1eq[channel] = c_ic1eq;
+        ic2eq[channel] = c_ic2eq;
+        g[channel] = c_g;
+        k[channel] = c_k;
+        a1[channel] = c_a1;
+        a2[channel] = c_a2;
+        a3[channel] = c_a3;
     }
 }
 

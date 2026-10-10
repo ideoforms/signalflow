@@ -31,8 +31,6 @@ private:
     NodeRef cutoff;
     NodeRef resonance;
 
-    virtual void _recalculate(int frame);
-
     std::vector<float> ic1eq, ic2eq, g, k, a1, a2, a3;
 };
 
