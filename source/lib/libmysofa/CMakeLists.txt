@@ -11,8 +11,12 @@ if(NOT MSVC)
   endif()
   include(FindZLIB)
 else()
-  # SignalFlow: find zlib via CMake on MSVC, rather than via nuget
+  # SignalFlow: find zlib via CMake on MSVC, rather than via nuget.
+  # A static zlib is used, so there is no DLL to bundle. ZLIB_USE_STATIC_LIBS
+  # (CMake >= 3.24) is needed to find zlib >= 1.3.2's static library, which is
+  # named zs.lib on Windows.
   set(MATH "")
+  set(ZLIB_USE_STATIC_LIBS ON)
   find_package(ZLIB REQUIRED)
 endif()
 
