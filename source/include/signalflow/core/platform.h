@@ -28,6 +28,16 @@
 
 #endif /* __APPLE__ */
 
+/*--------------------------------------------------------------------------------
+ * Force inlining of a function, in a cross-compiler way.
+ * Usage: SIGNALFLOW_ALWAYS_INLINE int foo() { ... }
+ *--------------------------------------------------------------------------------*/
+#if defined(_MSC_VER)
+#define SIGNALFLOW_ALWAYS_INLINE __forceinline
+#else
+#define SIGNALFLOW_ALWAYS_INLINE __attribute__((always_inline)) inline
+#endif
+
 /*-------------------------------------------------------------------------------- 
  * Arm NEON extensions
  *--------------------------------------------------------------------------------*/

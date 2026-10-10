@@ -67,6 +67,11 @@ if (MSVC)
     # Windows Visual C: Enable parallelisation
     #-------------------------------------------------------------------------------
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /MP")
+
+    #-------------------------------------------------------------------------------
+    # Windows Visual C: Define M_PI and other math constants
+    #-------------------------------------------------------------------------------
+    add_compile_definitions(_USE_MATH_DEFINES)
 else()
     #-------------------------------------------------------------------------------
     # GCC/Clang: Enable strict compiler warnings

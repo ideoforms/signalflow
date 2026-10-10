@@ -8,6 +8,7 @@
  *-----------------------------------------------------------------------*/
 
 #include "signalflow/core/constants.h"
+#include "signalflow/core/platform.h"
 #include "signalflow/core/util.h"
 
 #include <functional>
@@ -333,7 +334,7 @@ public:
      * @returns A reference to a channel of samples
      *
      *------------------------------------------------------------------------*/
-    __attribute__((always_inline)) inline sample *&operator[](int index) { return this->data[index]; }
+    SIGNALFLOW_ALWAYS_INLINE sample *&operator[](int index) { return this->data[index]; }
 
     /**------------------------------------------------------------------------
      * Returns the x values corresponding to each frame in the buffer.
