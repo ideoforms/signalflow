@@ -8,6 +8,7 @@
 #include "signalflow/node/oscillators/constant.h"
 #include "signalflow/patch/patch.h"
 
+#include <algorithm>
 #include <iomanip>
 #include <limits.h>
 #include <math.h>
@@ -217,18 +218,20 @@ void AudioGraph::raise_audio_thread_error()
 
 void AudioGraph::clear()
 {
-    AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
-    auto inputs = audioout->get_inputs();
-    for (auto input : inputs)
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    for (auto node : this->playing_nodes)
     {
-        this->nodes_to_remove.insert(input);
+        this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::STOP_NODE, node));
     }
-    for (auto node : this->scheduled_nodes)
-    {
-        this->scheduled_nodes_to_remove.insert(node);
-    }
+    this->playing_nodes.clear();
 
-    patches.clear();
+    this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::REMOVE_ALL_NODES));
+
+    for (auto patch : this->patches)
+    {
+        this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::RELEASE_PATCH, nullptr, nullptr, patch));
+    }
+    this->patches.clear();
 
     this->node_count = 0;
 }
@@ -386,84 +389,115 @@ void AudioGraph::render_subgraph(const NodeRef &node, int num_frames)
 
 void AudioGraph::handle_graph_changes()
 {
-    for (auto pair : nodes_to_replace)
-    {
-        AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
-        output->replace_input(pair.first, pair.second);
-
-        // needed to ensure stale samples don't get delivered next time around
-        // as render_subgraph won't recurse to reset these nodes
-        this->reset_subgraph(pair.first);
-    }
-    nodes_to_replace.clear();
-
     /*--------------------------------------------------------------------------------
-     * Disconnect any nodes and patches that are scheduled to be removed.
+     * Take the pending changes while holding the lock, and then apply them after
+     * releasing it. The lock must not be held while applying changes, because
+     * applying changes can cause other threads' calls to block, and can also
+     * trigger further calls to stop() (e.g. from Patch auto-free), which would
+     * otherwise deadlock.
      *--------------------------------------------------------------------------------*/
-    for (auto node : nodes_to_remove)
+    std::vector<AudioGraphChange> changes;
     {
-        /*--------------------------------------------------------------------------------
-         * Stop any monitoring running on the node.
-         *--------------------------------------------------------------------------------*/
-        node->poll(0);
+        std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+        changes.swap(this->graph_changes);
+    }
 
-        while (node->outputs.size() > 0)
-        {
-            auto output = *(node->outputs.begin());
-            Node *target = output.first;
-            std::string name = output.second;
+    for (auto &change : changes)
+    {
+        this->apply_graph_change(change);
+    }
+}
 
-            if (target->has_variable_inputs)
+void AudioGraph::apply_graph_change(AudioGraphChange &change)
+{
+    AudioOut_Abstract *audioout = (AudioOut_Abstract *) this->output.get();
+
+    switch (change.type)
+    {
+        case AudioGraphChange::PLAY_NODE:
+            if (!audioout->has_input(change.node))
             {
-                target->remove_input(node);
+                audioout->add_input(change.node);
             }
-            else
+            break;
+
+        case AudioGraphChange::STOP_NODE:
+            this->disconnect_node(change.node);
+            break;
+
+        case AudioGraphChange::REPLACE_NODE:
+            audioout->replace_input(change.node, change.other);
+
+            /*--------------------------------------------------------------------------------
+             * Needed to ensure stale samples don't get delivered next time around
+             * as render_subgraph won't recurse to reset these nodes.
+             *--------------------------------------------------------------------------------*/
+            this->reset_subgraph(change.node);
+            break;
+
+        case AudioGraphChange::ADD_NODE:
+            this->scheduled_nodes.insert(change.node);
+            break;
+
+        case AudioGraphChange::REMOVE_NODE:
+            this->scheduled_nodes.erase(change.node);
+            break;
+
+        case AudioGraphChange::REMOVE_ALL_NODES:
+            for (auto node : this->scheduled_nodes)
             {
-                /*------------------------------------------------------------------------
-                 * All of this is a slightly gross way to ensure that Patch inputs
-                 * are kept in sync correctly when a Patch's input node is removed.
-                 * This aspect of Patch needs redesigning at some point...
-                 *------------------------------------------------------------------------*/
-                NodeRef zero = new Constant(0.0);
-                target->set_input(name, zero);
-                if (target->get_patch())
+                node->poll(0);
+            }
+            this->scheduled_nodes.clear();
+            break;
+
+        case AudioGraphChange::RELEASE_PATCH:
+            /*--------------------------------------------------------------------------------
+             * No-op: the patch reference held by the change is released when the
+             * change is destroyed, after any preceding changes have been applied.
+             *--------------------------------------------------------------------------------*/
+            break;
+    }
+}
+
+void AudioGraph::disconnect_node(NodeRef node)
+{
+    /*--------------------------------------------------------------------------------
+     * Stop any monitoring running on the node.
+     *--------------------------------------------------------------------------------*/
+    node->poll(0);
+
+    while (node->outputs.size() > 0)
+    {
+        auto output = *(node->outputs.begin());
+        Node *target = output.first;
+        std::string name = output.second;
+
+        if (target->has_variable_inputs)
+        {
+            target->remove_input(node);
+        }
+        else
+        {
+            /*------------------------------------------------------------------------
+             * All of this is a slightly gross way to ensure that Patch inputs
+             * are kept in sync correctly when a Patch's input node is removed.
+             * This aspect of Patch needs redesigning at some point...
+             *------------------------------------------------------------------------*/
+            NodeRef zero = new Constant(0.0);
+            target->set_input(name, zero);
+            if (target->get_patch())
+            {
+                Patch *patch = target->get_patch();
+                for (auto input : patch->get_inputs())
                 {
-                    Patch *patch = target->get_patch();
-                    for (auto input : patch->get_inputs())
+                    auto input_name = input.first;
+                    auto input_node = input.second;
+                    if (target == input_node.get())
                     {
-                        auto input_name = input.first;
-                        auto input_node = input.second;
-                        if (target == input_node.get())
-                        {
-                            patch->set_input(input_name, zero);
-                        }
+                        patch->set_input(input_name, zero);
                     }
                 }
-            }
-        }
-    }
-    nodes_to_remove.clear();
-
-    for (auto node : this->scheduled_nodes_to_remove)
-    {
-        node->poll(0);
-        this->scheduled_nodes.erase(node);
-    }
-
-    /*------------------------------------------------------------------------
-     * Avoid segfaults if another thread modifies patches_to_remove
-     * (with patch.stop()) while the audio thread is iterating over it.
-     *-----------------------------------------------------------------------*/
-    std::set<Patch *> patches_to_remove_copy = patches_to_remove;
-    this->patches_to_remove.clear();
-    for (auto patch : patches_to_remove_copy)
-    {
-        for (auto patchref : patches)
-        {
-            if (patchref.get() == patch)
-            {
-                patches.erase(patchref);
-                break;
             }
         }
     }
@@ -635,8 +669,8 @@ void AudioGraph::set_output(NodeRef output_device) { this->output = output_devic
 
 std::list<NodeRef> AudioGraph::get_outputs()
 {
-    AudioOut_Abstract *output = (AudioOut_Abstract *) (this->output.get());
-    return output->get_inputs();
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    return this->playing_nodes;
 }
 
 // static
@@ -664,13 +698,15 @@ NodeRef AudioGraph::add_node(NodeRef node)
         throw cpu_usage_above_limit_exception();
     }
 
-    this->scheduled_nodes.insert(node);
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::ADD_NODE, node));
     return node;
 }
 
 void AudioGraph::remove_node(NodeRef node)
 {
-    this->scheduled_nodes.erase(node);
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::REMOVE_NODE, node));
 }
 
 void AudioGraph::add_patch(PatchRef patch)
@@ -681,6 +717,8 @@ void AudioGraph::add_patch(PatchRef patch)
     }
 
     patch->parse();
+
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
     this->patches.insert(patch);
 }
 
@@ -694,8 +732,6 @@ void AudioGraph::play(PatchRef patch)
     {
         throw patch_finished_playback_exception();
     }
-
-    AudioOut_Abstract *audioout = (AudioOut_Abstract *) (this->output.get());
 
     /*----------------------------------------------------------------------------
      * If a Patch has been instantiated from a PatchSpec, its structure has
@@ -713,7 +749,9 @@ void AudioGraph::play(PatchRef patch)
      *----------------------------------------------------------------------------*/
     patch->parse();
 
-    audioout->add_input(patch->get_output());
+    this->play(patch->get_output());
+
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
     this->patches.insert(patch);
 }
 
@@ -724,8 +762,13 @@ void AudioGraph::play(NodeRef node)
         throw cpu_usage_above_limit_exception();
     }
 
-    AudioOut_Abstract *output = (AudioOut_Abstract *) this->output.get();
-    output->add_input(node);
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    if (std::find(this->playing_nodes.begin(), this->playing_nodes.end(), node) != this->playing_nodes.end())
+    {
+        throw node_already_playing_exception();
+    }
+    this->playing_nodes.push_back(node);
+    this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::PLAY_NODE, node));
 }
 
 bool AudioGraph::is_playing(NodeRef node)
@@ -733,25 +776,50 @@ bool AudioGraph::is_playing(NodeRef node)
     // TODO: This currently only works if the node is wired directly to the
     //       graph's output. To support nested nodes, should recursively
     //       traverse the outputs of the node.
-    AudioOut_Abstract *audioout = (AudioOut_Abstract *) (this->output.get());
-    return audioout->has_input(node);
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    return std::find(this->playing_nodes.begin(), this->playing_nodes.end(), node) != this->playing_nodes.end();
 }
 
 void AudioGraph::stop(PatchRef patch) { this->stop(patch.get()); }
 
 void AudioGraph::stop(Patch *patch)
 {
-    patches_to_remove.insert(patch);
-    nodes_to_remove.insert(patch->get_output());
+    /*--------------------------------------------------------------------------------
+     * May be called from the audio thread, when a Patch is auto-freed.
+     *--------------------------------------------------------------------------------*/
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    NodeRef output = patch->get_output();
+    this->playing_nodes.remove(output);
+
+    PatchRef patchref = nullptr;
+    for (auto p : this->patches)
+    {
+        if (p.get() == patch)
+        {
+            patchref = p;
+            this->patches.erase(p);
+            break;
+        }
+    }
+    this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::STOP_NODE, output, nullptr, patchref));
 }
 
 void AudioGraph::stop(NodeRef node)
 {
-    // TODO: Should ideally do node->is_playing() here, but this won't catch cases in
-    //       which the node is embedded somewhere within the graph.
-    if (!node->outputs.empty())
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    auto it = std::find(this->playing_nodes.begin(), this->playing_nodes.end(), node);
+    if (it != this->playing_nodes.end())
     {
-        nodes_to_remove.insert(node);
+        this->playing_nodes.erase(it);
+        this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::STOP_NODE, node));
+    }
+    else if (!node->outputs.empty())
+    {
+        /*--------------------------------------------------------------------------------
+         * The node is embedded somewhere within the graph, rather than connected
+         * directly to the output.
+         *--------------------------------------------------------------------------------*/
+        this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::STOP_NODE, node));
     }
     else
     {
@@ -759,7 +827,12 @@ void AudioGraph::stop(NodeRef node)
     }
 }
 
-void AudioGraph::replace(NodeRef node, NodeRef other) { nodes_to_replace.insert(std::make_pair(node, other)); }
+void AudioGraph::replace(NodeRef node, NodeRef other)
+{
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    std::replace(this->playing_nodes.begin(), this->playing_nodes.end(), node, other);
+    this->graph_changes.push_back(AudioGraphChange(AudioGraphChange::REPLACE_NODE, node, other));
+}
 
 void AudioGraph::start_recording(const std::string &filename, int num_channels)
 {
@@ -975,7 +1048,11 @@ int AudioGraph::get_num_output_channels()
 
 int AudioGraph::get_node_count() { return this->node_count; }
 
-int AudioGraph::get_patch_count() { return (int) this->patches.size(); }
+int AudioGraph::get_patch_count()
+{
+    std::lock_guard<std::mutex> lock(this->graph_changes_mutex);
+    return (int) this->patches.size();
+}
 
 float AudioGraph::get_cpu_usage() { return this->cpu_usage; }
 

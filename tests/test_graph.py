@@ -1,5 +1,5 @@
 from signalflow import AudioGraph, AudioGraphConfig, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add, Sum
-from signalflow import InsufficientBufferSizeException, AudioIOException
+from signalflow import InsufficientBufferSizeException, AudioIOException, NodeAlreadyPlayingException, NodeNotPlayingException
 from . import count_zero_crossings, graph
 import pytest
 import numpy as np
@@ -181,3 +181,57 @@ def test_graph_recording_multichannel(tmp_path):
             graph.start_recording(path, 17)
     finally:
         graph.destroy()
+
+def test_graph_play_stop_queued(graph):
+    #--------------------------------------------------------------------------------
+    # play() and stop() are queued and applied at the start of the next block,
+    # but is_playing and graph.outputs are updated immediately.
+    #--------------------------------------------------------------------------------
+    c = Constant(1)
+    graph.play(c)
+    assert c.is_playing
+    assert graph.outputs == [c]
+    with pytest.raises(NodeAlreadyPlayingException):
+        graph.play(c)
+
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 1)
+
+    graph.stop(c)
+    assert not c.is_playing
+    assert graph.outputs == []
+
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 0)
+    with pytest.raises(NodeNotPlayingException):
+        graph.stop(c)
+
+def test_graph_play_stop_same_block(graph):
+    #--------------------------------------------------------------------------------
+    # Changes made between blocks are applied in the order they were made.
+    #--------------------------------------------------------------------------------
+    c = Constant(1)
+    graph.play(c)
+    graph.stop(c)
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 0)
+    assert not c.is_playing
+
+    graph.play(c)
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 1)
+    assert c.is_playing
+    graph.stop(c)
+
+def test_graph_replace(graph):
+    a = Constant(1)
+    b = Constant(2)
+    graph.play(a)
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 1)
+
+    graph.replace(a, b)
+    assert not a.is_playing
+    assert b.is_playing
+    graph.render()
+    assert np.all(graph.output.output_buffer[0] == 2)

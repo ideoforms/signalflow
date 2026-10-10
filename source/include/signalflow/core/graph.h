@@ -15,10 +15,48 @@
 
 #include <sndfile.h>
 
+#include <atomic>
+#include <list>
+#include <mutex>
+#include <vector>
+
 namespace signalflow
 {
 
 class AudioGraphMonitor;
+
+/**--------------------------------------------------------------------------------
+ * A change to the graph's structure, requested by play(), stop(), etc.
+ * Changes are queued by the calling thread, and applied by the audio thread at the
+ * start of the next block, so that the audio thread is the only thread that
+ * modifies the structures it iterates over during rendering.
+ *--------------------------------------------------------------------------------*/
+struct AudioGraphChange
+{
+    enum AudioGraphChangeType
+    {
+        PLAY_NODE,
+        STOP_NODE,
+        REPLACE_NODE,
+        ADD_NODE,
+        REMOVE_NODE,
+        REMOVE_ALL_NODES,
+        RELEASE_PATCH,
+    };
+
+    AudioGraphChange(AudioGraphChangeType type, NodeRef node = nullptr, NodeRef other = nullptr, PatchRef patch = nullptr)
+        : type(type), node(node), other(other), patch(patch) {}
+
+    AudioGraphChangeType type;
+    NodeRef node;
+    NodeRef other;
+
+    /*--------------------------------------------------------------------------------
+     * Holding a reference to the patch ensures that it is not deallocated until
+     * after the change has been applied by the audio thread.
+     *--------------------------------------------------------------------------------*/
+    PatchRef patch;
+};
 
 class AudioGraph
 {
@@ -433,12 +471,28 @@ protected:
     void register_memory_dealloc(size_t num_bytes);
 
 private:
+    void apply_graph_change(AudioGraphChange &change);
+    void disconnect_node(NodeRef node);
+
+    /*--------------------------------------------------------------------------------
+     * Owned by the audio thread.
+     *--------------------------------------------------------------------------------*/
     std::set<NodeRef> scheduled_nodes;
-    std::set<NodeRef> nodes_to_remove;
-    std::set<NodeRef> scheduled_nodes_to_remove;
-    std::set<std::pair<NodeRef, NodeRef>> nodes_to_replace;
+
+    /*--------------------------------------------------------------------------------
+     * These variables are shared between threads, and only accessed while 
+     * graph_changes_mutex is locked
+     * .
+     *  - graph_changes: Changes waiting to be applied by the audio thread
+     *  - playing_nodes: Nodes connected to the output, including pending changes,
+     *                   used to answer is_playing() etc without waiting for the
+     *                   audio thread
+     *  - patches: Patches currently active
+     *--------------------------------------------------------------------------------*/
+    std::mutex graph_changes_mutex;
+    std::vector<AudioGraphChange> graph_changes;
+    std::list<NodeRef> playing_nodes;
     std::set<PatchRef> patches;
-    std::set<Patch *> patches_to_remove;
 
     void show_structure(NodeRef &root, int depth);
     AudioGraphMonitor *monitor;
@@ -448,7 +502,7 @@ private:
     float cpu_usage;
     float cpu_usage_smoothing;
     float output_level_peak;
-    size_t memory_usage;
+    std::atomic<size_t> memory_usage;
     bool raised_audio_thread_error = false;
 
     NodeRef output = nullptr;
