@@ -3,7 +3,7 @@
 #--------------------------------------------------------------------------------
 # Builds arm64 and x86_64 wheels for macOS
 #
-# Requires virtualenvs in the current directory, named venv-39, venv-310, etc...
+# Requires pyenv installs for all supported Python versions.
 # Should ideally be retired in favour of GitHub Actions at some point
 #
 # Some notes on macOS compatibility versions (2025-03-31)
@@ -23,7 +23,9 @@
 ROOT=auxiliary/cibuildwheel
 set -e
 
-for VERSION in 39 310 311 312 313
+curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
+
+for VERSION in 39 310 311 312 313 314 315
 do
     rm -rf build
 
