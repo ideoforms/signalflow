@@ -33,37 +33,55 @@ void Wavetable::process(Buffer &out, int num_frames)
     if (!this->buffer || !this->buffer->get_num_frames())
         return;
 
+    /*--------------------------------------------------------------------------------
+     * Take local copies of values that are constant across the block, and keep
+     * phase in a local variable during the loop, to avoid a load and store per
+     * sample (see SineOscillator).
+     *--------------------------------------------------------------------------------*/
+    Buffer *buffer = this->buffer.get();
+    Buffer *phase_map = this->phase_map.get();
+    Node *sync = this->sync.get();
+    unsigned long buffer_num_frames = buffer->get_num_frames();
+    unsigned long phase_map_num_frames = phase_map ? phase_map->get_num_frames() : 0;
+    float sample_rate = this->graph->get_sample_rate();
+
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        float phase = this->current_phase[channel];
+        sample *out_channel = out[channel];
+        sample *frequency_channel = this->frequency->out[channel];
+        sample *phase_offset_channel = this->phase_offset->out[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->sync, channel, frame))
+            if (SIGNALFLOW_CHECK_CHANNEL_TRIGGER(sync, channel, frame))
             {
-                this->current_phase[channel] = 0.0;
+                phase = 0.0;
             }
 
-            float frequency = this->frequency->out[channel][frame];
+            float frequency = frequency_channel[frame];
 
             // TODO Create wavetable buffer
-            float index = this->current_phase[channel] + this->phase_offset->out[channel][frame];
-            index = fmod(index, 1);
+            float index = phase + phase_offset_channel[frame];
+            index = fmodf(index, 1);
             while (index < 0)
             {
                 index += 1;
             }
-            if (this->phase_map)
+            if (phase_map)
             {
-                index = this->phase_map->get_frame(0, index * this->phase_map->get_num_frames());
+                index = phase_map->get_frame(0, index * phase_map_num_frames);
             }
 
-            float rv = this->buffer->get_frame(0, index * this->buffer->get_num_frames());
+            float rv = buffer->get_frame(0, index * buffer_num_frames);
 
-            out[channel][frame] = rv;
+            out_channel[frame] = rv;
 
-            this->current_phase[channel] += (frequency / this->graph->get_sample_rate());
-            while (this->current_phase[channel] >= 1.0)
-                this->current_phase[channel] -= 1.0;
+            phase += (frequency / sample_rate);
+            while (phase >= 1.0)
+                phase -= 1.0;
         }
+        this->current_phase[channel] = phase;
     }
 }
 

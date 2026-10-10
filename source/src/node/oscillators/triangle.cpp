@@ -21,18 +21,29 @@ void TriangleOscillator::alloc()
 
 void TriangleOscillator::process(Buffer &out, int num_frames)
 {
+    float sample_rate = this->graph->get_sample_rate();
+
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        /*--------------------------------------------------------------------------------
+         * Keep phase in a local variable during the loop, to avoid a load and store
+         * per sample (see SineOscillator).
+         *--------------------------------------------------------------------------------*/
+        float phase = this->phase[channel];
+        sample *out_channel = out[channel];
+        sample *frequency_channel = this->frequency->out[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float rv = (this->phase[channel] < 0.5) ? (this->phase[channel] * 4.0 - 1.0) : (1.0 - (this->phase[channel] - 0.5) * 4.0);
+            float rv = (phase < 0.5) ? (phase * 4.0 - 1.0) : (1.0 - (phase - 0.5) * 4.0);
 
-            out[channel][frame] = rv;
+            out_channel[frame] = rv;
 
-            this->phase[channel] += this->frequency->out[channel][frame] / this->graph->get_sample_rate();
-            while (this->phase[channel] >= 1.0)
-                this->phase[channel] -= 1.0;
+            phase += frequency_channel[frame] / sample_rate;
+            while (phase >= 1.0)
+                phase -= 1.0;
         }
+        this->phase[channel] = phase;
     }
 }
 

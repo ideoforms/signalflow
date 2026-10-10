@@ -42,19 +42,29 @@ void SineOscillator::process(Buffer &out, int num_frames)
      *--------------------------------------------------------------------------------*/
     float phase_increment_scale = M_PI * 2.0 / this->graph->get_sample_rate();
     Node *frequency = this->frequency.get();
+    Node *reset = this->reset.get();
 
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        /*--------------------------------------------------------------------------------
+         * Keep phase in a local variable during the loop. Accessing this->phase[channel]
+         * directly forces a load and store per sample, as the compiler cannot rule out
+         * that it aliases the output buffer.
+         *--------------------------------------------------------------------------------*/
+        float phase = this->phase[channel];
+        sample *out_channel = out[channel];
+        sample *frequency_channel = frequency->out[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (SIGNALFLOW_CHECK_TRIGGER(this->reset, frame))
+            if (SIGNALFLOW_CHECK_TRIGGER(reset, frame))
             {
-                this->phase[channel] = 0;
+                phase = 0;
             }
 
-            out[channel][frame] = this->phase[channel];
+            out_channel[frame] = phase;
 
-            this->phase[channel] += frequency->out[channel][frame] * phase_increment_scale;
+            phase += frequency_channel[frame] * phase_increment_scale;
 
             /*--------------------------------------------------------------------------------
              * This formulation is much more efficient than fmod().
@@ -62,11 +72,12 @@ void SineOscillator::process(Buffer &out, int num_frames)
              * resulted in rounding errors and aliasing in the corresponding output frequency
              * even when using a double for phase - not sure why.
              *--------------------------------------------------------------------------------*/
-            while (this->phase[channel] > M_PI * 2)
+            while (phase > M_PI * 2)
             {
-                this->phase[channel] -= M_PI * 2;
+                phase -= M_PI * 2;
             }
         }
+        this->phase[channel] = phase;
 
 #ifdef __APPLE__
         if (this->phase_offset)

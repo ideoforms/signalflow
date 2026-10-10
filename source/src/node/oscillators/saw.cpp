@@ -35,36 +35,49 @@ void SawOscillator::trigger(std::string name, float value)
 void SawOscillator::process(Buffer &out, int num_frames)
 {
     float phase_cur;
+    float sample_rate = this->graph->get_sample_rate();
+    Node *reset = this->reset.get();
+    Node *phase_offset = this->phase_offset.get();
+
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        /*--------------------------------------------------------------------------------
+         * Keep phase in a local variable during the loop, to avoid a load and store
+         * per sample (see SineOscillator).
+         *--------------------------------------------------------------------------------*/
+        float phase = this->phase[channel];
+        sample *out_channel = out[channel];
+        sample *frequency_channel = this->frequency->out[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (this->reset)
+            if (reset)
             {
-                if (this->reset->out[channel][frame])
+                if (reset->out[channel][frame])
                 {
-                    this->phase[channel] = 0;
+                    phase = 0;
                 }
             }
 
-            if (this->phase_offset)
+            if (phase_offset)
             {
-                phase_cur = fmodf(this->phase[channel] + this->phase_offset->out[channel][frame], 1.0);
+                phase_cur = fmodf(phase + phase_offset->out[channel][frame], 1.0);
             }
             else
             {
-                phase_cur = this->phase[channel];
+                phase_cur = phase;
             }
             float rv = (phase_cur * 2.0) - 1.0;
 
-            out[channel][frame] = rv;
+            out_channel[frame] = rv;
 
-            this->phase[channel] += this->frequency->out[channel][frame] / this->graph->get_sample_rate();
-            while (this->phase[channel] >= 1.0)
+            phase += frequency_channel[frame] / sample_rate;
+            while (phase >= 1.0)
             {
-                this->phase[channel] -= 1.0;
+                phase -= 1.0;
             }
         }
+        this->phase[channel] = phase;
     }
 }
 

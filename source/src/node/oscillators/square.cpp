@@ -24,20 +24,32 @@ void SquareOscillator::alloc()
 
 void SquareOscillator::process(Buffer &out, int num_frames)
 {
+    float sample_rate = this->graph->get_sample_rate();
+
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        /*--------------------------------------------------------------------------------
+         * Keep phase in a local variable during the loop, to avoid a load and store
+         * per sample (see SineOscillator).
+         *--------------------------------------------------------------------------------*/
+        float phase = this->phase[channel];
+        sample *out_channel = out[channel];
+        sample *frequency_channel = this->frequency->out[channel];
+        sample *width_channel = this->width->out[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float frequency = this->frequency->out[channel][frame];
-            float width = this->width->out[channel][frame];
-            float rv = (this->phase[channel] < width) ? 1 : -1;
+            float frequency = frequency_channel[frame];
+            float width = width_channel[frame];
+            float rv = (phase < width) ? 1 : -1;
 
-            out[channel][frame] = rv;
+            out_channel[frame] = rv;
 
-            this->phase[channel] += 1.0 / (this->graph->get_sample_rate() / frequency);
-            if (this->phase[channel] >= 1.0)
-                this->phase[channel] -= 1.0;
+            phase += frequency / sample_rate;
+            if (phase >= 1.0)
+                phase -= 1.0;
         }
+        this->phase[channel] = phase;
     }
 }
 

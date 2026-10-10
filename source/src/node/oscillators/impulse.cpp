@@ -23,15 +23,25 @@ void Impulse::alloc()
 
 void Impulse::process(Buffer &out, int num_frames)
 {
+    int sample_rate = this->graph->get_sample_rate();
+
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        /*--------------------------------------------------------------------------------
+         * Keep steps_remaining in a local variable during the loop, to avoid a load
+         * and store per sample (see SineOscillator).
+         *--------------------------------------------------------------------------------*/
+        float steps_remaining = this->steps_remaining[channel];
+        sample *frequency_channel = this->frequency->out[channel];
+        sample *out_channel = out[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
             sample rv = 0;
-            if (this->steps_remaining[channel] <= 0)
+            if (steps_remaining <= 0)
             {
                 rv = 1;
-                float freq_in = this->frequency->out[channel][frame];
+                float freq_in = frequency_channel[frame];
                 if (freq_in > 0)
                 {
                     /*--------------------------------------------------------------------------------
@@ -40,18 +50,19 @@ void Impulse::process(Buffer &out, int num_frames)
                      * an integer (consider the case in which Fs = 44100 and freq = 8: samples
                      * per cycle would be 5512.5, which would be rounded down to 5512.)
                      *-------------------------------------------------------------------------------*/
-                    this->steps_remaining[channel] += this->graph->get_sample_rate() / this->frequency->out[channel][frame];
+                    steps_remaining += sample_rate / freq_in;
                 }
                 else
                 {
-                    this->steps_remaining[channel] = INT_MAX;
+                    steps_remaining = INT_MAX;
                 }
             }
 
-            this->steps_remaining[channel]--;
+            steps_remaining--;
 
-            out[channel][frame] = rv;
+            out_channel[frame] = rv;
         }
+        this->steps_remaining[channel] = steps_remaining;
     }
 }
 
