@@ -22,7 +22,13 @@ public:
     virtual void set_seed(unsigned long int seed);
 
 protected:
-    double random_uniform(double from = 0.0, double to = 1.0);
+    /*--------------------------------------------------------------------------------
+     * Defined inline as this is called per-sample by WhiteNoise etc.
+     *--------------------------------------------------------------------------------*/
+    double random_uniform(double from = 0.0, double to = 1.0)
+    {
+        return std::uniform_real_distribution<double>(from, to)(this->rng);
+    }
     double random_gaussian(double mean = 0.0, double sigma = 1.0);
     double random_exponential_dist(double lambda = 1.0);
     double random_exponential(double from = 0.01, double to = 1.0);

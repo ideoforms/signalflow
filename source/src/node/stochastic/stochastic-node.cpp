@@ -13,11 +13,6 @@ StochasticNode::StochasticNode(NodeRef reset)
     this->set_seed(signalflow_create_random_seed());
 }
 
-double StochasticNode::random_uniform(double from, double to)
-{
-    return std::uniform_real_distribution<double>(from, to)(this->rng);
-}
-
 double StochasticNode::random_gaussian(double mean, double sigma)
 {
     return std::normal_distribution<double>(mean, sigma)(this->rng);
