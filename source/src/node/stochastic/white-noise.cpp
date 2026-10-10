@@ -35,6 +35,7 @@ void WhiteNoise::process(Buffer &out, int num_frames)
     Node *min = this->min.get();
     Node *max = this->max.get();
     Node *frequency = this->frequency.get();
+    int sample_rate = this->graph->get_sample_rate();
 
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
@@ -45,6 +46,14 @@ void WhiteNoise::process(Buffer &out, int num_frames)
             this->value[channel] = this->min->out[0][0];
         }
 
+        /*--------------------------------------------------------------------------------
+         * Keep per-channel state in local variables during the loop, to avoid loads
+         * and stores per sample (see SineOscillator).
+         *--------------------------------------------------------------------------------*/
+        sample value = this->value[channel];
+        int steps_remaining = this->steps_remaining[channel];
+        float step_change = this->step_change[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
             SIGNALFLOW_PROCESS_STOCHASTIC_NODE_RESET_TRIGGER()
@@ -53,9 +62,9 @@ void WhiteNoise::process(Buffer &out, int num_frames)
             float vmax = max->out[channel][frame];
             float vfrequency = frequency->out[channel][frame];
             if (!vfrequency)
-                vfrequency = this->graph->get_sample_rate();
+                vfrequency = sample_rate;
 
-            if (this->steps_remaining[channel] <= 0)
+            if (steps_remaining <= 0)
             {
                 // pick a new target value
                 float target = this->random_uniform(vmin, vmax);
@@ -64,35 +73,39 @@ void WhiteNoise::process(Buffer &out, int num_frames)
                 {
                     if (random_interval)
                     {
-                        this->steps_remaining[channel] = (int) (this->random_uniform() * this->graph->get_sample_rate() / (vfrequency / 2.0));
+                        steps_remaining = (int) (this->random_uniform() * sample_rate / (vfrequency / 2.0));
                     }
                     else
                     {
-                        this->steps_remaining[channel] = (int) round(this->graph->get_sample_rate() / vfrequency);
+                        steps_remaining = (int) round(sample_rate / vfrequency);
                     }
-                    if (this->steps_remaining[channel] == 0)
-                        this->steps_remaining[channel] = 1;
-                    this->step_change[channel] = (target - this->value[channel]) / this->steps_remaining[channel];
+                    if (steps_remaining == 0)
+                        steps_remaining = 1;
+                    step_change = (target - value) / steps_remaining;
                 }
                 else
                 {
-                    this->steps_remaining[channel] = 0;
-                    this->step_change[channel] = target - this->value[channel];
+                    steps_remaining = 0;
+                    step_change = target - value;
                 }
 
                 if (!this->interpolate)
                 {
-                    this->value[channel] = target;
-                    this->step_change[channel] = 0;
+                    value = target;
+                    step_change = 0;
                 }
             }
 
-            this->value[channel] += this->step_change[channel];
+            value += step_change;
 
-            out[channel][frame] = this->value[channel];
+            out[channel][frame] = value;
 
-            this->steps_remaining[channel]--;
+            steps_remaining--;
         }
+
+        this->value[channel] = value;
+        this->steps_remaining[channel] = steps_remaining;
+        this->step_change[channel] = step_change;
     }
 }
 
