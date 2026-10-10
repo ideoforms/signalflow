@@ -274,12 +274,12 @@ void init_python_node(py::module &m)
             },
             "buffer"_a, R"pbdoc(Generates output to fill buffer `buffer`)pbdoc")
         .def(
-            "scale", [](NodeRef node, float from, float to) { return node.scale(from, to); }, "from"_a, "to"_a, R"pbdoc(Linearly scales the output of the node to the range `from` ... `to`)pbdoc")
+            "scale", [](NodeRef node, float from, float to) { return node.scale(from, to); }, "from_"_a, "to"_a, R"pbdoc(Linearly scales the output of the node to the range `from_` ... `to`)pbdoc")
         .def(
             "scale", [](NodeRef node, float from, float to, signalflow_scale_t scale) {
                 return node.scale(from, to, scale);
             },
-            "from"_a, "to"_a, "scale"_a, R"pbdoc(Linearly scales the output of the node to the range `from` ... `to`, with scale `scale`)pbdoc")
+            "from_"_a, "to"_a, "scale"_a, R"pbdoc(Linearly scales the output of the node to the range `from_` ... `to`, with scale `scale`)pbdoc")
 
         /*--------------------------------------------------------------------------------
          * Convenience methods to play/stop a Node.

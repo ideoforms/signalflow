@@ -56,7 +56,9 @@ pip3 install .
 
 The build process for SignalFlow on 64-bit Windows has been verified with Visual Studio 2022 and CMake.
 
-- Download Windows binaries of [FFTW](http://fftw.org/install/windows.html) and [libsndfile](https://github.com/libsndfile/libsndfile/releases/), and unzip them in the same filesystem location as the `signalflow` source directory
+- Download Windows binaries of [FFTW](http://fftw.org/install/windows.html) (`fftw-3.3.5-dll64.zip`) and [libsndfile](https://github.com/libsndfile/libsndfile/releases/) (`libsndfile-1.2.2-win64.zip`), and unzip them in the same filesystem location as the `signalflow` source directory, as `fftw-3.3.5-dll64` and `libsndfile-1.2.2-win64`
+- Generate FFTW's import libraries: in a Visual Studio Developer Command Prompt, within `fftw-3.3.5-dll64`, run `lib /machine:x64 /def:libfftw3-3.def`, and the same for `libfftw3f-3.def` and `libfftw3l-3.def`
+- Install zlib (required by libmysofa), e.g. with vcpkg: `vcpkg install zlib:x64-windows-static-md`, and set `CMAKE_PREFIX_PATH` to the vcpkg `installed\x64-windows-static-md` directory
 - Install Python 3, and dependencies: `python -m pip install build delvewheel`
 - Build the binary wheel: `python -m build --wheel`
 - Copy the libsndfile and fftw binaries into `dlls`
@@ -100,7 +102,6 @@ To author a new Node class:
 - Regenerate the auto-generated bindings and docs: `auxiliary/scripts/auto-generator.py --library --readme --bindings`
 - Add unit tests to the appropriate test script in `tests`
 - Re-run the tests: `python3 -m pytest`
-- Update the stubs (see [Generating stubs](#generating-stubs))
 
 Note that, to comply with the registry system, all arguments to Node constructors must have default values so that the Node class can be instantiated with a zero-argument syntax, e.g. `NodeClass()`.
 
@@ -133,7 +134,7 @@ For each new release:
 - Add a git version tag in the format `v1.2.34`, and push it: `git push origin master v1.2.34`
 - The workflow then:
   - checks that the tag matches the version in `setup.cfg`
-  - builds and tests Linux wheels (x86_64 and aarch64, for Raspberry Pi)
+  - builds and tests wheels for Linux (x86_64 and aarch64, for Raspberry Pi) and Windows (x64)
   - creates a draft GitHub release, with the wheels attached and the `CHANGELOG` entry as the release body
 - Review the draft release, then approve the `pypi` deployment in the workflow run (Actions → the run → Review deployments). The wheels are then published to PyPI, and the GitHub release is published.
 - Build macOS wheels manually using `auxiliary/cibuildwheel/make-macos-x86-arm64.sh`, then upload them to PyPI and the GitHub release:
@@ -173,10 +174,12 @@ mkdocs gh-deploy
 
 ### Generating stubs
 
-To generate [stubs](https://peps.python.org/pep-0561/) for IDE type hinting and inline documentation, the [pybind11-stubgen](https://github.com/sizmailov/pybind11-stubgen) package is required. Once installed, run:
+[Stubs](https://peps.python.org/pep-0561/) for IDE type hinting and inline documentation are generated automatically during the build with [pybind11-stubgen](https://github.com/sizmailov/pybind11-stubgen) (see `generate_stubs()` in `setup.py`). The `signalflow-stubs` package is bundled with the standard SignalFlow wheel.
+
+To generate stubs manually (for example, to inspect them), with pybind11-stubgen installed, run:
 
 ```
 pybind11-stubgen -o auxiliary/libs/signalflow-stubs signalflow
 ```
 
-The `signalflow-stubs` package is bundled with the standard SignalFlow wheel, and as per [PEP 561's convention for stub-only packages](https://peps.python.org/pep-0561/#stub-only-packages), should be used by IDEs to display type hints and docs. This has been verified in Visual Studio Code 1.84.1.
+Note that argument names in the Python bindings must not be Python keywords (e.g. `from`), as this generates invalid stubs.
