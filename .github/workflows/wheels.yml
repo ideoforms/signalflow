@@ -34,9 +34,7 @@ jobs:
       matrix:
         # Linux x86_64 and aarch64 (e.g. 64-bit Raspberry Pi OS), and Windows x64,
         # all built natively.
-        # TEMPORARY: Windows only, for testing. Restore to:
-        # os: [ubuntu-24.04, ubuntu-24.04-arm, windows-latest]
-        os: [windows-latest]
+        os: [ubuntu-24.04, ubuntu-24.04-arm, windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -117,9 +115,7 @@ jobs:
           # Free-threaded builds are skipped, as SignalFlow has not been verified as
           # safe to run without the GIL.
           #--------------------------------------------------------------------------------
-          # TEMPORARY: Python 3.12 on Windows only, for testing. Restore to:
-          # CIBW_BUILD: cp3*-manylinux_* cp3*-win_amd64
-          CIBW_BUILD: cp312-win_amd64
+          CIBW_BUILD: cp3*-manylinux_* cp3*-win_amd64
           CIBW_SKIP: cp3??t-*
           CIBW_ARCHS_LINUX: native
           CIBW_ARCHS_WINDOWS: AMD64
