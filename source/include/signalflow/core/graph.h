@@ -89,17 +89,6 @@ public:
     void poll(float frequency = 0.0);
 
     /**--------------------------------------------------------------------------------
-     * Perform batch (offline) processing of a given node graph.
-     * This should now be deprecated in favour of the improved render functions.
-     *
-     * @param root The root node to begin process from.
-     * @param num_frames The number of frames to render.
-     * @param block_size The size of each chunk to process.
-     *
-     *--------------------------------------------------------------------------------*/
-    // void process(const NodeRef &root, int num_frames, int block_size = SIGNALFLOW_DEFAULT_BLOCK_SIZE);
-
-    /**--------------------------------------------------------------------------------
      * Render the entire graph.
      *  - Reset "rendered" flags
      *  - Perform a recursive render from the output node
@@ -138,8 +127,8 @@ public:
      *
      *--------------------------------------------------------------------------------*/
     void render_to_buffer(BufferRef buffer);
-
     void render_subgraph_to_buffer(const NodeRef &node, BufferRef buffer);
+    BufferRef render_subgraph_to_new_buffer(const NodeRef &node, int num_frames);
 
     /**--------------------------------------------------------------------------------
      * Allocate an output buffer of specified duration, and render the graph to it.

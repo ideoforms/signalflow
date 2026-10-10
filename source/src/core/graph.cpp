@@ -609,6 +609,13 @@ void AudioGraph::render_subgraph_to_buffer(const NodeRef &node, BufferRef buffer
     }
 }
 
+BufferRef AudioGraph::render_subgraph_to_new_buffer(const NodeRef &node, int num_frames)
+{
+    BufferRef buffer = new Buffer(node->get_num_output_channels(), num_frames);
+    this->render_subgraph_to_buffer(node, buffer);
+    return buffer;
+}
+
 void AudioGraph::render_to_buffer(BufferRef buffer)
 {
     this->render_subgraph_to_buffer(this->output, buffer);
