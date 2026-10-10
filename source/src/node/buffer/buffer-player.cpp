@@ -122,13 +122,27 @@ void BufferPlayer::process(Buffer &out, int num_frames)
         }
     }
 
+    /*--------------------------------------------------------------------------------
+     * Keep playback state in local variables during the loop. Accessing the members
+     * directly forces a load and store per sample, as the compiler cannot rule out
+     * that they alias the output buffer.
+     *--------------------------------------------------------------------------------*/
+    Buffer *buffer = this->buffer.get();
+    Node *clock = this->clock.get();
+    double phase = this->phase;
+    double rate_scale_factor = this->rate_scale_factor;
+    int loop_direction = this->loop_direction;
+
     for (int frame = 0; frame < num_frames; frame++)
     {
         float rate = this->rate->out[0][frame];
 
-        if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
+        if (SIGNALFLOW_CHECK_TRIGGER(clock, frame))
         {
+            // trigger() resets this->phase
+            this->phase = phase;
             this->trigger();
+            phase = this->phase;
         }
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
@@ -138,15 +152,15 @@ void BufferPlayer::process(Buffer &out, int num_frames)
             }
             else
             {
-                s = this->buffer->get_frame(channel, phase);
+                s = buffer->get_frame(channel, phase);
             }
 
             out[channel][frame] = s;
         }
 
-        this->phase += this->loop_direction * rate * this->rate_scale_factor;
+        phase += loop_direction * rate * rate_scale_factor;
 
-        if (this->phase < start_frame || (int) this->phase >= end_frame)
+        if (phase < start_frame || (int) phase >= end_frame)
         {
             // Player is beyond the start or end of the buffer
             int loop = this->loop->out[0][frame];
@@ -160,15 +174,15 @@ void BufferPlayer::process(Buffer &out, int num_frames)
             else if (loop == 1)
             {
                 // This should be set to correct the loop dir in case we have transitioned from loop == 2
-                this->loop_direction = 1;
+                loop_direction = 1;
 
                 if (rate < 0)
                 {
-                    this->phase = end_frame - 1;
+                    phase = end_frame - 1;
                 }
                 else if (rate > 0)
                 {
-                    this->phase = start_frame;
+                    phase = start_frame;
                 }
                 else
                 {
@@ -177,19 +191,22 @@ void BufferPlayer::process(Buffer &out, int num_frames)
             }
             else if (loop == 2)
             {
-                if (this->phase < start_frame)
+                if (phase < start_frame)
                 {
-                    this->phase = start_frame;
-                    this->loop_direction = rate > 0 ? 1 : -1;
+                    phase = start_frame;
+                    loop_direction = rate > 0 ? 1 : -1;
                 }
                 else
                 {
-                    this->phase = end_frame - 1;
-                    this->loop_direction = rate > 0 ? -1 : 1;
+                    phase = end_frame - 1;
+                    loop_direction = rate > 0 ? -1 : 1;
                 }
             }
         }
     }
+
+    this->phase = phase;
+    this->loop_direction = loop_direction;
 }
 
 PropertyRef BufferPlayer::get_property(std::string name)
