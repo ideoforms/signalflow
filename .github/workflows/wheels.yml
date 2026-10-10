@@ -1,9 +1,30 @@
+#--------------------------------------------------------------------------------
+# Build wheels, and publish releases.
+#
+# Pushing a version tag (e.g. v0.5.6) runs the full release process:
+#  - build and test Linux wheels (x86_64 and aarch64)
+#  - create a draft GitHub release, with the wheels attached and release notes
+#    taken from the corresponding CHANGELOG.md entry
+#  - publish to PyPI, after approval via the `pypi` environment
+#  - publish the GitHub release
+#
+# Tags with a pre-release suffix (e.g. v0.6.0rc1) are marked as pre-releases on
+# GitHub, and treated as pre-releases by pip.
+#
+# Running the workflow manually (workflow_dispatch) only builds and tests wheels.
+# macOS wheels are currently built manually; see CONTRIBUTING.md.
+#--------------------------------------------------------------------------------
+
 name: Build wheels
 
 on:
   workflow_dispatch:
-  release:
-    types: [published]
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: read
 
 jobs:
   build_wheels:
@@ -12,15 +33,23 @@ jobs:
     strategy:
       matrix:
         # x86_64 and aarch64 (e.g. 64-bit Raspberry Pi OS), built natively
-        # TEMPORARY: aarch64 only, for testing. Restore to:
-        # os: [ubuntu-24.04, ubuntu-24.04-arm]
-        os: [ubuntu-24.04-arm]
+        os: [ubuntu-24.04, ubuntu-24.04-arm]
 
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+
+      - name: Check that tag matches version in setup.cfg
+        if: github.event_name == 'push'
+        run: |
+          TAG_VERSION="${GITHUB_REF_NAME#v}"
+          SETUP_VERSION=$(python -c "import configparser; c = configparser.ConfigParser(); c.read('setup.cfg'); print(c['metadata']['version'])")
+          if [ "$TAG_VERSION" != "$SETUP_VERSION" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match version $SETUP_VERSION in setup.cfg"
+            exit 1
+          fi
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==4.3.1
@@ -34,8 +63,7 @@ jobs:
           # Free-threaded builds are skipped, as SignalFlow has not been verified as
           # safe to run without the GIL.
           #--------------------------------------------------------------------------------
-          # TEMPORARY: Python 3.9 only, for testing. Restore to: cp3*-manylinux_*
-          CIBW_BUILD: cp39-manylinux_*
+          CIBW_BUILD: cp3*-manylinux_*
           CIBW_SKIP: cp3??t-*
           CIBW_ARCHS_LINUX: native
           CIBW_BUILD_VERBOSITY: 1
@@ -43,13 +71,16 @@ jobs:
           #--------------------------------------------------------------------------------
           # Linux wheels are built in the manylinux_2_28 image (AlmaLinux 8).
           #  - fftw and alsa are available as system packages
+          #  - codec libraries are installed so that libsndfile supports FLAC, Ogg Vorbis,
+          #    Opus and MP3 (some of which are in the powertools repo); these are
+          #    bundled into the wheel by auditwheel
           #  - libsndfile is built from source, as the system package (1.0.28) is outdated.
           #    CMAKE_POLICY_VERSION_MINIMUM is required as libsndfile 1.2.2 declares
           #    compatibility with CMake < 3.5, which CMake 4 no longer supports.
           #  - JACK and ALSA are loaded by miniaudio at runtime, so are not linked here
           #--------------------------------------------------------------------------------
           CIBW_BEFORE_ALL_LINUX: >
-             yum install -y fftw-devel alsa-lib-devel &&
+             yum install -y --enablerepo=powertools fftw-devel alsa-lib-devel flac-devel libogg-devel libvorbis-devel opus-devel lame-devel mpg123-devel &&
              git clone --depth 1 --branch 1.2.2 https://github.com/libsndfile/libsndfile.git /tmp/libsndfile &&
              cmake -S /tmp/libsndfile -B /tmp/libsndfile/build -DBUILD_SHARED_LIBS=1 -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5 &&
              cmake --build /tmp/libsndfile/build -j4 &&
@@ -59,15 +90,114 @@ jobs:
 
           #--------------------------------------------------------------------------------
           # Run the test suite against each built wheel. Tests are run from the project
-          # directory, as some tests load audio files via relative paths.
+          # directory, as some tests load audio files via relative paths. First, verify
+          # that signalflow is imported from the installed wheel, rather than from the
+          # build directory within the project.
           #--------------------------------------------------------------------------------
           CIBW_TEST_REQUIRES: pytest numpy scipy
-          CIBW_TEST_COMMAND: cd {project} && python -m pytest tests
+          CIBW_TEST_COMMAND: >
+             cd {project} &&
+             python -c "import signalflow; print('Testing', signalflow.__file__); assert 'site-packages' in signalflow.__file__" &&
+             python -m pytest tests
 
-      #--------------------------------------------------------------------------------
-      # Artifact names must be unique per matrix job.
-      #--------------------------------------------------------------------------------
       - uses: actions/upload-artifact@v4
         with:
           name: wheels-${{ matrix.os }}
           path: ./wheelhouse/*.whl
+
+  github_release:
+    name: Create draft GitHub release
+    needs: build_wheels
+    if: github.event_name == 'push'
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          path: dist
+          merge-multiple: true
+
+      - name: Extract release notes from CHANGELOG.md
+        run: |
+          # Take the lines between a version's heading and the next heading
+          extract_notes() {
+            awk -v tag="[$1]" '
+              /^## / { if (found) exit; if (index($0, tag)) { found = 1; next } }
+              found { print }
+            ' CHANGELOG.md
+          }
+          extract_notes "$GITHUB_REF_NAME" > notes.md
+
+          # For pre-release tags (e.g. v0.6.0rc1), fall back to the notes for the
+          # corresponding release (v0.6.0), so that each release candidate does not
+          # need its own CHANGELOG entry.
+          if ! grep -q '[^[:space:]]' notes.md; then
+            BASE_TAG=$(echo "$GITHUB_REF_NAME" | sed -E 's/(a|b|rc|dev)[0-9]+$//')
+            extract_notes "$BASE_TAG" > notes.md
+          fi
+
+          if ! grep -q '[^[:space:]]' notes.md; then
+            echo "::error::No entry found for $GITHUB_REF_NAME in CHANGELOG.md"
+            exit 1
+          fi
+          cat notes.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Create draft release
+        run: |
+          PRERELEASE=""
+          if [[ "$GITHUB_REF_NAME" =~ (a|b|rc|dev)[0-9]+$ ]]; then
+            PRERELEASE="--prerelease"
+          fi
+          if gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            # Release already exists (e.g. workflow re-run): update notes and wheels
+            gh release edit "$GITHUB_REF_NAME" --notes-file notes.md
+            gh release upload "$GITHUB_REF_NAME" dist/*.whl --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" dist/*.whl --draft $PRERELEASE \
+              --title "$GITHUB_REF_NAME" --notes-file notes.md --verify-tag
+          fi
+
+  publish_pypi:
+    name: Publish to PyPI
+    needs: github_release
+    runs-on: ubuntu-24.04
+    #--------------------------------------------------------------------------------
+    # The `pypi` environment requires approval before this job runs. PyPI trusted
+    # publishing is configured to only accept uploads from this environment.
+    #--------------------------------------------------------------------------------
+    environment:
+      name: pypi
+      url: https://pypi.org/project/signalflow/
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: wheels-*
+          path: dist
+          merge-multiple: true
+
+      - uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
+
+  publish_github_release:
+    name: Publish GitHub release
+    needs: publish_pypi
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Publish draft release
+        run: gh release edit "$GITHUB_REF_NAME" --draft=false --repo "$GITHUB_REPOSITORY"

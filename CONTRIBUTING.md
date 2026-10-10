@@ -124,19 +124,26 @@ python3 -m pytest
 
 ## Release
 
+Releases are built and published by the `Build wheels` GitHub Actions workflow (`.github/workflows/wheels.yml`) when a version tag is pushed.
+
 For each new release:
 
 - Update the version in `setup.cfg`
-- Add entry to `CHANGELOG.md`
+- Add an entry to `CHANGELOG.md`, with a heading in the format `## [v1.2.34](...) (date)`
 - Commit changes
-- Add a git version tag, in format `v1.2.34`
-- Add a GitHub release with title `v1.2.34`, using the latest `CHANGELOG` entry as the release body 
-- Build new wheels:
-  - Linux x86: wheels are automatically built using GitHub actions
-  - Linux rpi: wheels must be built manually using `auxiliary/cibuildwheel/make-raspberry-pi-aarch64.sh`
-  - macOS: wheels must be built manually using `auxiliary/cibuildwheel/make-macos-x86-arm64.sh`
-  - Windows: wheels must be built manually: `python -m cibuildwheel`, and renamed from `win32` to `win_amd64`
-- Upload wheels to pypi: `twine upload wheelhouse/1.2.34/*`
+- Add a git version tag in the format `v1.2.34`, and push it: `git push origin master v1.2.34`
+- The workflow then:
+  - checks that the tag matches the version in `setup.cfg`
+  - builds and tests Linux wheels (x86_64 and aarch64, for Raspberry Pi)
+  - creates a draft GitHub release, with the wheels attached and the `CHANGELOG` entry as the release body
+- Review the draft release, then approve the `pypi` deployment in the workflow run (Actions → the run → Review deployments). The wheels are then published to PyPI, and the GitHub release is published.
+- Build macOS wheels manually using `auxiliary/cibuildwheel/make-macos-x86-arm64.sh`, then upload them to PyPI and the GitHub release:
+  - `twine upload wheelhouse/*.whl`
+  - `gh release upload v1.2.34 wheelhouse/*.whl`
+
+To test the release process, push a pre-release tag such as `v1.2.34rc1` (with a matching version in `setup.cfg`). This is marked as a pre-release on GitHub, and is not installed by pip unless explicitly requested. Pre-release tags use the `CHANGELOG` entry for the corresponding release (here, `v1.2.34`).
+
+To build and test wheels without releasing, run the workflow manually (Actions → Build wheels → Run workflow).
 
 ## Documentation
 
