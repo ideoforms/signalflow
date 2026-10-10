@@ -38,6 +38,8 @@ void ADSREnvelope::trigger(std::string name, float value)
 void ADSREnvelope::process(Buffer &out, int num_frames)
 {
     float phase_step = 1.0f / this->graph->get_sample_rate();
+    float last_level = NAN;
+    float last_rv = 0.0;
 
     for (int frame = 0; frame < num_frames; frame++)
     {
@@ -103,23 +105,33 @@ void ADSREnvelope::process(Buffer &out, int num_frames)
         }
         this->phase += phase_step;
 
-        float rv = 0.0;
-        if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
+        /*------------------------------------------------------------------------
+         * Only recalculate the curve when the level changes, as the level is
+         * frequently constant (during sustain, or after the envelope has finished)
+         * and the exponential curve is relatively expensive.
+         *-----------------------------------------------------------------------*/
+        if (this->level != last_level)
         {
-            if (this->level > 0)
+            last_level = this->level;
+            last_rv = 0.0;
+            if (this->curve == SIGNALFLOW_CURVE_EXPONENTIAL)
             {
-                rv = signalflow_db_to_amplitude((this->level - 1) * 60);
+                if (this->level > 0)
+                {
+                    last_rv = signalflow_db_to_amplitude((this->level - 1) * 60);
+                }
+            }
+            else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
+            {
+                // no adjustment needed
+                last_rv = this->level;
+            }
+            else
+            {
+                signalflow_audio_thread_error("ADSREnvelope: Invalid curve value");
             }
         }
-        else if (this->curve == SIGNALFLOW_CURVE_LINEAR)
-        {
-            // no adjustment needed
-            rv = this->level;
-        }
-        else
-        {
-            signalflow_audio_thread_error("ADSREnvelope: Invalid curve value");
-        }
+        float rv = last_rv;
 
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {

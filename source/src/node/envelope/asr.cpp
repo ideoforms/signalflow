@@ -41,41 +41,49 @@ void ASREnvelope::trigger(std::string name, float value)
 void ASREnvelope::process(Buffer &out, int num_frames)
 {
     sample rv;
+    double phase_step = 1.0 / this->graph->get_sample_rate();
+    Node *clock = this->clock.get();
 
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        /*--------------------------------------------------------------------------------
+         * Keep phase in a local variable during the loop, to avoid a load and store
+         * per sample (see SineOscillator).
+         *--------------------------------------------------------------------------------*/
+        float phase = this->phase[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            bool trigger = SIGNALFLOW_CHECK_CHANNEL_TRIGGER(this->clock, channel, frame);
+            bool trigger = SIGNALFLOW_CHECK_CHANNEL_TRIGGER(clock, channel, frame);
             if (trigger)
             {
-                this->phase[channel] = 0.0;
+                phase = 0.0;
             }
 
             float attack = this->attack->out[channel][frame];
             float sustain = this->sustain->out[channel][frame];
             float release = this->release->out[channel][frame];
 
-            if (this->phase[channel] < attack)
+            if (phase < attack)
             {
                 /*------------------------------------------------------------------------
                  * Attack phase.
                  *-----------------------------------------------------------------------*/
-                rv = (this->phase[channel] / attack);
+                rv = (phase / attack);
             }
-            else if (this->phase[channel] <= attack + sustain)
+            else if (phase <= attack + sustain)
             {
                 /*------------------------------------------------------------------------
                  * Sustain phase.
                  *-----------------------------------------------------------------------*/
                 rv = 1.0;
             }
-            else if (this->phase[channel] < attack + sustain + release)
+            else if (phase < attack + sustain + release)
             {
                 /*------------------------------------------------------------------------
                  * Release phase.
                  *-----------------------------------------------------------------------*/
-                rv = 1.0 - (this->phase[channel] - (attack + sustain)) / release;
+                rv = 1.0 - (phase - (attack + sustain)) / release;
             }
             else
             {
@@ -90,7 +98,7 @@ void ASREnvelope::process(Buffer &out, int num_frames)
                 }
             }
 
-            this->phase[channel] += 1.0 / this->graph->get_sample_rate();
+            phase += phase_step;
 
             if (this->curve->out[channel][frame] != 1.0)
             {
@@ -99,6 +107,7 @@ void ASREnvelope::process(Buffer &out, int num_frames)
 
             out[channel][frame] = rv;
         }
+        this->phase[channel] = phase;
     }
 }
 
