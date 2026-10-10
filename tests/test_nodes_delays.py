@@ -31,6 +31,18 @@ def test_comb_delay(graph):
     assert np.all(output[11:20] == 0.0)
     assert output[20] == 0.25
 
+def test_comb_delay_zero_delay(graph):
+    graph.sample_rate = 100
+
+    #--------------------------------------------------------------------------------
+    # Delay times shorter than one sample are treated as a one-sample delay
+    #--------------------------------------------------------------------------------
+    i = Impulse(0)
+    a = CombDelay(i, 0.0, 0.5)
+    graph.render_subgraph(a, reset=True)
+    output = a.output_buffer[0]
+    assert list(output[:5]) == [1.0, 0.5, 0.25, 0.125, 0.0625]
+
 def test_one_tap_delay(graph):
     graph.sample_rate = 100
 

@@ -47,6 +47,13 @@ void CombDelay::process(Buffer &out, int num_frames)
                 return;
             }
 
+            /*------------------------------------------------------------------------
+             * The feedback path can't be shorter than one sample, as the current
+             * output sample hasn't yet been written to the buffer.
+             *-----------------------------------------------------------------------*/
+            if (offset < 1)
+                offset = 1;
+
             sample rv = input->out[channel][frame] + (feedback * buffers[channel]->get(-offset + 1));
             out[channel][frame] = rv;
             buffers[channel]->append(rv);

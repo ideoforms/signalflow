@@ -108,7 +108,7 @@ T RingBuffer<T>::get(int index)
     int frame = index + this->write_position;
     while (frame < 0)
         frame += this->capacity;
-    while ((unsigned int) frame > this->capacity)
+    while ((unsigned int) frame >= this->capacity)
         frame -= this->capacity;
 
     return this->data[frame];
@@ -120,7 +120,7 @@ T RingBuffer<T>::get(double index)
     double frame = index + this->write_position;
     while (frame < 0)
         frame += this->capacity;
-    while (frame > this->capacity)
+    while (frame >= this->capacity)
         frame -= this->capacity;
 
     T rv;

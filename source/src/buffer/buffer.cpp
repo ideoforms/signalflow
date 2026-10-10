@@ -208,7 +208,7 @@ void Buffer::load(std::string filename)
     sample *buffer = new sample[samples_per_read];
     unsigned int total_frames_read = 0;
 
-    while (true)
+    while (total_frames_read < this->num_frames)
     {
         int count = sf_readf_float(sndfile, buffer, frames_per_read);
         for (int frame = 0; frame < count; frame++)
@@ -329,7 +329,8 @@ std::vector<BufferRef> Buffer::load_directory(std::string directory_path, std::v
             for (auto extension : extensions)
             {
                 std::transform(filename.begin(), filename.end(), filename.begin(), [](unsigned char c) { return std::tolower(c); });
-                if (filename.compare(filename.length() - extension.length(), extension.length(), extension) == 0)
+                if (filename.length() >= extension.length()
+                    && filename.compare(filename.length() - extension.length(), extension.length(), extension) == 0)
                 {
                     match = true;
                     break;

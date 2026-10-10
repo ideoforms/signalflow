@@ -232,6 +232,40 @@ def test_buffer_save(graph):
     os.unlink(BUFFER_FILENAME)
 
 
+def test_buffer_load_into_smaller_buffer(graph, tmp_path):
+    #--------------------------------------------------------------------------------
+    # Loading a file into a pre-allocated buffer should read only as many frames
+    # as the buffer can hold, without writing past the end of the allocation.
+    #--------------------------------------------------------------------------------
+    path = str(tmp_path / "long.wav")
+    source = Buffer(1, graph.sample_rate)
+    source.fill(0.5)
+    source.save(path)
+
+    buffers = [Buffer(1, 100) for _ in range(50)]
+    for buf in buffers:
+        buf.fill(7)
+    target = buffers[25]
+    target.load(path)
+
+    assert np.all(target.data[0] == pytest.approx(0.5, abs=0.001))
+    for index, buf in enumerate(buffers):
+        if index != 25:
+            assert np.all(buf.data[0] == 7)
+
+
+def test_buffer_load_directory(graph, tmp_path):
+    buf = Buffer(1, 1024)
+    buf.save(str(tmp_path / "sound.wav"))
+
+    # Files with names shorter than the extension should be skipped
+    (tmp_path / "a").touch()
+
+    buffers = Buffer.load_directory(str(tmp_path))
+    assert len(buffers) == 1
+    assert buffers[0].num_frames == 1024
+
+
 def test_buffer_2d(graph):
     b1 = Buffer([1, 5, 9])
     b2 = Buffer([2, 4, 5])
@@ -276,6 +310,19 @@ def test_ring_buffer():
     assert buf.get(0) == 3
     assert buf.get(-1) == 2
     assert buf.get(-2) == 1
+
+def test_ring_buffer_wrap():
+    #--------------------------------------------------------------------------------
+    # Indices that land exactly on the buffer's capacity should wrap around to the
+    # start of the buffer.
+    #--------------------------------------------------------------------------------
+    buf = SampleRingBuffer(4)
+    buf.extend([1, 2, 3, 4])
+    assert buf.get(0) == 4
+    assert buf.get(1) == 1
+    assert buf.get(-3) == 1
+    assert buf.get(1.0) == 1
+    assert buf.get(0.5) == 2.5
 
 def test_ring_queue():
     queue = SampleRingQueue(128)

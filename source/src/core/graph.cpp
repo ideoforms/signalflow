@@ -153,7 +153,7 @@ void AudioGraph::init()
 
     this->recording_fd = NULL;
     this->recording_num_channels = 0;
-    this->recording_buffer = (float *) calloc(SIGNALFLOW_DEFAULT_BLOCK_SIZE * SIGNALFLOW_MAX_CHANNELS, sizeof(float));
+    this->recording_buffer = nullptr;
 }
 
 void AudioGraph::start()
@@ -249,6 +249,7 @@ void AudioGraph::destroy()
         }
         this->output = nullptr;
     }
+    this->stop_recording();
 }
 
 AudioGraph::~AudioGraph()
@@ -770,20 +771,50 @@ void AudioGraph::start_recording(const std::string &filename, int num_channels)
     {
         num_channels = this->output->get_num_input_channels();
     }
+    if (num_channels > this->output->get_num_output_channels_allocated())
+    {
+        throw std::runtime_error("Cannot record " + std::to_string(num_channels) + " channels, as the output only has "
+                                 + std::to_string(this->output->get_num_output_channels_allocated()) + " channels");
+    }
+    if (this->recording_fd)
+    {
+        this->stop_recording();
+    }
     info.channels = num_channels;
     info.samplerate = (int) this->sample_rate;
     info.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
 
-    this->recording_num_channels = num_channels;
-    this->recording_fd = sf_open(filename.c_str(), SFM_WRITE, &info);
-
-    if (!this->recording_fd)
+    SNDFILE *recording_fd = sf_open(filename.c_str(), SFM_WRITE, &info);
+    if (!recording_fd)
     {
         throw std::runtime_error(std::string("Failed to write soundfile (") + std::string(sf_strerror(NULL)) + ")");
     }
+
+    /*------------------------------------------------------------------------
+     * Interleaved buffer for one block of output. Sized for the output
+     * node's full buffer length, as render() may be called with any
+     * num_frames up to that length.
+     *
+     * recording_fd is assigned last, as render() checks it to determine
+     * whether the recording buffer is ready to be written to.
+     *-----------------------------------------------------------------------*/
+    this->recording_buffer = new float[this->output->get_output_buffer_length() * num_channels]();
+    this->recording_num_channels = num_channels;
+    this->recording_fd = recording_fd;
 }
 
-void AudioGraph::stop_recording() { sf_close(this->recording_fd); }
+void AudioGraph::stop_recording()
+{
+    if (!this->recording_fd)
+    {
+        return;
+    }
+    SNDFILE *recording_fd = this->recording_fd;
+    this->recording_fd = NULL;
+    sf_close(recording_fd);
+    delete[] this->recording_buffer;
+    this->recording_buffer = nullptr;
+}
 
 void AudioGraph::show_structure()
 {

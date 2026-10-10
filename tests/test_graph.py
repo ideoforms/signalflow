@@ -1,4 +1,4 @@
-from signalflow import AudioGraph, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add, Sum
+from signalflow import AudioGraph, AudioGraphConfig, AudioOut_Dummy, Buffer, SineOscillator, Line, Constant, Add, Sum
 from signalflow import InsufficientBufferSizeException, AudioIOException
 from . import count_zero_crossings, graph
 import pytest
@@ -135,3 +135,49 @@ def test_graph_render_subgraph_to_buffer(graph):
 
     with pytest.raises(RuntimeError):
         graph.render_subgraph_to_buffer(e, buf)
+def test_graph_recording(graph, tmp_path):
+    path = str(tmp_path / "recording.wav")
+    graph.play(Constant(0.5))
+    graph.start_recording(path)
+    for _ in range(4):
+        graph.render()
+    graph.stop_recording()
+
+    # Rendering after the recording has stopped should not write to the file,
+    # and stopping a second time should be a no-op
+    graph.render()
+    graph.stop_recording()
+
+    buf = Buffer(path)
+    assert buf.num_channels == 2
+    assert buf.num_frames == 4 * graph.output_buffer_size
+    assert np.all(buf.data[0] == pytest.approx(0.5, abs=0.001))
+    assert np.all(buf.data[1] == 0)
+
+def test_graph_recording_multichannel(tmp_path):
+    #--------------------------------------------------------------------------------
+    # Record more channels and frames per block than the default block size
+    # and channel count would allow for.
+    #--------------------------------------------------------------------------------
+    config = AudioGraphConfig()
+    config.output_buffer_size = 2048
+    output = AudioOut_Dummy(num_channels=16, buffer_size=2048)
+    graph = AudioGraph(config=config, output_device=output, start=False)
+    try:
+        path = str(tmp_path / "recording.wav")
+        graph.play(Constant(0.5))
+        graph.start_recording(path)
+        for _ in range(4):
+            graph.render()
+        graph.stop_recording()
+
+        buf = Buffer(path)
+        assert buf.num_channels == 16
+        assert buf.num_frames == 4 * 2048
+        assert np.all(buf.data[0] == pytest.approx(0.5, abs=0.001))
+        assert np.all(buf.data[1:] == 0)
+
+        with pytest.raises(RuntimeError):
+            graph.start_recording(path, 17)
+    finally:
+        graph.destroy()
