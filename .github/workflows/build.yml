@@ -14,7 +14,7 @@ jobs:
       run: |
         sudo rm -rf /home/linuxbrew
         sudo apt-get update -y
-        sudo apt-get install libasound2-dev libsndfile1-dev fftw3-dev -y
+        sudo apt-get install libasound2-dev libsndfile1-dev libfftw3-dev -y
         # Requires setuptools >= 62.1 for `python setup.py test`, as earlier versions
         # used a different build path to the .so file as located in tests/__init__.py
         # 2024-07-29: Require importlib_metadata for now due to this:

@@ -37,8 +37,7 @@ SignalFlow supports Linux (verified on Ubuntu 20.04 and Raspberry Pi OS buster) 
 
 To build the Python library from source on Linux, install dependencies with apt:
 ```
-# If on Raspberry Pi: libfftw3-dev
-apt-get install -y git cmake g++ python3-pip libasound2-dev libsndfile1-dev fftw3-dev
+apt-get install -y git cmake g++ python3-pip libasound2-dev libsndfile1-dev libfftw3-dev
 # Note that SignalFlow is currently working with a dev branch of miniaudio which solves some alsa issues
 curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
 ```
