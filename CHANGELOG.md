@@ -1,5 +1,19 @@
 # CHANGELOG
 
+## [v0.6.0](https://github.com/ideoforms/signalflow/tree/v0.6.0) (2026-10-10)
+
+- Improved thread-safe implementation of graph changes, via `AudioGraphChange`
+- Added support for multiple `AudioIn` instances, via `AudioInputManager`
+- Many CPU optimisations (including `RingBuffer`, `SVFilter`, `BufferPlayer`, `WhiteNoise`, oscillators)
+- Added `AudioGraph::render_subgraph_to_new_buffer`
+- Fixed bugs in `Compressor`, `fold`, `wrap`, `Envelope` curves
+- Fixed `Buffer::load_directory` for Win32
+- `Impulse`: Add `trigger()` to generate an impulse
+- `NearestNeighbour`: Add support for querying the Nth nearest neighbour
+- `signalflow_midi`: Allow multiple device names to be specified for fallback device support
+- Updated minimum Python version to 3.9, and extended support/build up to 3.15
+- Integrated automatic build and PyPI publish actions for Linux x86, Linux arm64 (Raspberry Pi), Windows
+
 ## [v0.5.5](https://github.com/ideoforms/signalflow/tree/v0.5.5) (2026-10-01)
 
 - Added `signalflow_vscode` Visual Studio Code extension support
