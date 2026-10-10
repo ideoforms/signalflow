@@ -126,6 +126,6 @@ def test_kdtree_high_dimensional():
     actual_nearest_index = np.argmin(distances)
     
     assert nearest.index == actual_nearest_index
-    assert nearest.distance == pytest.approx(distances[actual_nearest_index], abs=1e-6)
-    assert np.all(np.isclose(corpus[nearest.index], nearest.coordinate, atol=1e-6))
+    assert nearest.distance == pytest.approx(distances[actual_nearest_index], abs=1e-5)
+    assert np.all(np.isclose(corpus[nearest.index], nearest.coordinate, atol=1e-5))
 

@@ -206,7 +206,7 @@ void init_python_node(py::module &m)
                  *-------------------------------------------------------------------------------*/
                 py::str dummy_data_owner;
                 return py::array_t<float>(
-                    { node.get_num_output_channels_allocated(), node.last_num_frames },
+                    { node.get_num_output_channels_allocated(), node.get_output_buffer_length() },
                     { sizeof(float) * node.get_output_buffer_length(), sizeof(float) },
                     node.out[0],
                     dummy_data_owner);

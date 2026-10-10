@@ -14,7 +14,7 @@ def test_node_no_graph():
 def test_node_process(graph):
     a = SineOscillator(440)
     a.process(1024)
-    assert a.output_buffer.shape == (SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS, 1024)
+    assert a.output_buffer.shape == (SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS, a.output_buffer_length)
 
 
 def test_node_add_input(graph):

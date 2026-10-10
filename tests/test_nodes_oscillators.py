@@ -41,10 +41,10 @@ def test_nodes_oscillators_saw(graph):
     graph.render_subgraph(a, graph.sample_rate)
 
     expected0 = np.arange(-1, 1, 2 / graph.sample_rate)
-    assert a.output_buffer[0] == pytest.approx(expected0)
+    assert a.output_buffer[0][:graph.sample_rate] == pytest.approx(expected0)
 
     expected1 = np.concatenate((np.arange(-1, 1, 4 / graph.sample_rate), np.arange(-1, 1, 4 / graph.sample_rate)))
-    assert a.output_buffer[1] == pytest.approx(expected1)
+    assert a.output_buffer[1][:graph.sample_rate] == pytest.approx(expected1)
 
 
 def test_nodes_oscillators_triangle(graph):
@@ -88,17 +88,17 @@ def test_nodes_oscillators_impulse(graph):
     a = sf.Impulse([0, 1, 2])
     graph.sample_rate = 16
     graph.render_subgraph(a, graph.sample_rate * 2)
-    assert np.array_equal(a.output_buffer[0], np.concatenate((
+    assert np.array_equal(a.output_buffer[0][:graph.sample_rate * 2], np.concatenate((
         np.ones(1),
         np.zeros(graph.sample_rate * 2 - 1)
     )))
-    assert np.array_equal(a.output_buffer[1], np.concatenate((
+    assert np.array_equal(a.output_buffer[1][:graph.sample_rate * 2], np.concatenate((
         np.ones(1),
         np.zeros(graph.sample_rate - 1),
         np.ones(1),
         np.zeros(graph.sample_rate - 1)
     )))
-    assert np.array_equal(a.output_buffer[2], np.concatenate((
+    assert np.array_equal(a.output_buffer[2][:graph.sample_rate * 2], np.concatenate((
         np.ones(1),
         np.zeros(graph.sample_rate // 2 - 1),
         np.ones(1),

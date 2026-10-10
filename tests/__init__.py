@@ -2,6 +2,7 @@ import os
 import sys
 import pytest
 import sysconfig
+import signalflow
 import numpy as np
 import scipy.signal
 
@@ -40,20 +41,6 @@ if os.path.exists(build_dir) and build_dir not in sys.path:
 # Ensure that placeholder package from auxiliary isn't imported
 #------------------------------------------------------------------------
 sys.path = list(filter(lambda path: "auxiliary/libs" not in path, sys.path))
-
-import signalflow
-
-def process_tree(node, buffer=None, num_frames=signalflow.SIGNALFLOW_NODE_BUFFER_SIZE):
-    if buffer is not None:
-        num_frames = buffer.num_frames
-    for _, input in node.inputs.items():
-        if input is not None:
-            process_tree(input, num_frames=num_frames)
-
-    if buffer:
-        node.process(buffer)
-    else:
-        node.process(num_frames)
 
 def count_zero_crossings(array):
     count = 0

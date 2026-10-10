@@ -17,7 +17,7 @@ FFTNode::FFTNode(int fft_size, int hop_size, int window_size, bool do_window)
     /*------------------------------------------------------------------------
      * Extra 2 floats to store complex Nyquist coefficients.
      *-----------------------------------------------------------------------*/
-    this->output_buffer_length = SIGNALFLOW_MAX_FFT_SIZE + 2;
+    this->output_buffer_length = this->num_bins * 2;
     this->resize_output_buffers(SIGNALFLOW_MAX_CHANNELS);
 
     this->magnitudes = new float *[SIGNALFLOW_MAX_CHANNELS]();
