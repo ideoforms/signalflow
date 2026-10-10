@@ -32,8 +32,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        # x86_64 and aarch64 (e.g. 64-bit Raspberry Pi OS), built natively
-        os: [ubuntu-24.04, ubuntu-24.04-arm]
+        # Linux x86_64 and aarch64 (e.g. 64-bit Raspberry Pi OS), and Windows x64,
+        # all built natively.
+        # TEMPORARY: Windows only, for testing. Restore to:
+        # os: [ubuntu-24.04, ubuntu-24.04-arm, windows-latest]
+        os: [windows-latest]
 
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +46,7 @@ jobs:
 
       - name: Check that tag matches version in setup.cfg
         if: github.event_name == 'push'
+        shell: bash
         run: |
           TAG_VERSION="${GITHUB_REF_NAME#v}"
           SETUP_VERSION=$(python -c "import configparser; c = configparser.ConfigParser(); c.read('setup.cfg'); print(c['metadata']['version'])")
@@ -50,6 +54,43 @@ jobs:
             echo "::error::Tag $GITHUB_REF_NAME does not match version $SETUP_VERSION in setup.cfg"
             exit 1
           fi
+
+      #--------------------------------------------------------------------------------
+      # Windows dependencies. CMakeLists.txt expects these in the directory above
+      # the project directory.
+      #  - libsndfile: official Windows build, which includes FLAC, Ogg, Opus and MP3
+      #  - FFTW: official Windows DLLs. These do not include .lib import libraries,
+      #    which must be generated from the .def files with lib.exe.
+      # Downloads are verified against known checksums.
+      #--------------------------------------------------------------------------------
+      - name: Download Windows dependencies
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          DEPS_DIR="$GITHUB_WORKSPACE/.."
+          curl -sSfL -o sndfile.zip https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2-win64.zip
+          echo "2173935c0c1ed13cf627951d34483f9d405ead2eb473190461c42ba220643a3f  sndfile.zip" | sha256sum -c
+          unzip -q sndfile.zip -d "$DEPS_DIR"
+          curl -sSfL -o fftw.zip https://fftw.org/pub/fftw/fftw-3.3.5-dll64.zip
+          echo "cfd88dc0e8d7001115ea79e069a2c695d52c8947f5b4f3b7ac54a192756f439f  fftw.zip" | sha256sum -c
+          unzip -q fftw.zip -d "$DEPS_DIR/fftw-3.3.5-dll64"
+          rm sndfile.zip fftw.zip
+          curl -sSfL https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
+
+      - uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+        with:
+          arch: x64
+
+      - name: Generate FFTW import libraries
+        if: runner.os == 'Windows'
+        shell: cmd
+        working-directory: ${{ github.workspace }}/../fftw-3.3.5-dll64
+        run: |
+          lib /nologo /machine:x64 /def:libfftw3-3.def || exit /b 1
+          lib /nologo /machine:x64 /def:libfftw3f-3.def || exit /b 1
+          lib /nologo /machine:x64 /def:libfftw3l-3.def || exit /b 1
+          dir *.lib
 
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==4.3.1
@@ -63,9 +104,12 @@ jobs:
           # Free-threaded builds are skipped, as SignalFlow has not been verified as
           # safe to run without the GIL.
           #--------------------------------------------------------------------------------
-          CIBW_BUILD: cp3*-manylinux_*
+          # TEMPORARY: Python 3.9 on Windows only, for testing. Restore to:
+          # CIBW_BUILD: cp3*-manylinux_* cp3*-win_amd64
+          CIBW_BUILD: cp39-win_amd64
           CIBW_SKIP: cp3??t-*
           CIBW_ARCHS_LINUX: native
+          CIBW_ARCHS_WINDOWS: AMD64
           CIBW_BUILD_VERBOSITY: 1
 
           #--------------------------------------------------------------------------------
@@ -89,6 +133,15 @@ jobs:
           CIBW_ENVIRONMENT_LINUX: LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
 
           #--------------------------------------------------------------------------------
+          # Windows wheels bundle the libsndfile and FFTW DLLs using delvewheel.
+          #--------------------------------------------------------------------------------
+          CIBW_BEFORE_BUILD_WINDOWS: pip install delvewheel
+          CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: >
+             delvewheel repair -v
+             --add-path "${{ github.workspace }}\..\libsndfile-1.2.2-win64\bin;${{ github.workspace }}\..\fftw-3.3.5-dll64"
+             -w {dest_dir} {wheel}
+
+          #--------------------------------------------------------------------------------
           # Run the test suite against each built wheel. Tests are run from the project
           # directory, as some tests load audio files via relative paths. First, verify
           # that signalflow is imported from the installed wheel, rather than from the
@@ -99,6 +152,25 @@ jobs:
              cd {project} &&
              python -c "import signalflow; print('Testing', signalflow.__file__); assert 'site-packages' in signalflow.__file__" &&
              python -m pytest tests
+          # On Windows, `cd /d` is needed in case the project is on a different drive
+          CIBW_TEST_COMMAND_WINDOWS: >
+             cd /d {project} &&
+             python -c "import signalflow; print('Testing', signalflow.__file__); assert 'site-packages' in signalflow.__file__" &&
+             python -m pytest tests
+
+      #--------------------------------------------------------------------------------
+      # Previously, Windows wheels were sometimes mislabelled as win32. Fail if any
+      # wheel does not have the expected platform tag.
+      #--------------------------------------------------------------------------------
+      - name: Check Windows wheel platform tags
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          ls wheelhouse/*.whl
+          if ls wheelhouse/*.whl | grep -v -- '-win_amd64\.whl$'; then
+            echo "::error::Found wheels without win_amd64 platform tag"
+            exit 1
+          fi
 
       - uses: actions/upload-artifact@v4
         with:
