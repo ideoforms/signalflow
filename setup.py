@@ -1,6 +1,7 @@
 import os
 import sys
 import shutil
+import tempfile
 import subprocess
 
 from setuptools import setup, Extension
@@ -94,20 +95,36 @@ class CMakeBuild(build_ext):
             parent_dir = os.path.dirname(ext.sourcedir)
             dll_dirs = [os.path.join(parent_dir, "libsndfile-1.2.2-win64", "bin"),
                         os.path.join(parent_dir, "fftw-3.3.5-dll64")]
+        output_dir = tempfile.mkdtemp()
         script = ("import os, runpy, sys\n"
                   "for dll_dir in sys.argv[1:]:\n"
                   "    if os.path.isdir(dll_dir):\n"
                   "        os.add_dll_directory(dll_dir)\n"
                   "sys.argv = ['pybind11-stubgen', '-o', %r, 'signalflow']\n"
-                  "runpy.run_module('pybind11_stubgen', run_name='__main__')\n") % stubs_dir
+                  "runpy.run_module('pybind11_stubgen', run_name='__main__')\n") % output_dir
 
         env = os.environ.copy()
         env["PYTHONPATH"] = os.pathsep.join([extdir] + ([env["PYTHONPATH"]] if env.get("PYTHONPATH") else []))
         try:
             subprocess.check_call([sys.executable, "-c", script] + dll_dirs, cwd=extdir, env=env)
+
+            #--------------------------------------------------------------------------------
+            # On Linux and macOS, signalflow is a single extension module, and the stubs are
+            # written to signalflow.pyi. On Windows, signalflow is a package containing the
+            # extension module signalflow.signalflow, and the stubs are written to
+            # signalflow/signalflow.pyi.
+            #--------------------------------------------------------------------------------
+            candidates = [os.path.join(output_dir, "signalflow.pyi"),
+                          os.path.join(output_dir, "signalflow", "signalflow.pyi")]
+            stub_path = next((path for path in candidates if os.path.exists(path)), None)
+            if stub_path is None:
+                raise RuntimeError("pybind11-stubgen did not generate signalflow.pyi")
+            shutil.copy(stub_path, os.path.join(stubs_dir, "signalflow.pyi"))
         except Exception as e:
             print("Warning: Failed to generate type stubs: %s" % e)
             return
+        finally:
+            shutil.rmtree(output_dir, ignore_errors=True)
 
         #--------------------------------------------------------------------------------
         # pybind11-stubgen writes signalflow.pyi. Type checkers resolve `import signalflow`
