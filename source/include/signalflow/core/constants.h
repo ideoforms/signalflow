@@ -105,12 +105,15 @@ typedef RingQueue<sample> SampleRingQueue;
  *     input is a positive zero-crossing, and performs this->trigger(name) if so
  * SIGNALFLOW_PROCESS_TRIGGER_BLOCK repeats the above operation over
  *     num_frames frames of the given input
+ *
+ * Note that, rather than a bool or 1/0, the amplitude of the trigger
+ * is returned, which can be used by Node classes.
  *-----------------------------------------------------------------------*/
 #define SIGNALFLOW_CHECK_TRIGGER(input, frame) \
     SIGNALFLOW_CHECK_CHANNEL_TRIGGER(input, 0, frame)
 
 #define SIGNALFLOW_CHECK_CHANNEL_TRIGGER(input, channel, frame) \
-    (input && input->out[channel][frame] > 0 && (frame > 0 ? input->out[channel][frame - 1] <= 0 : input->last_sample[channel] <= 0))
+    ((input && input->out[channel][frame] > 0 && (frame > 0 ? input->out[channel][frame - 1] <= 0 : input->last_sample[channel] <= 0)) ? input->out[channel][frame] : 0)
 
 #define SIGNALFLOW_PROCESS_TRIGGER(input, frame, name)   \
     if (input && SIGNALFLOW_CHECK_TRIGGER(input, frame)) \
