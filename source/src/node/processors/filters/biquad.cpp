@@ -52,14 +52,28 @@ void BiquadFilter::process(Buffer &out, int num_frames)
     this->_recalculate();
     for (int channel = 0; channel < num_output_channels; channel++)
     {
+        /*--------------------------------------------------------------------------------
+         * Keep coefficients and filter state in local variables during the loop.
+         * Accessing the member vectors directly forces loads and stores per sample,
+         * as the compiler cannot rule out that they alias the output buffer.
+         *--------------------------------------------------------------------------------*/
+        float c_a0 = a0[channel], c_a1 = a1[channel], c_a2 = a2[channel];
+        float c_b1 = b1[channel], c_b2 = b2[channel];
+        float c_z1 = z1[channel], c_z2 = z2[channel];
+        sample *in_channel = this->input->out[channel];
+        sample *out_channel = out[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            float in = this->input->out[channel][frame];
-            float value = in * a0[channel] + z1[channel];
-            z1[channel] = in * a1[channel] + z2[channel] - b1[channel] * value;
-            z2[channel] = in * a2[channel] - b2[channel] * value;
-            out[channel][frame] = value;
+            float in = in_channel[frame];
+            float value = in * c_a0 + c_z1;
+            c_z1 = in * c_a1 + c_z2 - c_b1 * value;
+            c_z2 = in * c_a2 - c_b2 * value;
+            out_channel[frame] = value;
         }
+
+        z1[channel] = c_z1;
+        z2[channel] = c_z2;
     }
 }
 
