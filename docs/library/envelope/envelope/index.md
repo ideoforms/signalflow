@@ -19,7 +19,9 @@ Generic envelope constructor, given arrays of levels, times and curves that desc
 
 # Looping envelope different curve shapes
 sine = SineOscillator(880)
-envelope = Envelope(levels=[0.0, 1.0, 0.0], times=[0.5, 0.5], curves=[2, 0.5], loop=True)
+envelope = Envelope(levels=[0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0],
+                    times =[0.2, 0.0, 0.2, 0.0, 0.2, 0.0, 0.2],
+                    curves=[0.05, 1.0, 0.2, 1.0, 1.0, 1.0, 10.0], loop=True)
 output = sine * envelope
 output.play()
 

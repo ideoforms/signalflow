@@ -184,6 +184,7 @@ def folder_name_to_title(folder_name: str) -> str:
     # capitalise all-vowel or all-consonant folder names (io, fft)
     if re.search(r"^[aeiou]+$", folder_title) or re.search(r"^[^aeiou]+$", folder_title):
         folder_title = folder_title.upper()
+    folder_title = folder_title.replace("Fft", "FFT")
     return folder_title
 
 

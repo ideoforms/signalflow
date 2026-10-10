@@ -66,7 +66,7 @@
 
 ---
 
-## Fft: Features
+## FFT: Features
 
 - **[FFTSpectralCentroid](fft/features/fftspectralcentroid/index.md)**: Randomise phase values.
 - **[FFTSpectralFlatness](fft/features/fftspectralflatness/index.md)**: Randomise phase values.
@@ -74,7 +74,7 @@
 
 ---
 
-## Fft: Processors
+## FFT: Processors
 
 - **[FFTContrast](fft/processors/fftcontrast/index.md)**: FFT Contrast. Requires an FFT* input.
 - **[FFTConvolve](fft/processors/fftconvolve/index.md)**: Frequency-domain convolution, using overlap-add. Useful for convolution reverb, with the input buffer containing an impulse response. Requires an FFT* input.

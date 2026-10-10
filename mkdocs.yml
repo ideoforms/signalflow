@@ -124,6 +124,8 @@ nav:
    - "Control": library/control/index.md
    - "Envelope": library/envelope/index.md
    - "FFT": library/fft/index.md
+   - "FFT: Features": library/fft/features/index.md
+   - "FFT: Processors": library/fft/processors/index.md
    - "Operators": library/operators/index.md
    - "Oscillators": library/oscillators/index.md
    - "Physical Modelling": library/physical/index.md

@@ -1,0 +1,13 @@
+title: FFTNoiseGate node documentation
+description: FFTNoiseGate: FFT-based noise gate. Requires an FFT* input.
+
+[Reference library](../../index.md) > [FFT: Processors](../index.md) > [FFTNoiseGate](index.md)
+
+# FFTNoiseGate
+
+```python
+FFTNoiseGate(input=0, threshold=0.5, invert=0.0)
+```
+
+FFT-based noise gate. Requires an FFT* input.
+
