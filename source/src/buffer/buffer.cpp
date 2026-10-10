@@ -400,47 +400,6 @@ bool Buffer::set(int channel_index, int frame_index, sample value)
     }
 }
 
-sample Buffer::get_frame(int channel, double frame)
-{
-    if (!this->data)
-    {
-        throw std::runtime_error("Buffer has zero length, frame is out of bounds");
-    }
-
-    if (frame > this->num_frames - 1)
-    {
-        frame = this->num_frames - 1;
-    }
-    else if (frame < 0)
-    {
-        frame = 0;
-    }
-
-    if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_LINEAR)
-    {
-        int int_frame = (int) frame;
-        if (frame == int_frame)
-        {
-            return this->data[channel][int_frame];
-        }
-        else
-        {
-            double frame_frac = (frame - int_frame);
-            sample rv = ((1.0 - frame_frac) * this->data[channel][int_frame])
-                + (frame_frac * this->data[channel][(int) ceil(frame)]);
-            return rv;
-        }
-    }
-    else if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_NONE)
-    {
-        return this->data[channel][(int) frame];
-    }
-    else
-    {
-        throw std::runtime_error("Buffer: Unsupported interpolation mode: " + std::to_string(this->interpolation_mode));
-    }
-}
-
 sample Buffer::get(int channel, double offset)
 {
     double frame = this->offset_to_frame(offset);

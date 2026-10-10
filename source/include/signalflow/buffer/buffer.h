@@ -13,6 +13,7 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -152,7 +153,54 @@ public:
      * @return The raw value stored within that frame.
      *
      *------------------------------------------------------------------------*/
-    sample get_frame(int channel, double frame);
+    sample get_frame(int channel, double frame)
+    {
+        /*------------------------------------------------------------------------
+         * Defined inline as this is called per-sample by BufferPlayer,
+         * Wavetable, Granulator, etc.
+         *-----------------------------------------------------------------------*/
+        if (!this->data)
+        {
+            throw std::runtime_error("Buffer has zero length, frame is out of bounds");
+        }
+
+        if (frame > this->num_frames - 1)
+        {
+            frame = this->num_frames - 1;
+        }
+        else if (frame < 0)
+        {
+            frame = 0;
+        }
+
+        if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_LINEAR)
+        {
+            int int_frame = (int) frame;
+            if (frame == int_frame)
+            {
+                return this->data[channel][int_frame];
+            }
+            else
+            {
+                /*------------------------------------------------------------------------
+                 * frame is non-integer and <= num_frames - 1, so int_frame + 1 is
+                 * always in bounds (and equal to ceil(frame)).
+                 *-----------------------------------------------------------------------*/
+                double frame_frac = (frame - int_frame);
+                sample rv = ((1.0 - frame_frac) * this->data[channel][int_frame])
+                    + (frame_frac * this->data[channel][int_frame + 1]);
+                return rv;
+            }
+        }
+        else if (this->interpolation_mode == SIGNALFLOW_INTERPOLATION_MODE_NONE)
+        {
+            return this->data[channel][(int) frame];
+        }
+        else
+        {
+            throw std::runtime_error("Buffer: Unsupported interpolation mode: " + std::to_string(this->interpolation_mode));
+        }
+    }
 
     /**------------------------------------------------------------------------
      * @param frame_index The frame index to set
