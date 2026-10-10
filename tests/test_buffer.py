@@ -232,6 +232,35 @@ def test_buffer_save(graph):
     os.unlink(BUFFER_FILENAME)
 
 
+def test_buffer_save_load_flac(graph, tmp_path):
+    #--------------------------------------------------------------------------------
+    # Verify that libsndfile has been built with FLAC support, which requires
+    # external codec libraries (and so can be silently missing from a build).
+    #--------------------------------------------------------------------------------
+    path = str(tmp_path / "test.flac")
+    data = np.array([np.sin(np.arange(4410) * 2 * np.pi * 440 / 44100) * 0.5])
+    b = Buffer(1, 4410, data)
+    b.save(path)
+    b2 = Buffer(path)
+    assert b2.num_channels == 1
+    assert b2.num_frames == 4410
+    assert np.all(np.abs(b2.data[0] - data[0]) < 0.0001)
+
+
+@pytest.mark.parametrize("extension", ["mp3", "ogg"])
+def test_buffer_load_compressed(graph, extension):
+    #--------------------------------------------------------------------------------
+    # Verify that libsndfile has been built with MP3 and Ogg Vorbis support.
+    # Test files are 0.5s of a 440Hz sine.
+    #--------------------------------------------------------------------------------
+    b = Buffer("tests/audio/440hz.%s" % extension)
+    assert b.num_channels == 1
+    assert b.num_frames == pytest.approx(22050, abs=2048)
+    spectrum = np.abs(np.fft.rfft(b.data[0]))
+    peak_frequency = np.argmax(spectrum) * b.sample_rate / b.num_frames
+    assert peak_frequency == pytest.approx(440, abs=5)
+
+
 def test_buffer_load_into_smaller_buffer(graph, tmp_path):
     #--------------------------------------------------------------------------------
     # Loading a file into a pre-allocated buffer should read only as many frames
