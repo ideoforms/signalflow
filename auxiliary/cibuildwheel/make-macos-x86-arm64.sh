@@ -3,7 +3,7 @@
 #--------------------------------------------------------------------------------
 # Builds arm64 and x86_64 wheels for macOS
 #
-# Requires virtualenvs in the current directory, named venv-38, venv-39, etc...
+# Requires virtualenvs in the current directory, named venv-39, venv-310, etc...
 # Should ideally be retired in favour of GitHub Actions at some point
 #
 # Some notes on macOS compatibility versions (2025-03-31)
@@ -26,7 +26,7 @@ set -e
 # Generate stubs
 pybind11-stubgen -o auxiliary/libs/signalflow-stubs signalflow
 
-for VERSION in 38 39 310 311 312 313
+for VERSION in 39 310 311 312 313
 do
     rm -rf build
 

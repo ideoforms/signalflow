@@ -25,7 +25,7 @@ sudo apt-get install build-essential libffi-dev libreadline-dev libncursesw5-dev
 # Install dependencies to build a manylinux wheel
 sudo apt-get install patchelf
 
-VERSIONS="3.8.20 3.9.20 3.10.15 3.11.10 3.12.7 3.13.0"
+VERSIONS="3.9.20 3.10.15 3.11.10 3.12.7 3.13.0"
 
 pyenv install --skip-existing $VERSIONS
 

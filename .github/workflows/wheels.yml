@@ -11,31 +11,56 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-20.04]
+        os: [ubuntu-24.04]
         # os: [macos-11]
 
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
       - name: Install cibuildwheel
-        run: python -m pip install cibuildwheel numpy
+        run: python -m pip install cibuildwheel==4.3.1
 
       - name: Build wheels
         run: python -m cibuildwheel --output-dir wheelhouse
         env:
-          CIBW_BUILD: cp38-manylinux* cp39-manylinux* cp310-manylinux* cp311-manylinux* cp312-manylinux* cp313-manylinux*
+          #--------------------------------------------------------------------------------
+          # Build all CPython versions permitted by python_requires in setup.cfg.
+          # Free-threaded builds are skipped, as SignalFlow has not been verified as
+          # safe to run without the GIL.
+          #--------------------------------------------------------------------------------
+          CIBW_BUILD: cp3*-manylinux_x86_64 cp3*-macosx_*
+          CIBW_SKIP: cp3??t-*
+          CIBW_BUILD_VERBOSITY: 1
           CIBW_ARCHS_MACOS: arm64 x86_64
           CIBW_ARCHS_LINUX: x86_64
+
+          #--------------------------------------------------------------------------------
+          # Linux wheels are built in the manylinux_2_28 image (AlmaLinux 8).
+          #  - fftw and alsa are available as system packages
+          #  - libsndfile is built from source, as the system package (1.0.28) is outdated
+          #  - JACK and ALSA are loaded by miniaudio at runtime, so are not linked here
+          #--------------------------------------------------------------------------------
           CIBW_BEFORE_ALL_LINUX: >
-             yum install -y fftw-devel wget python3 sudo gcc &&
-             wget https://github.com/jackaudio/jack2/archive/v1.9.22.tar.gz && tar xzf v1.9.22.tar.gz && cd jack2-1.9.22 && python3 ./waf configure && /usr/bin/sudo python3 ./waf install && cd .. && 
-             wget https://www.alsa-project.org/files/pub/lib/alsa-lib-1.2.9.tar.bz2 && tar xjf alsa-lib-1.2.9.tar.bz2 && cd alsa-lib-1.2.9 && ./configure && make && /usr/bin/sudo make install && cd .. && 
-             git clone https://github.com/libsndfile/libsndfile.git && cd libsndfile && cmake -DBUILD_SHARED_LIBS=1 . && make && make install && cd .. &&
-             curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
+             yum install -y fftw-devel alsa-lib-devel &&
+             git clone --depth 1 --branch 1.2.2 https://github.com/libsndfile/libsndfile.git /tmp/libsndfile &&
+             cmake -S /tmp/libsndfile -B /tmp/libsndfile/build -DBUILD_SHARED_LIBS=1 -DBUILD_PROGRAMS=OFF -DBUILD_EXAMPLES=OFF -DBUILD_TESTING=OFF &&
+             cmake --build /tmp/libsndfile/build -j4 &&
+             cmake --install /tmp/libsndfile/build &&
+             curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
+          CIBW_ENVIRONMENT_LINUX: LD_LIBRARY_PATH=/usr/local/lib64:/usr/local/lib:$LD_LIBRARY_PATH
           CIBW_BEFORE_ALL_MACOS: >
              brew install cmake python libsndfile &&
-             curl https://raw.githubusercontent.com/mackron/miniaudio/master/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
+             curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
+
+          #--------------------------------------------------------------------------------
+          # Run the test suite against each built wheel. Tests are run from the project
+          # directory, as some tests load audio files via relative paths.
+          #--------------------------------------------------------------------------------
+          CIBW_TEST_REQUIRES: pytest numpy scipy
+          CIBW_TEST_COMMAND: cd {project} && python -m pytest tests
 
       - uses: actions/upload-artifact@v4
         with:
