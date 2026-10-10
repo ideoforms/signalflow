@@ -11,13 +11,9 @@ if(NOT MSVC)
   endif()
   include(FindZLIB)
 else()
+  # SignalFlow: find zlib via CMake on MSVC, rather than via nuget
   set(MATH "")
-  find_program(NUGET nuget)
-  if(NUGET)
-    execute_process(COMMAND ${NUGET} install zlib)
-  endif()
-  include_directories(
-    ${PROJECT_SOURCE_DIR}/windows/third-party/zlib-1.2.11/include/)
+  find_package(ZLIB REQUIRED)
 endif()
 
 if(NOT MSVC)
@@ -31,18 +27,10 @@ if(NOT MSVC)
   set(PKG_CONFIG_PRIVATELIBS "-lm ${PKG_CONFIG_PRIVATELIBS}")
   set(PKG_CONFIG_PRIVATELIBS "-lz ${PKG_CONFIG_PRIVATELIBS}")
 else()
+  # SignalFlow: find zlib via CMake on MSVC, rather than via nuget
   set(MATH "")
-  find_program(NUGET nuget)
-  if(NOT NUGET)
-    message(
-      FATAL
-      "Cannot find nuget command line tool.\nInstall it with e.g. choco install nuget.commandline"
-    )
-  else()
-    execute_process(COMMAND ${NUGET} install zlib)
-  endif()
-  include_directories(
-    ${PROJECT_SOURCE_DIR}/windows/third-party/zlib-1.2.11/include/)
+  find_package(ZLIB REQUIRED)
+  include_directories(${ZLIB_INCLUDE_DIRS})
 endif()
 
 set(libsrc

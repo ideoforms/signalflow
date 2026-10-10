@@ -92,6 +92,19 @@ jobs:
           lib /nologo /machine:x64 /def:libfftw3l-3.def || exit /b 1
           dir *.lib
 
+      #--------------------------------------------------------------------------------
+      # zlib is required by libmysofa. The static-md triplet builds a static library
+      # (so there is no DLL to bundle) against the dynamic C runtime, matching the
+      # rest of the build. CMAKE_PREFIX_PATH is used by find_package(ZLIB).
+      #--------------------------------------------------------------------------------
+      - name: Install zlib
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          & "$env:VCPKG_INSTALLATION_ROOT\vcpkg.exe" install zlib:x64-windows-static-md
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+          "CMAKE_PREFIX_PATH=$env:VCPKG_INSTALLATION_ROOT\installed\x64-windows-static-md" | Out-File -FilePath $env:GITHUB_ENV -Append -Encoding utf8
+
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==4.3.1
 

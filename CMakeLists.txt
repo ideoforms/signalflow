@@ -221,6 +221,15 @@ set(CPACK_PACKAGE_VERSION_MAJOR 1)
 set(CPACK_PACKAGE_VERSION_MINOR 3)
 set(CPACK_PACKAGE_VERSION_PATCH 0)
 add_subdirectory("source/lib/libmysofa")
+
+#-------------------------------------------------------------------------------
+# libmysofa is linked statically, so its functions should not be marked for
+# export. MYSOFA_STATIC is checked by mysofa_export.h, and is PUBLIC so that it
+# also applies to SignalFlow's own sources that include mysofa.h. Without this,
+# the GCC/Clang-specific visibility attributes in mysofa_export.h are used,
+# which MSVC cannot compile.
+#-------------------------------------------------------------------------------
+target_compile_definitions(mysofa-static PUBLIC MYSOFA_STATIC)
 target_link_libraries(signalflow mysofa-static)
 
 #-------------------------------------------------------------------------------
