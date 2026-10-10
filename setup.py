@@ -42,7 +42,13 @@ class CMakeBuild(build_ext):
             '-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=' + extdir,
             '-DCMAKE_BUILD_PYTHON=1',
             '-DCMAKE_BUILD_TYPE=' + cfg,
-            '-DSIGNALFLOW_VERSION=' + self.distribution.get_version()
+            '-DSIGNALFLOW_VERSION=' + self.distribution.get_version(),
+            #--------------------------------------------------------------------------------
+            # Build against the Python that is running this build, rather than whichever
+            # Python CMake finds first. Without this, Windows builds can link against a
+            # different Python version (e.g. python312.dll in a Python 3.9 wheel).
+            #--------------------------------------------------------------------------------
+            '-DPython3_EXECUTABLE=' + sys.executable
         ]
         if 'CMAKE_OSX_ARCHITECTURES' in os.environ:
             cmake_args += ['-DCMAKE_OSX_ARCHITECTURES=%s' % os.environ['CMAKE_OSX_ARCHITECTURES']]
