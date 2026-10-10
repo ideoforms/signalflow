@@ -1,7 +1,7 @@
 from signalflow import SineOscillator, SquareOscillator, ChannelMixer, ChannelArray, StereoPanner, Buffer, BufferPlayer, \
     AudioGraph, AudioOut_Dummy, SIGNALFLOW_NODE_INITIAL_OUTPUT_CHANNELS
 from signalflow import BiquadFilter, AllpassDelay, WaveShaper, WaveShaperBuffer, Constant, Add, AudioGraphConfig
-from signalflow import InvalidChannelCountException
+from signalflow import InvalidChannelCountException, AudioIOException
 import numpy as np
 import pytest
 import math
@@ -124,17 +124,18 @@ def test_expansion_channel_array_remove(graph):
     assert np.all(a.output_buffer[1] == 3)
 
 
-@pytest.mark.skip
 def test_expansion_channel_mismatch(graph):
     a = SineOscillator([440, 880])
-    # Hmm... is there any elegant way to have this exception raised when running in
-    # a foreground thread but not when in the audio thread? Skipping this test for now.
-    # with pytest.raises(InvalidChannelCountException):
-    #    _ = StereoPanner(a)
+
+    # Check that exceptions are raised for channel mismatches.
+    panner = StereoPanner(a)
+    with pytest.raises(AudioIOException):
+       graph.render_subgraph(panner)
     b = Buffer([1, 2, 3])
     c = BufferPlayer(b)
-    # with pytest.raises(InvalidChannelCountException):
-    #    c.set_input("rate", [1, 1.5])
+    c.set_input("rate", [1, 1.5])
+    with pytest.raises(AudioIOException):
+        graph.render_subgraph(c)
 
 
 def test_expansion_recursive(graph):

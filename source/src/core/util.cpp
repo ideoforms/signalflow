@@ -65,14 +65,18 @@ double signalflow_clip(double value, double min, double max)
 double signalflow_wrap(double value, double min, double max)
 {
     double range = max - min;
-    double remainder = fmodf((value - min), range);
+    double remainder = fmod((value - min), range);
+    if (remainder < 0)
+        remainder += range;
     return min + remainder;
 }
 
 double signalflow_fold(double value, double min, double max)
 {
     double range = max - min;
-    double remainder = fmodf((value - min), (range * 2));
+    double remainder = fmod((value - min), (range * 2));
+    if (remainder < 0)
+        remainder += range * 2;
     if (remainder > range)
     {
         return min + 2 * range - remainder;

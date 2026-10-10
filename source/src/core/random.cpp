@@ -84,9 +84,9 @@ unsigned long random_integer(unsigned long to)
     return (long) random_uniform(0, to);
 }
 
-unsigned long random_integer(unsigned long from, unsigned long to)
+long random_integer(long from, long to)
 {
-    return from + (((long) random_uniform(0, to)) % (to - from));
+    return from + (long) random_uniform(0, to - from);
 }
 
 } /* namespace signalflow */
