@@ -121,6 +121,21 @@ def test_divide(graph):
     assert np.all(c.output_buffer[0] == 1.75)
 
 
+def test_operators_odd_block_sizes(graph):
+    #--------------------------------------------------------------------------------
+    # Vectorised implementations (e.g. NEON on Linux aarch64) process frames in
+    # groups of 4. Check that every frame is written for block sizes that are not
+    # a multiple of 4.
+    #--------------------------------------------------------------------------------
+    a = Constant(3)
+    b = Constant(2)
+    for num_frames in [1, 2, 3, 5, 7, 255, 257, 1023]:
+        for node, expected in [(a + b, 5), (a - b, 1), (a * b, 6), (a / b, 1.5)]:
+            node.output_buffer[0][:] = -999
+            graph.render_subgraph(node, num_frames, reset=True)
+            assert np.all(node.output_buffer[0][:num_frames] == expected), \
+                "%s failed for num_frames = %d" % (node.name, num_frames)
+
 def test_pow(graph):
     a = Constant(2)
     b = Constant(4)

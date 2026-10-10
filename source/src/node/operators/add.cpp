@@ -20,7 +20,8 @@ void Add::process(Buffer &out, int num_frames)
 
 #elif defined(__aarch64__)
 
-        for (int frame = 0; frame <= num_frames - 4; frame += 4)
+        int frame = 0;
+        for (; frame <= num_frames - 4; frame += 4)
         {
             // Load 4 floats from each input
             float32x4_t a = vld1q_f32(&input0->out[channel][frame]);
@@ -31,6 +32,12 @@ void Add::process(Buffer &out, int num_frames)
 
             // Store result
             vst1q_f32(&out[channel][frame], c);
+        }
+
+        // Process any remaining frames when num_frames is not a multiple of 4
+        for (; frame < num_frames; frame++)
+        {
+            out[channel][frame] = input0->out[channel][frame] + input1->out[channel][frame];
         }
 
 #else
