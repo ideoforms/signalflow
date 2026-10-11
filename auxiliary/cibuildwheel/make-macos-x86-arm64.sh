@@ -18,6 +18,10 @@
 #    minOS of 13) do actually work OK on older macOS.
 #  - As this delocate behaviour should be seen as the safest approach, macOS
 #    12 (Monterey) will be the minimum required version from now.
+#
+# Once built:
+# twine upload wheelhouse/x.y.z/*.whl
+# gh release upload vx.y.z wheelhouse/x.y.z/*.whl
 #--------------------------------------------------------------------------------
 
 ROOT=auxiliary/cibuildwheel

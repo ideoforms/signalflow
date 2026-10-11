@@ -1,13 +1,11 @@
 #!/bin/bash
 
 #--------------------------------------------------------------------------------
+# NOTE: This is now obsolete (2026-10) in favour of GitHub Actions.
+#
 # Build script for Raspberry Pi, which creates Linux/arm builds.
 # Tested on Raspberry Pi 4 running Raspberry Pi OS circa October 2024
 # Requires pyenv, which requires libffi-dev to build Python with ctypes support.
-#
-# May be ultimately better to switch to this arm runner action:
-# https://github.com/pguyot/arm-runner-action
-# Or at least cibuildwheel
 #--------------------------------------------------------------------------------
 
 # Fail if any subcommands fail

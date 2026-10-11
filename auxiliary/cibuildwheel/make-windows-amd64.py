@@ -1,5 +1,11 @@
 #!/usr/bin/env python
 
+#--------------------------------------------------------------------------------
+# NOTE: This is now obsolete (2026-10) in favour of GitHub Actions.
+#
+# Build script for Windows AMD64, which creates Windows/AMD64 builds.
+#--------------------------------------------------------------------------------
+
 import os
 import re
 import glob
