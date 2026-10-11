@@ -128,6 +128,7 @@ Releases are built and published by the `Build wheels` GitHub Actions workflow (
 
 For each new release:
 
+- Regenerate docs, Python bindings and README: `auxiliary/scripts/auto-generator.py --all`
 - Update the version in `setup.cfg`
 - Add an entry to `CHANGELOG.md`, with a heading in the format `## [v1.2.34](...) (date)`
 - Commit changes
