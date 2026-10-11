@@ -99,3 +99,40 @@ def test_random_exponential_seed(graph):
 def test_random_coin_seed(graph):
     _test_stochastic_node(graph, sf.RandomCoin(0.5),
                           lambda values: np.all((values == 0) | (values == 1)))
+
+
+def test_perlin_noise(graph):
+    def render_perlin(seed, x_start=0.0, x_end=8.0, y=0.5, num_octaves=4, detail=0.5):
+        # Ramp x across a single block. Line is stateful, so build a fresh one per render.
+        x = sf.Line(x_start, x_end, graph.output_buffer_size / graph.sample_rate)
+        node = sf.PerlinNoise(x=x, y=y, num_octaves=num_octaves, detail=detail)
+        node.set_seed(seed)
+        graph.render_subgraph(node, reset=True)
+        return node.output_buffer[0].copy()
+
+    # Unit-spaced lattice points are always zero for a single octave
+    a = sf.PerlinNoise(x=3.0, y=7.0, num_octaves=1)
+    graph.render_subgraph(a, reset=True)
+    assert np.allclose(a.output_buffer[0], 0)
+
+    # Output is bounded, varies with position, and is continuous
+    values = render_perlin(123)
+    assert np.all(np.abs(values) <= 1)
+    assert np.std(values) > 0.05
+    assert np.max(np.abs(np.diff(values))) < 0.1
+
+    # Seeding is reproducible, and different seeds give different noise fields
+    assert np.all(values == render_perlin(123))
+    assert np.any(values != render_perlin(456))
+
+    # Negative coordinates are not a mirror image of positive coordinates
+    assert not np.allclose(values, render_perlin(123, x_start=0.0, x_end=-8.0))
+
+    # Calling set_seed() on an existing node regenerates the field
+    a = sf.PerlinNoise(x=0.3, y=0.6, num_octaves=1)
+    a.set_seed(1)
+    graph.render_subgraph(a, reset=True)
+    value_1 = a.output_buffer[0][0]
+    a.set_seed(2)
+    graph.render_subgraph(a, reset=True)
+    assert a.output_buffer[0][0] != value_1

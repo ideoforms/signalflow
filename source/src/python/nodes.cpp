@@ -468,6 +468,9 @@
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic", "Logistic noise.")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);
     
+    py::class_<PerlinNoise, StochasticNode, NodeRefTemplate<PerlinNoise>>(m, "PerlinNoise", "2D Perlin noise, sampled at the coordinates given by x and y. Successive octaves are summed with doubling frequency, each scaled in amplitude by detail relative to the previous octave. Output is in the range [-1, 1]. The noise field tiles every 256 units. Calling set_seed() regenerates the field.")
+        .def(py::init<NodeRef, NodeRef, int, NodeRef, NodeRef>(), "x"_a = 0.0, "y"_a = 0.0, "num_octaves"_a = 4, "detail"_a = 0.5, "reset"_a = nullptr);
+    
     py::class_<PinkNoise, StochasticNode, NodeRefTemplate<PinkNoise>>(m, "PinkNoise", "Pink noise, with specified low/high cutoffs.")
         .def(py::init<float, float, NodeRef>(), "low_cutoff"_a = 20.0, "high_cutoff"_a = 20000.0, "reset"_a = nullptr);
     

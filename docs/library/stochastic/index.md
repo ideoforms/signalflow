@@ -3,6 +3,7 @@
 # Stochastic
 
 - **[Logistic](logistic/index.md)**: Logistic noise.
+- **[PerlinNoise](perlinnoise/index.md)**: 2D Perlin noise, sampled at the coordinates given by x and y. Successive octaves are summed with doubling frequency, each scaled in amplitude by detail relative to the previous octave. Output is in the range [-1, 1]. The noise field tiles every 256 units. Calling set_seed() regenerates the field.
 - **[PinkNoise](pinknoise/index.md)**: Pink noise, with specified low/high cutoffs.
 - **[RandomBrownian](randombrownian/index.md)**: Outputs Brownian noise between min/max, with a mean change of delta between samples. If a clock is passed, only generates a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.
 - **[RandomChoice](randomchoice/index.md)**: Pick a random value from the given array. If a clock is passed, only picks a new value on a clock tick. To generate and hold an unchanging random value, pass clock=0.

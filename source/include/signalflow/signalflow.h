@@ -104,6 +104,7 @@
  * Random processes
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/stochastic/logistic.h>
+#include <signalflow/node/stochastic/perlin-noise.h>
 #include <signalflow/node/stochastic/pink-noise.h>
 #include <signalflow/node/stochastic/random-brownian.h>
 #include <signalflow/node/stochastic/random-choice.h>

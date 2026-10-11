@@ -19,6 +19,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/stochastic-node.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/logistic.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/white-noise.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/perlin-noise.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/pink-noise.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-impulse.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/stochastic/random-impulse-sequence.cpp
