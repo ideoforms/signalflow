@@ -1,9 +1,11 @@
+#include "signalflow/core/graph.h"
 #include "signalflow/node/processors/distortion/squiz.h"
 
 namespace signalflow
 {
 
-int SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES = 2205;
+// Max length of a single chunk, matching SuperCollider's default memlen of 0.1s
+float SIGNALFLOW_SQUIZ_MAX_CHUNK_DURATION = 0.1;
 
 Squiz::Squiz(NodeRef input, NodeRef rate, NodeRef chunk_size)
     : UnaryOpNode(input), rate(rate), chunk_size(chunk_size)
@@ -12,74 +14,50 @@ Squiz::Squiz(NodeRef input, NodeRef rate, NodeRef chunk_size)
     this->create_input("rate", this->rate);
     this->create_input("chunk_size", this->chunk_size);
 
-    for (int i = 0; i < SIGNALFLOW_MAX_CHANNELS; i++)
-    {
-        BufferRef buf = new Buffer(1, SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES);
-        this->buffers.push_back(buf);
-        this->write_pos.push_back(SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES / 2);
-        this->read_pos.push_back(0.0f);
-        this->read_pos_chunk_counter.push_back(0);
-        this->repitched_read_pos.push_back(0.0f);
-        this->repitched_read_pos_chunk_counter.push_back(0);
-    }
+    SIGNALFLOW_CHECK_GRAPH();
+    this->buffer_length = (int) (SIGNALFLOW_SQUIZ_MAX_CHUNK_DURATION * this->graph->get_sample_rate());
+    this->buffers.resize(SIGNALFLOW_MAX_CHANNELS, std::vector<sample>(this->buffer_length, 0.0));
+    this->write_pos.resize(SIGNALFLOW_MAX_CHANNELS, 0);
+    this->read_pos.resize(SIGNALFLOW_MAX_CHANNELS, 0.0);
+    this->last_input.resize(SIGNALFLOW_MAX_CHANNELS, 0.0);
+    this->zero_crossings.resize(SIGNALFLOW_MAX_CHANNELS, 0);
 }
 
 void Squiz::process(Buffer &out, int num_frames)
 {
     for (int channel = 0; channel < this->num_output_channels; channel++)
     {
+        std::vector<sample> &buf = this->buffers[channel];
+
         for (int frame = 0; frame < num_frames; frame++)
         {
-            if (this->repitched_read_pos_chunk_counter[channel] < this->chunk_size->out[channel][frame])
-            {
-                sample read_last = this->buffers[channel]->get(0, this->repitched_read_pos[channel]);
-                this->repitched_read_pos[channel] += this->rate->out[channel][frame];
-                if (this->repitched_read_pos[channel] >= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES)
-                    this->repitched_read_pos[channel] -= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES;
-                sample read_cur = this->buffers[channel]->get(0, this->repitched_read_pos[channel]);
-                if (read_cur > 0 && read_last <= 0)
-                {
-                    this->repitched_read_pos_chunk_counter[channel]++;
-                }
+            float rate = std::min(std::max(this->rate->out[channel][frame], 1.0f), (float) this->buffer_length);
+            int chunk_size = (int) this->chunk_size->out[channel][frame];
+            sample input = this->input->out[channel][frame];
 
-                if (this->repitched_read_pos_chunk_counter[channel] < this->chunk_size->out[channel][frame])
-                {
-                    out[channel][frame] = read_cur;
-                }
-                else
-                {
-                    out[channel][frame] = 0.0;
-                }
+            // Play back the buffer at `rate`, then silence once the end is reached
+            int read_index = (int) this->read_pos[channel];
+            if (read_index < this->buffer_length)
+            {
+                out[channel][frame] = buf[read_index];
+                this->read_pos[channel] += rate;
             }
             else
             {
-                this->out[channel][frame] = 0.0;
+                out[channel][frame] = 0.0;
             }
 
-            sample read_last = this->buffers[channel]->get(0, this->read_pos[channel]);
-            this->read_pos[channel] += 1;
-            if (this->read_pos[channel] >= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES)
-                this->read_pos[channel] -= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES;
-            sample read_cur = this->buffers[channel]->get(0, this->read_pos[channel]);
-
-            if (read_cur > 0 && read_last <= 0)
+            // Start a new chunk on every Nth positive-going zero crossing, or when the buffer is full
+            this->write_pos[channel]++;
+            if (this->write_pos[channel] == this->buffer_length
+                || (this->last_input[channel] < 0 && input >= 0 && ++this->zero_crossings[channel] >= chunk_size))
             {
-                this->read_pos_chunk_counter[channel] += 1;
-
-                // if (this->read_pos_chunk_counter[channel] >= this->chunk_size->out[channel][frame])
-                if (this->read_pos_chunk_counter[channel] >= 1)
-                {
-                    this->read_pos_chunk_counter[channel] = 0;
-                    this->repitched_read_pos_chunk_counter[channel] = 0;
-                    this->repitched_read_pos[channel] = this->read_pos[channel];
-                }
+                this->write_pos[channel] = 0;
+                this->read_pos[channel] = 0.0;
+                this->zero_crossings[channel] = 0;
             }
-
-            this->buffers[channel]->data[0][this->write_pos[channel]] = this->input->out[channel][frame];
-
-            this->write_pos[channel] += 1;
-            if (this->write_pos[channel] >= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES)
-                this->write_pos[channel] -= SIGNALFLOW_SQUIZ_LOOKAHEAD_FRAMES;
+            buf[this->write_pos[channel]] = input;
+            this->last_input[channel] = input;
         }
     }
 }

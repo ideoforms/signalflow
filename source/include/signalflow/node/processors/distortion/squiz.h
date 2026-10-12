@@ -1,6 +1,5 @@
 #pragma once
 
-#include "signalflow/buffer/ringbuffer.h"
 #include "signalflow/core/constants.h"
 #include "signalflow/node/node.h"
 
@@ -20,12 +19,12 @@ public:
     NodeRef rate;
     NodeRef chunk_size;
 
-    std::vector<BufferRef> buffers;
-    std::vector<float> read_pos;
-    std::vector<int> read_pos_chunk_counter;
-    std::vector<float> repitched_read_pos;
-    std::vector<int> repitched_read_pos_chunk_counter;
+    int buffer_length;
+    std::vector<std::vector<sample>> buffers;
     std::vector<int> write_pos;
+    std::vector<float> read_pos;
+    std::vector<sample> last_input;
+    std::vector<int> zero_crossings;
 };
 
 REGISTER(Squiz, "squiz")
