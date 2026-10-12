@@ -169,10 +169,9 @@ void FFT::process(Buffer &out, int num_frames)
      * Append the incoming buffer onto our input_buffer.
      * Perform repeated window and FFT by stepping forward hop_size frames.
      *-----------------------------------------------------------------------*/
-    if (num_frames + this->input_buffer_size > this->get_output_buffer_length())
+    if (num_frames + this->input_buffer_size > SIGNALFLOW_MAX_FFT_SIZE * 2)
     {
-        fprintf(stderr, "FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds\n");
-        throw std::runtime_error("FFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
+        throw std::runtime_error("FFT: Input backlog would exceed input buffer size");
     }
     memcpy(this->input_buffer + this->input_buffer_size,
            this->input->out[0],
