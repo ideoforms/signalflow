@@ -168,6 +168,7 @@ if (CMAKE_BUILD_PYTHON)
             ${CMAKE_CURRENT_SOURCE_DIR}/python/constants.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/python/exceptions.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/python/node.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/python/pynode.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/python/nodes.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/python/config.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/python/graph.cpp

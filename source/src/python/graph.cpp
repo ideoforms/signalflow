@@ -100,11 +100,16 @@ void init_python_graph(py::module &m)
         /*--------------------------------------------------------------------------------
          * Methods
          *-------------------------------------------------------------------------------*/
-        .def("start", &AudioGraph::start, R"pbdoc(Start the AudioGraph processing.)pbdoc")
+        /*--------------------------------------------------------------------------------
+         * Methods that start or stop the audio device release the GIL, as the device
+         * may wait for an audio callback that is itself waiting for the GIL in order
+         * to process a Python subclass of Node.
+         *-------------------------------------------------------------------------------*/
+        .def("start", &AudioGraph::start, py::call_guard<py::gil_scoped_release>(), R"pbdoc(Start the AudioGraph processing.)pbdoc")
         .def(
-            "stop", [](AudioGraph &graph) { graph.stop(); }, R"pbdoc(Stop the AudioGraph processing.)pbdoc")
+            "stop", [](AudioGraph &graph) { graph.stop(); }, py::call_guard<py::gil_scoped_release>(), R"pbdoc(Stop the AudioGraph processing.)pbdoc")
         .def("clear", &AudioGraph::clear, R"pbdoc(Remove all Node and Patches objects currently in the processing graph.)pbdoc")
-        .def("destroy", &AudioGraph::destroy, R"pbdoc(Clear the AudioGraph and deallocate its memory, ready to create a new AudioGraph.)pbdoc")
+        .def("destroy", &AudioGraph::destroy, py::call_guard<py::gil_scoped_release>(), R"pbdoc(Clear the AudioGraph and deallocate its memory, ready to create a new AudioGraph.)pbdoc")
 
         .def(
             "show_structure", [](AudioGraph &graph) { graph.show_structure(); }, R"pbdoc(Print the AudioGraph's node connectivity structure to stdout.)pbdoc")

@@ -1,4 +1,5 @@
 #include "pybind11/operators.h"
+#include "signalflow/python/pynode.h"
 #include "signalflow/python/python.h"
 
 /*--------------------------------------------------------------------------------
@@ -18,12 +19,16 @@ void init_python_node(py::module &m)
     /*--------------------------------------------------------------------------------
      * Node
      *-------------------------------------------------------------------------------*/
-    py::class_<Node, NodeRefTemplate<Node>>(m, "Node", "A single signal-processing unit in the DSP graph, a node generates audio samples, optionally acting on zero or more input nodes.")
+    py::class_<Node, PyNode, NodeRefTemplate<Node>> node_class(m, "Node", "A single signal-processing unit in the DSP graph, a node generates audio samples, optionally acting on zero or more input nodes.");
+    node_class
+        /*--------------------------------------------------------------------------------
+         * Constructs a Node, or a PyNode if called from a Python subclass.
+         *-------------------------------------------------------------------------------*/
+        .def(py::init<>())
         /*--------------------------------------------------------------------------------
          * Critical to enable pybind11 to automatically convert from floats
          * to Node objects.
          *-------------------------------------------------------------------------------*/
-        .def(py::init<>([]() { return new Node(); }))
         .def(py::init<>([](int value) { return new Constant(value); }), "value"_a,
              R"pbdoc(Creates a new Constant node which outputs a value of `value`.)pbdoc")
         .def(py::init<>([](float value) { return new Constant(value); }), "value"_a,
@@ -102,36 +107,62 @@ void init_python_node(py::module &m)
             },
             "slice"_a, R"pbdoc(Returns a new Node whose output is equal to the channels of `self` denoted by `slice`)pbdoc")
         /*--------------------------------------------------------------------------------
-         * Explicitly handle the case in which an input is assigned a float value.
-         * Under the bonnet, SignalFlow then checks whether the input is already
+         * Assigning to an attribute that matches an input name sets that input.
+         * If the value is a float, SignalFlow checks whether the input is already
          * a `Constant` object; if so, it updates the value of this object, rather
          * than destroying the Constant and creating a new input.
+         *
+         * Any other attribute is set as normal, so that Python subclasses can store
+         * their own state (e.g. `self.phase = 0.0`) and properties can be set.
          *-------------------------------------------------------------------------------*/
         .def(
-            "__setattr__", [](NodeRef a, std::string attr, float value) { a->set_input(attr, value); }, "input_name"_a, "value"_a, R"pbdoc(Set the Node's input `input_name` to value `value`)pbdoc")
-        .def("__setattr__", [](NodeRef a, std::string attr, NodeRef value) {
-            if (value == nullptr)
-            {
-                throw std::runtime_error("Node: Cannot set an input to null");
-            }
-            else
-            {
-                a->set_input(attr, value);
-            }
-        })
-        .def(
-            "__getattr__", [](NodeRef a, std::string attr) {
+            "__setattr__", [](py::object self, std::string attr, py::object value) {
                 /*--------------------------------------------------------------------------------
-             * For double-underscored attributes, throw a correct attribute error.
-             *-------------------------------------------------------------------------------*/
-                if (attr.length() > 2 && attr.substr(0, 2) == "__")
+                 * A Python subclass may set attributes before calling super().__init__(),
+                 * at which point there is no underlying C++ Node.
+                 *-------------------------------------------------------------------------------*/
+                Node *node = nullptr;
+                try
                 {
-                    throw py::attribute_error("No such attribute: " + attr);
+                    node = self.cast<Node *>();
+                }
+                catch (py::cast_error &)
+                {
+                }
+
+                if (node && node->get_inputs().count(attr))
+                {
+                    if (value.is_none())
+                    {
+                        throw std::runtime_error("Node: Cannot set an input to null");
+                    }
+                    else if (py::isinstance<py::float_>(value) || py::isinstance<py::int_>(value))
+                    {
+                        node->set_input(attr, value.cast<float>());
+                    }
+                    else
+                    {
+                        node->set_input(attr, value.cast<NodeRef>());
+                    }
                 }
                 else
                 {
-                    return a->get_input(attr);
+                    py::module::import("builtins").attr("object").attr("__setattr__")(self, attr, value);
                 }
+            },
+            "input_name"_a, "value"_a, R"pbdoc(Set the Node's input `input_name` to value `value`)pbdoc")
+        .def(
+            "__getattr__", [](NodeRef a, std::string attr) {
+                /*--------------------------------------------------------------------------------
+                 * Only called when standard attribute lookup fails. Raise AttributeError
+                 * for anything that isn't an input, so that hasattr() and getattr()
+                 * with a default behave as expected.
+                 *-------------------------------------------------------------------------------*/
+                if (!a->get_inputs().count(attr))
+                {
+                    throw py::attribute_error("Node " + a->get_name() + " has no such input: " + attr);
+                }
+                return a->get_input(attr);
             },
             "input_name"_a, R"pbdoc(Get the value of the input named `input_name`)pbdoc")
 
@@ -307,6 +338,8 @@ void init_python_node(py::module &m)
         .def(
             "stop", [](NodeRef node) { node->get_graph()->stop(node); }, R"pbdoc(Stop playing the node by disconnecting it from the graph's output)pbdoc")
         .def_property_readonly("graph", &Node::get_graph, R"pbdoc(The AudioGraph that the node is part of.)pbdoc");
+
+    init_python_pynode(node_class);
 
     /*--------------------------------------------------------------------------------
      * StochasticNode
