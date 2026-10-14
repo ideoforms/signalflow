@@ -1,4 +1,5 @@
 #include "signalflow/node/fft/ifft.h"
+#include "signalflow/core/graph.h"
 
 namespace signalflow
 {
@@ -46,6 +47,18 @@ IFFT::IFFT(NodeRef input, bool do_window)
             this->window[i] = 1.0;
         }
     }
+
+    /*------------------------------------------------------------------------
+     * The output buffer holds the current block plus pending overlap-add
+     * output, which extends up to fft_size samples beyond the block.
+     *-----------------------------------------------------------------------*/
+    int block_size = SIGNALFLOW_NODE_BUFFER_SIZE;
+    if (this->graph && this->graph->get_config().get_output_buffer_size())
+    {
+        block_size = this->graph->get_config().get_output_buffer_size();
+    }
+    this->output_buffer_length = std::max(this->output_buffer_length, block_size) + this->fft_size;
+    this->resize_output_buffers(this->num_output_channels_allocated);
 }
 
 IFFT::~IFFT()
@@ -148,23 +161,29 @@ void IFFT::ifft(sample *in, sample *out, bool polar, bool do_window, float scale
 #endif
 }
 
+static int gcd(int a, int b)
+{
+    while (b)
+    {
+        int t = a % b;
+        a = b;
+        b = t;
+    }
+    return a;
+}
+
 void IFFT::process(Buffer &out, int num_frames)
 {
     /*------------------------------------------------------------------------
      * Move data written in previous calls to process() to the front of the
      * output buffer. Zero anything after that point.
      *-----------------------------------------------------------------------*/
-    int previous_offset = num_frames;
-    int previous_overflow = this->fft_size;
-    int previous_overflow_bytes = previous_overflow * sizeof(sample);
-    memmove(this->out[0], this->out[0] + previous_offset, previous_overflow_bytes);
-    int buffer_size_bytes = this->get_output_buffer_length() * sizeof(sample);
-    memset(this->out[0] + previous_overflow, 0, buffer_size_bytes - previous_overflow_bytes);
-
-    if (previous_overflow > this->get_output_buffer_length())
+    int buffer_length = this->get_output_buffer_length();
+    memmove(this->out[0], this->out[0] + num_frames, (buffer_length - num_frames) * sizeof(sample));
+    memset(this->out[0] + buffer_length - num_frames, 0, num_frames * sizeof(sample));
+    if (this->has_received_frame)
     {
-        printf("Runtime error (fft size %d, previous overflow %d)\n", this->fft_size, previous_overflow);
-        throw std::runtime_error("IFFT: Moving overlapped segments from previous IFFT output would exceed memory bounds");
+        this->next_frame_offset -= num_frames;
     }
 
     /*------------------------------------------------------------------------
@@ -172,6 +191,30 @@ void IFFT::process(Buffer &out, int num_frames)
      *-----------------------------------------------------------------------*/
     FFTNode *fftnode = (FFTNode *) this->input.get();
     this->num_hops = fftnode->num_hops;
+
+    if (this->num_hops > 0 && !this->has_received_frame)
+    {
+        /*------------------------------------------------------------------------
+         * Frame k covers input samples [k * hop_size, k * hop_size + fft_size),
+         * and is output from k * hop_size + latency. Frames must be placed at
+         * this fixed position rather than relative to the block in which they
+         * arrive, as when the block size is not a multiple of hop_size, the
+         * number of frames per block varies.
+         *
+         * latency = fft_size - gcd(num_frames, hop_size, fft_size) is the
+         * smallest latency at which every frame arrives before its output is
+         * due (for a constant block size). This gives the same latency as
+         * before for block sizes that divide into hop_size.
+         *-----------------------------------------------------------------------*/
+        int latency = this->fft_size - gcd(gcd(num_frames, this->hop_size), this->fft_size);
+        this->next_frame_offset = latency - this->frames_elapsed;
+        this->has_received_frame = true;
+    }
+
+    if (this->next_frame_offset < 0 || this->next_frame_offset + (this->num_hops - 1) * this->hop_size + this->fft_size > buffer_length)
+    {
+        throw std::runtime_error("IFFT: Frame position exceeds output buffer (block size must not change while running)");
+    }
 
     /*------------------------------------------------------------------------
      * Perform repeated inverse FFT, moving forward hop_size frames per
@@ -183,10 +226,16 @@ void IFFT::process(Buffer &out, int num_frames)
         // TODO: This really needs resolving
         // scale_factor = (float) num_frames / fft_size;
         this->ifft(this->input->out[hop],
-                   this->out[0] + (hop * hop_size),
+                   this->out[0] + this->next_frame_offset,
                    true,
                    this->do_window,
                    scale_factor);
+        this->next_frame_offset += this->hop_size;
+    }
+
+    if (!this->has_received_frame)
+    {
+        this->frames_elapsed += num_frames;
     }
 
     if (&out != &this->out)

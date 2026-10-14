@@ -42,6 +42,15 @@ public:
     virtual void process(Buffer &out, int num_frames) override;
     virtual void trigger(std::string name = SIGNALFLOW_DEFAULT_TRIGGER,
                          float value = SIGNALFLOW_NULL_FLOAT) override;
+
+private:
+    /*--------------------------------------------------------------------------------
+     * Position in the output buffer at which the next frame will be added,
+     * relative to the start of the current block. Set when the first frame arrives.
+     *-------------------------------------------------------------------------------*/
+    int next_frame_offset = 0;
+    int frames_elapsed = 0;
+    bool has_received_frame = false;
 };
 
 REGISTER(IFFT, "ifft")
