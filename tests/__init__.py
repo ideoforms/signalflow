@@ -2,7 +2,6 @@ import os
 import sys
 import pytest
 import sysconfig
-import signalflow
 import numpy as np
 import scipy.signal
 
@@ -41,6 +40,9 @@ if os.path.exists(build_dir) and build_dir not in sys.path:
 # Ensure that placeholder package from auxiliary isn't imported
 #------------------------------------------------------------------------
 sys.path = list(filter(lambda path: "auxiliary/libs" not in path, sys.path))
+
+# This import must happen after the above line
+import signalflow
 
 def count_zero_crossings(array):
     count = 0
