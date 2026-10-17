@@ -1,4 +1,5 @@
-from signalflow import Buffer, BufferPlayer, BufferRecorder, SineOscillator, AudioGraph, AudioOut_Dummy
+from signalflow import Buffer, BufferLookup, BufferPlayer, BufferRecorder, SineOscillator, AudioGraph, AudioOut_Dummy
+from signalflow import SIGNALFLOW_INTERPOLATION_MODE_NONE
 from signalflow import SIGNALFLOW_NODE_STATE_ACTIVE, SIGNALFLOW_NODE_STATE_STOPPED
 from . import graph
 
@@ -46,6 +47,28 @@ def test_buffer_recorder_position(graph):
 
     recorder.trigger()
     assert recorder.get_property("position") == 0.0
+
+def test_buffer_lookup(graph):
+    buf = Buffer([[0.0, 1.0, 2.0, 3.0], [0.0, -1.0, -2.0, -3.0]])
+    index = Buffer([0.0, 1.0, 2.5, 3.0, -1.0, 10.0])
+    lookup = BufferLookup(buf, BufferPlayer(index))
+    assert lookup.num_output_channels == 2
+
+    # Linear interpolation (the buffer's default), and clamping to the buffer's bounds
+    graph.render_subgraph(lookup, num_frames=6, reset=True)
+    assert list(lookup.output_buffer[0][:6]) == [0.0, 1.0, 2.5, 3.0, 0.0, 3.0]
+    assert list(lookup.output_buffer[1][:6]) == [0.0, -1.0, -2.5, -3.0, 0.0, -3.0]
+
+    # No interpolation: fractional indices are truncated
+    buf.interpolation_mode = SIGNALFLOW_INTERPOLATION_MODE_NONE
+    lookup = BufferLookup(buf, 2.5)
+    graph.render_subgraph(lookup, num_frames=1, reset=True)
+    assert lookup.output_buffer[0][0] == 2.0
+
+    # Changes to the buffer's contents are read on the next block
+    buf.data[0][2] = 7.0
+    graph.render_subgraph(lookup, num_frames=1, reset=True)
+    assert lookup.output_buffer[0][0] == 7.0
 
 def test_buffer_recorder_overdub(graph):
     record_buf = Buffer(2, graph.output_buffer_size)

@@ -91,6 +91,7 @@
  *-----------------------------------------------------------------------*/
 #include <signalflow/node/buffer/beat-cutter.h>
 #include <signalflow/node/buffer/buffer-looper.h>
+#include <signalflow/node/buffer/buffer-lookup.h>
 #include <signalflow/node/buffer/buffer-player.h>
 #include <signalflow/node/buffer/buffer-recorder.h>
 #include <signalflow/node/buffer/feedback-buffer-reader.h>

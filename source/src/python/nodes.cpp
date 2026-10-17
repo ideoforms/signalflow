@@ -42,6 +42,9 @@
     py::class_<BeatCutter, Node, NodeRefTemplate<BeatCutter>>(m, "BeatCutter", "Cuts a buffer into segment_count segments, and stutters/jumps with the given probabilities.")
         .def(py::init<BufferRef, int, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "segment_count"_a = 8, "stutter_probability"_a = 0.0, "stutter_count"_a = 1, "jump_probability"_a = 0.0, "duty_cycle"_a = 1.0, "rate"_a = 1.0, "segment_rate"_a = 1.0);
     
+    py::class_<BufferLookup, Node, NodeRefTemplate<BufferLookup>>(m, "BufferLookup", "Outputs the value of `buffer` at the frame given by `index`, for each of the buffer's channels. `index` is in frames and is clamped to the buffer's bounds. Fractional values are interpolated according to the buffer's interpolation_mode. Useful for reading a table of values (e.g. a step sequence, or onset positions).")
+        .def(py::init<BufferRef, NodeRef>(), "buffer"_a = nullptr, "index"_a = 0);
+    
     py::class_<BufferLooper, Node, NodeRefTemplate<BufferLooper>>(m, "BufferLooper", "Read and write from a buffer concurrently, with controllable overdub.")
         .def(py::init<BufferRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef, NodeRef>(), "buffer"_a = nullptr, "input"_a = 0.0, "feedback"_a = 0.0, "loop_playback"_a = 0, "loop_record"_a = 0, "start_time"_a = nullptr, "end_time"_a = nullptr, "looper_level"_a = 1.0, "playthrough_level"_a = 0.0);
     
@@ -468,7 +471,7 @@
     py::class_<Logistic, Node, NodeRefTemplate<Logistic>>(m, "Logistic", "Logistic noise.")
         .def(py::init<NodeRef, NodeRef>(), "chaos"_a = 3.7, "frequency"_a = 0.0);
     
-    py::class_<PerlinNoise, StochasticNode, NodeRefTemplate<PerlinNoise>>(m, "PerlinNoise", "2D Perlin noise, sampled at the coordinates given by x and y. Successive octaves are summed with doubling frequency, each scaled in amplitude by detail relative to the previous octave. Output is in the range [-1, 1]. The noise field tiles every 256 units. Calling set_seed() regenerates the field.")
+    py::class_<PerlinNoise, StochasticNode, NodeRefTemplate<PerlinNoise>>(m, "PerlinNoise", "2D Perlin noise, sampled at the coordinates given by x and y. Successive octaves are summed with doubling frequency, each scaled in amplitude by detail relative to the previous octave. Output is in the range [-1, 1]. The noise field tiles every 256 units.")
         .def(py::init<NodeRef, NodeRef, int, NodeRef, NodeRef>(), "x"_a = 0.0, "y"_a = 0.0, "num_octaves"_a = 4, "detail"_a = 0.5, "reset"_a = nullptr);
     
     py::class_<PinkNoise, StochasticNode, NodeRefTemplate<PinkNoise>>(m, "PinkNoise", "Pink noise, with specified low/high cutoffs.")
