@@ -15,6 +15,7 @@ public:
 
     virtual void process(Buffer &out, int num_frames);
     virtual void trigger(std::string = SIGNALFLOW_DEFAULT_TRIGGER, float value = 0.0);
+    virtual PropertyRef get_property(std::string name) override;
 
     BufferRef buffer;
 

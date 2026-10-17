@@ -33,6 +33,20 @@ def test_buffer_recorder(graph):
     assert record_buf.data[0] == pytest.approx(sine_rendered, abs=0.0001)
     assert record_buf.data[1] == pytest.approx(sine_rendered, abs=0.0001)
 
+def test_buffer_recorder_position(graph):
+    record_buf = Buffer(1, graph.output_buffer_size * 4)
+    recorder = BufferRecorder(record_buf, SineOscillator(440), loop=False)
+    assert recorder.get_property("position") == 0.0
+
+    graph.render_subgraph(recorder, num_frames=graph.output_buffer_size, reset=True)
+    assert recorder.get_property("position") == pytest.approx(graph.output_buffer_size / record_buf.sample_rate)
+
+    recorder.trigger("set_position", 0.01)
+    assert recorder.get_property("position") == pytest.approx(0.01)
+
+    recorder.trigger()
+    assert recorder.get_property("position") == 0.0
+
 def test_buffer_recorder_overdub(graph):
     record_buf = Buffer(2, graph.output_buffer_size)
 

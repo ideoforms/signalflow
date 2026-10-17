@@ -70,4 +70,19 @@ void BufferRecorder::process(Buffer &out, int num_frames)
     }
 }
 
+PropertyRef BufferRecorder::get_property(std::string name)
+{
+    if (name == "position")
+    {
+        /*--------------------------------------------------------------------------------
+         * Return the current record position, in seconds.
+         *--------------------------------------------------------------------------------*/
+        return this->phase / this->buffer->get_sample_rate();
+    }
+    else
+    {
+        return Node::get_property(name);
+    }
+}
+
 }
