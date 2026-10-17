@@ -220,3 +220,25 @@ def test_node_set_property_list(graph):
 
     with pytest.raises(TypeError):
         index.set_property("list", [1, "a"])
+
+def test_node_set_property_nonexistent(graph):
+    index = sf.Index([1, 2, 3], 1)
+    with pytest.raises(RuntimeError, match="no such property"):
+        index.set_property("nonexistent", 1.0)
+
+def test_node_index_out_of_bounds(graph):
+    index = sf.Index([1, 2, 3], 5)
+    graph.render_subgraph(index, num_frames=1, reset=True)
+    assert index.output_buffer[0][0] == 3
+
+    index.set_input("index", -2)
+    graph.render_subgraph(index, num_frames=1, reset=True)
+    assert index.output_buffer[0][0] == 1
+
+    index.set_property("list", [])
+    graph.render_subgraph(index, num_frames=1, reset=True)
+    assert index.output_buffer[0][0] == 0
+
+    index.set_property("list", ["a", "b"])
+    graph.render_subgraph(index, num_frames=1, reset=True)
+    assert index.output_buffer[0][0] == 0
