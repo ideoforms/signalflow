@@ -50,8 +50,14 @@ void SegmentPlayer::process(Buffer &out, int num_frames)
     sample s;
 
     int continue_after_segment = this->continue_after_segment->out[0][0];
+
     for (int frame = 0; frame < num_frames; frame++)
     {
+        if (SIGNALFLOW_CHECK_TRIGGER(this->clock, frame))
+        {
+            this->trigger();
+        }
+
         for (int channel = 0; channel < this->num_output_channels; channel++)
         {
             if (this->state == SIGNALFLOW_NODE_STATE_STOPPED)
