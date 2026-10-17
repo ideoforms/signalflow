@@ -200,3 +200,23 @@ def test_node_variable_inputs(graph):
     assert list(sum.inputs.keys()) == ["input0", "input2", "input3", "input4"]
     graph.render()
     assert np.all(sum.output_buffer[0] == 13)
+def test_node_set_property_list(graph):
+    index = sf.Index([1, 2, 3], 1)
+    assert index.get_property("list") == [1, 2, 3]
+
+    index.set_property("list", [4.5, 5.5, 6.5])
+    assert index.get_property("list") == [4.5, 5.5, 6.5]
+    index.process(1)
+    assert index.output_buffer[0][0] == 5.5
+
+    # ints and numpy arrays are converted to lists of floats
+    index.set_property("list", [7, 8, 9])
+    assert index.get_property("list") == [7.0, 8.0, 9.0]
+    index.set_property("list", np.array([0.25, 0.5, 0.75]))
+    assert index.get_property("list") == [0.25, 0.5, 0.75]
+
+    index.set_property("list", ["a", "b"])
+    assert index.get_property("list") == ["a", "b"]
+
+    with pytest.raises(TypeError):
+        index.set_property("list", [1, "a"])

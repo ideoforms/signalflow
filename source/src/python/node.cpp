@@ -262,6 +262,10 @@ void init_python_node(py::module &m)
             "name"_a, "value"_a, R"pbdoc(Set the property named `name` to `value`)pbdoc")
         .def("set_property", [](Node &node, std::string name, int value) { node.set_property(name, value); },
             "name"_a, "value"_a, R"pbdoc(Set the property named `name` to `value`)pbdoc")
+        .def("set_property", [](Node &node, std::string name, std::vector<float> value) { node.set_property(name, value); },
+            "name"_a, "value"_a, R"pbdoc(Set the property named `name` to the list of floats `value`)pbdoc")
+        .def("set_property", [](Node &node, std::string name, std::vector<std::string> value) { node.set_property(name, value); },
+            "name"_a, "value"_a, R"pbdoc(Set the property named `name` to the list of strings `value`)pbdoc")
         .def("get_property", [](Node &node, std::string name) -> py::object {
             PropertyRef property = node.get_property(name);
             switch (property->get_property_type())
