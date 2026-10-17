@@ -21,7 +21,10 @@ class MultipleMIDIDevicesFound (Exception):
 class MIDIManager:
     shared_manager = None
 
-    def __init__(self, device_name: Union[str, list, tuple] = None, channel: int = None):
+    def __init__(self,
+                 device_name: Union[str, list, tuple] = None,
+                 channel: int = None,
+                 supports_bidirectional_display: bool = False):
         """
         Initialize the MIDIManager with the specified device name and channel.
 
@@ -31,6 +34,9 @@ class MIDIManager:
                                The device name supports partial matches, and if multiple device names
                                are specified, the system will search for each device sequentially.
             channel (int): The MIDI channel to listen to. If None, all channels will be listened to.
+            supports_bidirectional_display (bool): Whether the MIDI device supports bidirectional display,
+                               in which CC values can be sent from software (e.g. Midi Fighter Twister).
+                               Defaults to False.
 
         Raises:
             MIDIDeviceNotFound: If no matching MIDI input device is found.
@@ -56,6 +62,13 @@ class MIDIManager:
 
         matching_input_device = self._get_matching_input_device(device_name)
         self.input = mido.open_input(matching_input_device)
+
+        self.output = None
+        self.supports_bidirectional_display = supports_bidirectional_display
+        if self.supports_bidirectional_display:
+            self.output = mido.open_output(matching_input_device)
+            for n in range(127):
+                self.output.send(mido.Message('control_change', control=n, value=0))
 
         self.channel = channel
         self.input.callback = self.handle_message
@@ -142,6 +155,9 @@ class MIDIManager:
 
     def add_control_handler(self, control, handler):
         self.control_handlers[control].append(handler)
+        if self.supports_bidirectional_display and self.output is not None:
+            value_midi = int(round(handler._value_norm * 127))
+            self.output.send(mido.Message('control_change', control=control, value=value_midi))
 
     def on_control_change(self, control, value):
         self.control_values[control] = value

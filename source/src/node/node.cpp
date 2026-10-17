@@ -464,8 +464,8 @@ void Node::create_property(std::string name, PropertyRef &value)
 
 void Node::set_property(std::string name, const PropertyRef &value)
 {
-    //    if (this->properties.find(name) == this->properties.end())
-    //        throw std::runtime_error("Node " + this->name + " has no such property: " + name);
+    if (this->properties.find(name) == this->properties.end())
+        throw std::runtime_error("Node " + this->name + " has no such property: " + name);
 
     *this->properties[name] = value;
 }
