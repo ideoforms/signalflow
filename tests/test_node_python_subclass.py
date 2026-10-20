@@ -87,6 +87,56 @@ def test_python_node_attributes(graph):
         node.nonexistent
 
 
+def test_python_node_missing_super_init(graph):
+    class NoSuperInit(sf.Node):
+        def __init__(self):
+            self.counter = 1
+
+    with pytest.raises(TypeError, match=r"NoSuperInit.__init__\(\) must call super\(\).__init__\(\)"):
+        NoSuperInit()
+
+
+def test_python_node_methods_before_super_init(graph):
+    class CreateInputBeforeInit(sf.Node):
+        def __init__(self):
+            self.create_input("input", 0)
+            super().__init__()
+
+    class SetChannelsBeforeInit(sf.Node):
+        def __init__(self):
+            self.set_channels(1, 1)
+            super().__init__()
+
+    with pytest.raises(TypeError, match=r"create_input\(\) cannot be called before super\(\).__init__\(\)"):
+        CreateInputBeforeInit()
+    with pytest.raises(TypeError, match=r"set_channels\(\) cannot be called before super\(\).__init__\(\)"):
+        SetChannelsBeforeInit()
+
+
+def test_python_node_properties_before_super_init(graph):
+    class SetCppPropertyBeforeInit(sf.Node):
+        def __init__(self):
+            self.value = 1
+            super().__init__()
+
+    class SetPythonPropertyBeforeInit(sf.Node):
+        def __init__(self):
+            self.level = 2
+            super().__init__()
+
+        @property
+        def level(self):
+            return self._level
+
+        @level.setter
+        def level(self, level):
+            self._level = level
+
+    with pytest.raises(TypeError, match=r"Cannot set property 'value' before super\(\).__init__\(\)"):
+        SetCppPropertyBeforeInit()
+    assert SetPythonPropertyBeforeInit().level == 2
+
+
 def test_python_node_stateful(graph):
     node = OnePole(1.0, 0.5)
     graph.render_subgraph(node)

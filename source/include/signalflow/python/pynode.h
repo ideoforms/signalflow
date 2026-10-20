@@ -48,6 +48,17 @@ private:
 };
 
 /*--------------------------------------------------------------------------------
+ * Returns true if the C++ Node underlying a Python Node object has been
+ * constructed. This is false within a Python subclass's __init__ until it has
+ * called super().__init__().
+ *
+ * Must be checked before casting such an object to Node: if the C++ object does
+ * not yet exist, pybind11 allocates uninitialised memory for it and returns a
+ * pointer to that, rather than failing.
+ *-------------------------------------------------------------------------------*/
+bool is_node_constructed(py::handle self);
+
+/*--------------------------------------------------------------------------------
  * Adds the methods and hooks that support Python subclasses of Node.
  *-------------------------------------------------------------------------------*/
 void init_python_pynode(py::class_<Node, PyNode, NodeRefTemplate<Node>> &node_class);

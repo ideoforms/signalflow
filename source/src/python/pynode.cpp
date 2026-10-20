@@ -167,6 +167,31 @@ void PyNode::zero_output(Buffer &out, int num_frames)
     }
 }
 
+bool is_node_constructed(py::handle self)
+{
+    auto *instance = reinterpret_cast<py::detail::instance *>(self.ptr());
+    return instance->get_value_and_holder().holder_constructed();
+}
+
+/*--------------------------------------------------------------------------------
+ * Returns the PyNode underlying a Python subclass of Node, raising an exception
+ * if super().__init__() has not yet been called, or if `self` is not a Python
+ * subclass.
+ *-------------------------------------------------------------------------------*/
+static PyNode *get_py_node(py::object self, std::string method_name)
+{
+    if (!is_node_constructed(self))
+    {
+        throw std::runtime_error(method_name + "() cannot be called before super().__init__()");
+    }
+    PyNode *py_node = dynamic_cast<PyNode *>(self.cast<Node *>());
+    if (!py_node)
+    {
+        throw std::runtime_error(method_name + "() can only be called on Python subclasses of Node");
+    }
+    return py_node;
+}
+
 void init_python_pynode(py::class_<Node, PyNode, NodeRefTemplate<Node>> &node_class)
 {
     /*--------------------------------------------------------------------------------
@@ -174,23 +199,13 @@ void init_python_pynode(py::class_<Node, PyNode, NodeRefTemplate<Node>> &node_cl
      *-------------------------------------------------------------------------------*/
     node_class
         .def(
-            "create_input", [](Node &node, std::string name, NodeRef value) {
-                PyNode *py_node = dynamic_cast<PyNode *>(&node);
-                if (!py_node)
-                {
-                    throw std::runtime_error("create_input() can only be called on Python subclasses of Node");
-                }
-                py_node->create_python_input(name, value);
+            "create_input", [](py::object self, std::string name, NodeRef value) {
+                get_py_node(self, "create_input")->create_python_input(name, value);
             },
             "name"_a, "value"_a = nullptr, R"pbdoc(Create a new audio-rate input named `name`, with initial value `value`. For use in the constructor of Python subclasses of Node.)pbdoc")
         .def(
-            "set_channels", [](Node &node, int num_input_channels, int num_output_channels) {
-                PyNode *py_node = dynamic_cast<PyNode *>(&node);
-                if (!py_node)
-                {
-                    throw std::runtime_error("set_channels() can only be called on Python subclasses of Node");
-                }
-                py_node->set_channels(num_input_channels, num_output_channels);
+            "set_channels", [](py::object self, int num_input_channels, int num_output_channels) {
+                get_py_node(self, "set_channels")->set_channels(num_input_channels, num_output_channels);
             },
             "num_input_channels"_a, "num_output_channels"_a, R"pbdoc(Set a fixed number of input and output channels, disabling automatic matching of input channel counts. For use in the constructor of Python subclasses of Node.)pbdoc");
 
@@ -204,6 +219,11 @@ void init_python_pynode(py::class_<Node, PyNode, NodeRefTemplate<Node>> &node_cl
         cls.attr("__init__") = py::cpp_function(
             [subclass_init](py::object self, py::args args, py::kwargs kwargs) {
                 subclass_init(self, *args, **kwargs);
+                if (!is_node_constructed(self))
+                {
+                    std::string class_name = py::str(self.get_type().attr("__name__"));
+                    throw py::type_error(class_name + ".__init__() must call super().__init__()");
+                }
                 PyNode *node = dynamic_cast<PyNode *>(self.cast<Node *>());
                 if (node)
                 {

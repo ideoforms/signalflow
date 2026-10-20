@@ -122,12 +122,21 @@ void init_python_node(py::module &m)
                  * at which point there is no underlying C++ Node.
                  *-------------------------------------------------------------------------------*/
                 Node *node = nullptr;
-                try
+                if (is_node_constructed(self))
                 {
                     node = self.cast<Node *>();
                 }
-                catch (py::cast_error &)
+                else
                 {
+                    /*--------------------------------------------------------------------------------
+                     * Properties implemented in C++ (e.g. `value`) cannot be set until the
+                     * C++ Node exists; attempting to do so would crash.
+                     *-------------------------------------------------------------------------------*/
+                    py::object descriptor = py::module::import("inspect").attr("getattr_static")(self.get_type(), attr, py::none());
+                    if (py::isinstance(descriptor, py::module::import("builtins").attr("property")) && PyCFunction_Check(descriptor.attr("fset").ptr()))
+                    {
+                        throw py::type_error("Cannot set property '" + attr + "' before super().__init__()");
+                    }
                 }
 
                 if (node && node->get_inputs().count(attr))
