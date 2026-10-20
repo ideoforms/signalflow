@@ -1,3 +1,40 @@
 [build-system]
-requires = ["setuptools>=62", "wheel", "cmake", "scikit-build", "pybind11-stubgen"]
+requires = ["setuptools>=62", "cmake", "pybind11-stubgen"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "signalflow"
+version = "0.6.0"
+description = "SignalFlow is a sound synthesis library designed for clear and concise expression of sonic ideas"
+readme = "README.md"
+authors = [{ name = "Daniel Jones", email = "dan@erase.net" }]
+keywords = ["audio", "sound", "synthesis", "dsp", "sound-synthesis"]
+classifiers = [
+    "Topic :: Multimedia :: Sound/Audio",
+    "Topic :: Multimedia :: Sound/Audio :: Sound Synthesis",
+    "Topic :: Artistic Software",
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+]
+requires-python = ">=3.9"
+dependencies = ["numpy", "requests"]
+
+[project.scripts]
+signalflow = "signalflow_cli:main"
+
+[dependency-groups]
+test = ["pytest", "scipy"]
+
+#--------------------------------------------------------------------------------
+# The list of packages and the C++ extension are defined in setup.py, as they
+# differ by platform.
+#--------------------------------------------------------------------------------
+[tool.setuptools]
+package-dir = { "" = "auxiliary/libs" }
+
+[tool.setuptools.package-data]
+signalflow-stubs = ["*.pyi"]
+signalflow = ["*.pyd"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

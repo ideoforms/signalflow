@@ -117,8 +117,9 @@ CombDelay: Delay time exceeds maximum. Reduce the delay_time, or increase max_de
 
 ## Test
 
-To run the unit test suite:
+To run the unit test suite, install the test dependencies (requires pip >= 25.1), then run pytest:
 ```
+python3 -m pip install --group test
 python3 -m pytest
 ```
 
@@ -129,12 +130,12 @@ Releases are built and published by the `Build wheels` GitHub Actions workflow (
 For each new release:
 
 - Regenerate docs, Python bindings and README: `auxiliary/scripts/auto-generator.py --all`
-- Update the version in `setup.cfg`
+- Update the version in `pyproject.toml`
 - Add an entry to `CHANGELOG.md`, with a heading in the format `## [v1.2.34](...) (date)`
 - Commit changes
 - Add a git version tag in the format `v1.2.34`, and push it: `git push origin master v1.2.34`
 - The workflow then:
-  - checks that the tag matches the version in `setup.cfg`
+  - checks that the tag matches the version in `pyproject.toml`
   - builds and tests wheels for Linux (x86_64 and aarch64, for Raspberry Pi) and Windows (x64)
   - creates a draft GitHub release, with the wheels attached and the `CHANGELOG` entry as the release body
 - Review the draft release, then approve the `pypi` deployment in the workflow run (Actions → the run → Review deployments). The wheels are then published to PyPI, and the GitHub release is published.
@@ -142,7 +143,7 @@ For each new release:
   - `twine upload wheelhouse/*.whl`
   - `gh release upload v1.2.34 wheelhouse/*.whl`
 
-To test the release process, push a pre-release tag such as `v1.2.34rc1` (with a matching version in `setup.cfg`). This is marked as a pre-release on GitHub, and is not installed by pip unless explicitly requested. Pre-release tags use the `CHANGELOG` entry for the corresponding release (here, `v1.2.34`).
+To test the release process, push a pre-release tag such as `v1.2.34rc1` (with a matching version in `pyproject.toml`). This is marked as a pre-release on GitHub, and is not installed by pip unless explicitly requested. Pre-release tags use the `CHANGELOG` entry for the corresponding release (here, `v1.2.34`).
 
 To build and test wheels without releasing, run the workflow manually (Actions → Build wheels → Run workflow).
 

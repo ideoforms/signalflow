@@ -15,14 +15,8 @@ jobs:
         sudo rm -rf /home/linuxbrew
         sudo apt-get update -y
         sudo apt-get install libasound2-dev libsndfile1-dev libfftw3-dev -y
-        # Requires setuptools >= 62.1 for `python setup.py test`, as earlier versions
-        # used a different build path to the .so file as located in tests/__init__.py
-        # 2024-07-29: Require importlib_metadata for now due to this:
-        #             https://github.com/pypa/setuptools/issues/4478
-        # 2025-02-06: Require packaging version due to this:
-        #             https://github.com/pypa/setuptools/issues/4501
+        # Requires pip >= 25.1 to install dependency groups (--group)
         python -m pip install -U pip
-        python -m pip install -U pytest numpy scipy "setuptools>=62.1.0" importlib_metadata "packaging>=24.1"
         curl https://raw.githubusercontent.com/mackron/miniaudio/refs/heads/dev-0.12/miniaudio.h -o source/include/signalflow/node/io/output/miniaudio-library.h
     - name: Configure
       run: mkdir build && cd build && cmake ..
@@ -31,6 +25,6 @@ jobs:
     - name: Python build
       run: python -m pip install .
     - name: Install test dependencies
-      run: python -m pip install ".[test]"
+      run: python -m pip install --group test
     - name: Python test
       run: python -m pytest
