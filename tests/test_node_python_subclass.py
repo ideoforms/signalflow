@@ -107,9 +107,9 @@ def test_python_node_methods_before_super_init(graph):
             self.set_channels(1, 1)
             super().__init__()
 
-    with pytest.raises(TypeError, match=r"create_input\(\) cannot be called before super\(\).__init__\(\)"):
+    with pytest.raises(RuntimeError, match=r"create_input\(\) cannot be called before super\(\).__init__\(\)"):
         CreateInputBeforeInit()
-    with pytest.raises(TypeError, match=r"set_channels\(\) cannot be called before super\(\).__init__\(\)"):
+    with pytest.raises(RuntimeError, match=r"set_channels\(\) cannot be called before super\(\).__init__\(\)"):
         SetChannelsBeforeInit()
 
 
