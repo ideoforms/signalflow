@@ -13,8 +13,8 @@ class BufferRecorder : public Node
 public:
     BufferRecorder(BufferRef buffer = nullptr, NodeRef input = 0.0, NodeRef feedback = 0.0, bool loop = false);
 
-    virtual void process(Buffer &out, int num_frames);
-    virtual void trigger(std::string = SIGNALFLOW_DEFAULT_TRIGGER, float value = 0.0);
+    virtual void process(Buffer &out, int num_frames) override;
+    virtual void trigger(std::string = SIGNALFLOW_DEFAULT_TRIGGER, float value = 0.0) override;
     virtual PropertyRef get_property(std::string name) override;
 
     BufferRef buffer;

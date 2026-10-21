@@ -227,6 +227,9 @@ set(CPACK_PACKAGE_VERSION_MINOR 3)
 set(CPACK_PACKAGE_VERSION_PATCH 0)
 add_subdirectory("source/lib/libmysofa")
 
+# Suppress compiler warnings from third-party code
+target_compile_options(mysofa-static PRIVATE $<IF:$<C_COMPILER_ID:MSVC>,/w,-w>)
+
 #-------------------------------------------------------------------------------
 # libmysofa is linked statically, so its functions should not be marked for
 # export. MYSOFA_STATIC is checked by mysofa_export.h, and is PUBLIC so that it
