@@ -55,6 +55,10 @@ sine = SineOscillator(440)
 rectified = sine * (sine > 0)
 ```
 
+### List index
+
+The list index (`__getitem__`) operator `[]` can be used to select individual channels from a multichannel array. See [Multichannel](multichannel.md#querying-channel-subsets-with-the-index-operator).
+
 ### Index of operators
 
 Below is a full list of operators supported by SignalFlow.

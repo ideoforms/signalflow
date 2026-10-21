@@ -50,6 +50,7 @@
 #include <signalflow/node/operators/comparison.h>
 #include <signalflow/node/operators/divide.h>
 #include <signalflow/node/operators/frequency-to-midi-note.h>
+#include <signalflow/node/operators/gain.h>
 #include <signalflow/node/operators/midi-note-to-frequency.h>
 #include <signalflow/node/operators/multiply.h>
 #include <signalflow/node/operators/pow.h>

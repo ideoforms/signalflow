@@ -111,6 +111,7 @@
 - **[If](operators/if/index.md)**: Outputs value_if_true for each non-zero value of a, value_if_false for all other values.
 - **[Divide](operators/divide/index.md)**: Divide each sample of a by each sample of b. Can also be written as a / b
 - **[FrequencyToMidiNote](operators/frequencytomidinote/index.md)**: Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output.
+- **[Gain](operators/gain/index.md)**: Apply a gain to the input, specified in decibels.
 - **[MidiNoteToFrequency](operators/midinotetofrequency/index.md)**: Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point input.
 - **[Multiply](operators/multiply/index.md)**: Multiply each sample of a by each sample of b. Can also be written as a * b
 - **[Pow](operators/pow/index.md)**: Outputs a to the power of b, per sample. Can also be written as a ** b

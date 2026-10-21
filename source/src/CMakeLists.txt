@@ -103,6 +103,7 @@ set(SRC ${SRC}
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-select.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/channel-crossfade.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/frequency-to-midi-note.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/gain.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/midi-note-to-frequency.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/multiply.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/node/operators/pow.cpp

@@ -1,5 +1,6 @@
 from signalflow import Constant, ChannelArray, ChannelOffset, Sum, SelectInput, Counter, Impulse, Bus
-from signalflow import ChannelCrossfade
+from signalflow import ChannelCrossfade, Gain, Line
+import pytest
 import numpy as np
 
 from . import graph
@@ -344,3 +345,30 @@ def test_bus(graph):
     assert np.all(a.output_buffer[1] == 8)
     assert np.all(a.output_buffer[6] == 7)
     assert np.all(a.output_buffer[7] == 8)
+
+def test_gain(graph):
+    gain = Gain(Constant(0.5), -6)
+    graph.render_subgraph(gain)
+    assert np.all(gain.output_buffer[0] == pytest.approx(0.5 * 10 ** (-6 / 20)))
+
+    # Default gain of 0dB passes the input through unchanged
+    gain = Gain(Constant(0.5))
+    graph.render_subgraph(gain)
+    assert np.all(gain.output_buffer[0] == 0.5)
+
+    # Changing the gain updates the cached amplitude
+    gain = Gain(Constant(1.0), 0)
+    graph.render_subgraph(gain)
+    assert np.all(gain.output_buffer[0] == 1.0)
+    gain.gain = 12
+    graph.render_subgraph(gain, reset=True)
+    assert np.all(gain.output_buffer[0] == pytest.approx(10 ** (12 / 20)))
+
+    # Per-sample, per-channel gain
+    gain = Gain(ChannelArray([1, 1]), Line(0, -20, graph.output_buffer_size / graph.sample_rate))
+    graph.render_subgraph(gain)
+    assert gain.num_output_channels == 2
+    assert gain.output_buffer[0][0] == pytest.approx(1.0)
+    assert gain.output_buffer[1][0] == pytest.approx(1.0)
+    assert gain.output_buffer[0][-1] == pytest.approx(10 ** (-20 / 20), rel=0.01)
+    assert gain.output_buffer[1][-1] == pytest.approx(gain.output_buffer[0][-1])

@@ -243,6 +243,9 @@
     py::class_<FrequencyToMidiNote, Node, NodeRefTemplate<FrequencyToMidiNote>>(m, "FrequencyToMidiNote", "Map a frequency to a MIDI note (where 440Hz = A4 = 69), with floating-point output.")
         .def(py::init<NodeRef>(), "a"_a = 0);
     
+    py::class_<Gain, Node, NodeRefTemplate<Gain>>(m, "Gain", "Apply a gain to the input, specified in decibels.")
+        .def(py::init<NodeRef, NodeRef>(), "input"_a = 0.0, "gain"_a = 0.0);
+    
     py::class_<MidiNoteToFrequency, Node, NodeRefTemplate<MidiNoteToFrequency>>(m, "MidiNoteToFrequency", "Map a MIDI note to a frequency (where 440Hz = A4 = 69), supporting floating-point input.")
         .def(py::init<NodeRef>(), "a"_a = 0);
     
