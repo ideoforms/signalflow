@@ -73,6 +73,14 @@ output = square[0:2]
 # now contains a two-channel square wave
 ```
 
+You can also iterate over the channels of a multichannel node:
+
+```python
+audio_in = AudioIn(2)
+for channel in audio_in:
+    print(channel)
+```
+
 ---
 
 [→ Next: Status and properties](properties.md)

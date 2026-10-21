@@ -91,7 +91,7 @@ nav:
      - Multichannel: node/multichannel.md
      - Status and properties: node/properties.md
      - Stochastic nodes: node/stochastic.md
-     - Developing a new Node class: node/developing.md
+     - Developing new Node classes: node/developing.md
    - Patches:
      - Patches: patch/index.md
      - Defining a Patch: patch/defining.md

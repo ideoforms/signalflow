@@ -255,3 +255,21 @@ def test_node_index_out_of_bounds(graph):
     index.set_property("list", ["a", "b"])
     graph.render_subgraph(index, num_frames=1, reset=True)
     assert index.output_buffer[0][0] == 0
+
+
+def test_node_iterate_channels(graph):
+    node = sf.ChannelArray([1, 2, 3])
+    assert len(node) == 3
+
+    channels = list(node)
+    assert len(channels) == 3
+    for index, channel in enumerate(channels):
+        assert isinstance(channel, sf.ChannelSelect)
+        graph.render_subgraph(channel, num_frames=1, reset=True)
+        assert channel.output_buffer[0][0] == index + 1
+
+    last = node[-1]
+    graph.render_subgraph(last, num_frames=1, reset=True)
+    assert last.output_buffer[0][0] == 3
+    with pytest.raises(IndexError):
+        node[3]
