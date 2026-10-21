@@ -162,6 +162,16 @@ add_library(signalflow SHARED ${SRC})
 add_compile_definitions(SIGNALFLOW_VERSION="${SIGNALFLOW_VERSION}")
 
 #-------------------------------------------------------------------------------
+# Raise miniaudio's maximum channel count (default 254), to support
+# high-channel-count audio interfaces.
+#
+# This is PUBLIC because it changes the size of miniaudio structs embedded in
+# SignalFlow's own classes (e.g. ma_device in AudioOut), so must be consistent
+# across everything that includes SignalFlow's headers.
+#-------------------------------------------------------------------------------
+target_compile_definitions(signalflow PUBLIC MA_MAX_CHANNELS=1024)
+
+#-------------------------------------------------------------------------------
 # Dependency: libsndfile
 #-------------------------------------------------------------------------------
 if (CMAKE_SYSTEM_NAME STREQUAL "Windows")
