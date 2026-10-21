@@ -13,6 +13,16 @@ To prevent the graph from starting instantly (for example, if you want to use th
 
 To configure graph playback or recording parameters, see [AudioGraph: Configuration](config.md).
 
+## Accessing the existing graph
+
+To get a reference to the global audio graph, after it has been created somewhere else in your code:
+
+```python
+graph = AudioGraph.get_shared_graph()
+```
+
+If an `AudioGraph` has not yet been created, this will return `None`.
+
 ---
 
 [→ Next: Graph configuration](config.md)
