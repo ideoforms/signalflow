@@ -24,6 +24,19 @@ def test_node_add_input(graph):
         a.add_input(b)
 
 
+@pytest.mark.parametrize("value", [np.float32(1.5), np.float16(1.5), np.float64(1.5), np.int32(3), np.uint8(3)])
+def test_node_numpy_scalar_input(graph, value):
+    # np.float32 etc don't subclass Python float, so need explicit handling
+    a = SineOscillator(value)
+    frequency = a.get_input("frequency")
+    graph.render_subgraph(a)
+    assert np.all(frequency.output_buffer[0] == float(value))
+
+    buffer = sf.Buffer([[0.25, 0.5, 0.75]])
+    b = sf.ScaleLinExp(SineOscillator(1), -1, 1, np.min(buffer.data), np.max(buffer.data))
+    assert b.get_input("c").output_buffer is not None
+
+
 def test_node_set_input(graph):
     a = SineOscillator(440)
 

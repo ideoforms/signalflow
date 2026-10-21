@@ -14,6 +14,23 @@ struct std::hash<Node>
     }
 };
 
+/*--------------------------------------------------------------------------------
+ * Matches numpy numeric scalars (np.float32, np.int16, etc). Unlike np.float64,
+ * these don't subclass Python's float, so pybind11's float caster rejects them.
+ *-------------------------------------------------------------------------------*/
+static bool is_numpy_number(PyObject *obj)
+{
+    // Intentionally leaked, to avoid a decref after interpreter shutdown
+    static py::handle number = py::object(py::module_::import("numpy").attr("number")).release();
+    return py::isinstance(obj, number);
+}
+
+class numpy_number : public py::object
+{
+public:
+    PYBIND11_OBJECT_DEFAULT(numpy_number, py::object, is_numpy_number)
+};
+
 void init_python_node(py::module &m)
 {
     /*--------------------------------------------------------------------------------
@@ -32,6 +49,8 @@ void init_python_node(py::module &m)
         .def(py::init<>([](int value) { return new Constant(value); }), "value"_a,
              R"pbdoc(Creates a new Constant node which outputs a value of `value`.)pbdoc")
         .def(py::init<>([](float value) { return new Constant(value); }), "value"_a,
+             R"pbdoc(Creates a new Constant node which outputs a value of `value`.)pbdoc")
+        .def(py::init<>([](numpy_number value) { return new Constant(value.cast<float>()); }), "value"_a,
              R"pbdoc(Creates a new Constant node which outputs a value of `value`.)pbdoc")
         .def(py::init<>([](std::vector<NodeRef> value) { return new ChannelArray(value); }))
         .def(py::init<>([](PatchRef patch) { return patch->get_output(); }))
@@ -395,6 +414,9 @@ void init_python_node(py::module &m)
      *-------------------------------------------------------------------------------*/
     py::implicitly_convertible<int, Node>();
     py::implicitly_convertible<float, Node>();
+
+    // numpy scalars (np.float32, etc)
+    py::implicitly_convertible<numpy_number, Node>();
 
     // python native lists
     py::implicitly_convertible<py::list, Node>();
