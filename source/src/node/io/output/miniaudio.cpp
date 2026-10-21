@@ -13,8 +13,6 @@
 #include <string.h>
 #include <unordered_map>
 
-static bool is_processing = false;
-
 namespace signalflow
 {
 
@@ -42,7 +40,6 @@ void data_callback(ma_device *ma_device_ptr,
                    const void *ma_input_pointer,
                    ma_uint32 ma_frame_count)
 {
-    is_processing = true;
     int channel_count = ma_device_ptr->playback.channels;
 
     /*-----------------------------------------------------------------------*
@@ -73,8 +70,6 @@ void data_callback(ma_device *ma_device_ptr,
             output_pointer[channel_count * frame + channel] = output->out[channel][frame];
         }
     }
-
-    is_processing = false;
 }
 
 AudioOut::AudioOut(const std::string &backend_name,
@@ -212,10 +207,7 @@ void AudioOut::stop()
 
 void AudioOut::destroy()
 {
-    while (is_processing)
-    {
-    }
-
+    // ma_device_uninit waits for the audio callback to return before processing.
     ma_device_uninit(&device);
 }
 
