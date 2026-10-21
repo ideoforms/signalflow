@@ -113,8 +113,29 @@ void init_python_node(py::module &m)
             R"pbdoc(Returns a new Node whose output is equal to `self` % `other`)pbdoc")
 
         .def(
-            "__getitem__", [](NodeRef a, int index) { return new ChannelSelect(a, index); }, "index"_a,
-            R"pbdoc(Returns a new Node whose output is equal to the `index`'th channel of `self`)pbdoc")
+            "__getitem__", [](NodeRef a, int index) {
+                int num_channels = a->get_num_output_channels();
+                if (index < 0)
+                {
+                    index += num_channels;
+                }
+                if (index < 0 || index >= num_channels)
+                {
+                    throw py::index_error("Channel index out of range");
+                }
+                return new ChannelSelect(a, index);
+            },
+            "index"_a, R"pbdoc(Returns a new Node whose output is equal to the `index`'th channel of `self`)pbdoc")
+        .def(
+            "__iter__", [](NodeRef a) {
+                py::list channels;
+                for (int index = 0; index < a->get_num_output_channels(); index++)
+                {
+                    channels.append(NodeRef(new ChannelSelect(a, index)));
+                }
+                return py::iter(channels);
+            },
+            R"pbdoc(Iterates over the node's output channels, as ChannelSelect nodes)pbdoc")
         .def(
             "__getitem__", [](NodeRef a, py::slice slice) {
                 py::ssize_t start, stop, step, slicelength;
@@ -217,6 +238,7 @@ void init_python_node(py::module &m)
             "__lt__", [](NodeRef a, NodeRef b) { return new LessThan(a, b); }, "other"_a, R"pbdoc(Returns a new Node whose output is equal to `self` < `other`)pbdoc")
         .def(
             "__le__", [](NodeRef a, NodeRef b) { return new LessThanOrEqual(a, b); }, "other"_a, R"pbdoc(Returns a new Node whose output is equal to `self` <= `other`)pbdoc")
+        .def("__len__", &Node::get_num_output_channels)
 
         /*--------------------------------------------------------------------------------
          * Properties
