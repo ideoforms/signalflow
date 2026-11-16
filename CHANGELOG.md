@@ -1,5 +1,13 @@
 # CHANGELOG
 
+## [v0.6.1](https://github.com/ideoforms/signalflow/tree/v0.6.1) (2026-10-20)
+
+- Added support for implementing Node subclasses in Python
+- Added node classes: `BufferLookup`, `Gain`, `PerlinNoise`
+- Fixed bugs in `Index`, `SegmentPlayer`, `FFTConvolve`, `Squiz`
+- Modernised project config and dependencies, with support for `--group test`
+- `signalflow_midi`: Add support for bidirectional devices such as Midi Fighter Twister, which support setting their displayed CC levels
+
 ## [v0.6.0](https://github.com/ideoforms/signalflow/tree/v0.6.0) (2026-10-10)
 
 - Improved thread-safe implementation of graph changes, via `AudioGraphChange`
