@@ -560,6 +560,7 @@ void AudioGraph::render(int num_frames)
      *-----------------------------------------------------------------------*/
     double t0 = signalflow_timestamp();
 
+    this->render_count++;
     this->reset_graph();
     this->render_subgraph(this->output, num_frames);
     for (auto node : this->scheduled_nodes)

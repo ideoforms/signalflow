@@ -36,19 +36,85 @@ void AudioInputManager::read_callback(ma_device *pDevice,
 
 void AudioInputManager::process_input(const float *input_samples, ma_uint32 frame_count)
 {
-    std::lock_guard<std::mutex> lock(this->inputs_mutex);
-
-    unsigned int device_channels = this->device.capture.channels;
-
-    for (AudioIn *input : this->inputs)
+    /*--------------------------------------------------------------------------------
+     * Write every device channel into the shared ring, then publish the new frames.
+     * Lock-free: AudioIn nodes read from the ring on the graph's audio thread.
+     *-------------------------------------------------------------------------------*/
+    uint64_t written = this->frames_written.load(std::memory_order_relaxed);
+    for (ma_uint32 frame = 0; frame < frame_count; frame++)
     {
-        for (unsigned int frame = 0; frame < frame_count; frame++)
+        size_t index = (written + frame) % this->ring_capacity;
+        memcpy(&this->ring[index * this->ring_channels], &input_samples[frame * this->ring_channels], sizeof(sample) * this->ring_channels);
+    }
+    this->frames_written.store(written + frame_count, std::memory_order_release);
+}
+
+void AudioInputManager::begin_block(AudioGraph *graph, int num_frames)
+{
+    this->current_block = graph->get_render_count();
+
+    uint64_t written = this->frames_written.load(std::memory_order_acquire);
+    unsigned int block = std::max(this->period_size, (unsigned int) num_frames);
+
+    /*--------------------------------------------------------------------------------
+     * Read one block plus one device period behind the writer, so that a little
+     * jitter between the input and output callbacks doesn't cause underruns.
+     * If more than a few blocks further behind than that, resync rather than
+     * letting latency build up.
+     *-------------------------------------------------------------------------------*/
+    uint64_t target_lag = (uint64_t) num_frames + this->period_size;
+    uint64_t max_lag = target_lag + 4 * (uint64_t) block;
+
+    if (this->reader_synced)
+    {
+        this->read_frame += this->last_block_frames;
+        bool underrun = this->read_frame + num_frames > written;
+        bool overrun = !underrun && written - this->read_frame > max_lag;
+        if (underrun || overrun)
         {
-            for (unsigned int channel = 0; channel < input->num_channels; channel++)
-            {
-                unsigned int device_channel = input->first_channel + channel;
-                input->queues[channel]->append(input_samples[frame * device_channels + device_channel]);
-            }
+            this->reader_synced = false;
+        }
+    }
+
+    if (!this->reader_synced && written >= target_lag)
+    {
+        this->read_frame = written - target_lag;
+        this->reader_synced = true;
+    }
+
+    this->last_block_frames = num_frames;
+
+    /*--------------------------------------------------------------------------------
+     * The writer may be up to one callback ahead of `written`, so the frames being
+     * read must stay clear of that region of the ring.
+     *-------------------------------------------------------------------------------*/
+    this->block_valid = this->reader_synced && (max_lag + block) <= this->ring_capacity;
+}
+
+void AudioInputManager::read(AudioIn *input, Buffer &out, int num_frames)
+{
+    AudioGraph *graph = input->get_graph();
+    if (graph->get_render_count() != this->current_block)
+    {
+        this->begin_block(graph, num_frames);
+    }
+
+    if (!this->block_valid)
+    {
+        for (unsigned int channel = 0; channel < input->num_channels; channel++)
+        {
+            memset(out[channel], 0, num_frames * sizeof(sample));
+        }
+        return;
+    }
+
+    for (int frame = 0; frame < num_frames; frame++)
+    {
+        size_t index = (this->read_frame + frame) % this->ring_capacity;
+        const sample *frame_samples = &this->ring[index * this->ring_channels + input->first_channel];
+        for (unsigned int channel = 0; channel < input->num_channels; channel++)
+        {
+            out[channel][frame] = frame_samples[channel];
         }
     }
 }
@@ -72,15 +138,6 @@ void AudioInputManager::add_input(AudioIn *input)
         throw audio_io_exception("AudioIn: Requested channels " + std::to_string(input->first_channel) + "-" + std::to_string(input->first_channel + input->num_channels - 1) + ", but input device only has " + std::to_string(device_channels) + " channel" + (device_channels == 1 ? "" : "s"));
     }
 
-    /*--------------------------------------------------------------------------------
-     * Initialise the queue with single block of silence, ensuring that the write
-     * head is always ahead of the read head by a block. This adds a single block
-     * of latency between input and output, but buffers against jitter in the
-     * case that two reads occur between one write (as experienced on Linux/alsa).
-     *-------------------------------------------------------------------------------*/
-    unsigned int period_size = this->device.capture.internalPeriodSizeInFrames;
-    input->init_queues(period_size * 8, period_size);
-
     std::lock_guard<std::mutex> inputs_lock(this->inputs_mutex);
     this->inputs.push_back(input);
 }
@@ -90,10 +147,6 @@ void AudioInputManager::remove_input(AudioIn *input)
     std::lock_guard<std::mutex> lock(this->device_mutex);
 
     {
-        /*--------------------------------------------------------------------------------
-         * Once the input has been removed under the inputs lock, the audio callback
-         * is guaranteed to no longer be accessing its queues.
-         *-------------------------------------------------------------------------------*/
         std::lock_guard<std::mutex> inputs_lock(this->inputs_mutex);
         this->inputs.erase(std::remove(this->inputs.begin(), this->inputs.end(), input), this->inputs.end());
     }
@@ -198,6 +251,18 @@ void AudioInputManager::open_device(AudioGraph *graph)
               << "buffer size " << device.capture.internalPeriodSizeInFrames << " samples, " << num_channels << " channel" << s << ")"
               << std::endl;
 
+    /*--------------------------------------------------------------------------------
+     * Allocate the shared input ring (see miniaudio.h) before the device starts.
+     * Leave room for several blocks of lag plus a callback in flight, at whichever
+     * is larger of the device period and the graph's block size.
+     *-------------------------------------------------------------------------------*/
+    this->period_size = std::max(this->device.capture.internalPeriodSizeInFrames, (ma_uint32) 1);
+    unsigned int block = std::max(this->period_size, (unsigned int) graph->get_output_buffer_size());
+    unsigned int capacity = std::max(block * 16, (unsigned int) 8192);
+    this->ring.assign((size_t) capacity * num_channels, 0.0f);
+    this->ring_capacity = capacity;
+    this->ring_channels = num_channels;
+
     rv = ma_device_start(&this->device);
     if (rv != MA_SUCCESS)
     {
@@ -233,7 +298,6 @@ AudioIn::AudioIn(unsigned int num_channels, unsigned int first_channel)
 AudioIn::~AudioIn()
 {
     this->destroy();
-    this->free_queues();
 }
 
 void AudioIn::init()
@@ -260,10 +324,6 @@ void AudioIn::stop()
 {
     if (this->is_started)
     {
-        /*--------------------------------------------------------------------------------
-         * Queues are not freed here, as process() may still be reading from them
-         * on the audio thread. They are freed in the destructor.
-         *-------------------------------------------------------------------------------*/
         this->is_started = false;
         AudioInputManager::get_shared_manager()->remove_input(this);
     }
@@ -279,35 +339,6 @@ unsigned int AudioIn::get_first_channel() const
     return this->first_channel;
 }
 
-void AudioIn::init_queues(unsigned int queue_size, unsigned int latency)
-{
-    /*--------------------------------------------------------------------------------
-     * If restarting after a stop(), reuse the existing queues, which may still be
-     * read by process() on the audio thread.
-     *-------------------------------------------------------------------------------*/
-    if (!this->queues.empty())
-    {
-        return;
-    }
-
-    for (unsigned int channel = 0; channel < this->num_channels; channel++)
-    {
-        SampleRingQueue *queue = new SampleRingQueue(queue_size);
-        std::vector<float> silence(latency, 0);
-        queue->extend(silence);
-        this->queues.push_back(queue);
-    }
-}
-
-void AudioIn::free_queues()
-{
-    for (SampleRingQueue *queue : this->queues)
-    {
-        delete queue;
-    }
-    this->queues.clear();
-}
-
 void AudioIn::process(Buffer &out, int num_samples)
 {
     if (!this->is_started)
@@ -319,13 +350,7 @@ void AudioIn::process(Buffer &out, int num_samples)
         return;
     }
 
-    for (int channel = 0; channel < this->num_output_channels; channel++)
-    {
-        for (int frame = 0; frame < num_samples; frame++)
-        {
-            out[channel][frame] = this->queues[channel]->pop();
-        }
-    }
+    AudioInputManager::get_shared_manager()->read(this, out, num_samples);
 }
 
 }

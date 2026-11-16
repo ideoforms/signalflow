@@ -1,6 +1,7 @@
 #pragma once
 
 #include <atomic>
+#include <cstdint>
 #include <mutex>
 #include <vector>
 
@@ -21,6 +22,19 @@ class AudioIn;
  *
  * The device is opened when the first AudioIn is added, and closed when the
  * last AudioIn is removed.
+ *
+ * Input samples are written by the device callback into a single ring buffer
+ * holding all device channels. Every AudioIn reads from it at one read position
+ * per graph block (identified by AudioGraph::get_render_count()), so all AudioIn
+ * nodes are sample-aligned, whenever they were created and however long they went
+ * unrendered: previously each AudioIn had its own queue, which filled from the
+ * moment it was created but only drained once it was rendered, leaving it
+ * permanently delayed relative to AudioIn nodes created earlier.
+ *
+ * The read position trails the write position by one graph block plus one device
+ * period (to buffer against jitter between the input and output callbacks). If the
+ * reader falls too far behind or overtakes the writer (e.g. while the input device
+ * is closed, or through clock drift between devices), it resynchronises.
  *-------------------------------------------------------------------------------*/
 class AudioInputManager
 {
@@ -36,6 +50,13 @@ public:
     void remove_input(AudioIn *input);
 
     unsigned int get_num_channels();
+
+    /*--------------------------------------------------------------------------------
+     * Called by AudioIn::process() on the audio thread: writes num_frames of the
+     * input's channels, for the graph block currently being rendered, to out.
+     * Outputs silence if no input is available yet.
+     *-------------------------------------------------------------------------------*/
+    void read(AudioIn *input, Buffer &out, int num_frames);
 
     static void read_callback(ma_device *pDevice,
                               void *pOutput,
@@ -61,6 +82,29 @@ private:
      *-------------------------------------------------------------------------------*/
     std::mutex inputs_mutex;
     std::mutex device_mutex;
+
+    /*--------------------------------------------------------------------------------
+     * Interleaved ring of ring_capacity frames x ring_channels, sized when the device
+     * is opened (before any AudioIn is started, so no reader is active).
+     * frames_written counts every frame written, across device reopens: the callback
+     * writes the frames, then publishes them by advancing it.
+     *-------------------------------------------------------------------------------*/
+    std::vector<sample> ring;
+    unsigned int ring_capacity = 0;
+    unsigned int ring_channels = 0;
+    unsigned int period_size = 0;
+    std::atomic<uint64_t> frames_written { 0 };
+
+    /*--------------------------------------------------------------------------------
+     * Reader state, only accessed on the graph's audio thread.
+     *-------------------------------------------------------------------------------*/
+    uint64_t read_frame = 0;
+    uint64_t current_block = UINT64_MAX;
+    bool reader_synced = false;
+    bool block_valid = false;
+    int last_block_frames = 0;
+
+    void begin_block(AudioGraph *graph, int num_frames);
 };
 
 class AudioIn : public AudioIn_Abstract
@@ -79,13 +123,9 @@ public:
 private:
     friend class AudioInputManager;
 
-    void init_queues(unsigned int queue_size, unsigned int latency);
-    void free_queues();
-
     unsigned int num_channels;
     unsigned int first_channel;
     std::atomic<bool> is_started { false };
-    std::vector<SampleRingQueue *> queues;
 };
 
 }

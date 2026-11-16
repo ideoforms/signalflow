@@ -7,6 +7,8 @@
  *
  *--------------------------------------------------------------------------------*/
 
+#include <cstdint>
+
 #include "signalflow/core/config.h"
 #include "signalflow/core/core.h"
 #include "signalflow/node/io/output/abstract.h"
@@ -419,6 +421,16 @@ public:
     int get_node_count();
 
     /**--------------------------------------------------------------------------------
+     * Query the number of times render() has been called. Nodes that must share
+     * per-block state (e.g. AudioIn nodes reading the same input stream) use this to
+     * identify the current block.
+     *
+     * @return The render count.
+     *
+     *--------------------------------------------------------------------------------*/
+    uint64_t get_render_count() { return this->render_count; }
+
+    /**--------------------------------------------------------------------------------
      * Query the number of patches in the audio graph.
      *
      * @return The number of patches.
@@ -499,6 +511,7 @@ private:
     int sample_rate;
     int node_count;
     int _node_count_tmp;
+    uint64_t render_count = 0;
     float cpu_usage;
     float cpu_usage_smoothing;
     float output_level_peak;
