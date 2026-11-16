@@ -21,7 +21,10 @@ class CMakeBuild(build_ext):
 
     def build_extension(self, ext):
         extdir = os.path.abspath(self.build_lib)
-        cfg = 'Debug' if self.debug else 'Release'
+
+        debug = int(os.environ.get("DEBUG", 0)) if self.debug is None else self.debug
+        cfg = "Debug" if debug else "Release"
+        
         cpu_count = os.cpu_count()
 
         #--------------------------------------------------------------------------------
