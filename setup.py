@@ -153,7 +153,11 @@ signalflow_packages = [
     'signalflow_visualisation',
     'signalflow_analysis',
 ]
-signalflow_package_data = []
+# --------------------------------------------------------------------------------
+# package_data is defined here rather than in pyproject.toml, because older
+# setuptools versions (< ~81) reject the hyphenated 'signalflow-stubs' key there.
+# --------------------------------------------------------------------------------
+signalflow_package_data = {'signalflow-stubs': ['*.pyi']}
 if sys.platform == 'win32':
     # --------------------------------------------------------------------------------
     # On Linux and macOS, the bare .so file is packaged directly via ext_modules.
@@ -161,10 +165,11 @@ if sys.platform == 'win32':
     # are copied.
     # --------------------------------------------------------------------------------
     signalflow_packages = ['signalflow'] + signalflow_packages
-    signalflow_package_data = ['*.pyd']
+    signalflow_package_data['signalflow'] = ['*.pyd']
 
 setup(
     packages=signalflow_packages,
+    package_data=signalflow_package_data,
     ext_modules=[CMakeExtension('signalflow')],
     cmdclass=dict(build_ext=CMakeBuild),
 )

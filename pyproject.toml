@@ -32,9 +32,5 @@ test = ["pytest", "scipy"]
 [tool.setuptools]
 package-dir = { "" = "auxiliary/libs" }
 
-[tool.setuptools.package-data]
-signalflow-stubs = ["*.pyi"]
-signalflow = ["*.pyd"]
-
 [tool.pytest.ini_options]
 testpaths = ["tests"]
